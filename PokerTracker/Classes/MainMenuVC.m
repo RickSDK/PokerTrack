@@ -1,0 +1,848 @@
+//
+//  MainMenuVC.m
+//  PokerTracker
+//
+//  Created by Rick Medved on 10/5/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "MainMenuVC.h"
+#import "StatsPage.h"
+#import "GamesVC.h"
+#import "UniverseTrackerVC.h"
+#import "CoreDataLib.h"
+#import "NSDate+ATTDate.h"
+#import "ProjectFunctions.h"
+#import "OddsCalculatorVC.h"
+#import "ForumVC.h"
+#import "DatabaseManage.h"
+#import "CreateOldGameVC.h"
+#import "GameInProgressVC.h"
+#import "MoneyPickerVC.h"
+#import "StartNewGameVC.h"
+#import "MoreTrackersVC.h"
+#import "CasinoTrackerVC.h"
+#import "MapKitTut.h"
+#import "AnalysisVC.h"
+#import "NewGameBuyin.h"
+#import "AppInitialVC.h"
+#import "WebServicesFunctions.h"
+#import "NSArray+ATTArray.h"
+#import "BankrollsVC.h"
+#import "UnLockAppVC.h"
+#import "FriendTrackerVC.h"
+#import "PlayerTrackerVC.h"
+#import "DatePickerViewController.h"
+
+
+@implementation MainMenuVC
+@synthesize managedObjectContext, friendsNumLabel, friendsNumCircle, largeGraph, rotateLock;
+@synthesize statsButton, cashButton, tournamentButton, friendsButton, oddsButton, bigHandsButton, oldGamesButton, displayYear, displayBySession;
+@synthesize yearLabel, moneyLabel, aboutImage, aboutShowing, aboutText, logoImage, upgradeButton, toggleMode;
+@synthesize openGamesCircle, openGamesLabel, refreshButton, versionLabel, reviewButton, bankrollLabel, startNewGameButton;
+@synthesize alertViewNum, emailButton, analysisButton, graphChart, logoAlpha, yearTotalLabel, smallYearLabel;
+@synthesize showDisolve, screenLock, avoidPopup, casinoButton, casinoLabel, analysisBG, bankrollNameLabel;
+@synthesize aboutButton, playerTypeLabel, forumNumLabel, forumNumCircle, activityIndicatorNet, activityIndicatorData;
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	[self calculateStats];
+	[self findMinAndMaxYear];
+	
+}
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setupData];
+	
+	if([ProjectFunctions getProductionMode])
+		[self setTitle:@"Main Menu"];
+	else {
+		[self setTitle:@"Test Mode"];
+		self.graphChart.alpha=.5;
+	}
+	
+	int xPos=15;
+	int yPos=270;
+	int width=290;
+	int height=113;
+	if([[UIScreen mainScreen] bounds].size.height >= 568) { // iPhone 5
+		height+=75;
+		yPos=275;
+	}
+	if([[UIScreen mainScreen] bounds].size.width >= 700) { // iPad
+		xPos=90;
+		width=600;
+		height=350;
+	}
+	
+	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
+	
+	if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+		UIImage *image = [UIImage imageNamed:@"greenGradient.png"];
+		[self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+		self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1];
+	}
+	
+	
+	int bankroll = [[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue];
+	if(bankroll==0) {
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
+		if([items count]==0) {
+			self.alertViewNum=99;
+			if([ProjectFunctions isLiteVersion])
+				[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Lite!" delegate:self];
+			else
+				[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Pro!" delegate:self];
+		}
+	}
+	
+	
+	self.toggleMode = [[ProjectFunctions getUserDefaultValue:@"toggleMode"] intValue];
+	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
+	
+	self.aboutButton = [ProjectFunctions navigationButtonWithTitle:@"About" selector:@selector(aboutButtonClicked:) target:self];
+	self.navigationItem.leftBarButtonItem = self.aboutButton;
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
+	
+	largeGraph.alpha=0;
+	
+	
+	[self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
+	
+	
+	self.aboutImage.alpha=0;
+	self.aboutText.alpha=0;
+	reviewButton.alpha=0;
+	emailButton.alpha=0;
+	yearLabel.alpha=0;
+	friendsNumLabel.alpha=0;
+	friendsNumCircle.alpha=0;
+	self.forumNumLabel.alpha=0;
+	self.forumNumCircle.alpha=0;
+	
+	upgradeButton.alpha=0;
+	
+	openGamesLabel.alpha=0;
+	openGamesCircle.alpha=0;
+	analysisButton.alpha=1;
+	
+	
+	self.graphChart.layer.cornerRadius = 8.0;
+	self.graphChart.layer.masksToBounds = YES;
+	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
+	self.graphChart.layer.borderWidth = 2.0;
+
+	
+	//---- This code added to prevent flicker----
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:0 type:@"All"];
+	NSPredicate *predicate2 = [NSPredicate predicateWithFormat:basicPred];
+	int amountRisked = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"amountRisked" predicate:predicate2 limit:10] intValue];
+	int netIncome = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"winnings" predicate:predicate2 limit:10] intValue];
+	[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
+	
+	
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
+	if([items count]>0 && !avoidPopup) {
+		self.alertViewNum=1;
+		[ProjectFunctions showConfirmationPopup:@"Game In Progress" message:@"You have a game in progress. Did you want to go to that screen?" delegate:self tag:1];
+	}
+	
+	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0)
+		[self countFriendsPlaying];
+	
+	if([ProjectFunctions isLiteVersion]) {
+		upgradeButton.alpha=1;
+		analysisButton.alpha=0;
+		self.playerTypeLabel.alpha=0;
+		analysisBG.alpha=0;
+	}
+	
+	if(showDisolve) {
+		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
+		if([passwordCode length]>0) {
+			UnLockAppVC *detailViewController = [[UnLockAppVC alloc] initWithNibName:@"UnLockAppVC" bundle:nil];
+			[self.navigationController pushViewController:detailViewController animated:NO];
+		}
+	}
+}
+
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    UIDevice *device = [UIDevice currentDevice];
+    NSString *model = [device model];
+    
+    if([model length]>3 && [[model substringToIndex:4] isEqualToString:@"iPad"])
+        return;
+
+    if(fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
+//        self.largeGraph.frame = [[UIScreen mainScreen] bounds];
+//        self.largeGraph.frame = CGRectMake(0, 0, 480, 276);
+        self.largeGraph.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+
+        statsButton.alpha=0;
+        cashButton.alpha=0;
+        tournamentButton.alpha=0;
+        friendsButton.alpha=0;
+        oddsButton.alpha=0;
+        bigHandsButton.alpha=0;
+        casinoButton.alpha=0;
+        oldGamesButton.alpha=0;
+        
+        [self.view bringSubviewToFront:largeGraph];
+        largeGraph.alpha=1;
+        self.rotateLock=YES;
+    }
+    else {
+        largeGraph.alpha=1;
+        statsButton.alpha=1;
+        cashButton.alpha=1;
+        tournamentButton.alpha=1;
+        friendsButton.alpha=1;
+        oddsButton.alpha=1;
+        bigHandsButton.alpha=1;
+        casinoButton.alpha=1;
+        oldGamesButton.alpha=1;
+        [self.view sendSubviewToBack:largeGraph];
+        self.rotateLock=NO;
+    }
+}
+
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSLog(@"didReceiveResponse");
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSLog(@"didReceiveData");
+    NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"+++%@", responseString);
+	
+    NSArray *parts = [responseString componentsSeparatedByString:@"|"];
+    if([parts count]>2) {
+        int friendsPlayingCount = [[parts objectAtIndex:0] intValue];
+        if(friendsPlayingCount>0) {
+            friendsNumLabel.alpha=1;
+            friendsNumCircle.alpha=1;
+            [friendsNumLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d", friendsPlayingCount] waitUntilDone:YES];
+        }
+        int forumCount = [[parts objectAtIndex:1] intValue];
+        if(forumCount>0) {
+            self.forumNumLabel.alpha=1;
+            self.forumNumCircle.alpha=1;
+            [self.forumNumLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d", forumCount] waitUntilDone:YES];
+        }
+		int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
+        int numGamesServer = [[parts objectAtIndex:2] intValue];
+		if(numGamesServer>0 && numGamesServer>gamesOnDevice) {
+			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them."];
+		} else if(gamesOnDevice>numGamesServer && (gamesOnDevice-numGamesServer)%10==0) {
+			[ProjectFunctions showAlertPopup:@"Backup Data" message:@"You have games on this device that have not been backep up. Considering exporting them under the 'More' menu."];
+		}
+    }
+	[self.activityIndicatorNet stopAnimating];
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError");
+ 	[self.activityIndicatorNet stopAnimating];
+  
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"connectionDidFinishLoading");
+ 	[self.activityIndicatorNet stopAnimating];
+ 
+}
+
+-(void)countFriendsPlaying
+{
+	[self.activityIndicatorNet startAnimating];
+    NSString *str = [NSString stringWithFormat:@"http://www.appdigity.com/poker/pokerCountFriendsPlaying2.php?user=%@&token=%@", [ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"deviceToken"]];
+
+    NSURL *url = [NSURL URLWithString:str];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	if (!theConnection) {
+		NSLog(@"No connection");
+		// Inform the user that the connection failed.
+	}
+
+	
+    
+}
+
+
+
+- (IBAction) refreshPressed: (id) sender
+{
+	self.showDisolve=NO;
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"name" mOC:managedObjectContext ascendingFlg:YES];
+	[UIApplication sharedApplication].applicationIconBadgeNumber=[items count];	
+	self.logoAlpha=101;
+	self.screenLock=YES;
+	
+	
+ 	[self calculateStats];
+}
+
+
+
+-(void)aboutButtonClicked:(id)sender {
+	
+	if(rotateLock)
+		return;
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	aboutShowing = !aboutShowing;
+	if(aboutShowing) {
+		aboutImage.alpha=0.9;
+		aboutText.alpha=1;
+		reviewButton.alpha=1;
+		emailButton.alpha=1;
+		logoImage.alpha=1;
+	} else {
+ 		aboutImage.alpha=0;
+		aboutText.alpha=0;
+		reviewButton.alpha=0;
+		emailButton.alpha=0;
+		logoImage.alpha=0;
+	}
+
+}
+
+-(void)startDisolveNow
+{
+	self.screenLock=NO;
+	[self performSelectorInBackground:@selector(logoDisolve2) withObject:nil];
+}
+
+-(BOOL)isTouchingImageView:(UIImageView *)imageView point:(CGPoint)point {
+	int left = imageView.center.x - imageView.frame.size.width/2;
+	int right = imageView.center.x + imageView.frame.size.width/2;
+	int top = imageView.center.y - imageView.frame.size.height/2;
+	int bottom = imageView.center.y + imageView.frame.size.height/2;
+	
+	if(point.x >= left && point.x <= right && point.y>=top && point.y<=bottom)
+		return YES;
+	else
+		return NO;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	UITouch *touch = [[event allTouches] anyObject];
+	CGPoint startTouchPosition = [touch locationInView:touch.view];
+	
+	self.displayBySession=!self.displayBySession;
+	
+	if(self.rotateLock || [self isTouchingImageView:self.graphChart point:startTouchPosition]) {
+		self.toggleMode++;
+		if(toggleMode>1)
+			self.toggleMode=0;
+		
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", toggleMode] forKey:@"toggleMode"];
+
+		[self calculateStats];
+	}		
+}
+
+
+
+
+-(IBAction)upgradeButtonClicked:(id)sender {
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	self.alertViewNum=2;
+	[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"You can import your existing games into the Pro version after exporting them from this app. Click 'More' button above for options" delegate:self];
+	
+}
+
+
+
+
+-(IBAction)reviewButtonClicks:(id)sender {
+	[ProjectFunctions writeAppReview];
+}
+
+-(IBAction)emailButtonClicked:(id)sender
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", @"rickmedved@hotmail.com"]]];
+}
+
+-(IBAction)analysisButtonClicked:(id)sender
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	AnalysisVC *detailViewController = [[AnalysisVC alloc] initWithNibName:@"AnalysisVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.last10Flg=YES;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(void)editButtonClicked:(id)sender
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.callBackViewController = self;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(IBAction)startGameButtonClicked:(id)sender
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	
+	NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:managedObjectContext];
+    if([games count]>=10 && [ProjectFunctions isLiteVersion]) {
+        [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please purchase the full version at this time. You can export/import all your games by clicking 'More' from the main menu."];
+        return;
+    }
+	StartNewGameVC *detailViewController = [[StartNewGameVC alloc] initWithNibName:@"StartNewGameVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(IBAction)casinoTrackerClicked:(id)sender
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	CasinoTrackerVC *detailViewController = [[CasinoTrackerVC alloc] initWithNibName:@"CasinoTrackerVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}	
+
+
+-(void)moreButtonClicked:(id)sender {
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	largeGraph.alpha=0;
+
+	DatabaseManage *detailViewController = [[DatabaseManage alloc] initWithNibName:@"DatabaseManage" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.callBackViewController = self;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex==1 && alertViewNum==1) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
+		GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		detailViewController.mo = [items objectAtIndex:0];
+		detailViewController.newGameStated=NO;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+	if(alertViewNum==2) {
+		// upgrade to pro!
+		NSString *address = @"http://itunes.apple.com/app/poker-track-pro/id475160109?mt=8";
+		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];
+	}
+	if(alertViewNum==99) {
+		AppInitialVC *detailViewController = [[AppInitialVC alloc] initWithNibName:@"AppInitialVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+}
+
+
+-(void)enterNewFilterValue:(NSString *)filterName buttonNumber:(int)buttonNumber
+{
+	NSArray *filterList = [NSArray arrayWithObjects:filterName, @"All Game Types", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", [NSString stringWithFormat:@"%d", buttonNumber], filterName, nil];
+	[ProjectFunctions insertRecordIntoEntity:managedObjectContext EntityName:@"FILTER" valueList:filterList];
+}
+
+-(void)setupData
+{
+	NSArray *items = [CoreDataLib selectRowsFromTable:@"GAMETYPE" mOC:managedObjectContext];
+	if([items count]==0) {
+		NSLog(@"Setting up Data!");
+		[CoreDataLib insertAttributeManagedObject:@"TYPE" valueList:[NSArray arrayWithObjects:@"Cash", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"TYPE" valueList:[NSArray arrayWithObjects:@"Tournament", nil] mOC:self.managedObjectContext];
+
+		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Hold'em", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Omaha", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Razz", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"7-Card", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"5-Card", nil] mOC:self.managedObjectContext];
+
+		[CoreDataLib insertAttributeManagedObject:@"BANKROLL" valueList:[NSArray arrayWithObjects:@"Default", nil] mOC:self.managedObjectContext];
+		
+		[CoreDataLib insertAttributeManagedObject:@"LOCATION" valueList:[NSArray arrayWithObjects:@"Casino", nil] mOC:self.managedObjectContext];
+		
+		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"No-Limit", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Pot-Limit", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Limit", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Spread", nil] mOC:self.managedObjectContext];
+		
+		[CoreDataLib insertAttributeManagedObject:@"YEAR" valueList:[NSArray arrayWithObjects:[[NSDate date] convertDateToStringWithFormat:@"yyyy"], nil] mOC:self.managedObjectContext];
+
+		
+		
+	}
+	NSArray *items2 = [CoreDataLib selectRowsFromTable:@"TOURNAMENT" mOC:managedObjectContext];
+	if([items2 count]==0) {
+		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Single Table", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Multi Table", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Heads Up", nil] mOC:self.managedObjectContext];
+		
+		
+	}
+	NSArray *items3 = [CoreDataLib selectRowsFromTable:@"STAKES" mOC:managedObjectContext];
+	if([items3 count]==0) {
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$1/$2", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$1/$3", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$3/$5", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$3/$6", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$5/$10", nil] mOC:self.managedObjectContext];
+		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$10/$20", nil] mOC:self.managedObjectContext];
+	}
+	
+	NSArray *items4 = [CoreDataLib selectRowsFromTable:@"FILTER" mOC:managedObjectContext];
+	if([items4 count]==0) {
+		[self enterNewFilterValue:@"This Month" buttonNumber:1];
+		[self enterNewFilterValue:@"Last Month" buttonNumber:2];
+	}
+
+}
+
+
+-(void)updateMoneyLabel:(UILabel *)localLabel money:(int)money
+{
+	[localLabel performSelectorOnMainThread:@selector(setText:) withObject:[ProjectFunctions convertIntToMoneyString:money] waitUntilDone:NO];
+
+	UIColor *labelColor = (money<0)?[UIColor orangeColor]:[UIColor greenColor];
+	
+	[localLabel performSelectorOnMainThread:@selector(setTextColor:) withObject:labelColor waitUntilDone:NO];
+
+}
+
+
+
+
+-(void)displayBankrollLabels:(NSManagedObjectContext *)contextLocal {
+	NSString *bankrollName = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
+	if([bankrollName length]==0 || [bankrollName isEqualToString:@"Default"])
+		bankrollName = @"Bankroll";
+
+	if ([@"Y" isEqualToString:[ProjectFunctions getUserDefaultValue:@"bankrollSwitch"]]) {
+		[self updateMoneyLabel:bankrollLabel money:[[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue]];
+		[bankrollNameLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@:", bankrollName] waitUntilDone:NO];
+	} else {
+		
+		NSDate *startTime = [ProjectFunctions getFirstDayOfMonth:[NSDate date]];
+		NSString *formatString = @"startTime >= %@ AND startTime < %@";
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@ AND %@", @"1=1", formatString], startTime, [NSDate date]];
+		int winnings = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
+
+		[self updateMoneyLabel:bankrollLabel money:winnings];
+		[bankrollNameLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@:", [self getMonthName]] waitUntilDone:NO];
+	}
+}
+
+-(NSString *)getMonthName {
+	NSArray *months = [NSArray arrayWithObjects:@"Total", @"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
+	int currentMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
+	
+	if(months.count>currentMonth)
+		return [months objectAtIndex:currentMonth];
+	else
+		return @"Hey!";
+
+}
+
+-(void)doTheHardWork {
+	@autoreleasepool {
+		//		[NSThread sleepForTimeInterval:3];
+		
+		NSManagedObjectContext *contextLocal = [CoreDataLib getLocalContext];
+		
+		int thisYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
+		int currentYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
+		
+		if(thisYear==0 || thisYear>currentYear)
+			thisYear = currentYear;
+		
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:thisYear type:@"All"];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
+		
+		[self updateMoneyLabel:yearTotalLabel money:[[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue]];
+		
+		[self displayBankrollLabels:contextLocal];
+		
+		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate2 sortColumn:@"name" mOC:contextLocal ascendingFlg:YES];
+		int badgeCount = (int)items.count;
+		[UIApplication sharedApplication].applicationIconBadgeNumber=badgeCount;
+		
+		if(badgeCount==0) {
+			openGamesLabel.alpha=0;
+			openGamesCircle.alpha=0;
+		} else {
+			openGamesLabel.alpha=1;
+			openGamesCircle.alpha=1;
+			openGamesLabel.text = [NSString stringWithFormat:@"%d", badgeCount];
+		}
+		
+		//----- last 10 games
+		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
+		NSString *analysis1 = [CoreDataLib getGameStatWithLimit:contextLocal dataField:@"analysis1" predicate:predicate limit:10];
+		NSArray *values = [analysis1 componentsSeparatedByString:@"|"];
+		int amountRisked = [[values stringAtIndex:0] intValue];
+		int netIncome = [[values stringAtIndex:5] intValue];
+		
+		self.playerTypeLabel.text = [ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome];
+		
+		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
+		yearLabel.alpha=0.2;
+		yearLabel.text = [NSString stringWithFormat:@"%d", thisYear];
+		smallYearLabel.text = [NSString stringWithFormat:@"%d:", thisYear];
+		
+		[self updateMainGraphWithCOntext:contextLocal year:thisYear];
+		
+		refreshButton.alpha=0;
+		[self.activityIndicatorData stopAnimating];
+	}
+}
+
+-(void)updateMainGraphWithCOntext:(NSManagedObjectContext *)contextLocal year:(int)year {
+	NSString *predString = [ProjectFunctions getBasicPredicateString:year type:@"All"];
+	NSPredicate *pred = [NSPredicate predicateWithFormat:predString];
+	
+	//NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:pred sortColumn:nil mOC:contextLocal ascendingFlg:NO];
+	/*
+	if(games.count>40) {
+		NSString *month = [[NSDate date] convertDateToStringWithFormat:@"MMMM"];
+		NSPredicate *pred2 = [NSPredicate predicateWithFormat:@"year = %@ AND month = %@", [NSString stringWithFormat:@"%d", year], month];
+		NSArray *games2 = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:pred2 sortColumn:nil mOC:contextLocal ascendingFlg:NO];
+		if(games2.count>3) {
+			pred=pred2;
+			self.yearLabel.text=month;
+		}
+	}
+	 */
+	
+	self.largeGraph.image = [ProjectFunctions plotStatsChart:contextLocal predicate:pred displayBySession:displayBySession];
+	if(toggleMode==2) {
+		self.graphChart.image = [UIImage imageNamed:@"logo2.png"];
+		refreshButton.alpha=0;
+		yearLabel.alpha=0;
+	} else {
+		self.graphChart.image = self.largeGraph.image;
+		refreshButton.alpha=1;
+		yearLabel.alpha=0.2;
+	}
+}
+
+-(void)calculateStats
+{
+//	[self doTheHardWork];
+	[self.activityIndicatorData startAnimating];
+	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
+}
+
+
+-(void)findMinAndMaxYear {
+    NSString *minYear = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
+    NSString *maxYear = @"";
+    
+    NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
+    if([games count]>0) {
+        NSDate *startTime = [[games objectAtIndex:0] valueForKey:@"startTime"];
+        minYear = [startTime convertDateToStringWithFormat:@"yyyy"];
+        NSDate *startTimeMax = [[games objectAtIndex:[games count]-1] valueForKey:@"startTime"];
+        maxYear = [startTimeMax convertDateToStringWithFormat:@"yyyy"];
+    }
+	self.displayYear = [maxYear intValue];
+    if(self.displayYear==0)
+        self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
+    
+    int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear"] intValue];
+    int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
+    
+    if(currentMinYear != [minYear intValue])
+        [ProjectFunctions setUserDefaultValue:minYear forKey:@"minYear"];
+    if(currentMaxYear != [maxYear intValue])
+        [ProjectFunctions setUserDefaultValue:maxYear forKey:@"maxYear"];
+	
+}
+
+-(void) setReturningValue:(NSString *) value2 {
+	
+	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
+	[ProjectFunctions setUserDefaultValue:value forKey:@"defaultBankroll"];
+	int bankroll = [value intValue];
+	bankrollLabel.text = [ProjectFunctions convertIntToMoneyString:bankroll];
+	
+}
+
+
+- (IBAction) statsPressed: (id) sender 
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	StatsPage *detailViewController = [[StatsPage alloc] initWithNibName:@"StatsPage" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.hideMainMenuButton = YES;
+	detailViewController.gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
+	detailViewController.displayYear = displayYear;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) cashPressed: (id) sender 
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+    
+    
+	GamesVC *detailViewController = [[GamesVC alloc] initWithNibName:@"GamesVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.displayYear = displayYear;
+	detailViewController.showMainMenuButton=NO;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) friendsPressed: (id) sender 
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	
+    int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
+    if(friendCount>1) {
+        FriendTrackerVC *detailViewController = [[FriendTrackerVC alloc] initWithNibName:@"FriendTrackerVC" bundle:nil];
+        detailViewController.managedObjectContext = managedObjectContext;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    } else {
+        
+        UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
+        detailViewController.managedObjectContext = managedObjectContext;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
+}
+
+- (IBAction) oddsPressed: (id) sender
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+	OddsCalculatorVC *detailViewController = [[OddsCalculatorVC alloc] initWithNibName:@"OddsCalculatorVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	detailViewController.bigHandsFlag = NO;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) handsPressed: (id) sender 
+{
+	if(screenLock) {
+		[self startDisolveNow];
+		return;
+	}
+	if(rotateLock)
+		return;
+    if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
+        self.forumNumCircle.alpha=0;
+        self.forumNumLabel.alpha=0;
+        ForumVC *detailViewController = [[ForumVC alloc] initWithNibName:@"ForumVC" bundle:nil];
+        detailViewController.managedObjectContext = managedObjectContext;
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    } else {
+        [ProjectFunctions showAlertPopup:@"Notice" message:@"You must be signed in to visit the forum. Click the 'More' button above."];
+    }
+}
+
+- (IBAction) moreTrackersPressed: (id) sender
+{
+	if(rotateLock)
+		return;
+	MoreTrackersVC *detailViewController = [[MoreTrackersVC alloc] initWithNibName:@"MoreTrackersVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+	largeGraph.alpha=0;
+
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+
+
+
+@end
