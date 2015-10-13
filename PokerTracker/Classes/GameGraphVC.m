@@ -18,6 +18,7 @@
 #import "NSArray+ATTArray.h"
 #import "MultiLineDetailCellWordWrap.h"
 #import "MultiLineObj.h"
+#import "ChipStackObj.h"
 
 
 @implementation GameGraphVC
@@ -57,6 +58,8 @@
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		tokes=0;
 	}
+	
+	self.notesView.hidden=YES;
 	
 	self.gamePPRView.image = [ProjectFunctions getPlayerTypeImage:(buyInAmount+rebuyAmount) winnings:winnings];
 	
@@ -175,6 +178,13 @@
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
 	[self setupData];
+	
+	ChipStackObj *chipStackObj = [ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:nil displayBySession:NO];
+	self.pointsArray = chipStackObj.pointArray;
+	[self drawNotes];
+	
+	self.gameGraphView.image = chipStackObj.image;
+
 }
 
 
@@ -183,6 +193,16 @@
 	[self setTitle:@"Game Graph "]; 
 	
 	self.cellRowsArray = [[NSMutableArray alloc] init];
+	self.pointsArray = [[NSArray alloc] init];
+	
+	[self deselectChart];
+
+	
+	self.gameGraphView.layer.cornerRadius = 7;
+	self.gameGraphView.layer.masksToBounds = YES;				// clips background images to rounded corners
+	self.gameGraphView.layer.borderColor = [UIColor blackColor].CGColor;
+	self.gameGraphView.layer.borderWidth = 2.;
+
 	
 	int game_id = [[mo valueForKey:@"game_id"] intValue];
 	if(game_id==0) {
@@ -191,41 +211,39 @@
 		[managedObjectContext save:nil];
 	}
 }
-
+ 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	
-	if(indexPath.section==0) {
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	int rows = (int)[self.cellRowsArray count];
+	if(self.touchesFlg)
+		rows=1;
+	
+		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:rows labelProportion:0.5];
+	
+	if(self.touchesFlg) {
+		cell.mainTitle = @"Notes";
+		cell.alternateTitle = @"";
+		cell.titleTextArray = [NSArray arrayWithObject:@"Notes"];
+		NSString *note = @"";
+		if([ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]].length>0)
+			note=[ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]];
+		cell.fieldTextArray = [NSArray arrayWithObject:note];
+		cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
 		
-		if(cell==nil)
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-		
-		NSString *predString = [ProjectFunctions getBasicPredicateString:[[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue] type:@"All"];
-		NSPredicate *pred = [NSPredicate predicateWithFormat:predString];
-		cell.backgroundView = [[UIImageView alloc] initWithImage:[ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:pred displayBySession:NO]];
-		cell.accessoryType= UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		return cell;
 	} else {
-		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-		if (cell == nil) {
-			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:[self.cellRowsArray count] labelProportion:0.5];
-		}
-		
-		
 		cell.mainTitle = [mo valueForKey:@"name"];
 		cell.alternateTitle = [mo valueForKey:@"Type"];
 		cell.titleTextArray = [MultiLineDetailCellWordWrap arrayOfType:0 objList:self.cellRowsArray];
 		cell.fieldTextArray = [MultiLineDetailCellWordWrap arrayOfType:1 objList:self.cellRowsArray];
 		cell.fieldColorArray = [MultiLineDetailCellWordWrap arrayOfType:2 objList:self.cellRowsArray];
+	}
 
 		cell.accessoryType= UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 		
-	}
 }
 
 
@@ -233,7 +251,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -254,14 +272,149 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section==0)
-		return [ProjectFunctions chartHeightForSize:190];
-	else
-		return [MultiLineDetailCellWordWrap cellHeightForMultiCellData:self.cellRowsArray
+	return [MultiLineDetailCellWordWrap cellHeightForMultiCellData:self.cellRowsArray
 																   tableView:tableView
 																 labelWidthProportion:0.5];
-;
+
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	UITouch *touch = [[event allTouches] anyObject];
+	CGPoint touchPosition = [touch locationInView:self.gameGraphView];
+	if(touchPosition.y>0 && touchPosition.y<self.gameGraphView.frame.size.height) {
+		int closestPoint2 = [self findClosestPointToPoint:touchPosition];
+		if(!self.touchesFlg) {
+			self.touchesFlg=YES;
+			self.arrow.hidden=NO;
+			self.notesButton.enabled=YES;
+			self.bottomView.hidden=NO;
+		} else {
+			if(closestPoint2==self.closestPoint)
+				[self deselectChart];
+		}
+		self.closestPoint=closestPoint2;
+	} else
+		[self deselectChart];
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [[event allTouches] anyObject];
+	CGPoint touchPosition = [touch locationInView:self.gameGraphView];
+	if(touchPosition.y>0 && touchPosition.y<self.gameGraphView.frame.size.height)
+		self.closestPoint = [self findClosestPointToPoint:touchPosition];
+	else
+		[self deselectChart];
+}
+
+-(void)deselectChart {
+	self.arrow.hidden=YES;
+	self.notesButton.enabled=NO;
+	self.chipAmountLabel.text = @"-";
+	self.chipTimeLabel.text = @"-";
+	self.touchesFlg=NO;
+	self.notesView.hidden=!self.notesFlg;
+	self.bottomView.hidden=YES;
+	[self.mainTableView reloadData];
+}
+
+-(void)drawNotes {
+	int totalWidth=640;
+	int totalHeight=300;
+	int i=0;
+	for(NSString *pointStr in self.pointsArray) {
+		NSArray *items = [pointStr componentsSeparatedByString:@"|"];
+		if(items.count>3) {
+			float pointX = [[items objectAtIndex:0] intValue];
+			float pointY = [[items objectAtIndex:1] intValue];
+			float width = self.gameGraphView.frame.size.width;
+			float height = self.gameGraphView.frame.size.height;
+			CGPoint point2 = CGPointMake(pointX*width/totalWidth, pointY*height/totalHeight);
+			if([ProjectFunctions getUserDefaultValue:[self noteIdforRow:i]].length>0) {
+				UIImageView *note = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"note.png"]];
+				note.frame = CGRectMake(point2.x+3, point2.y+3, 10, 15);
+				note.alpha=.5;
+				[self.gameGraphView addSubview:note];
+			}
+
+		}
+		i++;
+	}
+	
+}
+
+-(int)findClosestPointToPoint:(CGPoint)point {
+	int totalWidth=640;
+	int totalHeight=300;
+	CGPoint closestPoint = point;
+	float min = 999.0;
+	int i=0;
+	int finalPoint=0;
+	for(NSString *pointStr in self.pointsArray) {
+		NSArray *items = [pointStr componentsSeparatedByString:@"|"];
+		if(items.count>3) {
+			float pointX = [[items objectAtIndex:0] intValue];
+			float pointY = [[items objectAtIndex:1] intValue];
+			float width = self.gameGraphView.frame.size.width;
+			float height = self.gameGraphView.frame.size.height;
+			CGPoint point2 = CGPointMake(pointX*width/totalWidth, pointY*height/totalHeight);
+			float distance = [self distanceBetweenPoints:point point2:point2];
+			if(distance<min) {
+				min=distance;
+				closestPoint = point2;
+				[self updateMoneyLabel:self.chipAmountLabel money:[[items objectAtIndex:2] intValue]];
+				self.chipTimeLabel.text = [items objectAtIndex:3];
+				finalPoint=i;
+				[self.mainTableView reloadData];
+			}
+		}
+		i++;
+	}
+	
+	self.arrow.center = CGPointMake(closestPoint.x, closestPoint.y+30);
+	return finalPoint;
+}
+
+-(void)updateMoneyLabel:(UILabel *)localLabel money:(int)money
+{
+	
+	if(money<0) {
+		localLabel.text = [ProjectFunctions convertIntToMoneyString:money];
+		[localLabel performSelectorOnMainThread:@selector(setTextColor: ) withObject:[UIColor colorWithRed:.5 green:0 blue:0 alpha:1] waitUntilDone:NO];
+	} else {
+		localLabel.text = [NSString stringWithFormat:@"+%@", [ProjectFunctions convertIntToMoneyString:money]];
+		[localLabel performSelectorOnMainThread:@selector(setTextColor: ) withObject:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] waitUntilDone:NO];
+	}
+	
+}
+
+-(float)distanceBetweenPoints:(CGPoint)point1 point2:(CGPoint)point2 {
+	CGFloat dx = point2.x - point1.x;
+	CGFloat dy = point2.y - point1.y;
+	
+	return sqrt(dx*dx + dy*dy );
+}
+
+- (IBAction) notesButtonPressed: (id) sender {
+	self.notesFlg=!self.notesFlg;
+	self.notesView.hidden=!self.notesFlg;
+	self.textField.text=[ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]];
+}
+
+- (IBAction) enterButtonPressed: (id) sender {
+	self.notesFlg=NO;
+	self.notesView.hidden=!self.notesFlg;
+	
+	[ProjectFunctions setUserDefaultValue:self.textField.text forKey:[self noteIdforRow:self.closestPoint]];
+	[self drawNotes];
+
+	[self.mainTableView reloadData];
+}
+
+-(NSString *)noteIdforRow:(int)row {
+	return [NSString stringWithFormat:@"Note%d.%d", [[self.mo valueForKey:@"game_id"] intValue], row];
+}
+
 
 
 

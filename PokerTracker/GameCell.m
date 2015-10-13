@@ -39,6 +39,18 @@
 		self.dateLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.dateLabel];
 		
+		self.hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 22, 170, 22)];
+		self.hoursLabel.font = [UIFont systemFontOfSize:14];
+		self.hoursLabel.adjustsFontSizeToFitWidth = YES;
+		self.hoursLabel.minimumScaleFactor = .8;
+		self.hoursLabel.text = @"hours";
+		self.hoursLabel.textAlignment = NSTextAlignmentLeft;
+		self.hoursLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.5 alpha:1];
+		self.hoursLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:self.hoursLabel];
+		
+		
+		
 		self.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(210, 0, 100, 22)];
 		self.locationLabel.font = [UIFont systemFontOfSize:14];
 		self.locationLabel.adjustsFontSizeToFitWidth = YES;
@@ -50,7 +62,7 @@
 		[self.contentView addSubview:self.locationLabel];
 		
 		self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(210, 22, 100, 22)];
-		self.profitLabel.font = [UIFont boldSystemFontOfSize:20];
+		self.profitLabel.font = [UIFont boldSystemFontOfSize:18];
 		self.profitLabel.adjustsFontSizeToFitWidth = YES;
 		self.profitLabel.minimumScaleFactor = .8;
 		self.profitLabel.text = @"profitLabel";

@@ -202,20 +202,32 @@
 	
 	if([format isEqualToString:@"date"])
 		format = @"MM/dd/yyyy";
-
+	
 	if([format isEqualToString:@"long"])
 		format = @"yyyy-MM-dd hh:mm:ss ZZ";
 	
 	if([format isEqualToString:@"pokerJounral"])
 		format = @"MM/dd/yyyy HH:mm";
-
+	
 	if([format isEqualToString:@"pokerJounral2"])
 		format = @"M/d/yy hh:mm a";
-
+	
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setDateFormat:format];
 	NSDate *dateVar = [df dateFromString:self];
+	
+	
+	return dateVar;
+}
 
+-(NSDate *)convertStringToDateFinalSolution
+{
+	NSString *format = @"MM/dd/yyyy hh:mm:ss a";
+	
+	NSDateFormatter *df = [[NSDateFormatter alloc] init];
+	[df setDateFormat:format];
+	NSDate *dateVar = [df dateFromString:self];
+	
 	if(dateVar==nil) {
 		int year=2015;
 		int month=1;
@@ -237,9 +249,9 @@
 		}
 		dateVar = [[NSString stringWithFormat:@"%02d/%02d/%d 06:00:00 AM", month, day, year] convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
 	}
-    if(dateVar==nil)
-        dateVar= [NSDate date];
-
+	if(dateVar==nil)
+		dateVar= [NSDate date];
+	
 	return dateVar;
 }
 

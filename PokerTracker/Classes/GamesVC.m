@@ -291,11 +291,14 @@
 	
 	NSString *type = [mo valueForKey:@"Type"];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", [mo valueForKey:@"name"], [type substringToIndex:1]];
-	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm a"]];
+//	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm a"]];
+	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", [mo valueForKey:@"hours"]];
 	cell.locationLabel.text = [mo valueForKey:@"location"];
 	cell.locationLabel.textColor = [UIColor purpleColor];
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[mo valueForKey:@"winnings"] intValue]]];
 	int buyin = [[mo valueForKey:@"buyInAmount"] intValue];
+
 	int rebuy = [[mo valueForKey:@"rebuyAmount"] intValue];
 	int winnings = [[mo valueForKey:@"winnings"] intValue];
 	if(winnings>=0)

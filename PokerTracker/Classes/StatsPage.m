@@ -29,7 +29,6 @@
 #import "GoalsVC.h"
 #import "FilterListVC.h"
 #import "AnalysisVC.h"
-//#import "ProfitReportsVC.h"
 #import "NSArray+ATTArray.h"
 #import "BankrollsVC.h"
 #import "PokerTrackerAppDelegate.h"
@@ -193,7 +192,7 @@
 		gameSegment.selectedSegmentIndex = 0;
 		[formDataArray replaceObjectAtIndex:0 withObject:@"LifeTime"];
 		[formDataArray replaceObjectAtIndex:1 withObject:@"All Games Types"];
-		NSString *button = [NSString stringWithFormat:@"%d",customSegment.selectedSegmentIndex];
+		NSString *button = [NSString stringWithFormat:@"%d", (int)customSegment.selectedSegmentIndex];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %@", button];
 		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 		if([filters count]>0 && [formDataArray count]>7) {
@@ -374,7 +373,7 @@
 -(void)initializeFormData
 {
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
-	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:gameSegment.selectedSegmentIndex]];
+	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex]];
 	[formDataArray replaceObjectAtIndex:2 withObject:@"All Games"];
 	[formDataArray replaceObjectAtIndex:3 withObject:@"All Limits"];
 	[formDataArray replaceObjectAtIndex:4 withObject:@"All Stakes"];
@@ -495,16 +494,21 @@
 	return 8*18+25;
 }
 
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return 1;	
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return CGFLOAT_MIN;
+}
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return CGFLOAT_MIN;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
 	if(indexPath.section==0) {
 		return [StatsFunctions mainChartCell:tableView CellIdentifier:CellIdentifier chartImageView:chartImageView];
@@ -517,14 +521,14 @@
 	}
 
 	int NumberOfRows=8;
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%drows%d", indexPath.section, indexPath.row, NumberOfRows];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%drows%d", (int)indexPath.section, (int)indexPath.row, NumberOfRows];
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.5];
 	}
 	NSArray *titles = [NSArray arrayWithObjects:@"1", @"2", @"3", @"Games Won", @"Games Lost", @"All Games", nil];
 	NSArray *labels = [NSArray arrayWithObjects:@"Games", @"Average Risked", @"Min Profit", @"Max Profit", @"Average Profit", @"Standard Deviation", @"Target Deviation", @"Trend", nil];
-	cell.mainTitle = [titles stringAtIndex:indexPath.section];
+	cell.mainTitle = [titles stringAtIndex:(int)indexPath.section];
 	
 	if([multiDimenArray count]<=indexPath.section)
 		return cell;
@@ -638,7 +642,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	selectedFieldIndex = indexPath.row;
+	selectedFieldIndex = (int)indexPath.row;
 	if(indexPath.section==0) {
 		displayBySession = !displayBySession;
 		[self computeStats];
@@ -652,7 +656,7 @@
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
-    [ProjectFunctions bankSegmentChangedTo:self.bankRollSegment.selectedSegmentIndex];
+    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
     
     [self computeStats];
 }

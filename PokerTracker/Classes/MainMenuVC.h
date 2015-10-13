@@ -33,13 +33,10 @@
 	
 	IBOutlet UILabel *yearLabel;
 	IBOutlet UILabel *moneyLabel;
-//	IBOutlet UILabel *gamesLabel;
-//	IBOutlet UILabel *streakLabel;
 	IBOutlet UILabel *openGamesLabel;
 	IBOutlet UILabel *versionLabel;
 	IBOutlet UILabel *bankrollLabel;
 	IBOutlet UILabel *bankrollNameLabel;
-//	IBOutlet UILabel *playerLabel;
 	IBOutlet UILabel *smallYearLabel;
 	IBOutlet UILabel *yearTotalLabel;
 	IBOutlet UILabel *friendsNumLabel;
@@ -53,7 +50,6 @@
 	IBOutlet UIImageView *friendsNumCircle;
 	IBOutlet UIImageView *forumNumCircle;
 	IBOutlet UIImageView *graphChart;
-//	IBOutlet UIImageView *graphBG;
 	IBOutlet UIImageView *largeGraph;
 	IBOutlet UIImageView *analysisBG;
 	
@@ -128,15 +124,11 @@
 @property (nonatomic, strong) UIButton *startNewGameButton;
 @property (nonatomic, strong) UILabel *yearLabel;
 @property (nonatomic, strong) UILabel *moneyLabel;
-//@property (nonatomic, strong) UILabel *gamesLabel;
-//@property (nonatomic, strong) UILabel *streakLabel;
-//@property (nonatomic, strong) UILabel *playerLabel;
 @property (nonatomic, strong) UILabel *casinoLabel;
 @property (nonatomic, strong) UILabel *playerTypeLabel;
 @property (nonatomic, strong) UIImageView *aboutImage;
 @property (nonatomic, strong) UIImageView *logoImage;
 @property (nonatomic, strong) UIImageView *graphChart;
-//@property (nonatomic, strong) UIImageView *graphBG;
 @property (nonatomic, strong) UIImageView *largeGraph;
 @property (nonatomic, strong) UIImageView *analysisBG;
 @property (nonatomic, strong) UITextView *aboutText;

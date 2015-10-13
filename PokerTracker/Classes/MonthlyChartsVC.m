@@ -385,25 +385,23 @@
 	NSArray *titles = [NSArray arrayWithObjects:@"Profits by Year", @"Profits by Month", @"Profits by Day", @"Profits by Time of Day", @"Hourly Breakdown", nil];
 	NSArray *titlesHourly = [NSArray arrayWithObjects:@"Hourly Profits by Year", @"Hourly Profits by Month", @"Hourly Profits by Day", @"Hourly Profits by Time of Day", @"Hourly Breakdown", nil];
 	if(moneySegment.selectedSegmentIndex==0)
-		return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:section]];
+		return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 	else 
-		return [ProjectFunctions getViewForHeaderWithText:[titlesHourly stringAtIndex:section]];
+		return [ProjectFunctions getViewForHeaderWithText:[titlesHourly stringAtIndex:(int)section]];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	return 36.0;
+	return 22;
 }
 
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	// see viewForHeaderInSection
-	return nil;
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return CGFLOAT_MIN;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	
 	if(!showBreakdownFlg) { // graphical charts
 //		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];

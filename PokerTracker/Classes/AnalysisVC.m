@@ -251,7 +251,7 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	self.gameType = [ProjectFunctions labelForGameSegment:gameSegment.selectedSegmentIndex];
+	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	if(displayYear>0)
 		yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	else {
@@ -312,11 +312,20 @@
 }
 
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return CGFLOAT_MIN;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return CGFLOAT_MIN;
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 
     
     if(indexPath.section==0) {

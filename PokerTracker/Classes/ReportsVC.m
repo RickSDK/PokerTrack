@@ -49,7 +49,7 @@
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
-    [ProjectFunctions bankSegmentChangedTo:self.bankRollSegment.selectedSegmentIndex];
+    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
     [self computeStats];
 }
 
@@ -77,7 +77,7 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	self.gameType = [ProjectFunctions labelForGameSegment:gameSegment.selectedSegmentIndex];
+	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[self computeStats];
 }
 
@@ -184,8 +184,8 @@
                 int minutes = [[values stringAtIndex:2] intValue];
 
 			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
+				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
                     
 				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, type, secondaryNumber]];
 				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
@@ -263,8 +263,8 @@
                 int minutes = [[values stringAtIndex:2] intValue];
                 
 			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
+				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
                     
 				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
 				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
@@ -305,8 +305,8 @@
                 int minutes = [[values stringAtIndex:2] intValue];
                 
 			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
+				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
                     
 				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
 				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
@@ -349,8 +349,8 @@
                 int minutes = [[values stringAtIndex:2] intValue];
                 
 			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:topSegment.selectedSegmentIndex];
+				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
                     
 				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
 				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
@@ -500,15 +500,15 @@
 //	NSArray *listOfObjects = [multiDimentionalValues objectAtIndex:indexPath.section];
 	NSArray *sortedArray = [ProjectFunctions sortArrayDescending:listOfObjects];
 																	
-	int NumberOfRows=[listOfObjects count];
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%drows%d", indexPath.section, indexPath.row, NumberOfRows];
+	int NumberOfRows=(int)[listOfObjects count];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%drows%d", (int)indexPath.section, (int)indexPath.row, NumberOfRows];
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.4];
 	}
-	cell.mainTitle = [[sectionTitles stringAtIndex:indexPath.section] capitalizedString];
+	cell.mainTitle = [[sectionTitles stringAtIndex:(int)indexPath.section] capitalizedString];
 	NSArray *filterOptions = [NSArray arrayWithObjects:@"Total Money", @"Hourly", @"# Games", nil];
-	cell.alternateTitle = [filterOptions stringAtIndex:topSegment.selectedSegmentIndex];
+	cell.alternateTitle = [filterOptions stringAtIndex:(int)topSegment.selectedSegmentIndex];
 	
 	NSMutableArray *titles = [[NSMutableArray alloc] init];
 	NSMutableArray *values = [[NSMutableArray alloc] init];
@@ -539,7 +539,7 @@
 			colorVal = secondaryValue;
 		}
 		[titles addObject:title];
-		if([[sectionTitles stringAtIndex:indexPath.section] isEqualToString:@"Dealer Tokes"]) {
+		if([[sectionTitles stringAtIndex:(int)indexPath.section] isEqualToString:@"Dealer Tokes"]) {
 			primaryTxt = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:primaryValue+50000000]];
 			secondaryTxt = [NSString stringWithFormat:@" (%d%% of profit)", secondaryValue];
 		}

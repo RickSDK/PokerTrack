@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LocationGetter.h"
+#import "ChipStackObj.h"
 
 #define kStartTime		0
 #define kEndTime		1
@@ -146,7 +147,7 @@
 +(NSArray *)moneySymbols;
 +(UIImage *)graphDaysChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(UIImage *)graphDaytimeChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
-+(UIImage *)plotGameChipsChart:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;
++(ChipStackObj *)plotGameChipsChart:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;
 +(void)createChipTimeStamp:(NSManagedObjectContext *)managedObjectContext mo:(NSManagedObject *)mo timeStamp:(NSDate *)timeStamp amount:(int)amount rebuyFlg:(BOOL)rebuyFlg;
 +(void)showActionSheet:(id)delegate view:(UIView *)view title:(NSString *)title buttons:(NSArray *)buttons;
 +(NSString *)numberWithSuffix:(int)number;

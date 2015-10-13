@@ -172,7 +172,7 @@
 
 
 - (IBAction) gameSegmentPressed: (id) sender {
-	self.gameType = [ProjectFunctions labelForGameSegment:gameSegment.selectedSegmentIndex];
+	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[formDataArray replaceObjectAtIndex:1 withObject:gameType];
 	if(gameSegment.selectedSegmentIndex>0)
 		customSegment.selectedSegmentIndex = 0;
@@ -195,7 +195,7 @@
 		gameSegment.selectedSegmentIndex = 0;
 		[formDataArray replaceObjectAtIndex:0 withObject:@"LifeTime"];
 		[formDataArray replaceObjectAtIndex:1 withObject:@"All Games Types"];
-		NSString *button = [NSString stringWithFormat:@"%d",customSegment.selectedSegmentIndex];
+		NSString *button = [NSString stringWithFormat:@"%d", (int)customSegment.selectedSegmentIndex];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %@", button];
 		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 		if([filters count]>0) {
@@ -227,7 +227,7 @@
 -(void)doTheHardWord {
 	@autoreleasepool {
 	
-		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:customSegment.selectedSegmentIndex];
+		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:(int)customSegment.selectedSegmentIndex];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
 		[gamesList removeAllObjects];
 		[gamesList addObjectsFromArray:games];
@@ -264,7 +264,7 @@
 -(void)initializeFormData
 {
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
-	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:gameSegment.selectedSegmentIndex]];
+	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex]];
 	[formDataArray replaceObjectAtIndex:2 withObject:@"All Games"];
 	[formDataArray replaceObjectAtIndex:3 withObject:@"All Limits"];
 	[formDataArray replaceObjectAtIndex:4 withObject:@"All Stakes"];
@@ -279,29 +279,15 @@
     return 4;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	NSArray *titles = [NSArray arrayWithObjects:@"", @"", @"Filters", [NSString stringWithFormat:@"%@ %@ Games", yearLabel.text, gameType], nil];
-	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:section]];
-}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	if(section<2)
-		return CGFLOAT_MIN;
-	
-	return 44.0;
+	return CGFLOAT_MIN;
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if(section==2)
-		return @"Filters";
-	if(section==3)
-		return [NSString stringWithFormat:@"%@ %@ Games", yearLabel.text, gameType];
-	
-	
-	return nil;
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return CGFLOAT_MIN;
 }
 
 
@@ -340,10 +326,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
 	if(indexPath.section==0) {
-		int NumberOfRows=[statsArray count];
+		int NumberOfRows=(int)[statsArray count];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:kLeftLabelRation];
@@ -396,7 +382,7 @@
 		return cell;
 	}
 	if(indexPath.section==2) {
-		NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+		NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 		if(indexPath.row==kSaveFilter) {
 			ActionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 			if (cell == nil) {
@@ -554,7 +540,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	self.selectedFieldIndex = indexPath.row;
+	self.selectedFieldIndex = (int)indexPath.row;
 	if(indexPath.section==1) {
 		self.displayBySession = !displayBySession;
 		[self computeStats];
@@ -564,7 +550,7 @@
 			ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 			detailViewController.initialDateValue = [formDataArray objectAtIndex:indexPath.row];
 			detailViewController.titleLabel = [NSString stringWithFormat:@"%@", [labelValues objectAtIndex:indexPath.row]];
-			detailViewController.selectedList = indexPath.row;
+			detailViewController.selectedList = (int)indexPath.row;
 			detailViewController.managedObjectContext = managedObjectContext;
 			detailViewController.showNumRecords=YES;
 			detailViewController.allowEditing=NO;

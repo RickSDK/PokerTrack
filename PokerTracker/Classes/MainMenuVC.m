@@ -112,7 +112,7 @@
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
 	
-	largeGraph.alpha=0;
+	self.largeGraph.alpha=0;
 	
 	
 	[self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
@@ -191,8 +191,6 @@
         return;
 
     if(fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
-//        self.largeGraph.frame = [[UIScreen mainScreen] bounds];
-//        self.largeGraph.frame = CGRectMake(0, 0, 480, 276);
         self.largeGraph.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 
         statsButton.alpha=0;
@@ -204,12 +202,12 @@
         casinoButton.alpha=0;
         oldGamesButton.alpha=0;
         
-        [self.view bringSubviewToFront:largeGraph];
-        largeGraph.alpha=1;
+        [self.view bringSubviewToFront:self.largeGraph];
+        self.largeGraph.alpha=1;
         self.rotateLock=YES;
     }
     else {
-        largeGraph.alpha=1;
+		self.largeGraph.alpha=0;
         statsButton.alpha=1;
         cashButton.alpha=1;
         tournamentButton.alpha=1;
@@ -218,7 +216,7 @@
         bigHandsButton.alpha=1;
         casinoButton.alpha=1;
         oldGamesButton.alpha=1;
-        [self.view sendSubviewToBack:largeGraph];
+        [self.view sendSubviewToBack:self.largeGraph];
         self.rotateLock=NO;
     }
 }
@@ -472,7 +470,7 @@
 	}
 	if(rotateLock)
 		return;
-	largeGraph.alpha=0;
+	self.largeGraph.alpha=0;
 
 	DatabaseManage *detailViewController = [[DatabaseManage alloc] initWithNibName:@"DatabaseManage" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
@@ -835,7 +833,7 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-	largeGraph.alpha=0;
+	self.largeGraph.alpha=0;
 
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

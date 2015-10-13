@@ -250,11 +250,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 55;
+	return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -275,7 +275,7 @@
     NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
     NSArray *lastGameFields = [lastGame componentsSeparatedByString:@"|"];
 	
-	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", indexPath.row+1, [basicsFields stringAtIndex:0]];
+	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", (int)indexPath.row+1, [basicsFields stringAtIndex:0]];
 	int uid = [[basicsFields stringAtIndex:1] intValue];
 	int user_id = [[basicsFields stringAtIndex:6] intValue];
 	NSString *friendStatus = [basicsFields stringAtIndex:7];

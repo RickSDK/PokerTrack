@@ -10,7 +10,7 @@ static NSInteger FONT_SIZE			= 14;
 static NSInteger COLUMN_SEP			= 6;
 static CGFloat LABEL_PROPORTION		= 0.4;
 static NSInteger Y_INSET			= 5;
-static NSInteger X_INSET			= 10;
+static NSInteger X_INSET			= 5;
 
 
 @implementation MultiLineDetailCellWordWrap
@@ -79,7 +79,7 @@ static NSInteger X_INSET			= 10;
 	int width = tableView.frame.size.width;
     
 	if (tableView.style == UITableViewStyleGrouped)
-		width -= (width*.12);
+		width -= (width*.02);
 	
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
 	label.text = @"dummy";
@@ -89,7 +89,7 @@ static NSInteger X_INSET			= 10;
 	int leftSection = trunc(baseRect.size.width * labelWidthProportion);
 	
 	// detail rows
-	int rows = [dataArray count];	
+	int rows = (int)[dataArray count];
 	CGRect rect = baseRect;
 	rect.origin.x += leftSection+COLUMN_SEP;
 	rect.size.width = baseRect.size.width - (leftSection+COLUMN_SEP);								   
@@ -99,7 +99,7 @@ static NSInteger X_INSET			= 10;
 			rect.origin.y += label.frame.size.height;
 		rect.size.height = 20000.0f; //large #
 		label.text = [dataArray objectAtIndex:i];
-		size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:rect.size lineBreakMode:UILineBreakModeWordWrap];
+		size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:rect.size lineBreakMode:NSLineBreakByWordWrapping];
 		rect.size.height = MAX(size.height,rowHeight);
 		label.frame = rect;
 	}
@@ -127,7 +127,7 @@ static NSInteger X_INSET			= 10;
 	if (titleTextArray != newArray) {
 		titleTextArray = newArray;
 	}
-	int rows = numberOfRows;
+	int rows = (int)numberOfRows;
 	for (int i=0; i<rows; i++) {
 		UILabel *label = [titleLabelArray objectAtIndex:i];
 		label.text = [titleTextArray objectAtIndex:i];
@@ -139,7 +139,7 @@ static NSInteger X_INSET			= 10;
 		fieldTextArray = newArray;
 	}
 //	int rows = numberOfRows;
-	int rows = [fieldTextArray count];
+	int rows = (int)[fieldTextArray count];
 	for (int i=0; i<rows; i++) {
 		UILabel *label = [fieldLabelArray objectAtIndex:i];
 		label.text = [fieldTextArray objectAtIndex:i];
@@ -150,7 +150,7 @@ static NSInteger X_INSET			= 10;
 	if (fieldColorArray != newArray) {
 		fieldColorArray = newArray;
 	}
-	int rows = numberOfRows;
+	int rows = (int)numberOfRows;
 	for (int i=0; i<rows; i++) {
 		UILabel *label = [fieldLabelArray objectAtIndex:i];
         if([fieldColorArray count]>i)
@@ -180,7 +180,7 @@ static NSInteger X_INSET			= 10;
 		mainTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		mainTitleLabel.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
 //		mainTitleLabel.textColor = [UIColor blackColor]; //<-- note, set below
-		mainTitleLabel.textAlignment = UITextAlignmentLeft;
+		mainTitleLabel.textAlignment = NSTextAlignmentLeft;
 		mainTitleLabel.backgroundColor = [UIColor clearColor];
 		//mainTitleLabel.backgroundColor = [UIColor yellowColor];
 		[self.contentView addSubview:mainTitleLabel];
@@ -188,7 +188,7 @@ static NSInteger X_INSET			= 10;
 		alternateTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		alternateTitleLabel.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
 		alternateTitleLabel.textColor = [UIColor ATTBlue];
-		alternateTitleLabel.textAlignment = UITextAlignmentRight;
+		alternateTitleLabel.textAlignment = NSTextAlignmentRight;
 		alternateTitleLabel.backgroundColor = [UIColor clearColor];
 		//alternateTitleLabel.backgroundColor = [UIColor yellowColor];
 		[self.contentView addSubview:alternateTitleLabel];		
@@ -202,7 +202,7 @@ static NSInteger X_INSET			= 10;
 
 		UILabel *label;
 		UIView *grid;
-		int rows = numberOfRows;
+		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
 			// Add grid first so it is at the back;
 			grid = [[UIView alloc] initWithFrame:CGRectZero];
@@ -214,7 +214,7 @@ static NSInteger X_INSET			= 10;
 			label = [[UILabel alloc] initWithFrame:CGRectZero];
 			label.font = [UIFont systemFontOfSize:FONT_SIZE];
 			label.textColor = [UIColor darkGrayColor];		// default dark gray color
-			label.textAlignment = UITextAlignmentRight;
+			label.textAlignment = NSTextAlignmentRight;
 			label.backgroundColor = [UIColor clearColor];
 //			[label setLineBreakMode:UILineBreakModeWordWrap];
 //			[label setNumberOfLines:0];		
@@ -227,7 +227,7 @@ static NSInteger X_INSET			= 10;
 			label.font = [UIFont systemFontOfSize:FONT_SIZE];
 			label.textColor = [UIColor blackColor];			// default black color
 			label.backgroundColor = [UIColor clearColor];
-			[label setLineBreakMode:UILineBreakModeWordWrap];
+			[label setLineBreakMode:NSLineBreakByWordWrapping];
 			[label setNumberOfLines:0];
 
 			[fieldLabelArray addObject:label];
@@ -250,14 +250,14 @@ static NSInteger X_INSET			= 10;
     // Configure the view for the selected state
     if (selected && self.selectionStyle != UITableViewCellSelectionStyleNone) {
 		[mainTitleLabel setTextColor:[UIColor whiteColor]];		
-		int rows = numberOfRows;
+		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
 			[[titleLabelArray objectAtIndex:i] setTextColor:[UIColor whiteColor]];
 			[[fieldLabelArray objectAtIndex:i] setTextColor:[UIColor whiteColor]];
 		}
     } else {
 		[mainTitleLabel setTextColor:[UIColor colorWithRed:.3 green:0 blue:.3 alpha:1]];
-		int rows = numberOfRows;
+		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
 			[[titleLabelArray objectAtIndex:i] setTextColor:(labelColor ? labelColor : [UIColor ATTBlue])];
             if([fieldColorArray count]>i)
@@ -275,7 +275,7 @@ static NSInteger X_INSET			= 10;
     CGRect baseRect = CGRectInset(self.contentView.bounds, X_INSET, Y_INSET);
 	int leftSection = trunc(baseRect.size.width * labelWidthProportion);
 	
-	int rows = numberOfRows;
+	int rows = (int)numberOfRows;
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
 	label.text = @"dummy";
 	int rowHeight = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE]].height;
@@ -308,7 +308,7 @@ static NSInteger X_INSET			= 10;
 		
 		fieldRect.size.height = 20000.0f; //large #
 		label = [fieldLabelArray objectAtIndex:i];
-		size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:fieldRect.size lineBreakMode:UILineBreakModeWordWrap];
+		size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:fieldRect.size lineBreakMode:NSLineBreakByWordWrapping];
 		fieldRect.size.height = MAX(size.height,rowHeight);
 		label.frame = fieldRect;
 		

@@ -13,6 +13,7 @@
 @property (nonatomic, retain) UIImageView *profitImageView;
 @property (nonatomic, retain) UILabel *nameLabel;
 @property (nonatomic, retain) UILabel *dateLabel;
+@property (nonatomic, retain) UILabel *hoursLabel;
 @property (nonatomic, retain) UILabel *locationLabel;
 @property (nonatomic, retain) UILabel *profitLabel;
 

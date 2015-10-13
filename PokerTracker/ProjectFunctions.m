@@ -17,6 +17,7 @@
 #import "NSString+ATTString.h"
 #import "NSData+ATTData.h"
 #import "GameCell.h"
+#import "ChipStackObj.h"
 
 
 // attrib03 <--- tournament num players
@@ -1227,14 +1228,14 @@
 	} // <-- for
 }
 
-+(UIImage *)plotGameChipsChart:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo predicate:(NSPredicate *)predicate2 displayBySession:(BOOL)displayBySession
++(ChipStackObj *)plotGameChipsChart:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo predicate:(NSPredicate *)predicate2 displayBySession:(BOOL)displayBySession
 {
 	int totalWidth=640;
 	int totalHeight=300;
 	int leftEdgeOfChart=50;
 	int bottomEdgeOfChart=totalHeight-25;
 	
-
+	NSMutableArray *pointsArray = [[NSMutableArray alloc] init];
 
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"game = %@", mo];
 	
@@ -1329,6 +1330,7 @@
 		[self drawLine:c startX:oldX startY:oldY endX:plotX endY:plotY];
 		[self drawGraphCircleForContext:c x:plotX y:plotY winFlg:winFlg circleSize:circleSize];
 		[self drawGraphCircleForContext:c x:oldX y:oldY winFlg:prevWinFlg circleSize:circleSize];
+		[pointsArray addObject:[NSString stringWithFormat:@"%d|%d|%d|%@", plotX, plotY, money, [startTime convertDateToStringWithFormat:@"h:mm a"]]];
 		
 		prevWinFlg=winFlg;
 		oldX = plotX;
@@ -1364,8 +1366,10 @@
 	dynamicChartImage = UIGraphicsGetImageFromCurrentImageContext();
 	
 	UIGraphicsEndImageContext();
-	
-	return dynamicChartImage;
+	ChipStackObj *chipStackObj = [[ChipStackObj alloc] init];
+	chipStackObj.image = dynamicChartImage;
+	chipStackObj.pointArray = pointsArray;
+	return chipStackObj;
 	
 }
 
@@ -1763,7 +1767,8 @@
 	
 	NSString *type = [mo valueForKey:@"Type"];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", [mo valueForKey:@"name"], [type substringToIndex:1]];
-	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm a"]];
+	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", [mo valueForKey:@"hours"]];
 	cell.locationLabel.text = [mo valueForKey:@"location"];
     cell.locationLabel.textColor = [UIColor purpleColor];
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[mo valueForKey:@"winnings"] intValue]]];
@@ -2841,7 +2846,7 @@
 		ist = [istartTime convertStringToDateWithFormat:@"MM/dd/yy hh:mm a"];
 
     if(ist==nil)
-        ist=[NSDate date];
+        ist=[istartTime convertStringToDateFinalSolution];
     
 	
 	return ist;
@@ -3206,25 +3211,17 @@
 
 + (UIView *)getViewForHeaderWithText:(NSString *)headerText
 {
-	UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.0, 320.0, 44.0)];
-	
-	// create the button object
+	UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.0, 320.0, 22.0)];
 	UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 	headerLabel.backgroundColor = [UIColor clearColor];
 	headerLabel.opaque = NO;
 	headerLabel.textColor = [UIColor whiteColor];
 	headerLabel.highlightedTextColor = [UIColor whiteColor];
-	headerLabel.font = [UIFont boldSystemFontOfSize:18];
-	headerLabel.shadowColor = [UIColor blackColor];
-	headerLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	headerLabel.font = [UIFont boldSystemFontOfSize:14];
 	headerLabel.numberOfLines = 0;
-	
-	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 44.0);
-	
-	// If you want to align the header text as centered
-	// headerLabel.frame = CGRectMake(150.0, 0.0, 300.0, 44.0);
+	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 22.0);
 	headerLabel.text = headerText;
-	customView.backgroundColor	= [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+	customView.backgroundColor	= [UIColor colorWithRed:0 green:.4 blue:0 alpha:1];
 	[customView addSubview:headerLabel];
 	return customView;
 }

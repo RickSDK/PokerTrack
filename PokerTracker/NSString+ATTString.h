@@ -19,6 +19,7 @@
 + (BOOL) isStringInArrayOfStrings:(NSArray *)arrayOfStrings stringValue:(NSString *) stringValue;
 - (int) indexForStringInArray:(NSArray *) array;
 - (NSDate *)convertStringToDateWithFormat:(NSString *)format;
+-(NSDate *)convertStringToDateFinalSolution;
 
 + (NSString *) getValueOrEmtpyString:(NSString *) string;
 + (BOOL) hasValue:(NSString *) str;

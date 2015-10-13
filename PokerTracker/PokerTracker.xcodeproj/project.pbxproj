@@ -274,6 +274,9 @@
 		6BB4ADCF16F39E5B0096E2B5 /* greenBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB4ADCE16F39E5B0096E2B5 /* greenBar.png */; };
 		6BB864F71677BA8E007BCD76 /* Last10NewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB864F51677BA8E007BCD76 /* Last10NewVC.m */; };
 		6BB864F81677BA8E007BCD76 /* Last10NewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */; };
+		6BBC4A7D1BC82F1400CC0081 /* blueArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A7C1BC82F1400CC0081 /* blueArrowDown.png */; };
+		6BBC4A801BC8337800CC0081 /* ChipStackObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A7F1BC8337800CC0081 /* ChipStackObj.m */; };
+		6BBC4A821BC86F7C00CC0081 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A811BC86F7C00CC0081 /* note.png */; };
 		6BC0DBDD178B4FAA00F0252D /* greenGradWide.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */; };
 		6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDF178B690600F0252D /* ImageCell.m */; };
 		6BC0DBE617961BC500F0252D /* DefaultiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBE517961BC400F0252D /* DefaultiPad.png */; };
@@ -710,6 +713,10 @@
 		6BB864F41677BA8E007BCD76 /* Last10NewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Last10NewVC.h; sourceTree = "<group>"; };
 		6BB864F51677BA8E007BCD76 /* Last10NewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Last10NewVC.m; sourceTree = "<group>"; };
 		6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Last10NewVC.xib; sourceTree = "<group>"; };
+		6BBC4A7C1BC82F1400CC0081 /* blueArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrowDown.png; sourceTree = "<group>"; };
+		6BBC4A7E1BC8337800CC0081 /* ChipStackObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChipStackObj.h; sourceTree = "<group>"; };
+		6BBC4A7F1BC8337800CC0081 /* ChipStackObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChipStackObj.m; sourceTree = "<group>"; };
+		6BBC4A811BC86F7C00CC0081 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
 		6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenGradWide.png; sourceTree = "<group>"; };
 		6BC0DBDE178B690600F0252D /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		6BC0DBDF178B690600F0252D /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
@@ -1304,6 +1311,8 @@
 				6B90A27A14CB462700712EDC /* cardroom.jpg */,
 				6B90A43514CB832E00712EDC /* indian.jpg */,
 				6B90A27C14CB462700712EDC /* casino.jpg */,
+				6BBC4A811BC86F7C00CC0081 /* note.png */,
+				6BBC4A7C1BC82F1400CC0081 /* blueArrowDown.png */,
 				6B90A34914CB694400712EDC /* phoneicon.png */,
 				6B90A79B14CE2C5400712EDC /* cashGame.jpg */,
 				6B90A79314CE2AF300712EDC /* tournament.jpg */,
@@ -1372,6 +1381,8 @@
 				6B750EEA143E6FAE00E59D21 /* MoneyPickerVC.h */,
 				6B750EEB143E6FAE00E59D21 /* MoneyPickerVC.m */,
 				6B750EEC143E6FAE00E59D21 /* MoneyPickerVC.xib */,
+				6BBC4A7E1BC8337800CC0081 /* ChipStackObj.h */,
+				6BBC4A7F1BC8337800CC0081 /* ChipStackObj.m */,
 				6B752862144CF0D500E59D21 /* CardHandPicker.h */,
 				6B752863144CF0D500E59D21 /* CardHandPicker.m */,
 				6B752864144CF0D500E59D21 /* CardHandPicker.xib */,
@@ -1504,6 +1515,7 @@
 				6B750D30143D2B2100E59D21 /* blueButton.png in Resources */,
 				6B750D32143D2B2500E59D21 /* buttonBlue.png in Resources */,
 				6B750D44143D305700E59D21 /* StatsPage.xib in Resources */,
+				6BBC4A821BC86F7C00CC0081 /* note.png in Resources */,
 				6B750D49143D306900E59D21 /* GamesVC.xib in Resources */,
 				6B3BEA0A19463398003857B3 /* Icon-29.png in Resources */,
 				6B750D53143D308500E59D21 /* FriendsVC.xib in Resources */,
@@ -1585,6 +1597,7 @@
 				6B909B1214C6478A00712EDC /* SelectedCheckBox.png in Resources */,
 				6B3BEA1919467D3F003857B3 /* playerType99.png in Resources */,
 				6B909B1314C6478A00712EDC /* UnSelectedCheckBox.png in Resources */,
+				6BBC4A7D1BC82F1400CC0081 /* blueArrowDown.png in Resources */,
 				6BB253A61B891445008AC8EE /* PlayerVC.xib in Resources */,
 				6B909D1E14C7AFF500712EDC /* CasinoTrackerEditVC.xib in Resources */,
 				6B909D9E14C8BD3D00712EDC /* greenButton.png in Resources */,
@@ -1805,6 +1818,7 @@
 				6BD85A8A151CF4B60048473A /* FriendInProgressVC.m in Sources */,
 				6BC80432156C74FF001C24BD /* ListPicker.m in Sources */,
 				6BE5C75618380F420028CA26 /* FriendAlertsVC.m in Sources */,
+				6BBC4A801BC8337800CC0081 /* ChipStackObj.m in Sources */,
 				6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */,
 				6BC8044A156C766F001C24BD /* cleanupRefData.m in Sources */,
 				6BC8048D156C82C9001C24BD /* SoundsLib.m in Sources */,
