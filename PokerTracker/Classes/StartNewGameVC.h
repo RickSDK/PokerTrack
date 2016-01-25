@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
+#import "CustomSegment.h"
 
 
-@interface StartNewGameVC : UIViewController <CLLocationManagerDelegate> {
+@interface StartNewGameVC : TemplateVC <CLLocationManagerDelegate> {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
 
 	//---XIB----------------------------
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UISegmentedControl *gameTypeSegmentBar;
+	IBOutlet CustomSegment *gameTypeSegmentBar;
 	IBOutlet UISegmentedControl *gameNameSegmentBar;
 	IBOutlet UISegmentedControl *blindTypeSegmentBar;
 	IBOutlet UISegmentedControl *limitTypeSegmentBar;

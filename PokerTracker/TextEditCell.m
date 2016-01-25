@@ -20,7 +20,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		self.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];	// label is 17, system is 14
-		self.textLabel.textAlignment = UITextAlignmentLeft;
+		self.textLabel.textAlignment = NSTextAlignmentLeft;
 		
 		// turn off selection use
 		self.selectionStyle = UITableViewCellSelectionStyleNone;

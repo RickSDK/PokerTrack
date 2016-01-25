@@ -45,6 +45,10 @@
 }
 
 -(void)createNewAccountPressed:(id)sender {
+	if([ProjectFunctions isLiteVersion]) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"This feature only available on Pro version. Please upgrade on the main menu."];
+		return;
+	}
 	CreateNewAccount *detailViewController = [[CreateNewAccount alloc] initWithNibName:@"CreateNewAccount" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];

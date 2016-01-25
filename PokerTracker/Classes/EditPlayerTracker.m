@@ -100,7 +100,7 @@
 	
 	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
 	if(fh==nil)
-		playerPic.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", overallPlaySeg.selectedSegmentIndex+1]];
+		playerPic.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", (int)overallPlaySeg.selectedSegmentIndex+1]];
 	else {
 		playerPic.image = [UIImage imageWithContentsOfFile:jpgPath];
 		picLabel.alpha=0;
@@ -113,7 +113,7 @@
 -(IBAction) segmentPressed:(id)sender
 {
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-	skillLabel.text = [skills stringAtIndex:overallPlaySeg.selectedSegmentIndex];
+	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
 	[self setUserPic];
 }	
 
@@ -240,7 +240,7 @@
 		player_id = [[managedObject valueForKey:@"player_id"] intValue];
 	
 	[valueList addObject:[NSString stringWithFormat:@"%d", playerType]];
-	[valueList addObject:[NSString stringWithFormat:@"%d", overallPlaySeg.selectedSegmentIndex]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", (int)overallPlaySeg.selectedSegmentIndex]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", strengthsText.text]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", weaknessText.text]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", casinoButton.titleLabel.text]];
@@ -355,7 +355,7 @@
 	}
 	
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-	skillLabel.text = [skills stringAtIndex:overallPlaySeg.selectedSegmentIndex];
+	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
 	
 }
 

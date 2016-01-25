@@ -20,7 +20,7 @@
         self.nameLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:.2 alpha:1];
         self.nameLabel.font = [UIFont boldSystemFontOfSize:36];
         [self.nameLabel sizeToFit];
-        self.nameLabel.minimumFontSize = 10;
+        self.nameLabel.minimumScaleFactor = .7;
         self.nameLabel.backgroundColor = [UIColor clearColor];
         [self.nameLabel setShadowColor:[UIColor blackColor]];
         [self.nameLabel setShadowOffset:CGSizeMake(2.0, 2.0)];
@@ -29,7 +29,7 @@
         self.cityLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.cityLabel.textAlignment = NSTextAlignmentCenter;
         [self.cityLabel sizeToFit];
-        self.cityLabel.minimumFontSize = 10;
+        self.cityLabel.minimumScaleFactor = .7;
         self.cityLabel.numberOfLines=1;
         self.cityLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
         self.cityLabel.font = [UIFont boldSystemFontOfSize:20];

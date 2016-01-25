@@ -302,6 +302,8 @@
 	float foodMoney = [ProjectFunctions getMoneyValueFromText:foodButton.titleLabel.text];
 	float tokes = [ProjectFunctions getMoneyValueFromText:tokesButton.titleLabel.text];
 	float chips = [ProjectFunctions getMoneyValueFromText:chipStackButton.titleLabel.text];
+	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"])
+		foodMoney=0;
 	
 	[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips+foodMoney-buyIn-rebuyAmount rebuyFlg:NO];
 

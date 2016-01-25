@@ -245,7 +245,7 @@
 
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status = %@", nil];
 	NSArray *mailItems = [CoreDataLib selectRowsFromEntity:@"MESSAGE" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-	int mailNum=[mailItems count];
+	int mailNum=(int)[mailItems count];
 	self.hasMailFlg=NO;
 	if(mailNum>0) {
 		[mboxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -362,7 +362,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -378,7 +378,7 @@
 		name = @"Lee";
 
 	// Name-------
-	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", indexPath.row+1, name];
+	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", (int)indexPath.row+1, name];
 	
 	// Status/Date-------
 	NSString *status = [components stringAtIndex:2];
@@ -403,7 +403,7 @@
 
 
 	//Streak
-	int streak = [self getValueBasedOnSegment:timeSegment.selectedSegmentIndex value1:[[components stringAtIndex:7] intValue] value2:[[components stringAtIndex:8] intValue] value3:[[components stringAtIndex:9] intValue]];
+	int streak = [self getValueBasedOnSegment:(int)timeSegment.selectedSegmentIndex value1:[[components stringAtIndex:7] intValue] value2:[[components stringAtIndex:8] intValue] value3:[[components stringAtIndex:9] intValue]];
 	cell.c2.text = [NSString stringWithFormat:@"stk: %@", [ProjectFunctions getWinLossStreakString:streak]];
 	cell.c1Color = [UIColor blackColor];
 
@@ -421,7 +421,7 @@
 	else 
 		cell.b2Color = [UIColor redColor];
 	
-	cell.c1.text = [self getStringBasedOnSegment:timeSegment.selectedSegmentIndex value1:[components stringAtIndex:13] value2:[components stringAtIndex:14] value3:[components stringAtIndex:15]];
+	cell.c1.text = [self getStringBasedOnSegment:(int)timeSegment.selectedSegmentIndex value1:[components stringAtIndex:13] value2:[components stringAtIndex:14] value3:[components stringAtIndex:15]];
 	cell.c2Color = [UIColor blackColor];
 
 	

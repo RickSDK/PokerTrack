@@ -214,9 +214,9 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
- 	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+ 	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
-	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:indexPath.row] isEqualToString:@"Currency Symbol"]) {
+	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -233,7 +233,7 @@
 	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
 	int gamesOnServer = [[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue];
 
-	if(indexPath.section==0 && [[menuArray stringAtIndex:indexPath.row] isEqualToString:@"Export Data"]) {
+	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Export Data"]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -253,7 +253,7 @@
 		
 		return cell;
 	}
-	if(indexPath.section==0 && [[menuArray stringAtIndex:indexPath.row] isEqualToString:@"Import Data"]) {
+	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Import Data"]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -274,7 +274,7 @@
 		return cell;
 	}
 	
-	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:indexPath.row] isEqualToString:@"Sound"]) {
+	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Sound"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -291,7 +291,7 @@
 		return cell;
 	}
 	
-	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:indexPath.row] isEqualToString:@"Background Threads"]) {
+	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Background Threads"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -321,19 +321,19 @@
 
 	if(indexPath.section==0) {
 		cell.textLabel.text = [NSString stringWithFormat:@"%@", [menuArray objectAtIndex:indexPath.row]];
-		if([[menuArray stringAtIndex:indexPath.row] isEqualToString:@"Delete All Data"] || [ProjectFunctions getUserDefaultValue:@"userName"])
+		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Delete All Data"] || [ProjectFunctions getUserDefaultValue:@"userName"])
 			cell.textLabel.textColor = [UIColor blackColor];
 		else
 			cell.textLabel.textColor = [UIColor grayColor];
 		
-		if([[menuArray stringAtIndex:indexPath.row] isEqualToString:@"Cleanup Ref Data"])
+		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Cleanup Ref Data"])
 			cell.textLabel.textColor = [UIColor blackColor];
 		if(indexPath.row==0)
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	}
 
 	if(indexPath.section==1) {
-		cell.textLabel.text = [secondMenuArray stringAtIndex:indexPath.row];
+		cell.textLabel.text = [secondMenuArray stringAtIndex:(int)indexPath.row];
 	}
 	cell.backgroundColor = [UIColor ATTFaintBlue];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -650,7 +650,7 @@
     
 		if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 			NSArray *contents = [responseStr componentsSeparatedByString:@"<br>"];
-			self.totalImportedLines = [contents count];
+			self.totalImportedLines = (int)[contents count];
 			self.numImportedLinesRead=0;
 			NSString *gameType = nil;
 			int gameCount=0;
@@ -751,7 +751,7 @@
 //    NSLog(@"%@", responseStr);
 	if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 		NSArray *contents = [responseStr componentsSeparatedByString:@"<br>"];
-		self.totalImportedLines = [contents count];
+		self.totalImportedLines = (int)[contents count];
 		self.numImportedLinesRead=0;
 		NSString *gameType = nil;
 		int gameCount=0;
@@ -892,7 +892,7 @@
             }
 		NSArray *items = [CoreDataLib selectRowsFromEntity:entityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
             if(isGames)
-                self.totalImportedLines = [items count];
+                self.totalImportedLines = (int)[items count];
 		NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:isGames];
 		[data appendString:line];
 	}
@@ -1021,7 +1021,7 @@
 	NSString *webAddr = @"http://www.appdigity.com/poker/ImportData.php";
 	NSString *contents = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
 	NSArray *lines = [contents componentsSeparatedByString:@"<br>"];
-        self.totalImportedLines=[lines count];
+        self.totalImportedLines=(int)[lines count];
         self.numImportedLinesRead=0;
 	int numRows=0;
 	NSString *type = @"";
@@ -1170,10 +1170,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	self.gSelectedRow = indexPath.row;
+	self.gSelectedRow = (int)indexPath.row;
 
 	if(indexPath.section==0) {
-		NSString *menuItem = [menuArray stringAtIndex:indexPath.row];
+		NSString *menuItem = [menuArray stringAtIndex:(int)indexPath.row];
 
 		if([menuItem isEqualToString:@"Delete All Data"]) {
 			NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
@@ -1269,7 +1269,7 @@
 		}
 	} // <== 0
 	if(indexPath.section==1) {
-		NSString *menuItem = [secondMenuArray stringAtIndex:indexPath.row];
+		NSString *menuItem = [secondMenuArray stringAtIndex:(int)indexPath.row];
 		if([menuItem isEqualToString:@"Enter Old Game"]) {
 			CreateOldGameVC *detailViewController = [[CreateOldGameVC alloc] initWithNibName:@"CreateOldGameVC" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;

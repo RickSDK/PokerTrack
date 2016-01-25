@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "MyToolbar.h"
+#import "TemplateVC.h"
 
 
-@interface GamesVC : UIViewController <NSFetchedResultsControllerDelegate> {
+@interface GamesVC : TemplateVC <NSFetchedResultsControllerDelegate> {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	int displayYear;
@@ -53,7 +54,6 @@
 @property (atomic, strong) UILabel *moneyLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) MyToolbar *yearToolbar;
 
 - (IBAction) createPressed: (id) sender;

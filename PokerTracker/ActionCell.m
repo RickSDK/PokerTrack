@@ -17,7 +17,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		self.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];	// label is 17, system is 14
-		self.textLabel.textAlignment = UITextAlignmentCenter;
+		self.textLabel.textAlignment = NSTextAlignmentCenter;
 		self.textLabel.highlightedTextColor = [UIColor whiteColor];
 
 		// Create and configure activity indicator

@@ -129,7 +129,7 @@
 		BigHandsPlayersFormVC *detailViewController = [[BigHandsPlayersFormVC alloc] initWithNibName:@"BigHandsPlayersFormVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
 		detailViewController.mo = mo;
-		detailViewController.playersHand=buttonIndex+1;
+		detailViewController.playersHand=(int)buttonIndex+1;
 		detailViewController.callBackViewController=self;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
@@ -160,7 +160,7 @@
 	NSArray *winList = [NSArray arrayWithObjects:@"Win", @"Loss", @"Chop", nil];
 	
 	NSMutableArray *valueList = [[NSMutableArray alloc] init];
-	[valueList addObject:[winList stringAtIndex:winLossSegment.selectedSegmentIndex]];
+	[valueList addObject:[winList stringAtIndex:(int)winLossSegment.selectedSegmentIndex]];
 	[valueList addObject:[formDataArray stringAtIndex:0]];
 	for(int i=1; i<=numPlayers; i++)
 		[valueList addObject:[formDataArray stringAtIndex:i]];
@@ -343,7 +343,7 @@
 		width+=20;
 	}
 	UILabel *youLabel = [ [UILabel alloc ] initWithFrame:CGRectMake((float)x, (float)y, width, 43.0) ];
-	youLabel.textAlignment =  UITextAlignmentCenter;
+	youLabel.textAlignment =  NSTextAlignmentCenter;
 	youLabel.textColor = color;
 	youLabel.backgroundColor = [UIColor clearColor];
 	youLabel.font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:((float)size)];
@@ -673,14 +673,14 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	
 	NSString *mainLabel=@"Error";
 	NSString *mainValue=@"Error";
 	if(labelValues && indexPath.row<[labelValues count])
-		mainLabel = [labelValues stringAtIndex:indexPath.row];
+		mainLabel = [labelValues stringAtIndex:(int)indexPath.row];
 	if(formDataArray && indexPath.row<[formDataArray count])
-		mainValue = [formDataArray stringAtIndex:indexPath.row];
+		mainValue = [formDataArray stringAtIndex:(int)indexPath.row];
 	
 	if(indexPath.section==0) {
 		if(indexPath.row>=[formDataArray count]) {
@@ -780,7 +780,7 @@
 	if(indexPath.section>0)
 		return;
 	
-	NSLog(@"+++%d %d", indexPath.row, numPlayers);
+//	NSLog(@"+++%d %d", indexPath.row, numPlayers);
 	if(indexPath.row == [formDataArray count]) {
 		if(mo != nil && !viewEditable) {	// load calculator
 			OddsFormVC *detailViewController = [[OddsFormVC alloc] initWithNibName:@"OddsFormVC" bundle:nil];
@@ -830,7 +830,7 @@
 	if(!viewEditable)
 		return;
 	
-	selectedRow = indexPath.row;
+	selectedRow = (int)indexPath.row;
 
 	NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 	for(int i=1; i<numPlayers+1; i++)
@@ -838,53 +838,53 @@
 	
 	if(selectedRow==0) {
 		DatePickerViewController *localViewController = [[DatePickerViewController alloc] init];
-		localViewController.labelString = [labelValues stringAtIndex:indexPath.row];
+		localViewController.labelString = [labelValues stringAtIndex:(int)indexPath.row];
 		[localViewController setCallBackViewController:self];
 		localViewController.initialDateValue = nil;
 		localViewController.allowClearField = NO;
 		localViewController.dateOnlyMode = YES;
 		localViewController.refusePastDates=NO;
-		localViewController.initialValueString = [formDataArray stringAtIndex:indexPath.row];
+		localViewController.initialValueString = [formDataArray stringAtIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:localViewController animated:YES];
 	} else if(selectedRow<=numPlayers) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		detailViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		detailViewController.callBackViewController=self;
 		detailViewController.numberCards=2;
-		detailViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:indexPath.row-1];
+		detailViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:(int)indexPath.row-1];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else 	if(selectedRow==numPlayers+1) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		detailViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		detailViewController.callBackViewController=self;
-		detailViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:indexPath.row-1];
+		detailViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:(int)indexPath.row-1];
 		detailViewController.numberCards=3;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else if(selectedRow<=numPlayers+3) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		detailViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		detailViewController.callBackViewController=self;
-		detailViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
+		detailViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
 		detailViewController.numberCards=1;
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:indexPath.row-1];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray stringAtIndex:numPlayers+1] turn:[formDataArray stringAtIndex:numPlayers+2] river:[formDataArray stringAtIndex:numPlayers+3] removeIndex:(int)indexPath.row-1];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else if(selectedRow<=numPlayers+4) {
 		MoneyPickerVC *localViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 		localViewController.managedObjectContext=managedObjectContext;
 		localViewController.callBackViewController = self;
-		localViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
-		localViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		localViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
+		localViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:localViewController animated:YES];
 	} else if(selectedRow==numPlayers+6) {
 		ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
-		detailViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		detailViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
+		detailViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		detailViewController.callBackViewController = self;
 		NSMutableArray *players = [[NSMutableArray alloc] init];
 		[players addObject:@"You"];
@@ -898,8 +898,8 @@
 		TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
 		[localViewController setCallBackViewController:self];
 		localViewController.managedObjectContext=managedObjectContext;
-		localViewController.initialDateValue = [formDataArray stringAtIndex:indexPath.row];
-		localViewController.titleLabel = [labelValues stringAtIndex:indexPath.row];
+		localViewController.initialDateValue = [formDataArray stringAtIndex:(int)indexPath.row];
+		localViewController.titleLabel = [labelValues stringAtIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:localViewController animated:YES];
 	}	
 	

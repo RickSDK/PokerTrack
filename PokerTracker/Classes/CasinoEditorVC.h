@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
 
 
-@interface CasinoEditorVC : UIViewController <UIActionSheetDelegate> {
+@interface CasinoEditorVC : TemplateVC <UIActionSheetDelegate> {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIImageView *activityPopup;

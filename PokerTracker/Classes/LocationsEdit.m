@@ -70,7 +70,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -81,7 +81,7 @@
 	NSManagedObject *mo = [locations objectAtIndex:indexPath.row];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location = %@ and user_id = 0", [mo valueForKey:@"name"]];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d records)", [mo valueForKey:@"name"], [items count]];;
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%d records)", [mo valueForKey:@"name"], (int)[items count]];;
 	if([[checkBoxes objectAtIndex:indexPath.row] isEqualToString:@"U"])
 		cell.imageView.image = [UIImage imageNamed:@"UnSelectedCheckBox.png"];
 	else 

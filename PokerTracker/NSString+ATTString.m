@@ -84,7 +84,7 @@
 	if (string == nil) return nil;
 	NSMutableString *result = [NSMutableString stringWithCapacity:10];
 	
-	int stringLength = [string length];
+	int stringLength = (int)[string length];
 	if (stringLength > 7  && stringLength <= 10) {
 		NSString *NPA = [string substringWithRange:NSMakeRange(0, 3)];
 		NSString *NXX = [string substringWithRange:NSMakeRange(3, 3)];
@@ -93,7 +93,7 @@
 		[result appendFormat:@"(%@) %@-%@",NPA, NXX, lastFour];		
 	} else if (stringLength >= 4 && stringLength <= 7) {
 		NSString *NXX = [string substringWithRange:NSMakeRange(0, 3)];
-		int leftOver = stringLength - [NXX length];
+		int leftOver = stringLength - (int)[NXX length];
 		NSString *lastFour = [string substringWithRange:NSMakeRange(3, leftOver)];
 		[result appendFormat:@"%@-%@",NXX, lastFour ];
 	} else {
@@ -107,7 +107,7 @@
 + (NSString *)formatAsTelephone:(NSString *)string {
 	string = [self removeTelephoneFormatting:string];
 	
-	int len = [string length];
+	int len = (int)[string length];
 	if (len==11 && [[string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {
 		string = [string substringWithRange:NSMakeRange(1, len-1)];
 		len--;

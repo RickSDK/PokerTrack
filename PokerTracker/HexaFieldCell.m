@@ -106,29 +106,29 @@ static NSInteger ROW_SEP = 2;
 	a2.font = [UIFont systemFontOfSize:FONT_SIZE];
 	a2.textColor = [UIColor grayColor];		// default gray color
 	a2.backgroundColor = [UIColor clearColor];
-	a2.textAlignment = UITextAlignmentRight;
+	a2.textAlignment = NSTextAlignmentRight;
 	
 	b1.font = [UIFont systemFontOfSize:FONT_SIZE];
 	b1.textColor = [UIColor darkGrayColor];	// default color
-	b1.textAlignment = UITextAlignmentLeft;
+	b1.textAlignment = NSTextAlignmentLeft;
 	b1.backgroundColor = [UIColor clearColor];
 	
 
 	b2.font = [UIFont systemFontOfSize:FONT_SIZE];
 	b2.textColor = [UIColor grayColor];		// default gray color
-	b2.textAlignment = UITextAlignmentRight;
+	b2.textAlignment = NSTextAlignmentRight;
 	b2.backgroundColor = [UIColor clearColor];
 	
 
 	c1.font = [UIFont systemFontOfSize:FONT_SIZE];
 	c1.textColor = [UIColor darkGrayColor];	// default color
-	c1.textAlignment = UITextAlignmentLeft;
+	c1.textAlignment = NSTextAlignmentLeft;
 	c1.backgroundColor = [UIColor clearColor];
 	
 
 	c2.font = [UIFont systemFontOfSize:FONT_SIZE];
 	c2.textColor = [UIColor grayColor];		// default gray color
-	c2.textAlignment = UITextAlignmentRight;
+	c2.textAlignment = NSTextAlignmentRight;
 	c2.backgroundColor = [UIColor clearColor];
 	
 

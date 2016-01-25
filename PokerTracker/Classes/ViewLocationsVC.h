@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
 
-@interface ViewLocationsVC : UIViewController {
+@interface ViewLocationsVC : TemplateVC {
     NSManagedObjectContext *managedObjectContext;
 	UIViewController *callBackViewController;
 

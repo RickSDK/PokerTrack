@@ -12,6 +12,7 @@
                 <outlet property="gameTypeSegment" destination="20" id="23"/>
                 <outlet property="gamesLabel" destination="R7t-jg-EI6" id="nwG-a8-Ege"/>
                 <outlet property="leftYear" destination="uAd-aP-rVH" id="hvg-89-NOn"/>
+                <outlet property="mainSegment" destination="20" id="Mqc-Bk-dCW"/>
                 <outlet property="mainTableView" destination="4" id="17"/>
                 <outlet property="moneyLabel" destination="GLg-wi-cwv" id="qga-jJ-7by"/>
                 <outlet property="rightYear" destination="xpA-FX-077" id="njF-Zs-wlE"/>
@@ -25,10 +26,6 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="greenFelt.png" id="24">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="31">
                     <rect key="frame" x="141" y="164" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -62,7 +59,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="20">
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="20" customClass="CustomSegment">
                             <rect key="frame" x="8" y="24" width="304" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -164,7 +161,6 @@
         </view>
     </objects>
     <resources>
-        <image name="greenFelt.png" width="320" height="480"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

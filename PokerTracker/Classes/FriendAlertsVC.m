@@ -55,7 +55,7 @@
 
         NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"carrierNum", @"phone", @"toggle", nil];
         NSString *toggleStr = startSwitch.on?@"on":@"off";
-        NSString *carrierNum = [NSString stringWithFormat:@"%d", carrierSegment.selectedSegmentIndex];
+        NSString *carrierNum = [NSString stringWithFormat:@"%d", (int)carrierSegment.selectedSegmentIndex];
         NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], carrierNum, phoneField.text, toggleStr, nil];
         NSString *webAddr = @"http://www.appdigity.com/poker/pokerFriendAlertCall.php";
         NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];

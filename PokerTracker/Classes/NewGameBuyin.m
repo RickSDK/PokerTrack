@@ -80,6 +80,7 @@
 
 - (IBAction) gameTypeSegmentPressed: (id) sender
 {
+	[gameTypeSegmentBar changeSegment];
 	NSString *buyinAmount = @"";
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];

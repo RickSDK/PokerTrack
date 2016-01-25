@@ -42,18 +42,18 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	return [self.selectionList stringAtIndex:row];
+	return [self.selectionList stringAtIndex:(int)row];
 	
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	self.textField.text = [self.selectionList stringAtIndex:row];
+	self.textField.text = [self.selectionList stringAtIndex:(int)row];
 	if(managedObjectContext==nil)
 		return;
 	if(selectedList<=6)
-		[self countNumRecords:[self.selectionList stringAtIndex:row]];
+		[self countNumRecords:[self.selectionList stringAtIndex:(int)row]];
 	
-	if([[self.selectionList stringAtIndex:row] isEqualToString:@"*Custom*"]) {
+	if([[self.selectionList stringAtIndex:(int)row] isEqualToString:@"*Custom*"]) {
 		if([label.text isEqualToString:@"Timeframe"]) {
 			ListPickerCustomDate *detailViewController = [[ListPickerCustomDate alloc] initWithNibName:@"ListPickerCustomDate" bundle:nil];
 			detailViewController.managedObjectContext=managedObjectContext;
@@ -100,7 +100,7 @@
 	[filterArray replaceObjectAtIndex:selectedList withObject:value];
 	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:filterArray mOC:managedObjectContext buttonNum:0];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
-	self.numRecords.text = [NSString stringWithFormat:@"%d", [items count]];
+	self.numRecords.text = [NSString stringWithFormat:@"%d", (int)[items count]];
 }
 
 -(void)addButtonClicked:(id)sender
@@ -167,7 +167,7 @@
 -(void) setReturningValue:(NSString *) value2 {
 	[(ProjectFunctions *)callBackViewController setReturningValue:value2];
 	
-	int count = [self.navigationController.viewControllers count];
+	int count = (int)[self.navigationController.viewControllers count];
 	if(count>2)
 		count-=3;
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:count] animated:YES];

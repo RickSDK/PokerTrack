@@ -56,8 +56,6 @@
 	self.navigationItem.leftBarButtonItem = moreButton;
 	
 	liteLabel.alpha=0;
-	if([ProjectFunctions isLiteVersion])
-		liteLabel.alpha=1;
 }
 
 

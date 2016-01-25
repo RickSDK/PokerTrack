@@ -218,7 +218,7 @@
 	NSDate *mostRecentGame = nil;
 	NSString *thisMonth = [[NSDate date] convertDateToStringWithFormat:@"yyyyMM"];
 	
-	int totalGames = [items count];
+	int totalGames = (int)[items count];
 	int minRisked=999;
 	int maxRisked=0;
 	int aveRisked=0;
@@ -545,7 +545,7 @@
 	int SDRisked=0;
 	int standardDeviation=0;
 	NSString *trend=@"Need more data";
-	int count=[items count];
+	int count=(int)[items count];
 	int earlyTrend=0;
 	int lateTrend=0;
 	
@@ -653,7 +653,7 @@
 		mo = [items objectAtIndex:0];
 	else
 		mo = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:mOC];
-	NSLog(@"updating... %d", [items count]);
+	NSLog(@"updating... %d", (int)[items count]);
 	return [CoreDataLib updateManagedObjectForEntity:mo entityName:entityName valueList:valueList mOC:mOC];
 }
 
@@ -675,7 +675,7 @@
 +(BOOL) updateManagedObject:(NSManagedObject *)newManagedObject keyList:(NSArray *)keyList valueList:(NSArray *)valueList typeList:(NSArray *)typeList mOC:(NSManagedObjectContext *)mOC
 {
 	if([keyList count] != [valueList count] || [keyList count] != [typeList count]) {
-		NSLog(@"WARNING!! Unmatching number of columns in newManagedObject: v=%d k=%d t=%d", [valueList count], [keyList count], [typeList count]);
+		NSLog(@"WARNING!! Unmatching number of columns in newManagedObject: v=%d k=%d t=%d", (int)[valueList count], (int)[keyList count], (int)[typeList count]);
 	}
 	int i=0;
 	for(NSString *key in keyList) {

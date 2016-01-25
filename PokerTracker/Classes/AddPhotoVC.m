@@ -41,8 +41,8 @@
 		imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
+		[self presentViewController:imgPicker animated:YES completion:nil];
 
-		[self presentModalViewController:imgPicker animated:NO];
 	}
 
 
@@ -51,12 +51,12 @@
 
 
 - (IBAction)grabImage {
-	[self presentModalViewController:imgPicker animated:NO];
+	[self presentViewController:imgPicker animated:NO completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
-	[picker dismissModalViewControllerAnimated:YES];
+	[picker dismissViewControllerAnimated:YES completion:nil];
+//	[picker dismissModalViewControllerAnimated:YES];
 
 
 	UIImage *img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
@@ -73,7 +73,7 @@
 //	NSLog(@"new size: %d %d", bytes, menuNumber);
 //	NSString *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"player%d.jpg", menuNumber]];
 //	NSString *jpgPath = [NSString stringWithFormat:@"player%d.jpg", menuNumber];
-	NSString *jpgPath = [ProjectFunctions getPicPath:menuNumber];
+	NSString *jpgPath = [ProjectFunctions getPicPath:(int)menuNumber];
 
 	[UIImageJPEGRepresentation(newImg, 1.0) writeToFile:jpgPath atomically:YES];
 

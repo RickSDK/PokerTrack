@@ -75,7 +75,7 @@
 
 	dateLabel.text = [created convertDateToStringWithFormat:nil];
 	fromLabel.text = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"FRIEND" field:@"name" predicate:predicate indexPathRow:0];
-	indexLabel.text = [NSString stringWithFormat:@"%d / %d", currentMessage+1, [items count]];
+	indexLabel.text = [NSString stringWithFormat:@"%d / %d", (int)currentMessage+1, (int)[items count]];
 	
 	if(currentMessage<=0)
 		prevButton.enabled=NO;

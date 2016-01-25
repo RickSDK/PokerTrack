@@ -188,6 +188,7 @@
 
 - (IBAction) gameTypeSegmentPressed: (id) sender 
 {
+	[self.mainSegment changeSegment];
     [self setupSegments];
 }
 
@@ -242,13 +243,6 @@
 		[self gotoListPicker:7];
 	}
 }
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
 
 
 - (IBAction) locationButtonPressed: (id) sender
@@ -411,7 +405,7 @@
 		if([locationName length]==0) {
 			locationName = [ProjectFunctions checkLocation2:currentLocation moc:managedObjectContext];
 			if(currentLocation != nil && ![ProjectFunctions isLiteVersion])
-				[ProjectFunctions showConfirmationPopup:@"Casino not in Database" message:@"Did you want to add this casino to the database? Note: Not needed for home games" delegate:self tag:1];
+				[ProjectFunctions showConfirmationPopup:@"Casino not in Database" message:@"Did you want to add this casino to the database? Note: Not needed for home games." delegate:self tag:1];
 		}
 		
 		[self setLocationButtonTitle:locationName mode:1];

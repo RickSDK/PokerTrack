@@ -425,13 +425,13 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 	NSArray *titles = [NSArray arrayWithObjects:@"", @"Details", @"Games", @"Comments", nil];
-	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:section]];
+	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if(section==0)
-        return 0;
+        return .01;
     
 	return 22.0;
 }
@@ -454,7 +454,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     if(indexPath.section==0) {
         if(indexPath.row==0) {
@@ -528,7 +528,7 @@
 			cell = [[QuadWithImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
 		
-		NSArray *items = [[gamesArray stringAtIndex:indexPath.row] componentsSeparatedByString:@", "];
+		NSArray *items = [[gamesArray stringAtIndex:(int)indexPath.row] componentsSeparatedByString:@", "];
 		NSString *name = [items stringAtIndex:0];
 		cell.aa.text = name;
 		if([name length]>4)
@@ -555,7 +555,7 @@
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:1 labelProportion:0.0];
 		}
 		
-		NSArray *items = [[commentsArray stringAtIndex:indexPath.row] componentsSeparatedByString:@"<xx>"];
+		NSArray *items = [[commentsArray stringAtIndex:(int)indexPath.row] componentsSeparatedByString:@"<xx>"];
 		cell.mainTitle = [items stringAtIndex:0];
 		cell.titleTextArray = [NSArray arrayWithObject:@""];
 		cell.fieldTextArray = [NSArray arrayWithObject:[items stringAtIndex:1]];
@@ -596,7 +596,7 @@
 	if(!editModeOn)
 		return;
 	
-	selectedRow=indexPath.row;
+	selectedRow=(int)indexPath.row;
 	if(indexPath.section==1) {
 		if(selectedRow==1) {
 			ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
@@ -650,26 +650,6 @@
 }
 
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 
 

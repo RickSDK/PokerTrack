@@ -19,7 +19,7 @@
 
 - (IBAction)save:(id)sender {
     
-	int button = customButtonSegment.selectedSegmentIndex+1;
+	int button = (int)customButtonSegment.selectedSegmentIndex+1;
 	[self clearExistingFiltersForButton:button];
     if(filerObj) {
         [self.filerObj setValue:filterName.text forKey:@"name"];
@@ -27,7 +27,7 @@
         [self.managedObjectContext save:nil];
         [(FilterListVC *)callBackViewController reloadView];
     } else {
-        [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%@|%d", filterName.text, customButtonSegment.selectedSegmentIndex] forKey:@"returnValue"];
+        [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%@|%d", filterName.text, (int)customButtonSegment.selectedSegmentIndex] forKey:@"returnValue"];
         [(ProjectFunctions *)callBackViewController setReturningValue:@"test"];
     }
     

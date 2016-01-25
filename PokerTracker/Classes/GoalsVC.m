@@ -30,7 +30,7 @@
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
-    [ProjectFunctions bankSegmentChangedTo:self.bankRollSegment.selectedSegmentIndex];
+    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
     [self computeStats];
 }
 
@@ -217,7 +217,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 	NSArray *titles = [NSArray arrayWithObjects:@"Monthly Net Profits", @"Monthly Breakdown", @"Hourly Profits", @"Hourly Breakdown", nil];
-	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:section]];
+	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -236,7 +236,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	
 	if(indexPath.section==0) {
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -262,7 +262,7 @@
 	
 	if(indexPath.section==1) {
 		NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
-		int NumberOfRows=[months count];
+		int NumberOfRows=(int)[months count];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.35];
@@ -307,7 +307,7 @@
 	
 	if(indexPath.section==3) {
 		NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
-		int NumberOfRows=[months count];
+		int NumberOfRows=(int)[months count];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.4];

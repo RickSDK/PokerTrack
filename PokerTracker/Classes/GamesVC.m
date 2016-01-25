@@ -23,6 +23,7 @@
 #import "BankrollsVC.h"
 #import "PokerTrackerAppDelegate.h"
 #import "GameCell.h"
+#import "GameObj.h"
 
 
 
@@ -35,16 +36,6 @@
 @synthesize displayYear, yearLabel, leftYear, rightYear, mainTableView, gamesList, gameTypeSegment, yearToolbar, bankRollSegment;
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
--(BOOL)shouldAutorotate
-{
-    return YES;
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
@@ -56,6 +47,7 @@
 	[self computeStats];
 }
 
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
@@ -63,7 +55,7 @@
 	[self.mainTableView setBackgroundView:nil];
 	[self setTitle:@"Games"];
 	
-	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear"] intValue];
+	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 	
 	if([allGames count]>0) {
@@ -71,7 +63,7 @@
 		NSDate *startTime = [firstGame valueForKey:@"startTime"];
 		int year1 = [[startTime convertDateToStringWithFormat:@"yyyy"] intValue];
 		if(year1<minYear)
-			[ProjectFunctions setUserDefaultValue:[startTime convertDateToStringWithFormat:@"yyyy"] forKey:@"minYear"];
+			[ProjectFunctions setUserDefaultValue:[startTime convertDateToStringWithFormat:@"yyyy"] forKey:@"minYear2"];
 	}
 	
 	[self.yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
@@ -138,7 +130,8 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-	[ProjectFunctions setFontColorForSegment:self.gameTypeSegment values:nil];
+//	[ProjectFunctions setFontColorForSegment:self.gameTypeSegment values:nil];
+	[self.mainSegment changeSegment];
 	[self computeStats];
 }
 
@@ -173,21 +166,6 @@
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
 
-		/*
-		
-		
-		
-		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
-		for(NSManagedObject *game in games) {
-			NSDate *startTime = [game valueForKey:@"startTime"];
-			float winnings = [[game valueForKey:@"winnings"] floatValue];
-			[self.gamesList addObject:[NSString stringWithFormat:@"%@|%f", [startTime convertDateToStringWithFormat:nil], winnings]];
-		}
-		
-		
-		[self.activityIndicator stopAnimating];
-		self.mainTableView.alpha=1;
-		 */
 		[self.mainTableView reloadData];
 	}
 }
@@ -211,13 +189,6 @@
 
 - (void) computeStats
 {
-	
- //   [self.activityIndicator startAnimating];
- //   self.mainTableView.alpha=0;
- //   self.gamesLabel.text = @"-";
- //   self.moneyLabel.text = @"-";
-//	[self.gamesList removeAllObjects];
-	
 	[self calculateStats];
 }
 
@@ -249,22 +220,9 @@
 }
 
 
-
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 1;
-//}
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return 44;
 }
-
-
-
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return [self.gamesList count];
-//}
 
 
 -(UIColor *)getFieldColor:(int)value
@@ -277,61 +235,20 @@
 }
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
 	
-	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	BOOL evenFlg=indexPath.row%2==0;
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%ldRow%ld", (long)indexPath.section, (long)indexPath.row];
 	GameCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
-	
-	NSString *type = [mo valueForKey:@"Type"];
-	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", [mo valueForKey:@"name"], [type substringToIndex:1]];
-//	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm a"]];
-	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", [mo valueForKey:@"hours"]];
-	cell.locationLabel.text = [mo valueForKey:@"location"];
-	cell.locationLabel.textColor = [UIColor purpleColor];
-	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[mo valueForKey:@"winnings"] intValue]]];
-	int buyin = [[mo valueForKey:@"buyInAmount"] intValue];
 
-	int rebuy = [[mo valueForKey:@"rebuyAmount"] intValue];
-	int winnings = [[mo valueForKey:@"winnings"] intValue];
-	if(winnings>=0)
-		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
-	else
-		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
-	
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Cash"]) {
-		cell.nameLabel.textColor = [UIColor blackColor];
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
-	} else {
-		cell.nameLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.6 alpha:1];
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
-	}
-	
-	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:buyin+rebuy winnings:winnings];
-	
-	
-	if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
-		cell.backgroundColor = [UIColor yellowColor];
-		cell.profitLabel.text = @"In Progress";
-		cell.profitLabel.textColor = [UIColor redColor];
-	}
-	
-	
-	
-	
+	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	[GameCell populateCell:cell obj:mo evenFlg:indexPath.row%2==0];
+
 	return cell;
 
-//	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%ldRow%ld", (long)indexPath.section, (long)indexPath.row];
-	
-	
-//	return [ProjectFunctions getGameCell:[self gameFromString:[self.gamesList objectAtIndex:indexPath.row] localContext:self.managedObjectContext] CellIdentifier:cellIdentifier tableView:tableView evenFlg:indexPath.row%2==0];
 }
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -392,7 +309,6 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSManagedObject *mo = [self gameFromString:[self.gamesList objectAtIndex:indexPath.row] localContext:self.managedObjectContext];
 	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	NSLog(@"+++month: %@", [mo valueForKey:@"month"]);
     if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {

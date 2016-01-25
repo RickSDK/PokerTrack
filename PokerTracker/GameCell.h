@@ -22,4 +22,7 @@
 			  dateLabel:(UILabel *)dateLabel
 		  locationLabel:(UILabel *)locationLabel
 			profitLabel:(UILabel *)profitLabel;
+
++(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg;
+
 @end

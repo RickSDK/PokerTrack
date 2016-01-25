@@ -339,7 +339,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	if(indexPath.section==0) {
 		NSString *type = [self.formDataArray stringAtIndex:kType];
 		NSArray *titles = nil;
@@ -434,8 +434,8 @@
 	if (cell == nil) {
 		cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:indexPath.row]];
-	cell.selection.text = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:(int)indexPath.row]];
+	cell.selection.text = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:(int)indexPath.row]];
 	cell.backgroundColor = [UIColor ATTFaintBlue];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
 	if(viewEditable)
@@ -443,7 +443,7 @@
 	else
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	
-	NSString *type = [NSString stringWithFormat:@"%@", [self.labelTypes stringAtIndex:indexPath.row]];
+	NSString *type = [NSString stringWithFormat:@"%@", [self.labelTypes stringAtIndex:(int)indexPath.row]];
 	
 	if([type isEqualToString:@"Text"]) {
 		cell.backgroundColor = [UIColor whiteColor];
@@ -463,7 +463,7 @@
 	
 	if([type isEqualToString:@"Money"]) {
 		cell.backgroundColor = [UIColor colorWithRed:.9 green:1 blue:.9 alpha:1]; 
-		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertTextToMoneyString:[self.formDataArray stringAtIndex:indexPath.row]]];
+		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertTextToMoneyString:[self.formDataArray stringAtIndex:(int)indexPath.row]]];
 	}
 	
 	if([type isEqualToString:@"None"]) {
@@ -471,9 +471,9 @@
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 	
-	if([[self.labelValues stringAtIndex:indexPath.row] isEqualToString:@"Profit"]) {
-		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[self.formDataArray stringAtIndex:indexPath.row] intValue]]];
-		if([[self.formDataArray stringAtIndex:indexPath.row] intValue]>=0)
+	if([[self.labelValues stringAtIndex:(int)indexPath.row] isEqualToString:@"Profit"]) {
+		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[self.formDataArray stringAtIndex:(int)indexPath.row] intValue]]];
+		if([[self.formDataArray stringAtIndex:(int)indexPath.row] intValue]>=0)
 			cell.selection.textColor = [UIColor ATTGreen];
 		else
  			cell.selection.textColor = [UIColor redColor];
@@ -495,8 +495,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here -- for example, create and push another view controller.
-    if(!viewEditable)
+	if(!viewEditable) {
+		[ProjectFunctions showAlertPopup:@"Not in edit mode" message:@"Press edit above to make changes"];
 		return;
+	}
 	if(indexPath.section==0)
 		return;
 	
@@ -505,10 +507,10 @@
 		[ProjectFunctions showConfirmationPopup:@"Warning!" message:@"Are you sure you want to delete this game?" delegate:self tag:101];
 		return;
 	}
-	selectedFieldIndex = indexPath.row;
-	NSString *type = [NSString stringWithFormat:@"%@", [self.labelTypes stringAtIndex:indexPath.row]];
-	NSString *labelValue = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:indexPath.row]];
-	NSString *dataValue = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:indexPath.row]];
+	selectedFieldIndex = (int)indexPath.row;
+	NSString *type = [NSString stringWithFormat:@"%@", [self.labelTypes stringAtIndex:(int)indexPath.row]];
+	NSString *labelValue = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:(int)indexPath.row]];
+	NSString *dataValue = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:(int)indexPath.row]];
 	
 	if([type isEqualToString:@"Time"]) {
 		DatePickerViewController *localViewController = [[DatePickerViewController alloc] init];
@@ -544,7 +546,7 @@
 
 		localViewController.initialDateValue = dataValue;
 		localViewController.titleLabel = labelValue;
-		localViewController.selectedList = indexPath.row;
+		localViewController.selectedList = (int)indexPath.row;
 
 		if(indexPath.row==kNumRebuys || (indexPath.row==kBlinds && [[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]))
 			localViewController.allowEditing=NO;

@@ -99,7 +99,7 @@
     
     // Configure the cell...
 //    cell.textLabel.text = [statsArray stringAtIndex:indexPath.row];
-    [cell.textLabel performSelectorOnMainThread:@selector(setText: ) withObject:[statsArray stringAtIndex:indexPath.row] waitUntilDone:YES];
+    [cell.textLabel performSelectorOnMainThread:@selector(setText: ) withObject:[statsArray stringAtIndex:(int)indexPath.row] waitUntilDone:YES];
  	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
    return cell;
@@ -114,7 +114,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
     CasinoListVC *detailViewController = [[CasinoListVC alloc] initWithNibName:@"CasinoListVC" bundle:nil];
-	detailViewController.stateCountry = [statsArray stringAtIndex:indexPath.row];
+	detailViewController.stateCountry = [statsArray stringAtIndex:(int)indexPath.row];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.currentLocation=currentLocation;
     [self.navigationController pushViewController:detailViewController animated:YES];

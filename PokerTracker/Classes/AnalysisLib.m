@@ -32,7 +32,7 @@
     NSString *currentYearStr = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
     NSPredicate *predicateYear = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@", currentYearStr];
     NSArray *gamesYear = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicateYear sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
-    int numGamesThisYear = [gamesYear count];
+    int numGamesThisYear = (int)[gamesYear count];
 
 	int currentYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 	int gameCount = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"gameCount" predicate:predicate limit:limit] intValue];
@@ -60,7 +60,7 @@
 	int amountRisked2=0;
 	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:NO];
 	NSArray *allTimeGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:NO];
-	int totalGameCount = [allTimeGames count];
+	int totalGameCount = (int)[allTimeGames count];
 	
 	if([games count]>0) {
 		NSManagedObject *fisrtGame = [games objectAtIndex:0];
@@ -615,7 +615,7 @@
         NSString *currentMonth = [[NSDate date] convertDateToStringWithFormat:@"MMMM"];
         NSPredicate *predicateMonth1 = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", currentYearStr, currentMonth];
         NSArray *gamesMonth = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicateMonth1 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:NO limit:10];
-        int numGamesThisMonth = [gamesMonth count];
+        int numGamesThisMonth = (int)[gamesMonth count];
         NSString *statsThisMonth = [CoreDataLib getGameStat:managedObjectContext dataField:@"analysis1" predicate:predicateMonth1];
         NSArray *thisMonStats = [statsThisMonth componentsSeparatedByString:@"|"];
         int winningsThis = [[thisMonStats stringAtIndex:5] intValue];
@@ -656,11 +656,11 @@
                 // best game this month
                 NSPredicate *predicateMonth = [NSPredicate predicateWithFormat:@"winnings > %d AND user_id = 0 AND year = %@ AND month = %@", winnings, currentYearStr, currentMonth];
                 
-                opening = [self getOpeningForTop5Games:opening numGames:[gamesMonth count] predicate:predicateMonth moc:managedObjectContext name:@"the month"];
+                opening = [self getOpeningForTop5Games:opening numGames:(int)[gamesMonth count] predicate:predicateMonth moc:managedObjectContext name:@"the month"];
                 
                 // best game this year
                 NSPredicate *predicateYear2 = [NSPredicate predicateWithFormat:@"winnings > %d AND user_id = 0 AND year = %@", winnings, currentYearStr];
-                opening = [self getOpeningForTop5Games:opening numGames:[gamesYear count] predicate:predicateYear2 moc:managedObjectContext name:@"the year"];
+                opening = [self getOpeningForTop5Games:opening numGames:(int)[gamesYear count] predicate:predicateYear2 moc:managedObjectContext name:@"the year"];
                 
                 
                 // best game all time
@@ -675,7 +675,7 @@
                 
 				NSPredicate *predicate = [NSPredicate predicateWithFormat:@"winnings < %d AND user_id = 0", winnings];
 				NSArray *worstGames = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:YES limit:5];
-				int place = [worstGames count]+1;
+				int place = (int)[worstGames count]+1;
 				if(place<=5 && totalGameCount>35)
 					opening = [NSString stringWithFormat:@"Rough night! Unfortunately you just had your %@ worst game of all time! Not fun.", [ProjectFunctions numberWithSuffix:place]];
 				if(place<=3 && totalGameCount>25)
@@ -1347,7 +1347,7 @@
                                name:(NSString *)name
 {
     NSArray *topGames = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"winnings" mOC:moc ascendingFlg:NO limit:5];
-    int place = [topGames count]+1;
+    int place = (int)[topGames count]+1;
     
     if(place>5)
         return opening;

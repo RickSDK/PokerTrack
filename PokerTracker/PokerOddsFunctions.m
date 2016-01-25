@@ -104,7 +104,7 @@
 	}
 	[sortedList sortUsingSelector:@selector(compare:)];	//sort the key
     
-    int sortedCount = [sortedList count];
+    int sortedCount = (int)[sortedList count];
     
 
     if(sortedCount>=6)
@@ -496,7 +496,7 @@
 		NSString *turn = [PokerOddsFunctions getRandomCard:burnedCards];
 		totals = [PokerOddsFunctions getPlayerResultsTotals:totals playerHands:playerHands flop:flop turn:turn];
 	}
-	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:totals numPlayers:[playerHands count]];
+	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:totals numPlayers:(int)[playerHands count]];
 }
 
 +(NSArray *)getPlayerResultsForFlop:(NSArray *)playerHands flop:(NSString *)flop
@@ -509,7 +509,7 @@
 		totals = [PokerOddsFunctions getPlayerResultsTotals:totals playerHands:playerHands flop:flop turn:[PokerOddsFunctions getSeededHand:burnedCards seed:i]];
 	}
 	//	NSLog(@"--------Stop");
-	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:totals numPlayers:[playerHands count]];
+	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:totals numPlayers:(int)[playerHands count]];
 	
 }
 
@@ -519,7 +519,7 @@
 	NSString *totals = @"0|0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0";
 	NSString *newTotals = [PokerOddsFunctions getPlayerResultsTotals:totals playerHands:playerHands flop:flop turn:turn];
 //	NSLog(newTotals);
-	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:newTotals numPlayers:[playerHands count]];
+	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:newTotals numPlayers:(int)[playerHands count]];
 	
 }
 

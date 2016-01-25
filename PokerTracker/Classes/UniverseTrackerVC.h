@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
+#import "CustomSegment.h"
 
 
 @interface UniverseTrackerVC : UIViewController {
@@ -18,9 +19,9 @@
 	IBOutlet UILabel *activityLabel;
 	IBOutlet UILabel *datelabel;
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UISegmentedControl *topSegment;
-	IBOutlet UISegmentedControl *sortSegment;
-	IBOutlet UISegmentedControl *timeFrameSegment;
+	IBOutlet CustomSegment *topSegment;
+	IBOutlet CustomSegment *sortSegment;
+	IBOutlet CustomSegment *timeFrameSegment;
 	IBOutlet UIButton *profileButton;
 	IBOutlet UIButton *friendButton;
     IBOutlet UIBarButtonItem *prevButton;

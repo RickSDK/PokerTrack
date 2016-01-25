@@ -156,7 +156,7 @@ static NSInteger FONT_SIZE			= 12;
 
 	cc.font = [UIFont systemFontOfSize:FONT_SIZE];
 	cc.textColor = [UIColor darkGrayColor];	// default color
-	cc.textAlignment = UITextAlignmentRight;
+	cc.textAlignment = NSTextAlignmentRight;
 	cc.backgroundColor = [UIColor clearColor];
 
 	bb.font = [UIFont systemFontOfSize:FONT_SIZE];
@@ -165,7 +165,7 @@ static NSInteger FONT_SIZE			= 12;
 
 	dd.font = [UIFont boldSystemFontOfSize:FONT_SIZE+1];
 	dd.textColor = [UIColor whiteColor];		// default gray color
-	dd.textAlignment = UITextAlignmentRight;
+	dd.textAlignment = NSTextAlignmentRight;
 	dd.backgroundColor = [UIColor clearColor];
     dd.shadowColor = [UIColor blackColor];
     dd.shadowOffset = CGSizeMake(1, 1);
@@ -185,12 +185,12 @@ static NSInteger FONT_SIZE			= 12;
 
 	cc.font = [UIFont systemFontOfSize:FONT_SIZE];
 	cc.textColor = [UIColor whiteColor];	
-	cc.textAlignment = UITextAlignmentRight;
+	cc.textAlignment = NSTextAlignmentRight;
 	cc.backgroundColor = [UIColor clearColor];
 	
 	dd.font = [UIFont systemFontOfSize:FONT_SIZE];
 	dd.textColor = [UIColor whiteColor];		
-	dd.textAlignment = UITextAlignmentRight;
+	dd.textAlignment = NSTextAlignmentRight;
 	dd.backgroundColor = [UIColor clearColor];
 }
 

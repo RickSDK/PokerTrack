@@ -51,7 +51,7 @@
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
-    [ProjectFunctions bankSegmentChangedTo:self.bankRollSegment.selectedSegmentIndex];
+    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
     [self computeStats];
 }
 

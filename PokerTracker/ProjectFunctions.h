@@ -47,12 +47,12 @@
 //Lite: 488925221
 //Pro:	475160109
 
-#define APPIRATER_APP_ID				(kIsLiteVersion)?488925221:475160109
+#define APPIRATER_APP_ID				475160109
 
 //Lite: Poker Track Lite
 //Pro:	Poker Track Pro
 
-#define APPIRATER_APP_NAME				(kIsLiteVersion)?@"Poker Track Lite":@"Poker Track Pro"
+#define APPIRATER_APP_NAME				@"Poker Track Pro"
 
 
 

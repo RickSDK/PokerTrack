@@ -272,14 +272,14 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     QuadWithImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[QuadWithImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
 	
-	NSManagedObject *mo = [playerList objectAtIndex:indexPath.row];
+	NSManagedObject *mo = [playerList objectAtIndex:(int)indexPath.row];
 	
     [cell.aa performSelectorOnMainThread:@selector(setText: ) withObject:[mo valueForKey:@"name"] waitUntilDone:YES];
 	int playerType = [[mo valueForKey:@"attrib_01"] intValue];

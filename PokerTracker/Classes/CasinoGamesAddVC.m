@@ -55,7 +55,7 @@
 - (IBAction) daySegmentPressed: (id) sender
 {
 	NSArray *days = [NSArray arrayWithObjects:@"Mondays", @"Tuesdays", @"Wednesdays", @"Thursdays", @"Fridays", @"Saturdays", @"Sundays", nil];
-	limit.text = [days stringAtIndex:dayOfWeekSegment.selectedSegmentIndex];
+	limit.text = [days stringAtIndex:(int)dayOfWeekSegment.selectedSegmentIndex];
 	[self updateGameName];
 }
 

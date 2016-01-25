@@ -87,7 +87,7 @@
 		 choppinghands[9]
 		 ];
 		
-		NSArray *preflopResults = [PokerOddsFunctions calculateTotalsandReturnTheStrings:totalsString numPlayers:[playerHands count]];
+		NSArray *preflopResults = [PokerOddsFunctions calculateTotalsandReturnTheStrings:totalsString numPlayers:(int)[playerHands count]];
 		int i=0;
 		for(NSString *value in preflopResults)
 			[playerPreFlopResults replaceObjectAtIndex:i++ withObject:value];
@@ -366,7 +366,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
 	if(indexPath.section==0) {
 		if(indexPath.row<[labelValues count]) {
@@ -515,7 +515,7 @@
 	if(startedCalculating)
 		return;
 	
-	self.selectedRow = indexPath.row;
+	self.selectedRow = (int)indexPath.row;
 	
 	
 	NSMutableArray *playerHands = [[NSMutableArray alloc] init];
@@ -536,7 +536,7 @@
 		detailViewController.callBackViewController=self;
 		detailViewController.numberCards=2;
 		detailViewController.initialDateValue = dataValue;
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:indexPath.row];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else 	if(selectedRow==numPlayers) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
@@ -545,7 +545,7 @@
 		detailViewController.callBackViewController=self;
 		detailViewController.initialDateValue = dataValue;
 		detailViewController.numberCards=3;
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:indexPath.row];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else if(selectedRow<=numPlayers+2) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
@@ -554,7 +554,7 @@
 		detailViewController.callBackViewController=self;
 		detailViewController.initialDateValue = dataValue;
 		detailViewController.numberCards=1;
-		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:indexPath.row];
+		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else {
 		if(boardFilledOut) {

@@ -130,6 +130,9 @@
 	NSString *username = [ProjectFunctions getUserDefaultValue:@"userName"];
 	NSString *password = [ProjectFunctions getUserDefaultValue:@"password"];
 	if([username length]==0) {
+		topSegment.enabled=NO;
+		sortSegment.enabled=NO;
+		timeFrameSegment.enabled=NO;
 		username = @"test@aol.com";
 		password = @"test123";
 	}
@@ -369,6 +372,7 @@
 
 - (IBAction) segmentChanged: (id) sender
 {
+	[topSegment changeSegment];
 	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
 		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please log in to view these features"];
 		return;
@@ -431,6 +435,7 @@
 	[self setTitle:@"Net Tracker"];
     
     timeFrameSegment.selectedSegmentIndex=1;
+	[timeFrameSegment changeSegment];
     [self.mainTableView setBackgroundView:nil];
 	
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"FRIEND" predicate:nil sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
@@ -498,14 +503,14 @@
 		UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.user=[userList objectAtIndex:indexPath.row];
-        detailViewController.selectedSegment=timeFrameSegment.selectedSegmentIndex;
+        detailViewController.selectedSegment=(int)timeFrameSegment.selectedSegmentIndex;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }
 
 - (IBAction) timeSegmentChanged: (id) sender
 {
-    
+	[timeFrameSegment changeSegment];
     if(timeFrameSegment.selectedSegmentIndex==2 && !friendModeOn) {
         timeFrameSegment.selectedSegmentIndex=0;
         [ProjectFunctions showAlertPopup:@"Notice" message:@"Year stats only available in friends mode"];

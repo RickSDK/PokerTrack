@@ -44,7 +44,7 @@
 +(NSString *)getResponseFromServerUsingPost:(NSString *)weblink fieldList:(NSArray *)fieldList valueList:(NSArray *)valueList;
 {
 	if([fieldList count] != [valueList count]) {
-		return [NSString stringWithFormat:@"Invalid value list! (%d, %d) %@", [fieldList count], [valueList count], weblink];
+		return [NSString stringWithFormat:@"Invalid value list! (%d, %d) %@", (int)[fieldList count], (int)[valueList count], weblink];
 	}
 	int i=0;
 	NSMutableString *fieldStr= [[NSMutableString alloc] init];
@@ -53,7 +53,7 @@
 	
 	NSString *responseString = nil;
 	NSData *postData = [fieldStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-	NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+	NSString *postLength = [NSString stringWithFormat:@"%d", (int)[postData length]];
     
     
  	NSURL *url = [NSURL URLWithString:weblink];

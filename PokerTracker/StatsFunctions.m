@@ -17,7 +17,7 @@
 +(UITableViewCell *)statsBreakdown:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title stats:(NSArray *)statsArray
 
 {
-	int NumberOfRows=[statsArray count];
+	int NumberOfRows=(int)[statsArray count];
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.4];
@@ -74,7 +74,7 @@
 
 
 +(MultiLineDetailCellWordWrap *)quarterlyStats:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title statsArray:(NSArray *)statsArray{
-	int NumberOfRows=[statsArray count];
+	int NumberOfRows=(int)[statsArray count];
 //	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 //	if (cell == nil) {
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.3];

@@ -17,12 +17,12 @@
 
 -(NSMutableString *)getDataForTheseRecords:(NSArray *)items keyList:(NSArray *)keyList
 {
-	NSMutableString *page = [NSMutableString stringWithCapacity:10000];
+	NSMutableString *page = [NSMutableString new];
 	
 	NSString *header = [keyList componentsJoinedByString:@"\t"];
 	[page appendFormat:@"%@\n", header];
 	for(NSManagedObject *mo in items) {
-		NSMutableString *line = [NSMutableString stringWithCapacity:10000];
+		NSMutableString *line = [NSMutableString new];
 		for(NSString *key in keyList) {
 			NSString *value = [mo valueForKey:key];
 			if([key isEqualToString:@"startTime"] || [key isEqualToString:@"endTime"] || [key isEqualToString:@"gameDate"] || [key isEqualToString:@"created"]) {
@@ -50,14 +50,19 @@
 	
 //	NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:@"data.xls"];
 	NSString *dataFile = [self getGameData];
+	NSLog(@"dataFile: %d bytes", (int)dataFile.length);
 	
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
 	picker.mailComposeDelegate = self;
+//	[picker setSubject:@"Test Title"];
+//	[picker setMessageBody:@"test" isHTML:NO];
+
+//	[picker setToRecipients:[NSArray arrayWithObject:@"test@test.com"]];
 	
-	[picker setSubject:@"Your PokerTrack Data"];
 	
-	
-	// Set up recipients
+	 [picker setSubject:@"Your PokerTrack Data"];
+
+	 // Set up recipients
 	NSArray *toRecipients = [NSArray arrayWithObject:[ProjectFunctions getUserDefaultValue:@"emailAddress"]]; 
 //	NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", @"third@example.com", nil]; 
 //	NSArray *bccRecipients = [NSArray arrayWithObject:@"fourth@example.com"]; 
@@ -76,18 +81,21 @@
 	
 	NSData *fileData = [dataFile dataUsingEncoding:NSUTF8StringEncoding];
 	[picker addAttachmentData:fileData mimeType:@"text/plain" fileName:@"data.xls"];
+//	[picker addAttachmentData:fileData mimeType:@"text/html" fileName:@"data.xls"];
 	
 	// Fill out the email body text
 	NSString *emailBody = @"Here is Your PokerTrack Data";
 	[picker setMessageBody:emailBody isHTML:NO];
+
+	[self presentViewController:picker animated:YES completion:nil];
 	
-	[self presentModalViewController:picker animated:YES];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
 {   
     // Notifies users about errors associated with the interface
 	NSString *resultStr = nil;
+	NSLog(@"didFinishWithResult");
     switch (result)
     {
         case MFMailComposeResultCancelled:
@@ -106,7 +114,7 @@
             resultStr = @"Not Sent";
             break;
     }
-    [self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 	[ProjectFunctions showAlertPopup:@"Email" message:resultStr];
 	[self.navigationController popViewControllerAnimated:YES];
 	

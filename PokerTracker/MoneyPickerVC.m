@@ -25,7 +25,7 @@
 
 	NSString *padded = [NSString stringWithFormat:@"%03d", [textField.text intValue]];
 	if(numberOfWheels>padded.length)
-		numberOfWheels=padded.length;
+		numberOfWheels=(int)padded.length;
 	
 	NSLog(@"+++%@ %d", padded, numberOfWheels);
 	
@@ -119,7 +119,7 @@
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	self.numberOfWheels = [textField.text length];
+	self.numberOfWheels = (int)[textField.text length];
 	if(numberOfWheels<3)
 		self.numberOfWheels=3;
 	return numberOfWheels;
@@ -131,13 +131,13 @@
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	return [NSString stringWithFormat:@"%d", row];
+	return [NSString stringWithFormat:@"%d", (int)row];
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	NSMutableString *value = [NSMutableString stringWithCapacity:100];
 	for(int i=0; i<numberOfWheels; i++)
-		[value appendFormat:@"%d", [pickerView selectedRowInComponent:i]];
+		[value appendFormat:@"%d", (int)[pickerView selectedRowInComponent:i]];
 
 	self.textField.text = [NSString stringWithFormat:@"%d", [value intValue]]; // needed to remove leading zeros
 }

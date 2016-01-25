@@ -52,6 +52,7 @@
 	IBOutlet UIImageView *graphChart;
 	IBOutlet UIImageView *largeGraph;
 	IBOutlet UIImageView *analysisBG;
+	IBOutlet UIView *playerTypeView;
 	
 	IBOutlet UITextView *aboutText;
 	

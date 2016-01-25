@@ -85,7 +85,7 @@
     }
     
 
-    [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", [self.userList count]] forKey:@"FriendsCount"];
+    [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)[self.userList count]] forKey:@"FriendsCount"];
     
     
 	[mainTableView reloadData];
@@ -176,7 +176,7 @@
 	NSArray *valueList = [NSArray arrayWithObjects:username, password, localFlg, dateText, friendFlg, nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/pokerFriendTracker.php";
 	NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
-        NSLog(@"Size of response: %d", [responseStr length]);
+        NSLog(@"Size of response: %d", (int)[responseStr length]);
         if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
             
             [last10MoneyAllList removeAllObjects];
@@ -320,7 +320,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    NSLog(@"++++%d", [self.userList count]);
     if(section==0)
         return 1;
     else
@@ -335,7 +334,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     if(indexPath.section==0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -385,7 +384,7 @@
     NSArray *lastGameFields = [lastGame componentsSeparatedByString:@"|"];
 	
     
-	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", indexPath.row+1, [basicsFields stringAtIndex:0]];
+	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", (int)indexPath.row+1, [basicsFields stringAtIndex:0]];
 	int uid = [[basicsFields stringAtIndex:1] intValue];
 	int user_id = [[basicsFields stringAtIndex:6] intValue];
 	NSString *friendStatus = [basicsFields stringAtIndex:7];
@@ -657,7 +656,7 @@
 		UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.user=[self.userList objectAtIndex:indexPath.row];
-        detailViewController.selectedSegment=timeFrameSegment.selectedSegmentIndex;
+        detailViewController.selectedSegment=(int)timeFrameSegment.selectedSegmentIndex;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }

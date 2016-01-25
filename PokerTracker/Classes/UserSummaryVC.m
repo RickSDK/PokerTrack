@@ -419,7 +419,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
   
     if(indexPath.row==0) {
         ImageCell *cell = (ImageCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -436,7 +436,7 @@
         return cell;
 
     }
-    int NumberOfRows=[values count];
+    int NumberOfRows=(int)[values count];
     
     MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {

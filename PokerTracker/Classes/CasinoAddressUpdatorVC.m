@@ -167,7 +167,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	selection=indexPath.row;
+	selection=(int)indexPath.row;
 	if(selection==0) {
 		ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 		detailViewController.initialDateValue = [valueArray objectAtIndex:indexPath.row];

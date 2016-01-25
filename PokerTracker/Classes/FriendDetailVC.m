@@ -124,7 +124,7 @@
 - (IBAction) segmentChanged: (id) sender 
 {
 	int lastYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]-1;
-	self.displayYear = lastYear + yearSegment.selectedSegmentIndex;
+	self.displayYear = lastYear + (int)yearSegment.selectedSegmentIndex;
 	[mainTableView reloadData];
 }
 
@@ -206,7 +206,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 	NSArray *titles = [NSArray arrayWithObjects:@"Stats", @"Last 10 Games", nil];
-	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:section]];
+	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -232,12 +232,12 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 
 
 	if(indexPath.section==0) {
 		NSArray *titles = [NSArray arrayWithObjects:@"Games", @"Hours Played", @"Profit", @"Hourly Rate", nil];
-		int NumberOfRows=[titles count];
+		int NumberOfRows=(int)[titles count];
 
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 		if (cell == nil) {

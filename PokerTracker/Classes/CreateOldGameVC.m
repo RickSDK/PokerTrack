@@ -141,7 +141,7 @@
 		NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:managedObjectContext];
 
         if([ProjectFunctions isLiteVersion] && [games count]>20) {
-            [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please purchase the full version at this time. you can export/import all your games by clicking 'More' from the main menu."];
+            [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please upgrade to the full version to gain unlimited use of this app."];
             return;
         }
 	

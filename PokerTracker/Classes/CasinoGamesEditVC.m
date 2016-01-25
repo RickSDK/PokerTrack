@@ -73,7 +73,7 @@
     }
 	
 	cell.textLabel.text = [gamesArray objectAtIndex:indexPath.row];
-	if([[checkboxes stringAtIndex:indexPath.row] isEqualToString:@"Y"])
+	if([[checkboxes stringAtIndex:(int)indexPath.row] isEqualToString:@"Y"])
 		cell.imageView.image = [UIImage imageNamed:@"SelectedCheckBox.png"];
 	else 
 		cell.imageView.image = [UIImage imageNamed:@"UnSelectedCheckBox.png"];
@@ -151,7 +151,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if([[checkboxes stringAtIndex:indexPath.row] isEqualToString:@"Y"])
+	if([[checkboxes stringAtIndex:(int)indexPath.row] isEqualToString:@"Y"])
 		[checkboxes replaceObjectAtIndex:indexPath.row withObject:@"N"];
 	else 
 		[checkboxes replaceObjectAtIndex:indexPath.row withObject:@"Y"];

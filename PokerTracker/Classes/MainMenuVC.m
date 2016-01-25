@@ -33,6 +33,7 @@
 #import "FriendTrackerVC.h"
 #import "PlayerTrackerVC.h"
 #import "DatePickerViewController.h"
+#import "UpgradeVC.h"
 
 
 @implementation MainMenuVC
@@ -45,18 +46,6 @@
 @synthesize aboutButton, playerTypeLabel, forumNumLabel, forumNumCircle, activityIndicatorNet, activityIndicatorData;
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
-	
-	[self calculateStats];
-	[self findMinAndMaxYear];
-	
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setupData];
@@ -96,10 +85,7 @@
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
 		if([items count]==0) {
 			self.alertViewNum=99;
-			if([ProjectFunctions isLiteVersion])
-				[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Lite!" delegate:self];
-			else
-				[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Pro!" delegate:self];
+			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Pro!" delegate:self];
 		}
 	}
 	
@@ -162,8 +148,9 @@
 	
 	if([ProjectFunctions isLiteVersion]) {
 		upgradeButton.alpha=1;
+		playerTypeView.alpha=0;
 		analysisButton.alpha=0;
-		self.playerTypeLabel.alpha=0;
+		playerTypeLabel.alpha=0;
 		analysisBG.alpha=0;
 	}
 	
@@ -174,6 +161,17 @@
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
 	}
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	[self calculateStats];
+	[self findMinAndMaxYear];
+	
 }
 
 
@@ -385,8 +383,13 @@
 	}
 	if(rotateLock)
 		return;
-	self.alertViewNum=2;
-	[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"You can import your existing games into the Pro version after exporting them from this app. Click 'More' button above for options" delegate:self];
+
+	UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+	
+//	self.alertViewNum=2;
+//	[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"You can import your existing games into the Pro version after exporting them from this app. Click 'More' button above for options" delegate:self];
 	
 }
 
@@ -441,7 +444,7 @@
 	
 	NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:managedObjectContext];
     if([games count]>=10 && [ProjectFunctions isLiteVersion]) {
-        [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please purchase the full version at this time. You can export/import all your games by clicking 'More' from the main menu."];
+        [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please upgrade to the full version to gain unlimited use of this app."];
         return;
     }
 	StartNewGameVC *detailViewController = [[StartNewGameVC alloc] initWithNibName:@"StartNewGameVC" bundle:nil];
@@ -713,11 +716,11 @@
     if(self.displayYear==0)
         self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
     
-    int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear"] intValue];
+    int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
     int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
     
     if(currentMinYear != [minYear intValue])
-        [ProjectFunctions setUserDefaultValue:minYear forKey:@"minYear"];
+        [ProjectFunctions setUserDefaultValue:minYear forKey:@"minYear2"];
     if(currentMaxYear != [maxYear intValue])
         [ProjectFunctions setUserDefaultValue:maxYear forKey:@"maxYear"];
 	

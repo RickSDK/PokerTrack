@@ -19,15 +19,15 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		self.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];	// label is 17, system is 14
-		self.textLabel.textAlignment = UITextAlignmentLeft;
+		self.textLabel.textAlignment = NSTextAlignmentLeft;
 
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		
         selection = [[UILabel alloc] initWithFrame:CGRectZero];
         selection.font = [UIFont systemFontOfSize:[UIFont labelFontSize]];
 		selection.adjustsFontSizeToFitWidth = YES;
-		selection.minimumFontSize = [UIFont labelFontSize] - 2;
-		selection.textAlignment = UITextAlignmentRight;
+		selection.minimumScaleFactor = .7;
+		selection.textAlignment = NSTextAlignmentRight;
 		selection.textColor = [UIColor ATTBlue];
         selection.backgroundColor = [UIColor clearColor];
 		

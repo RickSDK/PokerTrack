@@ -9,6 +9,7 @@
 #import "UnLockAppVC.h"
 #import "ProjectFunctions.h"
 #import "SoundsLib.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface UnLockAppVC ()
 
@@ -136,13 +137,58 @@
     
 	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Open" style:UIBarButtonItemStylePlain target:self action:@selector(openButtonClicked:)];
 	self.navigationItem.leftBarButtonItem = homeButton;
-    // Do any additional setup after loading the view from its nib.
+
+	[self lockAppMethod];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)lockAppMethod {
+	LAContext *myContext = [[LAContext alloc] init];
+	NSError *authError = nil;
+	NSString *myLocalizedReasonString = @"Authenticate using TouchID";
+	
+	if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
+		
+		[myContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+				  localizedReason:myLocalizedReasonString
+							reply:^(BOOL succes, NSError *error) {
+								
+								if (succes) {
+									dispatch_async(dispatch_get_main_queue(), ^{
+										[self openDoor];
+										NSLog(@"User is authenticated successfully");
+									});
+								} else {
+									dispatch_async(dispatch_get_main_queue(), ^{
+										switch (error.code) {
+											case LAErrorAuthenticationFailed:
+												[ProjectFunctions showAlertPopup:@"Authentication Failed" message:authError.description];
+												NSLog(@"Authentication Failed");
+												break;
+												
+											case LAErrorUserCancel:
+												NSLog(@"User pressed Cancel button");
+												break;
+												
+											case LAErrorUserFallback:
+												break;
+												
+											default:
+												[ProjectFunctions showAlertPopup:@"Touch ID is not configured" message:authError.description];
+												NSLog(@"Touch ID is not configured");
+												break;
+										}
+										NSLog(@"Authentication Fails");
+									});
+								}
+							}];
+	} else {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"Can not evaluate Touch ID");
+		});
+		
+	}
 }
+
 
 @end

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CustomSegment.h"
 
 
 @interface NewGameBuyin : UIViewController <CLLocationManagerDelegate> {
     NSManagedObjectContext *managedObjectContext;
-	IBOutlet UISegmentedControl *gameTypeSegmentBar;
+	IBOutlet CustomSegment *gameTypeSegmentBar;
 	IBOutlet UIButton *buyinAmountButton;
 	IBOutlet UIButton *continueButton;
 	IBOutlet UILabel *gpslabel;
@@ -38,7 +39,7 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) UISegmentedControl *gameTypeSegmentBar;
+@property (nonatomic, strong) CustomSegment *gameTypeSegmentBar;
 @property (nonatomic, strong) UIButton *buyinAmountButton;
 @property (nonatomic, strong) UIButton *retryButton;
 @property (nonatomic, strong) UIButton *continueButton;

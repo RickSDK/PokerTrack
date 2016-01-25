@@ -147,7 +147,7 @@
 		NSString *lng = [ProjectFunctions getLongitudeFromLocation:currentLocation decimalPlaces:6];
 
 		NSArray *distances = [NSArray arrayWithObjects:@"10", @"25", @"100", nil];
-		NSString *distanceStr = [distances stringAtIndex:distanceSegment.selectedSegmentIndex];
+		NSString *distanceStr = [distances stringAtIndex:(int)distanceSegment.selectedSegmentIndex];
 
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"lat", @"lng", @"distance", nil];
 		NSArray *valueList = [NSArray arrayWithObjects:@"test@test.com", @"test", lat, lng, distanceStr, nil];
@@ -280,6 +280,7 @@
 
 - (IBAction) segmentPressed: (id) sender
 {
+	[distanceSegment changeSegment];
 	if(!currentLyLookingFlg)
 		[self locateCasinos];
 }
@@ -368,7 +369,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     QuadWithImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {

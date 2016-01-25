@@ -59,15 +59,15 @@
         }
             break;
         case 1: {
-            [self postNewMessage:buttonIndex];
+            [self postNewMessage:(int)buttonIndex];
         }
             break;
         case 2: {
-            [self postNewMessage:buttonIndex];
+            [self postNewMessage:(int)buttonIndex];
         }
             break;
         case 3: {
-            [self postNewMessage:buttonIndex];
+            [self postNewMessage:(int)buttonIndex];
         }
             break;
             
@@ -160,7 +160,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     ForumCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell==nil)
         cell = [[ForumCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -252,17 +252,17 @@
     if(indexPath.row==0) {
         ForumCategoryVC *detailViewController = [[ForumCategoryVC alloc] initWithNibName:@"ForumCategoryVC" bundle:nil];
         detailViewController.managedObjectContext = self.managedObjectContext;
-        detailViewController.category=indexPath.section;
+        detailViewController.category=(int)indexPath.section;
         [self.navigationController pushViewController:detailViewController animated:YES];
     } else {
         if(0) {
             ForumCreateVC *detailViewController = [[ForumCreateVC alloc] initWithNibName:@"ForumCreateVC" bundle:nil];
-            detailViewController.category=indexPath.section;
+            detailViewController.category=(int)indexPath.section;
             [self.navigationController pushViewController:detailViewController animated:YES];
         } else {
             ForumPostVC *detailViewController = [[ForumPostVC alloc] initWithNibName:@"ForumPostVC" bundle:nil];
             detailViewController.managedObjectContext = self.managedObjectContext;
-            detailViewController.category=indexPath.section;
+            detailViewController.category=(int)indexPath.section;
             detailViewController.postStr=[[self.forumPostings objectAtIndex:indexPath.section] objectAtIndex:indexPath.row-1];
             [self.navigationController pushViewController:detailViewController animated:YES];
         }

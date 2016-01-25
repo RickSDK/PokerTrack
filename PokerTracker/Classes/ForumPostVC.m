@@ -41,7 +41,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+    NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
     if(indexPath.section==0 && indexPath.row==0) {
         ForumCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -105,7 +105,7 @@
     }
     
     if(selectAllFlg || (postSelectedFlg && postSelectedRow==indexPath.row)) {
-        cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection2x%dRow%d", indexPath.section, indexPath.row];
+        cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection2x%dRow%d", (int)indexPath.section, (int)indexPath.row];
         MultiLineDetailCellWordWrap *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
         if(cell==nil)
@@ -137,7 +137,7 @@
 
     NSArray *parts = [post componentsSeparatedByString:@"|"];
     if([parts count]>11) {
-        cell.titleLabel.text=[NSString stringWithFormat:@"Reply #%d", indexPath.row+1];
+        cell.titleLabel.text=[NSString stringWithFormat:@"Reply #%d", (int)indexPath.row+1];
         cell.userLabel.text=[parts objectAtIndex:5];
         cell.dateLabel.text=[parts objectAtIndex:7];
         int minutes = [[parts objectAtIndex:6] intValue];
@@ -205,7 +205,7 @@
 	}
     
     if(selectAllFlg || (postSelectedFlg && postSelectedRow==indexPath.row && indexPath.section==1)) {
-        NSString *body = [self postBodyAtIndex:indexPath.row];
+        NSString *body = [self postBodyAtIndex:(int)indexPath.row];
 
         NSArray *data = [NSArray arrayWithObject:body];
  		return [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:data
@@ -256,9 +256,9 @@
     }
     if(indexPath.section==1) {
         postSelectedFlg=!postSelectedFlg;
-        self.replyBody = [self postBodyAtIndex:indexPath.row];
+        self.replyBody = [self postBodyAtIndex:(int)indexPath.row];
     }
-    postSelectedRow=indexPath.row;
+    postSelectedRow=(int)indexPath.row;
     [mainTableView reloadData];
 }
 

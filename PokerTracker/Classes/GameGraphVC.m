@@ -52,12 +52,13 @@
 	float cashoutAmount = [[self.mo valueForKey:@"cashoutAmount"] floatValue];
 	float buyInAmount = [[self.mo valueForKey:@"buyInAmount"] floatValue];
 	float rebuyAmount = [[self.mo valueForKey:@"rebuyAmount"] floatValue];
-	float winnings = cashoutAmount+foodMoney-buyInAmount-rebuyAmount;
 	
 	int tokes = [[mo valueForKey:@"tokes"] intValue];
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		tokes=0;
+		foodMoney=0;
 	}
+	float winnings = cashoutAmount+foodMoney-buyInAmount-rebuyAmount;
 	
 	self.notesView.hidden=YES;
 	

@@ -206,7 +206,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", indexPath.section, indexPath.row];
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
     
 	SelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
@@ -240,7 +240,7 @@
 	if(!viewEditable)
 		return;
 	
-	self.selectedRow=indexPath.row;
+	self.selectedRow=(int)indexPath.row;
     NSString *initalState = [ProjectFunctions getUserDefaultValue:@"UserState"];
     if([initalState length]==0)
         initalState = @"Select";

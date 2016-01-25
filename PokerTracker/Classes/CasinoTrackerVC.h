@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "LocationGetter.h"
 #import <CoreLocation/CoreLocation.h>
+#import "CustomSegment.h"
 //#import <MapKit/MapKit.h>
 
 
 @interface CasinoTrackerVC : UIViewController <CLLocationManagerDelegate> {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIButton *locateButton;
-	IBOutlet UISegmentedControl *distanceSegment;
+	IBOutlet CustomSegment *distanceSegment;
 	CLLocationManager *locationManager;
 	CLLocation *currentLocation;
 	IBOutlet UIActivityIndicatorView *activityIndicator;

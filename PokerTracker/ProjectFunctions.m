@@ -53,24 +53,29 @@
     
 //    NSString *softwareVersion = (__bridge NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey); // added RM
 	
-    NSString *lite = (kIsLiteVersion)?@"L":@"";
+    NSString *lite = ([self isLiteVersion])?@"L":@"";
     
     return [NSString stringWithFormat:@"Version %@%@ (%@)", version, lite, model];
 }
 
 +(BOOL)isLiteVersion
 {
-    if(kIsLiteVersion)
-        return YES;
-    else
-        return NO;
+//	return YES;
+	if([ProjectFunctions getUserDefaultValue:@"proVersion"].length>0)
+		return NO;
+	if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
+		return NO;
+	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
+		return NO;
+
+    return YES;
 }
 
 +(NSString *)getAppID
 {
-	if([ProjectFunctions isLiteVersion])
-		return @"488925221";
-	else 
+//	if([ProjectFunctions isLiteVersion])
+//		return @"488925221";
+//	else
 		return @"475160109";
 }
 
@@ -1586,7 +1591,7 @@
     int prevYear = displayYear-1;
 	int nextYear = displayYear+1;
 
-    int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear"] intValue];
+    int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
     NSString *maxYearStr = [ProjectFunctions getUserDefaultValue:@"maxYear"];
 
     int maxYear = [maxYearStr intValue];
@@ -1765,37 +1770,8 @@
 		cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
-	NSString *type = [mo valueForKey:@"Type"];
-	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", [mo valueForKey:@"name"], [type substringToIndex:1]];
-	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", [mo valueForKey:@"hours"]];
-	cell.locationLabel.text = [mo valueForKey:@"location"];
-    cell.locationLabel.textColor = [UIColor purpleColor];
-	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[mo valueForKey:@"winnings"] intValue]]];
-	int buyin = [[mo valueForKey:@"buyInAmount"] intValue];
-	int rebuy = [[mo valueForKey:@"rebuyAmount"] intValue];
-	int winnings = [[mo valueForKey:@"winnings"] intValue];
-	if(winnings>=0)
-		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
-	else
-		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
-	
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Cash"]) {
-		cell.nameLabel.textColor = [UIColor blackColor];
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
-	} else {
-		cell.nameLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.6 alpha:1];
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
-	}
-	
-    cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:buyin+rebuy winnings:winnings];
+	[GameCell populateCell:cell obj:mo evenFlg:evenFlg];
 
-
-	if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
-		cell.backgroundColor = [UIColor yellowColor];
-		cell.profitLabel.text = @"In Progress";
-		cell.profitLabel.textColor = [UIColor redColor];
-	}
 	
 	
 
@@ -3085,7 +3061,7 @@
 + (NSString *)formatTelNumberForCalling:(NSString *)phoneNumber
 {
 	phoneNumber = [NSString removeTelephoneFormatting:phoneNumber];
-	int len = [phoneNumber length];
+	int len = (int)[phoneNumber length];
 	
 	if (len>=11 && [[phoneNumber substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {
 		phoneNumber = [phoneNumber substringWithRange:NSMakeRange(1, len-1)];
@@ -3241,7 +3217,7 @@
 	
 	UIImage *newImg = [ProjectFunctions imageWithImage:img newSize:newSize];
 	NSData *imgData = UIImageJPEGRepresentation(newImg, 1.0);
-	return [NSString base64StringFromData:imgData length:[imgData length]];
+	return [NSString base64StringFromData:imgData length:(int)[imgData length]];
 }
 
 +(NSData *)convertBase64StringToData:(NSString *)imgString
@@ -3510,7 +3486,7 @@
 {
     NSPredicate *predicateBank = [NSPredicate predicateWithFormat:@"bankroll <> %@ ", @"Default"];
     NSArray *gamesBank = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicateBank sortColumn:@"" mOC:moc ascendingFlg:YES];
-    int numBanks = [gamesBank count];
+    int numBanks = (int)[gamesBank count];
     int oldNumBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
     if(numBanks != oldNumBanks)
         [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", numBanks] forKey:@"numBanks"];
@@ -3554,7 +3530,7 @@
 +(UIBarButtonItem *)navigationButtonWithTitle:(NSString *)title selector:(SEL)selector target:(id)target
 {
 	float fontSize=14;
-	int width=40+title.length*7;
+	int width=40+(int)title.length*7;
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	[button setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
 	[button setTitle:title forState:UIControlStateNormal];
@@ -3570,14 +3546,14 @@
 
 +(void)updateGamesOnDevice:(NSManagedObjectContext *)context {
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
-	NSLog(@"+++gamesOnDevice: %d", allGames.count);
-	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", allGames.count] forKey:@"gamesOnDevice"];
+	NSLog(@"+++gamesOnDevice: %d", (int)allGames.count);
+	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnDevice"];
 }
 
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context {
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
-	NSLog(@"+++gamesOnServer: %d", allGames.count);
-	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", allGames.count] forKey:@"gamesOnServer"];
+	NSLog(@"+++gamesOnServer: %d", (int)allGames.count);
+	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnServer"];
 }
 
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {

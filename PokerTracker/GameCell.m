@@ -7,6 +7,9 @@
 //
 
 #import "GameCell.h"
+#import "GameObj.h"
+#import "ProjectFunctions.h"
+#import "NSDate+ATTDate.h"
 
 @implementation GameCell
 
@@ -100,14 +103,38 @@
 }
 
 
-- (void)awakeFromNib {
-    // Initialization code
++(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg {
+	GameObj *gameObj = [GameObj gameObjFromDBObj:mo];
+	
+	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", gameObj.name, [gameObj.type substringToIndex:1]];
+	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [gameObj.startTime convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
+	cell.locationLabel.text = gameObj.location;
+	cell.locationLabel.textColor = [UIColor purpleColor];
+	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];
+	
+	if(gameObj.profit>=0)
+		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
+	else
+		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
+	
+	if(gameObj.cashGameFlg) {
+		cell.nameLabel.textColor = [UIColor blackColor];
+		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
+	} else {
+		cell.nameLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.6 alpha:1];
+		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
+	}
+	
+	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:gameObj.buyInAmount+gameObj.reBuyAmount winnings:gameObj.profit];
+	
+	
+	if([gameObj.status isEqualToString:@"In Progress"]) {
+		cell.backgroundColor = [UIColor yellowColor];
+		cell.profitLabel.text = @"In Progress";
+		cell.profitLabel.textColor = [UIColor redColor];
+	}
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

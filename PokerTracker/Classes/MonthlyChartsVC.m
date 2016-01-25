@@ -53,7 +53,7 @@
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
-    [ProjectFunctions bankSegmentChangedTo:self.bankRollSegment.selectedSegmentIndex];
+    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
     [self computeStats];
 }
 
@@ -624,7 +624,7 @@
 	} // <-- section==2
 	
 	
-	int NumberOfRows=[titles count];
+	int NumberOfRows=(int)[titles count];
 	MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.35];
 	cell.mainTitle = mainTitle;
 	

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
 
 
-@interface CasinoStatsVC : UIViewController {
+@interface CasinoStatsVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UITableView *mainTableView;
