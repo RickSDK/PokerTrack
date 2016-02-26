@@ -12,6 +12,7 @@
 @interface FiltersVC : UIViewController {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
+	NSManagedObject *filterObj;
 	int displayYear;
 	NSString *gameType;
 
@@ -23,6 +24,8 @@
 	IBOutlet UIImageView *chartImageView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UILabel *yearLabel;
+	IBOutlet UILabel *currentFilterLabel;
+	IBOutlet UILabel *timeFramLabel;
 	IBOutlet UIButton *leftYear;
 	IBOutlet UIButton *rightYear;
 	IBOutlet UIToolbar *yearToolbar;
@@ -33,6 +36,7 @@
 	NSMutableArray *formDataArray;
 	NSMutableArray *gamesList;
 	int selectedFieldIndex;
+	int buttonNum;
 	BOOL displayBySession;
 	BOOL viewLocked;
 	
@@ -40,18 +44,22 @@
 }
 
 -(void)setFilterIndex:(int)row_id;
+-(void)chooseFilterObj:(NSManagedObject *)mo;
 
-- (IBAction) yearSegmentPressed: (id) sender;
-- (IBAction) gameSegmentPressed: (id) sender;
-- (IBAction) customSegmentPressed: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
-- (IBAction) yearGoesUp: (id) sender;
+//- (IBAction) yearSegmentPressed: (id) sender;
+//- (IBAction) gameSegmentPressed: (id) sender;
+//- (IBAction) customSegmentPressed: (id) sender;
+//- (IBAction) yearGoesDown: (id) sender;
+//- (IBAction) yearGoesUp: (id) sender;
 -(void) computeStats;
 -(void)initializeFormData;
 -(BOOL)saveNewFilter:(NSString *)valueCombo;
 
+@property (atomic, strong) UILabel *currentFilterLabel;
+@property (atomic, strong) UILabel *timeFramLabel;
 @property (atomic, strong) NSMutableArray *gamesList;
 @property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (atomic, strong) NSManagedObject *filterObj;
 @property (atomic) int selectedFieldIndex;
 @property (atomic) BOOL displayBySession;
 @property (atomic) BOOL viewLocked;
@@ -60,6 +68,8 @@
 @property (atomic, strong) UISegmentedControl *customSegment;
 
 @property (atomic) int displayYear;
+@property (atomic) int buttonNum;
+
 @property (atomic, strong) UILabel *yearLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;

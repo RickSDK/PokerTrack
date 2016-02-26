@@ -20,6 +20,7 @@
 @property (strong, nonatomic) SKProduct *proUpgradeProduct;
 @property (strong, nonatomic) SKProductsRequest *productsRequest;
 @property (strong, nonatomic) NSString *productID;
+@property (nonatomic) int touchCount;
 
 - (void)loadStore;
 - (BOOL)canMakePurchases;
@@ -27,7 +28,6 @@
 
 - (IBAction) upgradeButtonPressed: (id) sender;
 - (IBAction) restoreButtonPressed: (id) sender;
-- (IBAction) promoCodeButtonPressed: (id) sender;
 - (IBAction) submitButtonPressed: (id) sender;
 
 @end

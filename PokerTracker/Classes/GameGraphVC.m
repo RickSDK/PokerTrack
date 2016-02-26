@@ -19,6 +19,7 @@
 #import "MultiLineDetailCellWordWrap.h"
 #import "MultiLineObj.h"
 #import "ChipStackObj.h"
+#import "IGAVC.h"
 
 
 @implementation GameGraphVC
@@ -36,6 +37,11 @@
 	MainMenuVC *detailViewController = [[MainMenuVC alloc] initWithNibName:@"MainMenuVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[detailViewController calculateStats];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) pprButtonPressed: (id) sender {
+	IGAVC *detailViewController = [[IGAVC alloc] initWithNibName:@"IGAVC" bundle:nil];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -93,11 +99,6 @@
 	
 	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Buyin" value:[ProjectFunctions convertNumberToMoneyString:buyInAmount] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Cashout" value:[ProjectFunctions convertNumberToMoneyString:cashoutAmount] color:[UIColor blackColor]]];
-	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Food/Drink" value:[NSString stringWithFormat:@"%d", foodMoney] color:[UIColor blackColor]]];
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Tokes" value:[NSString stringWithFormat:@"%d", tokes] color:[UIColor blackColor]]];
-	
 	if(rebuyAmount>0) {
 		int numRebuys = [[mo valueForKey:@"numRebuys"] intValue];
 		if(numRebuys<1)
@@ -108,6 +109,11 @@
 		
 	}
 	
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Food/Drink" value:[NSString stringWithFormat:@"%d", foodMoney] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Tokes" value:[NSString stringWithFormat:@"%d", tokes] color:[UIColor blackColor]]];
+	
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Cashout" value:[ProjectFunctions convertNumberToMoneyString:cashoutAmount] color:[UIColor blackColor]]];
+	
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		minutes = [endTime timeIntervalSinceDate:[mo valueForKey:@"startTime"]]/60;
 	}
@@ -115,6 +121,8 @@
 	UIColor *profitColor = (winnings>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
 	
 	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Net Profit" value:[ProjectFunctions convertNumberToMoneyString:winnings] color:profitColor]];
+	
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"PPR" value:[NSString stringWithFormat:@"%d", self.gameObj.ppr] color:profitColor]];
 	
 	NSString *hourlyStr = @"-";
 	if(minutes>0)
@@ -197,6 +205,7 @@
 	self.pointsArray = [[NSArray alloc] init];
 	
 	[self deselectChart];
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
 
 	
 	self.gameGraphView.layer.cornerRadius = 7;
@@ -204,6 +213,7 @@
 	self.gameGraphView.layer.borderColor = [UIColor blackColor].CGColor;
 	self.gameGraphView.layer.borderWidth = 2.;
 
+	self.pprLabel.text = [NSString stringWithFormat:@"%d", self.gameObj.ppr];
 	
 	int game_id = [[mo valueForKey:@"game_id"] intValue];
 	if(game_id==0) {

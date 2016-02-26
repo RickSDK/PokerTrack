@@ -13,9 +13,28 @@
 #import "ProjectFunctions.h"
 
 @implementation FilterListVC
-@synthesize managedObjectContext, filterList, callBackViewController, mainTableView, editMode;
-@synthesize editButton, filterSegment, selectedRowId, detailsButton;
+@synthesize managedObjectContext, filterList, callBackViewController, mainTableView, editMode, filterObj;
+@synthesize editButton, filterSegment, selectedRowId, detailsButton, selectedButton, maxFilterId;
 
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Filters"];
+	
+	NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
+	for(NSManagedObject *mo in filters) {
+		int row_id = [[mo valueForKey:@"row_id"] intValue];
+		if(row_id==0) {
+			self.maxFilterId++;
+			[mo setValue:[NSNumber numberWithInt:self.maxFilterId] forKey:@"row_id"];
+			[self.managedObjectContext save:nil];
+		}
+	}
+	self.filterList = [[NSMutableArray alloc] initWithArray:filters];
+	
+	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+}
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -26,8 +45,6 @@
 	self.detailsButton.enabled=NO;
 	
 	[self checkCustomSegment];
-	
-//	self.filterSegment.enabled=NO;
 	
 	[self reloadView];
 
@@ -44,17 +61,6 @@
 		}
 	}
 	
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Filters"];
-	
-	self.filterList = [[NSMutableArray alloc] initWithArray:[CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES]];
-
- 	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -86,10 +92,12 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	NSManagedObject *mo = [self.filterList objectAtIndex:indexPath.row];
 	int button = [[mo valueForKey:@"button"] intValue];
+	int row_id = [[mo valueForKey:@"row_id"] intValue];
+
 	if(button<=3)
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ (filter: %d)", [mo valueForKey:@"name"], button];
+		cell.textLabel.text = [NSString stringWithFormat:@"[%d] %@ (Tab %d)", row_id, [mo valueForKey:@"name"], button];
 	else
-		cell.textLabel.text = [mo valueForKey:@"name"];
+		cell.textLabel.text = [NSString stringWithFormat:@"[%d] %@", row_id, [mo valueForKey:@"name"]];
     
     if(self.editMode) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -114,13 +122,17 @@
 	
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	self.filterSegment.selectedSegmentIndex=0;
+//	NSManagedObject *mo = [self.filterList objectAtIndex:indexPath.row];
+//	self.selectedButton = [[mo valueForKey:@"button"] intValue];
+	self.filterObj = [self.filterList objectAtIndex:indexPath.row];
 	self.selectedRowId = (int)indexPath.row;
 	self.editButton.enabled=YES;
 	self.detailsButton.enabled=YES;
 }
 
 - (IBAction) detailsButtonPressed: (id) sender {
-	[(FiltersVC *)callBackViewController setFilterIndex:self.selectedRowId];
+	[(FiltersVC *)callBackViewController chooseFilterObj:self.filterObj];
+//	[(FiltersVC *)callBackViewController setFilterIndex:self.selectedRowId];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction) editButtonPressed: (id) sender {

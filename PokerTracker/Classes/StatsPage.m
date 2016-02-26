@@ -42,7 +42,7 @@
 
 
 @implementation StatsPage
-@synthesize managedObjectContext, gameType, statsArray, labelValues, rotateLock;
+@synthesize managedObjectContext, gameType, statsArray, labelValues, rotateLock, filterObj;
 @synthesize formDataArray, selectedFieldIndex, mainTableView, hideMainMenuButton, gameSegment, customSegment;
 @synthesize dateSessionButton, displayBySession, activityBGView, activityIndicator, chartImageView;
 @synthesize displayYear, yearLabel, leftYear, rightYear, viewLocked, profitArray, largeGraph;
@@ -54,6 +54,68 @@
     //return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)viewDidLoad {
+	
+	[self.mainTableView setBackgroundView:nil];
+	
+	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
+	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", nil]];
+	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"LifeTime", @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
+	profitArray = [[NSMutableArray alloc] init];
+	chartImageView = [[UIImageView alloc] init];
+	
+	multiDimenArray = [[NSMutableArray alloc] init];
+	
+	
+	selectedFieldIndex=0;
+	activityBGView.alpha=0;
+	
+	displayBySession=NO;
+	
+	self.gameType = @"All";
+	largeGraph.alpha=0;
+	
+	
+	UIImageView *bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]];
+	[analysisToolbar insertSubview:bar atIndex:0];
+	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
+	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	
+	[self setTitle:@"Stats Page"];
+	[super viewDidLoad];
+	
+	
+//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Filters" selector:@selector(filtersButtonClicked:) target:self];;
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
+
+	
+	self.chartImageView.alpha=0;
+	
+	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+	
+	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
+	
+	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
+	
+	[gameSegment setWidth:60 forSegmentAtIndex:0];
+	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
+	
+	bankrollButton.alpha=1;
+	bankRollSegment.alpha=1;
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	if(numBanks==0) {
+		bankrollButton.alpha=0;
+		bankRollSegment.alpha=0;
+	}
+	
+	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	
+	
+}
 
 
 
@@ -197,6 +259,7 @@
 		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 		if([filters count]>0 && [formDataArray count]>7) {
 			NSManagedObject *mo = [filters objectAtIndex:0];
+			self.filterObj = mo;
 			[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
 			[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
 			[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
@@ -392,70 +455,6 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-
-    [self.mainTableView setBackgroundView:nil];
-	
-//	[self.top5Toolbar setBackgroundImage:[UIImage imageNamed:@"gradGray.png"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-   
-	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
-	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", nil]];
-	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"LifeTime", @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
-	profitArray = [[NSMutableArray alloc] init];
-	chartImageView = [[UIImageView alloc] init];
-	
-	multiDimenArray = [[NSMutableArray alloc] init];
-
-
-	selectedFieldIndex=0;
-    activityBGView.alpha=0;
-
-	displayBySession=NO;
-	
-	self.gameType = @"All";
-	largeGraph.alpha=0;
-
-	
-	UIImageView *bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]];
-	[analysisToolbar insertSubview:bar atIndex:0];
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-
-	[self setTitle:@"Stats Page"];
-	[super viewDidLoad];
-	
-	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Filters" selector:@selector(filtersButtonClicked:) target:self];;
-	
-
-	
-	self.chartImageView.alpha=0;
-
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
-
-	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
-	
-	[gameSegment setWidth:60 forSegmentAtIndex:0];
-	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
-    
-    bankrollButton.alpha=1;
-    bankRollSegment.alpha=1;
-    int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-    if(numBanks==0) {
-        bankrollButton.alpha=0;
-        bankRollSegment.alpha=0;
-    }
-	
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-
-
-}
 
 - (IBAction) bankrollPressed: (id) sender
 {
@@ -543,10 +542,10 @@
 
 -(void) setReturningValue:(NSObject *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
-	if(selectedFieldIndex==kSaveFilter) {
-		[self saveNewFilter:(NSString *)value];
-		return;
-	}
+//	if(selectedFieldIndex==kSaveFilter) {
+//		[self saveNewFilter:(NSString *)value];
+//		return;
+//	}
 	customSegment.selectedSegmentIndex=0;
 	[formDataArray replaceObjectAtIndex:selectedFieldIndex withObject:value];
 	if(selectedFieldIndex==0)
@@ -574,7 +573,7 @@
 	
 	return list;
 }
-
+/*
 -(void)saveCustomSearch:(NSString *)type searchNum:(NSString *)searchNum
 {
 	NSLog(@"saving: %@ %@", type, searchNum);
@@ -598,7 +597,8 @@
 		[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:type, searchStr, @"", @"", checkmarkList, searchNum, nil] mOC:managedObjectContext predicate:predicate2];
 	}
 }
-
+ */
+/*
 -(BOOL)saveNewFilter:(NSString *)valueCombo
 {
 	NSLog(@"saving! %@", valueCombo);
@@ -640,7 +640,7 @@
 	return success;
 }
 
-
+*/
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	selectedFieldIndex = (int)indexPath.row;
 	if(indexPath.section==0) {

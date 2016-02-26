@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface ReportsVC : UIViewController {
+@interface ReportsVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
 	int displayYear;
@@ -49,8 +50,8 @@
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (atomic, strong) UITableView *mainTableView;
+//@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+//@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) NSMutableArray *sectionTitles;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues0;

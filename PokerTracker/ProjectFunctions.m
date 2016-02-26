@@ -63,19 +63,19 @@
 //	return YES;
 	if([ProjectFunctions getUserDefaultValue:@"proVersion"].length>0)
 		return NO;
-	if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
-		return NO;
-	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
-		return NO;
+//	if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
+//		return NO;
+//	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
+//		return NO;
 
     return YES;
 }
 
 +(NSString *)getAppID
 {
-//	if([ProjectFunctions isLiteVersion])
-//		return @"488925221";
-//	else
+	if([ProjectFunctions isLiteVersion])
+		return @"488925221";
+	else
 		return @"475160109";
 }
 
@@ -148,8 +148,61 @@
 	return [Day1 convertStringToDateWithFormat:@"MM/dd/yyyy"];
 }
 
++(void)displayTimeFrameLabel:(UILabel *)label mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum timeFrame:(NSString *)timeFrame {
+	
+	if([timeFrame isEqualToString:@"LifeTime"] || [timeFrame intValue]>0) {
+		label.text=timeFrame;
+		return;
+	}
+	
+	NSDate *startTime = [NSDate date];
+	NSDate *endTime = [NSDate date];
+	
+	if([timeFrame isEqualToString:@"*Custom*"]) {
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", @"Timeframe", buttonNum];
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:pred sortColumn:nil mOC:mOC ascendingFlg:YES];
+		if([items count]>0) {
+			NSManagedObject *mo = [items objectAtIndex:0];
+			startTime = [mo valueForKey:@"startTime"];
+			endTime = [mo valueForKey:@"endTime"];
+		}
+	}
+	
+	
+	if([timeFrame isEqualToString:@"Last 7 Days"])
+		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*7];
+	
+	if([timeFrame isEqualToString:@"Last 30 Days"])
+		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*30];
+	
+	if([timeFrame isEqualToString:@"Last 90 Days"])
+		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*90];
+	
+	if([timeFrame isEqualToString:@"This Month"])
+		startTime = [ProjectFunctions getFirstDayOfMonth:[NSDate date]];
+	
+	if([timeFrame isEqualToString:@"Last Month"]) {
+		NSDate *day1 = [ProjectFunctions getFirstDayOfMonth:[NSDate date]];
+		NSDate *lastMonth = [day1 dateByAddingTimeInterval:-1*60*60*24];
+		startTime = [ProjectFunctions getFirstDayOfMonth:lastMonth];
+		endTime = day1;
+	}
+	
+	label.text = [NSString stringWithFormat:@"%@ to %@", [startTime convertDateToStringWithFormat:nil], [endTime convertDateToStringWithFormat:nil]];
+	
+}
+
 +(NSPredicate *)getPredicateForFilter:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum
 {
+	int row_id = 0;
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"button = %d", buttonNum];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:pred sortColumn:nil mOC:mOC ascendingFlg:YES];
+	if(items.count>0) {
+		NSManagedObject *mo = [items objectAtIndex:0];
+		row_id = [[mo valueForKey:@"row_id"] intValue];
+	}
+	NSLog(@"getPredicateForFilter buttonNum: %d, row_id: %d", buttonNum, row_id);
+	
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
 	
@@ -158,9 +211,12 @@
 	
 	NSDate *startTime = [NSDate date];
 	NSDate *endTime = [NSDate date];
+	
+	NSLog(@"+++filter timeFrame: %@ (%d)", timeFrame, buttonNum);
 	if([timeFrame isEqualToString:@"*Custom*"]) {
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", @"Timeframe", buttonNum];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", @"Timeframe", row_id];
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:pred sortColumn:nil mOC:mOC ascendingFlg:YES];
+		NSLog(@"+++count (%d)", (int)items.count);
 		if([items count]>0) {
 			NSManagedObject *mo = [items objectAtIndex:0];
 			startTime = [mo valueForKey:@"startTime"];
@@ -850,14 +906,15 @@
 
 	float yMultiplier = 1;
 	float xMultiplier = 1;
+	float chartWidth = totalWidth-leftEdgeOfChart-3; // account for border of image
 	if(totalMoneyRange>0)
 		yMultiplier = (float)bottomEdgeOfChart/totalMoneyRange;
 	if(totalSecondsRange>0)
-		xMultiplier = (float)(totalWidth-leftEdgeOfChart)/totalSecondsRange;
+		xMultiplier = (float)chartWidth/totalSecondsRange;
 	
 	float sessionSpacer = 100;
 	if(numGames>0)
-		sessionSpacer = (float)(totalWidth-leftEdgeOfChart)/(numGames);
+		sessionSpacer = (float)chartWidth/(numGames);
 
 	NSLog(@"min: %f, max: %f ", min, max);
 	
@@ -3529,6 +3586,9 @@
 
 +(UIBarButtonItem *)navigationButtonWithTitle:(NSString *)title selector:(SEL)selector target:(id)target
 {
+	
+	return [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:target action:selector];
+
 	float fontSize=14;
 	int width=40+(int)title.length*7;
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

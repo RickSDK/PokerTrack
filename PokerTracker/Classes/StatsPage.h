@@ -12,6 +12,7 @@
 @interface StatsPage : UIViewController {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
+	NSManagedObject *filterObj;
 	int displayYear;
 	NSString *gameType;
 	BOOL hideMainMenuButton;
@@ -73,12 +74,13 @@
 
 -(void) computeStats;
 -(void)initializeFormData;
--(BOOL)saveNewFilter:(NSString *)valueCombo;
+//-(BOOL)saveNewFilter:(NSString *)valueCombo;
 
 @property (atomic, strong) NSMutableArray *profitArray;
 @property (atomic, strong) UIButton *top5Button;
 @property (atomic, strong) UIButton *last10Button;
 @property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (atomic, strong) NSManagedObject *filterObj;
 @property (atomic) int selectedFieldIndex;
 @property (atomic) BOOL hideMainMenuButton;
 @property (atomic) BOOL displayBySession;

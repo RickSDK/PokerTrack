@@ -25,6 +25,56 @@
 @synthesize bankRollSegment, bankrollButton;
 
 
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+	sectionTitles = [[NSMutableArray alloc] init];
+	multiDimentionalValues = [[NSMutableArray alloc] init];
+	multiDimentionalValues0 = [[NSMutableArray alloc] init];
+	multiDimentionalValues1 = [[NSMutableArray alloc] init];
+	multiDimentionalValues2 = [[NSMutableArray alloc] init];
+	self.viewLocked=NO;
+	
+	[self.mainTableView setBackgroundView:nil];
+	
+	self.gameType = @"All";
+	
+	[super viewDidLoad];
+	[self setTitle:@"Reports"];
+	
+	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+	
+	
+	activityBGView.alpha=0;
+	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
+	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	
+	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+	
+	[gameSegment setWidth:60 forSegmentAtIndex:0];
+	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
+	
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	
+	self.bankrollButton.alpha=1;
+	self.bankRollSegment.alpha=1;
+	
+	if(numBanks==0) {
+		self.bankrollButton.alpha=0;
+		self.bankRollSegment.alpha=0;
+	}
+	
+	refreshButton.enabled=NO;
+	
+	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+}
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -145,8 +195,8 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
-    
-//    [NSThread sleepForTimeInterval:0.1];
+		NSLog(@"doTheHardWork");
+//    [NSThread sleepForTimeInterval:1];
     
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
@@ -164,6 +214,7 @@
 	NSArray *sectionList = [NSArray arrayWithObjects:@"Type", @"gametype", @"location", @"stakes", @"limit", @"year", nil];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
 	for(NSString *sectionField in sectionList) {
+		NSLog(@"sectionField: %@", sectionField);
 		NSMutableArray *valueArray = [[NSMutableArray alloc] init];
 		NSMutableArray *typeList = [[NSMutableArray alloc] init];
 		NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
@@ -228,8 +279,9 @@
 - (void)calcMoreStats
 {
 	@autoreleasepool {
-    
-        NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
+		NSLog(@"calcMoreStats");
+		[NSThread sleepForTimeInterval:1];
+		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
         PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -374,76 +426,26 @@
 		[multiDimentionalValues2 addObject:valueArray2];
 	}
         
-	[activityIndicator stopAnimating];
-	
-	self.viewLocked=NO;
-	refreshButton.enabled=YES;
-        gameSegment.enabled=YES;
-        topSegment.enabled=YES;
-
-        [ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-        self.bankRollSegment.enabled=YES;
-        self.bankrollButton.enabled=YES;
-
-        [mainTableView reloadData];
-    }
+		[activityIndicator stopAnimating];
+		
+		self.viewLocked=NO;
+		refreshButton.enabled=YES;
+		gameSegment.enabled=YES;
+		topSegment.enabled=YES;
+		
+		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+		
+		self.bankRollSegment.enabled=YES;
+		self.bankrollButton.enabled=YES;
+		NSLog(@"done");
+		[mainTableView reloadData];
+	}
 }
 
 - (IBAction) refreshPressed: (id) sender
 {
 	[self computeStats];
 }
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-	sectionTitles = [[NSMutableArray alloc] init];
-	multiDimentionalValues = [[NSMutableArray alloc] init];
-	multiDimentionalValues0 = [[NSMutableArray alloc] init];
-	multiDimentionalValues1 = [[NSMutableArray alloc] init];
-	multiDimentionalValues2 = [[NSMutableArray alloc] init];
-	self.viewLocked=NO;
-    
-    [self.mainTableView setBackgroundView:nil];
-
-	self.gameType = @"All";
-
-    [super viewDidLoad];
-	[self setTitle:@"Reports"];
-
-    yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
-
-	
-	activityBGView.alpha=0;
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-	[gameSegment setWidth:60 forSegmentAtIndex:0];
-	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
-
-    int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-    
-    self.bankrollButton.alpha=1;
-    self.bankRollSegment.alpha=1;
-    
-    if(numBanks==0) {
-        self.bankrollButton.alpha=0;
-        self.bankRollSegment.alpha=0;
-    }
-
-	refreshButton.enabled=NO;
-	
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-}
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [sectionTitles count];

@@ -41,7 +41,7 @@
 	return [[email stringByReplacingOccurrencesOfString:@"@" withString:@"%%40"] stringByReplacingOccurrencesOfString:@"." withString:@"%%23"];
 }
 
-+(NSString *)getResponseFromServerUsingPost:(NSString *)weblink fieldList:(NSArray *)fieldList valueList:(NSArray *)valueList;
++(NSString *)getResponseFromServerUsingPost:(NSString *)weblink fieldList:(NSArray *)fieldList valueList:(NSArray *)valueList
 {
 	if([fieldList count] != [valueList count]) {
 		return [NSString stringWithFormat:@"Invalid value list! (%d, %d) %@", (int)[fieldList count], (int)[valueList count], weblink];

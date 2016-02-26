@@ -15,21 +15,21 @@
 @implementation FilterNameEnterVC
 @synthesize managedObjectContext;
 @synthesize filterName, callBackViewController, customButtonSegment;
-@synthesize saveButton, filerObj, deleteButton;
+@synthesize saveButton, filerObj, deleteButton, filterNameString;
 
 - (IBAction)save:(id)sender {
-    
+	
 	int button = (int)customButtonSegment.selectedSegmentIndex+1;
 	[self clearExistingFiltersForButton:button];
     if(filerObj) {
         [self.filerObj setValue:filterName.text forKey:@"name"];
-        [self.filerObj setValue:[NSNumber numberWithInt:button] forKey:@"button"];
+		[self.filerObj setValue:[NSNumber numberWithInt:button] forKey:@"button"];
         [self.managedObjectContext save:nil];
-        [(FilterListVC *)callBackViewController reloadView];
-    } else {
+ //       [(FilterListVC *)callBackViewController reloadView];
+    } 
         [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%@|%d", filterName.text, (int)customButtonSegment.selectedSegmentIndex] forKey:@"returnValue"];
         [(ProjectFunctions *)callBackViewController setReturningValue:@"test"];
-    }
+ //   }
     
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -71,7 +71,7 @@
 	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
 	self.navigationItem.leftBarButtonItem = modalButton;
 	
-//	saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
+	
 	saveButton =  [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(save:) target:self];
 	self.navigationItem.rightBarButtonItem = saveButton;
 
@@ -121,22 +121,9 @@
 }
 
 - (IBAction) segChanged: (id) sender {
+	[self.customButtonSegment changeSegment];
     [saveButton setEnabled:YES];
     
-}
-
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 

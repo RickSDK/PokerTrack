@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomSegment.h"
 
 
 @interface FilterNameEnterVC : UIViewController {
@@ -14,10 +15,11 @@
 	NSManagedObjectContext *managedObjectContext;
     NSManagedObject *filerObj;
 	UIViewController *callBackViewController;
+	NSString *filterNameString;
 
 	//---XIB----------------------------
 	IBOutlet UITextField *filterName;
-	IBOutlet UISegmentedControl *customButtonSegment;
+	IBOutlet CustomSegment *customButtonSegment;
 	IBOutlet UIButton *deleteButton;
 
 	//---Gloabls----------------------------
@@ -32,8 +34,9 @@
 
 @property (nonatomic, strong) UITextField *filterName;
 @property (nonatomic, strong) UIViewController *callBackViewController;
-@property (nonatomic, strong) UISegmentedControl *customButtonSegment;
+@property (nonatomic, strong) CustomSegment *customButtonSegment;
 @property (nonatomic, strong) UIBarButtonItem *saveButton;
 @property (nonatomic, strong) UIButton *deleteButton;
+@property (nonatomic, strong) NSString *filterNameString;
 
 @end

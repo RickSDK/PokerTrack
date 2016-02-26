@@ -12,6 +12,7 @@
 @interface FilterListVC : UIViewController {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
+	NSManagedObject *filterObj;
 	UIViewController *callBackViewController;
     IBOutlet UITableView *mainTableView;
     IBOutlet UIButton *detailsButton;
@@ -19,7 +20,9 @@
     IBOutlet UISegmentedControl *filterSegment;
     
     BOOL editMode;
-    int selectedRowId;
+	int selectedRowId;
+	int selectedButton;
+	int maxFilterId;
 
 	//---Gloabls----------------------------
 	NSMutableArray *filterList;
@@ -29,6 +32,7 @@
 - (void)reloadView;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObject *filterObj;
 @property (nonatomic, strong) UIViewController *callBackViewController;
 @property (nonatomic, strong) NSMutableArray *filterList;
 @property (nonatomic, strong) UITableView *mainTableView;
@@ -37,6 +41,8 @@
 @property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic) BOOL editMode;
 @property (nonatomic) int selectedRowId;
+@property (nonatomic) int selectedButton;
+@property (nonatomic) int maxFilterId;
 
 
 - (IBAction) detailsButtonPressed: (id) sender;

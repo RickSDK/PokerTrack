@@ -36,7 +36,6 @@
 		6B3BEA1219463398003857B3 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA0419463398003857B3 /* Icon-Small.png */; };
 		6B3BEA1319463398003857B3 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA0519463398003857B3 /* Icon-Small@2x.png */; };
 		6B3BEA1619463398003857B3 /* Icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA0819463398003857B3 /* Icon144.png */; };
-		6B3BEA1719463398003857B3 /* ITunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA0919463398003857B3 /* ITunesArtwork */; };
 		6B3BEA1919467D3F003857B3 /* playerType99.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA1819467D3F003857B3 /* playerType99.png */; };
 		6B50C7F91464A4CE00DBD8D9 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B50C7F81464A4CE00DBD8D9 /* checkmark.png */; };
 		6B50CA5514685BE900DBD8D9 /* blankCard.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B50CA5414685BE900DBD8D9 /* blankCard.png */; };
@@ -377,6 +376,7 @@
 		6B147F0F19D496A00012E0A8 /* EULAVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EULAVC.m; sourceTree = "<group>"; };
 		6B147F1019D496A00012E0A8 /* EULAVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EULAVC.xib; sourceTree = "<group>"; };
 		6B20A9121684FC4300E378E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6B2353AC1C81017A008947AF /* ITunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = ITunesArtwork; sourceTree = "<group>"; };
 		6B2B4B4B169FAA9D00137792 /* doorOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = doorOpen.wav; sourceTree = "<group>"; };
 		6B2B4B4C169FAA9D00137792 /* creakDoor.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = creakDoor.wav; sourceTree = "<group>"; };
 		6B2B4B4F169FAB7600137792 /* doorOpen2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = doorOpen2.wav; sourceTree = "<group>"; };
@@ -390,7 +390,6 @@
 		6B3BEA0419463398003857B3 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		6B3BEA0519463398003857B3 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		6B3BEA0819463398003857B3 /* Icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon144.png; sourceTree = "<group>"; };
-		6B3BEA0919463398003857B3 /* ITunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = ITunesArtwork; sourceTree = "<group>"; };
 		6B3BEA1819467D3F003857B3 /* playerType99.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType99.png; sourceTree = "<group>"; };
 		6B50C7F81464A4CE00DBD8D9 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
 		6B50CA5414685BE900DBD8D9 /* blankCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankCard.png; sourceTree = "<group>"; };
@@ -1264,7 +1263,7 @@
 				6B9AEDF91949093400D1B7B6 /* Icon@2x.png */,
 				6B3BEA0519463398003857B3 /* Icon-Small@2x.png */,
 				6B3BEA0819463398003857B3 /* Icon144.png */,
-				6B3BEA0919463398003857B3 /* ITunesArtwork */,
+				6B2353AC1C81017A008947AF /* ITunesArtwork */,
 				6BA4AA87173463C4006022E1 /* black.png */,
 				6B9BF468175D666B00D0BA12 /* new.jpeg */,
 				6BE0EA6217628EA900DC1F02 /* IconImg.png */,
@@ -1743,7 +1742,6 @@
 				6B9BF469175D666B00D0BA12 /* new.jpeg in Resources */,
 				6B9BF46B175D6A4900D0BA12 /* new.png in Resources */,
 				6BE0EA6317628EA900DC1F02 /* IconImg.png in Resources */,
-				6B3BEA1719463398003857B3 /* ITunesArtwork in Resources */,
 				6BE0EA6C1765147800DC1F02 /* orngGrad.png in Resources */,
 				6BE0EA6D1765147800DC1F02 /* tealGrad.png in Resources */,
 				6BE0EA6F1765148000DC1F02 /* grayGrad.png in Resources */,

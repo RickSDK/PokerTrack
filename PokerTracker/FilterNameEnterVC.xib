@@ -63,8 +63,8 @@
                         <action selector="deleteButtonPressed:" destination="-1" eventType="touchDown" id="LtU-zY-gGp"/>
                     </connections>
                 </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="14">
-                    <rect key="frame" x="14" y="130" width="293" height="30"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="14" customClass="CustomSegment">
+                    <rect key="frame" x="0.0" y="130" width="320" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>

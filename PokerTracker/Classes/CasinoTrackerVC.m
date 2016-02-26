@@ -21,6 +21,50 @@
 @synthesize locateButton, distanceSegment, latitudeLabel, lngLabel, recordsLabel, viewButton, casinoDistArray, currentLyLookingFlg;
 @synthesize activityIndicator, locationManager, currentLocation, activityPopup, activityLabel, casinoArray, mainTableView;
 
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Casino Locator"];
+	
+	[self.mainTableView setBackgroundView:nil];
+	
+	
+	casinoArray = [[NSMutableArray alloc] init];
+	casinoDistArray = [[NSMutableArray alloc] init];
+	casinoNameArray = [[NSMutableArray alloc] init];
+	
+	locateButton.enabled=NO;
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.distanceFilter = kCLDistanceFilterNone;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	
+	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+		[self.locationManager requestWhenInUseAuthorization];
+		[self.locationManager startMonitoringSignificantLocationChanges];
+	}
+	[self.locationManager startUpdatingLocation];
+	
+	activityPopup.alpha=0;
+	activityLabel.alpha=0;
+	self.progress=0;
+	nameBut.enabled=NO;
+	distBut.enabled=YES;
+	self.mainTableView.alpha=0;
+	
+	
+	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
+	self.navigationItem.rightBarButtonItem = addButton;
+	
+	progressView.alpha=1;
+	progressView.progress=0;
+	activityLabel.text = @"Locating GPS Coords";
+	[self executeThreadedJob:@selector(locateGPSCoords)];
+	
+	
+	
+}
+
 - (IBAction) goHomePressed: (id) sender
 {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -33,6 +77,25 @@
 	detailViewController.currentLocation=currentLocation;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
+/*
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+	NSLog(@"didUpdateToLocation: %@", newLocation);
+	self.currentLocation = newLocation;
+	
+	if (self.currentLocation != nil) {
+		
+		
+		NSLog(@"latitude %+.6f, longitude %+.6f\n",
+			  self.currentLocation.coordinate.latitude,
+			  self.currentLocation.coordinate.longitude);
+
+//		longitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+//		latitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+	}
+}
+*/
+
 
 // Delegate method from the CLLocationManagerDelegate protocol.
 - (void)locationManager:(CLLocationManager *)manager
@@ -296,49 +359,6 @@
 	
 
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Casino Locator"];
-    
-    [self.mainTableView setBackgroundView:nil];
-
-
-	casinoArray = [[NSMutableArray alloc] init];
-	casinoDistArray = [[NSMutableArray alloc] init];
-	casinoNameArray = [[NSMutableArray alloc] init];
-	
-	locateButton.enabled=NO;
-	self.locationManager = [[CLLocationManager alloc] init];
-	self.locationManager.delegate = self;
-	self.locationManager.distanceFilter = kCLDistanceFilterNone;
-	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-	
-	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-		[self.locationManager requestWhenInUseAuthorization];
-		[self.locationManager startMonitoringSignificantLocationChanges];
-	}
-	[self.locationManager startUpdatingLocation];
-
-	activityPopup.alpha=0;
-	activityLabel.alpha=0;
-	self.progress=0;
-	nameBut.enabled=NO;
-	distBut.enabled=YES;
-    self.mainTableView.alpha=0;
-
-	
-		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
-		self.navigationItem.rightBarButtonItem = addButton;
-		
-		progressView.alpha=1;
-		progressView.progress=0;
-		activityLabel.text = @"Locating GPS Coords";
-		[self executeThreadedJob:@selector(locateGPSCoords)];
-	
-	
-
-}
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 	[ProjectFunctions ptpLocationAuthorizedCheck:status];
@@ -350,6 +370,7 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+	NSLog(@"+++didFailWithError!!");
 	NSLog(@"%@", error.localizedDescription);
 }
 

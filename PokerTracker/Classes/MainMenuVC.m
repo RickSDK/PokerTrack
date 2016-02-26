@@ -146,12 +146,11 @@
 	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0)
 		[self countFriendsPlaying];
 	
+	if([ProjectFunctions getUserDefaultValue:@"checkProVersion"].length==0)
+		[self checkProVersion];
+	
 	if([ProjectFunctions isLiteVersion]) {
 		upgradeButton.alpha=1;
-		playerTypeView.alpha=0;
-		analysisButton.alpha=0;
-		playerTypeLabel.alpha=0;
-		analysisBG.alpha=0;
 	}
 	
 	if(showDisolve) {
@@ -161,6 +160,18 @@
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
 	}
+}
+
+-(void)checkProVersion {
+	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion"]; // grandfathered in
+	if([ProjectFunctions getUserDefaultValue:@"minYear2"].length==0)
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion"]; // new customer. already paid
+
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"checkProVersion"];
+
+	NSLog(@"+++minYear2 %@", [ProjectFunctions getUserDefaultValue:@"minYear2"]);
+	NSLog(@"+++minYear %@", [ProjectFunctions getUserDefaultValue:@"minYear"]);
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -251,7 +262,7 @@
 		if(numGamesServer>0 && numGamesServer>gamesOnDevice) {
 			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them."];
 		} else if(gamesOnDevice>numGamesServer && (gamesOnDevice-numGamesServer)%10==0) {
-			[ProjectFunctions showAlertPopup:@"Backup Data" message:@"You have games on this device that have not been backep up. Considering exporting them under the 'More' menu."];
+//			[ProjectFunctions showAlertPopup:@"Backup Data" message:@"You have games on this device that have not been backep up. Considering exporting them under the 'More' menu."];
 		}
     }
 	[self.activityIndicatorNet stopAnimating];
@@ -650,7 +661,7 @@
 		int amountRisked = [[values stringAtIndex:0] intValue];
 		int netIncome = [[values stringAtIndex:5] intValue];
 		
-		self.playerTypeLabel.text = [ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome];
+//		self.playerTypeLabel.text = [ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome];
 		
 		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
 		yearLabel.alpha=0.2;

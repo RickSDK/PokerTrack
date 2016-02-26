@@ -16,6 +16,7 @@
 @property (nonatomic, retain) UILabel *hoursLabel;
 @property (nonatomic, retain) UILabel *locationLabel;
 @property (nonatomic, retain) UILabel *profitLabel;
+@property (nonatomic, retain) UILabel *pprLabel;
 
 + (void) layoutSubviews:(CGRect)cellRect
 			  nameLabel:(UILabel *)nameLabel

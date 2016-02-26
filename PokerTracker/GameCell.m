@@ -74,6 +74,18 @@
 		self.profitLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.profitLabel];
 		
+		self.pprLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 29, 34, 15)];
+		self.pprLabel.font = [UIFont boldSystemFontOfSize:14];
+		self.pprLabel.adjustsFontSizeToFitWidth = YES;
+		self.pprLabel.minimumScaleFactor = .8;
+		self.pprLabel.shadowColor = [UIColor blackColor];
+		self.pprLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+		self.pprLabel.text = @"PPR";
+		self.pprLabel.textAlignment = NSTextAlignmentCenter;
+		self.pprLabel.textColor = [UIColor whiteColor];
+		self.pprLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:self.pprLabel];
+		
 		
 	}
 	return self;
@@ -113,10 +125,13 @@
 	cell.locationLabel.textColor = [UIColor purpleColor];
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];
 	
-	if(gameObj.profit>=0)
+	if(gameObj.profit>=0) {
+		cell.pprLabel.backgroundColor=[UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
-	else
+	} else {
+		cell.pprLabel.backgroundColor=[UIColor redColor];
 		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
+	}
 	
 	if(gameObj.cashGameFlg) {
 		cell.nameLabel.textColor = [UIColor blackColor];
@@ -127,7 +142,7 @@
 	}
 	
 	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:gameObj.buyInAmount+gameObj.reBuyAmount winnings:gameObj.profit];
-	
+	cell.pprLabel.text = [NSString stringWithFormat:@"%d", gameObj.ppr];
 	
 	if([gameObj.status isEqualToString:@"In Progress"]) {
 		cell.backgroundColor = [UIColor yellowColor];

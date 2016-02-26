@@ -7,6 +7,7 @@
 //
 
 #import "GameObj.h"
+#import "ProjectFunctions.h"
 
 @implementation GameObj
 
@@ -27,6 +28,7 @@
 	gameObj.buyInAmount = [[mo valueForKey:@"buyInAmount"] intValue];
 	gameObj.reBuyAmount = [[mo valueForKey:@"rebuyAmount"] intValue];
 	gameObj.profit = [[mo valueForKey:@"winnings"] intValue];
+	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.buyInAmount+gameObj.reBuyAmount netIncome:gameObj.profit];
 	
 	return gameObj;
 }

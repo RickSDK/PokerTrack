@@ -18,6 +18,7 @@
                 <outlet property="netLabel" destination="21" id="25"/>
                 <outlet property="notesButton" destination="2F5-G6-7L5" id="Gvx-L6-IbM"/>
                 <outlet property="notesView" destination="uXo-K1-8pc" id="irw-D6-sj9"/>
+                <outlet property="pprLabel" destination="wac-eE-a53" id="L1s-5p-l2c"/>
                 <outlet property="textField" destination="ZZY-UH-wvU" id="mKQ-8W-E6t"/>
                 <outlet property="timeLabel" destination="8" id="13"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -46,7 +47,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="playerType3.png" id="97">
-                            <rect key="frame" x="2" y="2" width="60" height="60"/>
+                            <rect key="frame" x="8" y="2" width="54" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Time" lineBreakMode="tailTruncation" minimumFontSize="10" id="8">
@@ -68,7 +69,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$524" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="21">
-                            <rect key="frame" x="173.99999936195448" y="7" width="138" height="48"/>
+                            <rect key="frame" x="173.99999958004312" y="-1" width="138" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="40"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -76,6 +77,24 @@
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="102" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="wac-eE-a53">
+                            <rect key="frame" x="278" y="40" width="34" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fhr-bi-Vr5">
+                            <rect key="frame" x="206" y="39" width="72" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="PPR" backgroundImage="whiteChromeBut.png">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="pprButtonPressed:" destination="-1" eventType="touchDown" id="qEO-tn-o7z"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -181,6 +200,7 @@
         <image name="blueArrowDown.png" width="189" height="267"/>
         <image name="greenFelt.png" width="320" height="480"/>
         <image name="playerType3.png" width="150" height="200"/>
+        <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowButton.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

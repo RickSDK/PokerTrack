@@ -54,7 +54,7 @@
 -(void)setLocationValue:(NSString *)value;
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+//@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @property (atomic, strong) UISegmentedControl *gameTypeSegmentBar;

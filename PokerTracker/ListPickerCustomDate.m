@@ -20,6 +20,7 @@
 
 - (IBAction) segmentPressed: (id) sender
 {
+	[self.toFromSegment changeSegment];
 	if(self.toFromSegment.selectedSegmentIndex==0)
 		self.picker.date = [self.fromLabel.text convertStringToDateWithFormat:@"date"];
 	else 

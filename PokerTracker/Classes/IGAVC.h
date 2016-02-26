@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface IGAVC : UIViewController
+@interface IGAVC : TemplateVC
 
 @end

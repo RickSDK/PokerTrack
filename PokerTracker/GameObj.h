@@ -30,6 +30,7 @@
 @property (nonatomic) int reBuyAmount;
 @property (nonatomic) int minutes;
 @property (nonatomic) int breakMinutes;
+@property (nonatomic) int ppr;
 
 +(GameObj *)gameObjFromDBObj:(NSManagedObject *)mo;
 

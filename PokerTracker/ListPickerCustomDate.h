@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomSegment.h"
 
 
 @interface ListPickerCustomDate : UIViewController {
@@ -18,7 +19,7 @@
  	IBOutlet UIDatePicker *picker;
 	IBOutlet UITextField *fromLabel;
 	IBOutlet UITextField *toLabel;
-	IBOutlet UISegmentedControl *toFromSegment;
+	IBOutlet CustomSegment *toFromSegment;
 	
 	//---Gloabls----------------------------
 }
@@ -30,7 +31,7 @@
 @property (nonatomic, strong) UIDatePicker *picker;
 @property (nonatomic, strong) UITextField *fromLabel;
 @property (nonatomic, strong) UITextField *toLabel;
-@property (nonatomic, strong) UISegmentedControl *toFromSegment;
+@property (nonatomic, strong) CustomSegment *toFromSegment;
 @property (nonatomic, strong) UIViewController *callBackViewController;
 
 

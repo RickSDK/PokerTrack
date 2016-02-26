@@ -21,12 +21,16 @@
 
 	self.productID = [NSString new];
 	self.productID = @"proVersionPTP";
+//	self.productID = @"PTP_Upgrade";
+	
 
 	self.promoCodeView.hidden=YES;
 }
 
-- (IBAction) promoCodeButtonPressed: (id) sender {
-	self.promoCodeView.hidden=!self.promoCodeView.hidden;
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	if(self.touchCount++>=4) {
+		self.promoCodeView.hidden=!self.promoCodeView.hidden;
+	}
 }
 
 - (IBAction) submitButtonPressed: (id) sender {

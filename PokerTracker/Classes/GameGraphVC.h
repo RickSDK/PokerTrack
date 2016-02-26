@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameObj.h"
 
 
 @interface GameGraphVC : UIViewController
@@ -25,6 +26,7 @@
 @property (atomic, strong) IBOutlet UIImageView *arrow;
 @property (atomic, strong) IBOutlet UILabel *chipAmountLabel;
 @property (atomic, strong) IBOutlet UILabel *chipTimeLabel;
+@property (atomic, strong) IBOutlet UILabel *pprLabel;
 @property (atomic, strong) IBOutlet UIButton *notesButton;
 @property (atomic, strong) IBOutlet UIView *notesView;
 @property (atomic, strong) IBOutlet UIView *bottomView;
@@ -38,8 +40,10 @@
 
 @property (atomic, strong) NSMutableArray *cellRowsArray;
 @property (atomic, strong) NSArray *pointsArray;
+@property (atomic, strong) GameObj *gameObj;
 
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) enterButtonPressed: (id) sender;
+- (IBAction) pprButtonPressed: (id) sender;
 
 @end

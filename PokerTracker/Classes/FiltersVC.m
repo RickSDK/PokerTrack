@@ -31,10 +31,10 @@
 
 @implementation FiltersVC
 
-@synthesize managedObjectContext, gameType, statsArray, labelValues;
+@synthesize managedObjectContext, gameType, statsArray, labelValues, currentFilterLabel, timeFramLabel;
 @synthesize formDataArray, selectedFieldIndex, mainTableView, gameSegment, customSegment;
 @synthesize displayBySession, activityBGView, activityIndicator, chartImageView, gamesList;
-@synthesize displayYear, yearLabel, leftYear, rightYear, viewLocked, yearToolbar;
+@synthesize displayYear, yearLabel, leftYear, rightYear, viewLocked, yearToolbar, buttonNum, filterObj;
 
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -81,6 +81,7 @@
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"View" selector:@selector(mainMenuButtonClicked:) target:self];
 	
+//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"View" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
 	
 	self.chartImageView.alpha=0;
 	
@@ -91,12 +92,39 @@
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:gameType];
 	
 	[gameSegment setWidth:60 forSegmentAtIndex:0];
+	self.currentFilterLabel.text = @"None";
 	
 	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:.0 green:.5 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
+	NSArray *items = [CoreDataLib selectRowsFromTable:@"SEARCH" mOC:self.managedObjectContext];
+	for(NSManagedObject *mo in items) {
+		NSLog(@"+++SEARCH Record: %@", [mo valueForKey:@"type"]);
+		NSLog(@"checkmarkList: %@", [mo valueForKey:@"checkmarkList"]);
+		NSLog(@"searchStr: %@", [mo valueForKey:@"searchStr"]);
+		NSLog(@"%@", [mo valueForKey:@"startTime"]);
+		NSLog(@"%@", [mo valueForKey:@"endTime"]);
+		NSLog(@"searchNum: %d", [[mo valueForKey:@"searchNum"] intValue]);
+	}
+	
 }
 
+-(void)chooseFilterObj:(NSManagedObject *)mo {
+	self.filterObj=mo;
+	self.currentFilterLabel.text = [mo valueForKey:@"name"];
+	self.buttonNum=[[mo valueForKey:@"button"] intValue];
+	NSLog(@"+++self.buttonNum: %d", self.buttonNum);
+	yearLabel.text=[mo valueForKey:@"name"];
+	[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
+	[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
+	[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
+	[formDataArray replaceObjectAtIndex:3 withObject:[mo valueForKey:@"limit"]];
+	[formDataArray replaceObjectAtIndex:4 withObject:[mo valueForKey:@"stakes"]];
+	[formDataArray replaceObjectAtIndex:5 withObject:[mo valueForKey:@"location"]];
+	[formDataArray replaceObjectAtIndex:6 withObject:[mo valueForKey:@"bankroll"]];
+	[formDataArray replaceObjectAtIndex:7 withObject:[mo valueForKey:@"tournamentType"]];
+	[self computeStats];
+}
 
 
 -(void)setFilterIndex:(int)row_id
@@ -104,6 +132,9 @@
 	NSArray *filterList = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
 	if([filterList count]>row_id) {
 		NSManagedObject *mo = [filterList objectAtIndex:row_id];
+		self.currentFilterLabel.text = [mo valueForKey:@"name"];
+		self.buttonNum=[[mo valueForKey:@"button"] intValue];
+		NSLog(@"+++self.buttonNum: %d", self.buttonNum);
 		yearLabel.text=[mo valueForKey:@"name"];
 		[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
 		[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
@@ -142,7 +173,7 @@
 //	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
-
+/*
 - (IBAction) yearSegmentPressed: (id) sender {
 	
 	[self computeStats];
@@ -221,13 +252,14 @@
 	
 }
 
-
+*/
 
 
 -(void)doTheHardWord {
 	@autoreleasepool {
 	
-		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:(int)customSegment.selectedSegmentIndex];
+		[ProjectFunctions displayTimeFrameLabel:self.timeFramLabel mOC:self.managedObjectContext buttonNum:self.buttonNum timeFrame:[formDataArray objectAtIndex:0]];
+		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:(int)self.buttonNum];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
 		[gamesList removeAllObjects];
 		[gamesList addObjectsFromArray:games];
@@ -453,9 +485,10 @@
 	return list;
 }
 
--(void)saveCustomSearch:(NSString *)type searchNum:(NSString *)searchNum
+-(void)saveCustomSearch:(NSString *)type searchNum:(NSString *)searchNum row_id:(int)row_id
 {
-	NSLog(@"saving: %@ %@", type, searchNum);
+	searchNum = [NSString stringWithFormat:@"%d", row_id];
+	NSLog(@"saveCustomSearch : %@ %@ %d", type, searchNum, row_id);
 	if([type isEqualToString:@"Timeframe"]) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
@@ -464,16 +497,19 @@
 			NSDate *startTime = [mo valueForKey:@"startTime"];
 			NSDate *endTime = [mo valueForKey:@"endTime"];
 			
-			NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
+			NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
 			[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:@"Timeframe", @"", [startTime convertDateToStringWithFormat:nil], [endTime convertDateToStringWithFormat:nil], @"", searchNum, nil] mOC:managedObjectContext predicate:predicate2];
+			NSLog(@"Creating new Timeframe record for searchNum: %@", searchNum);
 		}
 	} else {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
 		NSString *checkmarkList = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"checkmarkList" predicate:predicate indexPathRow:0];
 		NSString *searchStr = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"searchStr" predicate:predicate indexPathRow:0];
 		
-		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
+		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
 		[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:type, searchStr, @"", @"", checkmarkList, searchNum, nil] mOC:managedObjectContext predicate:predicate2];
+		
+		NSLog(@"Creating new search record for searchNum: %@", searchNum);
 	}
 }
 
@@ -492,12 +528,23 @@
 
 -(BOOL)saveNewFilter:(NSString *)valueCombo
 {
-	NSLog(@"saving! %@", valueCombo);
+	NSLog(@"+++saving! %@", valueCombo);
 	NSArray *items = [valueCombo componentsSeparatedByString:@"|"];
 	NSString *buttonName = [items objectAtIndex:0];
 	int buttonNumber = [[items objectAtIndex:1] intValue]+1;
 	if(buttonNumber==4)
 		buttonNumber = [self getMaxFilterPlusOne];
+
+	
+	NSArray *oldFilters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
+	int newRowId=1;
+	NSLog(@"saving filter");
+	for(NSManagedObject *mo in oldFilters) {
+		int row_id = [[mo valueForKey:@"row_id"] intValue];
+		NSLog(@"+++row_id: %d", row_id);
+		if(row_id>=newRowId)
+			newRowId=row_id+1;
+	}
 
 	
 	NSArray *keyList = [ProjectFunctions getColumnListForEntity:@"FILTER" type:@"column"];
@@ -513,9 +560,11 @@
 	if([filters count]>0) {
 		NSLog(@"---updating");
 		mo = [filters objectAtIndex:0];
+		newRowId = [[mo valueForKey:@"row_id"] intValue];
 	} else {
 		NSLog(@"---inserting");
 		mo = [NSEntityDescription insertNewObjectForEntityForName:@"FILTER" inManagedObjectContext:self.managedObjectContext];
+		[mo setValue:[NSNumber numberWithInt:newRowId] forKey:@"row_id"];
 	}
 	BOOL success = [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:self.managedObjectContext];
 	if(success) {
@@ -531,8 +580,9 @@
 	for(NSString *value in formDataArray) {
 		NSString *type = [labelValues objectAtIndex:i++];
 		if([value isEqualToString:@"*Custom*"])
-			[self saveCustomSearch:type searchNum:[NSString stringWithFormat:@"%d", buttonNumber]];
+			[self saveCustomSearch:type searchNum:[NSString stringWithFormat:@"%d", buttonNumber] row_id:newRowId];
 	}
+	NSLog(@"+++newRowId: %d", newRowId);
 	[managedObjectContext save:nil];
 	NSLog(@"Done!");
 	return success;
@@ -565,6 +615,7 @@
 			FilterNameEnterVC *detailViewController = [[FilterNameEnterVC alloc] initWithNibName:@"FilterNameEnterVC" bundle:nil];
 			detailViewController.callBackViewController = self;
 			detailViewController.managedObjectContext = managedObjectContext;
+			detailViewController.filerObj=self.filterObj;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
 	}
