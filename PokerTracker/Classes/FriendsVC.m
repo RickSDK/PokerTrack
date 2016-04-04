@@ -156,8 +156,10 @@
 		mboxButton.enabled=hasMailFlg;
 		self.updFlg=NO;
 		[activityIndicator stopAnimating];
+		NSLog(@"Done");
+//		[self setUpData];
+		[mainTableView reloadData];
 
-		[self setUpData];
 	}
 }
 
@@ -181,6 +183,7 @@
 
 - (IBAction) refreshPressed: (id) sender 
 {
+	NSLog(@"refreshPressed");
 	[self startBackgroundProcess];
 }
 

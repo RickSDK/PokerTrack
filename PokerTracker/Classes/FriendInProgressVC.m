@@ -18,9 +18,9 @@
 
 
 @implementation FriendInProgressVC
-@synthesize managedObjectContext, mo, mapButton, profitStr;
+@synthesize managedObjectContext, mo, mapButton, profitStr, netUserObj;
 @synthesize locationLabel, timeLabel, buyinLabel, rebuyLabel, chipsLabel, currentChipsLabel;
-@synthesize timeRunningLabel, profitLabel, hourlyLabel, lastUpdLabel, playerTypeImg, userValues, nowPlayingLabel;
+@synthesize timeRunningLabel, profitLabel, hourlyLabel, lastUpdLabel, playerTypeImg, nowPlayingLabel;
 @synthesize gameTypeLabel, gameSpecslabel, playingFlg, chipAmountLabelString, mainTableView, chipAmountString, profitFlg;
 @synthesize gameTypeStr, gpsValues, basicsArray, casinoName, userLabel;
 
@@ -43,7 +43,7 @@
     self.basicsArray = [[NSMutableArray alloc] init];
     playerTypeImg = [[UIImageView alloc] init];
 	
-	NSString *userName, *location, *startTime, *playFlg, *gameType, *gameSpecs;
+	NSString *location, *startTime, *playFlg, *gameType, *gameSpecs;
 	int buyIn, rebuy, chips;
 	int seconds=0;
 
@@ -72,16 +72,19 @@
         }
         
 	} else {
-        NSArray *segments = [self.userValues componentsSeparatedByString:@"<aa>"];
-        NSArray *elements = [[segments objectAtIndex:0] componentsSeparatedByString:@"<xx>"];
-        NSString *basics = [elements stringAtIndex:2];
-        NSString *lastGame = [elements stringAtIndex:3];
-        NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
-        NSArray *lastGameFields = [lastGame componentsSeparatedByString:@"|"];
+		NSLog(@"Here: %@", self.netUserObj.lastGameStr);
+//        NSArray *segments = [self.userValues componentsSeparatedByString:@"<aa>"];
+ //       NSArray *elements = [[segments objectAtIndex:0] componentsSeparatedByString:@"<xx>"];
+ //       NSString *basics = [elements stringAtIndex:2];
+ //       NSString *lastGame = [elements stringAtIndex:3];
+ //       NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
+		
+		
+        NSArray *lastGameFields = [self.netUserObj.lastGameStr componentsSeparatedByString:@"|"];
 
-		userName = [basicsFields stringAtIndex:0];
-        self.userLabel.text=userName;
-        
+//		userName = [basicsFields stringAtIndex:0];
+        self.userLabel.text=self.netUserObj.name;
+		
 		location = [lastGameFields stringAtIndex:4];
 		startTime = [lastGameFields stringAtIndex:0];
 		playFlg = [lastGameFields stringAtIndex:7];
@@ -132,7 +135,6 @@
             self.playingFlg=NO;
 		}
 	}
-    
 	
 	locationLabel.text = location;
 	
@@ -182,6 +184,8 @@
 	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Buyin Amount" value:[ProjectFunctions convertIntToMoneyString:buyIn] color:[UIColor blackColor]]];
 	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Rebuy Amount" value:[ProjectFunctions convertIntToMoneyString:rebuy] color:[UIColor blackColor]]];
 
+	
+
 	if(!gameGoing) {
 		timeLabel.text = startTime;
     }
@@ -213,16 +217,17 @@
 	self.navigationItem.rightBarButtonItem = menuButton;
     
     [mainTableView reloadData];
+	
 	 
 }
-
+/*
 -(NSString *)objectForAdding:(NSString *)obj {
     if(obj)
         return obj;
     else
         return @"Error";
 }
-
+*/
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 	return CGFLOAT_MIN;

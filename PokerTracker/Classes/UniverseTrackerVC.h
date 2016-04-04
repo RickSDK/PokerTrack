@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 #import "CustomSegment.h"
+#import "NetUserObj.h"
 
 
 @interface UniverseTrackerVC : UIViewController {
@@ -27,7 +28,8 @@
     IBOutlet UIBarButtonItem *prevButton;
     IBOutlet UIBarButtonItem *nextButton;
     
-	
+	NSMutableArray *netUserList;
+
 	NSMutableArray *userList;
 	NSMutableArray *profitList;
 	NSMutableArray *moneyList;
@@ -47,8 +49,10 @@
     NSString *friendList;
     
     int processYear;
-    int processMonth;
+	int processMonth;
+	int skip;
     BOOL friendModeOn;
+	BOOL keepGoing;
 	
 }
 
@@ -72,6 +76,7 @@
 @property (atomic, strong) UIButton *profileButton;
 @property (atomic, strong) UIButton *friendButton;
 
+@property (atomic, strong) NSMutableArray *netUserList;
 
 @property (atomic, strong) NSMutableArray *userList;
 @property (atomic, strong) NSMutableArray *profitList;
@@ -86,6 +91,9 @@
 @property (atomic) int processYear;
 @property (atomic) int processMonth;
 @property (atomic) BOOL friendModeOn;
+@property (atomic) BOOL keepGoing;
+@property (atomic) int skip;
+
 
 @property (atomic, strong) NSMutableArray *last10MoneyAllList;
 @property (atomic, strong) NSMutableArray *last10ProfitAllList;

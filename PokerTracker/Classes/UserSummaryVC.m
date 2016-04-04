@@ -20,11 +20,11 @@
 
 
 @implementation UserSummaryVC
-@synthesize managedObjectContext, mainTableView, user, values, addFriendButton, popupBoxNumber;
+@synthesize managedObjectContext, mainTableView, values, addFriendButton, popupBoxNumber, user;
 @synthesize nameLabel, locationLabel, dateLabel, viewgameButton, friendName, friend_id, removeFriendButton;
 @synthesize activityIndicator, imageViewBG, activityLabel, topSegment, selectedSegment, latestMonth, playerImageView;
 @synthesize versionLabel, moneySymbolLabel, cityString, nameString, loadedFlg;
-@synthesize adView, selfFlg;
+@synthesize adView, selfFlg, netUserObj;
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
@@ -51,7 +51,7 @@
 {
 	FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
-	detailViewController.userValues=user;
+	detailViewController.netUserObj=self.netUserObj;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -133,7 +133,7 @@
 			[self executeThreadedJob:@selector(acceptNewFriend)];
 		}
 }
-
+/*
 -(void)loadUserInfo
 {
 	@autoreleasepool {
@@ -150,7 +150,7 @@
             NSString *basics = [elements stringAtIndex:0];
             NSString *last10 = [elements stringAtIndex:1];
             NSString *lastGame = [elements stringAtIndex:4];
-            self.user = [NSString stringWithFormat:@"12345<xx>%@<xx>%@<xx>%@<aa>%@", last10, basics, lastGame, mainStr];
+ //           self.user = [NSString stringWithFormat:@"12345<xx>%@<xx>%@<xx>%@<aa>%@", last10, basics, lastGame, mainStr];
             topSegment.selectedSegmentIndex = 0;
             self.loadedFlg=YES;
             [self calculateTableValues];
@@ -165,7 +165,7 @@
 -(void)loadData {
     [self executeThreadedJob:@selector(loadUserInfo)];
 }
-
+*/
 -(void)calculateTableValues
 {
     [values removeAllObjects];
@@ -174,28 +174,37 @@
     
 
     
-    NSArray *segments = [user componentsSeparatedByString:@"<aa>"];
-    NSString *mainSegment = [segments stringAtIndex:1];
+	
+//	NSString *basics = self.netUserObj.basicsStr;
+//	NSString *monthStats = self.netUserObj.monthStats;
+//	NSString *lastGame = self.netUserObj.lastGameStr;
+//	NSString *last10Stats = self.netUserObj.last10Str;
+	
+	if(user.length>0) {
+		self.netUserObj = [[NetUserObj alloc] init];
+		NSArray *segments = [user componentsSeparatedByString:@"<aa>"];
+		NSString *mainSegment = [segments stringAtIndex:1];
+		
+		NSArray *elements = [mainSegment componentsSeparatedByString:@"<xx>"];
+		self.netUserObj.basicsStr = [elements stringAtIndex:0];
+		self.netUserObj.last10Str = [elements stringAtIndex:1];
+//		yearStats = [elements stringAtIndex:2];
+		self.netUserObj.monthStats = [elements stringAtIndex:3];
+		self.netUserObj.lastGameStr = [elements stringAtIndex:4];
+	}
 
-    NSArray *elements = [mainSegment componentsSeparatedByString:@"<xx>"];
-    NSString *basics = [elements stringAtIndex:0];
-    NSString *last10Stats = [elements stringAtIndex:1];
-    NSString *yearStats = [elements stringAtIndex:2];
-    NSString *monthStats = [elements stringAtIndex:3];
-    NSString *lastGame = [elements stringAtIndex:4];
-    
     
  //   NSLog(@"lastGame: %@", lastGame);
     
     NSArray *statFields = nil;
     if(topSegment.selectedSegmentIndex==0)
-        statFields = [last10Stats componentsSeparatedByString:@"|"];
+        statFields = [self.netUserObj.last10Str componentsSeparatedByString:@"|"];
     if(topSegment.selectedSegmentIndex==1)
-        statFields = [monthStats componentsSeparatedByString:@"|"];
-    if(topSegment.selectedSegmentIndex==2)
-        statFields = [yearStats componentsSeparatedByString:@"|"];
-    NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
-    NSArray *lastGameFields = [lastGame componentsSeparatedByString:@"|"];
+        statFields = [self.netUserObj.monthStats componentsSeparatedByString:@"|"];
+//    if(topSegment.selectedSegmentIndex==2)
+  //      statFields = [yearStats componentsSeparatedByString:@"|"];
+    NSArray *basicsFields = [self.netUserObj.basicsStr componentsSeparatedByString:@"|"];
+    NSArray *lastGameFields = [self.netUserObj.lastGameStr componentsSeparatedByString:@"|"];
     
                                  
     self.latestMonth = [statFields stringAtIndex:0];
@@ -271,8 +280,8 @@
     if(self.friend_id>0 && !self.loadedFlg) {
         nameLabel.text = @"Loading";
         locationLabel.text = @"";
-        self.mainTableView.alpha=0;
-        [self loadData];
+//        self.mainTableView.alpha=0;
+//        [self loadData];
     }
 
     self.friend_id=user_id;
@@ -358,16 +367,17 @@
 {
 	@autoreleasepool {
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"friendEmail", nil];
+
 		
-    NSArray *elements = [user componentsSeparatedByString:@"<xx>"];
-    NSString *basics = [elements stringAtIndex:2];
+//    NSArray *elements = [user componentsSeparatedByString:@"<xx>"];
+//    NSString *basics = [elements stringAtIndex:2];
     
-    NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
+//    NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
 		
-		NSString *email = [basicsFields stringAtIndex:2];
+//		NSString *email = [basicsFields stringAtIndex:2];
     
 
-		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], email, nil];
+		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], self.netUserObj.email, nil];
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerAddFriend.php";
 		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
 		
@@ -387,6 +397,7 @@
 			[ProjectFunctions showAlertPopup:@"ERROR" message:[NSString stringWithFormat:@"%@", responseStr]];
 		}
 		[self endThreadedJob];
+		
 	}
 }
 
@@ -452,7 +463,7 @@
     if(topSegment.selectedSegmentIndex>=1)
         cell.alternateTitle = self.latestMonth;
     else
-        cell.alternateTitle = @"test";
+        cell.alternateTitle = @"Last 10";
         
     if([labels count] == [values count])
         cell.titleTextArray = labels;

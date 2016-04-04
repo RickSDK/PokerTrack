@@ -96,7 +96,8 @@
         if([elements count]>1) {
             FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
             detailViewController.managedObjectContext=self.managedObjectContext;
-            detailViewController.userValues=[NSString stringWithFormat:@"100<xx>%@<xx>%@<xx>%@<aa>%@", yearStats, basics, lastGame, self.userData];
+			detailViewController.netUserObj=self.netUserObj;
+ //           detailViewController.userValues=[NSString stringWithFormat:@"100<xx>%@<xx>%@<xx>%@<aa>%@", yearStats, basics, lastGame, self.userData];
             [self.navigationController pushViewController:detailViewController animated:YES];
         };
     } else {
@@ -629,6 +630,7 @@
         self.userData = [ProjectFunctions getFriendsPlayingData]; // web service call
         friendButton.alpha=0;
         if([self.userData length]>10) {
+			self.netUserObj = [NetUserObj userObjFromString:self.userData];
             NSArray *elements = [self.userData componentsSeparatedByString:@"<xx>"];
             if([elements count]>1)
                 friendButton.alpha=1;

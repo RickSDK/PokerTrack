@@ -61,7 +61,7 @@
 +(BOOL)isLiteVersion
 {
 //	return YES;
-	if([ProjectFunctions getUserDefaultValue:@"proVersion"].length>0)
+//	if([ProjectFunctions getUserDefaultValue:@"proVersion"].length>0)
 		return NO;
 //	if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 //		return NO;
@@ -881,6 +881,7 @@
 	int totalHeight=300;
 	int leftEdgeOfChart=50;
 	int bottomEdgeOfChart=totalHeight-25;
+	float chartWidth = totalWidth-leftEdgeOfChart-6; // account for border of image
 	
 	// get games from the database based on the filter
 	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:mOC ascendingFlg:YES];
@@ -906,7 +907,6 @@
 
 	float yMultiplier = 1;
 	float xMultiplier = 1;
-	float chartWidth = totalWidth-leftEdgeOfChart-3; // account for border of image
 	if(totalMoneyRange>0)
 		yMultiplier = (float)bottomEdgeOfChart/totalMoneyRange;
 	if(totalSecondsRange>0)
@@ -2153,7 +2153,7 @@
     NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], lastUpdDate, dataUpload, dateText, nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/pokerUploadUniverseStats.php";
 	NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
-    
+	NSLog(@"+++responseStr: %@", responseStr);
     if([responseStr isEqualToString:@"Success"])
         return YES;
     else

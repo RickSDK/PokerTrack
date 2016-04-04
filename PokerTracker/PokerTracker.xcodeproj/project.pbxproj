@@ -277,11 +277,17 @@
 		6BB253A61B891445008AC8EE /* PlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB253A41B891445008AC8EE /* PlayerVC.xib */; };
 		6BB253A91B892BC8008AC8EE /* MultiLineObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB253A81B892BC8008AC8EE /* MultiLineObj.m */; };
 		6BB4ADCF16F39E5B0096E2B5 /* greenBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB4ADCE16F39E5B0096E2B5 /* greenBar.png */; };
+		6BB7B5A01C94ACD60013DD8D /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7B59B1C94ACD60013DD8D /* NSString+FontAwesome.m */; };
+		6BB7B5A11C94ACD60013DD8D /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7B59D1C94ACD60013DD8D /* UIFont+FontAwesome.m */; };
+		6BB7B5A21C94ACD60013DD8D /* UIImage+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7B59F1C94ACD60013DD8D /* UIImage+FontAwesome.m */; };
+		6BB7B5A51C94ACFC0013DD8D /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6BB7B5A31C94ACFC0013DD8D /* FontAwesome.ttf */; };
+		6BB7B5A61C94ACFC0013DD8D /* fontawesome-github.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BB7B5A41C94ACFC0013DD8D /* fontawesome-github.jpg */; };
 		6BB864F71677BA8E007BCD76 /* Last10NewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB864F51677BA8E007BCD76 /* Last10NewVC.m */; };
 		6BB864F81677BA8E007BCD76 /* Last10NewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */; };
 		6BBC4A7D1BC82F1400CC0081 /* blueArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A7C1BC82F1400CC0081 /* blueArrowDown.png */; };
 		6BBC4A801BC8337800CC0081 /* ChipStackObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC4A7F1BC8337800CC0081 /* ChipStackObj.m */; };
 		6BBC4A821BC86F7C00CC0081 /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBC4A811BC86F7C00CC0081 /* note.png */; };
+		6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */; };
 		6BC0DBDD178B4FAA00F0252D /* greenGradWide.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */; };
 		6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDF178B690600F0252D /* ImageCell.m */; };
 		6BC0DBE617961BC500F0252D /* DefaultiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBE517961BC400F0252D /* DefaultiPad.png */; };
@@ -726,6 +732,14 @@
 		6BB253A71B892BC8008AC8EE /* MultiLineObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiLineObj.h; sourceTree = "<group>"; };
 		6BB253A81B892BC8008AC8EE /* MultiLineObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiLineObj.m; sourceTree = "<group>"; };
 		6BB4ADCE16F39E5B0096E2B5 /* greenBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenBar.png; sourceTree = "<group>"; };
+		6BB7B59A1C94ACD60013DD8D /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
+		6BB7B59B1C94ACD60013DD8D /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		6BB7B59C1C94ACD60013DD8D /* UIFont+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontAwesome.h"; sourceTree = "<group>"; };
+		6BB7B59D1C94ACD60013DD8D /* UIFont+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAwesome.m"; sourceTree = "<group>"; };
+		6BB7B59E1C94ACD60013DD8D /* UIImage+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FontAwesome.h"; sourceTree = "<group>"; };
+		6BB7B59F1C94ACD60013DD8D /* UIImage+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FontAwesome.m"; sourceTree = "<group>"; };
+		6BB7B5A31C94ACFC0013DD8D /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		6BB7B5A41C94ACFC0013DD8D /* fontawesome-github.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fontawesome-github.jpg"; sourceTree = "<group>"; };
 		6BB864F41677BA8E007BCD76 /* Last10NewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Last10NewVC.h; sourceTree = "<group>"; };
 		6BB864F51677BA8E007BCD76 /* Last10NewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Last10NewVC.m; sourceTree = "<group>"; };
 		6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Last10NewVC.xib; sourceTree = "<group>"; };
@@ -733,6 +747,8 @@
 		6BBC4A7E1BC8337800CC0081 /* ChipStackObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChipStackObj.h; sourceTree = "<group>"; };
 		6BBC4A7F1BC8337800CC0081 /* ChipStackObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChipStackObj.m; sourceTree = "<group>"; };
 		6BBC4A811BC86F7C00CC0081 /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = note.png; sourceTree = "<group>"; };
+		6BBECDF01CA36EE3005AEE43 /* NetUserObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUserObj.h; sourceTree = "<group>"; };
+		6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUserObj.m; sourceTree = "<group>"; };
 		6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenGradWide.png; sourceTree = "<group>"; };
 		6BC0DBDE178B690600F0252D /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		6BC0DBDF178B690600F0252D /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
@@ -1239,6 +1255,8 @@
 			children = (
 				6B6956291C529F97004CB475 /* GameObj.h */,
 				6B69562A1C529F97004CB475 /* GameObj.m */,
+				6BBECDF01CA36EE3005AEE43 /* NetUserObj.h */,
+				6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -1276,6 +1294,8 @@
 				6B2B4B4B169FAA9D00137792 /* doorOpen.wav */,
 				6B2B4B4F169FAB7600137792 /* doorOpen2.wav */,
 				6B2B4B4C169FAA9D00137792 /* creakDoor.wav */,
+				6BB7B5A31C94ACFC0013DD8D /* FontAwesome.ttf */,
+				6BB7B5A41C94ACFC0013DD8D /* fontawesome-github.jpg */,
 				6B50CDF71469A7E500DBD8D9 /* activityPopup.png */,
 				6B90997814C5FD1000712EDC /* pic_bg.gif */,
 				6B8129C116AF09590053A255 /* donkey.wav */,
@@ -1411,6 +1431,12 @@
 				6B750E1D143E591D00E59D21 /* NSDate+ATTDate.m */,
 				6BB09C41148571D100DF84AB /* NSArray+ATTArray.h */,
 				6BB09C42148571D100DF84AB /* NSArray+ATTArray.m */,
+				6BB7B59A1C94ACD60013DD8D /* NSString+FontAwesome.h */,
+				6BB7B59B1C94ACD60013DD8D /* NSString+FontAwesome.m */,
+				6BB7B59C1C94ACD60013DD8D /* UIFont+FontAwesome.h */,
+				6BB7B59D1C94ACD60013DD8D /* UIFont+FontAwesome.m */,
+				6BB7B59E1C94ACD60013DD8D /* UIImage+FontAwesome.h */,
+				6BB7B59F1C94ACD60013DD8D /* UIImage+FontAwesome.m */,
 				6B750E1A143E590900E59D21 /* DatePickerViewController.h */,
 				6B750E1B143E590900E59D21 /* DatePickerViewController.m */,
 				6B750E51143E5ACD00E59D21 /* DatePickerViewController.xib */,
@@ -1621,6 +1647,7 @@
 				6BB091B81472EC9300DF84AB /* bb.png in Resources */,
 				6BB093141473253000DF84AB /* wb.png in Resources */,
 				6B3BEA1219463398003857B3 /* Icon-Small.png in Resources */,
+				6BB7B5A61C94ACFC0013DD8D /* fontawesome-github.jpg in Resources */,
 				6BB0944214743F2600DF84AB /* refresh.JPG in Resources */,
 				6BB09B9A14845D5000DF84AB /* chipsBG.png in Resources */,
 				6BB09B9C14845D6000DF84AB /* mainMenuBG.png in Resources */,
@@ -1750,6 +1777,7 @@
 				6B3BEA0D19463398003857B3 /* Icon-76.png in Resources */,
 				6BC0DBE817961C1400F0252D /* Default-Portrait~ipad.png in Resources */,
 				6BC0DBEA17961C1A00F0252D /* Default-Portrait@2x~ipad.png in Resources */,
+				6BB7B5A51C94ACFC0013DD8D /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,6 +1824,7 @@
 				6B7531401450A43A00E59D21 /* WebServicesFunctions.m in Sources */,
 				6B753614145267F000E59D21 /* FriendLocatorVC.m in Sources */,
 				6B75362D14526BCB00E59D21 /* CreateNewAccount.m in Sources */,
+				6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */,
 				6BA5B3211457341400F1C0BD /* ReportsVC.m in Sources */,
 				6BA5BE9D145C9DF300F1C0BD /* FriendDetailVC.m in Sources */,
 				6BA5BF52145CBE6D00F1C0BD /* StartNewGameVC.m in Sources */,
@@ -1819,6 +1848,7 @@
 				6B90908314B398B700712EDC /* Appirater.m in Sources */,
 				6B9097AE14C4E5AC00712EDC /* PlayerTrackerVC.m in Sources */,
 				6B9097EB14C4EBE600712EDC /* EditPlayerTracker.m in Sources */,
+				6BB7B5A01C94ACD60013DD8D /* NSString+FontAwesome.m in Sources */,
 				6B90995E14C52AAD00712EDC /* EmailFile.m in Sources */,
 				6B90998F14C6005400712EDC /* AddPhotoVC.m in Sources */,
 				6BB253A51B891445008AC8EE /* PlayerVC.m in Sources */,
@@ -1878,6 +1908,7 @@
 				6B6638CD169E597E00C6B9E5 /* UnLockAppVC.m in Sources */,
 				6B12322016D5A26200AED4DA /* DataManageLib.m in Sources */,
 				6BA4AA80172EE71D006022E1 /* FriendTrackerVC.m in Sources */,
+				6BB7B5A11C94ACD60013DD8D /* UIFont+FontAwesome.m in Sources */,
 				6BA4AA84172EF5A5006022E1 /* GrabphLib.m in Sources */,
 				6B9BEB87175AB6AE00D0BA12 /* MoreTrackersVC.m in Sources */,
 				6B9BEB8C175AB94A00D0BA12 /* ForumVC.m in Sources */,
@@ -1886,6 +1917,7 @@
 				6B9BF466175D44A100D0BA12 /* ForumCreateVC.m in Sources */,
 				6BE0EA61176259FF00DC1F02 /* ForumCell.m in Sources */,
 				6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */,
+				6BB7B5A21C94ACD60013DD8D /* UIImage+FontAwesome.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

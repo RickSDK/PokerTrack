@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
+#import "NetUserObj.h"
 
 
 @interface UserSummaryVC : UIViewController <ADBannerViewDelegate> {
@@ -52,6 +53,7 @@
 @property (atomic, strong) UITableView *mainTableView;
 @property (atomic, copy) NSString *user;
 @property (atomic, strong) ADBannerView *adView;
+@property (atomic, strong) NetUserObj *netUserObj;
 @property (atomic, strong) NSMutableArray *values;
 @property (atomic, strong) UIButton *addFriendButton;
 @property (atomic, strong) UIButton *removeFriendButton;

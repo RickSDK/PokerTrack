@@ -65,8 +65,8 @@ static NSInteger X_INSET			= 5;
 +(MultiLineObj *)multiObjectWithName:(NSString *)name value:(NSString *)value color:(UIColor *)color
 {
 	MultiLineObj *multiLineObj = [[MultiLineObj alloc] init];
-	multiLineObj.name = name;
-	multiLineObj.value = value;
+	multiLineObj.name = (name.length>0)?name:@"unknown";
+	multiLineObj.value = (value.length>0)?value:@"unknown";
 	multiLineObj.color = color;
 	return multiLineObj;
 }

@@ -215,7 +215,10 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
-    
+	
+	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
+	int gamesOnServer = [[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue];
+	
 	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -224,14 +227,13 @@
 		cell.backgroundColor = [UIColor ATTFaintBlue];
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
-		cell.textLabel.text = @"Currency Symbol";
+		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.textLabel.text=[NSString stringWithFormat:@"%@ Currency Symbol", [NSString fontAwesomeIconStringForEnum:FAUsd]];
 		cell.selection.text = [ProjectFunctions getMoneySymbol];
 		
 		return cell;
 	}
 	
-	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
-	int gamesOnServer = [[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue];
 
 	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Export Data"]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -243,8 +245,9 @@
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
-		cell.titleLabel.text = @"Export Data";
-		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Games on Device: %d", gamesOnDevice];
+		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Export Data", [NSString fontAwesomeIconStringForEnum:FAArrowUp]];
+		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Device Games: %d", gamesOnDevice];
 		
 		if(gamesOnDevice>gamesOnServer)
 			cell.backgroundColor = [UIColor yellowColor];
@@ -261,14 +264,15 @@
 		cell.backgroundColor = [UIColor ATTFaintBlue];
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
-		cell.titleLabel.text = @"Import Data";
+		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Import Data", [NSString fontAwesomeIconStringForEnum:FAArrowDown]];
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
 		if(gamesOnServer>gamesOnDevice)
 			cell.backgroundColor = [UIColor yellowColor];
 
-		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Games on Server: %d", gamesOnServer];
+		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Server Games: %d", gamesOnServer];
 		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		
 		return cell;
@@ -282,7 +286,8 @@
 		cell.backgroundColor = [UIColor ATTFaintBlue];
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
-		cell.textLabel.text = @"Sound";
+		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.textLabel.text=[NSString stringWithFormat:@"%@ Sound", [NSString fontAwesomeIconStringForEnum:FAVolumeUp]];
         NSString *soundOn = [ProjectFunctions getUserDefaultValue:@"soundOn"];
         if([soundOn length]==0)
             soundOn = @"On";
@@ -290,7 +295,7 @@
 		
 		return cell;
 	}
-	
+	/*
 	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Background Threads"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -307,7 +312,7 @@
 		
 		return cell;
 	}
-	
+	*/
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -320,7 +325,26 @@
 	}
 
 	if(indexPath.section==0) {
-		cell.textLabel.text = [NSString stringWithFormat:@"%@", [menuArray objectAtIndex:indexPath.row]];
+		NSArray *icons = [NSArray arrayWithObjects:
+						  [NSString fontAwesomeIconStringForEnum:FACreditCard],
+						  [NSString fontAwesomeIconStringForEnum:FAUsd],
+						  [NSString fontAwesomeIconStringForEnum:FAtrash],
+						  [NSString fontAwesomeIconStringForEnum:FAArrowDown],
+						  [NSString fontAwesomeIconStringForEnum:FAArrowDown],
+						  [NSString fontAwesomeIconStringForEnum:FAtrash],
+						  [NSString fontAwesomeIconStringForEnum:FAEnvelope],
+						  [NSString fontAwesomeIconStringForEnum:FAtrash],
+						  [NSString fontAwesomeIconStringForEnum:FAGlobe],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  nil];
+
+		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [menuArray objectAtIndex:indexPath.row]];
+		
 		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Delete All Data"] || [ProjectFunctions getUserDefaultValue:@"userName"])
 			cell.textLabel.textColor = [UIColor blackColor];
 		else
@@ -333,7 +357,26 @@
 	}
 
 	if(indexPath.section==1) {
-		cell.textLabel.text = [secondMenuArray stringAtIndex:(int)indexPath.row];
+		NSArray *icons = [NSArray arrayWithObjects:
+						  [NSString fontAwesomeIconStringForEnum:FAGamepad],
+						  [NSString fontAwesomeIconStringForEnum:FALock],
+						  [NSString fontAwesomeIconStringForEnum:FAGlobe],
+						  [NSString fontAwesomeIconStringForEnum:FAUser],
+						  [NSString fontAwesomeIconStringForEnum:FAUsers],
+						  [NSString fontAwesomeIconStringForEnum:FAMoney],
+						  [NSString fontAwesomeIconStringForEnum:FAEnvelope],
+						  [NSString fontAwesomeIconStringForEnum:FAPencil],
+						  [NSString fontAwesomeIconStringForEnum:FAUsd],
+						  [NSString fontAwesomeIconStringForEnum:FAVolumeUp],
+						  [NSString fontAwesomeIconStringForEnum:FAMobile],
+						  [NSString fontAwesomeIconStringForEnum:FADotCircleO],
+						  [NSString fontAwesomeIconStringForEnum:FAStar],
+						  [NSString fontAwesomeIconStringForEnum:FAStar],
+						  nil];
+		
+		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [secondMenuArray objectAtIndex:indexPath.row]];
+//		cell.textLabel.text = [secondMenuArray stringAtIndex:(int)indexPath.row];
 	}
 	cell.backgroundColor = [UIColor ATTFaintBlue];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;

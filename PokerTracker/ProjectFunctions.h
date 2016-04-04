@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LocationGetter.h"
 #import "ChipStackObj.h"
+#import "NSString+FontAwesome.h"
+#import "UIFont+FontAwesome.h"
+
 
 #define kStartTime		0
 #define kEndTime		1

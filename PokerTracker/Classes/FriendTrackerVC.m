@@ -115,7 +115,9 @@
 -(void)uploadStatsFunction
 {
 	@autoreleasepool {
-        [ProjectFunctions uploadUniverseStats:managedObjectContext];
+        BOOL success = [ProjectFunctions uploadUniverseStats:managedObjectContext];
+		if(success)
+			[ProjectFunctions showAlertPopup:@"Success" message:@""];
 		[self performSelectorInBackground:@selector(backgroundProcess) withObject:nil];
 	}
 }

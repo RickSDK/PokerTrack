@@ -17,13 +17,11 @@
     if (self) {
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.nameLabel.textAlignment = NSTextAlignmentCenter;
-        self.nameLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:.2 alpha:1];
+        self.nameLabel.textColor = [UIColor blackColor];
         self.nameLabel.font = [UIFont boldSystemFontOfSize:36];
         [self.nameLabel sizeToFit];
         self.nameLabel.minimumScaleFactor = .7;
         self.nameLabel.backgroundColor = [UIColor clearColor];
-        [self.nameLabel setShadowColor:[UIColor blackColor]];
-        [self.nameLabel setShadowOffset:CGSizeMake(2.0, 2.0)];
         [self.contentView addSubview:self.nameLabel];
 
         self.cityLabel = [[UILabel alloc] initWithFrame:CGRectZero];

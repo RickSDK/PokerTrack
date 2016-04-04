@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WebServiceView.h"
+#import "NetUserObj.h"
 
 
 @interface GameInProgressVC : UIViewController {
@@ -25,6 +26,8 @@
 	IBOutlet UIButton *doneButton;
 	IBOutlet UIButton *editButton;
 	IBOutlet UIButton *friendButton;
+	
+	NetUserObj *netUserObj;
 //	IBOutlet UIButton *cancelWebButton;
 	
 	IBOutlet UILabel *onBreakLabel;
@@ -98,6 +101,7 @@
 @property (atomic, strong) UIButton *doneButton;
 @property (atomic, strong) UIButton *editButton;
 @property (atomic, strong) UIButton *friendButton;
+@property (atomic, strong) NetUserObj *netUserObj;
 //@property (atomic, strong) UIButton *cancelWebButton;
 
 @property (atomic, strong) UILabel *foodLabel;

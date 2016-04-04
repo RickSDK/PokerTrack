@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetUserObj.h"
 
 
 @interface FriendInProgressVC : UIViewController {
@@ -34,7 +35,7 @@
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UIButton *mapButton;
 	
-	NSString *userValues;
+//	NSString *userValues;
 	NSString *gpsValues;
     NSString *casinoName;
     NSString *gameTypeStr;
@@ -43,6 +44,7 @@
     NSString *profitStr;
     
     NSMutableArray *basicsArray;
+	NetUserObj *netUserObj;
     BOOL profitFlg;
     BOOL playingFlg;
 
@@ -61,6 +63,7 @@
 @property (nonatomic, strong) UILabel *chipsLabel;
 @property (nonatomic, strong) UILabel *currentChipsLabel;
 @property (nonatomic, strong) UITableView *mainTableView;
+@property (atomic, strong) NetUserObj *netUserObj;
 
 @property (nonatomic, strong) UILabel *timeRunningLabel;
 @property (nonatomic, strong) UILabel *profitLabel;
@@ -74,7 +77,7 @@
 @property (nonatomic, strong) UIButton *mapButton;
 
 @property (nonatomic, copy) NSString *profitStr;
-@property (nonatomic, copy) NSString *userValues;
+//@property (nonatomic, copy) NSString *userValues;
 @property (nonatomic, copy) NSString *gpsValues;
 @property (nonatomic, copy) NSString *casinoName;
 @property (nonatomic, copy) NSString *gameTypeStr;

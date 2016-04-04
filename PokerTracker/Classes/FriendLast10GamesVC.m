@@ -186,7 +186,7 @@
     // Navigation logic may go here. Create and push another view controller.
     
      FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
-    detailViewController.userValues = [NSString stringWithFormat:@"<xx><xx>%@<xx>%@", friendName, [gameList objectAtIndex:indexPath.row]];
+//    detailViewController.userValues = [NSString stringWithFormat:@"<xx><xx>%@<xx>%@", friendName, [gameList objectAtIndex:indexPath.row]];
      [self.navigationController pushViewController:detailViewController animated:YES];
     
 }
