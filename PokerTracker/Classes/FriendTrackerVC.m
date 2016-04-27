@@ -444,7 +444,7 @@
 	
 	cell.leftImageView.image = [ProjectFunctions getPlayerTypeImage:moneyRisked winnings:profit];
     if(sortSegment.selectedSegmentIndex==1) {
-        cell.b2.text = [NSString stringWithFormat:@"PPR: %d", [indexStr intValue]-100];
+        cell.b2.text = [NSString stringWithFormat:@"ROI: %d%%", [indexStr intValue]-100];
         cell.b2Color = [UIColor blueColor];
     }
     if(uid==user_id) {

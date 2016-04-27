@@ -61,6 +61,7 @@
 	detailViewController.user_id = friend_id;
 	detailViewController.managedObjectContext=self.managedObjectContext;
 	detailViewController.selfFlg=self.selfFlg;
+	detailViewController.netUserObj=self.netUserObj;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -456,7 +457,7 @@
 
 	
 	// Configure the cell...
-	NSArray *labels = [NSArray arrayWithObjects:@"Games", @"Streak", @"Risked", @"Profit", @"PPR", @"Hours", @"Hourly", @"Last Played", @"Last Game", nil];
+	NSArray *labels = [NSArray arrayWithObjects:@"Games", @"Streak", @"Risked", @"Profit", @"ROI", @"Hours", @"Hourly", @"Last Played", @"Last Game", nil];
 	NSArray *titles = [NSArray arrayWithObjects:@"Last 10 Stats", @"Month Stats", @"Year Stats", nil];
 	
     cell.mainTitle = [titles objectAtIndex:topSegment.selectedSegmentIndex];

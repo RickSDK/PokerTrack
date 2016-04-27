@@ -73,7 +73,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <segments>
                         <segment title="Profit $"/>
-                        <segment title="PPR"/>
+                        <segment title="Profit %"/>
                         <segment title="Games"/>
                     </segments>
                     <connections>

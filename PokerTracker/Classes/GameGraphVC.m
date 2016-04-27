@@ -122,7 +122,7 @@
 	
 	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Net Profit" value:[ProjectFunctions convertNumberToMoneyString:winnings] color:profitColor]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"PPR" value:[NSString stringWithFormat:@"%d", self.gameObj.ppr] color:profitColor]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"ROI" value:[NSString stringWithFormat:@"%d%%", self.gameObj.ppr] color:profitColor]];
 	
 	NSString *hourlyStr = @"-";
 	if(minutes>0)
@@ -213,7 +213,9 @@
 	self.gameGraphView.layer.borderColor = [UIColor blackColor].CGColor;
 	self.gameGraphView.layer.borderWidth = 2.;
 
-	self.pprLabel.text = [NSString stringWithFormat:@"%d", self.gameObj.ppr];
+	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
+	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];
+
 	
 	int game_id = [[mo valueForKey:@"game_id"] intValue];
 	if(game_id==0) {

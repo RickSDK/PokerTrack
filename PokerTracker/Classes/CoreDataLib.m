@@ -253,7 +253,8 @@
 		NSDate *gameDate = [mo valueForKey:@"startTime"];
 		mostRecentGame = gameDate;
 		NSString *gameMonth = [gameDate convertDateToStringWithFormat:@"yyyyMM"];
-		minutes += minutesThisGame;
+		if(minutesThisGame>0)
+			minutes += minutesThisGame;
 		winnings += winAmount;
 		int riskAmount = (buyInAmount+rebuyAmount);
 		amountRisked += riskAmount;
@@ -499,7 +500,11 @@
                 [CoreDataLib getStandardDeviation:mOC items:items amount:aveWon targetDev:targetDev type:1]];
     
     if([dataField isEqualToString:@"stats2"]) {
-        return [NSString stringWithFormat:@"%d|%@|%d|%d|%d|%@|%d", winnings, [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], streak, longestWin, longestLose, [NSString stringWithFormat:@"%.1f", hoursFloat], hourlyRate];
+		int percent = 0;
+		if(amountRisked>0)
+			percent = winnings*100/amountRisked;
+		NSLog(@"+++hoursFloat%f", hoursFloat);
+        return [NSString stringWithFormat:@"%d|%d|%@|%d|%d|%d|%@|%d|%d", winnings, amountRisked, [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], streak, longestWin, longestLose, [NSString stringWithFormat:@"%.1f", hoursFloat], hourlyRate, percent];
     }
     
     if([dataField isEqualToString:@"chart1"])

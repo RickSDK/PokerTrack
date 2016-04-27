@@ -22,6 +22,7 @@
 	IBOutlet UILabel *yearLabel;
 	IBOutlet UILabel *gamesLabel;
 	IBOutlet UILabel *moneyLabel;
+	IBOutlet UILabel *roiLabel;
 	IBOutlet UIButton *leftYear;
 	IBOutlet UIButton *rightYear;
 	IBOutlet UISegmentedControl *gameTypeSegment;
@@ -52,6 +53,7 @@
 @property (atomic, strong) UILabel *yearLabel;
 @property (atomic, strong) UILabel *gamesLabel;
 @property (atomic, strong) UILabel *moneyLabel;
+@property (atomic, strong) UILabel *roiLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;
 @property (atomic, strong) MyToolbar *yearToolbar;

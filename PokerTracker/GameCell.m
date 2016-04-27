@@ -114,10 +114,7 @@
 	profitLabel.frame = CGRectMake(width-110, 20, 100, 22);
 }
 
-
-+(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg {
-	GameObj *gameObj = [GameObj gameObjFromDBObj:mo];
-	
++(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", gameObj.name, [gameObj.type substringToIndex:1]];
 	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [gameObj.startTime convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
@@ -149,6 +146,12 @@
 		cell.profitLabel.text = @"In Progress";
 		cell.profitLabel.textColor = [UIColor redColor];
 	}
+}
+
++(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg {
+	GameObj *gameObj = [GameObj gameObjFromDBObj:mo];
+	[self populateGameCell:cell gameObj:gameObj evenFlg:evenFlg];
+	
 }
 
 

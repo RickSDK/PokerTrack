@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface CardHandPicker : UIViewController {
+@interface CardHandPicker : TemplateVC {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	UIViewController *callBackViewController;

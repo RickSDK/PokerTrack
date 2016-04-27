@@ -33,5 +33,6 @@
 @property (nonatomic) int ppr;
 
 +(GameObj *)gameObjFromDBObj:(NSManagedObject *)mo;
++(GameObj *)populateGameFromString:(NSString *)line;
 
 @end

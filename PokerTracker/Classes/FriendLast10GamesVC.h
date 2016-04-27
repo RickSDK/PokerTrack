@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetUserObj.h"
 
 @interface FriendLast10GamesVC : UIViewController {
     int user_id;
@@ -14,6 +15,7 @@
     NSMutableArray *gameList;
 	NSManagedObjectContext *managedObjectContext;
 	BOOL selfFlg;
+	NetUserObj *netUserObj;
     
     IBOutlet UIActivityIndicatorView *activityIndicator;
     IBOutlet UITableView *mainTableView;
@@ -26,6 +28,7 @@
 @property (nonatomic, strong) NSString *friendName;
 @property (nonatomic, strong) NSMutableArray *gameList;
 
+@property (atomic, strong) NetUserObj *netUserObj;
 @property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIImageView *imageViewBG;

@@ -370,28 +370,33 @@
 		cell.mainTitle = @"Game Stats";
 		cell.alternateTitle = [formDataArray objectAtIndex:0];
 		
-		NSArray *titles = [NSArray arrayWithObjects:@"Profit", @"Games", @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", @"Hourly Rate", nil];
+		NSArray *titles = [NSArray arrayWithObjects:@"Profit", @"Risked", @"Games", @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", @"Hourly Rate", @"ROI", nil];
 		NSMutableArray *colorArray = [[NSMutableArray alloc] init];
 		
 		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:0] intValue]]];
 		[colorArray addObject:[UIColor blackColor]];
-		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:2] intValue]]];
+		[colorArray addObject:[UIColor blackColor]];
 		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:3] intValue]]];
 		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:4] intValue]]];
+		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:5] intValue]]];
 		[colorArray addObject:[UIColor blackColor]];
-		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:6] intValue]]];
+		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:7] intValue]]];
+		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:8] intValue]]];
 		
 		NSMutableArray *valueArray = [[NSMutableArray alloc] initWithArray:statsArray];
 		int money = [[statsArray objectAtIndex:0] intValue];
+		int risked = [[statsArray objectAtIndex:1] intValue];
 		[valueArray replaceObjectAtIndex:0 withObject:[ProjectFunctions convertIntToMoneyString:money]];
-		int streak = [[statsArray objectAtIndex:2] intValue];
-		[valueArray replaceObjectAtIndex:2 withObject:[ProjectFunctions getWinLossStreakString:streak]];
-		streak = [[statsArray objectAtIndex:3] intValue];
+		[valueArray replaceObjectAtIndex:1 withObject:[ProjectFunctions convertIntToMoneyString:risked]];
+		int streak = [[statsArray objectAtIndex:3] intValue];
 		[valueArray replaceObjectAtIndex:3 withObject:[ProjectFunctions getWinLossStreakString:streak]];
 		streak = [[statsArray objectAtIndex:4] intValue];
 		[valueArray replaceObjectAtIndex:4 withObject:[ProjectFunctions getWinLossStreakString:streak]];
+		streak = [[statsArray objectAtIndex:5] intValue];
+		[valueArray replaceObjectAtIndex:5 withObject:[ProjectFunctions getWinLossStreakString:streak]];
 		
-		[valueArray replaceObjectAtIndex:6 withObject:[NSString stringWithFormat:@"%@%@/hr", [ProjectFunctions getMoneySymbol], [statsArray objectAtIndex:6]]];
+		[valueArray replaceObjectAtIndex:7 withObject:[NSString stringWithFormat:@"%@%@/hr", [ProjectFunctions getMoneySymbol], [statsArray objectAtIndex:7]]];
+		[valueArray replaceObjectAtIndex:8 withObject:[NSString stringWithFormat:@"%@%%", [statsArray objectAtIndex:8]]];
 		
 		cell.titleTextArray = titles;
 		cell.fieldTextArray = valueArray;

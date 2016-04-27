@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameObj.h"
 
 @interface GameCell : UITableViewCell
 
@@ -25,5 +26,6 @@
 			profitLabel:(UILabel *)profitLabel;
 
 +(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg;
++(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg;
 
 @end

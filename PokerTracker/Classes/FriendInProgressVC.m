@@ -22,7 +22,7 @@
 @synthesize locationLabel, timeLabel, buyinLabel, rebuyLabel, chipsLabel, currentChipsLabel;
 @synthesize timeRunningLabel, profitLabel, hourlyLabel, lastUpdLabel, playerTypeImg, nowPlayingLabel;
 @synthesize gameTypeLabel, gameSpecslabel, playingFlg, chipAmountLabelString, mainTableView, chipAmountString, profitFlg;
-@synthesize gameTypeStr, gpsValues, basicsArray, casinoName, userLabel;
+@synthesize gameTypeStr, gpsValues, basicsArray, casinoName, userLabel, gameObj;
 
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -95,7 +95,17 @@
 		seconds = [[lastGameFields stringAtIndex:8] intValue];
         if(seconds==0)
             seconds = [[lastGameFields stringAtIndex:5] intValue]*60;
-        
+		
+		if(self.gameObj && self.gameObj.location.length>0) {
+			location = self.gameObj.location;
+			startTime = [self.gameObj.startTime convertDateToStringWithFormat:nil];
+			lastUpdLabel.text = [NSString stringWithFormat:@"Game Ended: %@", [self.gameObj.endTime convertDateToStringWithFormat:nil]];
+			buyIn=self.gameObj.buyInAmount;
+			rebuy=self.gameObj.reBuyAmount;
+			seconds=self.gameObj.minutes*60;
+			chips = buyIn+rebuy+self.gameObj.profit;
+		}
+		
         gameType = [lastGameFields stringAtIndex:6];
         if([lastGameFields count]>10)
             gameSpecs = [NSString stringWithFormat:@"%@ %@ %@", [lastGameFields stringAtIndex:8], [lastGameFields stringAtIndex:9], [lastGameFields stringAtIndex:10]];

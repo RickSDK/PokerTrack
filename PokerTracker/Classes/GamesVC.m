@@ -32,15 +32,13 @@
 
 @implementation GamesVC
 @synthesize managedObjectContext;
-@synthesize showMainMenuButton, moneyLabel, gamesLabel, activityIndicator, bankrollButton;
+@synthesize showMainMenuButton, moneyLabel, gamesLabel, activityIndicator, bankrollButton, roiLabel;
 @synthesize displayYear, yearLabel, leftYear, rightYear, mainTableView, gamesList, gameTypeSegment, yearToolbar, bankRollSegment;
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
 	[ProjectFunctions setBankSegment:self.bankRollSegment];
 	
@@ -163,8 +161,17 @@
 		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
 		NSString *labelStr = [NSString stringWithFormat:@"Games: %@", gameString];
 		int winnings = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
+		int risked = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"amountRisked" predicate:predicate] intValue];
+		int percent = 0;
+		if(risked>0)
+			percent = winnings*100/risked;
+		NSString *roiString = [NSString stringWithFormat:@"%d%%", percent];
+		self.roiLabel.textColor = (percent>=0)?[UIColor greenColor]:[UIColor yellowColor];
+		
+		NSLog(@"+++risked %d", risked);
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
+		[self.roiLabel performSelectorOnMainThread:@selector(setText: ) withObject:roiString waitUntilDone:NO];
 
 		[self.mainTableView reloadData];
 	}

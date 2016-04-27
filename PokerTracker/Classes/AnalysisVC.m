@@ -155,7 +155,7 @@
             name = @"Unknown";
         
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%@", name]];
-        [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%d", ppr]];
+        [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%d%%", ppr]];
         [self.playerBasicsArray addObject:[ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome]];
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:netIncome]]];
         
@@ -338,7 +338,7 @@
                                                        labelProportion:.55];
         
         cell.alternateTitle = yearLabel.text;
-        cell.titleTextArray = [NSArray arrayWithObjects:@"Name", @"PPR", @"Type", @"Profit", nil];
+        cell.titleTextArray = [NSArray arrayWithObjects:@"Name", @"ROI", @"Type", @"Profit", nil];
         if([self.playerBasicsArray count]==4) {
             cell.fieldTextArray = self.playerBasicsArray;
             cell.fieldColorArray = self.colorArray1;

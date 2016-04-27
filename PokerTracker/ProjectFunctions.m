@@ -1326,7 +1326,7 @@
 	if(totalMoneyRange>0)
 		yMultiplier = (float)bottomEdgeOfChart/totalMoneyRange;
 	if(totalSecondsRange>0)
-		xMultiplier = (float)(totalWidth-leftEdgeOfChart)/totalSecondsRange;
+		xMultiplier = (float)(totalWidth-leftEdgeOfChart-10)/totalSecondsRange;
 	
 	float sessionSpacer = 100;
 	if(numGames>0)
