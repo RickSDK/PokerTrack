@@ -232,6 +232,8 @@
 		int year=2015;
 		int month=1;
 		int day=1;
+		int hour=6;
+		int min=0;
 		NSString *dateStr = [self stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
 		NSArray *components = [dateStr componentsSeparatedByString:@" "];
 		if(components.count>0) {
@@ -247,7 +249,21 @@
 				}
 			}
 		}
-		dateVar = [[NSString stringWithFormat:@"%02d/%02d/%d 06:00:00 AM", month, day, year] convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
+		if(components.count>1) {
+			NSArray *valComp = [[components objectAtIndex:1] componentsSeparatedByString:@":"];
+			if(valComp.count>1) {
+				hour=[[valComp objectAtIndex:0] intValue];
+				min=[[valComp objectAtIndex:1] intValue];
+			}
+		}
+		NSString *amPm = @"AM";
+		if(hour>12) {
+			hour-=12;
+			amPm = @"PM";
+		}
+		NSString *dtStr = [NSString stringWithFormat:@"%02d/%02d/%d %02d:%02d:00 %@", month, day, year, hour, min, amPm];
+		NSLog(@"\t\t+++dtStr: %@", dtStr);
+		dateVar = [dtStr convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
 	}
 	if(dateVar==nil)
 		dateVar= [NSDate date];

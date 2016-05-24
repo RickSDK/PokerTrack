@@ -15,6 +15,7 @@
 #import "ListPicker.h"
 #import "NSArray+ATTArray.h"
 #import "GameGraphVC.h"
+#import "UpgradeVC.h"
 
 
 @implementation CreateOldGameVC
@@ -96,9 +97,19 @@
 		
 }
 
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
+	if(alertView.tag==104) {
+		if(buttonIndex != alertView.cancelButtonIndex) {
+			UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+			detailViewController.managedObjectContext = managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+		return;
+	}
+	
+   GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.showMainMenuFlg = YES;
 	detailViewController.mo = self.mo;
@@ -137,15 +148,9 @@
 	[hoursPlayed resignFirstResponder];
 	[buyinAmount resignFirstResponder];
 	[cashOutAmount resignFirstResponder];
-	if([ProjectFunctions isLiteVersion]) {
-		NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:managedObjectContext];
-
-        if([ProjectFunctions isLiteVersion] && [games count]>20) {
-            [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please upgrade to the full version to gain unlimited use of this app."];
-            return;
-        }
 	
-    }
+	if(![ProjectFunctions isOkToProceed:self.managedObjectContext delegate:self])
+		return;
 	
 		
 	NSArray *ttValues = [ProjectFunctions getArrayForSegment:3];

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface DatabaseManage : UIViewController {
+@interface DatabaseManage : TemplateVC {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	UIViewController *callBackViewController;
@@ -48,12 +49,14 @@
 
 - (IBAction) laterPressed: (id) sender;
 - (IBAction) importPressed: (id) sender;
+- (IBAction) upgradePressed: (id) sender;
 - (void)executeThreadedJob:(SEL)aSelector;
 - (void)completeThreadedjob;
 
 
 @property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIViewController *callBackViewController;
+@property (atomic, strong) IBOutlet UIButton *upgradeButton;
 
 
 @property (atomic, strong) UIImageView *importPopup;

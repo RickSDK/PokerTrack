@@ -256,7 +256,7 @@
 	} else {
         NSString *lastPlayedStr = [lastGameFields stringAtIndex:0];
         if([lastPlayedStr length]==22) {
-            NSDate *lastPlayedDate = [lastPlayedStr convertStringToDateWithFormat:nil];
+            NSDate *lastPlayedDate = [lastPlayedStr convertStringToDateFinalSolution];
             lastPlayedStr = [NSString stringWithFormat:@"%@", [lastPlayedDate convertDateToStringWithFormat:@"MM/dd/yyyy (h a)"]];
         }
 		[values addObject:lastPlayedStr];

@@ -36,7 +36,6 @@
                 <outlet property="smallYearLabel" destination="104" id="106"/>
                 <outlet property="startNewGameButton" destination="67" id="68"/>
                 <outlet property="statsButton" destination="4" id="8"/>
-                <outlet property="upgradeButton" destination="80" id="82"/>
                 <outlet property="versionLabel" destination="57" id="58"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="yearLabel" destination="18" id="28"/>
@@ -511,19 +510,6 @@ Version 6.7 (11/15/2012)
                     <color key="textColor" red="1" green="0.879207038" blue="0.22903527949999999" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="80">
-                    <rect key="frame" x="85" y="344" width="151" height="42"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Upgrade" backgroundImage="blueChromeBut.png">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="upgradeButtonClicked:" destination="-1" eventType="touchDown" id="84"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -533,7 +519,6 @@ Version 6.7 (11/15/2012)
     </objects>
     <resources>
         <image name="activityPopup.png" width="300" height="160"/>
-        <image name="blueChromeBut.png" width="400" height="100"/>
         <image name="chart.png" width="288" height="123"/>
         <image name="globe.png" width="50" height="50"/>
         <image name="greenChromeBut.png" width="400" height="100"/>

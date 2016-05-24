@@ -29,6 +29,7 @@
 #import "FriendAlertsVC.h"
 #import "BankrollsVC.h"
 #import "ExportCell.h"
+#import "UpgradeVC.h"
 
 #define kstartDate		0
 #define kendDate		1
@@ -148,6 +149,7 @@
 	self.totalImportedLines=0;
 	self.numImportedLinesRead=0;
 	self.importInProgress=NO;
+	self.upgradeButton.hidden=![ProjectFunctions isLiteVersion];
 
 	
 	self.activityPopup.alpha=0;
@@ -978,6 +980,8 @@
 	}
 }
 
+
+
 -(int)LoadGames:(NSArray *)components
 {
 	int numRecords=0;
@@ -985,8 +989,7 @@
 		int buyIn = [[components objectAtIndex:3] intValue];
 		if(buyIn>0) {
 			NSString *istartTime = [components objectAtIndex:0];
-			NSDate *ist = [istartTime convertStringToDateWithFormat:nil];
-//			NSString *startTime = [ist convertDateToStringWithFormat:nil];
+			NSDate *ist = [istartTime convertStringToDateFinalSolution];
 			if(![self checkForDupe:ist buyInAmount:buyIn]) {
 				numRecords++;
 				[self ImportNewPTGame:components];
@@ -1028,7 +1031,7 @@
 		NSString *value1 = [components objectAtIndex:loc1];
 		NSString *value2 = [components objectAtIndex:loc2];
 		if([field1 isEqualToString:@"gameDate"]) {
-			NSDate *tempDate = [value1 convertStringToDateWithFormat:nil];
+			NSDate *tempDate = [value1 convertStringToDateFinalSolution];
 			value1 = [tempDate convertDateToStringWithFormat:nil];
 		}
 		if(![self checkEntityForDupe:entityName key1:field1 value1:value1 key2:field2 value2:value2])
@@ -1402,6 +1405,12 @@
 	
 	
 	
+}
+
+- (IBAction) upgradePressed: (id) sender {
+	UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)refreshButtonClicked {

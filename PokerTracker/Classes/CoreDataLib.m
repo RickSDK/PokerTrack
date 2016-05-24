@@ -695,17 +695,18 @@
 			if([type isEqualToString:@"text"])
 				[newManagedObject setValue:value forKey:key];
 			if([type isEqualToString:@"date"]) {
-                NSDate *inputDate = [value convertStringToDateWithFormat:nil];
+//                NSDate *inputDate = [value convertStringToDateWithFormat:nil];
+				NSDate *inputDate = [value convertStringToDateFinalSolution];
                  if(inputDate==nil)
-                    inputDate = [value convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
+                    inputDate = [value convertStringToDateFinalSolution];
                 if(inputDate==nil)
                     inputDate = [NSDate date];
                 
-//                NSLog(@"+++%@", [inputDate convertDateToStringWithFormat:nil]);
+                NSLog(@"\t\tdate Imported: (%@)", [inputDate convertDateToStringWithFormat:nil]);
 				[newManagedObject setValue:inputDate forKey:key];
             }
 			if([type isEqualToString:@"time"])
-				[newManagedObject setValue:[value convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"] forKey:key];
+				[newManagedObject setValue:[value convertStringToDateFinalSolution] forKey:key];
 			if([type isEqualToString:@"shortDate"])
 				[newManagedObject setValue:[value convertStringToDateWithFormat:@"yyyy-MM-dd"] forKey:key];
 			if([type isEqualToString:@"int"])

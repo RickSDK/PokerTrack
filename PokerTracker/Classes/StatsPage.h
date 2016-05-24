@@ -101,7 +101,8 @@
 @property (atomic, strong) UIButton *rightYear;
 
 @property (atomic, strong) UIImageView *activityBGView;
-@property (atomic, strong) UIImageView *chartImageView;
+@property (atomic, strong) IBOutlet UIImageView *chartImageView;
+@property (atomic, strong) IBOutlet UIImageView *chartImageView2;
 @property (atomic, strong) UIImageView *largeGraph;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 

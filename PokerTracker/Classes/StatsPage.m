@@ -49,14 +49,17 @@
 @synthesize reportsButton, chartsButton, goalsButton, analysisButton, analysisToolbar, yearToolbar, multiDimenArray, bankRollSegment;
 @synthesize bankrollButton, viewUnLoaded, top5Toolbar, last10Button, top5Button;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	self.chartImageView2.hidden=(fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (void)viewDidLoad {
 	
 	[self.mainTableView setBackgroundView:nil];
+	self.chartImageView2.hidden=YES;
 	
 	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"risked", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", @"ROI", nil]];
@@ -91,7 +94,7 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
 
 	
-	self.chartImageView.alpha=0;
+//	self.chartImageView.alpha=0;
 	
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
@@ -360,10 +363,10 @@
 	[self addArrayToList:predicate moc:contextLocal];
 
 	
-        self.chartImageView.image = [ProjectFunctions plotStatsChart:contextLocal predicate:predicate displayBySession:displayBySession];
-	
+    chartImageView.image = [ProjectFunctions plotStatsChart:contextLocal predicate:predicate displayBySession:displayBySession];
+		self.chartImageView2.image = chartImageView.image;
 
-	self.chartImageView.alpha=1;
+//	self.chartImageView.alpha=1;
 
         NSString *stats2 = [CoreDataLib getGameStat:contextLocal dataField:@"stats2" predicate:predicate];
         [statsArray removeAllObjects];

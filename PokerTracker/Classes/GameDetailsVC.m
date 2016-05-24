@@ -116,7 +116,7 @@
 	self.saveEditButton.enabled=NO;
 	self.changesMade=NO;
 	
-	NSDate *startTime = [(NSString *)[self.formDataArray stringAtIndex:kStartTime] convertStringToDateWithFormat:nil];
+	NSDate *startTime = [(NSString *)[self.formDataArray stringAtIndex:kStartTime] convertStringToDateFinalSolution];
 	[self.formDataArray replaceObjectAtIndex:24 withObject:[startTime convertDateToStringWithFormat:@"EEEE"]];
 	[self.formDataArray replaceObjectAtIndex:25 withObject:[startTime convertDateToStringWithFormat:@"MMMM"]];
 	[self.formDataArray replaceObjectAtIndex:26 withObject:[ProjectFunctions getDayTimeFromDate:startTime]];

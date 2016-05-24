@@ -60,13 +60,8 @@
 
 +(BOOL)isLiteVersion
 {
-//	return YES;
-//	if([ProjectFunctions getUserDefaultValue:@"proVersion"].length>0)
+	if([ProjectFunctions getUserDefaultValue:@"proVersion101"].length>0)
 		return NO;
-//	if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
-//		return NO;
-//	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
-//		return NO;
 
     return YES;
 }
@@ -807,7 +802,28 @@
 	if(kLOG)
 		NSLog(@"-------------------------------------------");
 	
-	return [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:mOC];
+	BOOL success = [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:mOC];
+	NSLog(@"weekday: %@", [mo valueForKey:@"weekday"]);
+	NSLog(@"hours: %@", [mo valueForKey:@"hours"]);
+	NSDate *startTime = [mo valueForKey:@"startTime"];
+	NSDate *endTime = [mo valueForKey:@"endTime"];
+	
+	NSString *weekday = [startTime convertDateToStringWithFormat:@"EEEE"];
+	NSString *month = [startTime convertDateToStringWithFormat:@"MMMM"];
+	NSString *year = [startTime convertDateToStringWithFormat:@"yyyy"];
+	NSString *daytime = [ProjectFunctions getDayTimeFromDate:startTime];
+	int seconds = [endTime timeIntervalSinceDate:startTime];
+	[mo setValue:weekday forKey:@"weekday"];
+	[mo setValue:month forKey:@"month"];
+	[mo setValue:year forKey:@"year"];
+	[mo setValue:daytime forKey:@"daytime"];
+	[mo setValue:[NSString stringWithFormat:@"%.1f", (float)seconds/3600] forKey:@"hours"];
+	[mo setValue:[NSNumber numberWithInt:seconds/60] forKey:@"minutes"];
+	[mOC save:nil];
+	NSLog(@"weekday: %@", [mo valueForKey:@"weekday"]);
+	NSLog(@"hours: %@", [mo valueForKey:@"hours"]);
+
+	return success;
 }
 
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName
@@ -2146,7 +2162,7 @@
     NSLog(@"Sending Universe tracker Stats...");
 
 	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"LastUpd", @"Data", @"dateText", nil];
-	NSDate *lastUpd = [[ProjectFunctions getUserDefaultValue:@"lastSyncedDate"] convertStringToDateWithFormat:nil];
+	NSDate *lastUpd = [[ProjectFunctions getUserDefaultValue:@"lastSyncedDate"] convertStringToDateFinalSolution];
 	NSString *lastUpdDate = [lastUpd convertDateToStringWithFormat:@"MM/dd/yyyy HH:mm:ss"];
 
 
@@ -3687,6 +3703,14 @@
 	if(width<320)
 		width=320;
 	return height*width/320;
+}
+
++(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate {
+	if([ProjectFunctions isLiteVersion] && [CoreDataLib selectRowsFromTable:@"GAME" mOC:context].count>=5) {
+		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"Sorry the trial period has ended. You will need to upgrade to use this feature." delegate:delegate tag:104];
+		return NO;
+	}
+	return YES;
 }
 
 

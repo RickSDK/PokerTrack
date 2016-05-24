@@ -20,8 +20,8 @@
 	[self setTitle:@"Upgrade!"];
 
 	self.productID = [NSString new];
-	self.productID = @"proVersionPTP";
-//	self.productID = @"PTP_Upgrade";
+//	self.productID = @"proVersionPTP";
+	self.productID = @"PTP_Upgrade";
 	
 
 	self.promoCodeView.hidden=YES;
@@ -66,9 +66,19 @@
 	[self startWebService:@selector(loadStore) message:nil];
 }
 - (IBAction) restoreButtonPressed: (id) sender {
-	[self startWebService:@selector(loadStore) message:nil];
+	
+	[self startWebService:@selector(restoreStore) message:nil];
 }
 
+- (void)restoreStore
+{
+	// restarts any purchases if they were interrupted last time the app was open
+	[[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+	[[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+	
+	// get the product description (defined in early sections)
+	[self requestProUpgradeProductData];
+}
 
 - (void)loadStore
 {
@@ -204,7 +214,7 @@
 }
 
 -(void)unlockUpgrade {
-	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion"];
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion101"];
 	[ProjectFunctions showAlertPopupWithDelegate:@"Thank you!" message:@"You are now a Gold Member!" delegate:self];
 }
 

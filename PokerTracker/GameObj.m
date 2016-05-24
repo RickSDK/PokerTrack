@@ -42,8 +42,8 @@
 		gameObj.cashGameFlg = [@"Cash" isEqualToString:[components objectAtIndex:6]];
 		gameObj.type = [components objectAtIndex:6];
 		gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", [components objectAtIndex:8], [components objectAtIndex:9], [components objectAtIndex:10]];
-		gameObj.startTime = [[components objectAtIndex:0] convertStringToDateWithFormat:nil];
-		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateWithFormat:nil];
+		gameObj.startTime = [[components objectAtIndex:0] convertStringToDateFinalSolution];
+		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateFinalSolution];
 		gameObj.minutes = [gameObj.endTime timeIntervalSinceDate:gameObj.startTime]/60;
 		gameObj.hours = [NSString stringWithFormat:@"%.1f", (float)gameObj.minutes/60];
 		gameObj.location = [components objectAtIndex:4];

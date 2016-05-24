@@ -192,5 +192,6 @@
 +(void)ptpLocationAuthorizedCheck:(CLAuthorizationStatus)status;
 +(NSString *)smallLabelForMoney:(float)money totalMoneyRange:(float)totalMoneyRange;
 +(float)chartHeightForSize:(float)height;
++(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
 
 @end

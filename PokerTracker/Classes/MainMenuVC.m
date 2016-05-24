@@ -146,9 +146,6 @@
 	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0)
 		[self countFriendsPlaying];
 	
-	if([ProjectFunctions getUserDefaultValue:@"checkProVersion"].length==0)
-		[self checkProVersion];
-	
 	if([ProjectFunctions isLiteVersion]) {
 		upgradeButton.alpha=1;
 	}
@@ -162,17 +159,6 @@
 	}
 }
 
--(void)checkProVersion {
-	if([ProjectFunctions getUserDefaultValue:@"minYear"].length>0)
-		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion"]; // grandfathered in
-	if([ProjectFunctions getUserDefaultValue:@"minYear2"].length==0)
-		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"proVersion"]; // new customer. already paid
-
-	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"checkProVersion"];
-
-	NSLog(@"+++minYear2 %@", [ProjectFunctions getUserDefaultValue:@"minYear2"]);
-	NSLog(@"+++minYear %@", [ProjectFunctions getUserDefaultValue:@"minYear"]);
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -453,15 +439,14 @@
 	if(rotateLock)
 		return;
 	
-	NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:managedObjectContext];
-    if([games count]>=10 && [ProjectFunctions isLiteVersion]) {
-        [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please upgrade to the full version to gain unlimited use of this app."];
-        return;
-    }
-	StartNewGameVC *detailViewController = [[StartNewGameVC alloc] initWithNibName:@"StartNewGameVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
+	if([ProjectFunctions isOkToProceed:self.managedObjectContext delegate:self]) {
+		StartNewGameVC *detailViewController = [[StartNewGameVC alloc] initWithNibName:@"StartNewGameVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
+
+
 
 -(IBAction)casinoTrackerClicked:(id)sender
 {
@@ -494,6 +479,11 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+	if(alertView.tag==104 && buttonIndex != alertView.cancelButtonIndex) {
+		UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 	if(buttonIndex==1 && alertViewNum==1) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
@@ -824,6 +814,12 @@
 	}
 	if(rotateLock)
 		return;
+	
+	if([ProjectFunctions isLiteVersion]) {
+		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"You will need to upgrade to use this feature." delegate:self tag:104];
+		return;
+	}
+
     if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
         self.forumNumCircle.alpha=0;
         self.forumNumLabel.alpha=0;

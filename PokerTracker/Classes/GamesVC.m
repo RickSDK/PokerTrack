@@ -24,6 +24,7 @@
 #import "PokerTrackerAppDelegate.h"
 #import "GameCell.h"
 #import "GameObj.h"
+#import "UpgradeVC.h"
 
 
 
@@ -135,17 +136,20 @@
 
 - (IBAction) createPressed: (id) sender
 {
-	if([ProjectFunctions isLiteVersion]) {
-		NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:self.managedObjectContext];
-        if([games count]>20) {
-            [ProjectFunctions showAlertPopup:@"Lite Version Expired" message:@"Sorry, the lite version is only for trial purposes and has expired. Please purchase the full version at this time. You can export/import all your games by clicking 'More' from the main menu."];
-            return;
-        }
+	if([ProjectFunctions isOkToProceed:self.managedObjectContext delegate:self]) {
+		NewGameBuyin *detailViewController = [[NewGameBuyin alloc] initWithNibName:@"NewGameBuyin" bundle:nil];
+		detailViewController.managedObjectContext = self.managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
-	
-	NewGameBuyin *detailViewController = [[NewGameBuyin alloc] initWithNibName:@"NewGameBuyin" bundle:nil];
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(alertView.tag==104 && buttonIndex != alertView.cancelButtonIndex) {
+		UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
 
 
@@ -179,7 +183,7 @@
 
 -(NSManagedObject *)gameFromString:(NSString *)gameString localContext:(NSManagedObjectContext *)localContext {
 	NSArray *components = [gameString componentsSeparatedByString:@"|"];
-	NSDate *startTime = [[components objectAtIndex:0] convertStringToDateWithFormat:nil];
+	NSDate *startTime = [[components objectAtIndex:0] convertStringToDateFinalSolution];
 	float winnings = [[components objectAtIndex:1] floatValue];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"startTime >= %@ AND winnings = %f", startTime, winnings];

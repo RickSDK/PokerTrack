@@ -12,6 +12,7 @@
 #import "CreateNewAccount.h"
 #import "NSArray+ATTArray.h"
 #import "MainMenuVC.h"
+#import "UpgradeVC.h"
 
 
 @implementation LoginVC
@@ -45,13 +46,22 @@
 }
 
 -(void)createNewAccountPressed:(id)sender {
+	if([ProjectFunctions isLiteVersion]) {
+		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"You will need to upgrade to use this feature." delegate:self tag:104];
+		return;
+	}
 	CreateNewAccount *detailViewController = [[CreateNewAccount alloc] initWithNibName:@"CreateNewAccount" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+	if(alertView.tag==104 && buttonIndex != alertView.cancelButtonIndex) {
+		UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	} else
+		[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 -(void)showLoginPopupWithTitle:(NSString *)title andMessage:(NSString *)message andDefaultUser:(NSString *)defaultUser delegate:(id)delegate
@@ -139,6 +149,10 @@
 
 - (IBAction) loginPressed: (id) sender
 {
+	if([ProjectFunctions isLiteVersion]) {
+		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"You will need to upgrade to use this feature." delegate:self tag:99];
+		return;
+	}
 	[loginEmail resignFirstResponder];
 	[loginPassword resignFirstResponder];
 	BOOL passChecks=YES;
@@ -154,6 +168,7 @@
 		[self executeThreadedJob:@selector(loginToSystem)];
 	}
 }
+
 
 - (IBAction) forgotPressed: (id) sender
 {

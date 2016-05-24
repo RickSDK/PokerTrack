@@ -132,7 +132,7 @@
 
         
         if([lastUpdStr length]>5)
-            lastUpdDate = [lastUpdStr convertStringToDateWithFormat:nil];
+            lastUpdDate = [lastUpdStr convertStringToDateFinalSolution];
         self.playingFlg=YES;
  		if([[lastGameFields stringAtIndex:7] isEqualToString:@"N"]) {
 			if(chips>buyIn+rebuy)
