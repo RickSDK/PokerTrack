@@ -19,7 +19,6 @@
                 <outlet property="laterButton" destination="41" id="46"/>
                 <outlet property="mainTableView" destination="10" id="39"/>
                 <outlet property="progressView" destination="21" id="22"/>
-                <outlet property="upgradeButton" destination="9I2-K7-ywl" id="cvP-yB-hOL"/>
                 <outlet property="userLabel" destination="26" id="27"/>
                 <outlet property="view" destination="8" id="9"/>
             </connections>
@@ -30,7 +29,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="greenFelt.png" id="36">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="396"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="10">
@@ -185,16 +184,6 @@ Step 3: Press 'Import' below</string>
                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9I2-K7-ywl" customClass="CustomButton">
-                    <rect key="frame" x="47" y="373" width="222" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <state key="normal" title="Upgrade">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="upgradePressed:" destination="-1" eventType="touchDown" id="k4q-h0-lVC"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

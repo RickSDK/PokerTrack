@@ -57,6 +57,14 @@
 		self.graphChart.alpha=.5;
 	}
 	
+	self.topView.hidden=self.isPokerZilla;
+	self.last10Label.hidden=self.isPokerZilla;
+	self.bigHandsButton.hidden=self.isPokerZilla;
+	self.friendsButton.hidden=self.isPokerZilla;
+	self.aboutView.hidden=YES;
+	if(self.isPokerZilla)
+		self.aboutTextView.text = @"Congratulations!! you are using the 2nd best Poker Stats Tracking app ever! Features include: \n\nReal-time game entry\nWidest array of stats and graphs\nPlayer Tracker\nHand Tracker\nOdds Calculator.\n\nBy the way, the only tracker better is Poker Track Pro, which has all these features plus more. Please check out Poker Track Pro for even more features including tracking your friends!!";
+	
 	int xPos=15;
 	int yPos=270;
 	int width=290;
@@ -80,20 +88,15 @@
 	}
 	
 	
-	int bankroll = [[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue];
-	if(bankroll==0) {
-		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
-		if([items count]==0) {
-			self.alertViewNum=99;
-			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:@"Welcome to Poker Track Pro!" delegate:self];
-		}
-	}
 	
 	
 	self.toggleMode = [[ProjectFunctions getUserDefaultValue:@"toggleMode"] intValue];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
 	
-	self.aboutButton = [ProjectFunctions navigationButtonWithTitle:@"About" selector:@selector(aboutButtonClicked:) target:self];
+	NSString *title = ([ProjectFunctions isLiteVersion])?@"Upgrade":@"About";
+//	if(self.isPokerZilla)
+//		title = @"";
+	self.aboutButton = [ProjectFunctions navigationButtonWithTitle:title selector:@selector(aboutButtonClicked:) target:self];
 	self.navigationItem.leftBarButtonItem = self.aboutButton;
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
@@ -159,6 +162,9 @@
 	}
 }
 
+-(BOOL)isPokerZilla {
+	return [ProjectFunctions isPokerZilla];
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -168,7 +174,19 @@
 	
 	[self calculateStats];
 	[self findMinAndMaxYear];
-	
+
+	int bankroll = [[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue];
+	if(bankroll==0) {
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
+		if([items count]==0) {
+			self.alertViewNum=99;
+			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:[NSString stringWithFormat:@"Welcome to %@!", ([self isPokerZilla])?@"PokerZilla":@"Poker Track Pro"] delegate:self];
+		}
+	} else if([ProjectFunctions isLiteVersion] && [ProjectFunctions getUserDefaultValue:@"UpgradeCheck"].length==0) {
+		self.alertViewNum=199;
+		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Poker Track Lite is not the full version of this app. Check out the details." delegate:self];
+	}
+
 }
 
 
@@ -181,6 +199,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIDevice *device = [UIDevice currentDevice];
     NSString *model = [device model];
+	NSLog(@"Rotate!!!");
     
     if([model length]>3 && [[model substringToIndex:4] isEqualToString:@"iPad"])
         return;
@@ -313,6 +332,15 @@
 		[self startDisolveNow];
 		return;
 	}
+	
+	if([ProjectFunctions isLiteVersion]) {
+		UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+		return;
+	}
+	
+	self.aboutView.hidden=aboutShowing;
 	aboutShowing = !aboutShowing;
 	if(aboutShowing) {
 		aboutImage.alpha=0.9;
@@ -395,6 +423,11 @@
 
 -(IBAction)reviewButtonClicks:(id)sender {
 	[ProjectFunctions writeAppReview];
+}
+
+-(IBAction)ptpButtonClicked:(id)sender {
+	int appId = 475160109;
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/apple-store/id%d?mt=8", appId]]];
 }
 
 -(IBAction)emailButtonClicked:(id)sender
@@ -500,6 +533,12 @@
 	}
 	if(alertViewNum==99) {
 		AppInitialVC *detailViewController = [[AppInitialVC alloc] initWithNibName:@"AppInitialVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+	if(alertViewNum==199) {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"UpgradeCheck"];
+		UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}

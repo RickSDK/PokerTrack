@@ -65,6 +65,7 @@
 
 +(int)getProductionMode;
 +(BOOL)isLiteVersion;
++(BOOL)isPokerZilla;
 +(NSString *)getAppID;
 +(void)writeAppReview;
 +(NSString *)getProjectVersion;

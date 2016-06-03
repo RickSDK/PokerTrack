@@ -15,16 +15,7 @@
 @implementation AppInitialVC
 @synthesize managedObjectContext, enterButton, bankrollButton, liteLabel;
 
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization.
-    }
-    return self;
-}
-*/
+
 
 -(void)bankrollButtonClicked:(id)sender
 {
@@ -50,7 +41,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Poker Track Pro"];
+	[self setTitle:([ProjectFunctions isPokerZilla])?@"PokerZilla":@"Poker Track Pro"];
 	enterButton.enabled=NO;
 	UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpButtonClicked:)];
 	self.navigationItem.leftBarButtonItem = moreButton;

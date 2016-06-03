@@ -8,6 +8,7 @@
 
 #import "UpgradeVC.h"
 #import "MainMenuVC.h"
+#import "OnlineReviewVC.h"
 
 @interface UpgradeVC ()
 
@@ -40,6 +41,12 @@
 	else
 		[self startWebService:@selector(submitPromoCode) message:nil];
 }
+
+- (IBAction) reviewButtonPressed: (id) sender {
+	OnlineReviewVC *detailViewController = [[OnlineReviewVC alloc] initWithNibName:@"OnlineReviewVC" bundle:nil];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 
 -(void)submitPromoCode {
 	@autoreleasepool {

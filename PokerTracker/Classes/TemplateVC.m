@@ -14,6 +14,10 @@
 
 @implementation TemplateVC
 
+-(BOOL)isPokerZilla {
+	return [ProjectFunctions isPokerZilla];
+}
+
 -(float)screenWidth {
 	return [[UIScreen mainScreen] bounds].size.width;
 }
@@ -46,6 +50,7 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size
 	   withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 	self.bgImageView.frame = CGRectMake(0, 0, size.width, size.height+44);
 }
 

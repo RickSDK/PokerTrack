@@ -186,7 +186,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+	return (self.isPokerZilla)?1:2;
 }
 
 

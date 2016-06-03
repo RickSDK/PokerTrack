@@ -29,5 +29,6 @@
 - (IBAction) upgradeButtonPressed: (id) sender;
 - (IBAction) restoreButtonPressed: (id) sender;
 - (IBAction) submitButtonPressed: (id) sender;
+- (IBAction) reviewButtonPressed: (id) sender;
 
 @end

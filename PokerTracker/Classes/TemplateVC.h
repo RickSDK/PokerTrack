@@ -29,5 +29,6 @@
 -(void)stopWebService;
 -(void)resignResponders;
 - (IBAction) segmentChanged: (id) sender;
+-(BOOL)isPokerZilla;
 
 @end

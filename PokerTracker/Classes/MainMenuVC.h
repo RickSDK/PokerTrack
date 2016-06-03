@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
+#import "TemplateVC.h"
 
 
 @interface MainMenuVC : UIViewController {
@@ -86,6 +87,7 @@
 - (IBAction) casinoTrackerClicked:(id)sender;
 
 -(IBAction)reviewButtonClicks:(id)sender;
+-(IBAction)ptpButtonClicked:(id)sender;
 -(IBAction)emailButtonClicked:(id)sender;
 -(IBAction)upgradeButtonClicked:(id)sender;
 -(IBAction)editButtonClicked:(id)sender;
@@ -97,6 +99,10 @@
 @property (nonatomic, strong) UILabel *smallYearLabel;
 @property (nonatomic, strong) UILabel *yearTotalLabel;
 
+@property (nonatomic, strong) IBOutlet UIView *aboutView;
+@property (nonatomic, strong) IBOutlet UITextView *aboutTextView;
+@property (nonatomic, strong) IBOutlet UIView *topView;
+@property (nonatomic, strong) IBOutlet UILabel *last10Label;
 @property (nonatomic, strong) UIImageView *friendsNumCircle;
 @property (nonatomic, strong) UILabel *friendsNumLabel;
 @property (nonatomic, strong) UIBarButtonItem *aboutButton;

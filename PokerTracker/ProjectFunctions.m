@@ -34,6 +34,10 @@
 	return kPRODMode;
 }
 
++(BOOL)isPokerZilla {
+	return YES;
+}
+
 +(NSString *)getProjectVersion
 {
 	return @"Version 1.0";
@@ -60,7 +64,7 @@
 
 +(BOOL)isLiteVersion
 {
-	if([ProjectFunctions getUserDefaultValue:@"proVersion101"].length>0)
+//	if([ProjectFunctions getUserDefaultValue:@"proVersion101"].length>0)
 		return NO;
 
     return YES;
@@ -68,6 +72,9 @@
 
 +(NSString *)getAppID
 {
+	if([ProjectFunctions isPokerZilla])
+		return @"928197798";
+
 	if([ProjectFunctions isLiteVersion])
 		return @"488925221";
 	else
