@@ -103,6 +103,7 @@
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) IBOutlet UIImageView *chartImageView;
 @property (atomic, strong) IBOutlet UIImageView *chartImageView2;
+@property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;
 @property (atomic, strong) UIImageView *largeGraph;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 

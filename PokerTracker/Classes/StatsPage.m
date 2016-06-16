@@ -61,6 +61,9 @@
 	[self.mainTableView setBackgroundView:nil];
 	self.chartImageView2.hidden=YES;
 	
+	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.chartImageView2];
+
+	
 	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"risked", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", @"ROI", nil]];
 	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"LifeTime", @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
@@ -89,13 +92,8 @@
 	[super viewDidLoad];
 	
 	
-//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Filters" selector:@selector(filtersButtonClicked:) target:self];;
-	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
 
-	
-//	self.chartImageView.alpha=0;
-	
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
@@ -119,8 +117,6 @@
 	
 	
 }
-
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -291,7 +287,13 @@
 	if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
 		toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
 	{
-		largeGraph.alpha=1;
+		self.chartImageView2.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+
+//		largeGraph.alpha=.5;
+//		chartImageView.alpha=.5;
+//		self.chartImageView2.alpha=.5;
+//		NSLog(@"Here!!");
+//		largeGraph.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width/2, [[UIScreen mainScreen] bounds].size.height);
 		self.rotateLock=YES;
 	}
 	else
@@ -337,8 +339,6 @@
 -(void)doTheHardWork {
 	@autoreleasepool {
 	
-//    [NSThread sleepForTimeInterval:.02];
-    
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -366,8 +366,6 @@
     chartImageView.image = [ProjectFunctions plotStatsChart:contextLocal predicate:predicate displayBySession:displayBySession];
 		self.chartImageView2.image = chartImageView.image;
 
-//	self.chartImageView.alpha=1;
-
         NSString *stats2 = [CoreDataLib getGameStat:contextLocal dataField:@"stats2" predicate:predicate];
         [statsArray removeAllObjects];
         if([stats2 length]>0)
@@ -377,7 +375,8 @@
 	[profitArray removeAllObjects];
 	NSArray *titleArray = [NSArray arrayWithObjects:@"Quarter 1", @"Quarter 2", @"Quarter 3", @"Quarter 4", @"Totals",nil]; 
 	int totalMoney=0;
-	int totalGames=0;
+		int totalGames=0;
+		int totalRisked=0;
 	NSString *predStr = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
 	if(displayYear>1980) {
 		NSDate *startDate = [[NSString stringWithFormat:@"01/01/%d", displayYear] convertStringToDateWithFormat:@"MM/dd/yyyy"];
@@ -392,6 +391,8 @@
 			NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@ AND startTime >= %%@ AND startTime < %%@", predStr], startDate, endDate];
 			int money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
 			int games = [[CoreDataLib getGameStat:contextLocal dataField:@"gameCount" predicate:predicate] intValue];
+			totalRisked += [[CoreDataLib getGameStat:contextLocal dataField:@"amountRisked" predicate:predicate] intValue];
+			
 			startDate = endDate;
 			totalMoney += money;
 			totalGames += games;
@@ -406,29 +407,33 @@
 			
 			int money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
 			int games = [[CoreDataLib getGameStat:contextLocal dataField:@"gameCount" predicate:predicate] intValue];
+			totalRisked += [[CoreDataLib getGameStat:contextLocal dataField:@"amountRisked" predicate:predicate] intValue];
 			totalMoney += money;
 			totalGames += games;
 			[profitArray addObject:[NSString stringWithFormat:@"%@|%d|%d", year, money, games]];
 		}
 		
 	}
+		
+		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:totalRisked winnings:totalMoney];
+
 	[profitArray addObject:[NSString stringWithFormat:@"%@|%d|%d", @"Totals", totalMoney, totalGames]]; // totals
 
 	
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-
-        [activityIndicator stopAnimating];
-        mainTableView.alpha=1;
-	activityBGView.alpha=0;
-        analysisButton.enabled=YES;
-        reportsButton.enabled=YES;
-        chartsButton.enabled=YES;
-        goalsButton.enabled=YES;
-        gameSegment.enabled=YES;
-        customSegment.enabled=YES;
-
-        [mainTableView reloadData];
+		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+		
+		
+		[activityIndicator stopAnimating];
+		mainTableView.alpha=1;
+		activityBGView.alpha=0;
+		analysisButton.enabled=YES;
+		reportsButton.enabled=YES;
+		chartsButton.enabled=YES;
+		goalsButton.enabled=YES;
+		gameSegment.enabled=YES;
+		customSegment.enabled=YES;
+		
+		[mainTableView reloadData];
 
 	}
 }

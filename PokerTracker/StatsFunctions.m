@@ -42,6 +42,7 @@
 	NSMutableArray *valueArray = [[NSMutableArray alloc] initWithArray:statsArray];
 	int money = [[statsArray objectAtIndex:0] intValue];
 	int risked = [[statsArray objectAtIndex:1] intValue];
+	NSLog(@"+++money: %d %d", money, risked);
 	[valueArray replaceObjectAtIndex:0 withObject:[ProjectFunctions convertIntToMoneyString:money]];
 	[valueArray replaceObjectAtIndex:1 withObject:[ProjectFunctions convertIntToMoneyString:risked]];
 	int streak = [[statsArray objectAtIndex:3] intValue];

@@ -35,7 +35,7 @@
 }
 
 +(BOOL)isPokerZilla {
-	return YES;
+	return NO;
 }
 
 +(NSString *)getProjectVersion
@@ -58,8 +58,17 @@
 //    NSString *softwareVersion = (__bridge NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey); // added RM
 	
     NSString *lite = ([self isLiteVersion])?@"L":@"";
+	if([ProjectFunctions isPokerZilla])
+		lite = @"Z";
     
     return [NSString stringWithFormat:@"Version %@%@ (%@)", version, lite, model];
+}
+
++(float)projectVersionNumber {
+	NSDictionary *infoDictionary = [[NSBundle mainBundle]infoDictionary];
+	NSString *version = infoDictionary[@"CFBundleShortVersionString"];
+	NSLog(@"+++version: %@", version);
+	return [version floatValue];
 }
 
 +(BOOL)isLiteVersion
@@ -333,12 +342,12 @@
 +(NSString *)convertIntToMoneyString:(int)money
 {
 	
-	if(money>100000000)
-		return [NSString stringWithFormat:@"%@%dM", [ProjectFunctions getMoneySymbol], money/1000000];
-	if(money>1000000)
-		return [NSString stringWithFormat:@"%@%.1fM", [ProjectFunctions getMoneySymbol], (float)money/1000000];
-	if(money>100000)
-		return [NSString stringWithFormat:@"%@%dK", [ProjectFunctions getMoneySymbol], money/1000];
+//	if(money>100000000)
+//		return [NSString stringWithFormat:@"%@%dM", [ProjectFunctions getMoneySymbol], money/1000000];
+//	if(money>1000000)
+//		return [NSString stringWithFormat:@"%@%.1fM", [ProjectFunctions getMoneySymbol], (float)money/1000000];
+//	if(money>100000)
+//		return [NSString stringWithFormat:@"%@%dK", [ProjectFunctions getMoneySymbol], money/1000];
 	
 	return [ProjectFunctions convertNumberToMoneyString:(float)money];
 }

@@ -143,7 +143,7 @@
 	
 	if([gameObj.status isEqualToString:@"In Progress"]) {
 		cell.backgroundColor = [UIColor yellowColor];
-		cell.profitLabel.text = @"In Progress";
+		cell.profitLabel.text = @"Playing";
 		cell.profitLabel.textColor = [UIColor redColor];
 	}
 }

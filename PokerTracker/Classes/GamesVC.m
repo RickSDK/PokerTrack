@@ -172,6 +172,8 @@
 		NSString *roiString = [NSString stringWithFormat:@"%d%%", percent];
 		self.roiLabel.textColor = (percent>=0)?[UIColor greenColor]:[UIColor yellowColor];
 		
+		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:winnings];
+
 		NSLog(@"+++risked %d", risked);
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];

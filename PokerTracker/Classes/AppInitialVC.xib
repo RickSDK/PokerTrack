@@ -21,7 +21,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="pokerzilla.png" id="5">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="logo2.png" id="5">
                     <rect key="frame" x="12" y="36" width="297" height="158"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
@@ -110,7 +110,7 @@
     <resources>
         <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="greenFelt3.png" width="320" height="480"/>
-        <image name="pokerzilla.png" width="640" height="224"/>
+        <image name="logo2.png" width="317" height="149"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -303,8 +303,12 @@
 	float foodMoney = [ProjectFunctions getMoneyValueFromText:foodButton.titleLabel.text];
 	float tokes = [ProjectFunctions getMoneyValueFromText:tokesButton.titleLabel.text];
 	float chips = [ProjectFunctions getMoneyValueFromText:chipStackButton.titleLabel.text];
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"])
+	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
+		[mo setValue:[NSNumber numberWithInt:foodMoney] forKey:@"tournamentSpots"];
+		[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tournamentFinish"];
+		[mo setValue:[NSNumber numberWithInt:(foodMoney/10)+2] forKey:@"breakMinutes"];
 		foodMoney=0;
+	}
 	
 	[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips+foodMoney-buyIn-rebuyAmount rebuyFlg:NO];
 
@@ -326,11 +330,6 @@
 	[mo setValue:[NSDate date] forKey:@"endTime"];
 	[mo setValue:[NSString stringWithFormat:@"%.1f", hours] forKey:@"hours"];
 	
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		[mo setValue:[NSNumber numberWithInt:foodMoney] forKey:@"tournamentSpots"];
-		[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tournamentFinish"];
-		[mo setValue:[NSNumber numberWithInt:(foodMoney/10)+2] forKey:@"breakMinutes"];
-	}
 	
 	[managedObjectContext save:nil];
 	
@@ -643,7 +642,7 @@
 -(void)liveUpdate
 {
  	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
-		[self startWebServiceCall:@"Updating Server"];
+//		[self startWebServiceCall:@"Updating Server"];
         [self performSelectorInBackground:@selector(doLiveUpdate) withObject:nil];
     }
 }

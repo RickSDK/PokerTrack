@@ -70,6 +70,7 @@
 +(void)writeAppReview;
 +(NSString *)getProjectVersion;
 +(NSString *)getProjectDisplayVersion;
++(float)projectVersionNumber;
 +(BOOL)useThreads;
 +(NSArray *)getFieldListForVersion:(NSString *)version type:(NSString *)type;
 +(NSArray *)sortArray:(NSMutableArray *)list;

@@ -184,6 +184,7 @@
 	NSString *gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
 	if([gameType isEqualToString:@"Tournament"]) {
 		gameTypeSegmentBar.selectedSegmentIndex=1;
+		[gameTypeSegmentBar changeSegment];
 		[buyinAmountButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"]] forState:UIControlStateNormal];
 	} else {
 		[buyinAmountButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [ProjectFunctions getUserDefaultValue:@"buyinDefault"]] forState:UIControlStateNormal];

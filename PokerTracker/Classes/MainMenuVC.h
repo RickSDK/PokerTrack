@@ -94,21 +94,28 @@
 -(IBAction)analysisButtonClicked:(id)sender;
 -(void)calculateStats;
 -(void)startDisolveNow;
+-(BOOL)isPokerZilla;
 
 
 @property (nonatomic, strong) UILabel *smallYearLabel;
 @property (nonatomic, strong) UILabel *yearTotalLabel;
 
 @property (nonatomic, strong) IBOutlet UIView *aboutView;
+@property (nonatomic, strong) IBOutlet UIView *botView;
+@property (nonatomic, strong) IBOutlet UIView *reviewView;
+@property (nonatomic, strong) IBOutlet UILabel *reviewCountLabel;
 @property (nonatomic, strong) IBOutlet UITextView *aboutTextView;
 @property (nonatomic, strong) IBOutlet UIView *topView;
 @property (nonatomic, strong) IBOutlet UILabel *last10Label;
+@property (nonatomic, strong) IBOutlet UIImageView *statusImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *pokerZillaImageView;
 @property (nonatomic, strong) UIImageView *friendsNumCircle;
 @property (nonatomic, strong) UILabel *friendsNumLabel;
 @property (nonatomic, strong) UIBarButtonItem *aboutButton;
 @property (nonatomic) BOOL aboutShowing;
 @property (nonatomic) BOOL displayBySession;
 @property (nonatomic) BOOL rotateLock;
+@property (nonatomic) BOOL loggedInFlg;
 @property (nonatomic) BOOL showDisolve;
 @property (nonatomic) BOOL screenLock;
 @property (nonatomic) BOOL avoidPopup;
@@ -116,6 +123,9 @@
 @property (nonatomic) int displayYear;
 @property (nonatomic) int alertViewNum;
 @property (nonatomic) int logoAlpha;
+@property (nonatomic) int numReviews;
+@property (nonatomic) float currentVersion;
+
 @property (nonatomic, strong) UIButton *statsButton;
 @property (nonatomic, strong) UIButton *reviewButton;
 @property (nonatomic, strong) UIButton *emailButton;

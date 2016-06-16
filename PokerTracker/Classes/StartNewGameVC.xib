@@ -99,7 +99,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.73851267696836187" green="1" blue="0.70361901194705501" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.89950515450733726" green="1" blue="0.92001120463085673" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
                     <rect key="frame" x="38" y="17" width="244" height="30"/>

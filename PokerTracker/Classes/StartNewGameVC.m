@@ -37,18 +37,8 @@
 	self.selectedObjectForEdit=0;
 	startLiveButton.enabled=NO;
 	
-	NSString *gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
 	[buyinButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [ProjectFunctions getUserDefaultValue:@"buyinDefault"]] forState:UIControlStateNormal];
-	if([gameType isEqualToString:@"Tournament"]) {
-		gameTypeSegmentBar.selectedSegmentIndex=1;
-		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
-		buyinLabel.text = @"Tournament Buyin Amount";
-	} else {
-		gameTypeSegmentBar.selectedSegmentIndex=0;
-		buyinLabel.text = @"Cash Game Buyin Amount";
-		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
-	}
-	[self setupSegments];
+	
 	[ProjectFunctions populateSegmentBar:self.blindTypeSegmentBar mOC:self.managedObjectContext];
 	
 	
@@ -85,6 +75,24 @@
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.TourneyTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
+	
+	
+	NSString *gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
+	if([gameType isEqualToString:@"Tournament"]) {
+		gameTypeSegmentBar.selectedSegmentIndex=1;
+		[self.gameTypeSegmentBar changeSegment];
+		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
+		NSLog(@"blue");
+		buyinLabel.text = @"Tournament Buyin Amount";
+	} else {
+		gameTypeSegmentBar.selectedSegmentIndex=0;
+		buyinLabel.text = @"Cash Game Buyin Amount";
+		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
+		NSLog(@"orange");
+	}
+	
+	[self setupSegments];
+
 	
 }
 
@@ -169,13 +177,15 @@
 	NSString *buyinAmount = @"";
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
         [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
+		NSLog(@"orange");
 		blindTypeSegmentBar.alpha=1;
 		TourneyTypeSegmentBar.alpha=0;
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];
 		buyinLabel.text = @"Cash Game Buyin Amount";
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 	} else {
-        [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
+        [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
+		NSLog(@"blue");
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
@@ -189,6 +199,7 @@
 - (IBAction) gameTypeSegmentPressed: (id) sender 
 {
 	[self.mainSegment changeSegment];
+	[gameTypeSegmentBar changeSegment];
     [self setupSegments];
 }
 
@@ -404,7 +415,7 @@
 		
 		if([locationName length]==0) {
 			locationName = [ProjectFunctions checkLocation2:currentLocation moc:managedObjectContext];
-			if(currentLocation != nil && ![ProjectFunctions isLiteVersion])
+			if(currentLocation != nil && ![ProjectFunctions isLiteVersion] && ![ProjectFunctions isPokerZilla])
 				[ProjectFunctions showConfirmationPopup:@"Casino not in Database" message:@"Did you want to add this casino to the database? Note: Not needed for home games." delegate:self tag:1];
 		}
 		

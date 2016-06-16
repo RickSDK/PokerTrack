@@ -248,7 +248,7 @@
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Export Data", [NSString fontAwesomeIconStringForEnum:FAArrowUp]];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Export Data", [NSString fontAwesomeIconStringForEnum:FAUpload]];
 		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Device Games: %d", gamesOnDevice];
 		
 		if(gamesOnDevice>gamesOnServer)
@@ -267,7 +267,7 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Import Data", [NSString fontAwesomeIconStringForEnum:FAArrowDown]];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Import Data", [NSString fontAwesomeIconStringForEnum:FADownload]];
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 			cell.titleLabel.textColor = [UIColor blackColor];
 		

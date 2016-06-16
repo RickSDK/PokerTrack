@@ -34,6 +34,7 @@
 #import "PlayerTrackerVC.h"
 #import "DatePickerViewController.h"
 #import "UpgradeVC.h"
+#import "ReviewsVC.h"
 
 
 @implementation MainMenuVC
@@ -61,6 +62,9 @@
 	self.last10Label.hidden=self.isPokerZilla;
 	self.bigHandsButton.hidden=self.isPokerZilla;
 	self.friendsButton.hidden=self.isPokerZilla;
+	self.botView.hidden=self.isPokerZilla;
+	self.pokerZillaImageView.hidden=!self.isPokerZilla;
+	
 	self.aboutView.hidden=YES;
 	if(self.isPokerZilla)
 		self.aboutTextView.text = @"Congratulations!! you are using the 2nd best Poker Stats Tracking app ever! Features include: \n\nReal-time game entry\nWidest array of stats and graphs\nPlayer Tracker\nHand Tracker\nOdds Calculator.\n\nBy the way, the only tracker better is Poker Track Pro, which has all these features plus more. Please check out Poker Track Pro for even more features including tracking your friends!!";
@@ -78,6 +82,8 @@
 		width=600;
 		height=350;
 	}
+	if(self.isPokerZilla)
+		yPos-=50;
 	
 	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
 	
@@ -94,13 +100,13 @@
 	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
 	
 	NSString *title = ([ProjectFunctions isLiteVersion])?@"Upgrade":@"About";
-//	if(self.isPokerZilla)
-//		title = @"";
 	self.aboutButton = [ProjectFunctions navigationButtonWithTitle:title selector:@selector(aboutButtonClicked:) target:self];
 	self.navigationItem.leftBarButtonItem = self.aboutButton;
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
 	
+	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.largeGraph];
+
 	self.largeGraph.alpha=0;
 	
 	
@@ -146,13 +152,13 @@
 		[ProjectFunctions showConfirmationPopup:@"Game In Progress" message:@"You have a game in progress. Did you want to go to that screen?" delegate:self tag:1];
 	}
 	
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0)
-		[self countFriendsPlaying];
 	
 	if([ProjectFunctions isLiteVersion]) {
 		upgradeButton.alpha=1;
 	}
+
 	
+
 	if(showDisolve) {
 		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
 		if([passwordCode length]>0) {
@@ -172,6 +178,7 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
+	self.reviewView.hidden=YES;
 	[self calculateStats];
 	[self findMinAndMaxYear];
 
@@ -186,6 +193,9 @@
 		self.alertViewNum=199;
 		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Poker Track Lite is not the full version of this app. Check out the details." delegate:self];
 	}
+	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
+	self.statusImageView.hidden=!self.loggedInFlg;
+	[self countFriendsPlaying];
 
 }
 
@@ -199,13 +209,13 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIDevice *device = [UIDevice currentDevice];
     NSString *model = [device model];
-	NSLog(@"Rotate!!!");
+//	NSLog(@"Rotate!!!");
     
     if([model length]>3 && [[model substringToIndex:4] isEqualToString:@"iPad"])
         return;
 
     if(fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
-        self.largeGraph.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        self.largeGraph.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
 
         statsButton.alpha=0;
         cashButton.alpha=0;
@@ -216,7 +226,7 @@
         casinoButton.alpha=0;
         oldGamesButton.alpha=0;
         
-        [self.view bringSubviewToFront:self.largeGraph];
+//        [self.view bringSubviewToFront:self.largeGraph];
         self.largeGraph.alpha=1;
         self.rotateLock=YES;
     }
@@ -230,7 +240,7 @@
         bigHandsButton.alpha=1;
         casinoButton.alpha=1;
         oldGamesButton.alpha=1;
-        [self.view sendSubviewToBack:self.largeGraph];
+//        [self.view sendSubviewToBack:self.largeGraph];
         self.rotateLock=NO;
     }
 }
@@ -246,10 +256,11 @@
 {
     NSLog(@"didReceiveData");
     NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"+++%@", responseString);
-	
+    NSLog(@"didReceiveData: %@", responseString);
+	int gamesOnDevice=0;
     NSArray *parts = [responseString componentsSeparatedByString:@"|"];
     if([parts count]>2) {
+		self.statusImageView.image = [UIImage imageNamed:@"green.png"];
         int friendsPlayingCount = [[parts objectAtIndex:0] intValue];
         if(friendsPlayingCount>0) {
             friendsNumLabel.alpha=1;
@@ -262,21 +273,27 @@
             self.forumNumCircle.alpha=1;
             [self.forumNumLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d", forumCount] waitUntilDone:YES];
         }
-		int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
-        int numGamesServer = [[parts objectAtIndex:2] intValue];
-		if(numGamesServer>0 && numGamesServer>gamesOnDevice) {
+		gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
+		int numGamesServer = [[parts objectAtIndex:2] intValue];
+		if(self.loggedInFlg && numGamesServer>0 && numGamesServer>gamesOnDevice) {
 			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them."];
-		} else if(gamesOnDevice>numGamesServer && (gamesOnDevice-numGamesServer)%10==0) {
-//			[ProjectFunctions showAlertPopup:@"Backup Data" message:@"You have games on this device that have not been backep up. Considering exporting them under the 'More' menu."];
 		}
     }
-	[self.activityIndicatorNet stopAnimating];
-    
+	self.currentVersion=10.8;
+	self.numReviews=5;
+	if([parts count]>4) {
+		self.currentVersion=[[parts objectAtIndex:3] floatValue];
+		self.numReviews=[[parts objectAtIndex:4] intValue];
+	}
+	self.reviewCountLabel.text = [NSString stringWithFormat:@"Reviews: %d", self.numReviews];
+	self.reviewView.hidden = (self.numReviews>4 || gamesOnDevice<40);
+	
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError");
+	self.statusImageView.image = [UIImage imageNamed:@"red.png"];
  	[self.activityIndicatorNet stopAnimating];
   
 }
@@ -290,8 +307,16 @@
 
 -(void)countFriendsPlaying
 {
-	[self.activityIndicatorNet startAnimating];
-    NSString *str = [NSString stringWithFormat:@"http://www.appdigity.com/poker/pokerCountFriendsPlaying2.php?user=%@&token=%@", [ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"deviceToken"]];
+	NSString *str = @"";
+	if(self.loggedInFlg) {
+		[self.activityIndicatorNet startAnimating];
+		self.statusImageView.image = [UIImage imageNamed:@"yellow.png"];
+		str = [NSString stringWithFormat:@"http://www.appdigity.com/poker/pokerCountFriendsPlaying2.php?user=%@&token=%@", [ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"deviceToken"]];
+	} else {
+		str = @"http://www.appdigity.com/poker/pokerCountFriendsPlaying2.php?user=rickmedved@hotmail.com";
+	}
+	
+	NSLog(@"%@", str);
 
     NSURL *url = [NSURL URLWithString:str];
     
@@ -299,6 +324,7 @@
 
     NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:request delegate:self];
 	if (!theConnection) {
+		self.statusImageView.image = [UIImage imageNamed:@"red.png"];
 		NSLog(@"No connection");
 		// Inform the user that the connection failed.
 	}
@@ -378,13 +404,25 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(screenLock) {
+	
+	UITouch *touch = [[event allTouches] anyObject];
+//	CGPoint startTouchPosition = [touch locationInView:touch.view];
+	CGPoint startTouchPosition = [touch locationInView:self.view];
+	
+	if(CGRectContainsPoint(self.reviewView.frame, startTouchPosition)) {
+		ReviewsVC *detailViewController = [[ReviewsVC alloc] initWithNibName:@"ReviewsVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		detailViewController.currentVersion=self.currentVersion;
+		detailViewController.numReviews=self.numReviews;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+		return;
+	}
+
+	if(screenLock) {
 		[self startDisolveNow];
 		return;
 	}
-	UITouch *touch = [[event allTouches] anyObject];
-	CGPoint startTouchPosition = [touch locationInView:touch.view];
-	
+
 	self.displayBySession=!self.displayBySession;
 	
 	if(self.rotateLock || [self isTouchingImageView:self.graphChart point:startTouchPosition]) {

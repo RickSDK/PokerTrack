@@ -45,6 +45,7 @@
 @property (atomic, strong) UISegmentedControl *gameTypeSegment;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
+@property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;
 
 @property (atomic) BOOL showMainMenuButton;
 @property (atomic) BOOL fetchIsReady;

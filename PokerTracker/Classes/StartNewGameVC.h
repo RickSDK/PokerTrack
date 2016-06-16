@@ -57,7 +57,7 @@
 //@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 
-@property (atomic, strong) UISegmentedControl *gameTypeSegmentBar;
+@property (atomic, strong) CustomSegment *gameTypeSegmentBar;
 @property (atomic, strong) UISegmentedControl *gameNameSegmentBar;
 @property (atomic, strong) UISegmentedControl *blindTypeSegmentBar;
 @property (atomic, strong) UISegmentedControl *limitTypeSegmentBar;
