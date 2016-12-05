@@ -276,7 +276,7 @@
 		gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
 		int numGamesServer = [[parts objectAtIndex:2] intValue];
 		if(self.loggedInFlg && numGamesServer>0 && numGamesServer>gamesOnDevice) {
-			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them."];
+			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them. If you get this message after importing, simply export to re-sync."];
 		}
     }
 	self.currentVersion=10.8;
@@ -285,8 +285,8 @@
 		self.currentVersion=[[parts objectAtIndex:3] floatValue];
 		self.numReviews=[[parts objectAtIndex:4] intValue];
 	}
-	self.reviewCountLabel.text = [NSString stringWithFormat:@"Reviews: %d", self.numReviews];
-	self.reviewView.hidden = (self.numReviews>4 || gamesOnDevice<40);
+	self.reviewCountLabel.text = @"Reviews";
+	self.reviewView.hidden = (gamesOnDevice<40 || [ProjectFunctions getUserDefaultValue:[ProjectFunctions getProjectDisplayVersion]].length>0);
 	
 }
 

@@ -220,7 +220,6 @@
 	
 	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
 	int gamesOnServer = [[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue];
-	
 	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -605,9 +604,11 @@
 {
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND buyInAmount = %d AND startTime = %@", buyInAmount, startTime];
 	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
-	if([games count]>0)
+	if([games count]>0) {
+		NSManagedObject *mo = [games objectAtIndex:0];
+		NSLog(@"Game exists: %@ %d!", [mo valueForKey:@"name"], [[mo valueForKey:@"game_id"] intValue]);
 		return YES;
-	else 
+	} else
 		return NO;
 }
 
@@ -718,6 +719,7 @@
 					if([components count]>10) {
 //					int buyInCol = [[ProjectFunctions getUserDefaultValue:@"PJBuyin"] intValue];
 						int buyIn = [[components stringAtIndex:8] intValue];
+						int cashout = [[components stringAtIndex:11] intValue];
 //					NSLog(@"buyin %d", buyIn);
 						if(buyIn>0) {
 							NSDate *startTime = [ProjectFunctions getDateInCorrectFormat:[components stringAtIndex:0]];
@@ -913,6 +915,62 @@
 	[WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
 }
 
+-(NSString *)packageNonGameData {
+	self.messageString = @"Packaging Data...";
+	NSMutableString *data = [[NSMutableString alloc] init];
+	NSArray *entityList = [NSArray arrayWithObjects:@"BIGHAND", @"FILTER", @"FRIEND", @"SEARCH", @"EXTRA", @"BANKROLL", @"EXTRA2", nil];
+	for(NSString *entityName in entityList) {
+		[data appendString:[NSString stringWithFormat:@"-----%@-----\n", entityName]];
+		NSArray *keyList = [ProjectFunctions getColumnListForEntity:entityName type:@"column"];
+		NSPredicate *predicate = nil;
+		self.messageString = [NSString stringWithFormat:@"Packaging data: %@", entityName];
+//		BOOL isGames=NO;
+//		if([entityName isEqualToString:@"GAME"]) {
+//			predicate = [NSPredicate predicateWithFormat:@"user_id = %d", 0];
+//			isGames=YES;
+//		}
+		NSArray *items = [CoreDataLib selectRowsFromEntity:entityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+//		if(isGames)
+//			self.totalImportedLines = (int)[items count];
+		NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:NO];
+		[data appendString:line];
+	}
+	return data;
+}
+
+-(NSArray *)getAllGames {
+	NSString *entityName = @"GAME";
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = %d", 0];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:entityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+	return items;
+}
+
+-(NSString *)packageGameDataGames:(NSArray *)items {
+	self.messageString = @"Packaging Games...";
+	NSMutableString *data = [[NSMutableString alloc] init];
+	NSString *entityName = @"GAME";
+	NSArray *keyList = [ProjectFunctions getColumnListForEntity:entityName type:@"column"];
+	[data appendString:[NSString stringWithFormat:@"-----%@-----\n", entityName]];
+	NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:NO];
+	[data appendString:line];
+	return data;
+}
+
+-(BOOL)exportPTPData:(NSString *)data GameDataFlg:(BOOL)gameDataFlg blockNum:(NSString *)blockNum {
+	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"data", @"numGames", @"blockNum", nil];
+	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], data, [ProjectFunctions getUserDefaultValue:@"gamesOnDevice"], blockNum, nil];
+	NSString *webAddr = @"http://www.appdigity.com/poker/ExportData.php";
+	if(gameDataFlg)
+		webAddr = @"http://www.appdigity.com/poker/ExportData2.php";
+	NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
+	if([@"Success" isEqualToString:responseStr])
+		return YES;
+	else {
+		[ProjectFunctions showAlertPopup:@"Error on Export" message:responseStr];
+		return NO;
+	}
+}
+
 -(void)ExportPockerTrackData
 {
 	@autoreleasepool {
@@ -921,55 +979,49 @@
         self.totalImportedLines=0;
 
 
-	self.messageString = @"Packaging Data...";
-
-	NSMutableString *data = [NSMutableString stringWithCapacity:1000000];
-	NSArray *entityList = [NSArray arrayWithObjects:@"GAME", @"BIGHAND", @"FILTER", @"FRIEND", @"SEARCH", @"EXTRA", @"BANKROLL", @"EXTRA2", nil];
-	for(NSString *entityName in entityList) {
- 		[data appendString:[NSString stringWithFormat:@"-----%@-----\n", entityName]];
-		NSArray *keyList = [ProjectFunctions getColumnListForEntity:entityName type:@"column"];
-		NSPredicate *predicate = nil;
-            self.messageString = [NSString stringWithFormat:@"Packaging data: %@", entityName];
-            BOOL isGames=NO;
-		if([entityName isEqualToString:@"GAME"]) {
-			predicate = [NSPredicate predicateWithFormat:@"user_id = %d", 0];
-                isGames=YES;
-            }
-		NSArray *items = [CoreDataLib selectRowsFromEntity:entityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-            if(isGames)
-                self.totalImportedLines = (int)[items count];
-		NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:isGames];
-		[data appendString:line];
-	}
-        [NSThread sleepForTimeInterval:1];
-//	NSLog(data);
-        
-        self.messageString = @"Sending data...";
-
-	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"data", @"numGames", nil];
-	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], data, [ProjectFunctions getUserDefaultValue:@"gamesOnDevice"], nil];
-	NSString *webAddr = @"http://www.appdigity.com/poker/ExportData.php";
-	NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
-
-        self.messageString = @"Exporting Player pics...";
-	[self exportPlayerTrackPics];
-        self.messageString = @"Done";
-	
-	if([responseStr isEqualToString:@"Success"]) {
-		[ProjectFunctions updateGamesOnServer:self.managedObjectContext];
-		[self.mainTableView reloadData];
+		NSString *data = [self packageNonGameData];
+		[NSThread sleepForTimeInterval:1];
+		self.messageString = @"Sending data...";
+		NSLog(@"%@", data);
+		BOOL successFlg = [self exportPTPData:data GameDataFlg:NO blockNum:@"0"];
+		if(successFlg) {
+			NSMutableArray *games = [NSMutableArray arrayWithArray:[self getAllGames]];
+			float maxGames = 1000;
+			NSMutableArray *gamesForBlock = [[NSMutableArray alloc] init];
+			int totalBlocks = ceil((float)games.count/maxGames);
+			for(int i=1; i<=totalBlocks; i++) {
+				NSLog(@"uploading block %d of %d", i, totalBlocks);
+				[gamesForBlock removeAllObjects];
+				for(int x=0; x<maxGames; x++) {
+					if(games.count>0) {
+						NSManagedObject *mo = [games objectAtIndex:0];
+						[games removeObjectAtIndex:0];
+						[gamesForBlock addObject:mo];
+					}
+				}
+				NSString *data = [self packageGameDataGames:gamesForBlock];
+				successFlg = [self exportPTPData:data GameDataFlg:YES blockNum:[NSString stringWithFormat:@"%d", i]];
+			}
+		}
 		
-            if(gSelectedRow==0)
-                [ProjectFunctions showAlertPopup:@"Device Synced" message:@"All data has been synced"];
-            else
-                [ProjectFunctions showAlertPopup:@"Database Exported" message:@"All data has been exported"];
-	} else
-		[ProjectFunctions showAlertPopup:@"Error" message:responseStr];
-	
-        [self completeThreadedjob];
+		self.messageString = @"Exporting Player pics...";
+		[self exportPlayerTrackPics];
+		self.messageString = @"Done";
+		
+		if(successFlg) {
+			[ProjectFunctions updateGamesOnServer:self.managedObjectContext];
+			[self.mainTableView reloadData];
+			
+			if(gSelectedRow==0)
+				[ProjectFunctions showAlertPopup:@"Device Synced" message:@"All data has been synced"];
+			else
+				[ProjectFunctions showAlertPopup:@"Database Exported" message:@"All data has been exported"];
+		}
+		
+		[self completeThreadedjob];
+		[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
+		[self.mainTableView reloadData];
 	}
-	[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
-	[self.mainTableView reloadData];
 }
 
 -(void)ImportNewPTGame:(NSArray *)components
@@ -987,14 +1039,19 @@
 	int numRecords=0;
 	if([components count]>20) {
 		int buyIn = [[components objectAtIndex:3] intValue];
-		if(buyIn>0) {
+		int cashOut = [[components objectAtIndex:6] intValue];
+		if(buyIn>0 || cashOut>0) {
 			NSString *istartTime = [components objectAtIndex:0];
 			NSDate *ist = [istartTime convertStringToDateFinalSolution];
 			if(![self checkForDupe:ist buyInAmount:buyIn]) {
 				numRecords++;
+				NSLog(@"\t\timporting: $%d %@", buyIn, istartTime);
 				[self ImportNewPTGame:components];
-			} // <-- if
-		} // <-- buyin
+			} else
+				NSLog(@"\t\t-----DUPE ($%d %@)------", buyIn, istartTime);
+		} else
+			NSLog(@"\t\t-----BUYIN ZERO------");
+		
 	} // <-- count
 	return numRecords;
 }
@@ -1056,6 +1113,34 @@
 	}
 }
 
+-(int)newImportForBlockNum:(int)blockNum {
+	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"blockNum", nil];
+	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], [NSString stringWithFormat:@"%d", blockNum], nil];
+	NSString *webAddr = @"http://www.appdigity.com/poker/ImportData2.php";
+	NSString *contents = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
+	NSArray *lines = [contents componentsSeparatedByString:@"<br>"];
+	NSLog(@"blockNum: %d (%d lines)", blockNum, (int)lines.count);
+	self.totalImportedLines=(int)[lines count];
+	self.numImportedLinesRead=0;
+	int numRows=0;
+	NSString *type = @"";
+	for(__strong NSString *line in lines) {
+		self.numImportedLinesRead++;
+		if([line length]>4 && [[line substringToIndex:5] isEqualToString:@"-----"]) {
+			type = line;
+			NSLog(@"Loading: %@", type);
+		}
+		line = [line stringByReplacingOccurrencesOfString:@"[nl]" withString:@"\n"];
+		NSArray *components = [line componentsSeparatedByString:kFieldSeparator];
+		if([type isEqualToString:@"-----GAME-----"]) {
+			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
+			int newGame = [self LoadGames:components];
+			numRows+=newGame;
+		}
+	}
+	return numRows;
+}
+
 -(void)ImportPokerTrackData
 {
 	@autoreleasepool {
@@ -1080,7 +1165,7 @@
 		line = [line stringByReplacingOccurrencesOfString:@"[nl]" withString:@"\n"];
 		NSArray *components = [line componentsSeparatedByString:kFieldSeparator];
 		if([type isEqualToString:@"-----GAME-----"]) {
-//			NSLog(@"+++%@", line);
+			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
 			int newGame = [self LoadGames:components];
 			numRows+=newGame;
 		}
@@ -1100,19 +1185,31 @@
             
             
 	} //<-- for
-	[self ImportPlayerPics];
+		
+		
+		NSLog(@"%d games loaded", numRows);
+		
+		int numGames = 11;
+		int blockNum=1;
+		while (numGames>10) {
+			numGames = [self newImportForBlockNum:blockNum];
+			NSLog(@"Importing games for block: %d (%d)", blockNum, numGames);
+			numRows+=numGames;
+			blockNum++;
+		}
+		[self ImportPlayerPics];
 		[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
 		[self.mainTableView reloadData];
-	
-        if(gSelectedRow==0) {
-            [self executeThreadedJob:@selector(ExportPockerTrackData)];
-        } else {
-            [ProjectFunctions showAlertPopup:@"Database Imported" message:[NSString stringWithFormat:@"%d games have been imported.", numRows]];
-            [self completeThreadedjob];
-        }
-
+		
+		if(gSelectedRow==0) {
+			[self executeThreadedJob:@selector(ExportPockerTrackData)];
+		} else {
+			[ProjectFunctions showAlertPopup:@"Database Imported" message:[NSString stringWithFormat:@"%d games have been imported.", numRows]];
+			[self completeThreadedjob];
+		}
+		
 	}
-}	
+}
 
 -(int)deleteItems:(NSArray *)items
 {

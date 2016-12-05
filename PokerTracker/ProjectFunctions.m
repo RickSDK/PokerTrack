@@ -819,8 +819,6 @@
 		NSLog(@"-------------------------------------------");
 	
 	BOOL success = [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:mOC];
-	NSLog(@"weekday: %@", [mo valueForKey:@"weekday"]);
-	NSLog(@"hours: %@", [mo valueForKey:@"hours"]);
 	NSDate *startTime = [mo valueForKey:@"startTime"];
 	NSDate *endTime = [mo valueForKey:@"endTime"];
 	
@@ -836,8 +834,6 @@
 	[mo setValue:[NSString stringWithFormat:@"%.1f", (float)seconds/3600] forKey:@"hours"];
 	[mo setValue:[NSNumber numberWithInt:seconds/60] forKey:@"minutes"];
 	[mOC save:nil];
-	NSLog(@"weekday: %@", [mo valueForKey:@"weekday"]);
-	NSLog(@"hours: %@", [mo valueForKey:@"hours"]);
 
 	return success;
 }

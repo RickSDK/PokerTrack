@@ -12,7 +12,7 @@
 #import "ProjectFunctions.h"
 #import "PokerTrackerAppDelegate.h"
 
-#define kLOG2 1
+#define kLOG2 0
 
 @implementation CoreDataLib
 
@@ -684,37 +684,38 @@
 	}
 	int i=0;
 	for(NSString *key in keyList) {
+//		NSLog(@"+++key: %@", key);
 		if(i<[valueList count] && i<[typeList count]) {
 			NSString *type = [typeList objectAtIndex:i];
 			NSString *value = [valueList objectAtIndex:i];
-            if([type isEqualToString:@"int"] && [value length]==0)
-                value = @"99";
-            
+			
 			if(kLOG2)
 				NSLog(@"%@ (%@) = '%@'", key, type, value);
+
+			if([@"notes" isEqualToString:key] && value.length>100) {
+				value = [NSString stringWithFormat:@"%@...", [value substringToIndex:100]];
+			}
 			if([type isEqualToString:@"text"])
 				[newManagedObject setValue:value forKey:key];
-			if([type isEqualToString:@"date"]) {
-//                NSDate *inputDate = [value convertStringToDateWithFormat:nil];
+			if([type isEqualToString:@"date"] || [type isEqualToString:@"time"]) {
 				NSDate *inputDate = [value convertStringToDateFinalSolution];
-                 if(inputDate==nil)
-                    inputDate = [value convertStringToDateFinalSolution];
                 if(inputDate==nil)
                     inputDate = [NSDate date];
                 
-                NSLog(@"\t\tdate Imported: (%@)", [inputDate convertDateToStringWithFormat:nil]);
 				[newManagedObject setValue:inputDate forKey:key];
             }
-			if([type isEqualToString:@"time"])
-				[newManagedObject setValue:[value convertStringToDateFinalSolution] forKey:key];
-			if([type isEqualToString:@"shortDate"])
-				[newManagedObject setValue:[value convertStringToDateWithFormat:@"yyyy-MM-dd"] forKey:key];
+			if([type isEqualToString:@"shortDate"]) {
+				NSDate *inputDate = [value convertStringToDateWithFormat:@"yyyy-MM-dd"];
+				if(inputDate==nil)
+					inputDate = [NSDate date];
+				[newManagedObject setValue:inputDate forKey:key];
+			}
 			if([type isEqualToString:@"int"])
 				[newManagedObject setValue:[NSNumber numberWithInt:[value intValue]] forKey:key];
 			if([type isEqualToString:@"float"])
 				[newManagedObject setValue:[NSNumber numberWithFloat:[value floatValue]] forKey:key];
 			if([type isEqualToString:@"key"])
-				[newManagedObject setValue:[valueList objectAtIndex:i] forKey:key];
+				[newManagedObject setValue:value forKey:key];
 			i++;
 		} else {
 			NSLog(@"key: '%@' not populated", key);
@@ -724,7 +725,8 @@
 	
     NSError *error = nil;
     if (![mOC save:&error]) {
-		NSLog(@"Error whoa! %@", error.localizedDescription);
+		NSLog(@"Error: unable to save to coredata! %@", error.localizedDescription);
+		NSLog(@"%@", valueList);
 		return FALSE;
 	}
 	return TRUE;

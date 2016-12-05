@@ -21,6 +21,7 @@
 	float version = [ProjectFunctions projectVersionNumber];
 	self.yourVersionLabel.text = [NSString stringWithFormat:@"%g", version];
 	
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:[ProjectFunctions getProjectDisplayVersion]];
 	self.stepper.value = self.numReviews;
 	self.numReviewsLabel.text = [NSString stringWithFormat:@"%d", (int)self.stepper.value];
 	self.currentVersionLabel.text = [NSString stringWithFormat:@"%g", self.currentVersion];

@@ -262,7 +262,7 @@
 			amPm = @"PM";
 		}
 		NSString *dtStr = [NSString stringWithFormat:@"%02d/%02d/%d %02d:%02d:00 %@", month, day, year, hour, min, amPm];
-		NSLog(@"\t\t+++dtStr: %@", dtStr);
+//		NSLog(@"\t\t+++dtStr: %@", dtStr);
 		dateVar = [dtStr convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
 	}
 	if(dateVar==nil)

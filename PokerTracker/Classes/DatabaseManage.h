@@ -54,7 +54,7 @@
 - (void)completeThreadedjob;
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIViewController *callBackViewController;
 @property (atomic, strong) IBOutlet UIButton *upgradeButton;
 
@@ -80,7 +80,7 @@
 @property (atomic, strong) UILabel *importProgressLabel;
 @property (atomic, strong) UIImageView *activityBG;
 @property (atomic, strong) UIImageView *activityPopup;
-@property (atomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) UITableView *mainTableView;
 
 @property (atomic, strong) NSMutableArray *menuArray;
 @property (atomic, strong) NSMutableArray *secondMenuArray;

@@ -137,7 +137,6 @@
         [ProjectFunctions updateBankroll:netProfit bankrollName:[mo valueForKey:@"bankroll"] MOC:managedObjectContext];
 	}
 
-	
 	[ProjectFunctions updateGameInDatabase:self.managedObjectContext mo:mo valueList:self.formDataArray];
 	
 	self.buttonForm=99;

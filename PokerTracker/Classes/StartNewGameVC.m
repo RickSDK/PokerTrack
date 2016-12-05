@@ -440,6 +440,12 @@
 - (IBAction) startButtonPressed: (id) sender 
 {
 	
+	float buyInAmount = [ProjectFunctions getMoneyValueFromText:buyinButton.titleLabel.text];
+	if(buyInAmount==0) {
+		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
+		return;
+	}
+
 	NSString *location = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", location];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"LOCATION" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];

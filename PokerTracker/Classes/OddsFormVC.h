@@ -60,7 +60,7 @@
 @property (atomic) BOOL startedCalculating;
 @property (atomic) BOOL doneCalculating;
 @property (atomic) BOOL boardFilledOut;
-@property (atomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UIBarButtonItem *calculateButton;
 @property (atomic, strong) UIBarButtonItem *leftButton;
 
@@ -76,7 +76,7 @@
 
 @property (atomic, copy) NSArray *preLoaedValues;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *mo;
 
 @end

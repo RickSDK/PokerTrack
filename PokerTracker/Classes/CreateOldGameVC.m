@@ -151,7 +151,13 @@
 	
 	if(![ProjectFunctions isOkToProceed:self.managedObjectContext delegate:self])
 		return;
-	
+
+	int buyin = [buyinAmount.text intValue];
+	if(buyin==0) {
+		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
+		return;
+	}
+
 		
 	NSArray *ttValues = [ProjectFunctions getArrayForSegment:3];
 	
@@ -163,7 +169,6 @@
 	NSString *blinds = [blindTypeSegmentBar titleForSegmentAtIndex:blindTypeSegmentBar.selectedSegmentIndex];
 	
 	float hours = [hoursPlayed.text floatValue];
-	int buyin = [buyinAmount.text intValue];
 	int cashout = [cashOutAmount.text intValue];
 	if(hours<0.5)
 		hours=3;
