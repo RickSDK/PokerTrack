@@ -55,6 +55,23 @@
 	self.navigationItem.rightBarButtonItem = addButton;
 }
 
+- (IBAction) deleteButtonPressed: (id) sender {
+	[ProjectFunctions showConfirmationPopup:@"Delete All Hands on Device?" message:@"You can re-import ones that are saved" delegate:self tag:1];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if(alertView.tag==1 && buttonIndex!=alertView.cancelButtonIndex) {
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"BIGHAND" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
+		for(NSManagedObject *mo in items) {
+			[self.managedObjectContext deleteObject:mo];
+		}
+		[self.managedObjectContext save:nil];
+		[bigHands removeAllObjects];
+		[self.mainTableView reloadData];
+		[ProjectFunctions showAlertPopup:@"Hands Deletes" message:@""];
+	}
+}
+
 
 #pragma mark -
 #pragma mark Table view data source

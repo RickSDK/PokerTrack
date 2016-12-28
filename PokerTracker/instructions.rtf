@@ -1,19 +1,52 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
-{\colortbl;\red255\green255\blue255;\red83\green83\blue83;\red38\green38\blue38;\red247\green249\blue249;
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;\f2\fnil\fcharset0 Menlo-Regular;
 }
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red247\green249\blue249;\red83\green83\blue83;
+\red100\green56\blue32;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 bundles\
 \
-com.PockerTrack\
-\
 \pard\pardeftab720
 
-\f1 \cf2 com.PockerTrack.lite\
+\f1 \cf2 \cb3 \expnd0\expndtw0\kerning0
 \
+\
+steps to submit new version.\
+\
+1) edit info.plist for bundle Identifyer\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0 \cf0 \cb1 \kerning1\expnd0\expndtw0 com.PockerTrack\
 \pard\pardeftab720
-\cf3 \cb4 \expnd0\expndtw0\kerning0
+
+\f1 \cf4 com.PockerTrack.lite\
+\pard\pardeftab720
+\cf2 \cb3 \expnd0\expndtw0\kerning0
 com.pokerzilla\
+\
+2) 
+\f2\fs22 \cf0 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 ProjectFunctions.h
+\f1\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\pard\tx529\pardeftab529\pardirnatural
+
+\f2\fs22 \cf5 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 kIsLiteVersion\
+\
+3) Project --> General\
+Change version number\
+\
+4) 
+\f0\fs24 \cf0 \CocoaLigature1 Project \'97> Build Settings \'97> Code Signing, update Provisioning Profile\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 PTP2016\
+PTL2016b
+\f2\fs22 \cf5 \CocoaLigature0 \
+\pard\tx529\pardeftab529\pardirnatural
+\cf5 \
+Clean/Build/Archive
+\f1\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\
 }

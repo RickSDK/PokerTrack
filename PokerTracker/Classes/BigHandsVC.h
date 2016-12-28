@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface BigHandsVC : UIViewController {
+@interface BigHandsVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
 	BOOL showMainMenuButton;
@@ -25,5 +26,7 @@
 
 @property (nonatomic, strong) NSMutableArray *bigHands;
 @property (nonatomic, strong) UITableView *mainTableView;
+
+- (IBAction) deleteButtonPressed: (id) sender;
 
 @end

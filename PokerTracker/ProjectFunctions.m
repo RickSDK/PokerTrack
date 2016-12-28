@@ -73,10 +73,10 @@
 
 +(BOOL)isLiteVersion
 {
-//	if([ProjectFunctions getUserDefaultValue:@"proVersion101"].length>0)
+	if(kIsLiteVersion && [ProjectFunctions getUserDefaultValue:@"proVersion101"].length==0)
+		return YES;
+	else
 		return NO;
-
-    return YES;
 }
 
 +(NSString *)getAppID
@@ -3632,10 +3632,11 @@
 	return barButton;
 }
 
-+(void)updateGamesOnDevice:(NSManagedObjectContext *)context {
++(int)updateGamesOnDevice:(NSManagedObjectContext *)context {
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
 	NSLog(@"+++gamesOnDevice: %d", (int)allGames.count);
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnDevice"];
+	return (int)allGames.count;
 }
 
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context {

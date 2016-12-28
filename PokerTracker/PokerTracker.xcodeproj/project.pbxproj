@@ -1965,7 +1965,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rick Medved (X9KCCTRTNQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rick Medved (X9KCCTRTNQ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1976,8 +1976,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "52bcea26-5405-4374-a73d-24ee1eaab55b";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "52bcea26-5405-4374-a73d-24ee1eaab55b";
+				PROVISIONING_PROFILE = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1991,7 +1991,7 @@
 				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rick Medved (X9KCCTRTNQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rick Medved (X9KCCTRTNQ)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2001,8 +2001,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "52bcea26-5405-4374-a73d-24ee1eaab55b";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "52bcea26-5405-4374-a73d-24ee1eaab55b";
+				PROVISIONING_PROFILE = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

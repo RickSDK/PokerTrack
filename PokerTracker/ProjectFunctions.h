@@ -44,7 +44,7 @@
 //#define kVersion    @"Version 6.8.3" using standard function now
 #define kLOG 0
 #define kPRODMode 1
-#define kIsLiteVersion 0  // 0 or 1
+#define kIsLiteVersion 1  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221
@@ -187,7 +187,7 @@
 + (UIImage *) imageFromColor:(UIColor *)color;
 +(UIBarButtonItem *)navigationButtonWithTitle:(NSString *)title selector:(SEL)selector target:(id)target;
 +(int)getNewPlayerType:(int)amountRisked winnings:(int)winnings;
-+(void)updateGamesOnDevice:(NSManagedObjectContext *)context;
++(int)updateGamesOnDevice:(NSManagedObjectContext *)context;
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context;
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC;

@@ -347,13 +347,28 @@
 	if(netProfit<0)
 		[SoundsLib PlaySound:@"boo-crowd-02" type:@"wav"];
 
+	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
+	int numGamesServer = [[ProjectFunctions getUserDefaultValue:@"numGamesServer"] intValue];
+	int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
+	if(numGamesServer2>numGamesServer)
+		numGamesServer=numGamesServer2;
+	int gamesSinceSync = gamesOnDevice-numGamesServer;
+	NSLog(@"+++gamesSinceSync: %d [%d %d %d]", gamesSinceSync, gamesOnDevice, numGamesServer, numGamesServer2);
+
 	if([ProjectFunctions shouldSyncGameResultsWithServer:managedObjectContext]) {
 		[self startWebServiceCall:@"Updating NetTracker..."];
 		[self performSelectorInBackground:@selector(refreshWebRequest) withObject:nil];
+		if(gamesSinceSync>1 && gamesSinceSync%10==0)
+			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'More' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
 		
 	} else {
 		[self endWebServiceCall];
-		[ProjectFunctions showAlertPopupWithDelegate:@"Game Over!" message:@"Game data has been saved" delegate:self];
+		if(gamesSinceSync>1 && gamesSinceSync%10==0)
+			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'More' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
+		else
+			[ProjectFunctions showAlertPopupWithDelegate:@"Game Over!" message:@"Game data has been saved" delegate:self];
+
+
 	}
 
 
@@ -512,14 +527,14 @@
         self.totalBreakSeconds = breakSeconds;
     
         // Stats-------
-        float buyIn = [[mo valueForKey:@"buyInAmount"] floatValue];
-        float rebuyAmount = [[mo valueForKey:@"rebuyAmount"] floatValue];
+        double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
+        double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 
         [buyinLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions displayMoney:mo column:@"buyInAmount"] waitUntilDone:YES];
         [rebuysLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d",[[mo valueForKey:@"numRebuys"] intValue] ] waitUntilDone:YES];
         [rebuyAmountLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions displayMoney:mo column:@"rebuyAmount"] waitUntilDone:YES];
 
-        float chips = [[mo valueForKey:@"cashoutAmount"] floatValue];
+        double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
 	
         self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
         int grossEarnings = netProfit+tokesMoney;
@@ -571,6 +586,8 @@
 
         [pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
         [hourlyLabel performSelectorOnMainThread:@selector(setText: ) withObject:hourlytext waitUntilDone:YES];
+	float fontSize = chipsButtonText.length>7?26.0:32.0;
+	chipStackButton.titleLabel.font = [UIFont boldSystemFontOfSize:fontSize];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [foodButton setTitle:foodButtonText forState:UIControlStateNormal];
@@ -612,13 +629,13 @@
 
 
 -(void)updatePicture {
-    int buyIn = [[mo valueForKey:@"buyInAmount"] intValue];
-	int rebuyAmount = [[mo valueForKey:@"rebuyAmount"] intValue];
+    double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
+	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
     
-    int risked = buyIn+rebuyAmount;
-    float cashoutAmount = [[mo valueForKey:@"cashoutAmount"] floatValue];
+    double risked = buyIn+rebuyAmount;
+    double cashoutAmount = [[mo valueForKey:@"cashoutAmount"] doubleValue];
     int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
-    int profit = foodDrinks+cashoutAmount-risked;
+    double profit = foodDrinks+cashoutAmount-risked;
     
     self.playerTypeImage.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
 }
@@ -651,12 +668,12 @@
 -(void)setupArrays {
 	
 	
-	float buyIn = [[mo valueForKey:@"buyInAmount"] floatValue];
-	float rebuyAmount = [[mo valueForKey:@"rebuyAmount"] floatValue];
+	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
+	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	
 	
 	
-	float chips = [[mo valueForKey:@"cashoutAmount"] floatValue];
+	double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
 	int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
 	int tokesMoney = [[mo valueForKey:@"tokes"] intValue];
 	
@@ -666,18 +683,18 @@
 	}
 	
 	self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
-	int grossEarnings = self.netProfit+tokesMoney;
-	int takeHome = self.netProfit-foodDrinks;
+	double grossEarnings = self.netProfit+tokesMoney;
+	double takeHome = self.netProfit-foodDrinks;
 
 	
 	[self.valuesArray removeAllObjects];
 	[self.valuesArray addObject:[self.mo valueForKey:@"Type"]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:[[self.mo valueForKey:@"buyInAmount"] intValue]]];
-	[self.valuesArray addObject:[NSString stringWithFormat:@"%d", [[self.mo valueForKey:@"numRebuys"] intValue]]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] intValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:(int)[[self.mo valueForKey:@"buyInAmount"] doubleValue]]];
+	[self.valuesArray addObject:[NSString stringWithFormat:@"%d", (int)[[self.mo valueForKey:@"numRebuys"] intValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] doubleValue]]];
 	
 	
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:[[self.mo valueForKey:@"cashoutAmount"] intValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:(int)[[self.mo valueForKey:@"cashoutAmount"] doubleValue]]];
 	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:grossEarnings]];
 	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:takeHome]];
 	
@@ -762,20 +779,20 @@
 	}
 	if(selectedObjectForEdit==3) {
 		// set current chip stack
-		float buyInAmount = [[mo valueForKey:@"buyInAmount"] floatValue];
-		float rebuyAmount = [[mo valueForKey:@"rebuyAmount"] floatValue];
-		[mo setValue:[NSNumber numberWithFloat:[value floatValue]] forKey:@"cashoutAmount"];
-		float chips = [value floatValue];
+		double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
+		double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
+		[mo setValue:[NSNumber numberWithFloat:[value doubleValue]] forKey:@"cashoutAmount"];
+		double chips = [value doubleValue];
 		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips-rebuyAmount-buyInAmount rebuyFlg:NO];
 		doLiveUpdate=YES;
 	}
 	if(selectedObjectForEdit==4) {
 		// rebuy
 		int numRebuys = [[mo valueForKey:@"numRebuys"] intValue];
-		float buyInAmount = [[mo valueForKey:@"buyInAmount"] floatValue];
-		float rebuyAmount = [[mo valueForKey:@"rebuyAmount"] floatValue];
-		float cashoutAmount = [[mo valueForKey:@"cashoutAmount"] floatValue];
-		float thisRebuy = [value floatValue];
+		double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
+		double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
+		double cashoutAmount = [[mo valueForKey:@"cashoutAmount"] doubleValue];
+		double thisRebuy = [value doubleValue];
 		numRebuys++;
 		rebuyAmount+=thisRebuy;
 		
@@ -791,8 +808,8 @@
 		[NSThread sleepForTimeInterval:0.1];
 		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:amount2 rebuyFlg:YES];
 		
-		[mo setValue:[NSNumber numberWithFloat:cashoutAmount] forKey:@"cashoutAmount"];
-		[mo setValue:[NSNumber numberWithFloat:rebuyAmount] forKey:@"rebuyAmount"];
+		[mo setValue:[NSNumber numberWithDouble:cashoutAmount] forKey:@"cashoutAmount"];
+		[mo setValue:[NSNumber numberWithDouble:rebuyAmount] forKey:@"rebuyAmount"];
 		[mo setValue:[NSNumber numberWithInt:numRebuys] forKey:@"numRebuys"];
 		doLiveUpdate=YES;
 		

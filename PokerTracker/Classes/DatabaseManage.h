@@ -43,7 +43,8 @@
 	BOOL importInProgress;
     BOOL coreDataLocked;
 	int importType;
-    NSString *messageString;
+	NSString *messageString;
+	NSString *activityLabelString;
 	
 }
 
@@ -85,5 +86,6 @@
 @property (atomic, strong) NSMutableArray *menuArray;
 @property (atomic, strong) NSMutableArray *secondMenuArray;
 @property (atomic, copy) NSString *messageString;
+@property (atomic, copy) NSString *activityLabelString;
 
 @end

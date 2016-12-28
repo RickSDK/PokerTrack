@@ -22,7 +22,7 @@
 
 	self.productID = [NSString new];
 //	self.productID = @"proVersionPTP";
-	self.productID = @"PTP_Upgrade";
+	self.productID = @"PTP_Upgrade"; // lite version
 	
 
 	self.promoCodeView.hidden=YES;

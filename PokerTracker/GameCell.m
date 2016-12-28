@@ -42,7 +42,7 @@
 		self.dateLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.dateLabel];
 		
-		self.hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 22, 170, 22)];
+		self.hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 22, 50, 22)];
 		self.hoursLabel.font = [UIFont systemFontOfSize:14];
 		self.hoursLabel.adjustsFontSizeToFitWidth = YES;
 		self.hoursLabel.minimumScaleFactor = .8;
@@ -60,14 +60,14 @@
 		self.locationLabel.minimumScaleFactor = .8;
 		self.locationLabel.text = @"locationLabel";
 		self.locationLabel.textAlignment = NSTextAlignmentRight;
-		self.locationLabel.textColor = [UIColor purpleColor];
+		self.locationLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.5 alpha:1];
 		self.locationLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.locationLabel];
 		
 		self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(210, 22, 100, 22)];
-		self.profitLabel.font = [UIFont boldSystemFontOfSize:18];
+		self.profitLabel.font = [UIFont boldSystemFontOfSize:17];
 		self.profitLabel.adjustsFontSizeToFitWidth = YES;
-		self.profitLabel.minimumScaleFactor = .8;
+		self.profitLabel.minimumScaleFactor = .5;
 		self.profitLabel.text = @"profitLabel";
 		self.profitLabel.textAlignment = NSTextAlignmentRight;
 		self.profitLabel.textColor = [UIColor greenColor];
@@ -111,7 +111,7 @@
 	nameLabel.frame = CGRectMake(40, 0, width-150, 22);
 	dateLabel.frame = CGRectMake(40, 22, width-150, 22);
 	locationLabel.frame = CGRectMake(width-110, 0, 100, 22);
-	profitLabel.frame = CGRectMake(width-110, 20, 100, 22);
+	profitLabel.frame = CGRectMake(width-95, 20, 85, 22);
 }
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
@@ -119,7 +119,6 @@
 	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [gameObj.startTime convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
 	cell.locationLabel.text = gameObj.location;
-	cell.locationLabel.textColor = [UIColor purpleColor];
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];
 	
 	if(gameObj.profit>=0) {

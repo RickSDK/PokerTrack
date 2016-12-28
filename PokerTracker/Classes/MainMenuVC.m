@@ -254,7 +254,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSLog(@"didReceiveData");
     NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"didReceiveData: %@", responseString);
 	int gamesOnDevice=0;
@@ -275,7 +274,11 @@
         }
 		gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
 		int numGamesServer = [[parts objectAtIndex:2] intValue];
-		if(self.loggedInFlg && numGamesServer>0 && numGamesServer>gamesOnDevice) {
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", numGamesServer] forKey:@"numGamesServer2"];
+		int gamesLastImport = [[ProjectFunctions getUserDefaultValue:@"gamesLastImport"] intValue];
+		NSLog(@"+++gamesOnDevice: %d, gamesLastImport: %d", gamesOnDevice, gamesLastImport);
+
+		if(self.loggedInFlg && numGamesServer>0 && numGamesServer>gamesOnDevice && numGamesServer>gamesLastImport) {
 			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them. If you get this message after importing, simply export to re-sync."];
 		}
     }

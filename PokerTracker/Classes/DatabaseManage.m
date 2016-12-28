@@ -116,6 +116,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"More"];
+	
+	self.activityLabelString = [[NSString alloc] init];
+	self.activityLabelString = @"Working...";
 
     [self.mainTableView setBackgroundView:nil];
 	menuArray = [[NSMutableArray alloc] init];
@@ -220,6 +223,10 @@
 	
 	int gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
 	int gamesOnServer = [[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue];
+	int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
+	if(numGamesServer2>gamesOnServer)
+		gamesOnServer=numGamesServer2;
+	
 	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -764,8 +771,9 @@
         progressLabelText = self.messageString;
     else
         progressLabelText = [NSString stringWithFormat:@"%@ %d of %d (%d%%)", type, numImportedLinesRead, totalImportedLines, percent];
-    
-    [importProgressLabel performSelectorOnMainThread:@selector(setText: ) withObject:progressLabelText waitUntilDone:YES];
+	
+	[importProgressLabel performSelectorOnMainThread:@selector(setText: ) withObject:progressLabelText waitUntilDone:YES];
+	[self.activityLabel performSelectorOnMainThread:@selector(setText: ) withObject:self.activityLabelString waitUntilDone:YES];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [progressView setProgress:progress];
@@ -930,6 +938,13 @@
 //			isGames=YES;
 //		}
 		NSArray *items = [CoreDataLib selectRowsFromEntity:entityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+		
+		if([@"BIGHAND" isEqualToString:entityName]) {
+			//remove dupes
+//			NSMutableArray *bigHands = [[NSMutableArray alloc] init];
+//			NSMutableArray *loadedbigHands = [[NSMutableArray alloc] init];
+//			[bigHands addObject:[items objectAtIndex:0]];
+		}
 //		if(isGames)
 //			self.totalImportedLines = (int)[items count];
 		NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:NO];
@@ -946,7 +961,7 @@
 }
 
 -(NSString *)packageGameDataGames:(NSArray *)items {
-	self.messageString = @"Packaging Games...";
+	self.activityLabelString = @"Packaging Games...";
 	NSMutableString *data = [[NSMutableString alloc] init];
 	NSString *entityName = @"GAME";
 	NSArray *keyList = [ProjectFunctions getColumnListForEntity:entityName type:@"column"];
@@ -1004,9 +1019,9 @@
 			}
 		}
 		
-		self.messageString = @"Exporting Player pics...";
+		self.activityLabelString = @"Exporting Player pics...";
 		[self exportPlayerTrackPics];
-		self.messageString = @"Done";
+		self.activityLabelString = @"Done";
 		
 		if(successFlg) {
 			[ProjectFunctions updateGamesOnServer:self.managedObjectContext];
@@ -1062,12 +1077,18 @@
 	if([EntityName isEqualToString:@"GAME"])
 		predicate = [NSPredicate predicateWithFormat:@"user_id = %d", 0];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:EntityName predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+	
+//	NSLog(@"checking dupe: %@ %@ %@ %@ %d", key1, value1, key2, value2, (int)items.count);
 	for(NSManagedObject *mo in items) {
 		NSString *dataItem1 = [mo valueForKey:key1];
 		NSString *dataItem2 = [mo valueForKey:key2];
 		
 		if([key1 isEqualToString:@"gameDate"]) {
 			dataItem1 = [[mo valueForKey:key1] convertDateToStringWithFormat:nil];
+		}
+		if([@"BIGHAND" isEqualToString:EntityName] && [dataItem2 isEqualToString:value2]) {
+			NSLog(@"BIGHAND Dupe found!!!!! [%@] [%@]", dataItem1, value1);
+			return YES;
 		}
 		
 		if([dataItem1 isEqualToString:value1] && [dataItem2 isEqualToString:value2])
@@ -1098,6 +1119,7 @@
 
 -(void)ImportPlayerPics
 {
+	self.messageString = @"Importing Player pics...";
 	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", nil];
 	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/pokerImportPlayerPics.php";
@@ -1114,6 +1136,7 @@
 }
 
 -(int)newImportForBlockNum:(int)blockNum {
+	self.activityLabelString = [NSString stringWithFormat:@"Importing game block: %d", blockNum];
 	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"blockNum", nil];
 	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], [NSString stringWithFormat:@"%d", blockNum], nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/ImportData2.php";
@@ -1138,7 +1161,7 @@
 			numRows+=newGame;
 		}
 	}
-	return numRows;
+	return (int)lines.count-2;
 }
 
 -(void)ImportPokerTrackData
@@ -1147,6 +1170,7 @@
     
         self.importType=3;
 
+		self.messageString = @"Importing data";
 	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", nil];
 	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/ImportData.php";
@@ -1163,6 +1187,7 @@
 			NSLog(@"Loading: %@", type);
 		}
 		line = [line stringByReplacingOccurrencesOfString:@"[nl]" withString:@"\n"];
+//		NSLog(@"line: %@", line);
 		NSArray *components = [line componentsSeparatedByString:kFieldSeparator];
 		if([type isEqualToString:@"-----GAME-----"]) {
 			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
@@ -1170,7 +1195,7 @@
 			numRows+=newGame;
 		}
 		if([type isEqualToString:@"-----BIGHAND-----"])
-			[self LoadPTDataForEntity:@"BIGHAND" components:components field1:@"gameDate" loc1:1 field2:@"name" loc2:14];
+			[self LoadPTDataForEntity:@"BIGHAND" components:components field1:@"gameDate" loc1:1 field2:@"name" loc2:13];
 		if([type isEqualToString:@"-----FILTER-----"])
 			[self LoadPTDataForEntity:@"FILTER" components:components field1:@"name" loc1:9 field2:@"tournamentType" loc2:7];
 		if([type isEqualToString:@"-----EXTRA-----"])
@@ -1199,6 +1224,8 @@
 		}
 		[self ImportPlayerPics];
 		[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
+		int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", numGamesServer2] forKey:@"gamesLastImport"];
 		[self.mainTableView reloadData];
 		
 		if(gSelectedRow==0) {
