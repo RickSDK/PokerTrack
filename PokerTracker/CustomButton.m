@@ -50,15 +50,6 @@
 	[self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 }
 
-- (void)setEnabled:(BOOL)enabled {
-	[super setEnabled:enabled];
-	
-	if (enabled)
-		self.layer.borderColor = [UIColor whiteColor].CGColor;
-	else
-		self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-}
-
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
 	[super setBackgroundColor:backgroundColor];

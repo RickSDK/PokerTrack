@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="TourneyTypeSegmentBar" destination="8" id="27"/>
                 <outlet property="activityIndicator" destination="47" id="48"/>
+                <outlet property="addCasinoButton" destination="Zam-IR-9hI" id="Xpa-TD-d71"/>
                 <outlet property="bankrollButton" destination="14" id="18"/>
                 <outlet property="blindTypeSegmentBar" destination="11" id="19"/>
                 <outlet property="buyinButton" destination="13" id="20"/>
@@ -81,7 +82,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="65" customClass="CustomButton">
-                            <rect key="frame" x="20" y="223" width="72" height="30"/>
+                            <rect key="frame" x="20" y="223" width="72" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Retry" backgroundImage="wb.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,6 +99,16 @@
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zam-IR-9hI" customClass="CustomButton">
+                            <rect key="frame" x="100" y="223" width="212" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Add to Database!">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="addCasinoButtonPressed:" destination="-1" eventType="touchDown" id="F2y-NG-8fO"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.89950515450733726" green="1" blue="0.92001120463085673" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
@@ -201,31 +212,6 @@
                     <rect key="frame" x="79" y="174" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="60" customClass="CustomButton">
-                    <rect key="frame" x="103" y="223" width="72" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Map" backgroundImage="whitebutton.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="mapButtonPressed:" destination="-1" eventType="touchDown" id="66"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="62" customClass="CustomButton">
-                    <rect key="frame" x="183" y="223" width="126" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Locations" backgroundImage="wb.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="viewLocationsButtonPressed:" destination="-1" eventType="touchDown" id="63"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -238,7 +224,6 @@
         <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="wb.png" width="369" height="58"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
-        <image name="whitebutton.png" width="369" height="58"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

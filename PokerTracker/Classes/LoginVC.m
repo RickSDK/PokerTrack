@@ -42,7 +42,7 @@
 
 - (IBAction) robbPressed: (id) sender {
 	loginEmail.text = @"robbmedvedyahoo.com";
-	loginPassword.text = @"buhner";
+	loginPassword.text = @"7004175St$w";
 }
 
 -(void)createNewAccountPressed:(id)sender {

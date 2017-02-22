@@ -395,7 +395,7 @@
 		else {
 			if(responseStr==nil || [responseStr isEqualToString:@""])
 				responseStr = @"No network Connection.";
-			[ProjectFunctions showAlertPopup:@"ERROR" message:[NSString stringWithFormat:@"%@", responseStr]];
+			[ProjectFunctions showAlertPopup:@"ERROR" message:@"Unable to connect to the server. Please try again later"];
 		}
 		[self endThreadedJob];
 		

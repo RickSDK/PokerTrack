@@ -445,8 +445,9 @@
     NSString *stats2 = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"stats2" predicate:predicate];
     NSArray *stats = [stats2 componentsSeparatedByString:@"|"];
     if([stats count]>4) {
-        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:3] forKey:@"longestWinStreak"];
-        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:4] forKey:@"longestLoseStreak"];
+		NSLog(@"stats2: +++%@", stats2);
+        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:4] forKey:@"longestWinStreak"];
+        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:5] forKey:@"longestLoseStreak"];
     }
     
     int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];

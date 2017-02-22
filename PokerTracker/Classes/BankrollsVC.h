@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface BankrollsVC : UIViewController {
+@interface BankrollsVC : TemplateVC {
     NSManagedObjectContext *managedObjectContext;
     UIViewController *callBackViewController;
     

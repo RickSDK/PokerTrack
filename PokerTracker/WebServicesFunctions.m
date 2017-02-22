@@ -87,7 +87,7 @@
 	else {
 		if([responseStr length]>100)
 			responseStr = [responseStr substringToIndex:100];
-		[ProjectFunctions showAlertPopupWithDelegate:@"ERROR" message:[NSString stringWithFormat:@"%@", responseStr] delegate:(id)delegate];
+		[ProjectFunctions showAlertPopupWithDelegate:@"ERROR" message:@"Unable to connect to the server. Please try again later" delegate:(id)delegate];
 		return NO;
 	}
 }

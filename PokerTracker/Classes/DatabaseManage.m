@@ -366,7 +366,7 @@
 
 	if(indexPath.section==1) {
 		NSArray *icons = [NSArray arrayWithObjects:
-						  [NSString fontAwesomeIconStringForEnum:FAGamepad],
+						  [NSString fontAwesomeIconStringForEnum:FAPlus],
 						  [NSString fontAwesomeIconStringForEnum:FALock],
 						  [NSString fontAwesomeIconStringForEnum:FAGlobe],
 						  [NSString fontAwesomeIconStringForEnum:FAUser],
@@ -612,8 +612,8 @@
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND buyInAmount = %d AND startTime = %@", buyInAmount, startTime];
 	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 	if([games count]>0) {
-		NSManagedObject *mo = [games objectAtIndex:0];
-		NSLog(@"Game exists: %@ %d!", [mo valueForKey:@"name"], [[mo valueForKey:@"game_id"] intValue]);
+//		NSManagedObject *mo = [games objectAtIndex:0];
+//		NSLog(@"Game exists: %@ %d!", [mo valueForKey:@"name"], [[mo valueForKey:@"game_id"] intValue]);
 		return YES;
 	} else
 		return NO;
@@ -726,7 +726,7 @@
 					if([components count]>10) {
 //					int buyInCol = [[ProjectFunctions getUserDefaultValue:@"PJBuyin"] intValue];
 						int buyIn = [[components stringAtIndex:8] intValue];
-						int cashout = [[components stringAtIndex:11] intValue];
+//						int cashout = [[components stringAtIndex:11] intValue];
 //					NSLog(@"buyin %d", buyIn);
 						if(buyIn>0) {
 							NSDate *startTime = [ProjectFunctions getDateInCorrectFormat:[components stringAtIndex:0]];
@@ -744,6 +744,7 @@
 			} // for
 			[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
 			[self.mainTableView reloadData];
+			
 			if(gameCount>0)
 				[ProjectFunctions showAlertPopup:@"Success!" message:[NSString stringWithFormat:@"%d games imported.", gameCount]];
 			else if(dupGameCount>0)
@@ -950,6 +951,12 @@
 		NSString *line = [self getDataForTheseRecords:items keyList:keyList isGames:NO];
 		[data appendString:line];
 	}
+	[data appendString:[NSString stringWithFormat:@"-----BANKROLL_STUFF-----\n%@|%@|%@|\n",
+						[ProjectFunctions getUserDefaultValue:@"defaultBankroll"],
+						[ProjectFunctions getUserDefaultValue:@"bankrollDefault"],
+						[ProjectFunctions getUserDefaultValue:@"bankrollSwitch"]
+						]];
+	
 	return data;
 }
 
@@ -981,7 +988,7 @@
 	if([@"Success" isEqualToString:responseStr])
 		return YES;
 	else {
-		[ProjectFunctions showAlertPopup:@"Error on Export" message:responseStr];
+		[ProjectFunctions showAlertPopup:@"Error on Export" message:@"Unable to connect to the server. Please try again later"];
 		return NO;
 	}
 }
@@ -1062,8 +1069,7 @@
 				numRecords++;
 				NSLog(@"\t\timporting: $%d %@", buyIn, istartTime);
 				[self ImportNewPTGame:components];
-			} else
-				NSLog(@"\t\t-----DUPE ($%d %@)------", buyIn, istartTime);
+			}
 		} else
 			NSLog(@"\t\t-----BUYIN ZERO------");
 		
@@ -1156,7 +1162,7 @@
 		line = [line stringByReplacingOccurrencesOfString:@"[nl]" withString:@"\n"];
 		NSArray *components = [line componentsSeparatedByString:kFieldSeparator];
 		if([type isEqualToString:@"-----GAME-----"]) {
-			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
+//			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
 			int newGame = [self LoadGames:components];
 			numRows+=newGame;
 		}
@@ -1190,7 +1196,7 @@
 //		NSLog(@"line: %@", line);
 		NSArray *components = [line componentsSeparatedByString:kFieldSeparator];
 		if([type isEqualToString:@"-----GAME-----"]) {
-			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
+//			NSLog(@"+++[%d] %@", self.numImportedLinesRead, [components objectAtIndex:0]);
 			int newGame = [self LoadGames:components];
 			numRows+=newGame;
 		}
@@ -1206,7 +1212,17 @@
 			[self LoadPTDataForEntity:@"BANKROLL" components:components field1:@"name" loc1:0 field2:@"name" loc2:0];
 		if([type isEqualToString:@"-----EXTRA2-----"])
 			[self LoadPTDataForEntity:@"EXTRA2" components:components field1:@"name" loc1:1 field2:@"type" loc2:0];
-            
+		if([type isEqualToString:@"-----BANKROLL_STUFF-----"]) {
+			NSArray *components = [line componentsSeparatedByString:@"|"];
+			if(components.count>2) {
+				[ProjectFunctions setUserDefaultValue:[components objectAtIndex:0] forKey:@"defaultBankroll"];
+				[ProjectFunctions setUserDefaultValue:[components objectAtIndex:1] forKey:@"bankrollDefault"];
+				NSString *switchVal = [@"Y" isEqualToString:[components objectAtIndex:2]]?@"Y":@"";
+				[ProjectFunctions setUserDefaultValue:switchVal forKey:@"bankrollSwitch"];
+				NSLog(@"Here!!!! %@", line);
+			}
+		}
+			
             
             
 	} //<-- for
@@ -1231,7 +1247,11 @@
 		if(gSelectedRow==0) {
 			[self executeThreadedJob:@selector(ExportPockerTrackData)];
 		} else {
-			[ProjectFunctions showAlertPopup:@"Database Imported" message:[NSString stringWithFormat:@"%d games have been imported.", numRows]];
+			if(numRows>0)
+				[ProjectFunctions showAlertPopup:@"Database Imported" message:[NSString stringWithFormat:@"%d games have been imported.", numRows]];
+			else
+				[ProjectFunctions showAlertPopup:@"Import Completed" message:@"No new games found."];
+			
 			[self completeThreadedjob];
 		}
 		

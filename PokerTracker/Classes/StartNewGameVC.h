@@ -29,10 +29,12 @@
 	IBOutlet UIButton *startLiveButton;
 	IBOutlet UIButton *completedButton;
 	IBOutlet UIButton *locationButton;
+	IBOutlet UIButton *addCasinoButton;
 	IBOutlet UILabel *buyinLabel;
 	
 	//---Gloabls----------------------------
 	int selectedObjectForEdit;
+	int addCasinoFlg;
 	CLLocationManager *locationManager;
 	CLLocation *currentLocation;
 
@@ -51,6 +53,7 @@
 - (IBAction) mapButtonPressed: (id) sender;
 - (IBAction) viewLocationsButtonPressed: (id) sender;
 - (IBAction) tournSegmentPressed: (id) sender;
+- (IBAction) addCasinoButtonPressed: (id) sender;
 -(void)setLocationValue:(NSString *)value;
 
 
@@ -70,8 +73,11 @@
 @property (atomic, strong) UIButton *startLiveButton;
 @property (atomic, strong) UIButton *completedButton;
 @property (atomic, strong) UIButton *locationButton;
+@property (atomic, strong) UIButton *addCasinoButton;
 
 @property (atomic) int selectedObjectForEdit;
+@property (atomic) int addCasinoFlg;
+
 
 @property (atomic, strong) CLLocationManager *locationManager;
 @property (atomic, strong) CLLocation *currentLocation;

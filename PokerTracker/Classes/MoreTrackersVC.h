@@ -17,5 +17,7 @@
 - (IBAction) playersPressed: (id) sender;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) IBOutlet UIButton *playerTrackerButton;
+@property (nonatomic, strong) IBOutlet UIButton *handTrackerButton;
 
 @end

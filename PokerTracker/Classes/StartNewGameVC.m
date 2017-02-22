@@ -36,6 +36,7 @@
 	
 	self.selectedObjectForEdit=0;
 	startLiveButton.enabled=NO;
+	self.addCasinoButton.enabled=NO;
 	
 	[buyinButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [ProjectFunctions getUserDefaultValue:@"buyinDefault"]] forState:UIControlStateNormal];
 	
@@ -415,12 +416,18 @@
 		
 		if([locationName length]==0) {
 			locationName = [ProjectFunctions checkLocation2:currentLocation moc:managedObjectContext];
-			if(currentLocation != nil && ![ProjectFunctions isLiteVersion] && ![ProjectFunctions isPokerZilla])
-				[ProjectFunctions showConfirmationPopup:@"Casino not in Database" message:@"Did you want to add this casino to the database? Note: Not needed for home games." delegate:self tag:1];
+			if(currentLocation != nil && ![ProjectFunctions isLiteVersion] && ![ProjectFunctions isPokerZilla]) {
+				self.addCasinoButton.enabled=YES;
+				[self.addCasinoButton setBackgroundColor:[UIColor yellowColor]];
+			}
 		}
 		
 		[self setLocationButtonTitle:locationName mode:1];
 	}
+}
+
+- (IBAction) addCasinoButtonPressed: (id) sender {
+				[ProjectFunctions showConfirmationPopup:@"Add Casino?" message:@"Did you want to add this casino to the database? Note: Not needed for home games." delegate:self tag:1];
 }
 
 -(void)sendMessageWebRequest

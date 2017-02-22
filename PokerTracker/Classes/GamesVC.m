@@ -14,7 +14,6 @@
 #import "NSDate+ATTDate.h"
 #import "NSString+ATTString.h"
 #import "ProjectFunctions.h"
-#import "NewGameBuyin.h"
 #import "GameInProgressVC.h"
 #import "ActionCell.h"
 #import "StatsPage.h"
@@ -25,6 +24,7 @@
 #import "GameCell.h"
 #import "GameObj.h"
 #import "UpgradeVC.h"
+#import "StartNewGameVC.h"
 
 
 
@@ -137,7 +137,7 @@
 - (IBAction) createPressed: (id) sender
 {
 	if([ProjectFunctions isOkToProceed:self.managedObjectContext delegate:self]) {
-		NewGameBuyin *detailViewController = [[NewGameBuyin alloc] initWithNibName:@"NewGameBuyin" bundle:nil];
+		StartNewGameVC *detailViewController = [[StartNewGameVC alloc] initWithNibName:@"StartNewGameVC" bundle:nil];
 		detailViewController.managedObjectContext = self.managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}

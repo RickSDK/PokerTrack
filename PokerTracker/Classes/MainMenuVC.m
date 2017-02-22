@@ -39,7 +39,7 @@
 
 @implementation MainMenuVC
 @synthesize managedObjectContext, friendsNumLabel, friendsNumCircle, largeGraph, rotateLock;
-@synthesize statsButton, cashButton, tournamentButton, friendsButton, oddsButton, bigHandsButton, oldGamesButton, displayYear, displayBySession;
+@synthesize statsButton, gamesButton, tournamentButton, netTrackerButton, oddsButton, forumButton, moreTrackersButton, displayYear, displayBySession;
 @synthesize yearLabel, moneyLabel, aboutImage, aboutShowing, aboutText, logoImage, upgradeButton, toggleMode;
 @synthesize openGamesCircle, openGamesLabel, refreshButton, versionLabel, reviewButton, bankrollLabel, startNewGameButton;
 @synthesize alertViewNum, emailButton, analysisButton, graphChart, logoAlpha, yearTotalLabel, smallYearLabel;
@@ -60,8 +60,8 @@
 	
 	self.topView.hidden=self.isPokerZilla;
 	self.last10Label.hidden=self.isPokerZilla;
-	self.bigHandsButton.hidden=self.isPokerZilla;
-	self.friendsButton.hidden=self.isPokerZilla;
+	self.forumButton.hidden=self.isPokerZilla;
+	self.netTrackerButton.hidden=self.isPokerZilla;
 	self.botView.hidden=self.isPokerZilla;
 	self.pokerZillaImageView.hidden=!self.isPokerZilla;
 	
@@ -99,11 +99,28 @@
 	self.toggleMode = [[ProjectFunctions getUserDefaultValue:@"toggleMode"] intValue];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
 	
-	NSString *title = ([ProjectFunctions isLiteVersion])?@"Upgrade":@"About";
-	self.aboutButton = [ProjectFunctions navigationButtonWithTitle:title selector:@selector(aboutButtonClicked:) target:self];
-	self.navigationItem.leftBarButtonItem = self.aboutButton;
+	if([ProjectFunctions isLiteVersion]) {
+		NSString *title = ([ProjectFunctions isLiteVersion])?@"Upgrade":@"About";
+		self.aboutButton = [ProjectFunctions navigationButtonWithTitle:title selector:@selector(aboutButtonClicked:) target:self];
+		self.navigationItem.leftBarButtonItem = self.aboutButton;
+		
+		self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
+	} else {
+		UIBarButtonItem *buttonLeft = [[UIBarButtonItem alloc] initWithTitle:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] style:UIBarButtonItemStylePlain target:self action:@selector(aboutButtonClicked:)];
+		
+		[buttonLeft setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+		self.navigationItem.leftBarButtonItem = buttonLeft;
+
+		
+		UIBarButtonItem *buttonRight = [[UIBarButtonItem alloc] initWithTitle:[NSString fontAwesomeIconStringForEnum:FACog] style:UIBarButtonItemStylePlain target:self action:@selector(moreButtonClicked:)];
+		
+		[buttonRight setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+		self.navigationItem.rightBarButtonItem = buttonRight;
+	}
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
+	
+	
+	
 	
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.largeGraph];
 
@@ -157,7 +174,7 @@
 		upgradeButton.alpha=1;
 	}
 
-	
+	[self setupButtons];
 
 	if(showDisolve) {
 		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
@@ -166,6 +183,27 @@
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
 	}
+}
+
+-(void)setupButtons {
+	self.statsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30.f];
+	[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FABarChartO]] forState:UIControlStateNormal];
+
+	self.gamesButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:26.f];
+	[self.gamesButton setTitle:[NSString stringWithFormat:@"%@ Games", [NSString fontAwesomeIconStringForEnum:FACheckCircle]] forState:UIControlStateNormal];
+
+	self.oddsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.oddsButton setTitle:[NSString stringWithFormat:@"%@ Odds", [NSString fontAwesomeIconStringForEnum:FAcalculator]] forState:UIControlStateNormal];
+	
+	self.moreTrackersButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.moreTrackersButton setTitle:[NSString stringWithFormat:@"%@ Trackers", [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
+	
+	self.forumButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.forumButton setTitle:[NSString stringWithFormat:@"%@ Forum", [NSString fontAwesomeIconStringForEnum:FAComments]] forState:UIControlStateNormal];
+	
+	self.netTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.netTrackerButton setTitle:[NSString stringWithFormat:@"%@ Net Tracker", [NSString fontAwesomeIconStringForEnum:FAGlobe]] forState:UIControlStateNormal];
+	
 }
 
 -(BOOL)isPokerZilla {
@@ -218,13 +256,13 @@
         self.largeGraph.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
 
         statsButton.alpha=0;
-        cashButton.alpha=0;
+        gamesButton.alpha=0;
         tournamentButton.alpha=0;
-        friendsButton.alpha=0;
+        netTrackerButton.alpha=0;
         oddsButton.alpha=0;
-        bigHandsButton.alpha=0;
+        forumButton.alpha=0;
         casinoButton.alpha=0;
-        oldGamesButton.alpha=0;
+        moreTrackersButton.alpha=0;
         
 //        [self.view bringSubviewToFront:self.largeGraph];
         self.largeGraph.alpha=1;
@@ -233,13 +271,13 @@
     else {
 		self.largeGraph.alpha=0;
         statsButton.alpha=1;
-        cashButton.alpha=1;
+        gamesButton.alpha=1;
         tournamentButton.alpha=1;
-        friendsButton.alpha=1;
+        netTrackerButton.alpha=1;
         oddsButton.alpha=1;
-        bigHandsButton.alpha=1;
+        forumButton.alpha=1;
         casinoButton.alpha=1;
-        oldGamesButton.alpha=1;
+        moreTrackersButton.alpha=1;
 //        [self.view sendSubviewToBack:self.largeGraph];
         self.rotateLock=NO;
     }
@@ -279,7 +317,7 @@
 		NSLog(@"+++gamesOnDevice: %d, gamesLastImport: %d", gamesOnDevice, gamesLastImport);
 
 		if(self.loggedInFlg && numGamesServer>0 && numGamesServer>gamesOnDevice && numGamesServer>gamesLastImport) {
-			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the 'More' button to import them. If you get this message after importing, simply export to re-sync."];
+			[ProjectFunctions showAlertPopup:@"New Games!" message:@"You have new games on the server. Click the Gear button to import them. If you get this message after importing, simply export to re-sync."];
 		}
     }
 	self.currentVersion=10.8;
@@ -453,9 +491,6 @@
 	UpgradeVC *detailViewController = [[UpgradeVC alloc] initWithNibName:@"UpgradeVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
-	
-//	self.alertViewNum=2;
-//	[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"You can import your existing games into the Pro version after exporting them from this app. Click 'More' button above for options" delegate:self];
 	
 }
 
@@ -907,7 +942,7 @@
         detailViewController.managedObjectContext = managedObjectContext;
         [self.navigationController pushViewController:detailViewController animated:YES];
     } else {
-        [ProjectFunctions showAlertPopup:@"Notice" message:@"You must be signed in to visit the forum. Click the 'More' button above."];
+        [ProjectFunctions showAlertPopup:@"Notice" message:@"You must be signed in to visit the forum. Click the Gear button above."];
     }
 }
 

@@ -17,12 +17,12 @@
 	
 	//---XIB----------------------------
 	IBOutlet UIButton *statsButton;
-	IBOutlet UIButton *cashButton;
+	IBOutlet UIButton *gamesButton;
 	IBOutlet UIButton *tournamentButton;
-	IBOutlet UIButton *friendsButton;
+	IBOutlet UIButton *netTrackerButton;
 	IBOutlet UIButton *oddsButton;
-	IBOutlet UIButton *bigHandsButton;
-	IBOutlet UIButton *oldGamesButton;
+	IBOutlet UIButton *forumButton;
+	IBOutlet UIButton *moreTrackersButton;
 	IBOutlet UIButton *startNewGameButton;
 	IBOutlet UIButton *refreshButton;
 	IBOutlet UIButton *reviewButton;
@@ -131,12 +131,12 @@
 @property (nonatomic, strong) UIButton *emailButton;
 @property (nonatomic, strong) UIButton *upgradeButton;
 @property (nonatomic, strong) UILabel *versionLabel;
-@property (nonatomic, strong) UIButton *cashButton;
+@property (nonatomic, strong) UIButton *gamesButton;
 @property (nonatomic, strong) UIButton *tournamentButton;
-@property (nonatomic, strong) UIButton *friendsButton;
+@property (nonatomic, strong) UIButton *netTrackerButton;
 @property (nonatomic, strong) UIButton *oddsButton;
-@property (nonatomic, strong) UIButton *bigHandsButton;
-@property (nonatomic, strong) UIButton *oldGamesButton;
+@property (nonatomic, strong) UIButton *forumButton;
+@property (nonatomic, strong) UIButton *moreTrackersButton;
 @property (nonatomic, strong) UIButton *casinoButton;
 @property (nonatomic, strong) UIButton *startNewGameButton;
 @property (nonatomic, strong) UILabel *yearLabel;

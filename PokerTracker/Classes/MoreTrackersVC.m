@@ -44,14 +44,16 @@
 {
     [super viewDidLoad];
     [self setTitle:@"More Trackers"];
-    
+ 
+	self.playerTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+	[self.playerTrackerButton setTitle:[NSString stringWithFormat:@"%@ Player Tracker", [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
+	
+	self.handTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
+	[self.handTrackerButton setTitle:[NSString stringWithFormat:@"%@ Hand Tracker", [NSString fontAwesomeIconStringForEnum:FAhandPaperO]] forState:UIControlStateNormal];
+
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 @end
