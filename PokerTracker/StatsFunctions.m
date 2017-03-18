@@ -40,9 +40,8 @@
 	[colorArray addObject:[CoreDataLib getFieldColor:[[statsArray objectAtIndex:8] intValue]]];
 	
 	NSMutableArray *valueArray = [[NSMutableArray alloc] initWithArray:statsArray];
-	int money = [[statsArray objectAtIndex:0] intValue];
-	int risked = [[statsArray objectAtIndex:1] intValue];
-	NSLog(@"+++money: %d %d", money, risked);
+	double money = [[statsArray objectAtIndex:0] doubleValue];
+	double risked = [[statsArray objectAtIndex:1] doubleValue];
 	[valueArray replaceObjectAtIndex:0 withObject:[ProjectFunctions convertIntToMoneyString:money]];
 	[valueArray replaceObjectAtIndex:1 withObject:[ProjectFunctions convertIntToMoneyString:risked]];
 	int streak = [[statsArray objectAtIndex:3] intValue];

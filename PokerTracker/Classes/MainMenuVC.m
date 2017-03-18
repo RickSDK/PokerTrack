@@ -150,7 +150,7 @@
 	self.graphChart.layer.cornerRadius = 8.0;
 	self.graphChart.layer.masksToBounds = YES;
 	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
-	self.graphChart.layer.borderWidth = 2.0;
+//	self.graphChart.layer.borderWidth = 2.0;
 
 	
 	//---- This code added to prevent flicker----

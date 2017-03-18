@@ -165,7 +165,7 @@
 
 +(NSString *)getThisGameStat:(NSManagedObjectContext *)mOC dataField:(NSString *)dataField items:(NSArray *)items
 {
-	int winnings=0;
+	double winnings=0;
 	int games=0;
 	int streak=0;
 	int longestWin=0;
@@ -180,10 +180,10 @@
 	int currentYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 	int lastYear = currentYear-1;
 	
-	int profitThisYear=0;
-	int profitThisMonth=0;
-	int profitLastYear=0;
-	int profitLast10=0;
+	double profitThisYear=0;
+	double profitThisMonth=0;
+	double profitLastYear=0;
+	double profitLast10=0;
 	
 	int streakThisYear=0;
 	int streakThisMonth=0;
@@ -211,26 +211,26 @@
 	
 	int tokes=0;
 	int foodDrinks=0;
-	int amountRisked=0;
-	int amountRiskedThisYear=0;
-	int amountRiskedThisMonth=0;
+	double amountRisked=0;
+	double amountRiskedThisYear=0;
+	double amountRiskedThisMonth=0;
 	
 	NSDate *mostRecentGame = nil;
 	NSString *thisMonth = [[NSDate date] convertDateToStringWithFormat:@"yyyyMM"];
 	
 	int totalGames = (int)[items count];
-	int minRisked=999;
-	int maxRisked=0;
-	int aveRisked=0;
+	double minRisked=999;
+	double maxRisked=0;
+	double aveRisked=0;
 
-	int minWon=999;
-	int maxWon=-999;
+	double minWon=999;
+	double maxWon=-999;
 	int aveWon=0;
     int reverseStreak=0;
     BOOL streakAlive=YES;
 
 	for (NSManagedObject *mo in items) {
-		int winAmount = [[mo valueForKey:@"winnings"] intValue];
+		double winAmount = [[mo valueForKey:@"winnings"] doubleValue];
         if(streakAlive) {
             if(winAmount>=0) {
                 if(reverseStreak>=0)
@@ -246,8 +246,8 @@
         }
 		int gameYear = [[mo valueForKey:@"year"] intValue];
 		int minutesThisGame = [[mo valueForKey:@"minutes"] intValue];
-		int buyInAmount = [[mo valueForKey:@"buyInAmount"] intValue];
-		int rebuyAmount = [[mo valueForKey:@"rebuyAmount"] intValue];
+		double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
+		double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 		tokes += [[mo valueForKey:@"tokes"] intValue];
 		foodDrinks += [[mo valueForKey:@"foodDrinks"] intValue];
 		NSDate *gameDate = [mo valueForKey:@"startTime"];
@@ -324,17 +324,17 @@
 	hours = minutes/60;
     hoursFloat = (float)minutes/60;
 	if(hoursFloat>0)
-		hourlyRate = (float)winnings/hoursFloat;
+		hourlyRate = (double)winnings/hoursFloat;
 
 
 	NSString *winpercent = @"";
 	if(games>0)
 		winpercent = [NSString stringWithFormat:@"%d%%", totalWins*100/games];
 	if([dataField isEqualToString:@"money"])
-		return [ProjectFunctions convertIntToMoneyString:winnings];
+		return [ProjectFunctions convertNumberToMoneyString:winnings];
 	
 	if([dataField isEqualToString:@"winnings"])
-		return [NSString stringWithFormat:@"%d", winnings];
+		return [NSString stringWithFormat:@"%f", winnings];
 	
 	if([dataField isEqualToString:@"tokes"])
 		return [NSString stringWithFormat:@"%d", tokes];
@@ -343,14 +343,14 @@
 		return [NSString stringWithFormat:@"%d", foodDrinks];
 	
 	if([dataField isEqualToString:@"amountRisked"])
-		return [NSString stringWithFormat:@"%d", amountRisked];
+		return [NSString stringWithFormat:@"%f", amountRisked];
 
 	
 	if([dataField isEqualToString:@"grosssIncome"])
-		return [NSString stringWithFormat:@"%d", (winnings+tokes)];
+		return [NSString stringWithFormat:@"%f", (winnings+tokes)];
 	
 	if([dataField isEqualToString:@"takehomeIncome"])
-		return [NSString stringWithFormat:@"%d", (winnings-foodDrinks)];
+		return [NSString stringWithFormat:@"%f", (winnings-foodDrinks)];
 	
 	if([dataField isEqualToString:@"gameCount"])
 		return [NSString stringWithFormat:@"%d", games];
@@ -384,9 +384,9 @@
 	
 	
 	if([dataField isEqualToString:@"amountRiskedThisYear"])
-		return [NSString stringWithFormat:@"%d", amountRiskedThisYear];
+		return [NSString stringWithFormat:@"%f", amountRiskedThisYear];
 	if([dataField isEqualToString:@"amountRiskedThisMonth"])
-		return [NSString stringWithFormat:@"%d", amountRiskedThisMonth];
+		return [NSString stringWithFormat:@"%f", amountRiskedThisMonth];
 
 	
 	if([dataField isEqualToString:@"gamesThisYear"])
@@ -402,14 +402,14 @@
 	
 	int hoursThisYear = minutesThisYear/60;
 	if([dataField isEqualToString:@"profitThisYear"])
-		return [NSString stringWithFormat:@"%d", profitThisYear];
+		return [NSString stringWithFormat:@"%f", profitThisYear];
 	if([dataField isEqualToString:@"profitLastYear"])
-		return [NSString stringWithFormat:@"%d", profitLastYear];
+		return [NSString stringWithFormat:@"%f", profitLastYear];
 	int hoursThisMonth = minutesThisMonth/60;
 	if([dataField isEqualToString:@"profitThisMonth"])
-		return [NSString stringWithFormat:@"%d", profitThisMonth];
+		return [NSString stringWithFormat:@"%f", profitThisMonth];
 	if([dataField isEqualToString:@"profitLast10"])
-		return [NSString stringWithFormat:@"%d", profitLast10];
+		return [NSString stringWithFormat:@"%f", profitLast10];
 	
 	if([dataField isEqualToString:@"streakThisYear"])
 		return [NSString stringWithFormat:@"%d", streakThisYear];
@@ -504,14 +504,14 @@
 		if(amountRisked>0)
 			percent = winnings*100/amountRisked;
 		NSLog(@"+++hoursFloat%f", hoursFloat);
-        return [NSString stringWithFormat:@"%d|%d|%@|%d|%d|%d|%@|%d|%d", winnings, amountRisked, [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], streak, longestWin, longestLose, [NSString stringWithFormat:@"%.1f", hoursFloat], hourlyRate, percent];
+        return [NSString stringWithFormat:@"%f|%f|%@|%d|%d|%d|%@|%d|%d", winnings, amountRisked, [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], streak, longestWin, longestLose, [NSString stringWithFormat:@"%.1f", hoursFloat], hourlyRate, percent];
     }
     
     if([dataField isEqualToString:@"chart1"])
-        return [NSString stringWithFormat:@"%d|%d|%d", winnings, games, minutes]; 
+        return [NSString stringWithFormat:@"%f|%d|%d", winnings, games, minutes];
     
     if([dataField isEqualToString:@"analysis1"])
-        return [NSString stringWithFormat:@"%d|%d|%d|%d|%d|%d|%d|%@|%@|%@|%@", amountRisked, foodDrinks, tokes, (winnings+tokes), 
+        return [NSString stringWithFormat:@"%f|%d|%d|%f|%f|%f|%d|%@|%@|%@|%@", amountRisked, foodDrinks, tokes, (winnings+tokes),
                 (winnings-foodDrinks), winnings, hourlyRate, 
                 [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent],
                 [ProjectFunctions convertIntToMoneyString:aveRisked],
@@ -531,12 +531,12 @@
         rating = (winnings+amountRisked)*100/amountRisked;
     
     if([dataField isEqualToString:@"totalStats"])
-        return [NSString stringWithFormat:@"%@|%d|%d|%d|%d|%d|%d", 
+        return [NSString stringWithFormat:@"%@|%d|%f|%f|%d|%d|%d",
                 [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], 
                 games, amountRisked, winnings, streak, rating, minutes];
 
     if([dataField isEqualToString:@"totalStatsL10"])
-        return [NSString stringWithFormat:@"%@|%d|%d|%d|%d|%d|%d", 
+        return [NSString stringWithFormat:@"%@|%d|%f|%f|%d|%d|%d", 
                 [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], 
                 games, amountRisked, winnings, reverseStreak, rating, minutes];
 

@@ -26,7 +26,7 @@
 @synthesize managedObjectContext;
 @synthesize gameTypeSegmentBar, gameNameSegmentBar, blindTypeSegmentBar, limitTypeSegmentBar, TourneyTypeSegmentBar;
 @synthesize editButton, bankrollButton, buyinButton, startLiveButton, completedButton, locationButton, locationManager, currentLocation;
-@synthesize selectedObjectForEdit, activityIndicator, buyinLabel;
+@synthesize selectedObjectForEdit, activityIndicator, buyinLabel, addCasinoButton, addCasinoFlg;
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.

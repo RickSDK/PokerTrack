@@ -44,7 +44,7 @@
 //#define kVersion    @"Version 6.8.3" using standard function now
 #define kLOG 0
 #define kPRODMode 1
-#define kIsLiteVersion 0  // 0 or 1
+#define kIsLiteVersion 1  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221
@@ -79,7 +79,7 @@
 +(NSString *)getYearString:(int)year;
 +(NSString *)getBasicPredicateString:(int)year type:(NSString *)Type;
 +(NSString *)getPredicateString:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
-+(NSString *)convertIntToMoneyString:(int)money;
++(NSString *)convertIntToMoneyString:(double)money;
 +(NSArray *)getArrayForSegment:(int)segment;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
@@ -138,7 +138,7 @@
 +(NSString *)formatFieldForWebService:(NSString *)field;
 +(NSString *)getDefaultDBLocation:(float)lat lng:(float)lng;
 +(void)updateMoneyFloatLabel:(UILabel *)localLabel money:(float)money;
-+(void)updateMoneyLabel:(UILabel *)localLabel money:(int)money;
++(void)updateMoneyLabel:(UILabel *)localLabel money:(double)money;
 +(int)getPlayerType:(int)amountRisked winnings:(int)winnings;
 +(NSString *)getPlayerTypelabel:(int)amountRisked winnings:(int)winnings;
 +(UIImage *)getPlayerTypeImage:(int)amountRisked winnings:(int)winnings;

@@ -354,23 +354,13 @@
         cell = [[HexWithImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
 	
-//	NSString *user = [userList objectAtIndex:indexPath.row];
 	NetUserObj *netUserObj = [netUserList objectAtIndex:indexPath.row];
- //   NSLog(@"%@", user);
 	
-//	NSArray *elements = [user componentsSeparatedByString:@"<xx>"];
-//    NSString *indexStr = [elements stringAtIndex:0];
-//    NSString *statsStr = [elements stringAtIndex:1];
-//    NSString *basics = [elements stringAtIndex:2];
-//    NSString *lastGame = [elements stringAtIndex:3];
-//    NSLog(@"++lastGame: %@", lastGame);
-    
     NSArray *statFields = [netUserObj.monthStats componentsSeparatedByString:@"|"];
     NSArray *basicsFields = [netUserObj.basicsStr componentsSeparatedByString:@"|"];
     NSArray *lastGameFields = [netUserObj.lastGameStr componentsSeparatedByString:@"|"];
 	
 	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", (int)indexPath.row+1, [basicsFields stringAtIndex:0]];
-//	cell.a1.text = [NSString stringWithFormat:@"#%d - [%@]", (int)indexPath.row+1, netUserObj.name];
 	int uid = [[basicsFields stringAtIndex:1] intValue];
 	int user_id = [[basicsFields stringAtIndex:6] intValue];
 	NSString *friendStatus = [basicsFields stringAtIndex:7];
@@ -395,7 +385,6 @@
 		cell.b1Color = [UIColor purpleColor];
 	}
 	
-//    int hours = [[statFields stringAtIndex:7] intValue]/60;
     int minutes = [[statFields stringAtIndex:7] intValue];
     float hoursFloat = (float)minutes/60;
 	int profit = [[statFields stringAtIndex:4] intValue];
@@ -460,9 +449,11 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	if(indexPath.row==self.netUserList.count-1 && self.keepGoing) {
-		NSLog(@"Load more...");
-		self.keepGoing=NO;
-		[self startBackgroundProcess];
+		if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
+			NSLog(@"Load more...");
+			self.keepGoing=NO;
+			[self startBackgroundProcess];
+		}
 	}
 
 	return cell;

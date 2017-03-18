@@ -164,8 +164,8 @@
 		
 		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
 		NSString *labelStr = [NSString stringWithFormat:@"Games: %@", gameString];
-		int winnings = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
-		int risked = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"amountRisked" predicate:predicate] intValue];
+		double winnings = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
+		double risked = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"amountRisked" predicate:predicate] doubleValue];
 		int percent = 0;
 		if(risked>0)
 			percent = winnings*100/risked;
@@ -174,7 +174,7 @@
 		
 		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:winnings];
 
-		NSLog(@"+++risked %d", risked);
+		NSLog(@"+++winnings %f", winnings);
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
 		[self.roiLabel performSelectorOnMainThread:@selector(setText: ) withObject:roiString waitUntilDone:NO];

@@ -64,7 +64,7 @@
 		tokes=0;
 		foodMoney=0;
 	}
-	float winnings = cashoutAmount+foodMoney-buyInAmount-rebuyAmount;
+	double winnings = cashoutAmount+foodMoney-buyInAmount-rebuyAmount;
 	
 	self.notesView.hidden=YES;
 	

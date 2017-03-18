@@ -27,8 +27,6 @@
 	if(numberOfWheels>padded.length)
 		numberOfWheels=(int)padded.length;
 	
-	NSLog(@"+++%@ %d", padded, numberOfWheels);
-	
 	for(int i=0; i<padded.length; i++)
 		[picker selectRow:[[padded substringWithRange:NSMakeRange(i,1)] intValue] inComponent:i animated:YES];
 	
@@ -81,7 +79,9 @@
         [self spinPicker];
         return;
     }
-	self.textField.text = [NSString stringWithFormat:@"%d", [[NSString stringWithFormat:@"%@%d", self.textField.text, value] intValue]];
+	
+	self.textField.text = [NSString stringWithFormat:@"%@%d", self.textField.text, value];
+
 	[self spinPicker];
 }
 

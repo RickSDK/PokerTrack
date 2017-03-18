@@ -23,13 +23,13 @@
 	gameObj.startTime = [mo valueForKey:@"startTime"];
 	gameObj.hours = [mo valueForKey:@"hours"];
 	gameObj.minutes = [[mo valueForKey:@"minutes"] intValue];
-	gameObj.profit = [[mo valueForKey:@"winnings"] intValue];
+	gameObj.profit = [[mo valueForKey:@"winnings"] doubleValue];
 	gameObj.location = [mo valueForKey:@"location"];
 	gameObj.status = [mo valueForKey:@"status"];
 	
 	gameObj.buyInAmount = [[mo valueForKey:@"buyInAmount"] intValue];
 	gameObj.reBuyAmount = [[mo valueForKey:@"rebuyAmount"] intValue];
-	gameObj.profit = [[mo valueForKey:@"winnings"] intValue];
+//	gameObj.profit = [[mo valueForKey:@"winnings"] intValue];
 	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.buyInAmount+gameObj.reBuyAmount netIncome:gameObj.profit];
 	
 	return gameObj;

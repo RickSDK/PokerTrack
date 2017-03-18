@@ -67,7 +67,7 @@
     NSString *messageString;
     NSString *userData;
     NSDate *startDate;
-    int netProfit;
+    double netProfit;
     int totalBreakSeconds;
 }
 
@@ -148,7 +148,7 @@
 @property (atomic, copy) NSString *userData;
 
 @property (atomic, strong) NSDate *startDate;
-@property (atomic) int netProfit;
+@property (atomic) double netProfit;
 @property (atomic) int totalBreakSeconds;
 
 

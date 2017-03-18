@@ -34,7 +34,7 @@
 
 @property (nonatomic) int game_id;
 @property (nonatomic) int user_id;
-@property (nonatomic) int profit; // winnings
+@property (nonatomic) double profit; // winnings
 @property (nonatomic) double buyInAmount;
 @property (nonatomic) double cashoutAmount;
 @property (nonatomic) int foodDrink;

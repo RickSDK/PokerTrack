@@ -34,7 +34,7 @@
 @synthesize gameInProgress, friendButton, messageString;
 @synthesize foodLabel, tokesLabel, currentStackLabel, gameTypeLabel, infoText, cashUpdatedFlg, editButton;
 @synthesize userData, startDate, netProfit, totalBreakSeconds, gamePaused, popupViewNumber, addOnFlg;
-@synthesize mainTableView, playerTypeImage;
+@synthesize mainTableView, playerTypeImage, netUserObj;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -90,9 +90,9 @@
 {
     NSArray *elements = [self.userData componentsSeparatedByString:@"<xx>"];
     if([elements count]>4) {
-        NSString *basics = [elements stringAtIndex:0];
-        NSString *yearStats = [elements stringAtIndex:2];
-        NSString *lastGame = [elements stringAtIndex:4];
+//        NSString *basics = [elements stringAtIndex:0];
+  //      NSString *yearStats = [elements stringAtIndex:2];
+    //    NSString *lastGame = [elements stringAtIndex:4];
         if([elements count]>1) {
             FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
             detailViewController.managedObjectContext=self.managedObjectContext;
@@ -297,12 +297,12 @@
 	[self startWebServiceCall:@"Ending Game"];
 	
 	grayPauseBG.alpha=.75;
-	int buyIn = [[mo valueForKey:@"buyInAmount"] intValue];
-	int rebuyAmount = [[mo valueForKey:@"rebuyAmount"] intValue];
+	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
+	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	
 	float foodMoney = [ProjectFunctions getMoneyValueFromText:foodButton.titleLabel.text];
 	float tokes = [ProjectFunctions getMoneyValueFromText:tokesButton.titleLabel.text];
-	float chips = [ProjectFunctions getMoneyValueFromText:chipStackButton.titleLabel.text];
+	double chips = [ProjectFunctions getMoneyValueFromText:chipStackButton.titleLabel.text];
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		[mo setValue:[NSNumber numberWithInt:foodMoney] forKey:@"tournamentSpots"];
 		[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tournamentFinish"];
@@ -323,7 +323,8 @@
 	int minutes = seconds/60;
 	float hours = (float)seconds/3600;
 	
-	[mo setValue:[NSNumber numberWithInt:netProfit] forKey:@"winnings"];
+	[mo setValue:[NSNumber numberWithDouble:self.netProfit] forKey:@"winnings"];
+	NSLog(@"+++winnings set to: %f", self.netProfit);
 	[mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"breakMinutes"];
 	[mo setValue:[NSNumber numberWithInt:minutes] forKey:@"minutes"];
 	[mo setValue:@"Completed" forKey:@"status"];
@@ -548,15 +549,15 @@
         }
         
 
-        [grossLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertIntToMoneyString:grossEarnings] waitUntilDone:YES];
-        [takehomeLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertIntToMoneyString:takeHome] waitUntilDone:YES];
-        [profitLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertIntToMoneyString:netProfit] waitUntilDone:YES];
+        [grossLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings] waitUntilDone:YES];
+        [takehomeLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:takeHome] waitUntilDone:YES];
+        [profitLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:netProfit] waitUntilDone:YES];
 
         
         // hourly-----
         NSString *hourlytext = @"-";
         if(totalSeconds>0)
-            hourlytext = [NSString stringWithFormat:@"%@%d/hr", [ProjectFunctions getMoneySymbol], netProfit*3600/totalSeconds];
+            hourlytext = [NSString stringWithFormat:@"%@%d/hr", [ProjectFunctions getMoneySymbol], (int)netProfit*3600/totalSeconds];
         
         // colors
         if(netProfit>=0) {
@@ -689,21 +690,21 @@
 	
 	[self.valuesArray removeAllObjects];
 	[self.valuesArray addObject:[self.mo valueForKey:@"Type"]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:(int)[[self.mo valueForKey:@"buyInAmount"] doubleValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"buyInAmount"] doubleValue]]];
 	[self.valuesArray addObject:[NSString stringWithFormat:@"%d", (int)[[self.mo valueForKey:@"numRebuys"] intValue]]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] doubleValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] doubleValue]]];
 	
 	
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:(int)[[self.mo valueForKey:@"cashoutAmount"] doubleValue]]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:grossEarnings]];
-	[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:takeHome]];
+	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"cashoutAmount"] doubleValue]]];
+	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings]];
+	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:takeHome]];
 	
 	self.startDate = [mo valueForKey:@"startTime"];
 	int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
 	if(totalSeconds>0)
-		[self.valuesArray addObject:[NSString stringWithFormat:@"%@ (%@/hr)", [ProjectFunctions convertIntToMoneyString:self.netProfit], [ProjectFunctions convertIntToMoneyString:self.netProfit*3600/totalSeconds]]];
+		[self.valuesArray addObject:[NSString stringWithFormat:@"%@ (%@/hr)", [ProjectFunctions convertNumberToMoneyString:self.netProfit], [ProjectFunctions convertNumberToMoneyString:self.netProfit*3600/totalSeconds]]];
 	else
-		[self.valuesArray addObject:[ProjectFunctions convertIntToMoneyString:self.netProfit]];
+		[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:self.netProfit]];
 	
 	int breakMinutes = [[self.mo valueForKey:@"breakMinutes"] intValue];
 	if (breakMinutes>0)

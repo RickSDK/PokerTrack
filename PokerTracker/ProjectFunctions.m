@@ -336,10 +336,12 @@
     if([ProjectFunctions getUserDefaultValue:@"moneySymbol"] && [moneyStr rangeOfString:symbol].location == NSNotFound)
         moneyStr = [NSString stringWithFormat:@"%@%.2f", symbol, money];
 
-	return [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];	
+	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
+
+	return moneyStr;
 }
 
-+(NSString *)convertIntToMoneyString:(int)money
++(NSString *)convertIntToMoneyString:(double)money
 {
 	
 //	if(money>100000000)
@@ -349,7 +351,7 @@
 //	if(money>100000)
 //		return [NSString stringWithFormat:@"%@%dK", [ProjectFunctions getMoneySymbol], money/1000];
 	
-	return [ProjectFunctions convertNumberToMoneyString:(float)money];
+	return [ProjectFunctions convertNumberToMoneyString:(double)money];
 }
 
 +(NSArray *)getArrayForSegment:(int)segment
@@ -3180,7 +3182,7 @@
 		localLabel.textColor = [UIColor greenColor];
 }
 
-+(void)updateMoneyLabel:(UILabel *)localLabel money:(int)money
++(void)updateMoneyLabel:(UILabel *)localLabel money:(double)money
 {
     [localLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertIntToMoneyString:money] waitUntilDone:NO];
     

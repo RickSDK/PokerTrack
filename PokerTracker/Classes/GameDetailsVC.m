@@ -284,6 +284,8 @@
 		}
 		if(value==nil)
 			value = @"";
+		
+		NSLog(@"==>%@ %@ (%@)", key, value, type);
 		if(i<[self.formDataArray count])
 			[self.formDataArray replaceObjectAtIndex:i withObject:value];
 		i++;
@@ -373,12 +375,13 @@
 		totalSeconds -= breakSeconds;
 		
 		[self.formDataArray replaceObjectAtIndex:2 withObject:[NSString stringWithFormat:@"%.1f",  (float)totalSeconds/3600]];
-		float netProfit = cashout+foodMoney-buyIn-rebuyAmount;
+		double netProfit = cashout+foodMoney-buyIn-rebuyAmount;
 		if([type isEqualToString:@"Tournament"])
 			netProfit = cashout-buyIn-rebuyAmount;
-		float grossEarnings = netProfit+tokesMoney;
-		float takeHome = netProfit-foodMoney;
+		double grossEarnings = netProfit+tokesMoney;
+		double takeHome = netProfit-foodMoney;
 		
+		NSLog(@"+++netProfit: %f", netProfit);
 		
 		NSString *hourlyText = [ProjectFunctions convertNumberToMoneyString:netProfit];
 		if(totalSeconds>0)
@@ -469,9 +472,9 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
-	
 	if([[self.labelValues stringAtIndex:(int)indexPath.row] isEqualToString:@"Profit"]) {
-		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:[[self.formDataArray stringAtIndex:(int)indexPath.row] intValue]]];
+		NSLog(@"Profit: %@", [self.formDataArray stringAtIndex:(int)indexPath.row]);
+		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[self.formDataArray stringAtIndex:(int)indexPath.row] doubleValue]]];
 		if([[self.formDataArray stringAtIndex:(int)indexPath.row] intValue]>=0)
 			cell.selection.textColor = [UIColor ATTGreen];
 		else
@@ -628,9 +631,9 @@
 	if([[self.formDataArray stringAtIndex:kType] isEqualToString:@"Tournament"])
 		foodAmount=0;
 	
-	int winnings = [[self.formDataArray stringAtIndex:kCashOut] intValue] + foodAmount - [[self.formDataArray stringAtIndex:kRebuy] intValue] - [[self.formDataArray stringAtIndex:kbuyIn] intValue];
+	double winnings = [[self.formDataArray stringAtIndex:kCashOut] doubleValue] + foodAmount - [[self.formDataArray stringAtIndex:kRebuy] doubleValue] - [[self.formDataArray stringAtIndex:kbuyIn] doubleValue];
 	
-	[self.formDataArray replaceObjectAtIndex:kWinnings withObject:[NSString stringWithFormat:@"%d", winnings]];
+	[self.formDataArray replaceObjectAtIndex:kWinnings withObject:[NSString stringWithFormat:@"%f", winnings]];
 	self.viewEditable=YES;
 	
 	[saveEditButton setTitle:@"Save"];

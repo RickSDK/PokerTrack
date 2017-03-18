@@ -225,7 +225,12 @@
 
 	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = menuButton;
-    
+	
+	if(self.gameObj && self.gameObj.location.length>0) {
+		self.gameTypeStr = self.gameObj.name;
+		self.gameTypeLabel.text = self.gameObj.type;
+	}
+	
     [mainTableView reloadData];
 	
 	 

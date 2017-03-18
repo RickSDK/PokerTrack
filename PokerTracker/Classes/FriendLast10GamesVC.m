@@ -74,6 +74,7 @@
 				if([line length]>15) {
 //					NSLog(@"+++%@", line);
 					GameObj *gameObj = [GameObj populateGameFromString:line];
+//					NSLog(@"gameObj: %@ %@", gameObj.name, gameObj.type);
 					[gameList addObject:gameObj];
 				}
 			}
@@ -156,14 +157,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    
-     FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
-//    detailViewController.userValues = [NSString stringWithFormat:@"<xx><xx>%@<xx>%@", friendName, [gameList objectAtIndex:indexPath.row]];
+//	GameObj *gameObj = [gameList objectAtIndex:indexPath.row];
+	FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
 	detailViewController.netUserObj=self.netUserObj;
 	detailViewController.gameObj = [gameList objectAtIndex:indexPath.row];
-     [self.navigationController pushViewController:detailViewController animated:YES];
-    
+	[self.navigationController pushViewController:detailViewController animated:YES];
+	
 }
 
 

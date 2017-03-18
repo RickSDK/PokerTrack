@@ -105,6 +105,7 @@
 	NSArray *selectedCards = [textField.text componentsSeparatedByString:@"-"];
 	self.conflictLabel.alpha=0;
 	self.selectButton.enabled=YES;
+	
 	for(NSString *card in selectedCards) {
 		if([self.burnedcards rangeOfString:card].location != NSNotFound) {
 			self.conflictLabel.alpha=1;
@@ -130,12 +131,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
 
 -(void)setUpSegments:(NSString *)textValue
 {
@@ -182,7 +177,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Hand Picker"];
+
+	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
+	self.navigationItem.leftBarButtonItem = modalButton;
 	
+	selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
+	self.navigationItem.rightBarButtonItem = selectButton;
+	
+	self.label.text = [NSString stringWithFormat:@"%@", self.titleLabel];
+
 	self.conflictLabel.alpha=0;
 	self.selectButton.enabled=YES;
 
@@ -215,16 +218,10 @@
 	[CardHandPicker displayCardGraphic:suit2Image cardlabel:card2Label card:@"2" suit:@"c"];
 	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
     
+	
+
 	[self setUpSegments:self.initialDateValue];
-	
-	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-	self.navigationItem.leftBarButtonItem = modalButton;
-	
-	selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = selectButton;
-	
-	self.label.text = [NSString stringWithFormat:@"%@", self.titleLabel];
-	
+
 }
 
 
