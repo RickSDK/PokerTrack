@@ -14,6 +14,8 @@
 
 @interface TemplateVC : UIViewController
 
+@property (strong, nonatomic) IBOutlet UIView *popupView;
+@property (strong, nonatomic) IBOutlet UITextField *mainTextfield;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) IBOutlet CustomSegment *mainSegment;
 
@@ -29,6 +31,7 @@
 -(void)stopWebService;
 -(void)resignResponders;
 - (IBAction) segmentChanged: (id) sender;
+- (IBAction) xButtonClicked: (id) sender;
 -(BOOL)isPokerZilla;
 
 @end

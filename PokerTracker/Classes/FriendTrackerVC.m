@@ -22,6 +22,7 @@
 #import "FriendTrackerVC.h"
 #import "GrabphLib.h"
 #import "UniverseTrackerVC.h"
+#import "NetUserObj.h"
 
 @interface FriendTrackerVC ()
 
@@ -193,65 +194,50 @@
             [monthGamesAllList removeAllObjects];
             [yearGamesFriendsList removeAllObjects];
             
-            
+			[self.mainArray removeAllObjects];
             NSArray *users = [responseStr componentsSeparatedByString:@"<br>"];
             for(NSString *line in users)
                 if([line length]>20) {
                     //               NSLog(@"%@", line);
-                    NSArray *elements = [line componentsSeparatedByString:@"<xx>"];
-                    NSString *basics = [elements stringAtIndex:0];
-                    NSString *last10 = [elements stringAtIndex:1];
-                    NSString *monthStats = [elements stringAtIndex:3];
-                    NSString *yearStats = [elements stringAtIndex:2];
-                    NSString *lastGame = [elements stringAtIndex:4];
-                    NSString *last90Days = [elements stringAtIndex:5];
-                    NSString *thisMonthGames = [elements stringAtIndex:6];
-                    NSString *last10Games = [elements stringAtIndex:7];
-                    //                NSLog(@"%@", lastGame);
-                    
-                    //              NSLog(@"monthStats %@", monthStats);
-                    NSArray *last10Elements = [last10 componentsSeparatedByString:@"|"];
-                    NSArray *yearElements = [yearStats componentsSeparatedByString:@"|"];
-                    NSArray *monthElements = [monthStats componentsSeparatedByString:@"|"];
-                    NSArray *basicsElements = [basics componentsSeparatedByString:@"|"];
+					NetUserObj *obj = [NetUserObj friendObjFromLine:line];
+					[self.mainArray addObject:obj];
+ 
+                    [data appendFormat:@"%@<1>%@+", obj.name, obj.last90Days];
+                    [dataLast10 appendFormat:@"%@<1>%@+", obj.name, obj.last10Games];
+                    [dataThisMonth appendFormat:@"%@<1>%@+", obj.name, obj.thisMonthGames];
 
-                    [data appendFormat:@"%@<1>%@+", [basicsElements stringAtIndex:0], last90Days];
-                    [dataLast10 appendFormat:@"%@<1>%@+", [basicsElements stringAtIndex:0], last10Games];
-                    [dataThisMonth appendFormat:@"%@<1>%@+", [basicsElements stringAtIndex:0], thisMonthGames];
-
-                    int gamesThisMonth = [[monthElements stringAtIndex:2] intValue];
+                    int gamesThisMonth = [[obj.monthElements stringAtIndex:2] intValue];
                     
-                    NSString *status = [basicsElements stringAtIndex:7];
-                    if([status isEqualToString:@"Request Pending"])
-                        [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", [basicsElements stringAtIndex:0]]];
+                    if([obj.status isEqualToString:@"Request Pending"])
+                        [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", obj.name]];
                     
-                    NSString *lastMonthUpd = [monthElements stringAtIndex:0];
-                    //              NSLog(@"%@ %@", currentMonth, lastMonthUpd);
-                    
+                    NSString *lastMonthUpd = [obj.monthElements stringAtIndex:0];
+					
                     //Money
-                    [last10MoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[last10Elements stringAtIndex:4] intValue]+1000000), last10, basics, lastGame, line]];
+                    [last10MoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.last10Elements stringAtIndex:4] intValue]+1000000), obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
                     
                     if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthMoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[monthElements stringAtIndex:4] intValue]+1000000), monthStats, basics, lastGame, line]];
-                    [yearMoneyFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[yearElements stringAtIndex:4] intValue]+1000000), yearStats, basics, lastGame, line]];
+                        [monthMoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.monthElements stringAtIndex:4] intValue]+1000000), obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
+                    [yearMoneyFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.yearElements stringAtIndex:4] intValue]+1000000), obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
                     
                     //Skill
-                    [last10ProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[last10Elements stringAtIndex:6] intValue], last10, basics, lastGame, line]];
+                    [last10ProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.last10Elements stringAtIndex:6] intValue], obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
                     if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[monthElements stringAtIndex:6] intValue], monthStats, basics, lastGame, line]];
-                    [yearProfitFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[yearElements stringAtIndex:6] intValue], yearStats, basics, lastGame, line]];
+                        [monthProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.monthElements stringAtIndex:6] intValue], obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
+                    [yearProfitFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.yearElements stringAtIndex:6] intValue], obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
                     
                     //Games
-                    [last10GamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[last10Elements stringAtIndex:2] intValue], last10, basics, lastGame, line]];
+                    [last10GamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.last10Elements stringAtIndex:2] intValue], obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
                     if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthGamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[monthElements stringAtIndex:2] intValue], monthStats, basics, lastGame, line]];
-                    [yearGamesFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[yearElements stringAtIndex:2] intValue], yearStats, basics, lastGame, line]];
+                        [monthGamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.monthElements stringAtIndex:2] intValue], obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
+                    [yearGamesFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.yearElements stringAtIndex:2] intValue], obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
                     
                 }
 	}
         
 	[self populateArray];
-        
+		
+		
         UIImageView *img = [GrabphLib graphStatsChart:self.managedObjectContext data:data type:0];
         UIImageView *imgLast10 = [GrabphLib graphStatsChart:self.managedObjectContext data:dataLast10 type:1];
         UIImageView *imgThisMonth = [GrabphLib graphStatsChart:self.managedObjectContext data:dataThisMonth type:2];
@@ -613,14 +599,17 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	} else {
-        int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
-        if(friendCount>1) {
-            self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Net Tracker" selector:@selector(netTrackerButtonClicked:) target:self];
-            
-        } else {
-            self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed)];
+		self.navigationItem.rightBarButtonItem = addButton;
 
-        }
+//        int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
+//        if(friendCount>1) {
+  //          self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Net Tracker" selector:@selector(netTrackerButtonClicked:) target:self];
+    //
+      //  } else {
+        //    self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+
+//        }
 	}
 	
     
@@ -631,6 +620,50 @@
 
 	
 }
+
+- (void)createPressed {
+	self.popupView.hidden=NO;
+	[self.mainTextfield	becomeFirstResponder];
+}
+
+- (IBAction) addButtonPressed: (id) sender {
+	if(self.mainTextfield.text.length==0) {
+		[ProjectFunctions showAlertPopup:@"Invalid Email Address" message:@""];
+		return;
+	}
+	[self.mainTextfield resignFirstResponder];
+	self.popupView.hidden=YES;
+	[self startWebService:@selector(addFriendFunction) message:@"Working..."];
+
+}
+
+-(void)addFriendFunction {
+	@autoreleasepool {
+		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"friendEmail", nil];
+		
+		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], self.mainTextfield.text, nil];
+		NSString *webAddr = @"http://www.appdigity.com/poker/pokerAddFriend.php";
+		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
+		
+		if([[responseStr substringToIndex:7] isEqualToString:@"Success"]) {
+			
+			NSArray *components = [responseStr componentsSeparatedByString:@"|"];
+			NSString *firstName = @"Error";
+			if([components count]>2) {
+				firstName = [components objectAtIndex:1];
+			}
+			
+			[ProjectFunctions showAlertPopup:@"Success" message:[NSString stringWithFormat:@"Friend %@ added. Awaiting acceptance.", firstName]];
+		}
+		else {
+			if(responseStr==nil || [responseStr isEqualToString:@""])
+				responseStr = @"No network Connection.";
+			[ProjectFunctions showAlertPopup:@"ERROR" message:responseStr];
+		}
+		[self stopWebService];
+	}
+}
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

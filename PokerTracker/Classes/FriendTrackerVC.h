@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface FriendTrackerVC : UIViewController {
-	NSManagedObjectContext *managedObjectContext;
+@interface FriendTrackerVC : TemplateVC {
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIImageView *activityPopup;
 	IBOutlet UILabel *activityLabel;
 	IBOutlet UILabel *datelabel;
-	IBOutlet UITableView *mainTableView;
 	IBOutlet UISegmentedControl *topSegment;
 	IBOutlet UISegmentedControl *sortSegment;
 	IBOutlet UISegmentedControl *timeFrameSegment;
@@ -26,7 +25,7 @@
     IBOutlet UIImageView *chartImageView;
     IBOutlet UIImageView *chartLast10ImageView;
     IBOutlet UIImageView *chartThisMonthImageView;
-    IBOutlet UIImageView *blackBG;
+	IBOutlet UIImageView *blackBG;
 	
 	NSMutableArray *userList;
 	NSMutableArray *profitList;
@@ -62,9 +61,9 @@
 - (IBAction) prevButtonPressed: (id) sender;
 - (IBAction) nextButtonPressed: (id) sender;
 - (IBAction) refreshButtonPressed: (id) sender;
+- (IBAction) addButtonPressed: (id) sender;
 -(void)startBackgroundProcess;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, strong) UIImageView *chartImageView;
 @property (atomic, strong) UIImageView *chartLast10ImageView;
@@ -72,7 +71,6 @@
 @property (atomic, strong) UIImageView *activityPopup;
 @property (atomic, strong) UILabel *activityLabel;
 @property (atomic, strong) UILabel *datelabel;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UISegmentedControl *topSegment;
 @property (atomic, strong) UISegmentedControl *sortSegment;
 @property (atomic, strong) UISegmentedControl *timeFrameSegment;

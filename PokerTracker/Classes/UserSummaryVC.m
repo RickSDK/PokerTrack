@@ -369,15 +369,6 @@
 	@autoreleasepool {
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"friendEmail", nil];
 
-		
-//    NSArray *elements = [user componentsSeparatedByString:@"<xx>"];
-//    NSString *basics = [elements stringAtIndex:2];
-    
-//    NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
-		
-//		NSString *email = [basicsFields stringAtIndex:2];
-    
-
 		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], self.netUserObj.email, nil];
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerAddFriend.php";
 		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];

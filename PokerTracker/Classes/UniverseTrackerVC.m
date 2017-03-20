@@ -82,18 +82,9 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	} else {
-		int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
-		if(friendCount>1) {
-			self.syncButton = [[UIBarButtonItem alloc] initWithTitle:@"Re-Sync" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-			self.navigationItem.rightBarButtonItem = self.syncButton;
-			
-		} else {
-			self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Friends" selector:@selector(friendButtonClicked:) target:self];
-			
-		}
+		self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Friends" selector:@selector(friendButtonClicked:) target:self];
+		
 	}
-	
-	
 	
 	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.sortSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];

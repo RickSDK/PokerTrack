@@ -39,9 +39,18 @@
 @property (nonatomic, strong) NSString *monthStats;
 @property (nonatomic, strong) NSString *lastGameStr;
 
+@property (nonatomic, strong) NSString *last90Days;
+@property (nonatomic, strong) NSString *thisMonthGames;
+@property (nonatomic, strong) NSString *last10Games;
+
+@property (nonatomic, strong) NSArray *last10Elements;
+@property (nonatomic, strong) NSArray *yearElements;
+@property (nonatomic, strong) NSArray *monthElements;
+
 @property (nonatomic) BOOL nowPlayingFlg;
 @property (nonatomic) BOOL friendFlg;
 
 +(NetUserObj *)userObjFromString:(NSString *)line;
++(NetUserObj *)friendObjFromLine:(NSString *)line;
 
 @end

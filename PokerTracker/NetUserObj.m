@@ -43,4 +43,41 @@
 	return netUserObj;
 }
 
++(NetUserObj *)friendObjFromLine:(NSString *)line {
+	NetUserObj *netUserObj = [NetUserObj new];
+	NSArray *elements = [line componentsSeparatedByString:@"<xx>"];
+	
+	if(elements.count>7) {
+		netUserObj.basicsStr = [elements objectAtIndex:0];
+		netUserObj.last10Str = [elements objectAtIndex:1];
+		netUserObj.yearStats = [elements objectAtIndex:2];
+		netUserObj.monthStats = [elements objectAtIndex:3];
+		netUserObj.lastGameStr = [elements objectAtIndex:4];
+		
+		netUserObj.last90Days = [elements objectAtIndex:5];
+		netUserObj.thisMonthGames = [elements objectAtIndex:6];
+		netUserObj.last10Games = [elements objectAtIndex:7];
+	}
+
+	NSArray *basicsElements = [netUserObj.basicsStr componentsSeparatedByString:@"|"];
+	netUserObj.last10Elements = [netUserObj.last10Str componentsSeparatedByString:@"|"];
+	netUserObj.yearElements = [netUserObj.yearStats componentsSeparatedByString:@"|"];
+	netUserObj.monthElements = [netUserObj.monthStats componentsSeparatedByString:@"|"];
+
+	if(basicsElements.count>10) {
+		netUserObj.name = [basicsElements objectAtIndex:0];
+		netUserObj.userId = [basicsElements objectAtIndex:1];
+		netUserObj.email = [basicsElements objectAtIndex:2];
+		netUserObj.city = [basicsElements objectAtIndex:3];
+		netUserObj.state = [basicsElements objectAtIndex:4];
+		netUserObj.country = [basicsElements objectAtIndex:5];
+		netUserObj.friendStatus = [basicsElements objectAtIndex:7];
+		netUserObj.nowPlayingFlg = [[basicsElements objectAtIndex:8] isEqualToString:@"Y"];
+		netUserObj.moneySymbol = [basicsElements objectAtIndex:9];
+		netUserObj.version = [basicsElements objectAtIndex:10];
+	}
+
+	return netUserObj;
+}
+
 @end

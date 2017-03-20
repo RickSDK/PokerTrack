@@ -33,6 +33,7 @@
 	self.textFieldElements = [[NSMutableArray alloc] init];
 	self.mainArray = [[NSMutableArray alloc] init];
 	
+	self.popupView.hidden=YES;
 	self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self screenWidth], [self screenHeight])];
 	self.bgImageView.image = [UIImage imageNamed:@"greenFelt.png"];
 	[self.view addSubview:self.bgImageView];
@@ -52,6 +53,11 @@
 	   withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 	self.bgImageView.frame = CGRectMake(0, 0, size.width, size.height+44);
+}
+
+- (IBAction) xButtonClicked: (id) sender {
+	self.popupView.hidden=YES;
+	[self.mainTextfield resignFirstResponder];
 }
 
 

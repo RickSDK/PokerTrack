@@ -30,7 +30,7 @@
 #import "NSArray+ATTArray.h"
 #import "BankrollsVC.h"
 #import "UnLockAppVC.h"
-#import "FriendTrackerVC.h"
+//#import "FriendTrackerVC.h"
 #import "PlayerTrackerVC.h"
 #import "DatePickerViewController.h"
 #import "UpgradeVC.h"
@@ -187,7 +187,10 @@
 
 -(void)setupButtons {
 	self.statsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30.f];
-	[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FABarChartO]] forState:UIControlStateNormal];
+	if([ProjectFunctions isLiteVersion])
+		[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FABarChartO]] forState:UIControlStateNormal];
+	else
+		[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FAlineChart]] forState:UIControlStateNormal];
 
 	self.gamesButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:26.f];
 	[self.gamesButton setTitle:[NSString stringWithFormat:@"%@ Games", [NSString fontAwesomeIconStringForEnum:FACheckCircle]] forState:UIControlStateNormal];
@@ -894,17 +897,10 @@
 	if(rotateLock)
 		return;
 	
-    int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
-    if(friendCount>1) {
-        FriendTrackerVC *detailViewController = [[FriendTrackerVC alloc] initWithNibName:@"FriendTrackerVC" bundle:nil];
-        detailViewController.managedObjectContext = managedObjectContext;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    } else {
-        
-        UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
-        detailViewController.managedObjectContext = managedObjectContext;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    }
+	
+	UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (IBAction) oddsPressed: (id) sender

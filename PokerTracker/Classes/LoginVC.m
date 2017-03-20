@@ -90,7 +90,7 @@
 		NSString *responseStr = @"";
 		responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
 		
-//		NSLog(@"responseStr: %@", responseStr);
+		NSLog(@"loginToSystem responseStr: %@", responseStr);
 		if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 			NSArray *items = [responseStr componentsSeparatedByString:@"|"];
 			NSString *firstName = @"";
