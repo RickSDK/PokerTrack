@@ -71,15 +71,13 @@
     NSString *reString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     responseString = [NSString stringWithFormat:@"%@", reString];
     
-//    if(responseData==nil)
-  //      [ProjectFunctions showAlertPopup:@"WebService Error" :@"Not able to connect to the server. Try again later."];
-
 	return responseString;
 }
+
 +(BOOL)validateStandardResponse:(NSString *)responseStr delegate:(id)delegate
 {
 	if(responseStr==nil || [responseStr length]==0)
-		responseStr = @"No Response Sent.";
+		responseStr = @"No Response Received.";
 	
 	if([responseStr length]>=7 && [[responseStr substringToIndex:7] isEqualToString:@"Success"]) {
 		return YES;
@@ -87,8 +85,8 @@
 	else {
 		NSLog(@"validateStandardResponse responseStr: %@", responseStr);
 		if([responseStr length]>100)
-			responseStr = [responseStr substringToIndex:100];
-		[ProjectFunctions showAlertPopupWithDelegate:@"ERROR" message:@"Unable to connect to the server. Please try again later" delegate:(id)delegate];
+			responseStr = @"Possible server issues. Please try again later.";
+		[ProjectFunctions showAlertPopupWithDelegate:@"ERROR" message:responseStr delegate:(id)delegate];
 		return NO;
 	}
 }

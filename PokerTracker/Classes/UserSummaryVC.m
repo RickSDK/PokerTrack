@@ -386,7 +386,11 @@
 		else {
 			if(responseStr==nil || [responseStr isEqualToString:@""])
 				responseStr = @"No network Connection.";
-			[ProjectFunctions showAlertPopup:@"ERROR" message:@"Unable to connect to the server. Please try again later"];
+			
+			if([responseStr length]>100)
+				responseStr = @"Possible server issues. Please try again later.";
+
+			[ProjectFunctions showAlertPopup:@"ERROR" message:responseStr];
 		}
 		[self endThreadedJob];
 		

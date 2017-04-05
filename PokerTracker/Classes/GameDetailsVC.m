@@ -68,6 +68,16 @@
 	}
 	if(buttonForm==101) {
 		if(buttonIndex==1 && mo != nil) {
+			double winnings = [[mo valueForKey:@"winnings"] doubleValue];
+			
+			NSString *bankrollName = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
+			if([bankrollName length]==0 || [bankrollName isEqualToString:@"Default"])
+				bankrollName = @"Bankroll";
+			
+			int currentBankroll = [[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue];
+			int newBankroll = currentBankroll +winnings*-1;
+			[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", newBankroll] forKey:@"defaultBankroll"];
+			
 			[managedObjectContext deleteObject:mo];
 			[managedObjectContext save:nil];
 			[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];

@@ -988,7 +988,9 @@
 	if([@"Success" isEqualToString:responseStr])
 		return YES;
 	else {
-		[ProjectFunctions showAlertPopup:@"Error on Export" message:@"Unable to connect to the server. Please try again later"];
+		if([responseStr length]>100)
+			responseStr = @"Possible server issues. Please try again later.";
+		[ProjectFunctions showAlertPopup:@"Error on Export" message:responseStr];
 		return NO;
 	}
 }

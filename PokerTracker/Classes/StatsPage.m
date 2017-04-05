@@ -254,10 +254,6 @@
 		return;
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[formDataArray replaceObjectAtIndex:1 withObject:self.gameType];
-	if(gameSegment.selectedSegmentIndex>0)
-		customSegment.selectedSegmentIndex = 0;
-
-	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	[self computeStats];
 }
 
@@ -292,6 +288,11 @@
 		}
 	} else { // no custom button
 		[self initializeFormData];
+		
+		NSString *currentYearStr = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
+		NSLog(@"+++%@", currentYearStr);
+		self.displayYear=[currentYearStr intValue];
+		[formDataArray replaceObjectAtIndex:0 withObject:currentYearStr];
         if([formDataArray count]>0)
             yearLabel.text = [formDataArray objectAtIndex:0];
 	}

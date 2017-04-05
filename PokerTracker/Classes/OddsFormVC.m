@@ -460,40 +460,50 @@
 
 -(void)completeWithRandomCards
 {
-	NSMutableArray *playerHands = [[NSMutableArray alloc] init];
-	NSString *burnedCards = [NSString stringWithFormat:@"%@-%@-%@", [formDataArray objectAtIndex:numPlayers], [formDataArray objectAtIndex:numPlayers+1], [formDataArray objectAtIndex:numPlayers+2]];
-	for(int i=0; i<numPlayers; i++) {
-		NSString *currentValue = [formDataArray objectAtIndex:i];
-		if([currentValue isEqualToString:@"-select-"] || [currentValue isEqualToString:@"?x-?x"]) {
-			NSString *card1 = [PokerOddsFunctions getRandomCard:burnedCards];
-			burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, card1];
-			NSString *card2 = [PokerOddsFunctions getRandomCard:burnedCards];
-			burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, card2];
-			[playerHands addObject:[NSString stringWithFormat:@"%@-%@", card1, card2]];
-			[formDataArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"%@-%@", card1, card2]];
-		} else {
-			[playerHands addObject:currentValue];
+	if(0) { //<-- for testing
+		[formDataArray replaceObjectAtIndex:0 withObject:@"Ks-Jh"];
+		[formDataArray replaceObjectAtIndex:1 withObject:@"2d-Ks"];
+		[formDataArray replaceObjectAtIndex:2 withObject:@"9c-5h"];
+		[formDataArray replaceObjectAtIndex:numPlayers withObject:@"3s-8c-9d"];
+		[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:@"2h"];
+		[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:@"As"];
+	} else {
+		NSMutableArray *playerHands = [[NSMutableArray alloc] init];
+		NSString *burnedCards = [NSString stringWithFormat:@"%@-%@-%@", [formDataArray objectAtIndex:numPlayers], [formDataArray objectAtIndex:numPlayers+1], [formDataArray objectAtIndex:numPlayers+2]];
+		for(int i=0; i<numPlayers; i++) {
+			NSString *currentValue = [formDataArray objectAtIndex:i];
+			if([currentValue isEqualToString:@"-select-"] || [currentValue isEqualToString:@"?x-?x"]) {
+				NSString *card1 = [PokerOddsFunctions getRandomCard:burnedCards];
+				burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, card1];
+				NSString *card2 = [PokerOddsFunctions getRandomCard:burnedCards];
+				burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, card2];
+				[playerHands addObject:[NSString stringWithFormat:@"%@-%@", card1, card2]];
+				[formDataArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"%@-%@", card1, card2]];
+			} else {
+				[playerHands addObject:currentValue];
+			}
+		}
+		NSString *flop = [formDataArray objectAtIndex:numPlayers];
+		if([flop isEqualToString:@"-select-"] || [flop isEqualToString:@"?x-?x-?x"]) {
+			NSString *burnedCards = [PokerOddsFunctions getBurnedCards:playerHands flop:@"" turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2]];
+			
+			flop = [PokerOddsFunctions getRandomFlop:burnedCards];
+			[formDataArray replaceObjectAtIndex:numPlayers withObject:flop];
+		}
+		burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, flop];
+		
+		NSString *turn = [formDataArray objectAtIndex:numPlayers+1];
+		if([turn isEqualToString:@"-select-"] || [turn isEqualToString:@"?x"]) {
+			turn = [PokerOddsFunctions getRandomCard:burnedCards];
+			[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:turn];
+		}
+		NSString *river = [formDataArray objectAtIndex:numPlayers+2];
+		if([river isEqualToString:@"-select-"] || [river isEqualToString:@"?x"]) {
+			burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, turn];
+			[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:[PokerOddsFunctions getRandomCard:burnedCards]];
 		}
 	}
-	NSString *flop = [formDataArray objectAtIndex:numPlayers];
-	if([flop isEqualToString:@"-select-"] || [flop isEqualToString:@"?x-?x-?x"]) {
-		NSString *burnedCards = [PokerOddsFunctions getBurnedCards:playerHands flop:@"" turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2]];
-		
-		flop = [PokerOddsFunctions getRandomFlop:burnedCards];
-		[formDataArray replaceObjectAtIndex:numPlayers withObject:flop];
-	}
-	burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, flop];
 	
-	NSString *turn = [formDataArray objectAtIndex:numPlayers+1];
-	if([turn isEqualToString:@"-select-"] || [turn isEqualToString:@"?x"]) {
-		turn = [PokerOddsFunctions getRandomCard:burnedCards];
-		[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:turn];
-	}
-	NSString *river = [formDataArray objectAtIndex:numPlayers+2];
-	if([river isEqualToString:@"-select-"] || [river isEqualToString:@"?x"]) {
-		burnedCards = [NSString stringWithFormat:@"%@-%@", burnedCards, turn];
-		[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:[PokerOddsFunctions getRandomCard:burnedCards]];
-	}
 	calculateButton.enabled=YES;
 	self.doneCalculating=NO;
 	self.startedCalculating=NO;
