@@ -24,6 +24,8 @@
 //	self.productID = @"proVersionPTP";
 	self.productID = @"PTP_Upgrade"; // lite version
 	
+	self.messageTextView.text = NSLocalizedString(@"upgradeText", nil);
+	
 
 	self.promoCodeView.hidden=YES;
 }

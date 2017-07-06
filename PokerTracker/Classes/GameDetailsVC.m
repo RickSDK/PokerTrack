@@ -127,8 +127,8 @@
 	self.changesMade=NO;
 	
 	NSDate *startTime = [(NSString *)[self.formDataArray stringAtIndex:kStartTime] convertStringToDateFinalSolution];
-	[self.formDataArray replaceObjectAtIndex:24 withObject:[startTime convertDateToStringWithFormat:@"EEEE"]];
-	[self.formDataArray replaceObjectAtIndex:25 withObject:[startTime convertDateToStringWithFormat:@"MMMM"]];
+	[self.formDataArray replaceObjectAtIndex:24 withObject:[ProjectFunctions getWeekDayFromDate:startTime]];
+	[self.formDataArray replaceObjectAtIndex:25 withObject:[ProjectFunctions getMonthFromDate:startTime]];
 	[self.formDataArray replaceObjectAtIndex:26 withObject:[ProjectFunctions getDayTimeFromDate:startTime]];
 	
 	int year = [[startTime convertDateToStringWithFormat:@"yyyy"] intValue];
@@ -177,7 +177,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	[self setTitle:@"Game Details"];
+	[self setTitle:NSLocalizedString(@"Details", nil)];
 
 	self.labelTypes = [[NSMutableArray alloc] init];
 	self.labelValues = [[NSMutableArray alloc] init];
@@ -192,7 +192,8 @@
 	amountLabel.text = [ProjectFunctions displayMoney:mo column:@"winnings"];
 	
 	if(viewEditable) {
-		self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//		self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 
 		
 	} else if([[mo valueForKey:@"user_id"] intValue]==0) {
@@ -201,12 +202,10 @@
 	}
 	
 	if([[mo valueForKey:@"user_id"] intValue]>0) {
-//		saveEditButton = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
-		saveEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+		saveEditButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = saveEditButton;
 	} else {
 		NSString *buttonName = (viewEditable)?@"Save":@"Edit";
-//		saveEditButton = [ProjectFunctions navigationButtonWithTitle:buttonName selector:@selector(saveButtonClicked:) target:self];
 
 		saveEditButton = [[UIBarButtonItem alloc] initWithTitle:buttonName style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = saveEditButton;
@@ -216,12 +215,12 @@
 	
 	[super viewDidLoad];
 	
-	NSString *gameType = [NSString stringWithFormat:@"%@", [mo valueForKey:@"Type"]];
-	NSString *foodName = @"Food & Drinks";
-	NSString *stakesName = @"Stakes";
-	NSString *tokesName = @"Dealer Tokes";
+	NSString *gameType = NSLocalizedString([mo valueForKey:@"Type"], nil);
+	NSString *foodName = NSLocalizedString(@"foodDrink", nil);
+	NSString *stakesName = NSLocalizedString(@"Stakes", nil);
+	NSString *tokesName = NSLocalizedString(@"Tips", nil);
 	NSString *foodType = @"Money";
-	NSString *breakMinutes = @"Minutes on Break";
+	NSString *breakMinutes = NSLocalizedString(@"Minutes on Break", nil);
 	if([gameType isEqualToString:@"Tournament"]) {
 		foodName = @"Number of Players";
 		stakesName = @"Tournament Type";
@@ -232,22 +231,22 @@
 	
 	// Used to set up the inital Form
 	NSArray *data = [NSArray arrayWithObjects:
-					 [NSArray arrayWithObjects:@"Start Time",		@"Time",	[[NSDate date] convertDateToStringWithFormat:nil], nil],
-					 [NSArray arrayWithObjects:@"End Time",			@"Time",	[[[NSDate date] dateByAddingTimeInterval:60*60*3] convertDateToStringWithFormat:nil], nil],
-					 [NSArray arrayWithObjects:@"Hours Played",		@"None",	@"3", nil],
-					 [NSArray arrayWithObjects:@"Buy-in Amount",	@"Money",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Re-buy Amount",	@"Money",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"StartTime", nil),		@"Time",	[[NSDate date] convertDateToStringWithFormat:nil], nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"EndTime", nil),			@"Time",	[[[NSDate date] dateByAddingTimeInterval:60*60*3] convertDateToStringWithFormat:nil], nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Hours", nil),		@"None",	@"3", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Buyin", nil),	@"Money",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Re-buy Amount", nil),	@"Money",	@"0", nil],
 					 [NSArray arrayWithObjects:foodName,			foodType,	@"0", nil],
-					 [NSArray arrayWithObjects:@"Cash Out Amount",	@"Money",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Profit",			@"None",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Name",				@"None",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Game",				@"List",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Cashout", nil),	@"Money",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil),			@"None",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil),				@"None",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Game", nil),				@"List",	@"0", nil],
 					 [NSArray arrayWithObjects:stakesName,			@"List",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Limit",			@"List",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Location",			@"List",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Bankroll",			@"List",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Number of Rebuys",	@"List",	@"0", nil],
-					 [NSArray arrayWithObjects:@"Notes",			@"Text",	@"", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Limit", nil),			@"List",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Location", nil),			@"List",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Bankroll", nil),			@"List",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Number of Rebuys", nil),	@"List",	@"0", nil],
+					 [NSArray arrayWithObjects:NSLocalizedString(@"Notes", nil),			@"Text",	@"", nil],
 					 [NSArray arrayWithObjects:breakMinutes,		@"Min",		@"", nil],
 					 [NSArray arrayWithObjects:tokesName,			@"Min",		@"", nil],
 					 nil];
@@ -355,12 +354,12 @@
 		NSString *type = [self.formDataArray stringAtIndex:kType];
 		NSArray *titles = nil;
 		if([type isEqualToString:@"Tournament"])
-			titles = [NSArray arrayWithObjects:@"Game Type", @"BuyIn", @"Rebuy", @"Cash Out", @"Number Players", @"Place Finished", @"Net Profit", @"Notes", nil];
+			titles = [NSArray arrayWithObjects:NSLocalizedString(@"Type", nil), NSLocalizedString(@"Buyin", nil), NSLocalizedString(@"Re-buy Amount", nil), NSLocalizedString(@"Cashout", nil), @"Number Players", @"Place Finished", NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Notes", nil), nil];
 		else 
-			titles = [NSArray arrayWithObjects:@"Game Type", @"BuyIn", @"Rebuy", @"Cash Out", @"Gross Earnings", @"Take-Home", @"Net Profit", @"Notes", nil];
+			titles = [NSArray arrayWithObjects:NSLocalizedString(@"Type", nil), NSLocalizedString(@"Buyin", nil), NSLocalizedString(@"Re-buy Amount", nil), NSLocalizedString(@"Cashout", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Take-Home", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Notes", nil), nil];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 		if (cell == nil) {
-			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:[titles count] labelProportion:0.4];
+			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:[titles count] labelProportion:0.5];
 		}
 		float buyIn = [[self.formDataArray stringAtIndex:kbuyIn] floatValue];
 		float rebuyAmount = [[self.formDataArray stringAtIndex:kRebuy] floatValue];
@@ -391,11 +390,9 @@
 		double grossEarnings = netProfit+tokesMoney;
 		double takeHome = netProfit-foodMoney;
 		
-		NSLog(@"+++netProfit: %f", netProfit);
-		
 		NSString *hourlyText = [ProjectFunctions convertNumberToMoneyString:netProfit];
 		if(totalSeconds>0)
-			hourlyText = [NSString stringWithFormat:@"%@ (%@%d/hr)", hourlyText, [ProjectFunctions getMoneySymbol], (int)netProfit*3600/totalSeconds];
+			hourlyText = [NSString stringWithFormat:@"%@ (%@/hr)", hourlyText, [ProjectFunctions convertNumberToMoneyString: ceil(netProfit*3600/totalSeconds)]];
 		
 		NSMutableArray *colors = [[NSMutableArray alloc] init];
 		[colors addObject:[UIColor blackColor]];
@@ -424,7 +421,7 @@
 			takeHomeText = [self.formDataArray stringAtIndex:kdealertokes];
 		}
 		NSArray *values = [NSArray arrayWithObjects:
-						   [mo valueForKey:@"Type"],
+						   NSLocalizedString([mo valueForKey:@"Type"], nil),
 						   [ProjectFunctions convertTextToMoneyString:[self.formDataArray stringAtIndex:kbuyIn]],
 						   rebuyText, 
 						   [ProjectFunctions convertTextToMoneyString:[self.formDataArray stringAtIndex:kCashOut]],
@@ -469,7 +466,7 @@
 		cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:.9 alpha:1];
 	}
 	
-	if([type isEqualToString:@"Game"]) {
+	if([type isEqualToString:NSLocalizedString(@"Game", nil)]) {
 		cell.backgroundColor = [UIColor colorWithRed:.9 green:.9 blue:1 alpha:1];
 	}
 	
@@ -482,7 +479,7 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
-	if([[self.labelValues stringAtIndex:(int)indexPath.row] isEqualToString:@"Profit"]) {
+	if([[self.labelValues stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Profit", nil)]) {
 		NSLog(@"Profit: %@", [self.formDataArray stringAtIndex:(int)indexPath.row]);
 		cell.selection.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[self.formDataArray stringAtIndex:(int)indexPath.row] doubleValue]]];
 		if([[self.formDataArray stringAtIndex:(int)indexPath.row] intValue]>=0)

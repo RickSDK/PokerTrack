@@ -106,13 +106,10 @@
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.callBackViewController = self;
-	detailViewController.titleLabel = @"Hourly Goal";
+	detailViewController.titleLabel = NSLocalizedString(@"Hourly", nil);
 	detailViewController.initialDateValue = [ProjectFunctions getUserDefaultValue:@"hourlyGoal"];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
-
-
-
 
 -(void)doTheHardWord
 {
@@ -156,7 +153,7 @@
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 	[monthlyProfits removeAllObjects];
 	[hourlyProfits removeAllObjects];
-	NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
+		NSArray *months = [ProjectFunctions namesOfAllMonths];
 	int i=0;
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
@@ -178,7 +175,7 @@
 	
 	[dayProfits removeAllObjects];
 	[dayHourly removeAllObjects];
-	NSArray *days = [NSArray arrayWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
+	NSArray *days = [ProjectFunctions namesOfAllWeekdays];
 	i=0;
 	for(NSString *month in days) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND weekday = '%@'", basicPred, month];
@@ -200,7 +197,7 @@
 	
 	[timeProfits removeAllObjects];
 	[timeHourly removeAllObjects];
-	NSArray *daytimes = [NSArray arrayWithObjects:@"Morning", @"Afternoon", @"Evening", @"Night", nil];
+	NSArray *daytimes = [ProjectFunctions namesOfAllDayTimes];
 	i=0;
 	for(NSString *month in daytimes) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND daytime = '%@'", basicPred, month];
@@ -223,25 +220,25 @@
             if(viewUnLoaded)
                 return;
 
-        self.chart3ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-	self.chart5ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-
+		self.chart3ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
+		self.chart5ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
+		
  	self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
  	self.chart4ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
  	self.chart6ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
  	self.chart8ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
-	
-        self.lockScreen=NO;
-        self.bankRollSegment.enabled=YES;
-        self.moneySegment.enabled=YES;
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-        
-	[activityIndicator stopAnimating];
-
-        [self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
+		
+		self.lockScreen=NO;
+		self.bankRollSegment.enabled=YES;
+		self.moneySegment.enabled=YES;
+		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+		
+		[activityIndicator stopAnimating];
+		
+		[self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
 
 	}
-}	
+}
 
 -(void)drawFirstCharts
 {
@@ -264,8 +261,6 @@
         mainTableView.alpha=1;
         [mainTableView reloadData];
         
- //   [self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
-
 	[self performSelectorInBackground:@selector(doTheHardWord) withObject:nil];
 
 
@@ -324,7 +319,7 @@
 	self.selectedObjectForEdit=0;
 	
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
@@ -404,7 +399,6 @@
 	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	
 	if(!showBreakdownFlg) { // graphical charts
-//		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 
 		if(indexPath.section==0) {
@@ -455,7 +449,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				totalProfits+=profits;
 				if(profits>0)
@@ -474,7 +468,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				
 				hourlyTotal+=profits;
@@ -499,7 +493,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				totalProfits+=profits;
 				if(profits>0)
@@ -518,7 +512,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				
 				hourlyTotal+=profits;
@@ -543,7 +537,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				totalProfits+=profits;
 				if(profits>0)
@@ -562,7 +556,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				
 				hourlyTotal+=profits;
@@ -587,7 +581,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				totalProfits+=profits;
 				if(profits>0)
@@ -606,7 +600,7 @@
 				[titles addObject:[components objectAtIndex:0]];
 				int profits = [[components objectAtIndex:1] intValue];
 				int games = [[components objectAtIndex:2] intValue];
-				NSString *gameTxt = (games==1)?@"Game":@"Games";
+				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 				
 				hourlyTotal+=profits;

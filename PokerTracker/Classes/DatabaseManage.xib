@@ -11,6 +11,7 @@
                 <outlet property="activityLabel" destination="16" id="17"/>
                 <outlet property="activityPopup" destination="29" id="31"/>
                 <outlet property="emailLabel" destination="34" id="35"/>
+                <outlet property="exportTextLabel" destination="cON-GE-1q8" id="HxY-0u-YlK"/>
                 <outlet property="gamesImportedLabel" destination="19" id="20"/>
                 <outlet property="importButton" destination="42" id="44"/>
                 <outlet property="importPopup" destination="40" id="45"/>
@@ -63,7 +64,7 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <size key="shadowOffset" width="2" height="2"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cON-GE-1q8">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="7" id="cON-GE-1q8">
                                 <rect key="frame" x="7" y="40" width="305" height="63"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <string key="text">Exporting saves your data to a server so you can import it to a new device. Note: The data is NOT automatically backed up as you enter new games. You must manually export it here.</string>

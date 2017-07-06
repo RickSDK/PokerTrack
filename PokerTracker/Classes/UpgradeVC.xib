@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UpgradeVC">
             <connections>
+                <outlet property="messageTextView" destination="kgU-8U-s00" id="uP1-TR-uNQ"/>
                 <outlet property="promoCodeField" destination="KRM-Dh-pxz" id="28Z-xJ-EYE"/>
                 <outlet property="promoCodeView" destination="WWS-vF-N2Z" id="EyS-dC-jIZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

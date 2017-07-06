@@ -306,7 +306,7 @@
     }
 
     if([friendStatus isEqualToString:@"Active"] || user_id==uid) {
-        UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Last 10" style:UIBarButtonItemStylePlain target:self action:@selector(last10ButtonClicked:)];
+        UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Last10", nil) style:UIBarButtonItemStylePlain target:self action:@selector(last10ButtonClicked:)];
         self.navigationItem.rightBarButtonItem = moreButton;
     }
     
@@ -452,14 +452,24 @@
 
 	
 	// Configure the cell...
-	NSArray *labels = [NSArray arrayWithObjects:@"Games", @"Streak", @"Risked", @"Profit", @"ROI", @"Hours", @"Hourly", @"Last Played", @"Last Game", nil];
+	NSArray *labels = [NSArray arrayWithObjects:
+					   NSLocalizedString(@"Games", nil),
+					   NSLocalizedString(@"Streak", nil),
+					   NSLocalizedString(@"Risked", nil),
+					   NSLocalizedString(@"Profit", nil),
+					   @"ROI",
+					   NSLocalizedString(@"Hours", nil),
+					   NSLocalizedString(@"Hourly", nil),
+					   NSLocalizedString(@"Last Played", nil),
+					   NSLocalizedString(@"Last Game", nil),
+					   nil];
 	NSArray *titles = [NSArray arrayWithObjects:@"Last 10 Stats", @"Month Stats", @"Year Stats", nil];
 	
     cell.mainTitle = [titles objectAtIndex:topSegment.selectedSegmentIndex];
     if(topSegment.selectedSegmentIndex>=1)
         cell.alternateTitle = self.latestMonth;
     else
-        cell.alternateTitle = @"Last 10";
+        cell.alternateTitle = NSLocalizedString(@"Last10", nil);
         
     if([labels count] == [values count])
         cell.titleTextArray = labels;

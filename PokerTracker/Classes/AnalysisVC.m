@@ -119,7 +119,7 @@
         basicPred = [NSString stringWithFormat:@"%@ AND status = 'Completed'", basicPred];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
         int limit=0;
-        if([yearLabel.text isEqualToString:@"Last 10"])
+        if([yearLabel.text isEqualToString:NSLocalizedString(@"Last10", nil)])
             limit=10;
         
             
@@ -226,6 +226,7 @@
 	self.displayYear = [barButton.titleLabel.text intValue];
     yearLabel.text = barButton.titleLabel.text;
     last10Button.enabled = YES;
+	last10Button.hidden=NO;
 	last10Flg=NO;
 	
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
@@ -255,7 +256,7 @@
 	if(displayYear>0)
 		yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	else {
-		yearLabel.text = @"LifeTime";
+		yearLabel.text = NSLocalizedString(@"LifeTime", nil);
 	}
 
 	self.last10Flg=NO;
@@ -274,9 +275,10 @@
 	if(gameSegment.selectedSegmentIndex>0) {
 		gameSegment.selectedSegmentIndex=0;
 	}
-	yearLabel.text = @"Last 10";
-    [top5Button setTitle:@"Last 10"];
+	yearLabel.text = NSLocalizedString(@"Last10", nil);
+    [top5Button setTitle:NSLocalizedString(@"Last10", nil)];
     last10Button.enabled = NO;
+	last10Button.hidden=YES;
 	self.last10Flg=YES;
 	self.displayYear=0;
     
@@ -338,12 +340,12 @@
                                                        labelProportion:.55];
         
         cell.alternateTitle = yearLabel.text;
-        cell.titleTextArray = [NSArray arrayWithObjects:@"Name", @"ROI", @"Type", @"Profit", nil];
+        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"ROI", @"Type", NSLocalizedString(@"Profit", nil), nil];
         if([self.playerBasicsArray count]==4) {
             cell.fieldTextArray = self.playerBasicsArray;
             cell.fieldColorArray = self.colorArray1;
         } else
-            cell.fieldTextArray = [NSArray arrayWithObjects:@"Name", @"25", @"Grinder", @"$125", nil];
+            cell.fieldTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"25", @"Grinder", @"$125", nil];
         cell.mainTitle = @"";
         cell.imageView.image = [ProjectFunctions getPlayerTypeImage:self.gRisked winnings:self.gIncome];
         
@@ -361,12 +363,12 @@
         
 
         cell.alternateTitle = yearLabel.text;
-        cell.titleTextArray = [NSArray arrayWithObjects:@"Games", @"Risked", @"Food/Drink", @"Dealer Tokes", @"Gross Income", @"Net Income", @"Hourly Rate", @"Average Risked", @"Average Profit", @"Standard Deviation", nil];
+        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"foodDrink", nil), NSLocalizedString(@"Tips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil), @"Average Risked", @"Average Profit", @"Standard Deviation", nil];
         if([self.playerStatsArray count]>=10) {
             cell.fieldTextArray = self.playerStatsArray;
             cell.fieldColorArray = self.colorArray2;
         } else
-            cell.fieldTextArray = [NSArray arrayWithObjects:@"Name", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", nil];
+            cell.fieldTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", nil];
         cell.mainTitle = @"Stats";
         cell.accessoryType= UITableViewCellAccessoryNone;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -427,13 +429,14 @@
 
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
     if(last10Flg) {
-        yearLabel.text = @"Last 10";
+        yearLabel.text = NSLocalizedString(@"Last10", nil);
         last10Button.enabled=NO;
+		last10Button.hidden=YES;
     }
 
  	self.gameType = @"All";
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Last 10" selector:@selector(top5ButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
 
 
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
@@ -463,7 +466,7 @@
 	
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
 	
 }

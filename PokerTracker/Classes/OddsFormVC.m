@@ -314,8 +314,9 @@
 	[self setupdata];
 	
 
-	self.leftButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.leftBarButtonItem = leftButton;
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//	self.leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+//	self.navigationItem.leftBarButtonItem = leftButton;
 
 	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = calculateButton;

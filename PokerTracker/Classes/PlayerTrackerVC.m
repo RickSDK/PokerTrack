@@ -85,7 +85,7 @@
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
 	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
-	localViewController.titleLabel = @"Location";
+	localViewController.titleLabel = NSLocalizedString(@"Location", nil);
 	localViewController.selectedList=0;
 	localViewController.selectionList = [[NSArray alloc] initWithArray:listOfVals];
 	localViewController.allowEditing=NO;

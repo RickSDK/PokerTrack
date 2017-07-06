@@ -55,7 +55,7 @@
 	
 	BOOL gameGoing=YES;
     playFlg = @"N";
-    self.chipAmountLabelString = @"Profit";
+    self.chipAmountLabelString = NSLocalizedString(@"Profit", nil);
     
 	if(mo) {
 		NSArray *components = [[mo valueForKey:@"attrib_10"] componentsSeparatedByString:@"|"];
@@ -188,11 +188,11 @@
 		timeRunning = @"(Local Time)";
 
     timeRunningLabel.text = timeRunning;
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Location" value:location color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Started" value:startTimeString color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Hours Played" value:timeRunning color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Buyin Amount" value:[ProjectFunctions convertIntToMoneyString:buyIn] color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Rebuy Amount" value:[ProjectFunctions convertIntToMoneyString:rebuy] color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Location", nil) value:location color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"StartTime", nil) value:startTimeString color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Hours", nil) value:timeRunning color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Buyin", nil) value:[ProjectFunctions convertIntToMoneyString:buyIn] color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Re-buy Amount", nil) value:[ProjectFunctions convertIntToMoneyString:rebuy] color:[UIColor blackColor]]];
 
 	
 
@@ -219,11 +219,11 @@
 	if(minutes>0)
 		hourly = [NSString stringWithFormat:@"$%d/hr", profit*60/minutes];
     
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Hourly" value:hourly color:profitColor]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Hourly", nil) value:hourly color:profitColor]];
 	
     hourlyLabel.text = hourly;
 
-	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonClicked:)];
+	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = menuButton;
 	
 	if(self.gameObj && self.gameObj.location.length>0) {

@@ -42,11 +42,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:([ProjectFunctions isPokerZilla])?@"PokerZilla":@"Poker Track Pro"];
-	enterButton.enabled=NO;
 	UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpButtonClicked:)];
 	self.navigationItem.leftBarButtonItem = moreButton;
 	
+	self.welcomeLabel.text = NSLocalizedString(@"Welcome", nil);
+	self.topLabel.text = NSLocalizedString(@"Welcome2", nil);
 	liteLabel.alpha=0;
+	[self setReturningValue:@"100"];
 }
 
 

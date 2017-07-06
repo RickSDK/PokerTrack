@@ -115,22 +115,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"More"];
+	[self setTitle:NSLocalizedString(@"Options", nil)];
 	
 	self.activityLabelString = [[NSString alloc] init];
 	self.activityLabelString = @"Working...";
+	self.exportTextLabel.text = NSLocalizedString(@"ExportText", nil);
 
     [self.mainTableView setBackgroundView:nil];
 	menuArray = [[NSMutableArray alloc] init];
-	[menuArray addObject:@"Export Data"];
-	[menuArray addObject:@"Import Data"];
-	[menuArray addObject:@"Clear All Server Data"];
-	[menuArray addObject:@"Import Poker Journal data"];
-	[menuArray addObject:@"Import Poker Income data"];
-	[menuArray addObject:@"Delete All Data"];
-	[menuArray addObject:@"Email My Data as an Excel File"];
-	[menuArray addObject:@"Cleanup Ref Data"];
-	[menuArray addObject:@"Re-Sync Net Tracker"];
+
+	NSLog(NSLocalizedString(@"Export", nil));
+	
+	[menuArray addObject:NSLocalizedString(@"Export", nil)];
+	[menuArray addObject:NSLocalizedString(@"Import", nil)];
+	[menuArray addObject:NSLocalizedString(@"Clear", nil)];
+	[menuArray addObject:NSLocalizedString(@"ImportJournal", nil)];
+	[menuArray addObject:NSLocalizedString(@"ImportIncome", nil)];
+	[menuArray addObject:NSLocalizedString(@"Delete", nil)];
+	[menuArray addObject:NSLocalizedString(@"Email", nil)];
+	[menuArray addObject:NSLocalizedString(@"Cleanup", nil)];
+	[menuArray addObject:NSLocalizedString(@"Resync", nil)];
 
 	secondMenuArray = [[NSMutableArray alloc] init];
 	[secondMenuArray addObject:@"Enter Old Game"];
@@ -141,7 +145,6 @@
 	[secondMenuArray addObject:@"Edit Bankroll"];
 	[secondMenuArray addObject:@"Email Developer"];
 	[secondMenuArray addObject:@"Write App Review"];
-	[secondMenuArray addObject:@"Currency Symbol"];
 	[secondMenuArray addObject:@"Sound"];
 	[secondMenuArray addObject:@"Tournament Director"];
 	[secondMenuArray addObject:@"BuyPokerChips.com"];
@@ -243,7 +246,7 @@
 	}
 	
 
-	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Export Data"]) {
+	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Export", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -254,7 +257,7 @@
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Export Data", [NSString fontAwesomeIconStringForEnum:FAUpload]];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAUpload], NSLocalizedString(@"Export", nil)];
 		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Device Games: %d", gamesOnDevice];
 		
 		if(gamesOnDevice>gamesOnServer)
@@ -264,7 +267,7 @@
 		
 		return cell;
 	}
-	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Import Data"]) {
+	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Import", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -273,7 +276,7 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.titleLabel.text=[NSString stringWithFormat:@"%@ Import Data", [NSString fontAwesomeIconStringForEnum:FADownload]];
+		cell.titleLabel.text=[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FADownload], NSLocalizedString(@"Import", nil)];
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
@@ -303,24 +306,6 @@
 		
 		return cell;
 	}
-	/*
-	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Background Threads"]) {
-		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-		}
-		cell.backgroundColor = [UIColor ATTFaintBlue];
-		cell.selectionStyle = UITableViewCellSelectionStyleGray;
-		
-		cell.textLabel.text = @"Background Threads";
-        NSString *flag = [ProjectFunctions getUserDefaultValue:@"bgThreads"];
-        if([flag length]==0)
-            flag = @"On";
-		cell.selection.text = flag;
-		
-		return cell;
-	}
-	*/
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -353,12 +338,12 @@
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [menuArray objectAtIndex:indexPath.row]];
 		
-		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Delete All Data"] || [ProjectFunctions getUserDefaultValue:@"userName"])
+		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Delete", nil)] || [ProjectFunctions getUserDefaultValue:@"userName"])
 			cell.textLabel.textColor = [UIColor blackColor];
 		else
 			cell.textLabel.textColor = [UIColor grayColor];
 		
-		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Cleanup Ref Data"])
+		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Cleanup", nil)])
 			cell.textLabel.textColor = [UIColor blackColor];
 		if(indexPath.row==0)
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -374,7 +359,6 @@
 						  [NSString fontAwesomeIconStringForEnum:FAMoney],
 						  [NSString fontAwesomeIconStringForEnum:FAEnvelope],
 						  [NSString fontAwesomeIconStringForEnum:FAPencil],
-						  [NSString fontAwesomeIconStringForEnum:FAUsd],
 						  [NSString fontAwesomeIconStringForEnum:FAVolumeUp],
 						  [NSString fontAwesomeIconStringForEnum:FAMobile],
 						  [NSString fontAwesomeIconStringForEnum:FADotCircleO],
@@ -384,7 +368,6 @@
 		
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [secondMenuArray objectAtIndex:indexPath.row]];
-//		cell.textLabel.text = [secondMenuArray stringAtIndex:(int)indexPath.row];
 	}
 	cell.backgroundColor = [UIColor ATTFaintBlue];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -395,11 +378,11 @@
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
 	if(indexPath.row==0)
-		[ProjectFunctions showAlertPopup:@"Export Data" message:@"Store your games on a server. \n\nNote: If you are trying to delete games that have already been saved on the server, you must first manually delete the games on each of your devices. Then click 'Clear All Server Data' and finally click 'Export Data' BEFORE importing."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"Export", nil) message:@"Store your games on a server. \n\nNote: If you are trying to delete games that have already been saved on the server, you must first manually delete the games on each of your devices. Then click 'Clear All Server Data' and finally click 'Export Data' BEFORE importing."];
 	if(indexPath.row==1)
 		[ProjectFunctions showAlertPopup:@"Import Feature" message:@"Import games stored on the server."];
 	if(indexPath.row==2)
-		[ProjectFunctions showAlertPopup:@"Clear All Server Data" message:@"This feature will clear all the games from the server without affecting games on your device."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"Clear", nil) message:@"This feature will clear all the games from the server without affecting games on your device."];
 }
 
 #pragma mark -
@@ -595,8 +578,8 @@
 	[formDataArray addObject:[NSString stringWithFormat:@"%@", @"Completed"]];
 	[formDataArray addObject:[NSString stringWithFormat:@"%@",  tournamentType]];
 	[formDataArray addObject:@"0"]; // user_id
-	[formDataArray addObject:[startDate convertDateToStringWithFormat:@"EEEE"]];
-	[formDataArray addObject:[startDate convertDateToStringWithFormat:@"MMMM"]];
+	[formDataArray addObject:[ProjectFunctions getWeekDayFromDate:startDate]];
+	[formDataArray addObject:[ProjectFunctions getMonthFromDate:startDate]];
 	[formDataArray addObject:[ProjectFunctions getDayTimeFromDate:startDate]];
 	[formDataArray addObject:@""]; // attrib01
 	[formDataArray addObject:@""]; // attrib02
@@ -720,7 +703,7 @@
 				if([gameType length]>0) {
 					
 					NSArray *components = [line componentsSeparatedByString:@"\t"];
-					if([[components stringAtIndex:0] isEqualToString:@"Start Time"]) {
+					if([[components stringAtIndex:0] isEqualToString:NSLocalizedString(@"StartTime", nil)]) {
 //					[self savePJcollumns:components:gameType];
 					}
 					if([components count]>10) {
@@ -990,6 +973,8 @@
 	else {
 		if([responseStr length]>100)
 			responseStr = @"Possible server issues. Please try again later.";
+		if([responseStr length]<3)
+			responseStr = @"No response received.";
 		[ProjectFunctions showAlertPopup:@"Error on Export" message:responseStr];
 		return NO;
 	}
@@ -1367,7 +1352,7 @@
 	if(indexPath.section==0) {
 		NSString *menuItem = [menuArray stringAtIndex:(int)indexPath.row];
 
-		if([menuItem isEqualToString:@"Delete All Data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Delete", nil)]) {
 			NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
 			if([games count]==0) {
 				[ProjectFunctions showAlertPopup:@"Error!" message:@"No data found on this device!"];
@@ -1385,7 +1370,7 @@
 			return;
 		}
 
-		if([menuItem isEqualToString:@"Cleanup Ref Data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Cleanup", nil)]) {
 			cleanupRefData *detailViewController = [[cleanupRefData alloc] initWithNibName:@"cleanupRefData" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;
 			[self.navigationController pushViewController:detailViewController animated:YES];
@@ -1396,16 +1381,16 @@
 		//----------------------- username required -----------------
 		
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length==0) {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to use this feature. Click the login button above to begin"];
+			[ProjectFunctions displayLoginMessage];
 			return;
 		}
 
-		if([menuItem isEqualToString:@"Re-Sync Net Tracker"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Resync", nil)]) {
 			[self refreshButtonClicked];
 			return;
 		}
 
-		if([menuItem isEqualToString:@"Clear All Server Data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Clear", nil)]) {
 			if([[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue]==0)
 				[ProjectFunctions showAlertPopup:@"Error" message:@"You cannot clear the server games if there are no games on this device."];
 			else if ([[ProjectFunctions getUserDefaultValue:@"gamesOnServer"] intValue]==0)
@@ -1416,7 +1401,7 @@
 		}
 		
 
-		if([menuItem isEqualToString:@"Email My Data as an Excel File"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Email", nil)]) {
 			EmailFile *detailViewController = [[EmailFile alloc] initWithNibName:@"EmailFile" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;
 			[self.navigationController pushViewController:detailViewController animated:YES];
@@ -1426,7 +1411,7 @@
 			[ProjectFunctions showConfirmationPopup:@"Sync Device" message:@"Do you wish to sync your device with the cloud? Useful if you play games using more than one device." delegate:self tag:0];
         }
         
-		if([menuItem isEqualToString:@"Export Data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"Export", nil)]) {
 			NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
 			if([games count]==0) {
 				[ProjectFunctions showAlertPopup:@"Error!" message:@"No data found on this device!"];
@@ -1437,12 +1422,12 @@
 				return;
 			}
 			
-			[ProjectFunctions showConfirmationPopup:@"Export Data" message:@"Do you wish to Export all of the poker data on this device?" delegate:self tag:kExportData];
+			[ProjectFunctions showConfirmationPopup:NSLocalizedString(@"Export", nil) message:@"Do you wish to Export all of the poker data on this device?" delegate:self tag:kExportData];
 		}
-		if([menuItem isEqualToString:@"Import Data"]) {
-			[ProjectFunctions showConfirmationPopup:@"Import Data" message:@"Do you wish to Import your saved data to this device?" delegate:self tag:kImportData];
+		if([menuItem isEqualToString:NSLocalizedString(@"Import", nil)]) {
+			[ProjectFunctions showConfirmationPopup:NSLocalizedString(@"Import", nil) message:@"Do you wish to Import your saved data to this device?" delegate:self tag:kImportData];
 		}
-		if([menuItem isEqualToString:@"Import Poker Journal data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"ImportJournal", nil)]) {
 			self.importType=1;
 			activityBG.alpha=.75;
 			importPopup.alpha=1;
@@ -1451,7 +1436,7 @@
 			importButton.alpha=1;
 			
 		}
-		if([menuItem isEqualToString:@"Import Poker Income data"]) {
+		if([menuItem isEqualToString:NSLocalizedString(@"ImportIncome", nil)]) {
 			self.importType=2;
 			activityBG.alpha=.75;
 			importPopup.alpha=1;
@@ -1501,7 +1486,7 @@
 		}
 		if([menuItem isEqualToString:@"Edit Profile"]) {
 			if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0)
-				[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to edit your profile"];
+				[ProjectFunctions displayLoginMessage];
 			else {
 				ProfileVC *detailViewController = [[ProfileVC alloc] initWithNibName:@"ProfileVC" bundle:nil];
 				detailViewController.managedObjectContext = managedObjectContext;

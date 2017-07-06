@@ -43,7 +43,7 @@
 {
     
     if(timeFrameSegment.selectedSegmentIndex==0) {
-        datelabel.text = @"Last 10";
+        datelabel.text = NSLocalizedString(@"Last10", nil);
     }
     if(timeFrameSegment.selectedSegmentIndex==1) {
         datelabel.text = @"This Month";
@@ -602,14 +602,6 @@
 		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed)];
 		self.navigationItem.rightBarButtonItem = addButton;
 
-//        int friendCount = [[ProjectFunctions getUserDefaultValue:@"FriendsCount"] intValue];
-//        if(friendCount>1) {
-  //          self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Net Tracker" selector:@selector(netTrackerButtonClicked:) target:self];
-    //
-      //  } else {
-        //    self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
-
-//        }
 	}
 	
     

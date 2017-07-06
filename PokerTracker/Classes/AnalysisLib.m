@@ -612,7 +612,7 @@
 			lastGameDetails = [NSString stringWithFormat:@"Unfortunately losing %@ %@ %@ at %@ was enough to push your overall recent game bankroll into the red, so its time to buckle up and focus on solid poker.", winLossAmount, weekday, daytime, location];
 
         NSString *currentYearStr = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
-        NSString *currentMonth = [[NSDate date] convertDateToStringWithFormat:@"MMMM"];
+        NSString *currentMonth = [ProjectFunctions getMonthFromDate:[NSDate date]];
         NSPredicate *predicateMonth1 = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", currentYearStr, currentMonth];
         NSArray *gamesMonth = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicateMonth1 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:NO limit:10];
         int numGamesThisMonth = (int)[gamesMonth count];
@@ -629,7 +629,7 @@
                 if(currentDay>20)
                     lastMonthDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*32];
                 NSString *lastMonthYear = [lastMonthDate convertDateToStringWithFormat:@"yyyy"];
-                NSString *lastMonthMonth = [lastMonthDate convertDateToStringWithFormat:@"MMMM"];
+                NSString *lastMonthMonth = [ProjectFunctions getMonthFromDate:lastMonthDate];
                 NSPredicate *predicateLastMonth = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", lastMonthYear, lastMonthMonth];
                 NSString *statsLastMonth = [CoreDataLib getGameStat:managedObjectContext dataField:@"analysis1" predicate:predicateLastMonth];
                 NSArray *lastMonStats = [statsLastMonth componentsSeparatedByString:@"|"];
@@ -1226,7 +1226,7 @@
     
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:gameType];
     
-	NSArray *typeList = [NSArray arrayWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
+	NSArray *typeList = [ProjectFunctions namesOfAllWeekdays];
 	NSString *weekday = @"Monday";
 	NSString *weekdayLo = @"Tuesday";
 	int min=0;
@@ -1252,9 +1252,9 @@
     
 	min=0;
 	max=0;
-	NSArray *typeList2 = [NSArray arrayWithObjects:@"Morning", @"Afternoon", @"Evening", @"Night", nil];
-	NSString *daytime = @"Evening";
-	NSString *daytimeLo = @"Night";
+	NSArray *typeList2 = [ProjectFunctions namesOfAllDayTimes];
+	NSString *daytime = [typeList2 objectAtIndex:2];
+	NSString *daytimeLo = [typeList2 objectAtIndex:3];
 	NSString *sectionField2 = @"daytime";
 	for(NSString *type in typeList2) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField2];
@@ -1595,7 +1595,7 @@
 {
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:gameType];
 
-	NSArray *typeList = [NSArray arrayWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
+	NSArray *typeList = [ProjectFunctions namesOfAllWeekdays];
 	NSString *weekday = @"Monday";
 	NSString *weekdayLo = @"Tuesday";
 	int min=0;
@@ -1617,9 +1617,9 @@
 
 	min=0;
 	max=0;
-	NSArray *typeList2 = [NSArray arrayWithObjects:@"Morning", @"Afternoon", @"Evening", @"Night", nil];
-	NSString *daytime = @"Evening";
-	NSString *daytimeLo = @"Night";
+	NSArray *typeList2 = [ProjectFunctions namesOfAllDayTimes];
+	NSString *daytime = [typeList2 objectAtIndex:2];
+	NSString *daytimeLo = [typeList2 objectAtIndex:3];
 	NSString *sectionField2 = @"daytime";
 	for(NSString *type in typeList2) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField2];

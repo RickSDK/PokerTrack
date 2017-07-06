@@ -196,8 +196,6 @@
 		6B90BA9614E47AB800712EDC /* AnalysisDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BA9414E47AB800712EDC /* AnalysisDetailsVC.m */; };
 		6B90BA9714E47AB800712EDC /* AnalysisDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B90BA9514E47AB800712EDC /* AnalysisDetailsVC.xib */; };
 		6B90BADC14E484FA00712EDC /* HexWithImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BADB14E484FA00712EDC /* HexWithImageCell.m */; };
-		6B90BB6514E5908900712EDC /* NewGameBuyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BB6314E5908900712EDC /* NewGameBuyin.m */; };
-		6B90BB6614E5908900712EDC /* NewGameBuyin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B90BB6414E5908900712EDC /* NewGameBuyin.xib */; };
 		6B90BCEE14E9D33A00712EDC /* NSData+ATTData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BCED14E9D33A00712EDC /* NSData+ATTData.m */; };
 		6B9571A3189089C700CDF58A /* TempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9571A1189089C700CDF58A /* TempViewController.m */; };
 		6B9571A4189089C700CDF58A /* TempViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9571A2189089C700CDF58A /* TempViewController.xib */; };
@@ -295,6 +293,7 @@
 		6BCB301C19E44FFE00BC1F4C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */; };
 		6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB303F19E5959100BC1F4C /* ExportCell.m */; };
 		6BCF5B251C56B494000B3542 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCF5B241C56B494000B3542 /* StoreKit.framework */; };
+		6BD4D0131F0AD1420059614C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D0151F0AD1420059614C /* Localizable.strings */; };
 		6BD4D9441D11EC1F00236804 /* ReviewsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4D9421D11EC1F00236804 /* ReviewsVC.m */; };
 		6BD4D9451D11EC1F00236804 /* ReviewsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D9431D11EC1F00236804 /* ReviewsVC.xib */; };
 		6BD4D9541D120DDD00236804 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D9461D120DDD00236804 /* Icon-29.png */; };
@@ -632,9 +631,6 @@
 		6B90BA9514E47AB800712EDC /* AnalysisDetailsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalysisDetailsVC.xib; sourceTree = "<group>"; };
 		6B90BADA14E484FA00712EDC /* HexWithImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexWithImageCell.h; sourceTree = "<group>"; };
 		6B90BADB14E484FA00712EDC /* HexWithImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexWithImageCell.m; sourceTree = "<group>"; };
-		6B90BB6214E5908900712EDC /* NewGameBuyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameBuyin.h; sourceTree = "<group>"; };
-		6B90BB6314E5908900712EDC /* NewGameBuyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameBuyin.m; sourceTree = "<group>"; };
-		6B90BB6414E5908900712EDC /* NewGameBuyin.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGameBuyin.xib; sourceTree = "<group>"; };
 		6B90BCEC14E9D33A00712EDC /* NSData+ATTData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ATTData.h"; sourceTree = "<group>"; };
 		6B90BCED14E9D33A00712EDC /* NSData+ATTData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ATTData.m"; sourceTree = "<group>"; };
 		6B9571A0189089C700CDF58A /* TempViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempViewController.h; sourceTree = "<group>"; };
@@ -772,6 +768,11 @@
 		6BCB303E19E5959100BC1F4C /* ExportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportCell.h; sourceTree = "<group>"; };
 		6BCB303F19E5959100BC1F4C /* ExportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportCell.m; sourceTree = "<group>"; };
 		6BCF5B241C56B494000B3542 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6BD4D0141F0AD1420059614C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD4D0171F0AD2A20059614C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD4D0181F0C0E710059614C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD4D0191F0C0E750059614C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD4D01A1F0C0E870059614C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D9411D11EC1F00236804 /* ReviewsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsVC.h; sourceTree = "<group>"; };
 		6BD4D9421D11EC1F00236804 /* ReviewsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewsVC.m; sourceTree = "<group>"; };
 		6BD4D9431D11EC1F00236804 /* ReviewsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewsVC.xib; sourceTree = "<group>"; };
@@ -981,9 +982,6 @@
 				6B751C4C144653FD00E59D21 /* CreateOldGameVC.h */,
 				6B751C4D144653FD00E59D21 /* CreateOldGameVC.m */,
 				6B751C4E144653FD00E59D21 /* CreateOldGameVC.xib */,
-				6B90BB6214E5908900712EDC /* NewGameBuyin.h */,
-				6B90BB6314E5908900712EDC /* NewGameBuyin.m */,
-				6B90BB6414E5908900712EDC /* NewGameBuyin.xib */,
 				6BA5BF4F145CBE6D00F1C0BD /* StartNewGameVC.h */,
 				6BA5BF50145CBE6D00F1C0BD /* StartNewGameVC.m */,
 				6BA5BF51145CBE6D00F1C0BD /* StartNewGameVC.xib */,
@@ -1043,6 +1041,7 @@
 			children = (
 				28A0AAE50D9B0CCF005BE974 /* PokerTracker_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				6BD4D0151F0AD1420059614C /* Localizable.strings */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -1584,6 +1583,10 @@
 				French,
 				German,
 				en,
+				ja,
+				es,
+				de,
+				fr,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1621,6 +1624,7 @@
 				6BD4D95B1D120DDD00236804 /* Icon.png in Resources */,
 				6BCB301A19E44FF700BC1F4C /* MainWindow-iPad.xib in Resources */,
 				6BD4D95E1D120DDD00236804 /* Icon-Small-50.png in Resources */,
+				6BD4D0131F0AD1420059614C /* Localizable.strings in Resources */,
 				6B751C50144653FD00E59D21 /* CreateOldGameVC.xib in Resources */,
 				6B7522FC1449083D00E59D21 /* TextEnterVC.xib in Resources */,
 				6B7523011449084B00E59D21 /* MinuteEnterVC.xib in Resources */,
@@ -1749,7 +1753,6 @@
 				6B90B94C14E3041500712EDC /* playerType5.png in Resources */,
 				6B90B95514E3067300712EDC /* DatabaseManage.xib in Resources */,
 				6B90BA9714E47AB800712EDC /* AnalysisDetailsVC.xib in Resources */,
-				6B90BB6614E5908900712EDC /* NewGameBuyin.xib in Resources */,
 				6BC871061CF76A0300A38454 /* OnlineReviewVC.xib in Resources */,
 				6BD84C2814FEE0CE0048473A /* cardBack.png in Resources */,
 				6BE5C75718380F420028CA26 /* FriendAlertsVC.xib in Resources */,
@@ -1908,7 +1911,6 @@
 				6B90B95414E3067300712EDC /* DatabaseManage.m in Sources */,
 				6B90BA9614E47AB800712EDC /* AnalysisDetailsVC.m in Sources */,
 				6B90BADC14E484FA00712EDC /* HexWithImageCell.m in Sources */,
-				6B90BB6514E5908900712EDC /* NewGameBuyin.m in Sources */,
 				6B90BCEE14E9D33A00712EDC /* NSData+ATTData.m in Sources */,
 				6BCA27C21B62B4D300511DDA /* GameCell.m in Sources */,
 				6BD846DF14F6FFDB0048473A /* MyToolbar.m in Sources */,
@@ -1956,6 +1958,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6BD4D0151F0AD1420059614C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6BD4D0141F0AD1420059614C /* en */,
+				6BD4D0171F0AD2A20059614C /* es */,
+				6BD4D0181F0C0E710059614C /* de */,
+				6BD4D0191F0C0E750059614C /* fr */,
+				6BD4D01A1F0C0E870059614C /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

@@ -73,31 +73,29 @@
 	[ProjectFunctions updateMoneyFloatLabel:self.netLabel money:winnings];
 	
 	if(self.showMainMenuFlg) {
-		self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	}
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Details" selector:@selector(detailsButtonClicked:) target:self];
 	
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Day", nil) value:[[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MMM d, yyyy"] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Start Day" value:[[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MMM d, yyyy"] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Weekday", nil) value:[NSString stringWithFormat:@"%@ %@", [mo valueForKey:@"weekday"], [mo valueForKey:@"daytime"]] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Day" value:[NSString stringWithFormat:@"%@ %@", [mo valueForKey:@"weekday"], [mo valueForKey:@"daytime"]] color:[UIColor blackColor]]];
-	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Start Time" value:[[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"hh:mm a"] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"StartTime", nil) value:[[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"hh:mm a"] color:[UIColor blackColor]]];
 	
 	NSDate *endTime = [mo valueForKey:@"endTime"];
 	if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"])
 		endTime = [NSDate date];
 	else
-		[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"End Time" value:[[mo valueForKey:@"endTime"] convertDateToStringWithFormat:@"hh:mm a"] color:[UIColor blackColor]]];
+		[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"EndTime", nil) value:[[mo valueForKey:@"endTime"] convertDateToStringWithFormat:@"hh:mm a"] color:[UIColor blackColor]]];
 	
 	int minutes = [ProjectFunctions getMinutesPlayedUsingStartTime:[mo valueForKey:@"startTime"] andEndTime:endTime andBreakMin:[[mo valueForKey:@"breakMinutes"] intValue]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Playing Time" value:[ProjectFunctions getHoursPlayedUsingStartTime:[mo valueForKey:@"startTime"] andEndTime:endTime andBreakMin:[[mo valueForKey:@"breakMinutes"] intValue]] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Hours", nil) value:[ProjectFunctions getHoursPlayedUsingStartTime:[mo valueForKey:@"startTime"] andEndTime:endTime andBreakMin:[[mo valueForKey:@"breakMinutes"] intValue]] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Location" value:[mo valueForKey:@"location"] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Location", nil) value:[mo valueForKey:@"location"] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Buyin" value:[ProjectFunctions convertNumberToMoneyString:buyInAmount] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Buyin", nil) value:[ProjectFunctions convertNumberToMoneyString:buyInAmount] color:[UIColor blackColor]]];
 	
 	if(rebuyAmount>0) {
 		int numRebuys = [[mo valueForKey:@"numRebuys"] intValue];
@@ -109,10 +107,10 @@
 		
 	}
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Food/Drink" value:[NSString stringWithFormat:@"%d", foodMoney] color:[UIColor blackColor]]];
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Tokes" value:[NSString stringWithFormat:@"%d", tokes] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"foodDrink", nil) value:[NSString stringWithFormat:@"%d", foodMoney] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Tips", nil) value:[NSString stringWithFormat:@"%d", tokes] color:[UIColor blackColor]]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Cashout" value:[ProjectFunctions convertNumberToMoneyString:cashoutAmount] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Cashout", nil) value:[ProjectFunctions convertNumberToMoneyString:cashoutAmount] color:[UIColor blackColor]]];
 	
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		minutes = [endTime timeIntervalSinceDate:[mo valueForKey:@"startTime"]]/60;
@@ -120,24 +118,24 @@
 	
 	UIColor *profitColor = (winnings>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Net Profit" value:[ProjectFunctions convertNumberToMoneyString:winnings] color:profitColor]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Profit", nil) value:[ProjectFunctions convertNumberToMoneyString:winnings] color:profitColor]];
 	
 	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"ROI" value:[NSString stringWithFormat:@"%d%%", self.gameObj.ppr] color:profitColor]];
 	
 	NSString *hourlyStr = @"-";
 	if(minutes>0)
-		hourlyStr = [NSString stringWithFormat:@"%@%d/hr", [ProjectFunctions getMoneySymbol], (int)winnings*60/minutes];
+		hourlyStr = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString:(int)winnings*60/minutes]];
 	
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Hourly" value:hourlyStr color:profitColor]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Hourly", nil) value:hourlyStr color:profitColor]];
  
 	
 	float grossIncome = winnings+tokes;
 	profitColor = (grossIncome>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Gross Profit" value:[ProjectFunctions convertNumberToMoneyString:grossIncome] color:profitColor]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"IncomeTotal", nil) value:[ProjectFunctions convertNumberToMoneyString:grossIncome] color:profitColor]];
 	
 	float takehomeIncome = winnings-foodMoney;
 	profitColor = (takehomeIncome>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Takehome" value:[ProjectFunctions convertNumberToMoneyString:takehomeIncome] color:profitColor]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Take-Home", nil) value:[ProjectFunctions convertNumberToMoneyString:takehomeIncome] color:profitColor]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"game = %@", mo];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"CHIPSTACK" predicate:predicate sortColumn:@"timeStamp" mOC:managedObjectContext ascendingFlg:YES];
@@ -177,7 +175,7 @@
 		
 	}
 
-	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:@"Notes" value:[mo valueForKey:@"notes"] color:[UIColor blackColor]]];
+	[self.cellRowsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Notes", nil) value:[mo valueForKey:@"notes"] color:[UIColor blackColor]]];
 
 }
 
@@ -199,7 +197,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Game Graph "]; 
+	[self setTitle:NSLocalizedString(@"Game", nil)];
 	
 	self.cellRowsArray = [[NSMutableArray alloc] init];
 	self.pointsArray = [[NSArray alloc] init];
@@ -223,6 +221,9 @@
 		[mo setValue:[NSNumber numberWithInt:game_id] forKey:@"game_id"];
 		[managedObjectContext save:nil];
 	}
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(detailsButtonClicked:)];
+	
 }
  
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -236,9 +237,9 @@
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:rows labelProportion:0.5];
 	
 	if(self.touchesFlg) {
-		cell.mainTitle = @"Notes";
+		cell.mainTitle = NSLocalizedString(@"Notes", nil);
 		cell.alternateTitle = @"";
-		cell.titleTextArray = [NSArray arrayWithObject:@"Notes"];
+		cell.titleTextArray = [NSArray arrayWithObject:NSLocalizedString(@"Notes", nil)];
 		NSString *note = @"";
 		if([ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]].length>0)
 			note=[ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]];
@@ -247,7 +248,7 @@
 		
 	} else {
 		cell.mainTitle = [mo valueForKey:@"name"];
-		cell.alternateTitle = [mo valueForKey:@"Type"];
+		cell.alternateTitle = NSLocalizedString([mo valueForKey:@"Type"], nil);
 		cell.titleTextArray = [MultiLineDetailCellWordWrap arrayOfType:0 objList:self.cellRowsArray];
 		cell.fieldTextArray = [MultiLineDetailCellWordWrap arrayOfType:1 objList:self.cellRowsArray];
 		cell.fieldColorArray = [MultiLineDetailCellWordWrap arrayOfType:2 objList:self.cellRowsArray];

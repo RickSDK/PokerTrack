@@ -81,6 +81,7 @@
     }
 	
 	self.textField.text = [NSString stringWithFormat:@"%@%d", self.textField.text, value];
+	NSLog(@"Here!!", self.textField.text);
 
 	[self spinPicker];
 }
@@ -172,9 +173,9 @@
 	
 	self.label.text = [NSString stringWithFormat:@"%@", self.titleLabel];
 
-	self.textField.text = [NSString stringWithFormat:@"%d", (int)[ProjectFunctions getMoneyValueFromText:self.initialDateValue]];
+	self.textField.text = [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:self.initialDateValue]];
 	
-	currencySymbol.text = [ProjectFunctions getMoneySymbol];
+	currencySymbol.text = [ProjectFunctions getMoneySymbol2];
 	
 	textField.keyboardType = UIKeyboardTypeDecimalPad;
 

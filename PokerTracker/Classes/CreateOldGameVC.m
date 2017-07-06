@@ -217,8 +217,8 @@
 	[formDataArray addObject:@"Completed"];
 	[formDataArray addObject:tournamentType];
 	[formDataArray addObject:@"0"]; // user_id
-	[formDataArray addObject:[startTime convertDateToStringWithFormat:@"EEEE"]];
-	[formDataArray addObject:[startTime convertDateToStringWithFormat:@"MMMM"]];
+	[formDataArray addObject:[ProjectFunctions getWeekDayFromDate:startTime]];
+	[formDataArray addObject:[ProjectFunctions getMonthFromDate:startTime]];
 	[formDataArray addObject:[ProjectFunctions getDayTimeFromDate:startTime]];
 
 	NSLog(@"inserting");
@@ -246,7 +246,7 @@
 - (void)viewDidLoad {
 	
     [super viewDidLoad];
-	[self setTitle:@"Enter Game"];
+	[self setTitle:NSLocalizedString(@"Game", nil)];
 	self.datePicker.date = [NSDate date];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(saveButtonClicked:) target:self];
@@ -258,6 +258,11 @@
 	}
 	self.hoursPlayed.text = @"3";
 	self.cashOutAmount.text = @"0";
+	
+	self.hoursLabel.text = NSLocalizedString(@"Hours", nil);
+	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
+	self.cashoutLabel.text = NSLocalizedString(@"Cashout", nil);
+
     
     buyinMoneyLabel.text = [ProjectFunctions getMoneySymbol];
     cashoutMoneyLabel.text = [ProjectFunctions getMoneySymbol];;
@@ -269,7 +274,6 @@
 	
 
 	self.gameNameSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:0 currentValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] startGameScreen:NO];
-//	self.blindTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:1 currentValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] startGameScreen:NO];
 	self.limitTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:2 currentValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] startGameScreen:NO];
 	self.TourneyTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:3 currentValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] startGameScreen:NO];
 
@@ -282,7 +286,7 @@
 	buyinAmount.keyboardType = UIKeyboardTypeDecimalPad;
 	cashOutAmount.keyboardType = UIKeyboardTypeDecimalPad;
 	
-	[ProjectFunctions makeSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
+	[ProjectFunctions makeGameSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.gameNameSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];

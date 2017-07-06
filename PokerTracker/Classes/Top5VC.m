@@ -45,7 +45,7 @@
 	NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"winnings < 0 AND user_id = 0"];
 	[worstGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate2 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:YES limit:5]];
 
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 
 	
 }

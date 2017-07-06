@@ -30,6 +30,7 @@
 	IBOutlet UIButton *upgradeButton;
 	IBOutlet UIButton *analysisButton;
 	IBOutlet UIButton *casinoButton;
+	IBOutlet UIButton *editButton;
 	UIBarButtonItem *aboutButton;
 	
 	IBOutlet UILabel *yearLabel;
@@ -138,6 +139,7 @@
 @property (nonatomic, strong) UIButton *forumButton;
 @property (nonatomic, strong) UIButton *moreTrackersButton;
 @property (nonatomic, strong) UIButton *casinoButton;
+@property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic, strong) UIButton *startNewGameButton;
 @property (nonatomic, strong) UILabel *yearLabel;
 @property (nonatomic, strong) UILabel *moneyLabel;

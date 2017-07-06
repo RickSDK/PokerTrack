@@ -88,7 +88,7 @@
 -(void)countNumRecords:(NSString *)value
 {
 	NSMutableArray *filterArray = [[NSMutableArray alloc] init];
-	[filterArray addObject:@"LifeTime"];
+	[filterArray addObject:NSLocalizedString(@"LifeTime", nil)];
 	[filterArray addObject:@"All Game Types"];
 	[filterArray addObject:@"All Games"];
 	[filterArray addObject:@"All Limits"];

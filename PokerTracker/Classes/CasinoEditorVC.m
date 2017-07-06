@@ -117,7 +117,7 @@
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"casino_id", @"data", nil];
 		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], casino_idStr, data, nil];
 		if([valueList count]==0) {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to use this feature. From the main menu click 'More' at the top, then 'Login'"];
+			[ProjectFunctions displayLoginMessage];
 			return;
 		}
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerCasinoUpdate.php";
@@ -142,7 +142,7 @@
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"casino_id", @"data", nil];
 		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], casino_idStr, data, nil];
 		if([valueList count]==0) {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to use this feature. From the main menu click 'More' at the top, then 'Login'"];
+			[ProjectFunctions displayLoginMessage];
 			return;
 		}
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerCasinoDelete.php";
@@ -228,7 +228,7 @@
 		LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to edit casino information"];
+		[ProjectFunctions displayLoginMessage];
 		return;
 	}
 	if(editModeOn) {
@@ -270,7 +270,7 @@
 		LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to edit casino information"];
+		[ProjectFunctions displayLoginMessage];
 		return;
 	}
 	CasinoGamesEditVC *detailViewController = [[CasinoGamesEditVC alloc] initWithNibName:@"CasinoGamesEditVC" bundle:nil];
@@ -286,7 +286,7 @@
 		LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to edit casino information"];
+		[ProjectFunctions displayLoginMessage];
 		return;
 	}
 	CasinoCommentVC *detailViewController = [[CasinoCommentVC alloc] initWithNibName:@"CasinoCommentVC" bundle:nil];
@@ -335,7 +335,7 @@
 	fieldArray = [[NSMutableArray alloc] init];
 	valueArray = [[NSMutableArray alloc] init];
 	
-	[fieldArray addObject:@"Name"];
+	[fieldArray addObject:NSLocalizedString(@"Name", nil)];
 	[fieldArray addObject:@"Type"];
 	[fieldArray addObject:@"Tribal Owned"];
 	[fieldArray addObject:@"Street"];
@@ -424,7 +424,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	NSArray *titles = [NSArray arrayWithObjects:@"", @"Details", @"Games", @"Comments", nil];
+	NSArray *titles = [NSArray arrayWithObjects:@"", @"Details", NSLocalizedString(@"Games", nil), @"Comments", nil];
 	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
@@ -445,7 +445,7 @@
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	NSArray *titles = [NSArray arrayWithObjects:@"Basics", @"Details", @"Games", @"Comments", nil];
+	NSArray *titles = [NSArray arrayWithObjects:@"Basics", @"Details", NSLocalizedString(@"Games", nil), @"Comments", nil];
     return [titles objectAtIndex:section];
 	
 	

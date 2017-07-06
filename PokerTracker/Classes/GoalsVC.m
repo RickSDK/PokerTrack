@@ -97,7 +97,7 @@
 	[self.monthlyProfits removeAllObjects];
 	[hourlyProfits removeAllObjects];
  	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
+	NSArray *months = [ProjectFunctions namesOfAllMonths];
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
@@ -175,13 +175,10 @@
 	chart2ImageView = [[UIImageView alloc] init];
 	self.selectedObjectForEdit=0;
 	
-//	[ProjectFunctions addColorToButton:self.leftYear color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
-//	[ProjectFunctions addColorToButton:self.rightYear color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
-
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	
 	self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
@@ -216,7 +213,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	NSArray *titles = [NSArray arrayWithObjects:@"Monthly Net Profits", @"Monthly Breakdown", @"Hourly Profits", @"Hourly Breakdown", nil];
+	NSArray *titles = [NSArray arrayWithObjects:@"Monthly Net Profits", @"Monthly Breakdown", NSLocalizedString(@"Hourly", nil), @"Hourly Breakdown", nil];
 	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
@@ -230,7 +227,7 @@
 	if(section==0)
 		return @"Monthly Net Profits";
 	if(section==2)
-		return @"Hourly Profits";
+		return NSLocalizedString(@"Hourly", nil);
 	return nil;
 }
 
@@ -261,7 +258,8 @@
 	}
 	
 	if(indexPath.section==1) {
-		NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
+		NSMutableArray *months = [[NSMutableArray alloc] initWithArray:[ProjectFunctions namesOfAllMonths]];
+		[months addObject:@"Total"];
 		int NumberOfRows=(int)[months count];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -279,7 +277,7 @@
 			NSArray *components = [item componentsSeparatedByString:@"|"];
 			int profits = [[components objectAtIndex:0] intValue];
 			int games = [[components objectAtIndex:1] intValue];
-			NSString *gameTxt = (games==1)?@"Game":@"Games";
+			NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 			[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 			
 			if(profits>0 && profits<goalAmount)
@@ -306,13 +304,14 @@
 	}
 	
 	if(indexPath.section==3) {
-		NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
+		NSMutableArray *months = [[NSMutableArray alloc] initWithArray:[ProjectFunctions namesOfAllMonths]];
+		[months addObject:@"Total"];
 		int NumberOfRows=(int)[months count];
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.4];
 		}
-		cell.mainTitle = @"Hourly Rate by Month";
+		cell.mainTitle = NSLocalizedString(@"Hourly", nil);
 		NSMutableArray *values = [[NSMutableArray alloc] init];
 		NSMutableArray *colors = [[NSMutableArray alloc] init];
 		int totalSuccess=0;
@@ -321,7 +320,7 @@
 			NSArray *components = [item componentsSeparatedByString:@"|"];
 			int profits = [[components objectAtIndex:0] intValue];
 			int games = [[components objectAtIndex:1] intValue];
-			NSString *gameTxt = (games==1)?@"Game":@"Games";
+			NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 			[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
 			
 			if(profits>0 && profits<goalAmount)

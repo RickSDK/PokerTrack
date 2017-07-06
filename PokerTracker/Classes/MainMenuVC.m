@@ -24,13 +24,11 @@
 #import "CasinoTrackerVC.h"
 #import "MapKitTut.h"
 #import "AnalysisVC.h"
-#import "NewGameBuyin.h"
 #import "AppInitialVC.h"
 #import "WebServicesFunctions.h"
 #import "NSArray+ATTArray.h"
 #import "BankrollsVC.h"
 #import "UnLockAppVC.h"
-//#import "FriendTrackerVC.h"
 #import "PlayerTrackerVC.h"
 #import "DatePickerViewController.h"
 #import "UpgradeVC.h"
@@ -51,12 +49,18 @@
 	[super viewDidLoad];
 	[self setupData];
 	
+//	NSString *preferredLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
+
 	if([ProjectFunctions getProductionMode])
-		[self setTitle:@"Main Menu"];
+		[self setTitle:NSLocalizedString(@"Main Menu", nil)];
 	else {
 		[self setTitle:@"Test Mode"];
 		self.graphChart.alpha=.5;
 	}
+	
+	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
+	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
+	self.last10Label.text = NSLocalizedString(@"Last 10 Games", nil);
 	
 	self.topView.hidden=self.isPokerZilla;
 	self.last10Label.hidden=self.isPokerZilla;
@@ -106,16 +110,8 @@
 		
 		self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
 	} else {
-		UIBarButtonItem *buttonLeft = [[UIBarButtonItem alloc] initWithTitle:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] style:UIBarButtonItemStylePlain target:self action:@selector(aboutButtonClicked:)];
-		
-		[buttonLeft setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-		self.navigationItem.leftBarButtonItem = buttonLeft;
-
-		
-		UIBarButtonItem *buttonRight = [[UIBarButtonItem alloc] initWithTitle:[NSString fontAwesomeIconStringForEnum:FACog] style:UIBarButtonItemStylePlain target:self action:@selector(moreButtonClicked:)];
-		
-		[buttonRight setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
-		self.navigationItem.rightBarButtonItem = buttonRight;
+		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(aboutButtonClicked:)];
+		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	}
 	
 	
@@ -150,7 +146,6 @@
 	self.graphChart.layer.cornerRadius = 8.0;
 	self.graphChart.layer.masksToBounds = YES;
 	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
-//	self.graphChart.layer.borderWidth = 2.0;
 
 	
 	//---- This code added to prevent flicker----
@@ -175,6 +170,8 @@
 	}
 
 	[self setupButtons];
+	self.editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
 
 	if(showDisolve) {
 		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
@@ -186,27 +183,24 @@
 }
 
 -(void)setupButtons {
-	self.statsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30.f];
-	if([ProjectFunctions isLiteVersion])
-		[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FABarChartO]] forState:UIControlStateNormal];
-	else
-		[self.statsButton setTitle:[NSString stringWithFormat:@"%@ Stats", [NSString fontAwesomeIconStringForEnum:FAlineChart]] forState:UIControlStateNormal];
+	[self createLabelForButton:self.gamesButton size:26 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
+	[self createLabelForButton:self.statsButton size:30 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+	[self createLabelForButton:self.oddsButton size:18 name:NSLocalizedString(@"Odds", nil) icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
+	[self createLabelForButton:self.moreTrackersButton size:18 name:NSLocalizedString(@"Trackers", nil) icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
+	[self createLabelForButton:self.forumButton size:18 name:NSLocalizedString(@"Forum", nil) icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
+	[self createLabelForButton:self.netTrackerButton size:18 name:NSLocalizedString(@"Net Tracker", nil) icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
+	
+	[self.startNewGameButton setTitle:NSLocalizedString(@"New Game", nil) forState:UIControlStateNormal];
 
-	self.gamesButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:26.f];
-	[self.gamesButton setTitle:[NSString stringWithFormat:@"%@ Games", [NSString fontAwesomeIconStringForEnum:FACheckCircle]] forState:UIControlStateNormal];
+}
 
-	self.oddsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.oddsButton setTitle:[NSString stringWithFormat:@"%@ Odds", [NSString fontAwesomeIconStringForEnum:FAcalculator]] forState:UIControlStateNormal];
-	
-	self.moreTrackersButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.moreTrackersButton setTitle:[NSString stringWithFormat:@"%@ Trackers", [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
-	
-	self.forumButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.forumButton setTitle:[NSString stringWithFormat:@"%@ Forum", [NSString fontAwesomeIconStringForEnum:FAComments]] forState:UIControlStateNormal];
-	
-	self.netTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.netTrackerButton setTitle:[NSString stringWithFormat:@"%@ Net Tracker", [NSString fontAwesomeIconStringForEnum:FAGlobe]] forState:UIControlStateNormal];
-	
+-(void)createLabelForButton:(UIButton *)button size:(float)size name:(NSString *)name icon:(NSString *)icon {
+	if (name.length>6 && size>26)
+		size = 26;
+	if (name.length>12)
+		size = 16;
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:[NSString stringWithFormat:@"%@ %@", icon,name] forState:UIControlStateNormal];
 }
 
 -(BOOL)isPokerZilla {
@@ -228,7 +222,7 @@
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
 		if([items count]==0) {
 			self.alertViewNum=99;
-			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:[NSString stringWithFormat:@"Welcome to %@!", ([self isPokerZilla])?@"PokerZilla":@"Poker Track Pro"] delegate:self];
+			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:[NSString stringWithFormat:@"%@ %@!", NSLocalizedString(@"Welcome", nil), ([self isPokerZilla])?@"PokerZilla":@"Poker Track Pro"] delegate:self];
 		}
 	} else if([ProjectFunctions isLiteVersion] && [ProjectFunctions getUserDefaultValue:@"UpgradeCheck"].length==0) {
 		self.alertViewNum=199;
@@ -714,19 +708,8 @@
 		int winnings = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
 
 		[self updateMoneyLabel:bankrollLabel money:winnings];
-		[bankrollNameLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@:", [self getMonthName]] waitUntilDone:NO];
+		[bankrollNameLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@:", [ProjectFunctions getMonthFromDate:[NSDate date]]] waitUntilDone:NO];
 	}
-}
-
--(NSString *)getMonthName {
-	NSArray *months = [NSArray arrayWithObjects:@"Total", @"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", @"Total", nil];
-	int currentMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
-	
-	if(months.count>currentMonth)
-		return [months objectAtIndex:currentMonth];
-	else
-		return @"Hey!";
-
 }
 
 -(void)doTheHardWork {
@@ -786,19 +769,6 @@
 -(void)updateMainGraphWithCOntext:(NSManagedObjectContext *)contextLocal year:(int)year {
 	NSString *predString = [ProjectFunctions getBasicPredicateString:year type:@"All"];
 	NSPredicate *pred = [NSPredicate predicateWithFormat:predString];
-	
-	//NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:pred sortColumn:nil mOC:contextLocal ascendingFlg:NO];
-	/*
-	if(games.count>40) {
-		NSString *month = [[NSDate date] convertDateToStringWithFormat:@"MMMM"];
-		NSPredicate *pred2 = [NSPredicate predicateWithFormat:@"year = %@ AND month = %@", [NSString stringWithFormat:@"%d", year], month];
-		NSArray *games2 = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:pred2 sortColumn:nil mOC:contextLocal ascendingFlg:NO];
-		if(games2.count>3) {
-			pred=pred2;
-			self.yearLabel.text=month;
-		}
-	}
-	 */
 	
 	self.largeGraph.image = [ProjectFunctions plotStatsChart:contextLocal predicate:pred displayBySession:displayBySession];
 	if(toggleMode==2) {
@@ -897,6 +867,10 @@
 	if(rotateLock)
 		return;
 	
+	if([ProjectFunctions isLiteVersion]) {
+		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"You will need to upgrade to use this feature." delegate:self tag:104];
+		return;
+	}
 	
 	UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;

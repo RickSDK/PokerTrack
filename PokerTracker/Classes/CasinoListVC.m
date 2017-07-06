@@ -69,8 +69,9 @@
     [self.mainTableView setBackgroundView:nil];
 
 	
-	UIBarButtonItem *mainMenuButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = mainMenuButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//	UIBarButtonItem *mainMenuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = mainMenuButton;
 
 	
 	topLabel.text = [NSString stringWithFormat:@"Casinos for %@", stateCountry];

@@ -30,7 +30,10 @@
 	IBOutlet UIButton *completedButton;
 	IBOutlet UIButton *locationButton;
 	IBOutlet UIButton *addCasinoButton;
+	IBOutlet UIButton *retryButton;
 	IBOutlet UILabel *buyinLabel;
+	IBOutlet UILabel *locationLabel;
+	IBOutlet UILabel *bankrollLabel;
 	
 	//---Gloabls----------------------------
 	int selectedObjectForEdit;
@@ -66,8 +69,11 @@
 @property (atomic, strong) UISegmentedControl *limitTypeSegmentBar;
 @property (atomic, strong) UISegmentedControl *TourneyTypeSegmentBar;
 
+@property (atomic, strong) UIButton *retryButton;
 @property (atomic, strong) UIButton *editButton;
 @property (atomic, strong) UILabel *buyinLabel;
+@property (atomic, strong) UILabel *locationLabel;
+@property (atomic, strong) UILabel *bankrollLabel;
 @property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) UIButton *buyinButton;
 @property (atomic, strong) UIButton *startLiveButton;

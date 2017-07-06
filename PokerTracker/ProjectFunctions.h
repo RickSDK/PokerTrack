@@ -41,10 +41,9 @@
 
 
 //----------Edit in Here---------------------------
-//#define kVersion    @"Version 6.8.3" using standard function now
 #define kLOG 0
-#define kPRODMode 1
-#define kIsLiteVersion 1  // 0 or 1
+#define kPRODMode 0
+#define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221
@@ -81,6 +80,7 @@
 +(NSString *)getPredicateString:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSString *)convertIntToMoneyString:(double)money;
 +(NSArray *)getArrayForSegment:(int)segment;
++(void)displayLoginMessage;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
@@ -89,12 +89,14 @@
 +(UIImage *)plotStatsChart:(NSManagedObjectContext *)mOC predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;
 +(void)drawLine:(CGContextRef)c startX:(int)startX startY:(int)startY endX:(int)endX endY:(int)endY;
 +(NSDate *)getFirstDayOfMonth:(NSDate *)thisDay;
++(NSString *)getWeekDayFromDate:(NSDate *)date;
 +(NSPredicate *)getPredicateForFilter:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(void)showAlertPopup:(NSString *)title message:(NSString *)message;
 +(void)showAlertPopupWithDelegate:(NSString *)title message:(NSString *)message delegate:(id)delegate;
 +(void)showConfirmationPopup:(NSString *)title message:(NSString *)message delegate:(id)delegate tag:(int)tag;
 +(void)showAcceptDeclinePopup:(NSString *)title message:(NSString *)message delegate:(id)delegate;
 +(void)showTwoButtonPopupWithTitle:(NSString *)title message:(NSString *)message button1:(NSString *)button1 button2:(NSString *)button2 delegate:(id)delegate;
++(NSArray *)getValuesForField:(NSString *)field context:(NSManagedObjectContext *)context year:(int)year type:(NSString *)type;
 +(void)displayTimeFrameLabel:(UILabel *)label mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum timeFrame:(NSString *)timeFrame;
 +(NSArray *)getContentsOfFlatFile:(NSString *)filename;
 //+(void)executeThreadedJob:(NSString *)class:(SEL)aSelector:(UIActivityIndicatorView *)activityIndicator;
@@ -105,6 +107,12 @@
 +(void)resetTheYearSegmentBar:(UITableView *)tableView displayYear:(int)displayYear MoC:(NSManagedObjectContext *)MoC leftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton displayYearLabel:(UILabel *)displayYearLabel;
 +(NSString *)labelForYearValue:(int)yearValue;
 +(NSString *)labelForGameSegment:(int)segmentIndex;
++(NSString *)getMonthFromDate:(NSDate *)date;
++(NSArray *)namesOfAllWeekdays;
++(NSArray *)namesOfAllMonths;
++(NSArray *)namesOfAllDayTimes;
++(UIBarButtonItem *)UIBarButtonItemWithIcon:(NSString *)icon target:(id)target action:(SEL)action;
++(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context;
 +(NSString *)getLast90Days:(NSManagedObjectContext *)mOC;
 +(int)selectedSegmentForGameType:(NSString *)gameType;
 +(NSManagedObject *)insertRecordIntoEntity:(NSManagedObjectContext *)mOC EntityName:(NSString *)EntityName valueList:(NSArray *)valueList;
@@ -120,7 +128,6 @@
 +(NSString *)predicateExt:(NSString *)value allValue:(NSString *)allValue field:(NSString *)field typeValue:(NSString *)typeValue mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSString *)formatForDataBase:(NSString *)str;
 +(NSString *)getDayTimeFromDate:(NSDate *)localDate;
-+(float)getMoneyValueFromText:(NSString *)money;
 +(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(NSString *)getGamesTextFromInt:(int)numGames;
 +(CLLocation *)getCurrentLocation;
@@ -149,7 +156,9 @@
 +(NSData *)convertBase64StringToData:(NSString *)imgString;
 +(UIImage *)convertBase64StringToImage:(NSString *)imgString;
 +(void)updateYourOwnFriendRecord:(NSManagedObjectContext *)MoC list:(NSMutableArray *)list;
++(NSString *)displayLocalFormatDate:(NSDate *)date;
 +(NSString *)getMoneySymbol;
++(NSString *)getMoneySymbol2;
 +(NSArray *)moneySymbols;
 +(UIImage *)graphDaysChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(UIImage *)graphDaytimeChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
@@ -162,7 +171,9 @@
 +(UIImage *)graphYearlyChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(NSString *)displayMoney:(NSManagedObject *)mo column:(NSString *)column;
 +(NSString *)convertTextToMoneyString:(NSString *)amount;
-+(NSString *)convertNumberToMoneyString:(float)money;
++(NSString *)convertNumberToMoneyString:(double)money;
++(NSString *)convertStringToMoneyString:(NSString *)moneyStr;
++(double)convertMoneyStringToDouble:(NSString *)moneyStr;
 +(int)updateFriendData:(NSString *)responseStr MoC:(NSManagedObjectContext *)MoC;
 +(BOOL)shouldSyncGameResultsWithServer:(NSManagedObjectContext *)moc;
 +(int)updateFriendRecords:(NSManagedObjectContext *)mOC responseStr:(NSString *)responseStr delegate:(id)delegate refreshDateLabel:(UILabel *)refreshDateLabel;
@@ -189,10 +200,11 @@
 +(int)getNewPlayerType:(int)amountRisked winnings:(int)winnings;
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context;
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context;
++(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC;
 +(void)ptpLocationAuthorizedCheck:(CLAuthorizationStatus)status;
-+(NSString *)smallLabelForMoney:(float)money totalMoneyRange:(float)totalMoneyRange;
++(NSString *)smallLabelForMoney:(double)money totalMoneyRange:(double)totalMoneyRange;
 +(float)chartHeightForSize:(float)height;
 +(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
 

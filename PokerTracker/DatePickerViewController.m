@@ -53,7 +53,7 @@
 	self.textField.text = self.initialValueString;
 	self.clearButton.enabled = allowClearField;
 
-	self.navigationItem.title = navItem.title;
+//	self.navigationItem.title = navItem.title;
 	self.navigationItem.rightBarButtonItem = navItem.rightBarButtonItem;
 	self.navigationItem.leftBarButtonItem = navItem.leftBarButtonItem;
 

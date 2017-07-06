@@ -161,7 +161,7 @@
 
 +(void)displayTimeFrameLabel:(UILabel *)label mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum timeFrame:(NSString *)timeFrame {
 	
-	if([timeFrame isEqualToString:@"LifeTime"] || [timeFrame intValue]>0) {
+	if([timeFrame isEqualToString:NSLocalizedString(@"LifeTime", nil)] || [timeFrame intValue]>0) {
 		label.text=timeFrame;
 		return;
 	}
@@ -217,7 +217,7 @@
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
 	
-	if([timeFrame isEqualToString:@"LifeTime"] || [timeFrame intValue]>0)
+	if([timeFrame isEqualToString:NSLocalizedString(@"LifeTime", nil)] || [timeFrame intValue]>0)
 		return [NSPredicate predicateWithFormat:predicateString];
 	
 	NSDate *startTime = [NSDate date];
@@ -264,7 +264,7 @@
 	if(year>0)
 		return [NSString stringWithFormat:@"%d", year];
 	else 
-		return @"LifeTime";
+		return NSLocalizedString(@"LifeTime", nil);
 }
 
 +(NSString *)getBasicPredicateString:(int)year type:(NSString *)Type
@@ -323,34 +323,50 @@
 	return predicateString;
 }
 
-+(NSString *)convertNumberToMoneyString:(float)money
++(NSString *)convertNumberToMoneyString:(double)money
 {
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	NSString *moneyStr = [formatter stringFromNumber:[NSNumber numberWithFloat:money]];
+	NSString *moneyStr = [formatter stringFromNumber:[NSNumber numberWithDouble:money]];
 	
-	NSString *symbol = [ProjectFunctions getMoneySymbol];
-	if([symbol length]>0 && ![symbol isEqualToString:@"$"])
-		moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:symbol];
+	return [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
+
+	if (0) {
+		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+		NSString *moneyStr = [formatter stringFromNumber:[NSNumber numberWithFloat:money]];
+		
+		NSString *symbol = [ProjectFunctions getMoneySymbol];
+		if([symbol length]>0 && ![symbol isEqualToString:@"$"])
+			moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:symbol];
+		
+		if([ProjectFunctions getUserDefaultValue:@"moneySymbol"] && [moneyStr rangeOfString:symbol].location == NSNotFound)
+			moneyStr = [NSString stringWithFormat:@"%@%.2f", symbol, money];
+		
+		moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
+		
+		return moneyStr;
+	}
+}
+
++(NSString *)convertStringToMoneyString:(NSString *)moneyStr
+{
+	double amount = [self convertMoneyStringToDouble:moneyStr];
+	return [self convertNumberToMoneyString:amount];
+}
+
++(double)convertMoneyStringToDouble:(NSString *)moneyStr
+{
+	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:@""];
+	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"," withString:@""];
+	moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet symbolCharacterSet]];
+	moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet letterCharacterSet]];
 	
-    if([ProjectFunctions getUserDefaultValue:@"moneySymbol"] && [moneyStr rangeOfString:symbol].location == NSNotFound)
-        moneyStr = [NSString stringWithFormat:@"%@%.2f", symbol, money];
-
-	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
-
-	return moneyStr;
+	return [moneyStr doubleValue];
 }
 
 +(NSString *)convertIntToMoneyString:(double)money
 {
-	
-//	if(money>100000000)
-//		return [NSString stringWithFormat:@"%@%dM", [ProjectFunctions getMoneySymbol], money/1000000];
-//	if(money>1000000)
-//		return [NSString stringWithFormat:@"%@%.1fM", [ProjectFunctions getMoneySymbol], (float)money/1000000];
-//	if(money>100000)
-//		return [NSString stringWithFormat:@"%@%dK", [ProjectFunctions getMoneySymbol], money/1000];
-	
 	return [ProjectFunctions convertNumberToMoneyString:(double)money];
 }
 
@@ -824,20 +840,44 @@
 	NSDate *startTime = [mo valueForKey:@"startTime"];
 	NSDate *endTime = [mo valueForKey:@"endTime"];
 	
-	NSString *weekday = [startTime convertDateToStringWithFormat:@"EEEE"];
-	NSString *month = [startTime convertDateToStringWithFormat:@"MMMM"];
+	int seconds = [endTime timeIntervalSinceDate:startTime];
+	[mo setValue:[NSString stringWithFormat:@"%.1f", (float)seconds/3600] forKey:@"hours"];
+	[mo setValue:[NSNumber numberWithInt:seconds/60] forKey:@"minutes"];
+	[self scrubDataForObj:mo context:mOC];
+//	[mOC save:nil];
+
+	return success;
+}
+
++(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
+	NSLog(@"scrubbing...");
+	NSDate *startTime = [mo valueForKey:@"startTime"];
+	NSString *weekday = [ProjectFunctions getWeekDayFromDate:startTime];
+	NSString *month = [ProjectFunctions getMonthFromDate:startTime];
 	NSString *year = [startTime convertDateToStringWithFormat:@"yyyy"];
 	NSString *daytime = [ProjectFunctions getDayTimeFromDate:startTime];
-	int seconds = [endTime timeIntervalSinceDate:startTime];
 	[mo setValue:weekday forKey:@"weekday"];
 	[mo setValue:month forKey:@"month"];
 	[mo setValue:year forKey:@"year"];
 	[mo setValue:daytime forKey:@"daytime"];
-	[mo setValue:[NSString stringWithFormat:@"%.1f", (float)seconds/3600] forKey:@"hours"];
-	[mo setValue:[NSNumber numberWithInt:seconds/60] forKey:@"minutes"];
-	[mOC save:nil];
+	[context save:nil];
+}
 
-	return success;
++(UIBarButtonItem *)UIBarButtonItemWithIcon:(NSString *)icon target:(id)target action:(SEL)action {
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:icon style:UIBarButtonItemStylePlain target:target action:action];
+	
+	[button setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
+	return button;
+}
+
+
+
++(NSString *)getMonthFromDate:(NSDate *)date {
+	return [[date convertDateToStringWithFormat:@"MMMM"] capitalizedString];
+}
+
++(NSString *)getWeekDayFromDate:(NSDate *)date {
+	return [[date convertDateToStringWithFormat:@"EEEE"] capitalizedString];
 }
 
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName
@@ -1202,7 +1242,7 @@
 
 
 
-+(NSString *)smallLabelForMoney:(float)money totalMoneyRange:(float)totalMoneyRange {
++(NSString *)smallLabelForMoney:(double)money totalMoneyRange:(double)totalMoneyRange {
 	int moneyRoundingFactor = 1;
 	if(totalMoneyRange>500)
 		moneyRoundingFactor=10;
@@ -1215,29 +1255,43 @@
 	if(totalMoneyRange>5000000)
 		moneyRoundingFactor=100000;
 	
-	money /=moneyRoundingFactor;
-	money *=moneyRoundingFactor;
+	int moneyInt = money/moneyRoundingFactor;
+	moneyInt *=moneyRoundingFactor;
 	
 	BOOL negValue = (money<0)?YES:NO;
 	if(negValue)
 		money*=-1;
 	
-	NSString *label = [NSString stringWithFormat:@"%@%d", [ProjectFunctions getMoneySymbol], (int)money];
+	
+	NSString *label = [ProjectFunctions convertNumberToMoneyString:moneyInt];
 	if(money>1000)
-		label = [NSString stringWithFormat:@"%@%.1fk", [ProjectFunctions getMoneySymbol], (float)money/1000];
+		label = [NSString stringWithFormat:@"%@k", [self convertNumberToMoneyStringOneDec:money/1000]];
 	if(money>10000)
-		label = [NSString stringWithFormat:@"%@%dk", [ProjectFunctions getMoneySymbol], (int)money/1000];
+		label = [NSString stringWithFormat:@"%@k", [ProjectFunctions convertNumberToMoneyString:money/1000]];
 	if(money>100000)
 		label = [NSString stringWithFormat:@"%dk", (int)money/1000];
 	if(money>1000000)
-		label = [NSString stringWithFormat:@"%@%.1fM", [ProjectFunctions getMoneySymbol], (float)money/1000000];
+		label = [NSString stringWithFormat:@"%@M", [self convertNumberToMoneyStringOneDec:money/1000000]];
 	if(money>10000000)
-		label = [NSString stringWithFormat:@"%@%dM", [ProjectFunctions getMoneySymbol], (int)money/1000000];
+		label = [NSString stringWithFormat:@"%@M", [ProjectFunctions convertNumberToMoneyString:money/1000000]];
 	
 	if (negValue)
 		return [NSString stringWithFormat:@"-%@", label];
 	else
 		return label;
+}
+
++(NSString *)convertNumberToMoneyStringOneDec:(double)money {
+	NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
+	[currencyFormatter setLocale:[NSLocale currentLocale]];
+	[currencyFormatter setMaximumFractionDigits:1];
+	[currencyFormatter setMinimumFractionDigits:0];
+	[currencyFormatter setAlwaysShowsDecimalSeparator:YES];
+	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSNumber *someAmount = [NSNumber numberWithDouble:money];
+	NSString *string = [currencyFormatter stringFromNumber:someAmount];
+	return string;
 }
 
 +(void)drawLeftLabelsAndLinesForContext:(CGContextRef)c totalMoneyRange:(float)totalMoneyRange min:(double)min leftEdgeOfChart:(int)leftEdgeOfChart totalHeight:(int)totalHeight totalWidth:(int)totalWidth
@@ -1512,8 +1566,8 @@
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
 													message:message
 												   delegate:delegate
-										  cancelButtonTitle:@"Cancel"
-										  otherButtonTitles: @"OK", nil];
+										  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+										  otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
 	alert.tag = tag;
     [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
 //	[alert show];
@@ -1689,7 +1743,7 @@
     
     if(displayYear==0) {
         if([displayYearLabel.text length]<=1)
-            [displayYearLabel performSelectorOnMainThread:@selector(setText: ) withObject:@"LifeTime" waitUntilDone:NO];
+            [displayYearLabel performSelectorOnMainThread:@selector(setText: ) withObject:NSLocalizedString(@"LifeTime", nil) waitUntilDone:NO];
 
 		if(maxYear>0)
 			[ProjectFunctions SetButtonAttributes:leftButton yearStr:maxYearStr enabled:YES];
@@ -1706,7 +1760,7 @@
  
 
 	if(nextYear>maxYear)
-		[ProjectFunctions SetButtonAttributes:rightButton yearStr:@"LifeTime" enabled:YES];
+		[ProjectFunctions SetButtonAttributes:rightButton yearStr:NSLocalizedString(@"LifeTime", nil) enabled:YES];
 	else
 		[ProjectFunctions SetButtonAttributes:rightButton yearStr:[NSString stringWithFormat:@"%d", nextYear] enabled:YES];
 	
@@ -1716,11 +1770,20 @@
 {
 	NSString *yearString = @"";
 	if(yearValue==0)
-		yearString = @"LifeTime";
+		yearString = NSLocalizedString(@"LifeTime", nil);
 	else
 		yearString = [NSString stringWithFormat:@"%d", yearValue];
 	return yearString;
 }
+
++(void)displayLoginMessage {
+	if ([self isLiteVersion])
+		[ProjectFunctions showAlertPopup:@"Notice" message:NSLocalizedString(@"upgradeMessage", nil)];
+	else
+		[ProjectFunctions showAlertPopup:@"Notice" message:NSLocalizedString(@"loginMessage", nil)];
+}
+
+
 
 +(NSString *)labelForGameSegment:(int)segmentIndex
 {
@@ -2145,7 +2208,7 @@
 
     //----------monthStats--------
     NSMutableString *thisMonthStr = [[NSMutableString alloc] initWithCapacity:1000];
-    NSPredicate *predicateMonth = [NSPredicate predicateWithFormat:@"user_id = %d AND year = %@ AND month = %@ AND status = 'Completed'", 0, [[NSDate date] convertDateToStringWithFormat:@"yyyy"], [[NSDate date] convertDateToStringWithFormat:@"MMMM"]];
+    NSPredicate *predicateMonth = [NSPredicate predicateWithFormat:@"user_id = %d AND year = %@ AND month = %@ AND status = 'Completed'", 0, [[NSDate date] convertDateToStringWithFormat:@"yyyy"], [ProjectFunctions getMonthFromDate:[NSDate date]]];
     NSString *monthStats = [CoreDataLib getGameStat:mOC dataField:@"totalStats" predicate:predicateMonth];
     NSArray *monthGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicateMonth sortColumn:@"startTime" mOC:mOC ascendingFlg:YES];
     for(NSManagedObject *mo in monthGames)
@@ -2275,23 +2338,17 @@
 
 +(NSString *)getDayTimeFromDate:(NSDate *)localDate
 {
+	NSArray *dayTimes = [ProjectFunctions namesOfAllDayTimes];
 	int hour = [[localDate convertDateToStringWithFormat:@"H"] intValue];
 	if(hour>=0 && hour < 12)
-		return @"Morning";
+		return [dayTimes objectAtIndex:0];
 	else if(hour>=12 && hour < 16)
-		return @"Afternoon";
+		return [dayTimes objectAtIndex:1];
 	else if(hour>=16 && hour < 20)
-		return @"Evening";
+		return [dayTimes objectAtIndex:2];
 	else 
-		return @"Night";
+		return [dayTimes objectAtIndex:3];
 	
-}
-
-+(float)getMoneyValueFromText:(NSString *)money 
-{
-	money = [money stringByReplacingOccurrencesOfString:[ProjectFunctions getMoneySymbol] withString:@""];
-	money = [money stringByReplacingOccurrencesOfString:@"," withString:@""];
-	return [money floatValue];
 }
 
 +(CGContextRef)contextRefForGraphofWidth:(int)totalWidth totalHeight:(int)totalHeight {
@@ -2424,6 +2481,34 @@
 	}
 }
 
++(NSArray *)getValuesForField:(NSString *)field context:(NSManagedObjectContext *)context year:(int)year type:(NSString *)type {
+	NSMutableDictionary *daysOfWeekDict = [[NSMutableDictionary alloc] init];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:type];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
+	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:context ascendingFlg:NO];
+	for (NSManagedObject *mo in allGames) {
+		[daysOfWeekDict setObject:@"1" forKey:[mo valueForKey:field]];
+	}
+	return [daysOfWeekDict allKeys];
+}
+
++(NSArray *)namesOfAllMonths {
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	for (int i=1; i<=12; i++) {
+		[array addObject:[ProjectFunctions getMonthFromDate:[[NSString stringWithFormat:@"%02d/01/2017", i] convertStringToDateFinalSolution]]];
+	}
+	return array;
+}
+
++(NSArray *)namesOfAllDayTimes {
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	[array addObject:NSLocalizedString(@"Morning", nil)];
+	[array addObject:NSLocalizedString(@"Afternoon", nil)];
+	[array addObject:NSLocalizedString(@"Evening", nil)];
+	[array addObject:NSLocalizedString(@"Night", nil)];
+	return array;
+}
+
 +(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg
 {
 	int totalWidth=640;
@@ -2439,7 +2524,7 @@
 	int displayYear = [yearStr intValue];
 	NSMutableArray *itemList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	NSArray *months = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
+	NSArray *months = [self namesOfAllMonths];
 	int min=0;
 	int max=0;
 	for(NSString *month in months) {
@@ -2500,6 +2585,16 @@
 	
 }
 
++(NSArray *)namesOfAllWeekdays {
+	NSMutableArray *array = [[NSMutableArray alloc] init];
+	for (int i=1; i<=7; i++) {
+		[array addObject:[ProjectFunctions getWeekDayFromDate:[[NSString stringWithFormat:@"01/%02d/2017", i] convertStringToDateFinalSolution]]];
+	}
+	return array;
+}
+
+
+
 +(UIImage *)graphDaysChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg
 {
 	int totalWidth=640;
@@ -2510,7 +2605,7 @@
 	int displayYear = [yearStr intValue];
 	NSMutableArray *profitList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	NSArray *months = [NSArray arrayWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
+	NSArray *months = [self namesOfAllWeekdays];
 	int min=0;
 	int max=0;
 	for(NSString *month in months) {
@@ -2569,7 +2664,7 @@
 	int displayYear = [yearStr intValue];
 	NSMutableArray *profitList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	NSArray *months = [NSArray arrayWithObjects:@"Morning", @"Afternoon", @"Evening", @"Night", nil];
+	NSArray *months = [ProjectFunctions namesOfAllDayTimes];
 	int min=0;
 	int max=0;
 	for(NSString *month in months) {
@@ -3320,13 +3415,33 @@
 	return img;
 }
 
+
++(NSString *)displayLocalFormatDate:(NSDate *)date {
+	NSDateFormatter* df = [[NSDateFormatter alloc] init];
+	[df setDateStyle:NSDateFormatterMediumStyle];
+	[df setTimeStyle:NSDateFormatterShortStyle];
+	NSString* myString = [df stringFromDate:date];
+	return myString;
+	//	return [NSString stringWithFormat:@"%@", [date convertDateToStringWithFormat:@"MM/dd/yyyy"]];
+}
+
++(NSString *)getMoneySymbol2 {
+	NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
+	[currencyFormatter setLocale:[NSLocale currentLocale]];
+	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	return [currencyFormatter currencySymbol];
+}
+
+
 +(NSString *)getMoneySymbol
 {
-	NSString *moneySymbol = [ProjectFunctions getUserDefaultValue:@"moneySymbol"];
-	if([moneySymbol length]==0)
-		return @"$";
-	else 
-		return moneySymbol;
+	return [self getMoneySymbol2];
+//	NSString *moneySymbol = [ProjectFunctions getUserDefaultValue:@"moneySymbol"];
+//	if([moneySymbol length]==0)
+//		return @"$";
+//	else
+//		return moneySymbol;
 }
 
 +(NSArray *)moneySymbols
@@ -3616,22 +3731,11 @@
 
 +(UIBarButtonItem *)navigationButtonWithTitle:(NSString *)title selector:(SEL)selector target:(id)target
 {
+	if([title isEqualToString:NSLocalizedString(@"Main Menu", nil)])
+		return [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:target action:selector];
 	
 	return [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:target action:selector];
 
-	float fontSize=14;
-	int width=40+(int)title.length*7;
-	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	[button setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
-	[button setTitle:title forState:UIControlStateNormal];
-	[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	button.titleLabel.font = [UIFont boldSystemFontOfSize:fontSize];
-	//	button.titleLabel.shadowColor = [UIColor colorWithRed:1 green:1 blue:.9 alpha:1];
-	//	button.titleLabel.shadowOffset = CGSizeMake(-1.0, -1.0);
-	[button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-	button.frame = CGRectMake(0, 0, width, 34);
-	UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-	return barButton;
 }
 
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context {
@@ -3645,6 +3749,17 @@
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
 	NSLog(@"+++gamesOnServer: %d", (int)allGames.count);
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnServer"];
+}
+
++(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color {
+	[ProjectFunctions makeSegment:segment color:color];
+	int i=0;
+	if (segment.numberOfSegments==3 ) {
+		[segment setTitle:NSLocalizedString(@"All", nil) forSegmentAtIndex:i++];
+	}
+	
+	[segment setTitle:NSLocalizedString(@"Cash", nil) forSegmentAtIndex:i++];
+	[segment setTitle:NSLocalizedString(@"Tournaments", nil) forSegmentAtIndex:i++];
 }
 
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {

@@ -36,29 +36,9 @@
 	}
 }
 
-- (IBAction) players2Pressed: (id) sender
+- (IBAction) actionButtonPressed: (UIButton *) button
 {
-	[self gotoFormVC:2];
-}
-
-- (IBAction) players3Pressed: (id) sender
-{
-	[self gotoFormVC:3];
-}
-
-- (IBAction) players4Pressed: (id) sender
-{
-	[self gotoFormVC:4];
-}
-
-- (IBAction) players5Pressed: (id) sender
-{
-	[self gotoFormVC:5];
-}
-
-- (IBAction) players6Pressed: (id) sender
-{
-	[self gotoFormVC:6];
+	[self gotoFormVC:(int)button.tag];
 }
 
 
@@ -69,19 +49,18 @@
 	else
 		[self setTitle:@"Odds Calculator"];
 
-	[button1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button1 setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-
-	[button2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button2 setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-
-	[button3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button3 setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-
-	[button4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[button4 setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-
+	[self showButtonTitle:self.button1];
+	[self showButtonTitle:self.button2];
+	[self showButtonTitle:self.button3];
+	[self showButtonTitle:self.button4];
+	[self showButtonTitle:self.button5];
     [super viewDidLoad];
+}
+
+-(void)showButtonTitle:(UIButton *)button {
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	NSLog(@"tag: %d", button.tag);
+	[button setTitle:[NSString stringWithFormat:@"%d %@", (int)button.tag, [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
 }
 
 

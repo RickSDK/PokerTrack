@@ -178,8 +178,9 @@
 	self.userLabel.text = [mo valueForKey:@"name"];
 	self.emailLabel.text = [mo valueForKey:@"email"];
 
-	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = homeButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = homeButton;
 	
 	if([[mo valueForKey:@"name"] length]==0) {
 		// clean up mess!
@@ -236,7 +237,7 @@
 
 
 	if(indexPath.section==0) {
-		NSArray *titles = [NSArray arrayWithObjects:@"Games", @"Hours Played", @"Profit", @"Hourly Rate", nil];
+		NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), NSLocalizedString(@"Hours", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil), nil];
 		int NumberOfRows=(int)[titles count];
 
 		MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];

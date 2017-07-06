@@ -26,7 +26,7 @@
 	cell.mainTitle = @"Game Stats";
 	cell.alternateTitle = title;
 	
-	NSArray *titles = [NSArray arrayWithObjects:@"Profit", @"Risked", @"Games", @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", @"Hourly Rate", @"ROI", nil];
+	NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), @"Current Streak", @"Long Win Streak", @"Long Lose Streak", NSLocalizedString(@"Hours", nil), NSLocalizedString(@"Hourly", nil), @"ROI", nil];
 	NSMutableArray *colorArray = [[NSMutableArray alloc] init];
 	
 	[colorArray addObject:[CoreDataLib getFieldColor:[[statsArray objectAtIndex:0] intValue]]];
@@ -87,7 +87,7 @@
 	
 	cell.mainTitle = title;
 	
-	cell.alternateTitle = @"Profit";
+	cell.alternateTitle = NSLocalizedString(@"Profit", nil);
 	
 	
 	NSMutableArray *titles = [[NSMutableArray alloc] init];

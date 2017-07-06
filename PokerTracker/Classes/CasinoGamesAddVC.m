@@ -48,13 +48,13 @@
 	self.selectedRow=0;
 	TextLineEnterVC *detailViewController = [[TextLineEnterVC alloc] initWithNibName:@"TextLineEnterVC" bundle:nil];
 	detailViewController.initialDateValue = @"";
-	detailViewController.titleLabel = @"Game";
+	detailViewController.titleLabel = NSLocalizedString(@"Game", nil);
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 - (IBAction) daySegmentPressed: (id) sender
 {
-	NSArray *days = [NSArray arrayWithObjects:@"Mondays", @"Tuesdays", @"Wednesdays", @"Thursdays", @"Fridays", @"Saturdays", @"Sundays", nil];
+	NSArray *days = [ProjectFunctions namesOfAllWeekdays];
 	limit.text = [days stringAtIndex:(int)dayOfWeekSegment.selectedSegmentIndex];
 	[self updateGameName];
 }
@@ -64,7 +64,7 @@
 	self.selectedRow=3;
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.initialDateValue = buyinAmount.titleLabel.text;
-	detailViewController.titleLabel = @"Buyin";
+	detailViewController.titleLabel = NSLocalizedString(@"Buyin", nil);
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -116,7 +116,7 @@
 	self.selectedRow=2;
 	TextLineEnterVC *detailViewController = [[TextLineEnterVC alloc] initWithNibName:@"TextLineEnterVC" bundle:nil];
 	detailViewController.initialDateValue = @"";
-	detailViewController.titleLabel = @"Stakes";
+	detailViewController.titleLabel = NSLocalizedString(@"Stakes", nil);
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }

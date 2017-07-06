@@ -39,11 +39,11 @@
 	self.gameType = @"All";
 	
 	[super viewDidLoad];
-	[self setTitle:@"Reports"];
+	[self setTitle:NSLocalizedString(@"Reports", nil)];
 	
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	
 	activityBGView.alpha=0;
@@ -54,7 +54,6 @@
 	
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
-	[gameSegment setWidth:60 forSegmentAtIndex:0];
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
 	
 	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
@@ -69,8 +68,11 @@
 	
 	refreshButton.enabled=NO;
 	
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[self.topSegment setTitle:NSLocalizedString(@"Profit", nil) forSegmentAtIndex:0];
+	[self.topSegment setTitle:NSLocalizedString(@"Hourly", nil) forSegmentAtIndex:1];
+	[self.topSegment setTitle:NSLocalizedString(@"Games", nil) forSegmentAtIndex:2];
 	
 }
 
@@ -196,236 +198,109 @@
 -(void)doTheHardWork {
 	@autoreleasepool {
 		NSLog(@"doTheHardWork");
-//    [NSThread sleepForTimeInterval:1];
-    
+		
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
         PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
         [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
-
-        
-	[sectionTitles removeAllObjects];
-	[multiDimentionalValues removeAllObjects];
-	[multiDimentionalValues0 removeAllObjects];
-	[multiDimentionalValues1 removeAllObjects];
-	[multiDimentionalValues2 removeAllObjects];
-
-	NSArray *sectionList = [NSArray arrayWithObjects:@"Type", @"gametype", @"location", @"stakes", @"limit", @"year", nil];
-	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
-	for(NSString *sectionField in sectionList) {
-		NSLog(@"sectionField: %@", sectionField);
-		NSMutableArray *valueArray = [[NSMutableArray alloc] init];
-		NSMutableArray *typeList = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
 		
-		NSArray *items = [CoreDataLib selectRowsFromTable:[sectionField uppercaseString] mOC:contextLocal];
-		for(NSManagedObject *mo in items)
-			[typeList addObject:[mo valueForKey:@"name"]];
+		[sectionTitles removeAllObjects];
+		[multiDimentionalValues removeAllObjects];
+		[multiDimentionalValues0 removeAllObjects];
+		[multiDimentionalValues1 removeAllObjects];
+		[multiDimentionalValues2 removeAllObjects];
 		
-		for(NSString *type in typeList) {
-			NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField];
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, type];
-                NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-                NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-                int winnings = [[values stringAtIndex:0] intValue];
-                int gameCount = [[values stringAtIndex:1] intValue];
-                int minutes = [[values stringAtIndex:2] intValue];
-
-			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-                    
-				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, type, secondaryNumber]];
-				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
-                                            type, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
-				[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
-                                            type, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
-				[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
-                                            type, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
-			}
-		}
-		if([valueArray count]>0) {
-			[sectionTitles addObject:sectionField];
-			[multiDimentionalValues addObject:valueArray];
-                [multiDimentionalValues0 addObject:valueArray0];
-                [multiDimentionalValues1 addObject:valueArray1];
-                [multiDimentionalValues2 addObject:valueArray2];
-		}
-	} // <-- for
-
-
-        if([sectionTitles count]==0)
-		[ProjectFunctions showAlertPopup:@"No Records" message:@"No results for that search"];
-
-	activityBGView.alpha=0;
-
-
-        mainTableView.alpha=1;
-	[mainTableView reloadData];
-	[self performSelectorInBackground:@selector(calcMoreStats) withObject:nil];
-	 
+		NSArray *sectionList = [NSArray arrayWithObjects:@"Type", @"gametype", @"location", @"stakes", @"limit", @"year", @"weekday", @"month", @"daytime", nil];
+		for(NSString *sectionField in sectionList) {
+			NSLog(@"sectionField: %@", sectionField);
+			[self populateArrayForField:sectionField context:contextLocal];
+			
+		} // <-- for
+		
+		if([sectionTitles count]==0)
+			[ProjectFunctions showAlertPopup:@"No Records" message:@"No results for that search"];
+		
+		activityBGView.alpha=0;
+		mainTableView.alpha=1;
+		[self calcMoreStats];
+//		[self performSelectorInBackground:@selector(calcMoreStats) withObject:nil];
 	}
+}
+
+-(NSArray *)getValuesForField:(NSString *)field context:(NSManagedObjectContext *)context {
+	NSMutableDictionary *daysOfWeekDict = [[NSMutableDictionary alloc] init];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
+	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:context ascendingFlg:NO];
+	for (NSManagedObject *mo in allGames) {
+		[daysOfWeekDict setObject:@"1" forKey:[mo valueForKey:field]];
+	}
+	return [daysOfWeekDict allKeys];
+}
+
+-(void)populateArrayForField:(NSString *)field context:(NSManagedObjectContext *)contextLocal {
+	NSMutableArray *valueArray = [[NSMutableArray alloc] init];
+	NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
+	NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
+	NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+	NSArray *days = [self getValuesForField:field context:contextLocal];
+	for(NSString *day in days) {
+		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = '%@'", basicPred, field, day];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
+		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
+		int winnings = [[values stringAtIndex:0] intValue];
+		int gameCount = [[values stringAtIndex:1] intValue];
+		int minutes = [[values stringAtIndex:2] intValue];
+		
+		if(gameCount>0) {
+			int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+			int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+			
+			[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
+			[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
+									day,
+									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
+			[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
+									day,
+									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
+			[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
+									day,
+									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
+		}
+	}
+	[sectionTitles addObject:NSLocalizedString([field capitalizedString], nil)];
+	[multiDimentionalValues addObject:valueArray];
+	[multiDimentionalValues0 addObject:valueArray0];
+	[multiDimentionalValues1 addObject:valueArray1];
+	[multiDimentionalValues2 addObject:valueArray2];
 }
 
 - (void)calcMoreStats
 {
 	@autoreleasepool {
-		NSLog(@"calcMoreStats");
-		[NSThread sleepForTimeInterval:1];
 		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
-        [contextLocal setUndoManager:nil];
-        
-        PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
-
- 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
- 
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
-        
-        [sectionTitles addObject:@"Dealer Tokes"];
-        NSString *tokeString = [CoreDataLib getGameStat:contextLocal dataField:@"tokeString" predicate:predicate];
-	[multiDimentionalValues addObject:[NSArray arrayWithObjects:tokeString, nil]];
-	[multiDimentionalValues0 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-	[multiDimentionalValues1 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-	[multiDimentionalValues2 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-	
-	if(1) {
-		// weekdays
-		NSMutableArray *valueArray = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
-		NSArray *days = [NSArray arrayWithObjects:@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday", nil];
-		for(NSString *day in days) {
-			NSString *predString = [NSString stringWithFormat:@"%@ AND weekday = '%@'", basicPred, day];
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-                NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-                NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-                int winnings = [[values stringAtIndex:0] intValue];
-                int gameCount = [[values stringAtIndex:1] intValue];
-                int minutes = [[values stringAtIndex:2] intValue];
-                
-			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-                    
-				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
-				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
-				[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
-				[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
-			}
- 		}
-		[sectionTitles addObject:@"Weekdays"];
-		[multiDimentionalValues addObject:valueArray];
-		[multiDimentionalValues0 addObject:valueArray0];
-		[multiDimentionalValues1 addObject:valueArray1];
-		[multiDimentionalValues2 addObject:valueArray2];
-	}
-	
-	if(1) {
-		// months
-		NSMutableArray *valueArray = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
-		NSArray *days = [NSArray arrayWithObjects:@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December", nil];
-		for(NSString *day in days) {
-			NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, day];
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-                NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-                NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-                int winnings = [[values stringAtIndex:0] intValue];
-                int gameCount = [[values stringAtIndex:1] intValue];
-                int minutes = [[values stringAtIndex:2] intValue];
-                
-			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-                    
-				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
-				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
-				[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
-				[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
-			}
-		}
-		[sectionTitles addObject:@"Months"];
-		[multiDimentionalValues addObject:valueArray];
-		[multiDimentionalValues0 addObject:valueArray0];
-		[multiDimentionalValues1 addObject:valueArray1];
-		[multiDimentionalValues2 addObject:valueArray2];
-	}
-	
-
-        if(1) {
-		// daytime
-		NSMutableArray *valueArray = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
-		NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
-		NSArray *days = [NSArray arrayWithObjects:@"Morning", @"Afternoon", @"Evening", @"Night", nil];
-		for(NSString *day in days) {
-			NSString *predString = [NSString stringWithFormat:@"%@ AND daytime = '%@'", basicPred, day];
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-                
-                NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-                NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-                int winnings = [[values stringAtIndex:0] intValue];
-                int gameCount = [[values stringAtIndex:1] intValue];
-                int minutes = [[values stringAtIndex:2] intValue];
-                
-			if(gameCount>0) {
-				int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-				int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
-                    
-				[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
-				[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
-				[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
-				[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d", 
-                                            [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
-                                            day, 
-                                            [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
-			}
-		}
-		[sectionTitles addObject:@"DayTime"];
-		[multiDimentionalValues addObject:valueArray];
-		[multiDimentionalValues0 addObject:valueArray0];
-		[multiDimentionalValues1 addObject:valueArray1];
-		[multiDimentionalValues2 addObject:valueArray2];
-	}
-        
+		[contextLocal setUndoManager:nil];
+		
+		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+		
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+		
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
+		
+		[sectionTitles addObject:NSLocalizedString(@"Tips", nil)];
+		NSString *tokeString = [CoreDataLib getGameStat:contextLocal dataField:@"tokeString" predicate:predicate];
+		[multiDimentionalValues addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues0 addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues1 addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues2 addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		
 		[activityIndicator stopAnimating];
 		
 		self.viewLocked=NO;
@@ -437,7 +312,6 @@
 		
 		self.bankRollSegment.enabled=YES;
 		self.bankrollButton.enabled=YES;
-		NSLog(@"done");
 		[mainTableView reloadData];
 	}
 }
@@ -509,7 +383,7 @@
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.4];
 	}
 	cell.mainTitle = [[sectionTitles stringAtIndex:(int)indexPath.section] capitalizedString];
-	NSArray *filterOptions = [NSArray arrayWithObjects:@"Total Money", @"Hourly", @"# Games", nil];
+	NSArray *filterOptions = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Games", nil), nil];
 	cell.alternateTitle = [filterOptions stringAtIndex:(int)topSegment.selectedSegmentIndex];
 	
 	NSMutableArray *titles = [[NSMutableArray alloc] init];
@@ -541,7 +415,7 @@
 			colorVal = secondaryValue;
 		}
 		[titles addObject:title];
-		if([[sectionTitles stringAtIndex:(int)indexPath.section] isEqualToString:@"Dealer Tokes"]) {
+		if([[sectionTitles stringAtIndex:(int)indexPath.section] isEqualToString:NSLocalizedString(@"Tips", nil)]) {
 			primaryTxt = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:primaryValue+50000000]];
 			secondaryTxt = [NSString stringWithFormat:@" (%d%% of profit)", secondaryValue];
 		}

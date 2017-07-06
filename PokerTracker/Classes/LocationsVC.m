@@ -203,7 +203,7 @@
 			[colors addObject:[UIColor blackColor]];
 			
 	}
-	cell.mainTitle = @"Location";
+	cell.mainTitle = NSLocalizedString(@"Location", nil);
 	cell.alternateTitle = @"Distance";
 	cell.titleTextArray = lables;
 	cell.fieldTextArray = values;

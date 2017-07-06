@@ -1,0 +1,94 @@
+/* 
+  Localizable.strings
+  PokerTracker
+
+  Created by Rick Medved on 7/3/17.
+
+*/
+
+"Main Menu" = "Menú Principal";
+"Games" = "Juegos";
+"Stats" = "Gráfica";
+"Odds" = "Posibilidades";
+"Trackers" = "Seguidores";
+"Forum" = "Foro";
+"Net Tracker" = "Global";
+"Casino Locator" = "Localizador de Casino";
+"New Game" = "Nuevo Juego";
+"Analysis" = "Análisis";
+"Last 10 Games" = "Últimos 10 Juegos";
+"Edit" = "Editar";
+"roiNameLabel" = "Retorno de la inversión (ROI)";
+"All" = "Todas";
+"Cash" = "Efectivo";
+"Tournaments" = "Torneos";
+"Tips" = "Propinas";
+"Streak" = "Racha";
+"Risked" = "Arriesgado";
+"Profit" = "Lucro";
+"ROI" = "ROI";
+"Hours" = "Horas";
+"Hourly" = "Cada Hora";
+"Last Played" = "Jugado por última vez";
+"Last Game" = "Último juego";
+"LifeTime" = "Todas";
+"Last10" = "Últimos 10";
+"Game" = "Juego";
+"Location" = "Localización";
+"Bankroll" = "Financiar";
+"Retry" = "Rever";
+"Buyin" = "Compra";
+"Start" = "Empezar";
+"Completed" = "¿Terminado?";
+"Cashout" = "Dinero Final";
+"Options" = "Opciones";
+"Export" = "Exportar";
+"Import" = "Importar";
+"Clear" = "Borrar datos de Servidor";
+"ImportJournal" = "Importar Poker Jounral Datos";
+"ImportIncome" = "Importar Poker Income Datos";
+"Delete" = "Eliminar Todos los Datos";
+"Email" = "Email Mis Datos en Excel";
+"Cleanup" = "Cleanuo Ref Datos";
+"Resync" = "Re-Sync Net Tracker";
+"foodDrink" = "Comida/Bebida";
+"StartTime" = "Hora de Inicio";
+"EndTime" = "Hora de Finalización";
+"Name" = "Nombre";
+"Limit" = "Límite";
+"Re-buy Amount" = "Re-compra Cantidad";
+"Number of Rebuys" = "Número de Rebajas";
+"Notes" = "Notas";
+"Minutes on Break" = "Minutos de Descanso";
+"Stakes" = "Apuestas";
+"Reports" = "Informes";
+"Charts" = "Gráficos";
+"Goals" = "Metas";
+"Current Chips" = "Chips Actuales";
+"End" = "Fin";
+"Pause" = "Pausa";
+"Year" = "Año";
+"Weekday" = "Día Laborable";
+"Day" = "Día";
+"Month" = "Mes";
+"Daytime" = "Tiempo de Día";
+"Gametype" = "Juego";
+"Type" = "Tipo";
+"Welcome" = "Bienvenido a";
+"Welcome2" = "Ingrese el monto de sus fondos iniciales:";
+"LeavingGame" = "Dejando juego con";
+"Cancel" = "Cancelar";
+"OK" = "Sí";
+"Morning" = "Mañana";
+"Afternoon" = "Tarde";
+"Evening" = "Anochecer";
+"Night" = "Noche";
+"Details" = "Detalles";
+"IncomeTotal" = "Ingresos Totales";
+"GameMinutes" = "Minutos de Juego";
+"Take-Home" = "Llevar a Casa";
+"upgradeMessage" = "Esta función sólo está disponible con la versión Pro de esta aplicación. Presiona 'Upgrade' en el menú principal.";
+"loginMessage" = "Debe iniciar sesión para utilizar esta función. Haga clic en el botón 'Login' en el menú 'Opciones'.";
+"upgradeText" = "Gracias por probar Poker Track Lite. Creemos que es de lejos la mejor aplicación de seguimiento de poker jamás creada.\n\nSin embargo, debe saber que la versión Pro de esta aplicación no es gratuita. Para desbloquear todas las funciones que necesitará actualizar. La versión lite sólo sigue las estadísticas en 5 juegos. (Otras características como la calculadora de probabilidades están siempre disponibles incluyendo con la versión lite).\n\nSi te gusta la aplicación y quieres más de 5 juegos de estadísticas, te pedimos que actualices la versión completa y esperamos que te guste.\n\nPTP es la única aplicación con todas estas características:\n* Entrada de juego en tiempo real\n* Calculadora de probabilidades\n* Gráficos y gráficos más completos\n* Net Tracker\n* Amigo Tracker\n* Reproductor Tracker\nRastreador de mano\n* Casino Tracker\nChip Tracker\n* Importación y exportación\n\nForo\n* Análisis AI\n* Consejos y consejos\n\nPTP viene con una garantía. Si tu juego no mejora como resultado de esta aplicación, ¡recuperas tu dinero!";
+"ExportText" = "La exportación guarda sus datos en un servidor para que pueda importarlo a un dispositivo nuevo. Nota: Los datos NO son respaldados automáticamente al entrar en nuevos juegos. Debe exportarlo manualmente aquí.";
+

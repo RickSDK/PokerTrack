@@ -26,6 +26,7 @@
 	IBOutlet UILabel *userLabel;
 	IBOutlet UILabel *emailLabel;
 	IBOutlet UILabel *importProgressLabel;
+	IBOutlet UILabel *exportTextLabel;
 	IBOutlet UITableView *mainTableView;
 
 	IBOutlet UIImageView *importPopup;
@@ -79,6 +80,7 @@
 @property (atomic, strong) UILabel *userLabel;
 @property (atomic, strong) UILabel *emailLabel;
 @property (atomic, strong) UILabel *importProgressLabel;
+@property (atomic, strong) UILabel *exportTextLabel;
 @property (atomic, strong) UIImageView *activityBG;
 @property (atomic, strong) UIImageView *activityPopup;
 @property (nonatomic, strong) UITableView *mainTableView;

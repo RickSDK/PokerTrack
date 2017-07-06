@@ -124,7 +124,7 @@
 	[nextButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[nextButton setBackgroundImage:[UIImage imageNamed:@"tealButton.png"] forState:UIControlStateNormal];
 	
-	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = homeButton;
 
 	[self displayMail];

@@ -17,6 +17,7 @@
                 <outlet property="botView" destination="HcZ-gq-xfZ" id="sxK-97-XLn"/>
                 <outlet property="casinoButton" destination="71" id="121"/>
                 <outlet property="casinoLabel" destination="73" id="122"/>
+                <outlet property="editButton" destination="qK4-nz-Rvz" id="EQX-R7-qtt"/>
                 <outlet property="emailButton" destination="85" id="86"/>
                 <outlet property="forumButton" destination="31" id="80l-BJ-GCF"/>
                 <outlet property="forumNumCircle" destination="129" id="131"/>
@@ -103,8 +104,8 @@
                                 <action selector="casinoTrackerClicked:" destination="-1" eventType="touchDown" id="72"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Casino Locator" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="8" id="73">
-                            <rect key="frame" x="8" y="17" width="90" height="22"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Casino Locator" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="8" id="73">
+                            <rect key="frame" x="8" y="7" width="90" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -291,7 +292,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="67">
-                    <rect key="frame" x="100" y="22" width="125" height="48"/>
+                    <rect key="frame" x="100" y="24" width="135" height="48"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="18"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -538,7 +539,7 @@ Version 6.7 (11/15/2012)
                             <rect key="frame" x="0.0" y="5" width="120" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>

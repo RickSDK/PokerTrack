@@ -524,7 +524,7 @@
 		percent = tokes*100/winnings;
     
     if([dataField isEqualToString:@"tokeString"])
-        return [NSString stringWithFormat:@"%d|Dealer Tips|%d", tokes, percent];
+        return [NSString stringWithFormat:@"%d|%@|%d", tokes, NSLocalizedString(@"Tips", nil), percent];
 
     int rating=100;
     if(amountRisked>0)

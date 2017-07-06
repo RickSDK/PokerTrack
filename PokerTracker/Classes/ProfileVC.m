@@ -160,8 +160,9 @@
 	}
 
 	
-	UIBarButtonItem *mainMenuButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.leftBarButtonItem = mainMenuButton;
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//	UIBarButtonItem *mainMenuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+//	self.navigationItem.leftBarButtonItem = mainMenuButton;
 	
 	NSString *buttonName = (viewEditable)?@"Save":@"Edit";
 	saveEditButton = [ProjectFunctions navigationButtonWithTitle:buttonName selector:@selector(saveButtonClicked:) target:self];

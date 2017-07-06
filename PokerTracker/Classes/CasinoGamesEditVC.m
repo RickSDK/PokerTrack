@@ -94,7 +94,7 @@
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"casino_id", @"data", nil];
 		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], casino_idStr, data, nil];
 		if([valueList count]==0) {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"You must be logged in to use this feature. From the main menu click 'More' at the top, then 'Login'"];
+			[ProjectFunctions displayLoginMessage];
 			return;
 		}
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerCasinoUpdateGames.php";

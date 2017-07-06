@@ -20,6 +20,7 @@
 @property (strong, nonatomic) SKProduct *proUpgradeProduct;
 @property (strong, nonatomic) SKProductsRequest *productsRequest;
 @property (strong, nonatomic) NSString *productID;
+@property (strong, nonatomic) IBOutlet UITextView *messageTextView;
 @property (nonatomic) int touchCount;
 
 - (void)loadStore;

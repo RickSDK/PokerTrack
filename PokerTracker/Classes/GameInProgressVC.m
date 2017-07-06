@@ -27,7 +27,7 @@
 
 
 @implementation GameInProgressVC
-@synthesize managedObjectContext, mo;
+@synthesize managedObjectContext, mo, clockLabel, notesButton, graphButton;
 @synthesize foodButton, tokesButton, chipStackButton, rebuyButton, pauseButton, doneButton;
 @synthesize onBreakLabel, timerLabel, buyinLabel, rebuysLabel, rebuyAmountLabel, hourlyLabel, grossLabel, takehomeLabel, profitLabel, pauseTimerLabel;
 @synthesize activityIndicator, selectedObjectForEdit, grayPauseBG, infoImage, infoScreenShown;
@@ -38,20 +38,37 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[self setTitle:@"In Progress"];
+	[self setTitle:NSLocalizedString(@"Game", nil)];
 	
 	self.userData = [[NSString alloc] init];
 	self.valuesArray = [[NSMutableArray alloc] init];
 	self.colorsArray = [[NSMutableArray alloc] init];
 	
+	self.currentStackLabel.text = NSLocalizedString(@"Current Chips", nil);
+	self.tokesLabel.text = NSLocalizedString(@"Tips", nil);
+	self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
+	self.foodLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString fontAwesomeIconStringForEnum:FACutlery], [NSString fontAwesomeIconStringForEnum:FAGlass]];
+
+	self.pauseButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPause] forState:UIControlStateNormal];
+	self.notesButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.notesButton setTitle:[NSString fontAwesomeIconStringForEnum:FAComment] forState:UIControlStateNormal];
+	self.editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
+	self.doneButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.doneButton setTitle:[NSString fontAwesomeIconStringForEnum:FAStop] forState:UIControlStateNormal];
+	self.graphButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
+	[self.graphButton setTitle:[NSString fontAwesomeIconStringForEnum:FAlineChart] forState:UIControlStateNormal];
+	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
+	self.clockLabel.text = [NSString fontAwesomeIconStringForEnum:FAClockO];
+
 	self.mainTableView.tableHeaderView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.01f)];
 	
 	[UIApplication sharedApplication].applicationIconBadgeNumber=1;
-	
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Main Menu" selector:@selector(mainMenuButtonClicked:) target:self];
-	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Info" selector:@selector(infoButtonClicked:) target:self];;
-	
+
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(infoButtonClicked:)];
+
 	pauseTimerLabel.alpha=0;
 	onBreakLabel.alpha=0;
 	[activityIndicator startAnimating];
@@ -170,7 +187,7 @@
 		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		[detailViewController setCallBackViewController:self];
-		detailViewController.titleLabel = @"Total Dealer Tips";
+		detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
 		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
@@ -194,7 +211,7 @@
 {
 	self.selectedObjectForEdit=4;
     self.popupViewNumber=99;
-    [ProjectFunctions showTwoButtonPopupWithTitle:@"Rebuy" message:@"Select Rebuy Type" button1:@"Add-on" button2:@"Re-buy" delegate:self];
+    [ProjectFunctions showTwoButtonPopupWithTitle:NSLocalizedString(@"Re-buy Amount", nil) message:@"Select Rebuy Type" button1:@"Add-on" button2:@"Re-buy" delegate:self];
     
 }
 
@@ -205,7 +222,7 @@
 	[activityIndicator stopAnimating];
 	onBreakLabel.alpha=1;
 	grayPauseBG.alpha=.5;
-	[pauseButton setTitle:@"Resume" forState:UIControlStateNormal];
+	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPlay] forState:UIControlStateNormal];
 }
 
 -(void)unPauseScreen {
@@ -214,7 +231,7 @@
 	[activityIndicator startAnimating];
 	onBreakLabel.alpha=0;
 	grayPauseBG.alpha=0;
-	[pauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPause] forState:UIControlStateNormal];
 }
 
 - (IBAction) pauseButtonPressed: (id) sender
@@ -300,9 +317,9 @@
 	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	
-	float foodMoney = [ProjectFunctions getMoneyValueFromText:foodButton.titleLabel.text];
-	float tokes = [ProjectFunctions getMoneyValueFromText:tokesButton.titleLabel.text];
-	double chips = [ProjectFunctions getMoneyValueFromText:chipStackButton.titleLabel.text];
+	float foodMoney = [ProjectFunctions convertMoneyStringToDouble:foodButton.titleLabel.text];
+	float tokes = [ProjectFunctions convertMoneyStringToDouble:tokesButton.titleLabel.text];
+	double chips = [ProjectFunctions convertMoneyStringToDouble:chipStackButton.titleLabel.text];
 	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
 		[mo setValue:[NSNumber numberWithInt:foodMoney] forKey:@"tournamentSpots"];
 		[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tournamentFinish"];
@@ -379,7 +396,7 @@
     
     NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%ldRow%ld", (long)indexPath.section, (long)indexPath.row];
 
-	NSArray *titles = [NSArray arrayWithObjects:@"Game Type", @"BuyIn", @"# Rebuys", @"Rebuy Amount", @"Current Chips", @"Gross Earnings", @"Take-Home", @"Net Profit", @"Game Minutes", @"Notes", nil];
+	NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Type", nil), NSLocalizedString(@"Buyin", nil), NSLocalizedString(@"Number of Rebuys", nil), NSLocalizedString(@"Re-buy Amount", nil), NSLocalizedString(@"Current Chips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Take-Home", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"GameMinutes", nil), NSLocalizedString(@"Notes", nil), nil];
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:[titles count] labelProportion:0.5];
@@ -443,7 +460,7 @@
             MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
             detailViewController.managedObjectContext=managedObjectContext;
             [detailViewController setCallBackViewController:self];
-            detailViewController.titleLabel = @"Re-buy Amount";
+            detailViewController.titleLabel = NSLocalizedString(@"Re-buy Amount", nil);
             detailViewController.initialDateValue = intitialAmount;
             [self.navigationController pushViewController:detailViewController animated:YES];
         } else {
@@ -460,7 +477,7 @@
 
 - (IBAction) doneButtonPressed: (id) sender
 {
-	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"Leaving game with %@?", chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];
+	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];
 }
 
 -(void)refreshScreen
@@ -510,8 +527,8 @@
         } else {
             foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
             tokesMoney = [[mo valueForKey:@"tokes"] intValue];
-            foodButtonText = [NSString stringWithFormat:@"%@%d", [ProjectFunctions getMoneySymbol], [[mo valueForKey:@"foodDrinks"] intValue]];
-            tokesButtonText = [NSString stringWithFormat:@"%@%d", [ProjectFunctions getMoneySymbol], [[mo valueForKey:@"tokes"] intValue]];
+			foodButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"foodDrinks"] intValue]]];
+			tokesButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"tokes"] intValue]]];
         }
         chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
         
@@ -556,9 +573,11 @@
         
         // hourly-----
         NSString *hourlytext = @"-";
-        if(totalSeconds>0)
-            hourlytext = [NSString stringWithFormat:@"%@%d/hr", [ProjectFunctions getMoneySymbol], (int)netProfit*3600/totalSeconds];
-        
+	if(totalSeconds>0) {
+		int amountHr = ceil(netProfit*3600/totalSeconds);
+		hourlytext = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString: amountHr]];
+	}
+	
         // colors
         if(netProfit>=0) {
             hourlyLabel.textColor = [UIColor yellowColor];
@@ -689,7 +708,7 @@
 
 	
 	[self.valuesArray removeAllObjects];
-	[self.valuesArray addObject:[self.mo valueForKey:@"Type"]];
+	[self.valuesArray addObject:NSLocalizedString([self.mo valueForKey:@"Type"], nil)];
 	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"buyInAmount"] doubleValue]]];
 	[self.valuesArray addObject:[NSString stringWithFormat:@"%d", (int)[[self.mo valueForKey:@"numRebuys"] intValue]]];
 	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] doubleValue]]];
@@ -702,7 +721,7 @@
 	self.startDate = [mo valueForKey:@"startTime"];
 	int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
 	if(totalSeconds>0)
-		[self.valuesArray addObject:[NSString stringWithFormat:@"%@ (%@/hr)", [ProjectFunctions convertNumberToMoneyString:self.netProfit], [ProjectFunctions convertNumberToMoneyString:self.netProfit*3600/totalSeconds]]];
+		[self.valuesArray addObject:[NSString stringWithFormat:@"%@ (%@/hr)", [ProjectFunctions convertNumberToMoneyString:self.netProfit], [ProjectFunctions convertNumberToMoneyString:ceil(self.netProfit*3600/totalSeconds)]]];
 	else
 		[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:self.netProfit]];
 	

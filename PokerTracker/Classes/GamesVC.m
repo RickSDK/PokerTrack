@@ -33,7 +33,7 @@
 
 @implementation GamesVC
 @synthesize managedObjectContext;
-@synthesize showMainMenuButton, moneyLabel, gamesLabel, activityIndicator, bankrollButton, roiLabel;
+@synthesize showMainMenuButton, moneyLabel, gamesLabel, activityIndicator, bankrollButton, roiLabel, roiNameLabel;
 @synthesize displayYear, yearLabel, leftYear, rightYear, mainTableView, gamesList, gameTypeSegment, yearToolbar, bankRollSegment;
 
 
@@ -52,7 +52,9 @@
 	
 	self.gamesList = [[NSMutableArray alloc] init];
 	[self.mainTableView setBackgroundView:nil];
-	[self setTitle:@"Games"];
+	[self setTitle:NSLocalizedString(@"Games", nil)];
+	
+	self.roiNameLabel.text = NSLocalizedString(@"roiNameLabel", nil);
 	
 	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
@@ -67,10 +69,8 @@
 	
 	[self.yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[self.yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
-	[ProjectFunctions makeSegment:self.gameTypeSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
-	[self.gameTypeSegment setWidth:60 forSegmentAtIndex:0];
+
+	[ProjectFunctions makeGameSegment:self.gameTypeSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.gameTypeSegment.selectedSegmentIndex];
 	if([gameType isEqualToString:@"Tournament"])
 		self.gameTypeSegment.selectedSegmentIndex=2;
@@ -83,8 +83,9 @@
 	
 	
 	if(showMainMenuButton) {
-		UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-		self.navigationItem.leftBarButtonItem = homeButton;
+		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+//		UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+//		self.navigationItem.leftBarButtonItem = homeButton;
 	}
 	
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
@@ -129,7 +130,6 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-//	[ProjectFunctions setFontColorForSegment:self.gameTypeSegment values:nil];
 	[self.mainSegment changeSegment];
 	[self computeStats];
 }
@@ -163,7 +163,7 @@
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		
 		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
-		NSString *labelStr = [NSString stringWithFormat:@"Games: %@", gameString];
+		NSString *labelStr = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Games", nil), gameString];
 		double winnings = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
 		double risked = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"amountRisked" predicate:predicate] doubleValue];
 		int percent = 0;
@@ -174,7 +174,6 @@
 		
 		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:winnings];
 
-		NSLog(@"+++winnings %f", winnings);
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
 		[self.roiLabel performSelectorOnMainThread:@selector(setText: ) withObject:roiString waitUntilDone:NO];
@@ -259,11 +258,19 @@
 
 	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	[GameCell populateCell:cell obj:mo evenFlg:indexPath.row%2==0];
+	[self checkToScrubDataForObj:mo context:self.managedObjectContext];
 
 	return cell;
 
 }
 
+-(void)checkToScrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
+	NSString *daytime = [mo valueForKey:@"daytime"];
+	NSString *daytime2 = [ProjectFunctions getDayTimeFromDate:[mo valueForKey:@"startTime"]];
+	if (![daytime isEqualToString:daytime2])
+		 [ProjectFunctions scrubDataForObj:mo context:context];
+}
+		 
 - (NSFetchedResultsController *)fetchedResultsController
 {
 	if (_fetchedResultsController != nil && self.fetchIsReady) {

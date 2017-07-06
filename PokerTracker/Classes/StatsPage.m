@@ -64,9 +64,9 @@
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.chartImageView2];
 
 	
-	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
+	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Limit", nil), @"Stakes", NSLocalizedString(@"Location", nil), @"Bankroll", @"Tournament Type", nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"risked", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", @"ROI", nil]];
-	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"LifeTime", @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
+	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:NSLocalizedString(@"LifeTime", nil), @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
 	profitArray = [[NSMutableArray alloc] init];
 	chartImageView = [[UIImageView alloc] init];
 	
@@ -88,11 +88,12 @@
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	
-	[self setTitle:@"Stats Page"];
+	[self setTitle:NSLocalizedString(@"Stats", nil)];
 	[super viewDidLoad];
 	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFilter] target:self action:@selector(filtersButtonClicked:)];
 	
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
 
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
@@ -111,7 +112,7 @@
 		bankRollSegment.alpha=0;
 	}
 	
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	[self setupButtons];
@@ -126,13 +127,13 @@
 	[self.last10Button setTitle:[NSString stringWithFormat:@"%@ Last 10", [NSString fontAwesomeIconStringForEnum:FAListOl]] forState:UIControlStateNormal];
 	
 	self.chartsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.chartsButton setTitle:[NSString stringWithFormat:@"%@ Charts", [NSString fontAwesomeIconStringForEnum:FABarChartO]] forState:UIControlStateNormal];
+	[self.chartsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FABarChartO], NSLocalizedString(@"Charts", nil)] forState:UIControlStateNormal];
 	
 	self.reportsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.reportsButton setTitle:[NSString stringWithFormat:@"%@ Reports", [NSString fontAwesomeIconStringForEnum:FAList]] forState:UIControlStateNormal];
+	[self.reportsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAList], NSLocalizedString(@"Reports", nil)] forState:UIControlStateNormal];
 	
 	self.goalsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.goalsButton setTitle:[NSString stringWithFormat:@"%@ Goals", [NSString fontAwesomeIconStringForEnum:FAStar]] forState:UIControlStateNormal];
+	[self.goalsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAStar], NSLocalizedString(@"Goals", nil)] forState:UIControlStateNormal];
 	
 }
 
@@ -265,7 +266,7 @@
 	if(customSegment.selectedSegmentIndex>0) {
         self.displayYear=0;
 		gameSegment.selectedSegmentIndex = 0;
-		[formDataArray replaceObjectAtIndex:0 withObject:@"LifeTime"];
+		[formDataArray replaceObjectAtIndex:0 withObject:NSLocalizedString(@"LifeTime", nil)];
 		[formDataArray replaceObjectAtIndex:1 withObject:@"All Games Types"];
 		NSString *button = [NSString stringWithFormat:@"%d", (int)customSegment.selectedSegmentIndex];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %@", button];
@@ -553,7 +554,7 @@
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.5];
 	}
 	NSArray *titles = [NSArray arrayWithObjects:@"1", @"2", @"3", @"Games Won", @"Games Lost", @"All Games", nil];
-	NSArray *labels = [NSArray arrayWithObjects:@"Games", @"Average Risked", @"Min Profit", @"Max Profit", @"Average Profit", @"Standard Deviation", @"Target Deviation", @"Trend", nil];
+	NSArray *labels = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), @"Average Risked", @"Min Profit", @"Max Profit", @"Average Profit", @"Standard Deviation", @"Target Deviation", @"Trend", nil];
 	cell.mainTitle = [titles stringAtIndex:(int)indexPath.section];
 	
 	if([multiDimenArray count]<=indexPath.section)
@@ -584,7 +585,7 @@
 -(NSArray *)getListOfYears
 {
 	NSMutableArray *list = [[NSMutableArray alloc] init];
-	[list addObject:@"LifeTime"];
+	[list addObject:NSLocalizedString(@"LifeTime", nil)];
 	[list addObject:@"*Custom*"];
 	[list addObject:@"This Month"];
 	[list addObject:@"Last Month"];

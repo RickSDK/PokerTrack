@@ -33,7 +33,7 @@
 
 @synthesize managedObjectContext, gameType, statsArray, labelValues, currentFilterLabel, timeFramLabel;
 @synthesize formDataArray, selectedFieldIndex, mainTableView, gameSegment, customSegment;
-@synthesize displayBySession, activityBGView, activityIndicator, chartImageView, gamesList;
+@synthesize displayBySession, activityBGView, activityIndicator, chartImageView, gamesList, displayLabelValues;
 @synthesize displayYear, yearLabel, leftYear, rightYear, viewLocked, yearToolbar, buttonNum, filterObj;
 
 
@@ -49,9 +49,11 @@
 }
 
 - (void)viewDidLoad {
+	
+	displayLabelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Limit", nil), NSLocalizedString(@"Stakes", nil), NSLocalizedString(@"Location", nil), NSLocalizedString(@"Bankroll", nil), @"Tournament Type", nil]];
 	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", nil]];
-	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"LifeTime", @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
+	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:NSLocalizedString(@"LifeTime", nil), @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
 	gamesList = [[NSMutableArray alloc] init];
 	
 	self.chartImageView = [[UIImageView alloc] init];
@@ -79,9 +81,8 @@
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"View" selector:@selector(mainMenuButtonClicked:) target:self];
-	
-//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"View" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASearch] target:self action:@selector(mainMenuButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"View" selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	self.chartImageView.alpha=0;
 	
@@ -370,7 +371,7 @@
 		cell.mainTitle = @"Game Stats";
 		cell.alternateTitle = [formDataArray objectAtIndex:0];
 		
-		NSArray *titles = [NSArray arrayWithObjects:@"Profit", @"Risked", @"Games", @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", @"Hourly Rate", @"ROI", nil];
+		NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", NSLocalizedString(@"Hourly", nil), @"ROI", nil];
 		NSMutableArray *colorArray = [[NSMutableArray alloc] init];
 		
 		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:0] intValue]]];
@@ -435,11 +436,12 @@
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
 		
-		cell.textLabel.text = [labelValues objectAtIndex:indexPath.row];
+//		cell.textLabel.text = [labelValues objectAtIndex:indexPath.row];
+		cell.textLabel.text = [displayLabelValues objectAtIndex:indexPath.row];
 		cell.selection.text = [formDataArray objectAtIndex:indexPath.row];
 		NSString *value = [formDataArray objectAtIndex:indexPath.row];
 		if([value length]>2) {
-			if(indexPath.row<kSaveFilter && ![value isEqualToString:@"LifeTime"] && ![[value substringToIndex:3] isEqualToString:@"All"])
+			if(indexPath.row<kSaveFilter && ![value isEqualToString:NSLocalizedString(@"LifeTime", nil)] && ![[value substringToIndex:3] isEqualToString:@"All"])
 				cell.selection.textColor = [UIColor redColor];
 			else
 				cell.selection.textColor = [UIColor ATTBlue];
@@ -473,7 +475,7 @@
 -(NSArray *)getListOfYears
 {
 	NSMutableArray *list = [[NSMutableArray alloc] init];
-	[list addObject:@"LifeTime"];
+	[list addObject:NSLocalizedString(@"LifeTime", nil)];
 	[list addObject:@"*Custom*"];
 	[list addObject:@"This Month"];
 	[list addObject:@"Last Month"];

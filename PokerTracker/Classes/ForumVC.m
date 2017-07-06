@@ -14,6 +14,7 @@
 #import "ProjectFunctions.h"
 #import "ForumCell.h"
 #import "ProfileVC.h"
+#import "NSDate+ATTDate.h"
 
 
 @interface ForumVC ()
@@ -190,7 +191,6 @@
         cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"orngGrad.png"]];
         cell.textLabel.textColor = [UIColor blackColor];
         NSString *post = [[self.forumPostings objectAtIndex:indexPath.section] objectAtIndex:indexPath.row-1];
-        
         NSArray *parts = [post componentsSeparatedByString:@"|"];
         if([parts count]>9) {
             cell.titleLabel.text=[parts objectAtIndex:3];

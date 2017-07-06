@@ -14,6 +14,8 @@
 	IBOutlet UIButton *bankrollButton;
 	IBOutlet UIButton *enterButton;
 	IBOutlet UILabel *liteLabel;
+	IBOutlet UILabel *topLabel;
+	IBOutlet UILabel *welcomeLabel;
 }
 
 -(void)bankrollButtonClicked:(id)sender;
@@ -24,6 +26,8 @@
 @property (nonatomic, strong) UIButton *bankrollButton;
 @property (nonatomic, strong) UIButton *enterButton;
 @property (nonatomic, strong) UILabel *liteLabel;
+@property (nonatomic, strong) UILabel *topLabel;
+@property (nonatomic, strong) UILabel *welcomeLabel;
 
 
 @end

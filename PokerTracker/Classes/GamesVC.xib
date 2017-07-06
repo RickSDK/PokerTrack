@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1911" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -18,6 +18,7 @@
                 <outlet property="playerTypeImageView" destination="7Oe-hS-b0Y" id="XE5-sn-ii3"/>
                 <outlet property="rightYear" destination="xpA-FX-077" id="njF-Zs-wlE"/>
                 <outlet property="roiLabel" destination="eZY-nt-dai" id="ZYd-Lg-VaG"/>
+                <outlet property="roiNameLabel" destination="lfr-6n-TI6" id="vA7-BX-4rX"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="yearLabel" destination="13" id="16"/>
                 <outlet property="yearToolbar" destination="7" id="25"/>

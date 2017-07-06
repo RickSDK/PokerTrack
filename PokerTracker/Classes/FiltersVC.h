@@ -32,6 +32,7 @@
 
 	//---Gloabls----------------------------
 	NSMutableArray *labelValues;
+	NSMutableArray *displayLabelValues;
 	NSMutableArray *statsArray;
 	NSMutableArray *formDataArray;
 	NSMutableArray *gamesList;
@@ -46,11 +47,6 @@
 -(void)setFilterIndex:(int)row_id;
 -(void)chooseFilterObj:(NSManagedObject *)mo;
 
-//- (IBAction) yearSegmentPressed: (id) sender;
-//- (IBAction) gameSegmentPressed: (id) sender;
-//- (IBAction) customSegmentPressed: (id) sender;
-//- (IBAction) yearGoesDown: (id) sender;
-//- (IBAction) yearGoesUp: (id) sender;
 -(void) computeStats;
 -(void)initializeFormData;
 -(BOOL)saveNewFilter:(NSString *)valueCombo;
@@ -79,6 +75,7 @@
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @property (atomic, strong) NSMutableArray *labelValues;
+@property (atomic, strong) NSMutableArray *displayLabelValues;
 @property (atomic, strong) NSMutableArray *statsArray;
 @property (atomic, strong) NSMutableArray *formDataArray;
 @property (atomic, copy) NSString *gameType;

@@ -28,6 +28,9 @@
 	IBOutlet UIActivityIndicatorView *activityIndicatorServer;
 	IBOutlet UIImageView *textViewBG;
 	IBOutlet UILabel *activityLabel;
+	IBOutlet UILabel *hoursLabel;
+	IBOutlet UILabel *buyinLabel;
+	IBOutlet UILabel *cashoutLabel;
 	IBOutlet UILabel *buyinMoneyLabel;
 	IBOutlet UILabel *cashoutMoneyLabel;
 
@@ -54,6 +57,9 @@
 @property (nonatomic, strong) UITextField *buyinAmount;
 @property (nonatomic, strong) UITextField *cashOutAmount;
 @property (nonatomic, strong) UIButton *keyboardButton;
+@property (nonatomic, strong) UILabel *hoursLabel;
+@property (nonatomic, strong) UILabel *buyinLabel;
+@property (nonatomic, strong) UILabel *cashoutLabel;
 @property (nonatomic, strong) UILabel *buyinMoneyLabel;
 @property (nonatomic, strong) UILabel *cashoutMoneyLabel;
 

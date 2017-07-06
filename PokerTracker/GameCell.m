@@ -95,7 +95,7 @@
 	
 	[super layoutSubviews];
 	
-	[GameCell layoutSubviews:self.frame nameLabel:self.nameLabel dateLabel:self.dateLabel locationLabel:self.locationLabel profitLabel:self.profitLabel];
+	[GameCell layoutSubviews:self.frame nameLabel:self.nameLabel dateLabel:self.dateLabel locationLabel:self.locationLabel hoursLabel:self.hoursLabel profitLabel:self.profitLabel];
 	
 }
 
@@ -103,20 +103,22 @@
 			  nameLabel:(UILabel *)nameLabel
 			  dateLabel:(UILabel *)dateLabel
 		  locationLabel:(UILabel *)locationLabel
+			 hoursLabel:(UILabel *)hoursLabel
 			profitLabel:(UILabel *)profitLabel
 {
 	
 	float width=cellRect.size.width;
 	
 	nameLabel.frame = CGRectMake(40, 0, width-150, 22);
-	dateLabel.frame = CGRectMake(40, 22, width-150, 22);
 	locationLabel.frame = CGRectMake(width-110, 0, 100, 22);
+	dateLabel.frame = CGRectMake(40, 22, width*0.4, 22);
+	hoursLabel.frame = CGRectMake(10+width/2, 22, 50, 22);
 	profitLabel.frame = CGRectMake(width-95, 20, 85, 22);
 }
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", gameObj.name, [gameObj.type substringToIndex:1]];
-	cell.dateLabel.text = [NSString stringWithFormat:@"%@", [gameObj.startTime convertDateToStringWithFormat:@"MM/dd/yyyy ha"]];
+	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
 	cell.locationLabel.text = gameObj.location;
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];

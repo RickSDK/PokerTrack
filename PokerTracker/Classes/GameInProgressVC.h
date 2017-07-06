@@ -25,7 +25,9 @@
 	IBOutlet UIButton *pauseButton;
 	IBOutlet UIButton *doneButton;
 	IBOutlet UIButton *editButton;
+	IBOutlet UIButton *notesButton;
 	IBOutlet UIButton *friendButton;
+	IBOutlet UIButton *graphButton;
 	
 	NetUserObj *netUserObj;
 //	IBOutlet UIButton *cancelWebButton;
@@ -41,6 +43,7 @@
 	IBOutlet UILabel *profitLabel;
 	IBOutlet UILabel *pauseTimerLabel;
 	IBOutlet UILabel *gameTypeLabel;
+	IBOutlet UILabel *clockLabel;
 
 	IBOutlet UILabel *foodLabel;
 	IBOutlet UILabel *tokesLabel;
@@ -99,8 +102,10 @@
 @property (atomic, strong) UIButton *rebuyButton;
 @property (atomic, strong) UIButton *pauseButton;
 @property (atomic, strong) UIButton *doneButton;
+@property (atomic, strong) UIButton *graphButton;
 @property (atomic, strong) UIButton *editButton;
 @property (atomic, strong) UIButton *friendButton;
+@property (atomic, strong) UIButton *notesButton;
 @property (atomic, strong) NetUserObj *netUserObj;
 //@property (atomic, strong) UIButton *cancelWebButton;
 
@@ -108,6 +113,7 @@
 @property (atomic, strong) UILabel *tokesLabel;
 @property (atomic, strong) UILabel *currentStackLabel;
 @property (atomic, strong) UILabel *gameTypeLabel;
+@property (atomic, strong) UILabel *clockLabel;
 @property (atomic, copy) NSString *messageString;
 
 

@@ -39,8 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player Types"];
-	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Main Menu" style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = homeButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 }
 
 

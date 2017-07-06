@@ -66,7 +66,7 @@ static NSInteger X_INSET			= 5;
 {
 	MultiLineObj *multiLineObj = [[MultiLineObj alloc] init];
 	multiLineObj.name = (name.length>0)?name:@"unknown";
-	multiLineObj.value = (value.length>0)?value:@"unknown";
+	multiLineObj.value = (value.length>0)?value:@"-";
 	multiLineObj.color = color;
 	return multiLineObj;
 }

@@ -23,7 +23,7 @@
 
 
 @implementation StartNewGameVC
-@synthesize managedObjectContext;
+@synthesize managedObjectContext, bankrollLabel, locationLabel, retryButton;
 @synthesize gameTypeSegmentBar, gameNameSegmentBar, blindTypeSegmentBar, limitTypeSegmentBar, TourneyTypeSegmentBar;
 @synthesize editButton, bankrollButton, buyinButton, startLiveButton, completedButton, locationButton, locationManager, currentLocation;
 @synthesize selectedObjectForEdit, activityIndicator, buyinLabel, addCasinoButton, addCasinoFlg;
@@ -32,13 +32,18 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[self setTitle:@"New Game"];
+	[self setTitle:NSLocalizedString(@"Game", nil)];
 	
 	self.selectedObjectForEdit=0;
 	startLiveButton.enabled=NO;
 	self.addCasinoButton.enabled=NO;
 	
-	[buyinButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [ProjectFunctions getUserDefaultValue:@"buyinDefault"]] forState:UIControlStateNormal];
+	self.locationLabel.text = NSLocalizedString(@"Location", nil);
+	self.bankrollLabel.text = NSLocalizedString(@"Bankroll", nil);
+	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
+	[self.startLiveButton setTitle:NSLocalizedString(@"Start", nil) forState:UIControlStateNormal];
+	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
+	[self.retryButton setTitle:NSLocalizedString(@"Retry", nil) forState:UIControlStateNormal];
 	
 	[ProjectFunctions populateSegmentBar:self.blindTypeSegmentBar mOC:self.managedObjectContext];
 	
@@ -71,7 +76,7 @@
 	[activityIndicator startAnimating];
 	[self performSelectorInBackground:@selector(checkCurrentLocation) withObject:nil];
 	
-	[ProjectFunctions makeSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
+	[ProjectFunctions makeGameSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.gameNameSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
@@ -83,13 +88,9 @@
 		gameTypeSegmentBar.selectedSegmentIndex=1;
 		[self.gameTypeSegmentBar changeSegment];
 		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
-		NSLog(@"blue");
-		buyinLabel.text = @"Tournament Buyin Amount";
 	} else {
 		gameTypeSegmentBar.selectedSegmentIndex=0;
-		buyinLabel.text = @"Cash Game Buyin Amount";
 		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
-		NSLog(@"orange");
 	}
 	
 	[self setupSegments];
@@ -178,22 +179,18 @@
 	NSString *buyinAmount = @"";
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
         [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
-		NSLog(@"orange");
 		blindTypeSegmentBar.alpha=1;
 		TourneyTypeSegmentBar.alpha=0;
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];
-		buyinLabel.text = @"Cash Game Buyin Amount";
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 	} else {
         [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
-		NSLog(@"blue");
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
-		buyinLabel.text = @"Tournament Buyin Amount";
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
 	}
-	[buyinButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], buyinAmount] forState:UIControlStateNormal];
+	[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
     
 }
 
@@ -206,7 +203,7 @@
 
 -(void)gotoListPicker:(int)selectedObject
 {
-	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", @"Limit", @"Tournament", nil];
+	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", NSLocalizedString(@"Limit", nil), @"Tournament", nil];
 	NSString *option = [NSString stringWithFormat:@"%@", [optionList stringAtIndex:selectedObject]];
 	NSString *entityName = [option uppercaseString];
 	NSArray *valueList = [CoreDataLib getEntityNameList:entityName mOC:managedObjectContext];
@@ -265,7 +262,7 @@
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
 	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
-	localViewController.titleLabel = @"Location";
+	localViewController.titleLabel = NSLocalizedString(@"Location", nil);
 	localViewController.selectedList=0;
 	localViewController.selectionList = [[NSArray alloc] initWithArray:listOfVals];
 	localViewController.allowEditing=YES;
@@ -325,10 +322,10 @@
 		tokes = @"5";
 		gName = [NSString stringWithFormat:@"%@ %@ %@", game, tourney, limit];
 	}
-	NSString *weekday = [startTime convertDateToStringWithFormat:@"EEEE"];
-	NSString *month = [startTime convertDateToStringWithFormat:@"MMMM"];
+	NSString *weekday = [ProjectFunctions getWeekDayFromDate:startTime];
+	NSString *month = [ProjectFunctions getMonthFromDate:startTime];
 	NSString *dayTime = [ProjectFunctions getDayTimeFromDate:startTime];
-	float buyInAmount = [ProjectFunctions getMoneyValueFromText:buyinButton.titleLabel.text];
+	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinButton.titleLabel.text];
 	NSArray *valueArray = [NSArray arrayWithObjects:
 						   [startTime convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm:ss a"],
 						   [endTime convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm:ss a"],
@@ -447,7 +444,7 @@
 - (IBAction) startButtonPressed: (id) sender 
 {
 	
-	float buyInAmount = [ProjectFunctions getMoneyValueFromText:buyinButton.titleLabel.text];
+	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinButton.titleLabel.text];
 	if(buyInAmount==0) {
 		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
 		return;
@@ -537,7 +534,8 @@
 -(void) setReturningValue:(NSString *) value {
 	
 	if(selectedObjectForEdit==0) {
-		[buyinButton setTitle:[NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], value] forState:UIControlStateNormal];
+		double amount = [ProjectFunctions convertMoneyStringToDouble:value];
+		[buyinButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
 	}
 	if(selectedObjectForEdit==1)
 		[bankrollButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];
