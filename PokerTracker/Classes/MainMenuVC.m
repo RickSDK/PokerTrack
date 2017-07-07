@@ -183,16 +183,28 @@
 }
 
 -(void)setupButtons {
-	[self createLabelForButton:self.gamesButton size:26 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
-	[self createLabelForButton:self.statsButton size:30 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
-	[self createLabelForButton:self.oddsButton size:18 name:NSLocalizedString(@"Odds", nil) icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
-	[self createLabelForButton:self.moreTrackersButton size:18 name:NSLocalizedString(@"Trackers", nil) icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
-	[self createLabelForButton:self.forumButton size:18 name:NSLocalizedString(@"Forum", nil) icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
-	[self createLabelForButton:self.netTrackerButton size:18 name:NSLocalizedString(@"Net Tracker", nil) icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
+//	[self createLabelForButton:self.gamesButton size:26 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
+//	[self createLabelForButton:self.statsButton size:30 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+//	[self createLabelForButton:self.oddsButton size:18 name:NSLocalizedString(@"Odds", nil) icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
+//	[self createLabelForButton:self.moreTrackersButton size:18 name:NSLocalizedString(@"Trackers", nil) icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
+//	[self createLabelForButton:self.forumButton size:18 name:NSLocalizedString(@"Forum", nil) icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
+//	[self createLabelForButton:self.netTrackerButton size:18 name:NSLocalizedString(@"Net Tracker", nil) icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
 	
-	[self.startNewGameButton setTitle:NSLocalizedString(@"New Game", nil) forState:UIControlStateNormal];
+	[self createFAButton:self.gamesButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAListOl]];
+	[self createFAButton:self.statsButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+	[self createFAButton:self.oddsButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
+	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
+	[self createFAButton:self.forumButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
+	[self createFAButton:self.netTrackerButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
+	[self createFAButton:self.startNewGameButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAPlus]];
 
 }
+
+-(void)createFAButton:(UIButton *)button size:(float)size icon:(NSString *)icon {
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:icon forState:UIControlStateNormal];
+}
+
 
 -(void)createLabelForButton:(UIButton *)button size:(float)size name:(NSString *)name icon:(NSString *)icon {
 	if (name.length>6 && size>26)

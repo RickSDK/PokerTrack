@@ -93,16 +93,13 @@
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFilter] target:self action:@selector(filtersButtonClicked:)];
 	
-//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters" style:UIBarButtonItemStylePlain target:self action:@selector(filtersButtonClicked:)];
-
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
 	
-	[gameSegment setWidth:60 forSegmentAtIndex:0];
-	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
+//	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	
 	bankrollButton.alpha=1;
 	bankRollSegment.alpha=1;
@@ -120,21 +117,36 @@
 }
 
 -(void)setupButtons {
-	self.top5Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.top5Button setTitle:[NSString stringWithFormat:@"%@ Top 5", [NSString fontAwesomeIconStringForEnum:FATrophy]] forState:UIControlStateNormal];
+//	self.top5Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+//	[self.top5Button setTitle:[NSString stringWithFormat:@"%@ Top 5", [NSString fontAwesomeIconStringForEnum:FATrophy]] forState:UIControlStateNormal];
 	
+//	self.last10Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+//	[self.last10Button setTitle:[NSString stringWithFormat:@"%@ Last 10", [NSString fontAwesomeIconStringForEnum:FAListOl]] forState:UIControlStateNormal];
+	
+//	self.chartsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
+//	[self.chartsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FABarChartO], NSLocalizedString(@"Charts", nil)] forState:UIControlStateNormal];
+	
+//	self.reportsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
+//	[self.reportsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAList], NSLocalizedString(@"Reports", nil)] forState:UIControlStateNormal];
+	
+//	self.goalsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
+//	[self.goalsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAStar], NSLocalizedString(@"Goals", nil)] forState:UIControlStateNormal];
+
 	self.last10Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	[self.last10Button setTitle:[NSString stringWithFormat:@"%@ Last 10", [NSString fontAwesomeIconStringForEnum:FAListOl]] forState:UIControlStateNormal];
+	[self.last10Button setTitle:[NSString stringWithFormat:@"%@ 10", [NSString fontAwesomeIconStringForEnum:FAListOl]] forState:UIControlStateNormal];
 	
-	self.chartsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.chartsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FABarChartO], NSLocalizedString(@"Charts", nil)] forState:UIControlStateNormal];
+	self.top5Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.top5Button setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAThumbsUp], [NSString fontAwesomeIconStringForEnum:FAThumbsDown]] forState:UIControlStateNormal];
 	
-	self.reportsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.reportsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAList], NSLocalizedString(@"Reports", nil)] forState:UIControlStateNormal];
+	self.chartsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.chartsButton setTitle:[NSString fontAwesomeIconStringForEnum:FABarChartO] forState:UIControlStateNormal];
 	
-	self.goalsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
-	[self.goalsButton setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAStar], NSLocalizedString(@"Goals", nil)] forState:UIControlStateNormal];
+	self.reportsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.reportsButton setTitle:[NSString fontAwesomeIconStringForEnum:FAList] forState:UIControlStateNormal];
 	
+	self.goalsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
+	[self.goalsButton setTitle:[NSString fontAwesomeIconStringForEnum:FAStar] forState:UIControlStateNormal];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -554,7 +566,12 @@
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.5];
 	}
 	NSArray *titles = [NSArray arrayWithObjects:@"1", @"2", @"3", @"Games Won", @"Games Lost", @"All Games", nil];
-	NSArray *labels = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), @"Average Risked", @"Min Profit", @"Max Profit", @"Average Profit", @"Standard Deviation", @"Target Deviation", @"Trend", nil];
+	NSArray *labels = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil),
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Min", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Max", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)],
+					   @"Standard Deviation", @"Target Deviation", @"Trend", nil];
 	cell.mainTitle = [titles stringAtIndex:(int)indexPath.section];
 	
 	if([multiDimenArray count]<=indexPath.section)

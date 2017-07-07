@@ -70,12 +70,12 @@
 	[self.yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[self.yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
-	[ProjectFunctions makeGameSegment:self.gameTypeSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.gameTypeSegment.selectedSegmentIndex];
+	[ProjectFunctions makeGameSegment:self.mainSegment color:[UIColor colorWithRed:0 green:.4 blue:0 alpha:1]];
+	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
 	if([gameType isEqualToString:@"Tournament"])
-		self.gameTypeSegment.selectedSegmentIndex=2;
+		self.mainSegment.selectedSegmentIndex=2;
 	if([gameType isEqualToString:@"Cash"])
-		self.gameTypeSegment.selectedSegmentIndex=1;
+		self.mainSegment.selectedSegmentIndex=1;
 	
 	self.yearLabel.text = [NSString stringWithFormat:@"%d", self.displayYear];
 	
@@ -84,14 +84,12 @@
 	
 	if(showMainMenuButton) {
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-//		UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//		self.navigationItem.leftBarButtonItem = homeButton;
 	}
 	
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
 	self.navigationItem.rightBarButtonItem = addButton;
 	
-	[ProjectFunctions setFontColorForSegment:self.gameTypeSegment values:nil];
+	[ProjectFunctions setFontColorForSegment:self.mainSegment values:nil];
 	
 	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
 	
@@ -130,7 +128,7 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-	[self.mainSegment changeSegment];
+//	[self.mainSegment changeSegment];
 	[self computeStats];
 }
 
@@ -159,7 +157,7 @@
 	@autoreleasepool {
 		self.fetchIsReady=NO;
 		
-		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.gameTypeSegment.selectedSegmentIndex];
+		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		
 		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
@@ -225,7 +223,7 @@
 -(void)statsButtonClicked:(id)sender {
 	StatsPage *detailViewController = [[StatsPage alloc] initWithNibName:@"StatsPage" bundle:nil];
 	detailViewController.managedObjectContext = self.managedObjectContext;
-	detailViewController.gameType = [ProjectFunctions labelForGameSegment:(int)self.gameTypeSegment.selectedSegmentIndex];
+	detailViewController.gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
 	detailViewController.displayYear=self.displayYear;
 	detailViewController.hideMainMenuButton=NO;
 	[self.navigationController pushViewController:detailViewController animated:YES];
@@ -293,7 +291,7 @@
 	NSArray *sortDescriptors = @[sortDescriptor];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
-	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.gameTypeSegment.selectedSegmentIndex];
+	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
 	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 
 	[fetchRequest setPredicate:predicate];

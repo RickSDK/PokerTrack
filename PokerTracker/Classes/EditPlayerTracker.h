@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface EditPlayerTracker : UIViewController <UIActionSheetDelegate> {
+@interface EditPlayerTracker : TemplateVC <UIActionSheetDelegate> {
 	NSManagedObjectContext *managedObjectContext;
 	UIViewController *callBackViewController;
 	NSManagedObject *managedObject;
@@ -19,8 +20,8 @@
 	IBOutlet UISegmentedControl *looseTightSeg;
 	IBOutlet UISegmentedControl *passAgrSeg;
 	IBOutlet UISegmentedControl *overallPlaySeg;
-	IBOutlet UITextView *strengthsText;
-	IBOutlet UITextView *weaknessText;
+	IBOutlet NSString *strengthsText;
+	IBOutlet NSString *weaknessText;
 	IBOutlet UIButton *casinoButton;
 	IBOutlet UIButton *sEditButton;
 	IBOutlet UIButton *wEditButton;
@@ -61,8 +62,8 @@
 @property (nonatomic, strong) UISegmentedControl *looseTightSeg;
 @property (nonatomic, strong) UISegmentedControl *passAgrSeg;
 @property (nonatomic, strong) UISegmentedControl *overallPlaySeg;
-@property (nonatomic, strong) UITextView *strengthsText;
-@property (nonatomic, strong) UITextView *weaknessText;
+@property (nonatomic, strong) NSString *strengthsText;
+@property (nonatomic, strong) NSString *weaknessText;
 @property (nonatomic, strong) UIButton *casinoButton;
 @property (nonatomic, strong) UIButton *sEditButton;
 @property (nonatomic, strong) UIButton *wEditButton;

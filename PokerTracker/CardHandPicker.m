@@ -178,8 +178,9 @@
     [super viewDidLoad];
 	[self setTitle:@"Hand Picker"];
 
-	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-	self.navigationItem.leftBarButtonItem = modalButton;
+//	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
+//	self.navigationItem.leftBarButtonItem = modalButton;
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 	
 	selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
 	self.navigationItem.rightBarButtonItem = selectButton;

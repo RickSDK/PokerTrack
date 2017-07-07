@@ -14,7 +14,7 @@
 @implementation OddsCalculatorVC
 @synthesize bigHandsFlag;
 @synthesize managedObjectContext;
-@synthesize button1, button2, button3, button4;
+@synthesize button1, button2, button3, button4, button5;
 
 -(void)gotoFormVC:(int)number
 {
@@ -59,7 +59,6 @@
 
 -(void)showButtonTitle:(UIButton *)button {
 	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-	NSLog(@"tag: %d", button.tag);
 	[button setTitle:[NSString stringWithFormat:@"%d %@", (int)button.tag, [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
 }
 

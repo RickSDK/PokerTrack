@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[self setTitle:@"Filters"];
+	[self setTitle:NSLocalizedString(@"Filters", nil)];
 	
 	NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
 	for(NSManagedObject *mo in filters) {
@@ -31,6 +31,13 @@
 		}
 	}
 	self.filterList = [[NSMutableArray alloc] initWithArray:filters];
+	
+	detailsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[detailsButton setTitle:[NSString fontAwesomeIconStringForEnum:FASearch] forState:UIControlStateNormal];
+
+	editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
+
 	
 	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
@@ -92,12 +99,12 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	NSManagedObject *mo = [self.filterList objectAtIndex:indexPath.row];
 	int button = [[mo valueForKey:@"button"] intValue];
-	int row_id = [[mo valueForKey:@"row_id"] intValue];
+//	int row_id = [[mo valueForKey:@"row_id"] intValue];
 
 	if(button<=3)
-		cell.textLabel.text = [NSString stringWithFormat:@"[%d] %@ (Tab %d)", row_id, [mo valueForKey:@"name"], button];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ (Tab %d)", [mo valueForKey:@"name"], button];
 	else
-		cell.textLabel.text = [NSString stringWithFormat:@"[%d] %@", row_id, [mo valueForKey:@"name"]];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@", [mo valueForKey:@"name"]];
     
     if(self.editMode) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

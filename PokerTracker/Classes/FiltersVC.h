@@ -26,6 +26,7 @@
 	IBOutlet UILabel *yearLabel;
 	IBOutlet UILabel *currentFilterLabel;
 	IBOutlet UILabel *timeFramLabel;
+	IBOutlet UILabel *messageLabel;
 	IBOutlet UIButton *leftYear;
 	IBOutlet UIButton *rightYear;
 	IBOutlet UIToolbar *yearToolbar;
@@ -67,6 +68,7 @@
 @property (atomic) int buttonNum;
 
 @property (atomic, strong) UILabel *yearLabel;
+@property (atomic, strong) UILabel *messageLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;
 

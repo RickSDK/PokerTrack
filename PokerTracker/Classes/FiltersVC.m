@@ -31,7 +31,7 @@
 
 @implementation FiltersVC
 
-@synthesize managedObjectContext, gameType, statsArray, labelValues, currentFilterLabel, timeFramLabel;
+@synthesize managedObjectContext, gameType, statsArray, labelValues, currentFilterLabel, timeFramLabel, messageLabel;
 @synthesize formDataArray, selectedFieldIndex, mainTableView, gameSegment, customSegment;
 @synthesize displayBySession, activityBGView, activityIndicator, chartImageView, gamesList, displayLabelValues;
 @synthesize displayYear, yearLabel, leftYear, rightYear, viewLocked, yearToolbar, buttonNum, filterObj;
@@ -57,6 +57,7 @@
 	gamesList = [[NSMutableArray alloc] init];
 	
 	self.chartImageView = [[UIImageView alloc] init];
+	self.messageLabel.text = NSLocalizedString(@"FilterMessage", nil);
 	
 	self.selectedFieldIndex=0;
 	self.displayBySession=NO;
@@ -72,7 +73,7 @@
 	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	
-	[self setTitle:@"Filters"];
+	[self setTitle:NSLocalizedString(@"Filters", nil)];
 	[super viewDidLoad];
 	
 	if(displayYear==0)
@@ -371,7 +372,7 @@
 		cell.mainTitle = @"Game Stats";
 		cell.alternateTitle = [formDataArray objectAtIndex:0];
 		
-		NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), @"Current Streak", @"Long Win Streak", @"Long Lose Streak", @"Hours Played", NSLocalizedString(@"Hourly", nil), @"ROI", nil];
+		NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), NSLocalizedString(@"Streak", nil), NSLocalizedString(@"WinStreak", nil), NSLocalizedString(@"LoseStreak", nil), NSLocalizedString(@"Hours", nil), NSLocalizedString(@"Hourly", nil), @"ROI", nil];
 		NSMutableArray *colorArray = [[NSMutableArray alloc] init];
 		
 		[colorArray addObject:[self getFieldColor:[[statsArray objectAtIndex:0] intValue]]];
@@ -427,7 +428,7 @@
 				cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 			}
 			cell.backgroundColor = [UIColor colorWithRed:1 green:.8 blue:0 alpha:1];
-			cell.textLabel.text = @"Save Filter";
+			cell.textLabel.text = NSLocalizedString(@"saveFilter", nil);
 			return cell;
 		}
 		

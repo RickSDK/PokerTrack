@@ -69,10 +69,10 @@
 	refreshButton.enabled=NO;
 	
 	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[self.topSegment setTitle:NSLocalizedString(@"Profit", nil) forSegmentAtIndex:0];
-	[self.topSegment setTitle:NSLocalizedString(@"Hourly", nil) forSegmentAtIndex:1];
-	[self.topSegment setTitle:NSLocalizedString(@"Games", nil) forSegmentAtIndex:2];
+	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
+	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
+	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
+	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAStar] forSegmentAtIndex:2];
 	
 }
 

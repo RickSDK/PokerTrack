@@ -14,6 +14,7 @@
 #import "AddPhotoVC.h"
 #import "NSArray+ATTArray.h"
 #import "PlayerTrackerVC.h"
+#import "MultiLineDetailCellWordWrap.h"
 
 
 @implementation EditPlayerTracker
@@ -48,11 +49,7 @@
 
 -(void)updateImage
 {
-//	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//	self.navigationItem.leftBarButtonItem = menuButton;
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-	
-	saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed:)];
+	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	saveButton.enabled=YES;
 
@@ -153,8 +150,6 @@
 	saveButton.enabled=YES;
 	if([nameField.text length]==0)
 		saveButton.enabled=NO;
-//	if([casinoButton.titleLabel.text isEqualToString:@"Select"])
-//		saveButton.enabled=NO;
 	[aTextField resignFirstResponder];
 	return YES;
 }
@@ -170,7 +165,7 @@
 	TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
 	localViewController.managedObjectContext=managedObjectContext;
 	[localViewController setCallBackViewController:self];
-	localViewController.initialDateValue = strengthsText.text;
+	localViewController.initialDateValue = strengthsText;
 	localViewController.titleLabel = @"Player Strengths";
 	localViewController.strlen=500;
 	[self.navigationController pushViewController:localViewController animated:YES];
@@ -182,7 +177,7 @@
 	TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
 	[localViewController setCallBackViewController:self];
 	localViewController.managedObjectContext=managedObjectContext;
-	localViewController.initialDateValue = weaknessText.text;
+	localViewController.initialDateValue = weaknessText;
 	localViewController.titleLabel = @"Player Weaknesses";
 	localViewController.strlen=500;
 	[self.navigationController pushViewController:localViewController animated:YES];
@@ -205,7 +200,7 @@
 - (IBAction) savePressed: (id) sender
 {
 	if(readOnlyFlg) {
-		[saveButton setTitle:@"Save"];
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		readOnlyFlg=NO;
 		sEditButton.alpha=1;
 		wEditButton.alpha=1;
@@ -242,8 +237,8 @@
 	
 	[valueList addObject:[NSString stringWithFormat:@"%d", playerType]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", (int)overallPlaySeg.selectedSegmentIndex]];
-	[valueList addObject:[NSString stringWithFormat:@"%@", strengthsText.text]];
-	[valueList addObject:[NSString stringWithFormat:@"%@", weaknessText.text]];
+	[valueList addObject:[NSString stringWithFormat:@"%@", self.strengthsText]];
+	[valueList addObject:[NSString stringWithFormat:@"%@", self.weaknessText]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", casinoButton.titleLabel.text]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", user_id]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", player_id]];
@@ -272,20 +267,13 @@
 	
 	deleteButton.alpha=0;
 	
+	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
 
-	saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed:)];
+	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	saveButton.enabled=NO;
 	
-	if(showMenuFlg) {
-//		UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//		self.navigationItem.leftBarButtonItem = menuButton;
-		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-
-		UIBarButtonItem *menuButton2 = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-		self.navigationItem.rightBarButtonItem = menuButton2;
-	}
-
 	[casinoButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
 	if([casino isEqualToString:@"All Locations"])
 		casino = @"Select";
@@ -324,8 +312,10 @@
         playerNumLabel.text = [NSString stringWithFormat:@"user_id: %d, player_id: %d", [[managedObject valueForKey:@"user_id"] intValue], [[managedObject valueForKey:@"player_id"] intValue]];
 		
 		nameField.text = [managedObject valueForKey:@"name"];
-		strengthsText.text = [managedObject valueForKey:@"attrib_03"];
-		weaknessText.text = [managedObject valueForKey:@"attrib_04"];
+		self.strengthsText = [managedObject valueForKey:@"attrib_03"];
+		self.weaknessText = [managedObject valueForKey:@"attrib_04"];
+		
+		NSLog(@"%@", self.strengthsText);
 		[casinoButton setTitle:[NSString stringWithFormat:@"%@", [managedObject valueForKey:@"status"]] forState:UIControlStateNormal];
 		
 		int looseNum = [[managedObject valueForKey:@"looseNum"] intValue];
@@ -342,7 +332,7 @@
 		[self setUserPic];
 		
 		overallPlaySeg.selectedSegmentIndex=playerSkill;
-		[saveButton setTitle:@"Edit"];
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
 		saveButton.enabled=YES;
 		sEditButton.alpha=0;
 		wEditButton.alpha=0;
@@ -358,6 +348,7 @@
 	
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
 	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
+	[self.mainTableView reloadData];
 	
 }
 
@@ -365,38 +356,69 @@
 	
 	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
 	if(selectedObjectForEdit==1)
-		strengthsText.text=value2;
+		self.strengthsText=value2;
 	if(selectedObjectForEdit==2)
-		weaknessText.text=value2;
+		self.weaknessText=value2;
 	if(selectedObjectForEdit==3)
 		[casinoButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];
 	
 	saveButton.enabled=YES;
 	if([nameField.text length]==0)
 		saveButton.enabled=NO;
-//	if([casinoButton.titleLabel.text isEqualToString:@"Select"])
-//		saveButton.enabled=NO;
+	[self.mainTableView reloadData];
 	
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
+	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	if (cell == nil) {
+		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:1 labelProportion:0.0];
+	}
+	cell.mainTitle = (indexPath.row==0)?@"Strengths":@"Weaknesses";
+	
+		cell.titleTextArray = [NSArray arrayWithObject:@""];
+	cell.fieldTextArray = [NSArray arrayWithObject:(indexPath.row==0)?self.strengthsText:self.weaknessText];
+	cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
+	cell.accessoryType= UITableViewCellAccessoryNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	return cell;
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return 2;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(!readOnlyFlg) {
+		self.selectedObjectForEdit=(int)indexPath.row+1;
+		TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
+		localViewController.managedObjectContext=managedObjectContext;
+		[localViewController setCallBackViewController:self];
+		localViewController.initialDateValue = (indexPath.row==0)?self.strengthsText:self.weaknessText;
+		localViewController.titleLabel = (indexPath.row==0)?@"Player Strengths":@"Player Weaknesses";
+		localViewController.strlen=500;
+		[self.navigationController pushViewController:localViewController animated:YES];
+	}
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return CGFLOAT_MIN;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return [MultiLineDetailCellWordWrap cellHeightForData:[NSArray arrayWithObject:(indexPath.row==0)?self.strengthsText:self.weaknessText] tableView:self.mainTableView labelWidthProportion:0];
 }
 
 

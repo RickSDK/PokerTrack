@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1911" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -9,6 +9,7 @@
                 <outlet property="activityIndicator" destination="16" id="18"/>
                 <outlet property="currentFilterLabel" destination="nfa-9j-IYK" id="ady-MW-tCO"/>
                 <outlet property="mainTableView" destination="4" id="22"/>
+                <outlet property="messageLabel" destination="p1O-XE-CvN" id="Q7N-A7-GBm"/>
                 <outlet property="timeFramLabel" destination="LA9-eY-Jf9" id="YQ4-PV-CcY"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>

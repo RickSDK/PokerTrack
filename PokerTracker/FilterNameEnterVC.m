@@ -68,13 +68,18 @@
     [super viewDidLoad];
 
 	
-	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-	self.navigationItem.leftBarButtonItem = modalButton;
+//	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
+//	self.navigationItem.leftBarButtonItem = modalButton;
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 	
+	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
 	
-	saveButton =  [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(save:) target:self];
-	self.navigationItem.rightBarButtonItem = saveButton;
+	//	saveButton =  [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(save:) target:self];
+	//	self.navigationItem.rightBarButtonItem = saveButton;
 
+	saveButton =  [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(save:)];
+	self.navigationItem.rightBarButtonItem = saveButton;
 
 	self.customButtonSegment.selectedSegmentIndex=0;
 	

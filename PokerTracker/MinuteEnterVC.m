@@ -73,8 +73,9 @@
 	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
 	self.titleLabel.text = [NSString stringWithFormat:@"%@", self.sendTitle];
 	
-	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-	self.navigationItem.leftBarButtonItem = modalButton;
+//	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
+//	self.navigationItem.leftBarButtonItem = modalButton;
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 	
 	UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithTitle:@"Update" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
 	self.navigationItem.rightBarButtonItem = updateButton;

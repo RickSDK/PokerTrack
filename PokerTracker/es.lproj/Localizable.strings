@@ -73,6 +73,7 @@
 "Month" = "Mes";
 "Daytime" = "Tiempo de Día";
 "Gametype" = "Juego";
+"GameType" = "Juego";
 "Type" = "Tipo";
 "Welcome" = "Bienvenido a";
 "Welcome2" = "Ingrese el monto de sus fondos iniciales:";
@@ -87,8 +88,17 @@
 "IncomeTotal" = "Ingresos Totales";
 "GameMinutes" = "Minutos de Juego";
 "Take-Home" = "Llevar a Casa";
+"Streak" = "Racha";
+"WinStreak" = "Victorias más grandes";
+"LoseStreak" = "Mayores pérdidas";
+"Average" = "Promedio";
+"Min" = "Mínimo";
+"Max" = "Máximo";
 "upgradeMessage" = "Esta función sólo está disponible con la versión Pro de esta aplicación. Presiona 'Upgrade' en el menú principal.";
 "loginMessage" = "Debe iniciar sesión para utilizar esta función. Haga clic en el botón 'Login' en el menú 'Opciones'.";
 "upgradeText" = "Gracias por probar Poker Track Lite. Creemos que es de lejos la mejor aplicación de seguimiento de poker jamás creada.\n\nSin embargo, debe saber que la versión Pro de esta aplicación no es gratuita. Para desbloquear todas las funciones que necesitará actualizar. La versión lite sólo sigue las estadísticas en 5 juegos. (Otras características como la calculadora de probabilidades están siempre disponibles incluyendo con la versión lite).\n\nSi te gusta la aplicación y quieres más de 5 juegos de estadísticas, te pedimos que actualices la versión completa y esperamos que te guste.\n\nPTP es la única aplicación con todas estas características:\n* Entrada de juego en tiempo real\n* Calculadora de probabilidades\n* Gráficos y gráficos más completos\n* Net Tracker\n* Amigo Tracker\n* Reproductor Tracker\nRastreador de mano\n* Casino Tracker\nChip Tracker\n* Importación y exportación\n\nForo\n* Análisis AI\n* Consejos y consejos\n\nPTP viene con una garantía. Si tu juego no mejora como resultado de esta aplicación, ¡recuperas tu dinero!";
 "ExportText" = "La exportación guarda sus datos en un servidor para que pueda importarlo a un dispositivo nuevo. Nota: Los datos NO son respaldados automáticamente al entrar en nuevos juegos. Debe exportarlo manualmente aquí.";
+"FilterMessage" = "Para crear un nuevo filtro, elija una de las siguientes opciones y luego pulse 'Guardar filtro'";
+"saveFilter" = "Guardar filtro";
+"Filters" = "Filtros";
 

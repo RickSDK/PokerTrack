@@ -294,6 +294,8 @@
 		6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB303F19E5959100BC1F4C /* ExportCell.m */; };
 		6BCF5B251C56B494000B3542 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCF5B241C56B494000B3542 /* StoreKit.framework */; };
 		6BD4D0131F0AD1420059614C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D0151F0AD1420059614C /* Localizable.strings */; };
+		6BD4D01E1F0F12170059614C /* EditSegmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4D01C1F0F12170059614C /* EditSegmentVC.m */; };
+		6BD4D01F1F0F12170059614C /* EditSegmentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D01D1F0F12170059614C /* EditSegmentVC.xib */; };
 		6BD4D9441D11EC1F00236804 /* ReviewsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4D9421D11EC1F00236804 /* ReviewsVC.m */; };
 		6BD4D9451D11EC1F00236804 /* ReviewsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D9431D11EC1F00236804 /* ReviewsVC.xib */; };
 		6BD4D9541D120DDD00236804 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D9461D120DDD00236804 /* Icon-29.png */; };
@@ -773,6 +775,9 @@
 		6BD4D0181F0C0E710059614C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D0191F0C0E750059614C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D01A1F0C0E870059614C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD4D01B1F0F12170059614C /* EditSegmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditSegmentVC.h; sourceTree = "<group>"; };
+		6BD4D01C1F0F12170059614C /* EditSegmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditSegmentVC.m; sourceTree = "<group>"; };
+		6BD4D01D1F0F12170059614C /* EditSegmentVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditSegmentVC.xib; sourceTree = "<group>"; };
 		6BD4D9411D11EC1F00236804 /* ReviewsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewsVC.h; sourceTree = "<group>"; };
 		6BD4D9421D11EC1F00236804 /* ReviewsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewsVC.m; sourceTree = "<group>"; };
 		6BD4D9431D11EC1F00236804 /* ReviewsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewsVC.xib; sourceTree = "<group>"; };
@@ -1488,6 +1493,9 @@
 				6B90A03814CA284700712EDC /* TextLineEnterVC.h */,
 				6B90A03914CA284700712EDC /* TextLineEnterVC.m */,
 				6B90A03A14CA284700712EDC /* TextLineEnterVC.xib */,
+				6BD4D01B1F0F12170059614C /* EditSegmentVC.h */,
+				6BD4D01C1F0F12170059614C /* EditSegmentVC.m */,
+				6BD4D01D1F0F12170059614C /* EditSegmentVC.xib */,
 				6B7522FD1449084B00E59D21 /* MinuteEnterVC.h */,
 				6B7522FE1449084B00E59D21 /* MinuteEnterVC.m */,
 				6B7522FF1449084B00E59D21 /* MinuteEnterVC.xib */,
@@ -1798,6 +1806,7 @@
 				6BB4ADCF16F39E5B0096E2B5 /* greenBar.png in Resources */,
 				6BA4AA81172EE71D006022E1 /* FriendTrackerVC.xib in Resources */,
 				6BA4AA88173463C4006022E1 /* black.png in Resources */,
+				6BD4D01F1F0F12170059614C /* EditSegmentVC.xib in Resources */,
 				6BA44B4E1742A86400C90ACA /* playerType2.png in Resources */,
 				6B9BEB88175AB6AE00D0BA12 /* MoreTrackersVC.xib in Resources */,
 				6B9BEB8D175AB94A00D0BA12 /* ForumVC.xib in Resources */,
@@ -1915,6 +1924,7 @@
 				6BCA27C21B62B4D300511DDA /* GameCell.m in Sources */,
 				6BD846DF14F6FFDB0048473A /* MyToolbar.m in Sources */,
 				6BD84D07150026EF0048473A /* GameGraphVC.m in Sources */,
+				6BD4D01E1F0F12170059614C /* EditSegmentVC.m in Sources */,
 				6B9571A3189089C700CDF58A /* TempViewController.m in Sources */,
 				6BD852DB150AB9580048473A /* Top5VC.m in Sources */,
 				6BD85341150ADE020048473A /* FriendSampleVC.m in Sources */,

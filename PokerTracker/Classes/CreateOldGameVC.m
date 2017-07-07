@@ -249,7 +249,7 @@
 	[self setTitle:NSLocalizedString(@"Game", nil)];
 	self.datePicker.date = [NSDate date];
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(saveButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(saveButtonClicked:)];
 
 	self.buyinAmount.text = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 	if([[ProjectFunctions getUserDefaultValue:@"gameTypeDefault"] isEqualToString:@"Tournament"]) {
@@ -267,10 +267,10 @@
     buyinMoneyLabel.text = [ProjectFunctions getMoneySymbol];
     cashoutMoneyLabel.text = [ProjectFunctions getMoneySymbol];;
 
-	[ProjectFunctions initializeSegmentBar:gameNameSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"]];
-	[ProjectFunctions initializeSegmentBar:blindTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"]];
-	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"]];
-	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"]];
+	[ProjectFunctions initializeSegmentBar:gameNameSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] field:@"gametype"];
+	[ProjectFunctions initializeSegmentBar:blindTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] field:@"stakes"];
+	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] field:@"limit"];
+	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] field:@"tournamentType"];
 	
 
 	self.gameNameSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:0 currentValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] startGameScreen:NO];

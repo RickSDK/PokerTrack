@@ -20,6 +20,7 @@
 #import "CreateOldGameVC.h"
 #import "ViewLocationsVC.h"
 #import "MapKitTut.h"
+#import "EditSegmentVC.h"
 
 
 @implementation StartNewGameVC
@@ -41,17 +42,19 @@
 	self.locationLabel.text = NSLocalizedString(@"Location", nil);
 	self.bankrollLabel.text = NSLocalizedString(@"Bankroll", nil);
 	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
-	[self.startLiveButton setTitle:NSLocalizedString(@"Start", nil) forState:UIControlStateNormal];
 	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
 	[self.retryButton setTitle:NSLocalizedString(@"Retry", nil) forState:UIControlStateNormal];
+	
+	self.startLiveButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
+	[self.startLiveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPlay] forState:UIControlStateNormal];
 	
 	[ProjectFunctions populateSegmentBar:self.blindTypeSegmentBar mOC:self.managedObjectContext];
 	
 	
-	[ProjectFunctions initializeSegmentBar:gameNameSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"]];
-	[ProjectFunctions initializeSegmentBar:blindTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"]];
-	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"]];
-	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"]];
+	[ProjectFunctions initializeSegmentBar:gameNameSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] field:@"gametype"];
+	[ProjectFunctions initializeSegmentBar:blindTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] field:@"stakes"];
+	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] field:@"limit"];
+	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] field:@"tournamentType"];
 	
 	gameNameSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:0 currentValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] startGameScreen:YES];
 	//	blindTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:1 currentValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] startGameScreen:YES];
@@ -183,12 +186,14 @@
 		TourneyTypeSegmentBar.alpha=0;
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
+		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
 	} else {
         [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
+		[self setTitle:NSLocalizedString(@"Tournament", nil)];
 	}
 	[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
     
@@ -203,19 +208,20 @@
 
 -(void)gotoListPicker:(int)selectedObject
 {
-	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", NSLocalizedString(@"Limit", nil), @"Tournament", nil];
-	NSString *option = [NSString stringWithFormat:@"%@", [optionList stringAtIndex:selectedObject]];
-	NSString *entityName = [option uppercaseString];
-	NSArray *valueList = [CoreDataLib getEntityNameList:entityName mOC:managedObjectContext];
+//	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", NSLocalizedString(@"Limit", nil), @"Tournament", nil];
+//	NSString *option = [NSString stringWithFormat:@"%@", [optionList stringAtIndex:selectedObject]];
+//	NSString *entityName = [option uppercaseString];
+//	NSArray *valueList = [CoreDataLib getEntityNameList:entityName mOC:managedObjectContext];
 	
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
+	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", [valueList stringAtIndex:0]];
-	localViewController.titleLabel = option;
-	localViewController.selectionList = valueList;
-	localViewController.selectedList = 0;
-	localViewController.allowEditing=YES;
+//	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", [valueList stringAtIndex:0]];
+//	localViewController.titleLabel = option;
+//	localViewController.selectionList = valueList;
+//	localViewController.selectedList = 0;
+//	localViewController.allowEditing=YES;
+	localViewController.option = selectedObject;
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
 

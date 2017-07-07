@@ -347,7 +347,9 @@
         self.bankRollSegment.alpha=0;
     }
 	
-	[ProjectFunctions makeSegment:self.moneySegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[ProjectFunctions makeSegment:self.moneySegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
+	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
+	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
 
 	
 }

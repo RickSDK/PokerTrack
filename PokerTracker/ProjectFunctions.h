@@ -120,7 +120,7 @@
 +(NSString *)getLast5GamesForFriend:(NSManagedObjectContext *)MoC;
 +(UITableViewCell *)getGameCell:(NSManagedObject *)mo CellIdentifier:(NSString *)CellIdentifier tableView:(UITableView *)tableView  evenFlg:(BOOL)evenFlg;
 +(int)getSegmentValueForSegment:(int)segment currentValue:(NSString *)currentValue startGameScreen:(BOOL)startGameScreen;
-+(void)initializeSegmentBar:(UISegmentedControl *)segmentBar defaultValue:(NSString *)defaultValue;
++(void)initializeSegmentBar:(UISegmentedControl *)segmentBar defaultValue:(NSString *)defaultValue field:(NSString *)field;
 +(void)insertFriendGames:(NSMutableArray *)components friend_id:(int)friend_id mOC:(NSManagedObjectContext *)mOC;
 +(void)updateOrInsertThisFriend:(NSManagedObjectContext *)mOC line:(NSString *)line;
 +(void)updateOrInsertThisMessage:(NSManagedObjectContext *)mOC line:(NSString *)line;
@@ -202,10 +202,12 @@
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context;
 +(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color;
++(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color size:(float)size;
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC;
 +(void)ptpLocationAuthorizedCheck:(CLAuthorizationStatus)status;
 +(NSString *)smallLabelForMoney:(double)money totalMoneyRange:(double)totalMoneyRange;
 +(float)chartHeightForSize:(float)height;
 +(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
++(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size;
 
 @end

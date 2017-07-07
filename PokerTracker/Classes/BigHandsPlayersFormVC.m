@@ -11,6 +11,7 @@
 #import "MoneyPickerVC.h"
 #import "CoreDataLib.h"
 #import "BigHandsFormVC.h"
+#import "ProjectFunctions.h"
 
 
 @implementation BigHandsPlayersFormVC
@@ -151,8 +152,9 @@
 	else 
 		[self setTitle:[NSString stringWithFormat:@"Player %d", playersHand+1]];
 	
-	UIBarButtonItem *selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = selectButton;
+//	UIBarButtonItem *selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = selectButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(selectButtonClicked:)];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerNum = %d AND bighand = %@", playersHand, mo];
 	

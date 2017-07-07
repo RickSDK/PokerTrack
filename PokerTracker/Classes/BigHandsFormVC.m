@@ -586,6 +586,8 @@
     
     [self.mainTableView setBackgroundView:nil];
 
+	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
 
 	self.selectedRow=0;
 	self.indexPathRow=0;

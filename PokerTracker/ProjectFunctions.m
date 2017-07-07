@@ -1948,17 +1948,37 @@
 	return result;
 }
 
-+(void)initializeSegmentBar:(UISegmentedControl *)segmentBar defaultValue:(NSString *)defaultValue
++(void)initializeSegmentBar:(UISegmentedControl *)segmentBar defaultValue:(NSString *)defaultValue field:(NSString *)field
 {
-	BOOL needsIt = YES;
-	int numSegs = (int)[segmentBar numberOfSegments];
-	for(int i=0; i<numSegs; i++) {
-		if([defaultValue isEqualToString:[segmentBar titleForSegmentAtIndex:i]])
-			needsIt = NO;
-	}
+	NSMutableArray *options = [[NSMutableArray alloc] init];
+	if (defaultValue.length>0)
+		[options addObject:defaultValue];
 	
-	if(needsIt)
-		[segmentBar setTitle:defaultValue forSegmentAtIndex:0];
+	NSString *fieldValues = [ProjectFunctions getUserDefaultValue:[NSString stringWithFormat:@"%@Segments", field]];
+	NSArray *items = [fieldValues componentsSeparatedByString:@"|"];
+	for (NSString *item in items) {
+		NSArray *components = [item componentsSeparatedByString:@":"];
+		if (components.count>1) {
+			NSString *value = [components objectAtIndex:1];
+			if (![value isEqualToString:defaultValue])
+				[options addObject:value];
+		}
+	}
+	[options addObjectsFromArray:[self getDefaultOptionsForField:field]];
+	int numSegs = (int)[segmentBar numberOfSegments];
+	for(int i=0; i<numSegs-1; i++) {
+		[segmentBar setTitle:[options objectAtIndex:i] forSegmentAtIndex:i];
+	}
+}
+
++(NSArray *)getDefaultOptionsForField:(NSString *)field {
+	if ([field isEqualToString:@"gametype"])
+		return [self getArrayForSegment:0];
+	if ([field isEqualToString:@"blinds"])
+		return [self getArrayForSegment:1];
+	if ([field isEqualToString:@"limit"])
+		return [self getArrayForSegment:2];
+	return [self getArrayForSegment:3];
 }
 
 
@@ -3757,19 +3777,34 @@
 	if (segment.numberOfSegments==3 ) {
 		[segment setTitle:NSLocalizedString(@"All", nil) forSegmentAtIndex:i++];
 	}
+	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
+	NSMutableDictionary *attribsNormal;
+	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
 	
-	[segment setTitle:NSLocalizedString(@"Cash", nil) forSegmentAtIndex:i++];
-	[segment setTitle:NSLocalizedString(@"Tournaments", nil) forSegmentAtIndex:i++];
+	NSMutableDictionary *attribsSelected;
+	attribsSelected = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor whiteColor], UITextAttributeTextColor, nil];
+	
+	[segment setTitleTextAttributes:attribsNormal forState:UIControlStateNormal];
+	[segment setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
+
+	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:i++];
+	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:i++];
+
+//	[segment setTitle:NSLocalizedString(@"Cash", nil) forSegmentAtIndex:i++];
+//	[segment setTitle:NSLocalizedString(@"Tournaments", nil) forSegmentAtIndex:i++];
 }
 
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {
+	[self makeSegment:segment color:color size:12];
+}
+
++(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color size:(float)size {
 	[segment setTintColor:color];
-//	[segment setBackgroundColor:[UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1]];
 	
-	segment.layer.backgroundColor = [UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1].CGColor;
+	segment.layer.backgroundColor = [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1].CGColor;
 	segment.layer.cornerRadius = 7;
 	
-	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
+	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
 	NSMutableDictionary *attribsNormal;
 	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
 	
@@ -3780,6 +3815,26 @@
 	[segment setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
 	
 }
+
++(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size {
+	NSString *title = nil;
+	switch (type) {
+  case 1:
+			title = [NSString fontAwesomeIconStringForEnum:FAPlus];
+			break;
+  case 2:
+			title = [NSString fontAwesomeIconStringForEnum:FAPencil];
+			break;
+			
+  default:
+			title = [NSString fontAwesomeIconStringForEnum:FAtrash];
+			break;
+	}
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:title forState:UIControlStateNormal];
+}
+
+
 
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC
 {

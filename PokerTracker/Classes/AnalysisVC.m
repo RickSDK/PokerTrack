@@ -39,7 +39,62 @@
     [self computeStats];
 }
 
-
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:NSLocalizedString(@"Analysis", nil)];
+	
+	[self.mainTableView setBackgroundView:nil];
+	
+	
+	self.playerBasicsArray = [[NSMutableArray alloc] initWithCapacity:10];
+	self.playerStatsArray = [[NSMutableArray alloc] initWithCapacity:10];
+	self.colorArray1 = [[NSMutableArray alloc] initWithCapacity:10];
+	self.colorArray2 = [[NSMutableArray alloc] initWithCapacity:10];
+	
+	[ProjectFunctions addColorToButton:self.last10Button color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
+	
+	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
+	if(last10Flg) {
+		yearLabel.text = NSLocalizedString(@"Last10", nil);
+		last10Button.enabled=NO;
+		last10Button.hidden=YES;
+	}
+	
+	self.gameType = @"All";
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
+	
+	
+	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
+	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year = %d", [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]];
+	
+	NSString *stats2 = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"stats2" predicate:predicate];
+	NSArray *stats = [stats2 componentsSeparatedByString:@"|"];
+	if([stats count]>4) {
+		NSLog(@"stats2: +++%@", stats2);
+		[ProjectFunctions setUserDefaultValue:[stats stringAtIndex:4] forKey:@"longestWinStreak"];
+		[ProjectFunctions setUserDefaultValue:[stats stringAtIndex:5] forKey:@"longestLoseStreak"];
+	}
+	
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	
+	
+	if(numBanks==0) {
+		self.bankrollButton.alpha=0;
+		self.bankRollSegment.alpha=0;
+	} else {
+		self.bankrollButton.alpha=1;
+		self.bankRollSegment.alpha=1;
+	}
+	
+	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+	
+	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+}
 
 
 - (IBAction) detailsButtonPressed: (id) sender
@@ -363,7 +418,11 @@
         
 
         cell.alternateTitle = yearLabel.text;
-        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"foodDrink", nil), NSLocalizedString(@"Tips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil), @"Average Risked", @"Average Profit", @"Standard Deviation", nil];
+		
+        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"foodDrink", nil), NSLocalizedString(@"Tips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil),
+							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)],
+							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)],
+							   @"Standard Deviation", nil];
         if([self.playerStatsArray count]>=10) {
             cell.fieldTextArray = self.playerStatsArray;
             cell.fieldColorArray = self.colorArray2;
@@ -412,64 +471,6 @@
     }
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Analysis"];
-    
-    [self.mainTableView setBackgroundView:nil];
-
-    
-    self.playerBasicsArray = [[NSMutableArray alloc] initWithCapacity:10];
-    self.playerStatsArray = [[NSMutableArray alloc] initWithCapacity:10];
-    self.colorArray1 = [[NSMutableArray alloc] initWithCapacity:10];
-    self.colorArray2 = [[NSMutableArray alloc] initWithCapacity:10];
-
-	[ProjectFunctions addColorToButton:self.last10Button color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
-
-	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-    if(last10Flg) {
-        yearLabel.text = NSLocalizedString(@"Last10", nil);
-        last10Button.enabled=NO;
-		last10Button.hidden=YES;
-    }
-
- 	self.gameType = @"All";
-	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
-
-
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year = %d", [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]];
-    
-    NSString *stats2 = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"stats2" predicate:predicate];
-    NSArray *stats = [stats2 componentsSeparatedByString:@"|"];
-    if([stats count]>4) {
-		NSLog(@"stats2: +++%@", stats2);
-        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:4] forKey:@"longestWinStreak"];
-        [ProjectFunctions setUserDefaultValue:[stats stringAtIndex:5] forKey:@"longestLoseStreak"];
-    }
-    
-    int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-    
-    
-    if(numBanks==0) {
-        self.bankrollButton.alpha=0;
-        self.bankRollSegment.alpha=0;
-    } else {
-        self.bankrollButton.alpha=1;
-        self.bankRollSegment.alpha=1;
-    }
-	
-	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-	
-}
 
 
 
