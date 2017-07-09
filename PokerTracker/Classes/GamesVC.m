@@ -101,8 +101,34 @@
 		self.bankRollSegment.alpha=0;
 	}
 	
+	if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0)
+		[self scrubAllGames];
 	
 	
+}
+
+-(void)scrubAllGames {
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"scrub2017"];
+	[self.webServiceView startWithTitle:@"Scrubbing data"];
+	[self performSelectorInBackground:@selector(scrubDataBG) withObject:nil];
+}
+
+-(void)scrubDataBG
+{
+	@autoreleasepool {
+		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
+		[contextLocal setUndoManager:nil];
+		
+		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+
+		NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:self.managedObjectContext];
+		for(NSManagedObject *mo in games) {
+			[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
+		}
+
+		[self.webServiceView stop];
+	}
 }
 
 
@@ -128,7 +154,6 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-//	[self.mainSegment changeSegment];
 	[self computeStats];
 }
 
@@ -158,6 +183,15 @@
 		self.fetchIsReady=NO;
 		
 		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
+		if(self.mainSegment.selectedSegmentIndex==0) {
+			[self setTitle:NSLocalizedString(@"Games", nil)];
+		}
+		if(self.mainSegment.selectedSegmentIndex==1) {
+			[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+		}
+		if(self.mainSegment.selectedSegmentIndex==2) {
+			[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+		}
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		
 		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
@@ -257,7 +291,7 @@
 	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	[GameCell populateCell:cell obj:mo evenFlg:indexPath.row%2==0];
 	[self checkToScrubDataForObj:mo context:self.managedObjectContext];
-
+	
 	return cell;
 
 }
@@ -265,8 +299,9 @@
 -(void)checkToScrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
 	NSString *daytime = [mo valueForKey:@"daytime"];
 	NSString *daytime2 = [ProjectFunctions getDayTimeFromDate:[mo valueForKey:@"startTime"]];
+	
 	if (![daytime isEqualToString:daytime2])
-		 [ProjectFunctions scrubDataForObj:mo context:context];
+		[ProjectFunctions setUserDefaultValue:@"" forKey:@"scrub2017"];
 }
 		 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -328,7 +363,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSLog(@"+++month: %@", [mo valueForKey:@"month"]);
     if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
         GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
         detailViewController.managedObjectContext = self.managedObjectContext;

@@ -5,9 +5,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface DatePickerViewController : UIViewController {
+@interface DatePickerViewController : TemplateVC {
 	//---Passed In----------------------------
 	UIViewController *callBackViewController;
 	NSDate *initialDateValue;

@@ -18,8 +18,13 @@
 
 -(BOOL)refDataNonStandard:(NSString *)table value:(NSString *)value
 {
-	NSArray *items=[NSArray arrayWithObjects:@"Casino", @"No-Limit", @"Pot-Limit", @"Limit", @"Spread", 
-					@"$1/$2", @"$1/$3", @"$3/$5", @"$3/$6", @"$5/$10", @"$10/$20", @"Hold'em", @"Omaha", @"Razz", @"7-Card", @"5-Card", @"Default", nil];
+	NSMutableArray *items = [[NSMutableArray alloc] init];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:0]];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:1]];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:2]];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:3]];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:4]];
+	[items addObjectsFromArray:[ProjectFunctions getArrayForSegment:5]];
 	for(NSString *item in items)
 		if([value isEqualToString:item])
 			return NO;

@@ -11,6 +11,7 @@
 #import "FiltersVC.h"
 #import "FilterNameEnterVC.h"
 #import "ProjectFunctions.h"
+#import "SelectionCell.h"
 
 @implementation FilterListVC
 @synthesize managedObjectContext, filterList, callBackViewController, mainTableView, editMode, filterObj;
@@ -90,9 +91,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *CellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	SelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
 	cell.backgroundColor = [UIColor whiteColor];
@@ -102,10 +103,11 @@
 //	int row_id = [[mo valueForKey:@"row_id"] intValue];
 
 	if(button<=3)
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ (Tab %d)", [mo valueForKey:@"name"], button];
-	else
-		cell.textLabel.text = [NSString stringWithFormat:@"%@", [mo valueForKey:@"name"]];
-    
+		cell.selection.text = [NSString stringWithFormat:@"(Tab %d)", button];
+
+	cell.textLabel.text = [NSString stringWithFormat:@"%@", [mo valueForKey:@"name"]];
+	
+	
     if(self.editMode) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else {

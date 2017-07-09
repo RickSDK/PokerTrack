@@ -50,7 +50,6 @@
 	
 	[ProjectFunctions populateSegmentBar:self.blindTypeSegmentBar mOC:self.managedObjectContext];
 	
-	
 	[ProjectFunctions initializeSegmentBar:gameNameSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] field:@"gametype"];
 	[ProjectFunctions initializeSegmentBar:blindTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] field:@"stakes"];
 	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] field:@"limit"];
@@ -206,22 +205,13 @@
     [self setupSegments];
 }
 
--(void)gotoListPicker:(int)selectedObject
+-(void)gotoListPicker:(NSString *)databaseField initialDateValue:(NSString *)initialDateValue
 {
-//	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", NSLocalizedString(@"Limit", nil), @"Tournament", nil];
-//	NSString *option = [NSString stringWithFormat:@"%@", [optionList stringAtIndex:selectedObject]];
-//	NSString *entityName = [option uppercaseString];
-//	NSArray *valueList = [CoreDataLib getEntityNameList:entityName mOC:managedObjectContext];
-	
 	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-//	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", [valueList stringAtIndex:0]];
-//	localViewController.titleLabel = option;
-//	localViewController.selectionList = valueList;
-//	localViewController.selectedList = 0;
-//	localViewController.allowEditing=YES;
-	localViewController.option = selectedObject;
+	localViewController.initialDateValue = initialDateValue;
+	localViewController.databaseField = databaseField;
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
 
@@ -230,7 +220,7 @@
 	self.selectedObjectForEdit=4;
 	if(gameNameSegmentBar.selectedSegmentIndex==3) {
 		gameNameSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:4];
+		[self gotoListPicker:@"gametype" initialDateValue:@""];
 	}
 }
 - (IBAction) stakesSegmentPressed: (id) sender 
@@ -238,7 +228,7 @@
 	self.selectedObjectForEdit=5;
 	if(blindTypeSegmentBar.selectedSegmentIndex==4) {
 		blindTypeSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:5];
+		[self gotoListPicker:@"stakes" initialDateValue:@""];
 	}
 }
 - (IBAction) limitSegmentPressed: (id) sender 
@@ -246,7 +236,7 @@
 	self.selectedObjectForEdit=6;
 	if(limitTypeSegmentBar.selectedSegmentIndex==3) {
 		limitTypeSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:6];
+		[self gotoListPicker:@"limit" initialDateValue:@""];
 	}
 }
 
@@ -255,41 +245,21 @@
 	self.selectedObjectForEdit=7;
 	if(TourneyTypeSegmentBar.selectedSegmentIndex==3) {
 		TourneyTypeSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:7];
+		[self gotoListPicker:@"tournamentType" initialDateValue:@""];
 	}
 }
 
 
 - (IBAction) locationButtonPressed: (id) sender
 {
-	NSArray *listOfVals = [CoreDataLib getFieldList:@"Location" mOC:managedObjectContext addAllTypesFlg:NO];
 	self.selectedObjectForEdit=2;
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
-	localViewController.callBackViewController=self;
-	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
-	localViewController.titleLabel = NSLocalizedString(@"Location", nil);
-	localViewController.selectedList=0;
-	localViewController.selectionList = [[NSArray alloc] initWithArray:listOfVals];
-	localViewController.allowEditing=YES;
-	[self.navigationController pushViewController:localViewController animated:YES];
-	 
+	[self gotoListPicker:@"location" initialDateValue:locationButton.titleLabel.text];
 }
 
 - (IBAction) bankrollButtonPressed: (id) sender 
 {
 	self.selectedObjectForEdit=1;
-	NSArray *listOfVals = [CoreDataLib getFieldList:@"Bankroll" mOC:managedObjectContext addAllTypesFlg:NO];
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
-	localViewController.callBackViewController=self;
-	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", bankrollButton.titleLabel.text];
-	localViewController.titleLabel = @"Bankroll";
-	localViewController.selectedList = 0;
-    localViewController.maxFieldLength=10;
-	localViewController.selectionList = [[NSArray alloc] initWithArray:listOfVals];
-	localViewController.allowEditing=YES;
-	[self.navigationController pushViewController:localViewController animated:YES];
+	[self gotoListPicker:@"bankroll" initialDateValue:bankrollButton.titleLabel.text];
 }
 - (IBAction) buyinButtonPressed: (id) sender 
 {
@@ -363,6 +333,7 @@
 						   nil];
 	
 	[ProjectFunctions updateGameInDatabase:managedObjectContext mo:mo valueList:valueArray];
+	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
 	return mo;
 }
 

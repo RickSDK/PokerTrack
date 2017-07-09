@@ -65,7 +65,6 @@
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Number Picker"];
@@ -73,12 +72,10 @@
 	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
 	self.titleLabel.text = [NSString stringWithFormat:@"%@", self.sendTitle];
 	
-//	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-//	self.navigationItem.leftBarButtonItem = modalButton;
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
-	
-	UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithTitle:@"Update" style:UIBarButtonItemStyleBordered target:self action:@selector(save:)];
-	self.navigationItem.rightBarButtonItem = updateButton;
+
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
+
 }
 
 

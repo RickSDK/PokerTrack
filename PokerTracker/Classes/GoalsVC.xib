@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1911" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GoalsVC">
             <connections>
-                <outlet property="activityBGView" destination="31" id="33"/>
-                <outlet property="activityIndicator" destination="32" id="34"/>
                 <outlet property="bankRollSegment" destination="37" id="40"/>
                 <outlet property="bankrollButton" destination="38" id="39"/>
                 <outlet property="hourlyButton" destination="12" id="23"/>
@@ -16,6 +14,7 @@
                 <outlet property="profitButton" destination="11" id="24"/>
                 <outlet property="rightYear" destination="MtW-g4-3uU" id="Yfx-7H-lH1"/>
                 <outlet property="view" destination="1" id="3"/>
+                <outlet property="webServiceView" destination="wy2-Rx-S6R" id="1mg-vQ-I0C"/>
                 <outlet property="yearLabel" destination="17" id="20"/>
                 <outlet property="yearToolbar" destination="5" id="36"/>
             </connections>
@@ -157,14 +156,11 @@
                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="logo2.png" id="31">
-                    <rect key="frame" x="46" y="103" width="223" height="111"/>
+                <view contentMode="scaleToFill" id="wy2-Rx-S6R" customClass="WebServiceView">
+                    <rect key="frame" x="80" y="93" width="160" height="208"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="32">
-                    <rect key="frame" x="69" y="145" width="37" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </activityIndicatorView>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -173,7 +169,6 @@
     </objects>
     <resources>
         <image name="greenFelt.png" width="320" height="480"/>
-        <image name="logo2.png" width="317" height="149"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

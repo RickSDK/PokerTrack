@@ -14,7 +14,7 @@
 
 }
 
-+(UITableViewCell *)statsBreakdown:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title stats:(NSArray *)stats;
++(UITableViewCell *)statsBreakdown:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title stats:(NSArray *)stats labels:(NSArray *)labels;
 +(UITableViewCell *)mainChartCell:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier chartImageView:(UIImageView *)chartImageView;
 +(MultiLineDetailCellWordWrap *)quarterlyStats:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title statsArray:(NSArray *)statsArray;
 

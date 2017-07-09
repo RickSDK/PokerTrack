@@ -21,7 +21,9 @@
 "roiNameLabel" = "Retorno de la inversión (ROI)";
 "All" = "Todas";
 "Cash" = "Efectivo";
+"Cash" = "Juegos de Dinero";
 "Tournaments" = "Torneos";
+"Tournament" = "Torneo";
 "Tips" = "Propinas";
 "Streak" = "Racha";
 "Risked" = "Arriesgado";

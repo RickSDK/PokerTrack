@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GamesVC">
             <connections>
-                <outlet property="activityIndicator" destination="31" id="32"/>
                 <outlet property="bankRollSegment" destination="36" id="38"/>
                 <outlet property="bankrollButton" destination="33" id="34"/>
                 <outlet property="gameTypeSegment" destination="20" id="23"/>
@@ -20,6 +19,7 @@
                 <outlet property="roiLabel" destination="eZY-nt-dai" id="ZYd-Lg-VaG"/>
                 <outlet property="roiNameLabel" destination="lfr-6n-TI6" id="vA7-BX-4rX"/>
                 <outlet property="view" destination="1" id="3"/>
+                <outlet property="webServiceView" destination="2GW-pd-5Ei" id="KmH-1a-IFi"/>
                 <outlet property="yearLabel" destination="13" id="16"/>
                 <outlet property="yearToolbar" destination="7" id="25"/>
             </connections>
@@ -29,10 +29,6 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="31">
-                    <rect key="frame" x="141" y="164" width="37" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </activityIndicatorView>
                 <view contentMode="scaleToFill" id="YW4-rQ-c2p">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -175,6 +171,11 @@
                         <action selector="bankrollSegmentChanged:" destination="-1" eventType="valueChanged" id="37"/>
                     </connections>
                 </segmentedControl>
+                <view contentMode="scaleToFill" id="2GW-pd-5Ei" customClass="WebServiceView">
+                    <rect key="frame" x="96" y="199" width="128" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

@@ -22,18 +22,13 @@
 @synthesize managedObjectContext;
 @synthesize mainTableView, selectedObjectForEdit, profitButton, hourlyButton;
 @synthesize displayYear, yearLabel, leftYear, rightYear;
-@synthesize chart1ImageView, chart2ImageView, chart3ImageView, chart4ImageView, chart5ImageView, chart6ImageView, chart7ImageView, chart8ImageView;
+@synthesize chartMonth1ImageView, chartMonth2ImageView, chart3ImageView, chart4ImageView, chart5ImageView, chart6ImageView, chartYear1ImageView, chartYear2ImageView;
 @synthesize yearlyProfits, yearHourlyProfits, monthlyProfits, hourlyProfits, showBreakdownFlg;
 @synthesize activityBGView, activityIndicator, yearToolbar, moneySegment;
 @synthesize dayProfits, dayHourly, timeProfits, timeHourly, lockScreen, viewUnLoaded;
 @synthesize bankRollSegment, bankrollButton;
 
--(void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-    self.viewUnLoaded=YES;
-    
-}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -41,11 +36,8 @@
         [self setEdgesForExtendedLayout:UIRectEdgeBottom];
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
-    self.viewUnLoaded=NO;
 	[self computeStats];
 }
-
-
 
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -79,6 +71,7 @@
 {
 	[self yearChanged:rightYear];
 }
+
 - (IBAction) yearGoesDown: (id) sender
 {
 	[self yearChanged:leftYear];
@@ -86,6 +79,12 @@
 
 - (IBAction) moneySegmentChanged: (id) sender
 {
+	if(self.moneySegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Profit", nil)];
+	}
+	if(self.moneySegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Hourly Profit", nil)];
+	}
 	[mainTableView reloadData];
 }
 
@@ -109,6 +108,39 @@
 	detailViewController.titleLabel = NSLocalizedString(@"Hourly", nil);
 	detailViewController.initialDateValue = [ProjectFunctions getUserDefaultValue:@"hourlyGoal"];
 	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (void)computeStats
+{
+	self.bankRollSegment.enabled=NO;
+	self.moneySegment.enabled=NO;
+	self.leftYear.enabled=NO;
+	self.rightYear.enabled=NO;
+	[activityIndicator startAnimating];
+	activityBGView.alpha=1;
+	self.lockScreen=YES;
+	self.mainTableView.alpha=.5;
+	[self performSelectorInBackground:@selector(drawFirstCharts) withObject:nil];
+}
+
+-(void)drawFirstCharts
+{
+	@autoreleasepool {
+		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
+		[contextLocal setUndoManager:nil];
+		
+		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+		
+		self.chartYear1ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
+		self.chartMonth1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
+		activityBGView.alpha=0;
+		
+		[self doTheHardWord];
+		//        mainTableView.alpha=1;
+		//        [mainTableView reloadData];
+		//	[self performSelectorInBackground:@selector(doTheHardWord) withObject:nil];
+	}
 }
 
 -(void)doTheHardWord
@@ -223,10 +255,10 @@
 		self.chart3ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
 		self.chart5ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
 		
- 	self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
+ 	self.chartMonth2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
  	self.chart4ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
  	self.chart6ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
- 	self.chart8ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
+ 	self.chartYear2ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
 		
 		self.lockScreen=NO;
 		self.bankRollSegment.enabled=YES;
@@ -234,58 +266,9 @@
 		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 		
 		[activityIndicator stopAnimating];
-		
-		[self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
-
+		self.mainTableView.alpha=1;
+		[mainTableView reloadData];
 	}
-}
-
--(void)drawFirstCharts
-{
-    @autoreleasepool {
-    
-        [NSThread sleepForTimeInterval:0.1];
-        
-        NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
-        [contextLocal setUndoManager:nil];
-        
-        PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
-        
-            self.chart7ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-            self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-            activityBGView.alpha=0;
-        
-
- 
-        mainTableView.alpha=1;
-        [mainTableView reloadData];
-        
-	[self performSelectorInBackground:@selector(doTheHardWord) withObject:nil];
-
-
-	}
-
-}
-
--(void)updateDisplay
-{
-    mainTableView.alpha=1;
-    [mainTableView reloadData];
-}
-
-- (void)computeStats
-{
-    NSLog(@"computeStats");
-    
-    self.bankRollSegment.enabled=NO;
-    self.moneySegment.enabled=NO;
-    self.leftYear.enabled=NO;
-    self.rightYear.enabled=NO;
-	[activityIndicator startAnimating];
-	activityBGView.alpha=1;
-    self.lockScreen=YES;
-	[self performSelectorInBackground:@selector(drawFirstCharts) withObject:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -308,14 +291,14 @@
 	timeProfits = [[NSMutableArray alloc] init];
 	timeHourly = [[NSMutableArray alloc] init];
 
-	chart1ImageView = [[UIImageView alloc] init];
-	chart2ImageView = [[UIImageView alloc] init];
+	chartMonth1ImageView = [[UIImageView alloc] init];
+	chartMonth2ImageView = [[UIImageView alloc] init];
 	chart3ImageView = [[UIImageView alloc] init];
 	chart4ImageView = [[UIImageView alloc] init];
 	chart5ImageView = [[UIImageView alloc] init];
 	chart6ImageView = [[UIImageView alloc] init];
-	chart7ImageView = [[UIImageView alloc] init];
-	chart8ImageView = [[UIImageView alloc] init];
+	chartYear1ImageView = [[UIImageView alloc] init];
+	chartYear2ImageView = [[UIImageView alloc] init];
 	self.selectedObjectForEdit=0;
 	
 	
@@ -325,9 +308,6 @@
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
 	self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-
-//	[ProjectFunctions addColorToButton:self.leftYear color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
-//	[ProjectFunctions addColorToButton:self.rightYear color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
 
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
@@ -405,15 +385,15 @@
 
 		if(indexPath.section==0) {
 			if(moneySegment.selectedSegmentIndex==0)
-				cell.backgroundView = chart7ImageView;
+				cell.backgroundView = chartYear1ImageView;
 			else 
-				cell.backgroundView = chart8ImageView; 
+				cell.backgroundView = chartYear2ImageView;
 		} 
 		if(indexPath.section==1) {
 			if(moneySegment.selectedSegmentIndex==0)
-				cell.backgroundView = chart1ImageView;
+				cell.backgroundView = chartMonth1ImageView;
 			else 
-				cell.backgroundView = chart2ImageView; 
+				cell.backgroundView = chartMonth2ImageView;
 		} 
 		if(indexPath.section==2){
 			if(moneySegment.selectedSegmentIndex==0)
@@ -642,15 +622,6 @@
 	self.showBreakdownFlg = !showBreakdownFlg;
 	[mainTableView reloadData];
 }
-
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
 
 -(void) setReturningValue:(NSString *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];

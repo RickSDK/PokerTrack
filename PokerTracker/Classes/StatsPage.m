@@ -63,8 +63,17 @@
 	
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.chartImageView2];
 
-	
-	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Limit", nil), @"Stakes", NSLocalizedString(@"Location", nil), @"Bankroll", @"Tournament Type", nil]];
+	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+														 NSLocalizedString(@"Profit", nil),
+														 NSLocalizedString(@"Risked", nil),
+														 NSLocalizedString(@"Games", nil),
+														 NSLocalizedString(@"Streak", nil),
+														 NSLocalizedString(@"WinStreak", nil),
+														 NSLocalizedString(@"LoseStreak", nil),
+														 NSLocalizedString(@"Hours", nil),
+														 NSLocalizedString(@"Hourly", nil),
+														 @"ROI",
+														 nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"risked", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", @"ROI", nil]];
 	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:NSLocalizedString(@"LifeTime", nil), @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
 	profitArray = [[NSMutableArray alloc] init];
@@ -74,7 +83,6 @@
 	
 	
 	selectedFieldIndex=0;
-	activityBGView.alpha=0;
 	
 	displayBySession=NO;
 	
@@ -98,8 +106,6 @@
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
-	
-//	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	
 	bankrollButton.alpha=1;
 	bankRollSegment.alpha=1;
@@ -320,12 +326,6 @@
 		toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
 	{
 		self.chartImageView2.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
-
-//		largeGraph.alpha=.5;
-//		chartImageView.alpha=.5;
-//		self.chartImageView2.alpha=.5;
-//		NSLog(@"Here!!");
-//		largeGraph.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width/2, [[UIScreen mainScreen] bounds].size.height);
 		self.rotateLock=YES;
 	}
 	else
@@ -346,7 +346,17 @@
 -(void) computeStats
 {
 	
-    analysisButton.enabled=NO;
+	if(self.gameSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Stats", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+	}
+
+	analysisButton.enabled=NO;
     reportsButton.enabled=NO;
     chartsButton.enabled=NO;
     goalsButton.enabled=NO;
@@ -354,9 +364,7 @@
     customSegment.enabled=NO;
     
 	[activityIndicator startAnimating];
-	activityBGView.alpha=1;
-    mainTableView.alpha=0;
-
+	self.mainTableView.alpha=.5;
 
     if([ProjectFunctions useThreads]) {
         [self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
@@ -456,15 +464,13 @@
 		
 		
 		[activityIndicator stopAnimating];
-		mainTableView.alpha=1;
-		activityBGView.alpha=0;
 		analysisButton.enabled=YES;
 		reportsButton.enabled=YES;
 		chartsButton.enabled=YES;
 		goalsButton.enabled=YES;
 		gameSegment.enabled=YES;
 		customSegment.enabled=YES;
-		
+		self.mainTableView.alpha=1;
 		[mainTableView reloadData];
 
 	}
@@ -553,7 +559,7 @@
 		return [StatsFunctions mainChartCell:tableView CellIdentifier:CellIdentifier chartImageView:chartImageView];
 	}
 	if(indexPath.section==1) {
-		return [StatsFunctions statsBreakdown:tableView CellIdentifier:CellIdentifier title:[formDataArray objectAtIndex:0] stats:statsArray];
+		return [StatsFunctions statsBreakdown:tableView CellIdentifier:CellIdentifier title:[formDataArray objectAtIndex:0] stats:statsArray labels:labelValues];
 	}
 	if(indexPath.section==2) {
 		return [StatsFunctions quarterlyStats:tableView CellIdentifier:CellIdentifier title:[ProjectFunctions labelForYearValue:displayYear] statsArray:profitArray];
@@ -579,18 +585,35 @@
 	
 	cell.titleTextArray = labels;
 	cell.fieldTextArray = [multiDimenArray objectAtIndex:indexPath.section];
+	cell.fieldColorArray = [self colorsForData:[multiDimenArray objectAtIndex:indexPath.section]];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	return cell;
 
 }
 
+-(NSArray *)colorsForData:(NSArray *)data {
+	NSMutableArray *colors = [[NSMutableArray alloc] init];
+	int i=0;
+	for (NSString *item in data) {
+		if(i>1 && i<=4)
+			[colors addObject:[self colorForAmount:item]];
+		else
+			[colors addObject:[UIColor blackColor]];
+		i++;
+	}
+	return colors;
+}
+
+-(UIColor *)colorForAmount:(NSString *)money {
+	double amount = [ProjectFunctions convertMoneyStringToDouble:money];
+	if(amount==0)
+		return [UIColor grayColor];
+	return (amount>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
+}
+
 -(void) setReturningValue:(NSObject *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
-//	if(selectedFieldIndex==kSaveFilter) {
-//		[self saveNewFilter:(NSString *)value];
-//		return;
-//	}
 	customSegment.selectedSegmentIndex=0;
 	[formDataArray replaceObjectAtIndex:selectedFieldIndex withObject:value];
 	if(selectedFieldIndex==0)
@@ -618,74 +641,7 @@
 	
 	return list;
 }
-/*
--(void)saveCustomSearch:(NSString *)type searchNum:(NSString *)searchNum
-{
-	NSLog(@"saving: %@ %@", type, searchNum);
-	if([type isEqualToString:@"Timeframe"]) {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
-		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-		if([items count]>0) {
-			NSManagedObject *mo = [items objectAtIndex:0];
-			NSDate *startTime = [mo valueForKey:@"startTime"];
-			NSDate *endTime = [mo valueForKey:@"endTime"];
-			
-			NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
-			[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:@"Timeframe", @"", [startTime convertDateToStringWithFormat:nil], [endTime convertDateToStringWithFormat:nil], @"", searchNum, nil] mOC:managedObjectContext predicate:predicate2];
-		}
-	} else {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
-		NSString *checkmarkList = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"checkmarkList" predicate:predicate indexPathRow:0];
-		NSString *searchStr = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"searchStr" predicate:predicate indexPathRow:0];
-		
-		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
-		[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:type, searchStr, @"", @"", checkmarkList, searchNum, nil] mOC:managedObjectContext predicate:predicate2];
-	}
-}
- */
-/*
--(BOOL)saveNewFilter:(NSString *)valueCombo
-{
-	NSLog(@"saving! %@", valueCombo);
-	NSArray *items = [valueCombo componentsSeparatedByString:@"|"];
-	NSString *buttonName = [items objectAtIndex:0];
-	int buttonNumber = [[items objectAtIndex:1] intValue]+1;
-	
-	NSArray *keyList = [ProjectFunctions getColumnListForEntity:@"FILTER" type:@"column"];
-	NSArray *typeList = [ProjectFunctions getColumnListForEntity:@"FILTER" type:@"type"];
-	NSMutableArray *valueList = [[NSMutableArray alloc] initWithArray:formDataArray];
-	
-	[valueList addObject:[NSString stringWithFormat:@"%d", buttonNumber]];
-	[valueList addObject:buttonName];
-	
-	NSManagedObject *mo;
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %d", buttonNumber];
-	NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
-	if([filters count]>0) {
-		NSLog(@"---updating");
-		mo = [filters objectAtIndex:0];
-	} else {
-		NSLog(@"---inserting");
-		mo = [NSEntityDescription insertNewObjectForEntityForName:@"FILTER" inManagedObjectContext:self.managedObjectContext];
-	}
-	[customSegment setTitle:buttonName forSegmentAtIndex:buttonNumber];
-	BOOL success = [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:self.managedObjectContext];
-	if(success) {
-		customSegment.selectedSegmentIndex = buttonNumber;
-		gameSegment.selectedSegmentIndex = 0;
-	}
-	
-	// save custom filters
-	int i=0;
-	for(NSString *value in formDataArray) {
-		NSString *type = [labelValues objectAtIndex:i++];
-		if([value isEqualToString:@"*Custom*"])
-			[self saveCustomSearch:type searchNum:[NSString stringWithFormat:@"%d", buttonNumber]];
-	}
-	return success;
-}
 
-*/
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	selectedFieldIndex = (int)indexPath.row;
 	if(indexPath.section==0) {
@@ -693,11 +649,6 @@
 		[self computeStats];
 	}
 }
-
-
-
-
-
 
 - (IBAction) bankrollSegmentChanged: (id) sender
 {

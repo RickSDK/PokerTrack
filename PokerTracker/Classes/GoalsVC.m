@@ -84,6 +84,17 @@
 }
 
 
+- (void)computeStats
+{
+	self.bankRollSegment.enabled=NO;
+	self.bankrollButton.enabled=NO;
+	self.leftYear.enabled=NO;
+	self.rightYear.enabled=NO;
+	self.mainTableView.alpha=.5;
+	[self.webServiceView startWithTitle:@"Working..."];
+	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
+}
+
 -(void)doTheHardWork
 {
 	@autoreleasepool {
@@ -94,58 +105,42 @@
         PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
         [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
         
-	[self.monthlyProfits removeAllObjects];
-	[hourlyProfits removeAllObjects];
- 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	NSArray *months = [ProjectFunctions namesOfAllMonths];
-	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-            NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-            NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            int winnings = [[values stringAtIndex:0] intValue];
-            int gameCount = [[values stringAtIndex:1] intValue];
-            int minutes = [[values stringAtIndex:2] intValue];
+		[self.monthlyProfits removeAllObjects];
+		[hourlyProfits removeAllObjects];
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
+		NSArray *months = [ProjectFunctions namesOfAllMonths];
+		for(NSString *month in months) {
+			NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+			NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
+			NSArray *values = [chart1 componentsSeparatedByString:@"|"];
+			int winnings = [[values stringAtIndex:0] intValue];
+			int gameCount = [[values stringAtIndex:1] intValue];
+			int minutes = [[values stringAtIndex:2] intValue];
+			
+			int hours = minutes/60;
+			int hourlyRate = 0;
+			if(hours>0)
+				hourlyRate = winnings/hours;
+			[self.monthlyProfits addObject:[NSString stringWithFormat:@"%d|%d", winnings, gameCount]];
+			[self.hourlyProfits addObject:[NSString stringWithFormat:@"%d|%d", hourlyRate, gameCount]];
+		}
+		int profitGoal = [[ProjectFunctions getUserDefaultValue:@"profitGoal"] intValue];
+		int hourlyGoal = [[ProjectFunctions getUserDefaultValue:@"hourlyGoal"] intValue];
+		[profitButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:profitGoal]] forState:UIControlStateNormal];
+		[hourlyButton setTitle:[NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertIntToMoneyString:hourlyGoal]] forState:UIControlStateNormal];
 
-		int hours = minutes/60;
-		int hourlyRate = 0;
-		if(hours>0)
-			hourlyRate = winnings/hours;
-		[self.monthlyProfits addObject:[NSString stringWithFormat:@"%d|%d", winnings, gameCount]];
-		[self.hourlyProfits addObject:[NSString stringWithFormat:@"%d|%d", hourlyRate, gameCount]];
-	}
-	int profitGoal = [[ProjectFunctions getUserDefaultValue:@"profitGoal"] intValue];
-	int hourlyGoal = [[ProjectFunctions getUserDefaultValue:@"hourlyGoal"] intValue];
-	[profitButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:profitGoal]] forState:UIControlStateNormal];
-	[hourlyButton setTitle:[NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertIntToMoneyString:hourlyGoal]] forState:UIControlStateNormal];
-
- 	self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:YES];
-	self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:YES];
-	
-	activityBGView.alpha=0;
-	[activityIndicator stopAnimating];
-        self.bankRollSegment.enabled=YES;
-        self.bankrollButton.enabled=YES;
-
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
- 	[mainTableView reloadData];
+		self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:YES];
+		self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:YES];
+		
+		self.bankRollSegment.enabled=YES;
+		self.bankrollButton.enabled=YES;
+		
+		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+		self.mainTableView.alpha=1;
+		[self.webServiceView stop];
+		[mainTableView reloadData];
  	}
-}	
-
-- (void)executeThreadedJob:(SEL)aSelector
-{
-	[activityIndicator startAnimating];
-	activityBGView.alpha=1;
-    self.bankRollSegment.enabled=NO;
-    self.bankrollButton.enabled=NO;
-    self.leftYear.enabled=NO;
-    self.rightYear.enabled=NO;
-	[self performSelectorInBackground:aSelector withObject:nil];
-}
-
-- (void)computeStats
-{
-	[self executeThreadedJob:@selector(doTheHardWork)];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -358,9 +353,6 @@
 	
 	return cell;
 }
-
-
-
 
 -(void) setReturningValue:(NSString *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];

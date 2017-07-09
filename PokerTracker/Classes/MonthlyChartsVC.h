@@ -40,14 +40,14 @@
 	NSMutableArray *timeHourly;
 	
 	int selectedObjectForEdit;
-	UIImageView *chart1ImageView;
-	UIImageView *chart2ImageView;
+	UIImageView *chartMonth1ImageView;
+	UIImageView *chartMonth2ImageView;
 	UIImageView *chart3ImageView;
 	UIImageView *chart4ImageView;
 	UIImageView *chart5ImageView;
 	UIImageView *chart6ImageView;
-	UIImageView *chart7ImageView;
-	UIImageView *chart8ImageView;
+	UIImageView *chartYear1ImageView;
+	UIImageView *chartYear2ImageView;
 	
 	BOOL showBreakdownFlg;
     BOOL lockScreen;
@@ -90,14 +90,14 @@
 @property (atomic, strong) NSMutableArray *timeProfits;
 @property (atomic, strong) NSMutableArray *timeHourly;
 
-@property (atomic, strong) UIImageView *chart1ImageView;
-@property (atomic, strong) UIImageView *chart2ImageView;
+@property (atomic, strong) UIImageView *chartMonth1ImageView;
+@property (atomic, strong) UIImageView *chartMonth2ImageView;
 @property (atomic, strong) UIImageView *chart3ImageView;
 @property (atomic, strong) UIImageView *chart4ImageView;
 @property (atomic, strong) UIImageView *chart5ImageView;
 @property (atomic, strong) UIImageView *chart6ImageView;
-@property (atomic, strong) UIImageView *chart7ImageView;
-@property (atomic, strong) UIImageView *chart8ImageView;
+@property (atomic, strong) UIImageView *chartYear1ImageView;
+@property (atomic, strong) UIImageView *chartYear2ImageView;
 @property (atomic, strong) UISegmentedControl *moneySegment;
 
 

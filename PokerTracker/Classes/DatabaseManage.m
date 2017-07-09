@@ -479,62 +479,18 @@
 	NSString *year = [startDate convertDateToStringWithFormat:@"yyyy"];
 	
 	NSString *limitString = [components objectAtIndex:limitColumn];
+	limitString = [ProjectFunctions scrubRefData:limitString context:self.managedObjectContext];
 	if([limitString isEqualToString:@"No Limit"] || [limitString isEqualToString:@""])
 		limitString = @"No-Limit";
-	if([limitString isEqualToString:@"Pot Limit"])
-		limitString = @"Pot-Limit";
+	limitString = [ProjectFunctions scrubRefData:limitString context:self.managedObjectContext];
 	
 	NSString *stakes = [components objectAtIndex:stakesColumn];
 	if([stakes isEqualToString:@""])
 		stakes = @"$1/$3";
+	stakes = [ProjectFunctions scrubRefData:stakes context:self.managedObjectContext];
 	if([gameType isEqualToString:@"Tournament"])
 		stakes = @"";
 	
-	//Avoid duplicates-----------------
-	if([stakes isEqualToString:@"2-Jan"])
-		stakes = @"$1/$2";
-	if([stakes isEqualToString:@"$1/2"])
-		stakes = @"$1/$2";
-	if([stakes isEqualToString:@"1/2"])
-		stakes = @"$1/$2";
-	if([stakes isEqualToString:@"$2/2"])
-		stakes = @"$2/$2";
-	if([stakes isEqualToString:@"2/2"])
-		stakes = @"$2/$2";
-	if([stakes isEqualToString:@"$1/3"])
-		stakes = @"$1/$3";
-	if([stakes isEqualToString:@"1/3"])
-		stakes = @"$1/$3";
-	if([stakes isEqualToString:@"3-Jan"])
-		stakes = @"$1/$3";
-	if([stakes isEqualToString:@"$2/3"])
-		stakes = @"$2/$3";
-	if([stakes isEqualToString:@"3-Feb"])
-		stakes = @"$2/$3";
-	if([stakes isEqualToString:@"2/3"])
-		stakes = @"$2/$3";
-	if([stakes isEqualToString:@"$2/5"])
-		stakes = @"$2/$5";
-	if([stakes isEqualToString:@"2/5"])
-		stakes = @"$2/$5";
-	if([stakes isEqualToString:@"5-Feb"])
-		stakes = @"$2/$5";
-	if([stakes isEqualToString:@"5-Mar"])
-		stakes = @"$3/$5";
-	if([stakes isEqualToString:@"$3/5"])
-		stakes = @"$3/$5";
-	if([stakes isEqualToString:@"3/5"])
-		stakes = @"$3/$5";
-	if([stakes isEqualToString:@"6-Mar"])
-		stakes = @"$3/$6";
-	if([stakes isEqualToString:@"$3/6"])
-		stakes = @"$3/$6";
-	if([stakes isEqualToString:@"3/6"])
-		stakes = @"$3/$6";
-	if([stakes isEqualToString:@"$5/10"])
-		stakes = @"$5/$10";
-	if([stakes isEqualToString:@"5/10"])
-		stakes = @"$5/$10";
 
 	NSString *gameName = [components objectAtIndex:gameColumn];
 	if([gameName length]==0)
@@ -543,14 +499,16 @@
 		gameName = @"Hold'em";
 	if([gameName isEqualToString:@"Texas Holdem"])
 		gameName = @"Hold'em";
+	gameName = [ProjectFunctions scrubRefData:gameName context:self.managedObjectContext];
 	
 	NSString *location = [components objectAtIndex:locationColumn];
 	if([location isEqualToString:@""])
 		location = @"Casino";
+	location = [ProjectFunctions scrubRefData:location context:self.managedObjectContext];
 	
     NSString *notes = [components stringAtIndex:notesColumn];
-    if([notes length]>200)
-        notes = [notes substringToIndex:200];
+    if([notes length]>500)
+        notes = [notes substringToIndex:500];
     
 	
 	NSMutableArray *formDataArray = [[NSMutableArray alloc] init];
@@ -588,6 +546,7 @@
 
 	NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:@"GAME" inManagedObjectContext:self.managedObjectContext];
 	[ProjectFunctions updateGameInDatabase:self.managedObjectContext mo:mo valueList:formDataArray];
+	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
 }
 
 -(BOOL)checkForDupe:(NSDate *)startTime buyInAmount:(int)buyInAmount
@@ -1038,6 +997,7 @@
 	if([components count]>13) {
 		NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:@"GAME" inManagedObjectContext:managedObjectContext];
 		[ProjectFunctions updateGameInDatabase:managedObjectContext mo:mo valueList:components];
+		[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
 	}
 }
 

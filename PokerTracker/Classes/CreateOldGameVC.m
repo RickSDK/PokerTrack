@@ -16,12 +16,13 @@
 #import "NSArray+ATTArray.h"
 #import "GameGraphVC.h"
 #import "UpgradeVC.h"
+#import "EditSegmentVC.h"
 
 
 @implementation CreateOldGameVC
-@synthesize gameTypeSegmentBar, gameNameSegmentBar, blindTypeSegmentBar, limitTypeSegmentBar;
+@synthesize gameTypeSegmentBar, gameNameSegmentBar, blindTypeSegmentBar, limitTypeSegmentBar, hoursLabel;
 @synthesize datePicker, hoursPlayed, buyinAmount, cashOutAmount, keyboardButton, TourneyTypeSegmentBar;
-@synthesize managedObjectContext, mo;
+@synthesize managedObjectContext, mo, buyinLabel, cashoutLabel;
 @synthesize activityIndicatorServer, textViewBG, activityLabel, selectedObjectForEdit;
 @synthesize buyinMoneyLabel, cashoutMoneyLabel;
 
@@ -37,21 +38,13 @@
 	[self setSegmentForType];
 }
 
--(void)gotoListPicker:(int)selectedObject
+-(void)gotoListPicker:(NSString *)databaseField initialDateValue:(NSString *)initialDateValue
 {
-	NSArray *optionList = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"GameType", @"Stakes", @"Limit", @"Tournament", nil];
-	NSString *option = [NSString stringWithFormat:@"%@", [optionList stringAtIndex:selectedObject]];
-	NSString *entityName = [option uppercaseString];
-	NSArray *valueList = [CoreDataLib getEntityNameList:entityName mOC:managedObjectContext];
-	
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
+	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", [valueList stringAtIndex:0]];
-	localViewController.titleLabel = option;
-	localViewController.selectionList = valueList;
-	localViewController.selectedList = 0;
-	localViewController.allowEditing=YES;
+	localViewController.initialDateValue = initialDateValue;
+	localViewController.databaseField = databaseField;
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
 	  
@@ -61,7 +54,7 @@
 	self.selectedObjectForEdit=4;
 	if(gameNameSegmentBar.selectedSegmentIndex==3) {
 		gameNameSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:4];
+		[self gotoListPicker:@"gametype" initialDateValue:@""];
 	}
 }
 - (IBAction) stakesSegmentPressed: (id) sender 
@@ -69,7 +62,7 @@
 	self.selectedObjectForEdit=5;
 	if(blindTypeSegmentBar.selectedSegmentIndex==4) {
 		blindTypeSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:5];
+		[self gotoListPicker:@"stakes" initialDateValue:@""];
 	}
 }
 - (IBAction) limitSegmentPressed: (id) sender 
@@ -77,7 +70,7 @@
 	self.selectedObjectForEdit=6;
 	if(limitTypeSegmentBar.selectedSegmentIndex==3) {
 		limitTypeSegmentBar.selectedSegmentIndex=0;
-		[self gotoListPicker:6];
+		[self gotoListPicker:@"limit" initialDateValue:@""];
 	}
 }
 
@@ -88,10 +81,12 @@
 		self.TourneyTypeSegmentBar.alpha=0;
 		self.blindTypeSegmentBar.alpha=1;
 		self.buyinAmount.text = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
+		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
 	} else {
 		self.TourneyTypeSegmentBar.alpha=1;
 		self.blindTypeSegmentBar.alpha=2;
 		self.buyinAmount.text = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
+		[self setTitle:NSLocalizedString(@"Tournament", nil)];
 	}
 
 		
@@ -224,6 +219,7 @@
 	NSLog(@"inserting");
 	self.mo = [NSEntityDescription insertNewObjectForEntityForName:@"GAME" inManagedObjectContext:managedObjectContext];
 	[ProjectFunctions updateGameInDatabase:managedObjectContext mo:self.mo valueList:formDataArray];
+	[ProjectFunctions scrubDataForObj:self.mo context:managedObjectContext];
 
 	[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
 
@@ -302,9 +298,7 @@
 	segmentBar.selectedSegmentIndex=0;
 }
 
--(void) setReturningValue:(NSString *) value2 {
-	
-	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
+-(void) setReturningValue:(NSString *) value {
 	if(selectedObjectForEdit==4)
 		[self setSegmentBarToNewvalue:gameNameSegmentBar value:value];
 	if(selectedObjectForEdit==5)

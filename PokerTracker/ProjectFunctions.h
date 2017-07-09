@@ -126,6 +126,7 @@
 +(void)updateOrInsertThisMessage:(NSManagedObjectContext *)mOC line:(NSString *)line;
 +(BOOL)syncDataWithServer:(NSManagedObjectContext *)mOC delegate:(id)delegate refreshDateLabel:(UILabel *)refreshDateLabel;
 +(NSString *)predicateExt:(NSString *)value allValue:(NSString *)allValue field:(NSString *)field typeValue:(NSString *)typeValue mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
++(NSString *)scrubRefData:(NSString *)data context:(NSManagedObjectContext *)context;
 +(NSString *)formatForDataBase:(NSString *)str;
 +(NSString *)getDayTimeFromDate:(NSDate *)localDate;
 +(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
@@ -156,7 +157,7 @@
 +(NSData *)convertBase64StringToData:(NSString *)imgString;
 +(UIImage *)convertBase64StringToImage:(NSString *)imgString;
 +(void)updateYourOwnFriendRecord:(NSManagedObjectContext *)MoC list:(NSMutableArray *)list;
-+(NSString *)displayLocalFormatDate:(NSDate *)date;
++(NSString *)displayLocalFormatDate:(NSDate *)date showDay:(BOOL)showDay showTime:(BOOL)showTime;
 +(NSString *)getMoneySymbol;
 +(NSString *)getMoneySymbol2;
 +(NSArray *)moneySymbols;

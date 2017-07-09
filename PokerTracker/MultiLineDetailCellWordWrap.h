@@ -6,7 +6,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MultiLineObj.h"
-
+#import "MultiCellObj.h"
+#import "GameObj.h"
 
 @interface MultiLineDetailCellWordWrap : UITableViewCell {
 
@@ -37,6 +38,8 @@
 @property (nonatomic, strong) NSArray *fieldColorArray;
 @property (nonatomic, strong) UIColor *labelColor;
 
++(CGFloat)heightForMultiCellObj:(MultiCellObj *)obj tableView:(UITableView *)tableView;
++ (UITableViewCell *)multiCellForID:(NSString *)cellIdentifier obj:(MultiCellObj *)obj tableView:(UITableView *)tableView;
 + (CGFloat)cellHeightForData:(NSArray *)dataArray tableView:(UITableView *)tableView labelWidthProportion:(float)labelWidthProportion;
 + (CGFloat)cellHeightWithNoMainTitleForData:(NSArray *)dataArray tableView:(UITableView *)tableView labelWidthProportion:(float)labelWidthProportion;
 + (CGFloat)cellHeightForMultiCellData:(NSArray *)dataArray

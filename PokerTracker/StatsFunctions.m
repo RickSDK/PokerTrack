@@ -14,7 +14,7 @@
 
 @implementation StatsFunctions
 
-+(UITableViewCell *)statsBreakdown:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title stats:(NSArray *)statsArray
++(UITableViewCell *)statsBreakdown:(UITableView *)tableView CellIdentifier:(NSString *)CellIdentifier title:(NSString *)title stats:(NSArray *)statsArray labels:(NSArray *)labels
 
 {
 	int NumberOfRows=(int)[statsArray count];
@@ -26,7 +26,6 @@
 	cell.mainTitle = @"Game Stats";
 	cell.alternateTitle = title;
 	
-	NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), NSLocalizedString(@"Streak", nil), NSLocalizedString(@"WinStreak", nil), NSLocalizedString(@"LoseStreak", nil), NSLocalizedString(@"Hours", nil), NSLocalizedString(@"Hourly", nil), @"ROI", nil];
 	NSMutableArray *colorArray = [[NSMutableArray alloc] init];
 	
 	[colorArray addObject:[CoreDataLib getFieldColor:[[statsArray objectAtIndex:0] intValue]]];
@@ -54,7 +53,7 @@
 	[valueArray replaceObjectAtIndex:7 withObject:[NSString stringWithFormat:@"%@%@/hr", [ProjectFunctions getMoneySymbol], [statsArray objectAtIndex:7]]];
 	[valueArray replaceObjectAtIndex:8 withObject:[NSString stringWithFormat:@"%@%%", [statsArray objectAtIndex:8]]];
 	
-	cell.titleTextArray = titles;
+	cell.titleTextArray = labels;
 	cell.fieldTextArray = valueArray;
 	cell.fieldColorArray = colorArray;
 	

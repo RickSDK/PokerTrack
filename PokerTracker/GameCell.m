@@ -22,8 +22,17 @@
 		self.profitImageView.image = [UIImage imageNamed:@"playerType1.png"];
 		[self.contentView addSubview:self.profitImageView];
 		
+		self.faLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 34, 29)];
+		self.faLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+		self.faLabel.adjustsFontSizeToFitWidth = YES;
+		self.faLabel.minimumScaleFactor = .8;
+		self.faLabel.textAlignment = NSTextAlignmentCenter;
+		self.faLabel.textColor = [UIColor blackColor];
+		self.faLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:self.faLabel];
+		
 		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 170, 22)];
-		self.nameLabel.font = [UIFont boldSystemFontOfSize:14];
+		self.nameLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
 		self.nameLabel.adjustsFontSizeToFitWidth = YES;
 		self.nameLabel.minimumScaleFactor = .8;
 		self.nameLabel.text = @"nameLabel";
@@ -74,12 +83,10 @@
 		self.profitLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.profitLabel];
 		
-		self.pprLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 29, 34, 15)];
+		self.pprLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, 32, 40)];
 		self.pprLabel.font = [UIFont boldSystemFontOfSize:14];
 		self.pprLabel.adjustsFontSizeToFitWidth = YES;
 		self.pprLabel.minimumScaleFactor = .8;
-		self.pprLabel.shadowColor = [UIColor blackColor];
-		self.pprLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		self.pprLabel.text = @"PPR";
 		self.pprLabel.textAlignment = NSTextAlignmentCenter;
 		self.pprLabel.textColor = [UIColor whiteColor];
@@ -117,36 +124,50 @@
 }
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
-	cell.nameLabel.text = [NSString stringWithFormat:@"%@ (%@)", gameObj.name, [gameObj.type substringToIndex:1]];
-	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime];
+	NSString *faSymbol = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
+	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
+	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
 	cell.locationLabel.text = gameObj.location;
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];
 	
 	if(gameObj.profit>=0) {
-		cell.pprLabel.backgroundColor=[UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
 	} else {
-		cell.pprLabel.backgroundColor=[UIColor redColor];
 		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
 	}
 	
+	cell.nameLabel.textColor = [UIColor blackColor];
 	if(gameObj.cashGameFlg) {
-		cell.nameLabel.textColor = [UIColor blackColor];
 		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
 	} else {
-		cell.nameLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.6 alpha:1];
 		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
 	}
 	
 	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:gameObj.buyInAmount+gameObj.reBuyAmount winnings:gameObj.profit];
 	cell.pprLabel.text = [NSString stringWithFormat:@"%d", gameObj.ppr];
+	cell.profitImageView.hidden=YES;
+	int value = [ProjectFunctions getNewPlayerType:gameObj.risked winnings:gameObj.profit];
+	cell.pprLabel.backgroundColor = [self colorForType:value];
 	
 	if([gameObj.status isEqualToString:@"In Progress"]) {
 		cell.backgroundColor = [UIColor yellowColor];
 		cell.profitLabel.text = @"Playing";
 		cell.profitLabel.textColor = [UIColor redColor];
 	}
+}
+
++(UIColor *)colorForType:(int)type {
+	NSArray *colors = [NSArray arrayWithObjects:
+					   [UIColor colorWithRed:.5 green:0 blue:0 alpha:1], // donkey
+					   [UIColor colorWithRed:.75 green:0 blue:0 alpha:1], // fish
+					   [UIColor colorWithRed:1 green:0 blue:0 alpha:1], // rounder
+					   [UIColor colorWithRed:0 green:.5 blue:0 alpha:1], // grinder
+					   [UIColor colorWithRed:0 green:.75 blue:0 alpha:1], // shark
+					   [UIColor colorWithRed:0 green:1 blue:0 alpha:1], //pro
+					   [UIColor colorWithRed:1 green:1 blue:1 alpha:1],
+					   nil];
+	return [colors objectAtIndex:type];
 }
 
 +(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg {

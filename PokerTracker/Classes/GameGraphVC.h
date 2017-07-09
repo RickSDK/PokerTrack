@@ -7,16 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GameObj.h"
+#import "TemplateVC.h"
 
 
-@interface GameGraphVC : UIViewController
+@interface GameGraphVC : TemplateVC
 
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *mo;
-@property (atomic, strong) IBOutlet UITableView *mainTableView;
 @property (atomic, strong) IBOutlet UILabel *dateLabel;
 @property (atomic, strong) IBOutlet UILabel *timeLabel;
 @property (atomic, strong) IBOutlet UILabel *locationLabel;
@@ -40,7 +38,6 @@
 
 @property (atomic, strong) NSMutableArray *cellRowsArray;
 @property (atomic, strong) NSArray *pointsArray;
-@property (atomic, strong) GameObj *gameObj;
 
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) enterButtonPressed: (id) sender;

@@ -124,11 +124,29 @@
 }
 
 - (IBAction) segmentChanged: (id) sender {
+	if(self.topSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Profit", nil)];
+	}
+	if(self.topSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Hourly", nil)];
+	}
+	if(self.topSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Games", nil)];
+	}
     [mainTableView reloadData];
 }
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
+	if(self.gameSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"All Games", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+	}
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[self computeStats];
 }
@@ -187,9 +205,7 @@
     topSegment.enabled=NO;
     self.bankRollSegment.enabled=NO;
     self.bankrollButton.enabled=NO;
-    mainTableView.alpha=0;
-    
-	
+	self.mainTableView.alpha=.5;
 	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
 }
 
@@ -197,8 +213,6 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
-		NSLog(@"doTheHardWork");
-		
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -213,16 +227,13 @@
 		
 		NSArray *sectionList = [NSArray arrayWithObjects:@"Type", @"gametype", @"location", @"stakes", @"limit", @"year", @"weekday", @"month", @"daytime", nil];
 		for(NSString *sectionField in sectionList) {
-			NSLog(@"sectionField: %@", sectionField);
 			[self populateArrayForField:sectionField context:contextLocal];
-			
 		} // <-- for
 		
 		if([sectionTitles count]==0)
 			[ProjectFunctions showAlertPopup:@"No Records" message:@"No results for that search"];
 		
 		activityBGView.alpha=0;
-		mainTableView.alpha=1;
 		[self calcMoreStats];
 //		[self performSelectorInBackground:@selector(calcMoreStats) withObject:nil];
 	}
@@ -245,10 +256,10 @@
 	NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
 	NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+	NSString *fullPred = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
 	NSArray *days = [self getValuesForField:field context:contextLocal];
 	for(NSString *day in days) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = '%@'", basicPred, field, day];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:fullPred, day];
 		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
 		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
 		int winnings = [[values stringAtIndex:0] intValue];
@@ -312,6 +323,7 @@
 		
 		self.bankRollSegment.enabled=YES;
 		self.bankrollButton.enabled=YES;
+		self.mainTableView.alpha=1;
 		[mainTableView reloadData];
 	}
 }

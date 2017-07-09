@@ -53,9 +53,13 @@
 	self.textField.text = self.initialValueString;
 	self.clearButton.enabled = allowClearField;
 
-//	self.navigationItem.title = navItem.title;
 	self.navigationItem.rightBarButtonItem = navItem.rightBarButtonItem;
 	self.navigationItem.leftBarButtonItem = navItem.leftBarButtonItem;
+	
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
+
 
 	NSString *dateFormat = nil;
 	if(dateOnlyMode)

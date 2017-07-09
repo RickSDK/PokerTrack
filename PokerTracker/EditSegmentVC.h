@@ -18,9 +18,12 @@
 @property (nonatomic, strong) NSMutableArray *list;
 @property (nonatomic, strong) NSMutableDictionary *listDict;
 @property (nonatomic, strong) NSString *entity;
+@property (nonatomic, strong) NSString *initialDateValue;
+@property (nonatomic, strong) NSString *databaseField;
 @property (nonatomic) int option;
 @property (nonatomic) BOOL optionSelectedFlg;
 @property (nonatomic) int rowNum;
+@property (nonatomic) int selectedAction;
 
 - (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)addButtonPressed:(id)sender;

@@ -36,14 +36,13 @@
 
 
 @implementation MainMenuVC
-@synthesize managedObjectContext, friendsNumLabel, friendsNumCircle, largeGraph, rotateLock;
+@synthesize managedObjectContext, friendsNumLabel, friendsNumCircle, largeGraph, rotateLock, editButton;
 @synthesize statsButton, gamesButton, tournamentButton, netTrackerButton, oddsButton, forumButton, moreTrackersButton, displayYear, displayBySession;
 @synthesize yearLabel, moneyLabel, aboutImage, aboutShowing, aboutText, logoImage, upgradeButton, toggleMode;
 @synthesize openGamesCircle, openGamesLabel, refreshButton, versionLabel, reviewButton, bankrollLabel, startNewGameButton;
 @synthesize alertViewNum, emailButton, analysisButton, graphChart, logoAlpha, yearTotalLabel, smallYearLabel;
 @synthesize showDisolve, screenLock, avoidPopup, casinoButton, casinoLabel, analysisBG, bankrollNameLabel;
 @synthesize aboutButton, playerTypeLabel, forumNumLabel, forumNumCircle, activityIndicatorNet, activityIndicatorData;
-
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -183,15 +182,15 @@
 }
 
 -(void)setupButtons {
-//	[self createLabelForButton:self.gamesButton size:26 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
-//	[self createLabelForButton:self.statsButton size:30 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+	[self createLabelForButton:self.gamesButton size:24 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
+	[self createLabelForButton:self.statsButton size:24 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
 //	[self createLabelForButton:self.oddsButton size:18 name:NSLocalizedString(@"Odds", nil) icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
 //	[self createLabelForButton:self.moreTrackersButton size:18 name:NSLocalizedString(@"Trackers", nil) icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
 //	[self createLabelForButton:self.forumButton size:18 name:NSLocalizedString(@"Forum", nil) icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
 //	[self createLabelForButton:self.netTrackerButton size:18 name:NSLocalizedString(@"Net Tracker", nil) icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
 	
-	[self createFAButton:self.gamesButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAListOl]];
-	[self createFAButton:self.statsButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+//	[self createFAButton:self.gamesButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAListOl]];
+//	[self createFAButton:self.statsButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
 	[self createFAButton:self.oddsButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
 	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
 	[self createFAButton:self.forumButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
@@ -636,6 +635,13 @@
 	[ProjectFunctions insertRecordIntoEntity:managedObjectContext EntityName:@"FILTER" valueList:filterList];
 }
 
+-(void)populateRefDataForTable:(NSString *)table segment:(int)segment {
+	NSArray *values = [ProjectFunctions getArrayForSegment:segment];
+	for(NSString *value in values) {
+		[CoreDataLib insertAttributeManagedObject:table valueList:[NSArray arrayWithObjects:value, nil] mOC:self.managedObjectContext];
+	}
+}
+
 -(void)setupData
 {
 	NSArray *items = [CoreDataLib selectRowsFromTable:@"GAMETYPE" mOC:managedObjectContext];
@@ -644,48 +650,19 @@
 		[CoreDataLib insertAttributeManagedObject:@"TYPE" valueList:[NSArray arrayWithObjects:@"Cash", nil] mOC:self.managedObjectContext];
 		[CoreDataLib insertAttributeManagedObject:@"TYPE" valueList:[NSArray arrayWithObjects:@"Tournament", nil] mOC:self.managedObjectContext];
 
-		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Hold'em", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Omaha", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"Razz", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"7-Card", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"GAMETYPE" valueList:[NSArray arrayWithObjects:@"5-Card", nil] mOC:self.managedObjectContext];
-
-		[CoreDataLib insertAttributeManagedObject:@"BANKROLL" valueList:[NSArray arrayWithObjects:@"Default", nil] mOC:self.managedObjectContext];
-		
-		[CoreDataLib insertAttributeManagedObject:@"LOCATION" valueList:[NSArray arrayWithObjects:@"Casino", nil] mOC:self.managedObjectContext];
-		
-		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"No-Limit", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Pot-Limit", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Limit", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"LIMIT" valueList:[NSArray arrayWithObjects:@"Spread", nil] mOC:self.managedObjectContext];
+		[self populateRefDataForTable:@"GAMETYPE" segment:0];
+		[self populateRefDataForTable:@"STAKES" segment:1];
+		[self populateRefDataForTable:@"LIMIT" segment:2];
+		[self populateRefDataForTable:@"TOURNAMENT" segment:3];
+		[self populateRefDataForTable:@"BANKROLL" segment:4];
+		[self populateRefDataForTable:@"LOCATION" segment:5];
 		
 		[CoreDataLib insertAttributeManagedObject:@"YEAR" valueList:[NSArray arrayWithObjects:[[NSDate date] convertDateToStringWithFormat:@"yyyy"], nil] mOC:self.managedObjectContext];
 
-		
-		
-	}
-	NSArray *items2 = [CoreDataLib selectRowsFromTable:@"TOURNAMENT" mOC:managedObjectContext];
-	if([items2 count]==0) {
-		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Single Table", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Multi Table", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"TOURNAMENT" valueList:[NSArray arrayWithObjects:@"Heads Up", nil] mOC:self.managedObjectContext];
-		
-		
-	}
-	NSArray *items3 = [CoreDataLib selectRowsFromTable:@"STAKES" mOC:managedObjectContext];
-	if([items3 count]==0) {
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$1/$2", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$1/$3", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$3/$5", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$3/$6", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$5/$10", nil] mOC:self.managedObjectContext];
-		[CoreDataLib insertAttributeManagedObject:@"STAKES" valueList:[NSArray arrayWithObjects:@"$10/$20", nil] mOC:self.managedObjectContext];
-	}
-	
-	NSArray *items4 = [CoreDataLib selectRowsFromTable:@"FILTER" mOC:managedObjectContext];
-	if([items4 count]==0) {
 		[self enterNewFilterValue:@"This Month" buttonNumber:1];
 		[self enterNewFilterValue:@"Last Month" buttonNumber:2];
+		
+		
 	}
 
 }

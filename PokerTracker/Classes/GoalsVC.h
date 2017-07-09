@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface GoalsVC : UIViewController {
+@interface GoalsVC : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	int displayYear;

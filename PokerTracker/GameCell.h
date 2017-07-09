@@ -12,6 +12,7 @@
 @interface GameCell : UITableViewCell
 
 @property (nonatomic, retain) UIImageView *profitImageView;
+@property (nonatomic, retain) UILabel *faLabel;
 @property (nonatomic, retain) UILabel *nameLabel;
 @property (nonatomic, retain) UILabel *dateLabel;
 @property (nonatomic, retain) UILabel *hoursLabel;
@@ -23,6 +24,7 @@
 			  nameLabel:(UILabel *)nameLabel
 			  dateLabel:(UILabel *)dateLabel
 		  locationLabel:(UILabel *)locationLabel
+			 hoursLabel:(UILabel *)hoursLabel
 			profitLabel:(UILabel *)profitLabel;
 
 +(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg;

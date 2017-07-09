@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WebServiceView.h"
 #import "NetUserObj.h"
+#import "TemplateVC.h"
 
 
-@interface GameInProgressVC : UIViewController {
+@interface GameInProgressVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *mo;
@@ -30,7 +30,6 @@
 	IBOutlet UIButton *graphButton;
 	
 	NetUserObj *netUserObj;
-//	IBOutlet UIButton *cancelWebButton;
 	
 	IBOutlet UILabel *onBreakLabel;
 	IBOutlet UILabel *timerLabel;
@@ -53,9 +52,6 @@
 	IBOutlet UIImageView *infoImage;
 	IBOutlet UIImageView *playerTypeImage;
 	IBOutlet UITextView *infoText;
-//	IBOutlet UIActivityIndicatorView *activityIndicatorServer;
-//	IBOutlet UIImageView *activityPopup;
-//	IBOutlet UILabel *activityLabel;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	
 	//---Gloabls----------------------------
@@ -84,7 +80,6 @@
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) graphButtonPressed: (id) sender;
 - (IBAction) friendButtonPressed: (id) sender;
-//- (IBAction) cancelWebButtonPressed: (id) sender;
 
 -(void)refreshScreen;
 -(void)setUpScreen;
@@ -95,7 +90,7 @@
 @property (atomic, strong) IBOutlet WebServiceView *webServiceView;
 
 
-
+@property (atomic, strong) GameObj *gameObj;
 @property (atomic, strong) UIButton *foodButton;
 @property (atomic, strong) UIButton *tokesButton;
 @property (atomic, strong) UIButton *chipStackButton;
@@ -107,7 +102,6 @@
 @property (atomic, strong) UIButton *friendButton;
 @property (atomic, strong) UIButton *notesButton;
 @property (atomic, strong) NetUserObj *netUserObj;
-//@property (atomic, strong) UIButton *cancelWebButton;
 
 @property (atomic, strong) UILabel *foodLabel;
 @property (atomic, strong) UILabel *tokesLabel;
@@ -143,10 +137,6 @@
 @property (atomic) BOOL gamePaused;
 @property (atomic) BOOL addOnFlg;
 @property (atomic) BOOL viewLoadedFlg;
-
-//@property (atomic, strong) UIActivityIndicatorView *activityIndicatorServer;
-//@property (atomic, strong) UIImageView *activityPopup;
-//@property (atomic, strong) UILabel *activityLabel;
 
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, strong) NSMutableArray *valuesArray;

@@ -275,6 +275,8 @@
 		6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */; };
 		6BC0DBDD178B4FAA00F0252D /* greenGradWide.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */; };
 		6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDF178B690600F0252D /* ImageCell.m */; };
+		6BC2BFD01F10653500483489 /* GameDetailObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2BFCF1F10653500483489 /* GameDetailObj.m */; };
+		6BC2BFD31F109E6A00483489 /* MultiCellObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2BFD21F109E6A00483489 /* MultiCellObj.m */; };
 		6BC80432156C74FF001C24BD /* ListPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80430156C74FF001C24BD /* ListPicker.m */; };
 		6BC80433156C74FF001C24BD /* ListPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC80431156C74FF001C24BD /* ListPicker.xib */; };
 		6BC8044A156C766F001C24BD /* cleanupRefData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80448156C766F001C24BD /* cleanupRefData.m */; };
@@ -744,6 +746,10 @@
 		6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenGradWide.png; sourceTree = "<group>"; };
 		6BC0DBDE178B690600F0252D /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		6BC0DBDF178B690600F0252D /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		6BC2BFCE1F10653500483489 /* GameDetailObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetailObj.h; sourceTree = "<group>"; };
+		6BC2BFCF1F10653500483489 /* GameDetailObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetailObj.m; sourceTree = "<group>"; };
+		6BC2BFD11F109E6A00483489 /* MultiCellObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiCellObj.h; sourceTree = "<group>"; };
+		6BC2BFD21F109E6A00483489 /* MultiCellObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiCellObj.m; sourceTree = "<group>"; };
 		6BC8042F156C74FF001C24BD /* ListPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListPicker.h; sourceTree = "<group>"; };
 		6BC80430156C74FF001C24BD /* ListPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListPicker.m; sourceTree = "<group>"; };
 		6BC80431156C74FF001C24BD /* ListPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListPicker.xib; sourceTree = "<group>"; };
@@ -1282,6 +1288,10 @@
 				6B69562A1C529F97004CB475 /* GameObj.m */,
 				6BBECDF01CA36EE3005AEE43 /* NetUserObj.h */,
 				6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */,
+				6BC2BFCE1F10653500483489 /* GameDetailObj.h */,
+				6BC2BFCF1F10653500483489 /* GameDetailObj.m */,
+				6BC2BFD11F109E6A00483489 /* MultiCellObj.h */,
+				6BC2BFD21F109E6A00483489 /* MultiCellObj.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -1870,6 +1880,7 @@
 				6B753614145267F000E59D21 /* FriendLocatorVC.m in Sources */,
 				6B75362D14526BCB00E59D21 /* CreateNewAccount.m in Sources */,
 				6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */,
+				6BC2BFD01F10653500483489 /* GameDetailObj.m in Sources */,
 				6BA5B3211457341400F1C0BD /* ReportsVC.m in Sources */,
 				6BA5BE9D145C9DF300F1C0BD /* FriendDetailVC.m in Sources */,
 				6BA5BF52145CBE6D00F1C0BD /* StartNewGameVC.m in Sources */,
@@ -1938,6 +1949,7 @@
 				6BE5C75618380F420028CA26 /* FriendAlertsVC.m in Sources */,
 				6BBC4A801BC8337800CC0081 /* ChipStackObj.m in Sources */,
 				6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */,
+				6BC2BFD31F109E6A00483489 /* MultiCellObj.m in Sources */,
 				6BC8044A156C766F001C24BD /* cleanupRefData.m in Sources */,
 				6BC8048D156C82C9001C24BD /* SoundsLib.m in Sources */,
 				6BF0C4181667E6A400D8D6AE /* BankrollsVC.m in Sources */,

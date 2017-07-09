@@ -22,6 +22,7 @@
 #import "WebServicesFunctions.h"
 #import "MultiLineDetailCellWordWrap.h"
 #import "NSDate+ATTDate.h"
+#import "MultiCellObj.h"
 
 #define kEndGameAlert	1
 
@@ -48,6 +49,8 @@
 	self.tokesLabel.text = NSLocalizedString(@"Tips", nil);
 	self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
 	self.foodLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString fontAwesomeIconStringForEnum:FACutlery], [NSString fontAwesomeIconStringForEnum:FAGlass]];
+	self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18];
+	self.tokesLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
 
 	self.pauseButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
 	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPause] forState:UIControlStateNormal];
@@ -81,12 +84,11 @@
 	infoImage.alpha=0;
 	infoText.alpha=0;
 	
-	gameTypeLabel.text = @"Cash Game";
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		foodLabel.text = @"# Players";
-		tokesLabel.text = @"Finished";
-		currentStackLabel.text = @"Winning Amount";
-		gameTypeLabel.text = @"Tournament";
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	
+	if([self.gameObj.type isEqualToString:@"Tournament"]) {
+		currentStackLabel.text = @"Amount Won";
 	}
 	
 	[self endWebServiceCall];
@@ -97,6 +99,7 @@
 	
 	
 }
+
 
 -(BOOL)shouldAutorotate
 {
@@ -157,40 +160,22 @@
 - (IBAction) foodButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=1;
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		MinuteEnterVC *detailViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
-		detailViewController.callBackViewController = self;
-        detailViewController.managedObjectContext=self.managedObjectContext;
-		detailViewController.sendTitle = @"Total # Players";
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	} else {
-		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-		detailViewController.callBackViewController = self;
-		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.titleLabel = @"Total Food/Drinks";
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	}
+	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+	detailViewController.callBackViewController = self;
+	detailViewController.managedObjectContext=managedObjectContext;
+	detailViewController.titleLabel = @"Total Food/Drinks";
+	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 - (IBAction) tokesButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=2;
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		MinuteEnterVC *detailViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
-		detailViewController.callBackViewController = self;
-        detailViewController.managedObjectContext=self.managedObjectContext;
-		detailViewController.sendTitle = @"Place Finished";
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	} else {
-		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-		detailViewController.managedObjectContext=managedObjectContext;
-		[detailViewController setCallBackViewController:self];
-		detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	}
+	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	[detailViewController setCallBackViewController:self];
+	detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
+	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 - (IBAction) chipsButtonPressed: (id) sender
 {
@@ -320,19 +305,11 @@
 	float foodMoney = [ProjectFunctions convertMoneyStringToDouble:foodButton.titleLabel.text];
 	float tokes = [ProjectFunctions convertMoneyStringToDouble:tokesButton.titleLabel.text];
 	double chips = [ProjectFunctions convertMoneyStringToDouble:chipStackButton.titleLabel.text];
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		[mo setValue:[NSNumber numberWithInt:foodMoney] forKey:@"tournamentSpots"];
-		[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tournamentFinish"];
-		[mo setValue:[NSNumber numberWithInt:(foodMoney/10)+2] forKey:@"breakMinutes"];
-		foodMoney=0;
-	}
 	
 	[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips+foodMoney-buyIn-rebuyAmount rebuyFlg:NO];
 
 
 	self.netProfit = chips+foodMoney-buyIn-rebuyAmount;
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"])
-		netProfit = chips-buyIn-rebuyAmount;
 	
 	int seconds = [[NSDate date] timeIntervalSinceDate:[mo valueForKey:@"startTime"]];
 	int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
@@ -344,6 +321,7 @@
 	NSLog(@"+++winnings set to: %f", self.netProfit);
 	[mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"breakMinutes"];
 	[mo setValue:[NSNumber numberWithInt:minutes] forKey:@"minutes"];
+	[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tokes"];
 	[mo setValue:@"Completed" forKey:@"status"];
 	[mo setValue:[NSDate date] forKey:@"endTime"];
 	[mo setValue:[NSString stringWithFormat:@"%.1f", hours] forKey:@"hours"];
@@ -395,23 +373,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%ldRow%ld", (long)indexPath.section, (long)indexPath.row];
-
-	NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Type", nil), NSLocalizedString(@"Buyin", nil), NSLocalizedString(@"Number of Rebuys", nil), NSLocalizedString(@"Re-buy Amount", nil), NSLocalizedString(@"Current Chips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Take-Home", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"GameMinutes", nil), NSLocalizedString(@"Notes", nil), nil];
-	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	if (cell == nil) {
-		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:[titles count] labelProportion:0.5];
-	}
-	
-
-	cell.mainTitle = [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"EEEE hh:mm a"];
-	cell.alternateTitle = [NSString stringWithFormat:@"%@", [mo valueForKey:@"location"]];
-	cell.titleTextArray = titles;
-	cell.fieldTextArray = self.valuesArray;
-	cell.fieldColorArray = self.colorsArray;
-
-	cell.accessoryType= UITableViewCellAccessoryNone;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+	return [MultiLineDetailCellWordWrap multiCellForID:cellIdentifier obj:self.multiCellObj tableView:tableView];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -429,9 +391,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section==0 && mo != nil) {
-		return [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:[NSArray arrayWithObject:[mo valueForKey:@"notes"]]
-																   tableView:self.mainTableView
-														labelWidthProportion:0.4]+10*18;
+		return [MultiLineDetailCellWordWrap heightForMultiCellObj:self.multiCellObj tableView:self.mainTableView];
 	}
 	
 	return 44;
@@ -515,21 +475,10 @@
 
         int foodDrinks=0;
         int tokesMoney = 0;
-        if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-            int numPlayers = [[mo valueForKey:@"foodDrinks"] intValue];
-            if(numPlayers==0)
-                numPlayers=10;
-            int placeFinished = [[mo valueForKey:@"tokes"] intValue];
-            if(placeFinished==0)
-                placeFinished=5;
-            foodButtonText = [NSString stringWithFormat:@"%d", numPlayers];
-            tokesButtonText = [NSString stringWithFormat:@"%d", placeFinished];
-        } else {
             foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
             tokesMoney = [[mo valueForKey:@"tokes"] intValue];
 			foodButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"foodDrinks"] intValue]]];
 			tokesButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"tokes"] intValue]]];
-        }
         chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
         
         self.startDate = [mo valueForKey:@"startTime"];
@@ -559,13 +508,6 @@
         int takeHome = netProfit-foodDrinks;
         
         
-        if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-            netProfit = chips-buyIn-rebuyAmount;
-            grossEarnings = netProfit;
-            takeHome = netProfit;
-        }
-        
-
         [grossLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings] waitUntilDone:YES];
         [takehomeLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:takeHome] waitUntilDone:YES];
         [profitLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:netProfit] waitUntilDone:YES];
@@ -616,6 +558,7 @@
         }
                        );
 
+	[self.mainTableView reloadData];
 
 }
 
@@ -687,7 +630,7 @@
 
 -(void)setupArrays {
 	
-	
+	/*
 	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	
@@ -696,11 +639,6 @@
 	double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
 	int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
 	int tokesMoney = [[mo valueForKey:@"tokes"] intValue];
-	
-	if([[mo valueForKey:@"Type"] isEqualToString:@"Tournament"]) {
-		foodDrinks=0;
-		tokesMoney=0;
-	}
 	
 	self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
 	double grossEarnings = self.netProfit+tokesMoney;
@@ -746,7 +684,7 @@
 	[self.colorsArray addObject:[UIColor blackColor]];
 	[self.colorsArray addObject:[UIColor blackColor]];
 	[self.mainTableView reloadData];
-	
+	*/
 }
 
 -(UIColor *)colorOfMoney:(float)money {
@@ -841,6 +779,8 @@
 	if (![managedObjectContext save:&error]) {
 		NSLog(@"Error whoa! %@", error.localizedDescription);
 	}
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	[self updatePicture];
 	[self setUpScreen];
 	if(doLiveUpdate)

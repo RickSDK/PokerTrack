@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameObj.h"
+#import "TemplateVC.h"
 
 
-@interface GameDetailsVC : UIViewController {
+@interface GameDetailsVC : TemplateVC {
 	//---Passed In----------------------------
-	NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *mo;
 	BOOL viewEditable;
 
 	//---XIB----------------------------
-	IBOutlet UITableView *mainTableView;
 	IBOutlet UIButton *doneButton;
 	IBOutlet UILabel *topProgressLabel;
 	IBOutlet UIBarButtonItem *saveEditButton;
@@ -33,19 +33,17 @@
 	NSMutableArray *labelValues;
 	NSMutableArray *labelTypes;
 	NSMutableArray *formDataArray;
+	NSMutableArray *detailItems;
 	int selectedFieldIndex;
 	BOOL changesMade;
 	int buttonForm;
 
 }
 
-- (IBAction) graphButtonPressed: (id) sender;
-
-
 @property (atomic, strong) NSMutableArray *formDataArray;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) NSMutableArray *labelValues;
 @property (atomic, strong) NSMutableArray *labelTypes;
+@property (atomic, strong) NSMutableArray *detailItems;
 
 @property (atomic, strong) UIButton *doneButton;
 @property (atomic, strong) UILabel *topProgressLabel;
@@ -55,8 +53,6 @@
 @property (atomic) int buttonForm;
 @property (atomic) int selectedFieldIndex;
 
-
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *mo;
 
 @property (atomic, strong) UIActivityIndicatorView *activityIndicatorServer;

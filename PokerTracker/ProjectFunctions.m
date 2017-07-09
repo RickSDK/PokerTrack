@@ -212,7 +212,6 @@
 		NSManagedObject *mo = [items objectAtIndex:0];
 		row_id = [[mo valueForKey:@"row_id"] intValue];
 	}
-	NSLog(@"getPredicateForFilter buttonNum: %d, row_id: %d", buttonNum, row_id);
 	
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
@@ -380,8 +379,14 @@
 		return [NSArray arrayWithObjects:@"No-Limit", @"Limit", @"Spread", @"Pot-Limit", nil];
 	if(segment==3)
 		return [NSArray arrayWithObjects:@"Single Table", @"Multi Table", @"Heads up", @"Rebuy", nil];
+	if(segment==4) // bankroll
+		return [NSArray arrayWithObjects:@"Default", nil];
+	if(segment==5) // casino
+		return [NSArray arrayWithObjects:@"Casino", nil];
 	
-	return [NSArray arrayWithObjects:@"No-Limit", @"Limit", @"Spread", @"Pot-Limit", nil];
+	NSLog(@"EROR!!! no value for getArrayForSegment: %d", segment);
+	return [NSArray arrayWithObjects:@"Whoa!", nil];
+	
 }
 
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type
@@ -823,15 +828,16 @@
 		[ProjectFunctions updateNewvalueIfNeeded:[valueList stringAtIndex:kType] type:@"Type" mOC:mOC];
 
 	
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kType] forKey:@"gameTypeDefault"];
+		[self updateRefDataValueForKey:@"gameTypeDefault" value:[valueList stringAtIndex:kType] context:mOC];
 		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kGameMode] forKey:@"gameDefault"];
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kGame] forKey:@"gameNameDefault"];
+		[self updateRefDataValueForKey:@"gameNameDefault" value:[valueList stringAtIndex:kGame] context:mOC];
 		if([gameType isEqualToString:@"Cash"])
-			[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kBlinds] forKey:@"blindDefault"];
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kLimit] forKey:@"limitDefault"];
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kLocation] forKey:@"locationDefault"];
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kBankroll] forKey:@"bankrollDefault"];
-		[ProjectFunctions setUserDefaultValue:[valueList stringAtIndex:kTourneyType] forKey:@"tourneyTypeDefault"];
+			[self updateRefDataValueForKey:@"blindDefault" value:[valueList stringAtIndex:kBlinds] context:mOC];
+
+		[self updateRefDataValueForKey:@"limitDefault" value:[valueList stringAtIndex:kLimit] context:mOC];
+		[self updateRefDataValueForKey:@"locationDefault" value:[valueList stringAtIndex:kLocation] context:mOC];
+		[self updateRefDataValueForKey:@"bankrollDefault" value:[valueList stringAtIndex:kBankroll] context:mOC];
+		[self updateRefDataValueForKey:@"tourneyTypeDefault" value:[valueList stringAtIndex:kTourneyType] context:mOC];
 	}
 	if(kLOG)
 		NSLog(@"-------------------------------------------");
@@ -849,8 +855,27 @@
 	return success;
 }
 
++(void)updateRefDataValueForKey:(NSString *)key value:(NSString *)value context:(NSManagedObjectContext *)context {
+	NSString *scrubbedValue = [ProjectFunctions scrubRefData:value context:context];
+	[ProjectFunctions setUserDefaultValue:scrubbedValue forKey:key];
+}
+
++(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context field:(NSString *)field {
+	NSString *gametype = [mo valueForKey:field];
+	NSString *scrubbedData = [ProjectFunctions scrubRefData:gametype context:context];
+	if (![scrubbedData isEqualToString:gametype])
+		[mo setValue:scrubbedData forKey:field];
+}
+
 +(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
 	NSLog(@"scrubbing...");
+	[self scrubDataForObj:mo context:context field:@"gametype"];
+	[self scrubDataForObj:mo context:context field:@"stakes"];
+	[self scrubDataForObj:mo context:context field:@"limit"];
+	[self scrubDataForObj:mo context:context field:@"tournamentType"];
+	[self scrubDataForObj:mo context:context field:@"location"];
+	[self scrubDataForObj:mo context:context field:@"bankroll"];
+
 	NSDate *startTime = [mo valueForKey:@"startTime"];
 	NSString *weekday = [ProjectFunctions getWeekDayFromDate:startTime];
 	NSString *month = [ProjectFunctions getMonthFromDate:startTime];
@@ -860,6 +885,36 @@
 	[mo setValue:month forKey:@"month"];
 	[mo setValue:year forKey:@"year"];
 	[mo setValue:daytime forKey:@"daytime"];
+	
+	NSString *type = [mo valueForKey:@"Type"];
+	if ([@"Cash" isEqualToString:type])
+		[mo setValue:@"" forKey:@"tournamentType"];
+	else
+		[mo setValue:@"" forKey:@"stakes"];
+	
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"gametype"] type:@"Game" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"stakes"] type:@"Stakes" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"tournamentType"] type:@"Tournament" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"limit"] type:@"Limit" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"location"] type:@"Location" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"bankroll"] type:@"Bankroll" mOC:context];
+	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"year"] type:@"Year" mOC:context];
+	
+	if([@"Tournament" isEqualToString:type]) {
+		int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
+		int tournamentSpotsPaid = [[mo valueForKey:@"tournamentSpotsPaid"] intValue];
+		int tournamentSpots = [[mo valueForKey:@"tournamentSpots"] intValue];
+		if (tournamentSpots>0 && breakMinutes>0 && tournamentSpotsPaid==0) {
+			NSString *attrib05 = [mo valueForKey:@"attrib05"];
+			if (attrib05.length == 0) {
+				NSLog(@"Fixing tournament!!!");
+				[mo setValue:[NSNumber numberWithInt:0] forKey:@"breakMinutes"];
+				[mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"tournamentSpotsPaid"];
+				[mo setValue:@"Y" forKey:@"attrib05"]; // mark as scrubbed!
+			}
+		}
+	}
+	
 	[context save:nil];
 }
 
@@ -887,6 +942,42 @@
 	NSLog(@"+++updating %@", entityName);
     
 	return [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:mOC];
+}
+
++(NSString *)translatedData:(NSString *)data {
+	NSString *translatedValue = [data lowercaseString];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@" " withString:@""];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@"_" withString:@""];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@"-" withString:@""];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@"|" withString:@""];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@"'" withString:@""];
+	translatedValue = [translatedValue stringByReplacingOccurrencesOfString:@"$" withString:@""];
+	return translatedValue;
+}
+
++(NSString *)scrubRefData:(NSString *)data context:(NSManagedObjectContext *)context {
+	NSString *translatedData = [self translatedData:data];
+	NSArray *tables = [NSArray arrayWithObjects:@"GAMETYPE", @"STAKES", @"LIMIT", @"TOURNAMENT", @"BANKROLL", @"LOCATION", nil];
+	for (NSString *table in tables) {
+		NSArray *items = [CoreDataLib selectRowsFromTable:table mOC:context];
+		for (NSManagedObject *mo in items) {
+			NSString *refData = [mo valueForKey:@"name"];
+			if ([translatedData isEqualToString:[self translatedData:refData]])
+				return refData;
+		}
+	}
+	if([data isEqualToString:@"2-Jan"])
+		return @"$1/$2";
+	if([data isEqualToString:@"3-Jan"])
+		return @"$1/$3";
+	if([data isEqualToString:@"3-Feb"])
+		return @"$2/$3";
+	if([data isEqualToString:@"5-Feb"])
+		return @"$2/$5";
+	if([data isEqualToString:@"5-Mar"])
+		return @"$3/$5";
+	
+	return data;
 }
 
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key
@@ -1626,23 +1717,17 @@
 	if([value length]==0)
 		return;
 	
-	NSString *entityname = nil;
+	NSString *scrubbedValue = [ProjectFunctions scrubRefData:value context:mOC];
+	if (![scrubbedValue isEqualToString:value]) {
+		NSLog(@"Whoa!!! This should not be added: %@ %@", value, scrubbedValue);
+		return;
+	}
+	
+	NSString *entityname = [type uppercaseString];
 	if([type isEqualToString:@"Game"])
 		entityname = @"GAMETYPE";
-	if([type isEqualToString:@"Limit"])
-		entityname = @"LIMIT";
-	if([type isEqualToString:@"Stakes"])
-		entityname = @"STAKES";
-	if([type isEqualToString:@"Location"])
-		entityname = @"LOCATION";
-	if([type isEqualToString:@"Bankroll"])
-		entityname = @"BANKROLL";
-	if([type isEqualToString:@"Type"])
-		entityname = @"TYPE";
-	if([type isEqualToString:@"Year"])
-		entityname = @"YEAR";
 	
-	if(entityname==nil)
+	if(entityname.length==0)
 		return;
 	
 	NSArray *items = [CoreDataLib selectRowsFromTable:entityname mOC:mOC];
@@ -1964,7 +2049,11 @@
 				[options addObject:value];
 		}
 	}
-	[options addObjectsFromArray:[self getDefaultOptionsForField:field]];
+	NSArray *hardCodedValues = [self getDefaultOptionsForField:field];
+	for (NSString *item in hardCodedValues) {
+		if (![item isEqualToString:defaultValue])
+			[options addObject:item];
+	}
 	int numSegs = (int)[segmentBar numberOfSegments];
 	for(int i=0; i<numSegs-1; i++) {
 		[segmentBar setTitle:[options objectAtIndex:i] forSegmentAtIndex:i];
@@ -1974,7 +2063,7 @@
 +(NSArray *)getDefaultOptionsForField:(NSString *)field {
 	if ([field isEqualToString:@"gametype"])
 		return [self getArrayForSegment:0];
-	if ([field isEqualToString:@"blinds"])
+	if ([field isEqualToString:@"stakes"])
 		return [self getArrayForSegment:1];
 	if ([field isEqualToString:@"limit"])
 		return [self getArrayForSegment:2];
@@ -1991,6 +2080,7 @@
 	[components replaceObjectAtIndex:23 withObject:[NSString stringWithFormat:@"%d", friend_id]];
 	[components removeLastObject];
 	[ProjectFunctions updateGameInDatabase:mOC mo:mo valueList:components];
+	[ProjectFunctions scrubDataForObj:mo context:mOC];
 }
 
 +(void)updateOrInsertThisFriend:(NSManagedObjectContext *)mOC line:(NSString *)line
@@ -3436,13 +3526,13 @@
 }
 
 
-+(NSString *)displayLocalFormatDate:(NSDate *)date {
++(NSString *)displayLocalFormatDate:(NSDate *)date showDay:(BOOL)showDay showTime:(BOOL)showTime {
 	NSDateFormatter* df = [[NSDateFormatter alloc] init];
-	[df setDateStyle:NSDateFormatterMediumStyle];
-	[df setTimeStyle:NSDateFormatterShortStyle];
-	NSString* myString = [df stringFromDate:date];
-	return myString;
-	//	return [NSString stringWithFormat:@"%@", [date convertDateToStringWithFormat:@"MM/dd/yyyy"]];
+	if (showDay)
+		[df setDateStyle:NSDateFormatterMediumStyle];
+	if (showTime)
+		[df setTimeStyle:NSDateFormatterShortStyle];
+	return [df stringFromDate:date];
 }
 
 +(NSString *)getMoneySymbol2 {
