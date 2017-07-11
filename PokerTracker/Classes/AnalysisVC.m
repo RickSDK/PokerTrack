@@ -123,7 +123,7 @@
 - (void)computeStats
 {
     
-    self.mainTableView.alpha=0;
+    self.mainTableView.alpha=.5;
 	[activityIndicator startAnimating];
     gameSegment.enabled=NO;
 
@@ -149,21 +149,18 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
-    
-	
- //   [NSThread sleepForTimeInterval:4];
-        NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
+         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
         PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
         [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
 
-        int amountRisked = 0;
+        double amountRisked = 0;
         int foodDrinks = 0;
         int tokes = 0;
-        int grosssIncome = 0;
-        int takehomeIncome = 0;
-        int netIncome = 0;
+        double grosssIncome = 0;
+        double takehomeIncome = 0;
+        double netIncome = 0;
         int hourlyRate = 0;
         NSString *gamesStr = @"";
         NSString *riskedLabelStr = @"";
@@ -184,13 +181,12 @@
             [ProjectFunctions showAlertPopup:@"Error" message:@"Error with Stats"];
             return;
         }
-        
-        amountRisked = [[values stringAtIndex:0] intValue];
+        amountRisked = [[values stringAtIndex:0] doubleValue];
         foodDrinks = [[values stringAtIndex:1] intValue];
         tokes = [[values stringAtIndex:2] intValue];
-        grosssIncome = [[values stringAtIndex:3] intValue];
-        takehomeIncome = [[values stringAtIndex:4] intValue];
-        netIncome = [[values stringAtIndex:5] intValue];
+        grosssIncome = [[values stringAtIndex:3] doubleValue];
+        takehomeIncome = [[values stringAtIndex:4] doubleValue];
+        netIncome = [[values stringAtIndex:5] doubleValue];
         hourlyRate = [[values stringAtIndex:6] intValue];
         gamesStr = [values stringAtIndex:7];
         riskedLabelStr = [values stringAtIndex:8];
@@ -207,7 +203,7 @@
         
         NSString *name = [ProjectFunctions getUserDefaultValue:@"firstName"];
         if([name length]==0)
-            name = @"Unknown";
+            name = @"-";
         
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%@", name]];
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%d%%", ppr]];
@@ -255,7 +251,6 @@
         gameSegment.enabled=YES;
         self.bankrollButton.enabled=YES;
         self.bankRollSegment.enabled=YES;
-        [mainTableView reloadData];
 
         [self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
 
@@ -307,6 +302,15 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
+	if(self.gameSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Analysis", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+	}
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	if(displayYear>0)
 		yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];

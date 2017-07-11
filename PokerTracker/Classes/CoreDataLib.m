@@ -16,7 +16,7 @@
 
 @implementation CoreDataLib
 
-+(UIColor *)getFieldColor:(int)value
++(UIColor *)getFieldColor:(double)value
 {
 	if(value>0)
 		return [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
@@ -256,7 +256,7 @@
 		if(minutesThisGame>0)
 			minutes += minutesThisGame;
 		winnings += winAmount;
-		int riskAmount = (buyInAmount+rebuyAmount);
+		double riskAmount = (buyInAmount+rebuyAmount);
 		amountRisked += riskAmount;
 		games++;
 		if(winAmount<minWon)
@@ -503,7 +503,6 @@
 		int percent = 0;
 		if(amountRisked>0)
 			percent = winnings*100/amountRisked;
-		NSLog(@"+++hoursFloat%f", hoursFloat);
         return [NSString stringWithFormat:@"%f|%f|%@|%d|%d|%d|%@|%d|%d", winnings, amountRisked, [NSString stringWithFormat:@"%d (%dW, %dL) %@", games, totalWins, totalLosses, winpercent], streak, longestWin, longestLose, [NSString stringWithFormat:@"%.1f", hoursFloat], hourlyRate, percent];
     }
     
@@ -555,7 +554,7 @@
 	int lateTrend=0;
 	
 	for (NSManagedObject *mo in items) {
-		int winAmount = [[mo valueForKey:@"winnings"] intValue];
+		double winAmount = [[mo valueForKey:@"winnings"] doubleValue];
 		games++;
 		int riskDeviation = winAmount-amount;
 		if(riskDeviation<0)

@@ -89,7 +89,7 @@
 		self.pprLabel.minimumScaleFactor = .8;
 		self.pprLabel.text = @"PPR";
 		self.pprLabel.textAlignment = NSTextAlignmentCenter;
-		self.pprLabel.textColor = [UIColor whiteColor];
+		self.pprLabel.textColor = [UIColor blackColor];
 		self.pprLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.pprLabel];
 		
@@ -125,6 +125,8 @@
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
 	NSString *faSymbol = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
+	if(gameObj.hudStatsFlg)
+		faSymbol = [NSString stringWithFormat:@"%@ %@", faSymbol, [NSString fontAwesomeIconStringForEnum:FAuserSecret]];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
 	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
@@ -159,13 +161,13 @@
 
 +(UIColor *)colorForType:(int)type {
 	NSArray *colors = [NSArray arrayWithObjects:
-					   [UIColor colorWithRed:.5 green:0 blue:0 alpha:1], // donkey
-					   [UIColor colorWithRed:.75 green:0 blue:0 alpha:1], // fish
-					   [UIColor colorWithRed:1 green:0 blue:0 alpha:1], // rounder
-					   [UIColor colorWithRed:0 green:.5 blue:0 alpha:1], // grinder
-					   [UIColor colorWithRed:0 green:.75 blue:0 alpha:1], // shark
-					   [UIColor colorWithRed:0 green:1 blue:0 alpha:1], //pro
-					   [UIColor colorWithRed:1 green:1 blue:1 alpha:1],
+					   [UIColor redColor], // fish
+					   [UIColor colorWithRed:1 green:.7 blue:0 alpha:1], //
+					   [UIColor yellowColor], //
+					   [UIColor colorWithRed:.75 green:1 blue:0 alpha:1], // rounder (orange)
+					   [UIColor colorWithRed:0 green:.7 blue:0 alpha:1], // rounder (orange)
+					   [UIColor greenColor], //
+					   [UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1],
 					   nil];
 	return [colors objectAtIndex:type];
 }

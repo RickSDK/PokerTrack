@@ -277,6 +277,9 @@
 		6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDF178B690600F0252D /* ImageCell.m */; };
 		6BC2BFD01F10653500483489 /* GameDetailObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2BFCF1F10653500483489 /* GameDetailObj.m */; };
 		6BC2BFD31F109E6A00483489 /* MultiCellObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2BFD21F109E6A00483489 /* MultiCellObj.m */; };
+		6BC2BFD71F13366C00483489 /* HudTrackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC2BFD51F13366C00483489 /* HudTrackerVC.m */; };
+		6BC2BFD81F13366C00483489 /* HudTrackerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC2BFD61F13366C00483489 /* HudTrackerVC.xib */; };
+		6BC2BFDA1F13384600483489 /* red_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BC2BFD91F13384600483489 /* red_green.jpg */; };
 		6BC80432156C74FF001C24BD /* ListPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80430156C74FF001C24BD /* ListPicker.m */; };
 		6BC80433156C74FF001C24BD /* ListPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC80431156C74FF001C24BD /* ListPicker.xib */; };
 		6BC8044A156C766F001C24BD /* cleanupRefData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80448156C766F001C24BD /* cleanupRefData.m */; };
@@ -291,6 +294,10 @@
 		6BC9B48C1464763500122784 /* ListPickerCustomDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC9B48A1464763500122784 /* ListPickerCustomDate.m */; };
 		6BC9B48D1464763500122784 /* ListPickerCustomDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC9B48B1464763500122784 /* ListPickerCustomDate.xib */; };
 		6BCA27C21B62B4D300511DDA /* GameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA27C11B62B4D300511DDA /* GameCell.m */; };
+		6BCA887A1F1344BE00633484 /* PlayerObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA88791F1344BE00633484 /* PlayerObj.m */; };
+		6BCA887C1F13556E00633484 /* red_green2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA887B1F13556E00633484 /* red_green2.jpg */; };
+		6BCA887F1F13D92600633484 /* HudStatObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA887E1F13D92600633484 /* HudStatObj.m */; };
+		6BCA88821F13D93A00633484 /* HudActionObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA88811F13D93A00633484 /* HudActionObj.m */; };
 		6BCB301A19E44FF700BC1F4C /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301919E44FF700BC1F4C /* MainWindow-iPad.xib */; };
 		6BCB301C19E44FFE00BC1F4C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */; };
 		6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB303F19E5959100BC1F4C /* ExportCell.m */; };
@@ -750,6 +757,10 @@
 		6BC2BFCF1F10653500483489 /* GameDetailObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetailObj.m; sourceTree = "<group>"; };
 		6BC2BFD11F109E6A00483489 /* MultiCellObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiCellObj.h; sourceTree = "<group>"; };
 		6BC2BFD21F109E6A00483489 /* MultiCellObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiCellObj.m; sourceTree = "<group>"; };
+		6BC2BFD41F13366C00483489 /* HudTrackerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudTrackerVC.h; sourceTree = "<group>"; };
+		6BC2BFD51F13366C00483489 /* HudTrackerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudTrackerVC.m; sourceTree = "<group>"; };
+		6BC2BFD61F13366C00483489 /* HudTrackerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HudTrackerVC.xib; sourceTree = "<group>"; };
+		6BC2BFD91F13384600483489 /* red_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = red_green.jpg; sourceTree = "<group>"; };
 		6BC8042F156C74FF001C24BD /* ListPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListPicker.h; sourceTree = "<group>"; };
 		6BC80430156C74FF001C24BD /* ListPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListPicker.m; sourceTree = "<group>"; };
 		6BC80431156C74FF001C24BD /* ListPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListPicker.xib; sourceTree = "<group>"; };
@@ -771,6 +782,13 @@
 		6BC9B48B1464763500122784 /* ListPickerCustomDate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListPickerCustomDate.xib; sourceTree = "<group>"; };
 		6BCA27C01B62B4D300511DDA /* GameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCell.h; sourceTree = "<group>"; };
 		6BCA27C11B62B4D300511DDA /* GameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCell.m; sourceTree = "<group>"; };
+		6BCA88781F1344BE00633484 /* PlayerObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerObj.h; sourceTree = "<group>"; };
+		6BCA88791F1344BE00633484 /* PlayerObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerObj.m; sourceTree = "<group>"; };
+		6BCA887B1F13556E00633484 /* red_green2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = red_green2.jpg; sourceTree = "<group>"; };
+		6BCA887D1F13D92600633484 /* HudStatObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudStatObj.h; sourceTree = "<group>"; };
+		6BCA887E1F13D92600633484 /* HudStatObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudStatObj.m; sourceTree = "<group>"; };
+		6BCA88801F13D93A00633484 /* HudActionObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudActionObj.h; sourceTree = "<group>"; };
+		6BCA88811F13D93A00633484 /* HudActionObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudActionObj.m; sourceTree = "<group>"; };
 		6BCB301919E44FF700BC1F4C /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		6BCB303E19E5959100BC1F4C /* ExportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportCell.h; sourceTree = "<group>"; };
@@ -975,15 +993,6 @@
 				6B909AE314C63FBD00712EDC /* LocationsEdit.h */,
 				6B909AE414C63FBD00712EDC /* LocationsEdit.m */,
 				6B909AE514C63FBD00712EDC /* LocationsEdit.xib */,
-				6B752DAE144F7A5400E59D21 /* BigHandsVC.h */,
-				6B752DAF144F7A5400E59D21 /* BigHandsVC.m */,
-				6B752DB0144F7A5400E59D21 /* BigHandsVC.xib */,
-				6B752DE5144F7F7700E59D21 /* BigHandsFormVC.h */,
-				6B752DE6144F7F7700E59D21 /* BigHandsFormVC.m */,
-				6B752DE7144F7F7700E59D21 /* BigHandsFormVC.xib */,
-				6BD855CE1517DA0A0048473A /* BigHandsPlayersFormVC.h */,
-				6BD855CF1517DA0A0048473A /* BigHandsPlayersFormVC.m */,
-				6BD855D01517DA0A0048473A /* BigHandsPlayersFormVC.xib */,
 				6B75237E144918CD00E59D21 /* OddsCalculatorVC.h */,
 				6B75237F144918CD00E59D21 /* OddsCalculatorVC.m */,
 				6B752380144918CD00E59D21 /* OddsCalculatorVC.xib */,
@@ -1176,6 +1185,15 @@
 		6B12CA781667EBF000725098 /* HandTracker */ = {
 			isa = PBXGroup;
 			children = (
+				6B752DAE144F7A5400E59D21 /* BigHandsVC.h */,
+				6B752DAF144F7A5400E59D21 /* BigHandsVC.m */,
+				6B752DB0144F7A5400E59D21 /* BigHandsVC.xib */,
+				6B752DE5144F7F7700E59D21 /* BigHandsFormVC.h */,
+				6B752DE6144F7F7700E59D21 /* BigHandsFormVC.m */,
+				6B752DE7144F7F7700E59D21 /* BigHandsFormVC.xib */,
+				6BD855CE1517DA0A0048473A /* BigHandsPlayersFormVC.h */,
+				6BD855CF1517DA0A0048473A /* BigHandsPlayersFormVC.m */,
+				6BD855D01517DA0A0048473A /* BigHandsPlayersFormVC.xib */,
 			);
 			name = HandTracker;
 			sourceTree = "<group>";
@@ -1189,6 +1207,9 @@
 				6B9097E814C4EBE600712EDC /* EditPlayerTracker.h */,
 				6B9097E914C4EBE600712EDC /* EditPlayerTracker.m */,
 				6B9097EA14C4EBE600712EDC /* EditPlayerTracker.xib */,
+				6BC2BFD41F13366C00483489 /* HudTrackerVC.h */,
+				6BC2BFD51F13366C00483489 /* HudTrackerVC.m */,
+				6BC2BFD61F13366C00483489 /* HudTrackerVC.xib */,
 				6B9BEB84175AB6AE00D0BA12 /* MoreTrackersVC.h */,
 				6B9BEB85175AB6AE00D0BA12 /* MoreTrackersVC.m */,
 				6B9BEB86175AB6AE00D0BA12 /* MoreTrackersVC.xib */,
@@ -1292,6 +1313,12 @@
 				6BC2BFCF1F10653500483489 /* GameDetailObj.m */,
 				6BC2BFD11F109E6A00483489 /* MultiCellObj.h */,
 				6BC2BFD21F109E6A00483489 /* MultiCellObj.m */,
+				6BCA88781F1344BE00633484 /* PlayerObj.h */,
+				6BCA88791F1344BE00633484 /* PlayerObj.m */,
+				6BCA887D1F13D92600633484 /* HudStatObj.h */,
+				6BCA887E1F13D92600633484 /* HudStatObj.m */,
+				6BCA88801F13D93A00633484 /* HudActionObj.h */,
+				6BCA88811F13D93A00633484 /* HudActionObj.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -1322,6 +1349,8 @@
 				6BD4D9521D120DDD00236804 /* Icon-Small@2x.png */,
 				6BD4D9531D120DDD00236804 /* Icon-72.png */,
 				6BA4AA87173463C4006022E1 /* black.png */,
+				6BC2BFD91F13384600483489 /* red_green.jpg */,
+				6BCA887B1F13556E00633484 /* red_green2.jpg */,
 				6B9BF468175D666B00D0BA12 /* new.jpeg */,
 				6BE0EA6217628EA900DC1F02 /* IconImg.png */,
 				6B9BF46A175D6A4900D0BA12 /* new.png */,
@@ -1700,6 +1729,7 @@
 				6BB0918D1472EA1A00DF84AB /* tealButton.png in Resources */,
 				6BB091921472EA3A00DF84AB /* purpleButton.png in Resources */,
 				6BB8097F1D011EBB00ADAD99 /* Default-Landscape@2x~ipad.png in Resources */,
+				6BC2BFD81F13366C00483489 /* HudTrackerVC.xib in Resources */,
 				6BB091941472EA4900DF84AB /* redButton.png in Resources */,
 				6BB091B81472EC9300DF84AB /* bb.png in Resources */,
 				6BB093141473253000DF84AB /* wb.png in Resources */,
@@ -1734,6 +1764,7 @@
 				6B909ED014C9ED1800712EDC /* greenFelt2.png in Resources */,
 				6BD4D9671D120FDB00236804 /* Default.png in Resources */,
 				6B909ED414C9EE6C00712EDC /* refresh.png in Resources */,
+				6BCA887C1F13556E00633484 /* red_green2.jpg in Resources */,
 				6B909EE914C9EFE200712EDC /* yellowGlossButton.png in Resources */,
 				6B909EEE14C9F07800712EDC /* metalPlate.png in Resources */,
 				6B909EF814C9F1E700712EDC /* blueChromeBut.png in Resources */,
@@ -1752,6 +1783,7 @@
 				6B90A34A14CB694400712EDC /* phoneicon.png in Resources */,
 				6B90A43614CB832E00712EDC /* indian.jpg in Resources */,
 				6B90A44914CB875800712EDC /* CasinoGamesEditVC.xib in Resources */,
+				6BC2BFDA1F13384600483489 /* red_green.jpg in Resources */,
 				6B90A44E14CB876800712EDC /* CasinoGamesAddVC.xib in Resources */,
 				6B90A55B14CDE3F200712EDC /* CasinoCommentVC.xib in Resources */,
 				6B90A79414CE2AF300712EDC /* tournament.jpg in Resources */,
@@ -1843,11 +1875,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BD4D9441D11EC1F00236804 /* ReviewsVC.m in Sources */,
+				6BC2BFD71F13366C00483489 /* HudTrackerVC.m in Sources */,
 				6B6956241C51E303004CB475 /* CustomSegment.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* PokerTrackerAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				6B750D1B143D29F200E59D21 /* MainMenuVC.m in Sources */,
+				6BCA88821F13D93A00633484 /* HudActionObj.m in Sources */,
 				6B57B67C1B3DC80D002A79BA /* CustomButton.m in Sources */,
 				6B750D43143D305700E59D21 /* StatsPage.m in Sources */,
 				6B750D48143D306900E59D21 /* GamesVC.m in Sources */,
@@ -1879,6 +1913,7 @@
 				6B7531401450A43A00E59D21 /* WebServicesFunctions.m in Sources */,
 				6B753614145267F000E59D21 /* FriendLocatorVC.m in Sources */,
 				6B75362D14526BCB00E59D21 /* CreateNewAccount.m in Sources */,
+				6BCA887A1F1344BE00633484 /* PlayerObj.m in Sources */,
 				6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */,
 				6BC2BFD01F10653500483489 /* GameDetailObj.m in Sources */,
 				6BA5B3211457341400F1C0BD /* ReportsVC.m in Sources */,
@@ -1942,6 +1977,7 @@
 				6BD855361517A4100048473A /* AppInitialVC.m in Sources */,
 				6BD855D11517DA0A0048473A /* BigHandsPlayersFormVC.m in Sources */,
 				6BD856F9151937680048473A /* ProfitReportsVC.m in Sources */,
+				6BCA887F1F13D92600633484 /* HudStatObj.m in Sources */,
 				6BD85A8A151CF4B60048473A /* FriendInProgressVC.m in Sources */,
 				6B69561B1C51E193004CB475 /* TemplateVC.m in Sources */,
 				6BC80432156C74FF001C24BD /* ListPicker.m in Sources */,

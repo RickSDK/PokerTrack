@@ -892,6 +892,20 @@
 	else
 		[mo setValue:@"" forKey:@"stakes"];
 	
+	int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
+	int minutes = [ProjectFunctions getMinutesPlayedUsingStartTime:startTime andEndTime:[mo valueForKey:@"endTime"] andBreakMin:breakMinutes];
+	[mo setValue:[NSNumber numberWithInt:minutes] forKey:@"minutes"];
+	[mo setValue:[NSString stringWithFormat:@"%.1f", (float)minutes/60] forKey:@"hours"];
+	
+	
+	double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
+	double reBuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
+	double cashoutAmount = [[mo valueForKey:@"cashoutAmount"] doubleValue];
+	int foodDrink = [[mo valueForKey:@"foodDrinks"] intValue];
+	double winnings = cashoutAmount+foodDrink-buyInAmount-reBuyAmount;
+	[mo setValue:[NSNumber numberWithDouble:winnings] forKey:@"winnings"];
+
+	
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"gametype"] type:@"Game" mOC:context];
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"stakes"] type:@"Stakes" mOC:context];
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"tournamentType"] type:@"Tournament" mOC:context];
@@ -901,7 +915,6 @@
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"year"] type:@"Year" mOC:context];
 	
 	if([@"Tournament" isEqualToString:type]) {
-		int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
 		int tournamentSpotsPaid = [[mo valueForKey:@"tournamentSpotsPaid"] intValue];
 		int tournamentSpots = [[mo valueForKey:@"tournamentSpots"] intValue];
 		if (tournamentSpots>0 && breakMinutes>0 && tournamentSpotsPaid==0) {
@@ -1077,8 +1090,6 @@
 	if(numGames>0)
 		sessionSpacer = (float)chartWidth/(numGames);
 
-	NSLog(@"min: %f, max: %f ", min, max);
-	
 	//------- init UIImage
 	UIImage *dynamicChartImage = [[UIImage alloc] init];
 
@@ -1150,7 +1161,7 @@
 	if(games.count>0)
 		[aPath addLineToPoint:CGPointMake(leftEdgeOfChart, max*yMultiplier)];
 
-	int plotY = [self drawTheGraphWithContext:c games:games firstDate:firstDate aPath:aPath leftEdgeOfChart:leftEdgeOfChart bottomEdgeOfChart:bottomEdgeOfChart max:max min:min xMultiplier:xMultiplier yMultiplier:yMultiplier sessionSpacer:sessionSpacer displayBySession:displayBySession];
+	double plotY = [self drawTheGraphWithContext:c games:games firstDate:firstDate aPath:aPath leftEdgeOfChart:leftEdgeOfChart bottomEdgeOfChart:bottomEdgeOfChart max:max min:min xMultiplier:xMultiplier yMultiplier:yMultiplier sessionSpacer:sessionSpacer displayBySession:displayBySession];
 
 	[aPath addLineToPoint:CGPointMake(totalWidth, plotY)];
 	[aPath addLineToPoint:CGPointMake(totalWidth, bottomEdgeOfChart)];
@@ -1201,7 +1212,7 @@
 }
 
 
-+(int)drawTheGraphWithContext:(CGContextRef)c
++(double)drawTheGraphWithContext:(CGContextRef)c
 						 games:(NSArray *)games
 					 firstDate:(NSDate *)firstDate
 						aPath:(UIBezierPath *)aPath
@@ -1219,15 +1230,15 @@
 	else
 		CGContextSetLineWidth(c, 2);
 	int oldX=leftEdgeOfChart;
-	int oldY=(max*yMultiplier);
-	int plotY=0;
-	int currentMoney = 0;
+	double oldY=(max*yMultiplier);
+	double plotY=0;
+	double currentMoney = 0;
 	int circleSize=30-(int)games.count;
 	int i=1;
 	BOOL prevWinFlg=YES;
 	for (NSManagedObject *mo in games) {
 		NSDate *startTime = [mo valueForKey:@"startTime"];
-		int money = [[mo valueForKey:@"winnings"] intValue];
+		double money = [[mo valueForKey:@"winnings"] doubleValue];
 		BOOL winFlg = (money>=0);
 		int seconds = [startTime timeIntervalSinceDate:firstDate];
 		currentMoney += money;
@@ -1239,7 +1250,7 @@
 		if(games.count==1)
 			plotX-=10; // just to show it better
 		
-		plotY = bottomEdgeOfChart-(currentMoney-min)*yMultiplier;
+		plotY = (float)bottomEdgeOfChart-(currentMoney-min)*yMultiplier;
 		
 		CGContextSetRGBFillColor(c, 0, 0, 0, 1);
 		CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // black
@@ -1346,15 +1357,19 @@
 	if(totalMoneyRange>5000000)
 		moneyRoundingFactor=100000;
 	
-	int moneyInt = money/moneyRoundingFactor;
-	moneyInt *=moneyRoundingFactor;
+//	int moneyInt = money/moneyRoundingFactor;
+	float moneyFloat = money/moneyRoundingFactor;
+//	moneyInt *=moneyRoundingFactor;
+	moneyFloat *=moneyRoundingFactor;
+	if(totalMoneyRange>10)
+		moneyFloat = round(moneyFloat);
 	
 	BOOL negValue = (money<0)?YES:NO;
 	if(negValue)
 		money*=-1;
 	
 	
-	NSString *label = [ProjectFunctions convertNumberToMoneyString:moneyInt];
+	NSString *label = [ProjectFunctions convertNumberToMoneyString:moneyFloat];
 	if(money>1000)
 		label = [NSString stringWithFormat:@"%@k", [self convertNumberToMoneyStringOneDec:money/1000]];
 	if(money>10000)
@@ -1492,7 +1507,11 @@
 		if(money>max)
 			max = money;
 	}
-	max+=20;
+	max = ceil(max);
+	if(max<1)
+		max=1;
+	if(max>100)
+		max+=20;
 	int totalMoneyRange = max-min;
 	int totalSecondsRange = [lastDate timeIntervalSinceDate:firstDate];
 	
@@ -1543,7 +1562,7 @@
 	BOOL prevWinFlg=NO;
 	for (NSManagedObject *mo in items) {
 		NSDate *startTime = [mo valueForKey:@"timeStamp"];
-		int money = [[mo valueForKey:@"amount"] intValue];
+		double money = [[mo valueForKey:@"amount"] doubleValue];
 		BOOL rebuyFlg = [[mo valueForKey:@"rebuyFlg"] intValue];
 		int seconds = [startTime timeIntervalSinceDate:firstDate];
 		currentMoney = money;
@@ -1551,7 +1570,7 @@
 		if(displayBySession)
 			plotX = sessionSpacer*i+leftEdgeOfChart;
 		
-		int plotY = bottomEdgeOfChart-(currentMoney-min)*yMultiplier;
+		float plotY = bottomEdgeOfChart-(currentMoney-min)*yMultiplier;
 		
 		BOOL winFlg=(money>=0)?YES:NO;
 			
@@ -1567,7 +1586,7 @@
 		[self drawLine:c startX:oldX startY:oldY endX:plotX endY:plotY];
 		[self drawGraphCircleForContext:c x:plotX y:plotY winFlg:winFlg circleSize:circleSize];
 		[self drawGraphCircleForContext:c x:oldX y:oldY winFlg:prevWinFlg circleSize:circleSize];
-		[pointsArray addObject:[NSString stringWithFormat:@"%d|%d|%d|%@", plotX, plotY, money, [startTime convertDateToStringWithFormat:@"h:mm a"]]];
+		[pointsArray addObject:[NSString stringWithFormat:@"%d|%f|%f|%@", plotX, plotY, money, [startTime convertDateToStringWithFormat:@"h:mm a"]]];
 		
 		prevWinFlg=winFlg;
 		oldX = plotX;
@@ -2278,7 +2297,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"startTime >= %@", startDate];
     NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:mOC ascendingFlg:YES];
     for(NSManagedObject *game in games)
-        [last90Str appendString:[NSString stringWithFormat:@"%@|%d:", [[game valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[game valueForKey:@"winnings"] intValue]]];
+        [last90Str appendString:[NSString stringWithFormat:@"%@|%f:", [[game valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[game valueForKey:@"winnings"] doubleValue]]];
     return last90Str;
 }
 
@@ -2322,7 +2341,7 @@
     NSString *monthStats = [CoreDataLib getGameStat:mOC dataField:@"totalStats" predicate:predicateMonth];
     NSArray *monthGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicateMonth sortColumn:@"startTime" mOC:mOC ascendingFlg:YES];
     for(NSManagedObject *mo in monthGames)
-        [thisMonthStr appendString:[NSString stringWithFormat:@"%@|%d:", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[mo valueForKey:@"winnings"] intValue]]];
+        [thisMonthStr appendString:[NSString stringWithFormat:@"%@|%f:", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[mo valueForKey:@"winnings"] doubleValue]]];
     
     //----------last10 Games--------
     NSArray *last10 = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicateLast10 sortColumn:@"startTime" mOC:mOC ascendingFlg:NO limit:10];
@@ -2330,7 +2349,7 @@
     NSString *last10String = @"";
     for(NSManagedObject *mo in last10) {
         last10String = [NSString stringWithFormat:@"%@[li]%@", last10String, [ProjectFunctions pullGameString:mOC mo:mo]];
-        [last10Reverse addObject:[NSString stringWithFormat:@"%@|%d", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[mo valueForKey:@"winnings"] intValue]]];
+        [last10Reverse addObject:[NSString stringWithFormat:@"%@|%f", [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"], [[mo valueForKey:@"winnings"] doubleValue]]];
     }
 
 
@@ -2635,8 +2654,8 @@
 	NSMutableArray *itemList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 	NSArray *months = [self namesOfAllMonths];
-	int min=0;
-	int max=0;
+	double min=0;
+	double max=0;
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
@@ -2644,7 +2663,7 @@
 		
 		NSString *chart1 = [CoreDataLib getGameStat:mOC dataField:@"chart1" predicate:predicate];
 		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-		int winnings = [[values stringAtIndex:0] intValue];
+		double winnings = [[values stringAtIndex:0] doubleValue];
 		int minutes = [[values stringAtIndex:2] intValue];
 		
 		int hours = minutes/60;
@@ -2660,7 +2679,7 @@
 		[itemList addObject:[NSString stringWithFormat:@"%f", amount]];
 	}
 	max*=1.1;
-	int totalMoneyRange = max-min;
+	double totalMoneyRange = max-min;
 	
 	float yMultiplier = 1;
 	if(totalMoneyRange>0)
@@ -2716,12 +2735,12 @@
 	NSMutableArray *profitList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 	NSArray *months = [self namesOfAllWeekdays];
-	int min=0;
-	int max=0;
+	double min=0;
+	double max=0;
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND weekday = '%@'", basicPred, month];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-		int winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] intValue];
+		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
 		int hours = minutes/60;
 		int hourlyRate = 0;
@@ -2736,7 +2755,7 @@
 		[profitList addObject:[NSString stringWithFormat:@"%f", amount]];
 	}
 	max*=1.1;
-	int totalMoneyRange = max-min;
+	double totalMoneyRange = max-min;
 	
 	float yMultiplier = 1;
 	if(totalMoneyRange>0)
@@ -2775,12 +2794,12 @@
 	NSMutableArray *profitList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 	NSArray *months = [ProjectFunctions namesOfAllDayTimes];
-	int min=0;
-	int max=0;
+	double min=0;
+	double max=0;
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND daytime = '%@'", basicPred, month];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-		int winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] intValue];
+		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
 		int hours = minutes/60;
 		int hourlyRate = 0;
@@ -2797,7 +2816,7 @@
 		[profitList addObject:[NSString stringWithFormat:@"%f", amount]];
 	}
 	max*=1.1;
-	int totalMoneyRange = max-min;
+	double totalMoneyRange = max-min;
 	
 	float yMultiplier = 1;
 	if(totalMoneyRange>0)
@@ -2851,12 +2870,12 @@
 	for(int i=startYear; i<=endYear; i++)
 		[months addObject:[NSString stringWithFormat:@"%d", i]];
 	
-	int min=0;
-	int max=0;
+	double min=0;
+	double max=0;
 	for(NSString *month in months) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND year = '%d'", basicPred, [month intValue]];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-		int winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] intValue];
+		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
 		int hours = minutes/60;
 		int hourlyRate = 0;
@@ -2878,7 +2897,7 @@
 		[profitList addObject:[NSString stringWithFormat:@"%f", amount]];
 	}
 	max*=1.1;
-	int totalMoneyRange = max-min;
+	double totalMoneyRange = max-min;
 	
 	float yMultiplier = 1;
 	if(totalMoneyRange>0)
@@ -3398,7 +3417,7 @@
     
 }
 
-+(int)getPlayerType:(int)amountRisked winnings:(int)winnings
++(int)getPlayerType:(double)amountRisked winnings:(double)winnings
 {
 	int amountReturned = amountRisked+winnings;
 	int percent=100;
@@ -3417,7 +3436,7 @@
 	return 4;
 }
 
-+(NSString *)getPlayerTypelabel:(int)amountRisked winnings:(int)winnings
++(NSString *)getPlayerTypelabel:(double)amountRisked winnings:(double)winnings
 {
 	int value = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
 	NSArray *types = [NSArray arrayWithObjects:@"Donkey", @"Fish", @"Rounder", @"Grinder", @"Shark", @"Pro", nil];
@@ -3425,13 +3444,12 @@
 }
 
 
-+(int)getNewPlayerType:(int)amountRisked winnings:(int)winnings
++(int)getNewPlayerType:(double)amountRisked winnings:(double)winnings
 {
-	int amountReturned = amountRisked+winnings;
+	double amountReturned = amountRisked+winnings;
 	int percent=100;
 	if(amountRisked>0)
 		percent = amountReturned*100/amountRisked;
-	
 	if(percent<35)
 		return 0;
 	if(percent>=35 && percent<75)
@@ -3446,7 +3464,7 @@
 	return 5;
 }
 
-+(UIImage *)getPlayerTypeImage:(int)amountRisked winnings:(int)winnings
++(UIImage *)getPlayerTypeImage:(double)amountRisked winnings:(double)winnings
 {
     if(winnings==0)
         return [UIImage imageNamed:@"playerType99.png"];
@@ -3764,7 +3782,7 @@
     return [NSString stringWithFormat:@"%.1f hours", (float)minutesPlayed/60];
 }
 
-+(int)calculatePprAmountRisked:(int)amountRisked netIncome:(int)netIncome {
++(int)calculatePprAmountRisked:(double)amountRisked netIncome:(double)netIncome {
     int ppr=100;
     if(amountRisked>0)
         ppr=100*(netIncome+amountRisked)/amountRisked;
@@ -3909,15 +3927,45 @@
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size {
 	NSString *title = nil;
 	switch (type) {
+  case 0:
+			title = [NSString fontAwesomeIconStringForEnum:FAtrash];
+			break;
   case 1:
 			title = [NSString fontAwesomeIconStringForEnum:FAPlus];
 			break;
   case 2:
 			title = [NSString fontAwesomeIconStringForEnum:FAPencil];
 			break;
+  case 3:
+			title = [NSString fontAwesomeIconStringForEnum:FAUser];
+			break;
+  case 4:
+			title = [NSString fontAwesomeIconStringForEnum:FAUsers];
+			break;
+  case 5:
+			title = [NSString fontAwesomeIconStringForEnum:FAuserSecret];
+			break;
+  case 6:
+			title = [NSString fontAwesomeIconStringForEnum:FAComment];
+			break;
+  case 7:
+			title = [NSString fontAwesomeIconStringForEnum:FAPause];
+			break;
+  case 8:
+			title = [NSString fontAwesomeIconStringForEnum:FAStop];
+			break;
+  case 9:
+			title = [NSString fontAwesomeIconStringForEnum:FAPlay];
+			break;
+  case 10:
+			title = [NSString fontAwesomeIconStringForEnum:FASquare];
+			break;
+  case 11:
+			title = [NSString fontAwesomeIconStringForEnum:FAlineChart];
+			break;
 			
   default:
-			title = [NSString fontAwesomeIconStringForEnum:FAtrash];
+			title = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
 			break;
 	}
 	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];

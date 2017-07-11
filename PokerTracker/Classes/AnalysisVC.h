@@ -20,8 +20,8 @@
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	int displayYear;
     
-	int gRisked;
-	int gIncome;
+	double gRisked;
+	double gIncome;
 	BOOL last10Flg;
 	NSString *gameType;
 	NSString *analysisText;
@@ -66,8 +66,8 @@
 
 @property (atomic) int displayYear;
 @property (atomic) BOOL last10Flg;
-@property (atomic) int gRisked;
-@property (atomic) int gIncome;
+@property (atomic) double gRisked;
+@property (atomic) double gIncome;
 
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, strong) UILabel *yearLabel;

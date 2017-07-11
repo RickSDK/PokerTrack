@@ -36,19 +36,14 @@
 }
 
 - (void)viewDidLoad {
-	bigHands = [[NSMutableArray alloc] initWithArray:[CoreDataLib selectRowsFromTable:@"BIGHAND" mOC:managedObjectContext]];
-    
+	[super viewDidLoad];
     [mainTableView setBackgroundView:nil];
-
 	
-    [super viewDidLoad];
+	bigHands = [[NSMutableArray alloc] initWithArray:[CoreDataLib selectRowsFromTable:@"BIGHAND" mOC:managedObjectContext]];
 
 	[self setTitle:@"Hand Tracker"];
 	
-	
 	if(showMainMenuButton) {
-//		UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//		self.navigationItem.leftBarButtonItem = homeButton;
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	}
 	
@@ -100,7 +95,8 @@
 	
 	NSManagedObject *mo = [bigHands objectAtIndex:indexPath.row];
 	cell.aa.text = [mo valueForKey:@"name"];
-	cell.bb.text = [[mo valueForKey:@"gameDate"] convertDateToStringWithFormat:@"yyyy-MM-dd"];
+	NSDate *gameDate = [mo valueForKey:@"gameDate"];
+	cell.bb.text = [ProjectFunctions displayLocalFormatDate:gameDate showDay:YES showTime:NO];
 	NSString *status = [mo valueForKey:@"winStatus"];
 	cell.cc.text = status;
 	cell.dd.text = [NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], [mo valueForKey:@"potsize"]];
@@ -111,8 +107,9 @@
 	if([status isEqualToString:@"Chop"])
 		cell.ccColor = [UIColor orangeColor];
 
-    cell.ddColor = [UIColor whiteColor];
-	cell.backgroundColor = [UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1];
+    cell.ddColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+	cell.backgroundColor = [UIColor whiteColor];
+	cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

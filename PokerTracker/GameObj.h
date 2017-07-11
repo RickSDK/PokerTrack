@@ -53,6 +53,7 @@
 @property (nonatomic) int tournamentFinish;
 @property (nonatomic) int tournamentSpots;
 @property (nonatomic) int tournamentSpotsPaid;
+@property (nonatomic) BOOL hudStatsFlg;
 
 @property (nonatomic, strong) NSString *startTimeStr;
 @property (nonatomic, strong) NSString *startTimeAltStr;
@@ -76,6 +77,8 @@
 @property (nonatomic, strong) NSString *tournamentFinishStr;
 @property (nonatomic, strong) NSString *tournamentSpotsStr;
 @property (nonatomic, strong) NSString *tournamentSpotsPaidStr;
+@property (nonatomic, strong) NSString *hudHeroStr;
+@property (nonatomic, strong) NSString *hudVillianStr;
 
 
 @property (nonatomic) BOOL onBreakFlag;

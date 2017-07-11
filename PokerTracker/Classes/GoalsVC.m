@@ -114,7 +114,7 @@
 			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
 			NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
 			NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-			int winnings = [[values stringAtIndex:0] intValue];
+			double winnings = [[values stringAtIndex:0] doubleValue];
 			int gameCount = [[values stringAtIndex:1] intValue];
 			int minutes = [[values stringAtIndex:2] intValue];
 			
@@ -122,7 +122,7 @@
 			int hourlyRate = 0;
 			if(hours>0)
 				hourlyRate = winnings/hours;
-			[self.monthlyProfits addObject:[NSString stringWithFormat:@"%d|%d", winnings, gameCount]];
+			[self.monthlyProfits addObject:[NSString stringWithFormat:@"%f|%d", winnings, gameCount]];
 			[self.hourlyProfits addObject:[NSString stringWithFormat:@"%d|%d", hourlyRate, gameCount]];
 		}
 		int profitGoal = [[ProjectFunctions getUserDefaultValue:@"profitGoal"] intValue];
@@ -158,7 +158,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Goals"];
+	[self setTitle:NSLocalizedString(@"Goals", nil)];
     
     yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 
@@ -266,11 +266,10 @@
 		NSMutableArray *colors = [[NSMutableArray alloc] init];
 		int totalSuccess=0;
 		int goalAmount = [[ProjectFunctions getUserDefaultValue:@"profitGoal"] intValue];
-		NSArray *temp = [[NSArray alloc] initWithArray:self.monthlyProfits];
 		
-		for(NSString *item in temp) {
+		for(NSString *item in self.monthlyProfits) {
 			NSArray *components = [item componentsSeparatedByString:@"|"];
-			int profits = [[components objectAtIndex:0] intValue];
+			double profits = [[components objectAtIndex:0] doubleValue];
 			int games = [[components objectAtIndex:1] intValue];
 			NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 			[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];

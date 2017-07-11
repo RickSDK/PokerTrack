@@ -21,6 +21,8 @@
 #import "ChipStackObj.h"
 #import "IGAVC.h"
 #import "MultiCellObj.h"
+#import "AnalysisDetailsVC.h"
+#import "HudTrackerVC.h"
 
 
 @implementation GameGraphVC
@@ -43,6 +45,13 @@
 
 - (IBAction) pprButtonPressed: (id) sender {
 	IGAVC *detailViewController = [[IGAVC alloc] initWithNibName:@"IGAVC" bundle:nil];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) hudButtonPressed: (id) sender {
+	HudTrackerVC *detailViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.gameMo = self.mo;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -108,6 +117,7 @@
 	
 	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
 	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];
+	self.hudButton.hidden=!self.gameObj.hudStatsFlg;
 
 	[self addGameID];
 	[self setupGraphView];
@@ -169,8 +179,14 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	UITouch *touch = [[event allTouches] anyObject];
-	CGPoint touchPosition = [touch locationInView:self.gameGraphView];
-	if(touchPosition.y>0 && touchPosition.y<self.gameGraphView.frame.size.height) {
+	CGPoint touchPosition =[touch locationInView:self.view];
+	if (CGRectContainsPoint(self.gamePPRView.frame, touchPosition))
+	{
+		AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+	if (CGRectContainsPoint(self.gameGraphView.frame, touchPosition)) {
 		int closestPoint2 = [self findClosestPointToPoint:touchPosition];
 		if(!self.touchesFlg) {
 			self.touchesFlg=YES;
@@ -182,8 +198,9 @@
 				[self deselectChart];
 		}
 		self.closestPoint=closestPoint2;
-	} else
+	} else {
 		[self deselectChart];
+	}
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

@@ -42,7 +42,7 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 0
+#define kPRODMode 1
 #define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
@@ -147,9 +147,9 @@
 +(NSString *)getDefaultDBLocation:(float)lat lng:(float)lng;
 +(void)updateMoneyFloatLabel:(UILabel *)localLabel money:(float)money;
 +(void)updateMoneyLabel:(UILabel *)localLabel money:(double)money;
-+(int)getPlayerType:(int)amountRisked winnings:(int)winnings;
-+(NSString *)getPlayerTypelabel:(int)amountRisked winnings:(int)winnings;
-+(UIImage *)getPlayerTypeImage:(int)amountRisked winnings:(int)winnings;
++(int)getPlayerType:(double)amountRisked winnings:(double)winnings;
++(NSString *)getPlayerTypelabel:(double)amountRisked winnings:(double)winnings;
++(UIImage *)getPlayerTypeImage:(double)amountRisked winnings:(double)winnings;
 +(void)setFontColorForSegment:(UISegmentedControl *)segment values:(NSArray *)values;
 + (UIView *)getViewForHeaderWithText:(NSString *)headerText;
 +(NSString *)convertImgToBase64String:(UIImage *)img height:(int)height;
@@ -191,14 +191,14 @@
 -(void) setReturningValue:(NSString *)value;
 +(int)getMinutesPlayedUsingStartTime:(NSDate *)startTime andEndTime:(NSDate *)endTime andBreakMin:(int)breakMinutes;
 +(NSString *)getHoursPlayedUsingStartTime:(NSDate *)startTime andEndTime:(NSDate *)endTime andBreakMin:(int)breakMinutes;
-+(int)calculatePprAmountRisked:(int)amountRisked netIncome:(int)netIncome;
++(int)calculatePprAmountRisked:(double)amountRisked netIncome:(double)netIncome;
 +(void)setBankSegment:(UISegmentedControl *)segment;
 +(void)bankSegmentChangedTo:(int)number;
 +(void)checkBankrollsForSegment:(UISegmentedControl *)segment moc:(NSManagedObjectContext *)moc;
 +(void)addColorToButton:(UIButton *)button color:(UIColor *)color;
 + (UIImage *) imageFromColor:(UIColor *)color;
 +(UIBarButtonItem *)navigationButtonWithTitle:(NSString *)title selector:(SEL)selector target:(id)target;
-+(int)getNewPlayerType:(int)amountRisked winnings:(int)winnings;
++(int)getNewPlayerType:(double)amountRisked winnings:(double)winnings;
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context;
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context;
 +(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color;

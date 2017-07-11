@@ -15,6 +15,7 @@
 #import "NSArray+ATTArray.h"
 #import "PlayerTrackerVC.h"
 #import "MultiLineDetailCellWordWrap.h"
+#import "HudTrackerVC.h"
 
 
 @implementation EditPlayerTracker
@@ -183,6 +184,14 @@
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
 
+- (IBAction) hudButtonPressed: (id) sender
+{
+	HudTrackerVC *localViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
+	localViewController.managedObjectContext=managedObjectContext;
+	localViewController.playerMo = self.managedObject;
+	[self.navigationController pushViewController:localViewController animated:YES];
+}
+
 - (IBAction) casinoButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=3;
@@ -257,6 +266,17 @@
 
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	self.hudStyleLabel.text = @"-";
+	NSString *hudStyleStr = [managedObject valueForKey:@"desc"];
+	NSArray *components = [hudStyleStr componentsSeparatedByString:@":"];
+	if(components.count>6) {
+		self.hudStyleLabel.text = [components objectAtIndex:6];
+	}
+
 }
 
 

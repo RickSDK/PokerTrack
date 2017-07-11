@@ -97,7 +97,7 @@
 	for(NSString *line in statsArray) {
 		NSArray *components = [line componentsSeparatedByString:@"|"];
 		[titles addObject:[components objectAtIndex:0]];
-		int money = [[components objectAtIndex:1] intValue];
+		double money = [[components objectAtIndex:1] doubleValue];
 		int numGames = [[components objectAtIndex:2] intValue];
 		NSString *gamesTxt = (numGames==1)?@"Game":@"Games";
 		[valueArray addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:money], numGames, gamesTxt]];

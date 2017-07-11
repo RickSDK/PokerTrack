@@ -31,14 +31,15 @@
             <rect key="frame" x="0.0" y="44" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="cUY-Ky-7xT" customClass="CustomView">
+                <view contentMode="scaleToFill" id="cUY-Ky-7xT">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Bankroll" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="15">
                             <rect key="frame" x="217" y="143" width="81" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
@@ -87,6 +88,7 @@
                             <rect key="frame" x="90" y="319" width="140" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
@@ -113,109 +115,110 @@
                                 <action selector="completedButtonPressed:" destination="-1" eventType="touchDown" id="30"/>
                             </connections>
                         </button>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
+                            <rect key="frame" x="43" y="17" width="244" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Cash Game"/>
+                                <segment title="Tournament"/>
+                            </segments>
+                            <connections>
+                                <action selector="gameTypeSegmentPressed:" destination="-1" eventType="valueChanged" id="34"/>
+                            </connections>
+                        </segmentedControl>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="7" customClass="CustomSegment">
+                            <rect key="frame" x="2" y="61" width="316" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Hold'em"/>
+                                <segment title="Omaha"/>
+                                <segment title="Razz"/>
+                                <segment title="Edit"/>
+                            </segments>
+                            <connections>
+                                <action selector="gameSegmentPressed:" destination="-1" eventType="valueChanged" id="44"/>
+                            </connections>
+                        </segmentedControl>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8" customClass="CustomSegment">
+                            <rect key="frame" x="2" y="88" width="316" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Single Table"/>
+                                <segment title="Multi-Table"/>
+                                <segment title="Heads up"/>
+                                <segment title="Edit"/>
+                            </segments>
+                            <connections>
+                                <action selector="tournSegmentPressed:" destination="-1" eventType="valueChanged" id="64"/>
+                            </connections>
+                        </segmentedControl>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9" customClass="CustomSegment">
+                            <rect key="frame" x="2" y="115" width="316" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="No-Limit"/>
+                                <segment title="Limit"/>
+                                <segment title="Spread"/>
+                                <segment title="Edit"/>
+                            </segments>
+                            <connections>
+                                <action selector="limitSegmentPressed:" destination="-1" eventType="valueChanged" id="45"/>
+                            </connections>
+                        </segmentedControl>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="11" customClass="CustomSegment">
+                            <rect key="frame" x="2" y="89" width="316" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="$1/$2"/>
+                                <segment title="$1/$3"/>
+                                <segment title="$3/$5"/>
+                                <segment title="$3/$6"/>
+                                <segment title="Edit"/>
+                            </segments>
+                            <connections>
+                                <action selector="stakesSegmentPressed:" destination="-1" eventType="valueChanged" id="46"/>
+                            </connections>
+                        </segmentedControl>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="14">
+                            <rect key="frame" x="210" y="163" width="104" height="55"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="Default" backgroundImage="whiteChromeBut.png">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="bankrollButtonPressed:" destination="-1" eventType="touchDown" id="28"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Location" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="38">
+                            <rect key="frame" x="71" y="143" width="81" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="41">
+                            <rect key="frame" x="25" y="163" width="173" height="55"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="Casino" backgroundImage="blackChromeBut.png">
+                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="locationButtonPressed:" destination="-1" eventType="touchDown" id="43"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="47">
+                            <rect key="frame" x="93" y="172" width="37" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" red="0.89950515450733726" green="1" blue="0.92001120463085673" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
-                    <rect key="frame" x="38" y="17" width="244" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="Cash Game"/>
-                        <segment title="Tournament"/>
-                    </segments>
-                    <connections>
-                        <action selector="gameTypeSegmentPressed:" destination="-1" eventType="valueChanged" id="34"/>
-                    </connections>
-                </segmentedControl>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="7" customClass="CustomSegment">
-                    <rect key="frame" x="3" y="61" width="314" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="Hold'em"/>
-                        <segment title="Omaha"/>
-                        <segment title="Razz"/>
-                        <segment title="Edit"/>
-                    </segments>
-                    <connections>
-                        <action selector="gameSegmentPressed:" destination="-1" eventType="valueChanged" id="44"/>
-                    </connections>
-                </segmentedControl>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8" customClass="CustomSegment">
-                    <rect key="frame" x="3" y="88" width="314" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="Single Table"/>
-                        <segment title="Multi-Table"/>
-                        <segment title="Heads up"/>
-                        <segment title="Edit"/>
-                    </segments>
-                    <connections>
-                        <action selector="tournSegmentPressed:" destination="-1" eventType="valueChanged" id="64"/>
-                    </connections>
-                </segmentedControl>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9" customClass="CustomSegment">
-                    <rect key="frame" x="3" y="115" width="314" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="No-Limit"/>
-                        <segment title="Limit"/>
-                        <segment title="Spread"/>
-                        <segment title="Edit"/>
-                    </segments>
-                    <connections>
-                        <action selector="limitSegmentPressed:" destination="-1" eventType="valueChanged" id="45"/>
-                    </connections>
-                </segmentedControl>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="11" customClass="CustomSegment">
-                    <rect key="frame" x="3" y="89" width="314" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="$1/$2"/>
-                        <segment title="$1/$3"/>
-                        <segment title="$3/$5"/>
-                        <segment title="$3/$6"/>
-                        <segment title="Edit"/>
-                    </segments>
-                    <connections>
-                        <action selector="stakesSegmentPressed:" destination="-1" eventType="valueChanged" id="46"/>
-                    </connections>
-                </segmentedControl>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="14">
-                    <rect key="frame" x="205" y="163" width="104" height="55"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Default" backgroundImage="whiteChromeBut.png">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="bankrollButtonPressed:" destination="-1" eventType="touchDown" id="28"/>
-                    </connections>
-                </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Location" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="38">
-                    <rect key="frame" x="66" y="143" width="81" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
-                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <size key="shadowOffset" width="1" height="1"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="41">
-                    <rect key="frame" x="20" y="163" width="173" height="55"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Casino" backgroundImage="blackChromeBut.png">
-                        <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="locationButtonPressed:" destination="-1" eventType="touchDown" id="43"/>
-                    </connections>
-                </button>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="47">
-                    <rect key="frame" x="79" y="174" width="37" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>

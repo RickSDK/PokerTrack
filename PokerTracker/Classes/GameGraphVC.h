@@ -26,6 +26,7 @@
 @property (atomic, strong) IBOutlet UILabel *chipTimeLabel;
 @property (atomic, strong) IBOutlet UILabel *pprLabel;
 @property (atomic, strong) IBOutlet UIButton *notesButton;
+@property (atomic, strong) IBOutlet UIButton *hudButton;
 @property (atomic, strong) IBOutlet UIView *notesView;
 @property (atomic, strong) IBOutlet UIView *bottomView;
 @property (atomic, strong) IBOutlet UITextField *textField;
@@ -42,5 +43,6 @@
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) enterButtonPressed: (id) sender;
 - (IBAction) pprButtonPressed: (id) sender;
+- (IBAction) hudButtonPressed: (id) sender;
 
 @end

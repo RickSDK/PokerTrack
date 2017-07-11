@@ -309,7 +309,6 @@
 		[self initializeFormData];
 		
 		NSString *currentYearStr = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
-		NSLog(@"+++%@", currentYearStr);
 		self.displayYear=[currentYearStr intValue];
 		[formDataArray replaceObjectAtIndex:0 withObject:currentYearStr];
         if([formDataArray count]>0)
@@ -414,7 +413,7 @@
 	
 	[profitArray removeAllObjects];
 	NSArray *titleArray = [NSArray arrayWithObjects:@"Quarter 1", @"Quarter 2", @"Quarter 3", @"Quarter 4", @"Totals",nil]; 
-	int totalMoney=0;
+	double totalMoney=0;
 		int totalGames=0;
 		int totalRisked=0;
 	NSString *predStr = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
@@ -429,14 +428,14 @@
 		for(int i=0; i<4; i++) {
                 NSDate *endDate = [endDates objectAtIndex:i];
 			NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@ AND startTime >= %%@ AND startTime < %%@", predStr], startDate, endDate];
-			int money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
+			double money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] doubleValue];
 			int games = [[CoreDataLib getGameStat:contextLocal dataField:@"gameCount" predicate:predicate] intValue];
 			totalRisked += [[CoreDataLib getGameStat:contextLocal dataField:@"amountRisked" predicate:predicate] intValue];
 			
 			startDate = endDate;
 			totalMoney += money;
 			totalGames += games;
-			[profitArray addObject:[NSString stringWithFormat:@"%@|%d|%d", [titleArray objectAtIndex:i], money, games]];
+			[profitArray addObject:[NSString stringWithFormat:@"%@|%f|%d", [titleArray objectAtIndex:i], money, games]];
 		}
 	} else {
 		NSArray *items = [CoreDataLib selectRowsFromEntity:@"YEAR" predicate:nil sortColumn:@"name" mOC:contextLocal ascendingFlg:YES];
@@ -445,19 +444,19 @@
 			NSString *predString = [NSString stringWithFormat:@"%@ AND year = '%@'", predStr, year];
 			NSPredicate *predicate = [NSPredicate predicateWithFormat :predString];
 			
-			int money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue];
+			double money = [[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] doubleValue];
 			int games = [[CoreDataLib getGameStat:contextLocal dataField:@"gameCount" predicate:predicate] intValue];
 			totalRisked += [[CoreDataLib getGameStat:contextLocal dataField:@"amountRisked" predicate:predicate] intValue];
 			totalMoney += money;
 			totalGames += games;
-			[profitArray addObject:[NSString stringWithFormat:@"%@|%d|%d", year, money, games]];
+			[profitArray addObject:[NSString stringWithFormat:@"%@|%f|%d", year, money, games]];
 		}
 		
 	}
 		
 		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:totalRisked winnings:totalMoney];
 
-	[profitArray addObject:[NSString stringWithFormat:@"%@|%d|%d", @"Totals", totalMoney, totalGames]]; // totals
+	[profitArray addObject:[NSString stringWithFormat:@"%@|%f|%d", @"Totals", totalMoney, totalGames]]; // totals
 
 	
 		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];

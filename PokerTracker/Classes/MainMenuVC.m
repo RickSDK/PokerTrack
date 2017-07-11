@@ -150,8 +150,8 @@
 	//---- This code added to prevent flicker----
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:0 type:@"All"];
 	NSPredicate *predicate2 = [NSPredicate predicateWithFormat:basicPred];
-	int amountRisked = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"amountRisked" predicate:predicate2 limit:10] intValue];
-	int netIncome = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"winnings" predicate:predicate2 limit:10] intValue];
+	double amountRisked = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"amountRisked" predicate:predicate2 limit:10] doubleValue];
+	double netIncome = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"winnings" predicate:predicate2 limit:10] doubleValue];
 	[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
 	
 	
@@ -241,7 +241,8 @@
 	}
 	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
 	self.statusImageView.hidden=!self.loggedInFlg;
-	[self countFriendsPlaying];
+	if(self.loggedInFlg)
+		[self countFriendsPlaying];
 
 }
 
@@ -255,8 +256,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIDevice *device = [UIDevice currentDevice];
     NSString *model = [device model];
-//	NSLog(@"Rotate!!!");
-    
+	
     if([model length]>3 && [[model substringToIndex:4] isEqualToString:@"iPad"])
         return;
 
@@ -738,10 +738,8 @@
 		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
 		NSString *analysis1 = [CoreDataLib getGameStatWithLimit:contextLocal dataField:@"analysis1" predicate:predicate limit:10];
 		NSArray *values = [analysis1 componentsSeparatedByString:@"|"];
-		int amountRisked = [[values stringAtIndex:0] intValue];
-		int netIncome = [[values stringAtIndex:5] intValue];
-		
-//		self.playerTypeLabel.text = [ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome];
+		double amountRisked = [[values stringAtIndex:0] doubleValue];
+		double netIncome = [[values stringAtIndex:5] doubleValue];
 		
 		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
 		yearLabel.alpha=0.2;
@@ -860,7 +858,6 @@
 		[ProjectFunctions showConfirmationPopup:@"Upgrade Now?" message:@"You will need to upgrade to use this feature." delegate:self tag:104];
 		return;
 	}
-	
 	UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];

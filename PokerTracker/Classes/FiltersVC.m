@@ -24,7 +24,7 @@
 #import "FilterListVC.h"
 #import "NSArray+ATTArray.h"
 
-#define kLeftLabelRation	0.4
+#define kLeftLabelRation	0.5
 #define kfilterButton	7
 #define kfiltername		8
 #define kSaveFilter		8

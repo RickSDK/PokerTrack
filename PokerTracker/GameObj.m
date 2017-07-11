@@ -29,6 +29,8 @@
 	gameObj.stakes = [mo valueForKey:@"stakes"];
 	gameObj.gametype = [mo valueForKey:@"gametype"];
 	gameObj.tournamentType = [mo valueForKey:@"tournamentType"];
+	gameObj.hudHeroStr = [mo valueForKey:@"attrib01"];
+	gameObj.hudVillianStr = [mo valueForKey:@"attrib02"];
 	
 	gameObj.buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	gameObj.reBuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
@@ -52,6 +54,7 @@
 	//	gameObj.profit = [[mo valueForKey:@"winnings"] doubleValue];
 
 	// calculated values--------------------
+	gameObj.hudStatsFlg = (gameObj.hudHeroStr.length>10 || gameObj.hudVillianStr.length>10);
 	NSString *middleValue = ([@"Cash" isEqualToString:gameObj.type])?gameObj.stakes:gameObj.tournamentType;
 	gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", gameObj.gametype, middleValue, gameObj.limit];
 	gameObj.risked = gameObj.buyInAmount + gameObj.reBuyAmount;
@@ -61,7 +64,7 @@
 	gameObj.takeHome = gameObj.cashoutAmount - gameObj.risked;
 	gameObj.profit = gameObj.cashoutAmount + gameObj.foodDrink - gameObj.risked;
 	gameObj.grossIncome = gameObj.cashoutAmount + gameObj.tokes + gameObj.foodDrink - gameObj.risked;
-	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.buyInAmount+gameObj.reBuyAmount netIncome:gameObj.profit];
+	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit];
 	
 	NSDate *endTime = gameObj.endTime;
 	if([gameObj.status isEqualToString:@"In Progress"])

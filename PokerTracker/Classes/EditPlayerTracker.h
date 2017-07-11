@@ -30,6 +30,7 @@
 	IBOutlet UILabel *picLabel;
 	IBOutlet UILabel *typeLabel;
 	IBOutlet UILabel *skillLabel;
+	IBOutlet UILabel *hudStyleLabel;
 	IBOutlet UILabel *playerNumLabel;
 	IBOutlet UISlider *passagrSlider;
 	IBOutlet UISlider *tightlooseSlider;
@@ -49,6 +50,7 @@
 - (IBAction) segmentPressed:(id)sender;
 - (IBAction) slider1changed:(id)sender;
 - (IBAction) slider2changed:(id)sender;
+- (IBAction) hudButtonPressed: (id) sender;
 -(void)updateImage;
 
 
@@ -73,6 +75,7 @@
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UILabel *skillLabel;
 @property (nonatomic, strong) UILabel *playerNumLabel;
+@property (nonatomic, strong) UILabel *hudStyleLabel;
 
 @property (nonatomic, strong) UIBarButtonItem *saveButton;
 @property (nonatomic) int selectedObjectForEdit;

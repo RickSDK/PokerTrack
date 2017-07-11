@@ -175,7 +175,7 @@
 - (void) saveButtonClicked:(id)sender {
 	viewEditable = !viewEditable;
 	[mainTableView reloadData];
-	[self setTitle:(viewEditable)?@"Edit Mode":@"Details"];
+	[self setTitle:(viewEditable)?NSLocalizedString(@"Edit Mode", nil):NSLocalizedString(@"Details", nil)];
 }
 
 
@@ -240,7 +240,7 @@
 			cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
 		cell.backgroundColor = [UIColor colorWithRed:1 green:0.2 blue:0 alpha:1];
-		cell.textLabel.text = @"Delete Game";
+		cell.textLabel.text = NSLocalizedString(@"Delete Game", nil);
 		cell.textLabel.textColor = [UIColor whiteColor];
 		return cell;
 	}
@@ -249,7 +249,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here -- for example, create and push another view controller.
 	if(!viewEditable) {
-		[ProjectFunctions showAlertPopup:@"Not in edit mode" message:@"Press the pencil above to make changes"];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"EditWarning", nil)];
 		return;
 	}
 	if(indexPath.section==0)
@@ -262,9 +262,6 @@
 	}
 	selectedFieldIndex = (int)indexPath.row;
 	GameDetailObj *obj = [self.detailItems objectAtIndex:indexPath.row];
-//	NSString *type = [NSString stringWithFormat:@"%@", [self.labelTypes stringAtIndex:(int)indexPath.row]];
-//	NSString *labelValue = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:(int)indexPath.row]];
-//	NSString *dataValue = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:(int)indexPath.row]];
 	
 	if(obj.type==1) {
 		DatePickerViewController *localViewController = [[DatePickerViewController alloc] init];

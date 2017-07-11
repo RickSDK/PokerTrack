@@ -83,7 +83,7 @@
 		[self setTitle:NSLocalizedString(@"Profit", nil)];
 	}
 	if(self.moneySegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Hourly Profit", nil)];
+		[self setTitle:NSLocalizedString(@"Hourly", nil)];
 	}
 	[mainTableView reloadData];
 }
@@ -169,7 +169,7 @@
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            int winnings = [[values stringAtIndex:0] intValue];
+            double winnings = [[values stringAtIndex:0] doubleValue];
             int gameCount = [[values stringAtIndex:1] intValue];
             int minutes = [[values stringAtIndex:2] intValue];
             
@@ -177,7 +177,7 @@
 		int hourlyRate = 0;
 		if(hours>0)
 			hourlyRate = winnings/hours;
-		[yearlyProfits addObject:[NSString stringWithFormat:@"%d|%d|%d", i, winnings, gameCount]];
+		[yearlyProfits addObject:[NSString stringWithFormat:@"%d|%f|%d", i, winnings, gameCount]];
 		[yearHourlyProfits addObject:[NSString stringWithFormat:@"%d|%d|%d", i, hourlyRate, gameCount]];
 	}
 	
@@ -192,7 +192,7 @@
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            int winnings = [[values stringAtIndex:0] intValue];
+            double winnings = [[values stringAtIndex:0] doubleValue];
             int gameCount = [[values stringAtIndex:1] intValue];
             int minutes = [[values stringAtIndex:2] intValue];
 
@@ -200,7 +200,7 @@
 		int hourlyRate = 0;
 		if(hours>0)
 			hourlyRate = winnings/hours;
-		[monthlyProfits addObject:[NSString stringWithFormat:@"%@|%d|%d", [months objectAtIndex:i], winnings, gameCount]];
+		[monthlyProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [months objectAtIndex:i], winnings, gameCount]];
 		[hourlyProfits addObject:[NSString stringWithFormat:@"%@|%d|%d", [months objectAtIndex:i], hourlyRate, gameCount]];
 		i++;
 	}
@@ -214,7 +214,7 @@
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            int winnings = [[values stringAtIndex:0] intValue];
+            double winnings = [[values stringAtIndex:0] doubleValue];
             int gameCount = [[values stringAtIndex:1] intValue];
             int minutes = [[values stringAtIndex:2] intValue];
 
@@ -222,7 +222,7 @@
 		int hourlyRate = 0;
 		if(hours>0)
 			hourlyRate = winnings/hours;
-		[dayProfits addObject:[NSString stringWithFormat:@"%@|%d|%d", [days objectAtIndex:i], winnings, gameCount]];
+		[dayProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [days objectAtIndex:i], winnings, gameCount]];
 		[dayHourly addObject:[NSString stringWithFormat:@"%@|%d|%d", [days objectAtIndex:i], hourlyRate, gameCount]];
 		i++;
 	}
@@ -236,7 +236,7 @@
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            int winnings = [[values stringAtIndex:0] intValue];
+            double winnings = [[values stringAtIndex:0] doubleValue];
             int gameCount = [[values stringAtIndex:1] intValue];
             int minutes = [[values stringAtIndex:2] intValue];
 
@@ -244,7 +244,7 @@
 		int hourlyRate = 0;
 		if(hours>0)
 			hourlyRate = winnings/hours;
-		[timeProfits addObject:[NSString stringWithFormat:@"%@|%d|%d", [daytimes objectAtIndex:i], winnings, gameCount]];
+		[timeProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [daytimes objectAtIndex:i], winnings, gameCount]];
 		[timeHourly addObject:[NSString stringWithFormat:@"%@|%d|%d", [daytimes objectAtIndex:i], hourlyRate, gameCount]];
 		i++;
 	}
@@ -274,7 +274,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Charts"];
+	[self setTitle:NSLocalizedString(@"Charts", nil)];
 	
 	self.showBreakdownFlg=NO;
     
@@ -427,9 +427,10 @@
 		if(moneySegment.selectedSegmentIndex==0) {
 			mainTitle = @"Net Profits by Year";
 			for(NSString *item in yearlyProfits) {
+				NSLog(@"item: %@", item);
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -448,7 +449,7 @@
 			for(NSString *item in yearHourlyProfits) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -473,7 +474,7 @@
 			for(NSString *item in monthlyProfits) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -492,7 +493,7 @@
 			for(NSString *item in hourlyProfits) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -517,7 +518,7 @@
 			for(NSString *item in dayProfits) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -536,7 +537,7 @@
 			for(NSString *item in dayHourly) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -561,7 +562,7 @@
 			for(NSString *item in timeProfits) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@ (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];
@@ -580,7 +581,7 @@
 			for(NSString *item in timeHourly) {
 				NSArray *components = [item componentsSeparatedByString:@"|"];
 				[titles addObject:[components objectAtIndex:0]];
-				int profits = [[components objectAtIndex:1] intValue];
+				double profits = [[components objectAtIndex:1] doubleValue];
 				int games = [[components objectAtIndex:2] intValue];
 				NSString *gameTxt = (games==1)?NSLocalizedString(@"Game", nil):NSLocalizedString(@"Games", nil);
 				[values addObject:[NSString stringWithFormat:@"%@/hr (%d %@)", [ProjectFunctions convertIntToMoneyString:profits], games, gameTxt]];

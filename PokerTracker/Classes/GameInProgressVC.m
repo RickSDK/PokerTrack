@@ -23,6 +23,7 @@
 #import "MultiLineDetailCellWordWrap.h"
 #import "NSDate+ATTDate.h"
 #import "MultiCellObj.h"
+#import "HudTrackerVC.h"
 
 #define kEndGameAlert	1
 
@@ -52,18 +53,14 @@
 	self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18];
 	self.tokesLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
 
-	self.pauseButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
-	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPause] forState:UIControlStateNormal];
-	self.notesButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
-	[self.notesButton setTitle:[NSString fontAwesomeIconStringForEnum:FAComment] forState:UIControlStateNormal];
-	self.editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
-	[self.editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
-	self.doneButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
-	[self.doneButton setTitle:[NSString fontAwesomeIconStringForEnum:FAStop] forState:UIControlStateNormal];
-	self.graphButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
-	[self.graphButton setTitle:[NSString fontAwesomeIconStringForEnum:FAlineChart] forState:UIControlStateNormal];
 	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
 	self.clockLabel.text = [NSString fontAwesomeIconStringForEnum:FAClockO];
+	[ProjectFunctions makeFAButton:self.notesButton type:6 size:16];
+	[ProjectFunctions makeFAButton:self.graphButton type:11 size:16];
+	[ProjectFunctions makeFAButton:self.editButton type:5 size:16];
+
+	[ProjectFunctions makeFAButton:self.pauseButton type:7 size:16];
+	[ProjectFunctions makeFAButton:self.doneButton type:8 size:16];
 
 	self.mainTableView.tableHeaderView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.01f)];
 	
@@ -127,12 +124,9 @@
 
 - (IBAction) editButtonPressed: (id) sender
 {
-	[mo setValue:[NSDate date] forKey:@"endTime"];
-	[managedObjectContext save:nil];
-	GameDetailsVC *detailViewController = [[GameDetailsVC alloc] initWithNibName:@"GameDetailsVC" bundle:nil];
+	HudTrackerVC *detailViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.viewEditable = YES;
-	detailViewController.mo = mo;
+	detailViewController.gameMo = mo;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -466,8 +460,6 @@
 -(void)setUpScreen
 {
 
-	[self setupArrays];
-
     NSString *foodButtonText = @"";
     NSString *tokesButtonText = @"";
     NSString *chipsButtonText = @"";
@@ -549,6 +541,8 @@
         [pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
         [hourlyLabel performSelectorOnMainThread:@selector(setText: ) withObject:hourlytext waitUntilDone:YES];
 	float fontSize = chipsButtonText.length>7?26.0:32.0;
+	if(chipsButtonText.length>10)
+		fontSize = 18;
 	chipStackButton.titleLabel.font = [UIFont boldSystemFontOfSize:fontSize];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -625,66 +619,6 @@
 //		[self startWebServiceCall:@"Updating Server"];
         [self performSelectorInBackground:@selector(doLiveUpdate) withObject:nil];
     }
-}
-
-
--(void)setupArrays {
-	
-	/*
-	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
-	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
-	
-	
-	
-	double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
-	int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
-	int tokesMoney = [[mo valueForKey:@"tokes"] intValue];
-	
-	self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
-	double grossEarnings = self.netProfit+tokesMoney;
-	double takeHome = self.netProfit-foodDrinks;
-
-	
-	[self.valuesArray removeAllObjects];
-	[self.valuesArray addObject:NSLocalizedString([self.mo valueForKey:@"Type"], nil)];
-	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"buyInAmount"] doubleValue]]];
-	[self.valuesArray addObject:[NSString stringWithFormat:@"%d", (int)[[self.mo valueForKey:@"numRebuys"] intValue]]];
-	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"rebuyAmount"] doubleValue]]];
-	
-	
-	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:[[self.mo valueForKey:@"cashoutAmount"] doubleValue]]];
-	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings]];
-	[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:takeHome]];
-	
-	self.startDate = [mo valueForKey:@"startTime"];
-	int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
-	if(totalSeconds>0)
-		[self.valuesArray addObject:[NSString stringWithFormat:@"%@ (%@/hr)", [ProjectFunctions convertNumberToMoneyString:self.netProfit], [ProjectFunctions convertNumberToMoneyString:ceil(self.netProfit*3600/totalSeconds)]]];
-	else
-		[self.valuesArray addObject:[ProjectFunctions convertNumberToMoneyString:self.netProfit]];
-	
-	int breakMinutes = [[self.mo valueForKey:@"breakMinutes"] intValue];
-	if (breakMinutes>0)
-		[self.valuesArray addObject:[NSString stringWithFormat:@"%d (%d on break)", (totalSeconds/60)-breakMinutes, breakMinutes]];
-	else
-		[self.valuesArray addObject:[NSString stringWithFormat:@"%d min", totalSeconds/60]];
-
-
-	[self.valuesArray addObject:[self.mo valueForKey:@"notes"]];
-	
-	[self.colorsArray removeAllObjects];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[self colorOfMoney:grossEarnings]];
-	[self.colorsArray addObject:[self colorOfMoney:takeHome]];
-	[self.colorsArray addObject:[self colorOfMoney:self.netProfit]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.colorsArray addObject:[UIColor blackColor]];
-	[self.mainTableView reloadData];
-	*/
 }
 
 -(UIColor *)colorOfMoney:(float)money {

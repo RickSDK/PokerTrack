@@ -13,7 +13,7 @@
 
 }
 
-+(UIColor *)getFieldColor:(int)value;
++(UIColor *)getFieldColor:(double)value;
 +(NSArray *)selectRowsFromTable:(NSString *)entityName mOC:(NSManagedObjectContext *)mOC;
 +(NSArray *)selectRowsFromEntity:(NSString *)entityName predicate:(NSPredicate *)predicate sortColumn:(NSString *)sortColumn mOC:(NSManagedObjectContext *)mOC ascendingFlg:(BOOL)ascendingFlg;
 +(NSArray *)selectRowsFromEntityWithLimit:(NSString *)entityName predicate:(NSPredicate *)predicate sortColumn:(NSString *)sortColumn mOC:(NSManagedObjectContext *)mOC ascendingFlg:(BOOL)ascendingFlg limit:(int)limit;

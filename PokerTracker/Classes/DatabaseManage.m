@@ -60,7 +60,7 @@
 @synthesize menuArray, gSelectedRow, activityIndicator, activityLabel, gamesImportedLabel, totalNumGamesImported;
 @synthesize importInProgress, totalImportedLines, numImportedLinesRead, progressView, userLabel;
 @synthesize managedObjectContext, mainTableView, secondMenuArray, messageString, activityLabelString;
-@synthesize activityBG, activityPopup, emailLabel, coreDataLocked, importProgressLabel;
+@synthesize activityBG, activityPopup, emailLabel, coreDataLocked, importProgressLabel, exportTextLabel;
 @synthesize importPopup, importTextView, laterButton, importButton, importType, callBackViewController;
 
 #pragma mark -

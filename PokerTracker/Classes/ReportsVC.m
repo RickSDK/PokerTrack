@@ -155,14 +155,14 @@
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
--(int)getPrimaryNumber:(int)winnings gameCount:(int)gameCount minutes:(int)minutes selectedSegmentIndex:(int)selectedSegmentIndex
+-(double)getPrimaryNumber:(double)winnings gameCount:(int)gameCount minutes:(int)minutes selectedSegmentIndex:(int)selectedSegmentIndex
 {
 //    int hours = minutes/60;
     float hoursFloat = (float)minutes/60;
     int hourlyRate = 0;
     if(hoursFloat>0)
         hourlyRate = (float)winnings/hoursFloat;
-    int number=0;
+    double number=0;
     
     if(selectedSegmentIndex==0) 
         number = winnings + 50000000;
@@ -262,24 +262,24 @@
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:fullPred, day];
 		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
 		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-		int winnings = [[values stringAtIndex:0] intValue];
+		double winnings = [[values stringAtIndex:0] doubleValue];
 		int gameCount = [[values stringAtIndex:1] intValue];
 		int minutes = [[values stringAtIndex:2] intValue];
 		
 		if(gameCount>0) {
-			int primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
+			double primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
 			int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
 			
-			[valueArray addObject:[NSString stringWithFormat:@"%d|%@|%d", primaryNumber, day, secondaryNumber]];
-			[valueArray0 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+			[valueArray addObject:[NSString stringWithFormat:@"%f|%@|%d", primaryNumber, day, secondaryNumber]];
+			[valueArray0 addObject:[NSString stringWithFormat:@"%f|%@|%d",
 									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0],
 									day,
 									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:0]]];
-			[valueArray1 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+			[valueArray1 addObject:[NSString stringWithFormat:@"%f|%@|%d",
 									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1],
 									day,
 									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:1]]];
-			[valueArray2 addObject:[NSString stringWithFormat:@"%d|%@|%d",
+			[valueArray2 addObject:[NSString stringWithFormat:@"%f|%@|%d",
 									[self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2],
 									day,
 									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
@@ -407,9 +407,9 @@
 		NSString *title = [components stringAtIndex:1];
 		NSString *primaryTxt=@"";
 		NSString *secondaryTxt=@"";
-		int primaryValue = [[components stringAtIndex:0] intValue]-50000000;
+		double primaryValue = [[components stringAtIndex:0] doubleValue]-50000000;
 		int secondaryValue = [[components stringAtIndex:2] intValue];
-		int colorVal = primaryValue;
+		double colorVal = primaryValue;
 		NSString *gameTxt = (secondaryValue==1)?@"Game":@"Games";
 		NSString *hourTxt = (secondaryValue==1)?@"Hour":@"Hours";
 		if(topSegment.selectedSegmentIndex==0) {
@@ -422,7 +422,7 @@
 		}
 		if(topSegment.selectedSegmentIndex==2) {
 			NSString *gameTxt = (primaryValue==1)?@"Game":@"Games";
-			primaryTxt = [NSString stringWithFormat:@"%d %@", primaryValue, gameTxt];
+			primaryTxt = [NSString stringWithFormat:@"%d %@", (int)primaryValue, gameTxt];
 			secondaryTxt = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:secondaryValue]];
 			colorVal = secondaryValue;
 		}

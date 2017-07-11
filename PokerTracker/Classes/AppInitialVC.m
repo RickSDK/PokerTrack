@@ -13,7 +13,7 @@
 
 
 @implementation AppInitialVC
-@synthesize managedObjectContext, enterButton, bankrollButton, liteLabel;
+@synthesize managedObjectContext, enterButton, bankrollButton, liteLabel, welcomeLabel, topLabel;
 
 
 

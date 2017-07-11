@@ -84,13 +84,8 @@
 -(void)refreshScreen;
 -(void)setUpScreen;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *mo;
-@property (atomic, strong) UITableView *mainTableView;
-@property (atomic, strong) IBOutlet WebServiceView *webServiceView;
 
-
-@property (atomic, strong) GameObj *gameObj;
 @property (atomic, strong) UIButton *foodButton;
 @property (atomic, strong) UIButton *tokesButton;
 @property (atomic, strong) UIButton *chipStackButton;

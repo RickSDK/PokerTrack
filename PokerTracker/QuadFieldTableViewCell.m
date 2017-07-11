@@ -164,11 +164,9 @@ static NSInteger FONT_SIZE			= 12;
 	bb.backgroundColor = [UIColor clearColor];
 
 	dd.font = [UIFont boldSystemFontOfSize:FONT_SIZE+1];
-	dd.textColor = [UIColor whiteColor];		// default gray color
+	dd.textColor = [UIColor grayColor];		// default gray color
 	dd.textAlignment = NSTextAlignmentRight;
 	dd.backgroundColor = [UIColor clearColor];
-    dd.shadowColor = [UIColor blackColor];
-    dd.shadowOffset = CGSizeMake(1, 1);
 }
 
 + (void) headerCustomizeLabel:(UILabel *) aa bb: (UILabel *) bb

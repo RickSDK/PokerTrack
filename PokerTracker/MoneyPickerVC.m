@@ -81,7 +81,6 @@
     }
 	
 	self.textField.text = [NSString stringWithFormat:@"%@%d", self.textField.text, value];
-	NSLog(@"Here!!", self.textField.text);
 
 	[self spinPicker];
 }

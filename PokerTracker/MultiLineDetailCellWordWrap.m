@@ -163,7 +163,7 @@ static NSInteger X_INSET			= 5;
 //	int rows = numberOfRows;
 	int rows = (int)[fieldTextArray count];
 	if(fieldLabelArray.count<rows)
-		rows = fieldLabelArray.count;
+		rows = (int)fieldLabelArray.count;
 	for (int i=0; i<rows; i++) {
 		UILabel *label = [fieldLabelArray objectAtIndex:i];
 		label.text = [fieldTextArray objectAtIndex:i];

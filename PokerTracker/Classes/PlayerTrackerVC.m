@@ -188,7 +188,7 @@
 	
 	
 	[self reloadData];
-	if([playerList count]<1) {
+	if(1 || [playerList count]<1) {
 		[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
 	} else {
 		
