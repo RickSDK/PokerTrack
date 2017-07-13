@@ -24,6 +24,7 @@
 #import "NSDate+ATTDate.h"
 #import "MultiCellObj.h"
 #import "HudTrackerVC.h"
+#import "AnalysisDetailsVC.h"
 
 #define kEndGameAlert	1
 
@@ -67,7 +68,7 @@
 	[UIApplication sharedApplication].applicationIconBadgeNumber=1;
 
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(infoButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)];
 
 	pauseTimerLabel.alpha=0;
 	onBreakLabel.alpha=0;
@@ -79,7 +80,6 @@
 	editButton.hidden=NO;
 	friendButton.alpha=0;
 	infoImage.alpha=0;
-	infoText.alpha=0;
 	
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
@@ -93,8 +93,7 @@
 	[self updatePicture];
 	[self setUpScreen];
 	[self liveUpdate];
-	
-	
+	pauseTimerLabel.alpha=(self.gameObj.breakMinutes>0)?1:0;
 }
 
 
@@ -127,6 +126,12 @@
 	HudTrackerVC *detailViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.gameMo = mo;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) playerTypeButtonPressed: (id) sender {
+	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -215,15 +220,16 @@
 
 - (IBAction) pauseButtonPressed: (id) sender
 {
-    pauseTimerLabel.alpha=1;
 	self.gamePaused = ! self.gamePaused;
 	
 	 if(self.gamePaused) {
+		 pauseTimerLabel.alpha=0;
 		 [mo setValue:[NSDate date] forKey:@"endTime"];
 		 [mo setValue:@"Y" forKey:@"onBreakFlag"];
 		 [managedObjectContext save:nil];
 		 [self pauseScreen];
 	 } else {
+		 pauseTimerLabel.alpha=1;
 		 int totalSeconds = [[NSDate date] timeIntervalSinceDate:[mo valueForKey:@"endTime"]];
 		 int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
 		 breakMinutes += totalSeconds/60;
@@ -556,12 +562,6 @@
 
 }
 
-- (void) infoButtonClicked:(id)sender {
-	self.infoScreenShown = !infoScreenShown;
-	infoImage.alpha=infoScreenShown;
-	infoText.alpha=infoScreenShown;
-}
-
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
@@ -594,7 +594,8 @@
     int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
     double profit = foodDrinks+cashoutAmount-risked;
     
-    self.playerTypeImage.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
+//    self.playerTypeImage.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
+	[self.playerTypeButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:risked winnings:profit] forState:UIControlStateNormal];
 }
 
 -(void)doLiveUpdate {

@@ -96,6 +96,7 @@
 @property (atomic, strong) UIButton *editButton;
 @property (atomic, strong) UIButton *friendButton;
 @property (atomic, strong) UIButton *notesButton;
+@property (atomic, strong) IBOutlet UIButton *playerTypeButton;
 @property (atomic, strong) NetUserObj *netUserObj;
 
 @property (atomic, strong) UILabel *foodLabel;

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "WebServiceView.h"
+#import "TemplateVC.h"
 
 
-@interface LoginVC : UIViewController {
+@interface LoginVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
 	//---XIB----------------------------

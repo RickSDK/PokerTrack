@@ -12,6 +12,7 @@
 #import "ProjectFunctions.h"
 #import "EditPlayerTracker.h"
 #import "QuadWithImageTableViewCell.h"
+#import "PlayerTrackerObj.h"
 
 
 @implementation PlayerTrackerVC
@@ -165,13 +166,6 @@
 	[self performSelectorInBackground:aSelector withObject:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player Tracker"];
@@ -187,7 +181,6 @@
 	[locationButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
 	
 	
-	[self reloadData];
 	if(1 || [playerList count]<1) {
 		[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
 	} else {
@@ -207,6 +200,7 @@
 
 		[self executeThreadedJob:@selector(checkCurrentLocation)];
 	}
+	[self reloadData];
 
 
 }
@@ -224,52 +218,13 @@
 	NSLog(@"%@", error.localizedDescription);
 }
 
-
 -(void) setReturningValue:(NSString *) value2 {
-	
 	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
 	if(selectedObjectForEdit==2)
 		[locationButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];
 	
 	[self reloadData];
 }
-
--(NSString *)playerTypeString:(int)looseNum passNum:(int)passNum
-{
-	
-	if(looseNum<=50 && passNum<=50)
-		return @"Loose-Passive";
-
-	if(looseNum<=50 && passNum>50)
-		return @"Loose-Aggressive";
-
-	if(looseNum>50 && passNum<=50)
-		return @"Tight-Passive";
-
-	return @"Tight-Aggressive";
-	
-	
-	
-}	
-
--(UIImage *)getUserPic:(int)user_id playerSkill:(int)playerSkill
-{
-	UIImage *image=nil;
-	NSString *jpgPath = [ProjectFunctions getPicPath:user_id];
-	
-	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
-	if(fh==nil)
-		image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", playerSkill+1]];
-	else {
-		image = [UIImage imageWithContentsOfFile:jpgPath];
-	}
-	[fh closeFile];
-	
-	return image;
-	
-	
-}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
@@ -280,43 +235,15 @@
     }
 	
 	NSManagedObject *mo = [playerList objectAtIndex:(int)indexPath.row];
+	PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:mo managedObjectContext:self.managedObjectContext];
+	cell.aa.text = obj.name;
+	cell.leftImage.image = obj.pic;
 	
-    [cell.aa performSelectorOnMainThread:@selector(setText: ) withObject:[mo valueForKey:@"name"] waitUntilDone:YES];
-	int playerType = [[mo valueForKey:@"attrib_01"] intValue];
-	int playerSkill = [[mo valueForKey:@"attrib_02"] intValue];
-
-	int agressiveNum = [[mo valueForKey:@"agressiveNum"] intValue];
-	int looseNum = [[mo valueForKey:@"looseNum"] intValue];
-	if(agressiveNum==0 && looseNum==0) {
-		looseNum=playerType/100;
-		agressiveNum=playerType-(looseNum*100);
-		
-		if(agressiveNum>100)
-			agressiveNum=100;
-		if(agressiveNum<1)
-			agressiveNum=1;
-		if(looseNum>100)
-			looseNum=100;
-		if(looseNum<1)
-			looseNum=1;
-		
-		[mo setValue:[NSNumber numberWithInt:agressiveNum] forKey:@"agressiveNum"];
-		[mo setValue:[NSNumber numberWithInt:looseNum] forKey:@"looseNum"];
-		[managedObjectContext save:nil];
-	}
-
-	
-	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-
-    [cell.bb performSelectorOnMainThread:@selector(setText: ) withObject:[self playerTypeString:looseNum passNum:agressiveNum] waitUntilDone:YES];
-    [cell.cc performSelectorOnMainThread:@selector(setText: ) withObject:[mo valueForKey:@"status"] waitUntilDone:YES];
-    [cell.dd performSelectorOnMainThread:@selector(setText: ) withObject:[skills objectAtIndex:playerSkill] waitUntilDone:YES];
-
 	cell.ccColor = [UIColor orangeColor];
-	
-	int user_id = [[mo valueForKey:@"user_id"] intValue];
-	
-	cell.leftImage.image = [self getUserPic:user_id playerSkill:playerSkill];
+	cell.bb.text = obj.playerType;
+	cell.cc.text = obj.location;
+	cell.dd.text = obj.skillLevel;
+
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
@@ -330,10 +257,5 @@
 	detailViewController.managedObject=[playerList objectAtIndex:indexPath.row];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
-
-
-
-
-
 
 @end

@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "LocationGetter.h"
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
 
 
-@interface PlayerTrackerVC : UIViewController <CLLocationManagerDelegate> {
+@interface PlayerTrackerVC : TemplateVC <CLLocationManagerDelegate> {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UIButton *locationButton;

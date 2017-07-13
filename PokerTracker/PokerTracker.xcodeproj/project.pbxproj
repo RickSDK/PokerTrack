@@ -23,6 +23,7 @@
 		6B2B4B4D169FAA9D00137792 /* doorOpen.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6B2B4B4B169FAA9D00137792 /* doorOpen.wav */; };
 		6B2B4B4E169FAA9D00137792 /* creakDoor.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6B2B4B4C169FAA9D00137792 /* creakDoor.wav */; };
 		6B2B4B50169FAB7600137792 /* doorOpen2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6B2B4B4F169FAB7600137792 /* doorOpen2.wav */; };
+		6B33781B1F16FE3F00312F11 /* PlayerTrackerObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B33781A1F16FE3F00312F11 /* PlayerTrackerObj.m */; };
 		6B3BEA1919467D3F003857B3 /* playerType99.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B3BEA1819467D3F003857B3 /* playerType99.png */; };
 		6B50C7F91464A4CE00DBD8D9 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B50C7F81464A4CE00DBD8D9 /* checkmark.png */; };
 		6B50CA5514685BE900DBD8D9 /* blankCard.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B50CA5414685BE900DBD8D9 /* blankCard.png */; };
@@ -186,19 +187,12 @@
 		6B90B70714E1A15900712EDC /* AnalysisVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90B70514E1A15900712EDC /* AnalysisVC.m */; };
 		6B90B70814E1A15900712EDC /* AnalysisVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B70614E1A15900712EDC /* AnalysisVC.xib */; };
 		6B90B7B414E1F3EB00712EDC /* AnalysisLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90B7B314E1F3EB00712EDC /* AnalysisLib.m */; };
-		6B90B94814E3041500712EDC /* playerType0.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B94314E3041500712EDC /* playerType0.png */; };
-		6B90B94914E3041500712EDC /* playerType1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B94414E3041500712EDC /* playerType1.png */; };
-		6B90B94A14E3041500712EDC /* playerType3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B94514E3041500712EDC /* playerType3.png */; };
-		6B90B94B14E3041500712EDC /* playerType4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B94614E3041500712EDC /* playerType4.png */; };
-		6B90B94C14E3041500712EDC /* playerType5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B94714E3041500712EDC /* playerType5.png */; };
 		6B90B95414E3067300712EDC /* DatabaseManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90B95214E3067300712EDC /* DatabaseManage.m */; };
 		6B90B95514E3067300712EDC /* DatabaseManage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B90B95314E3067300712EDC /* DatabaseManage.xib */; };
 		6B90BA9614E47AB800712EDC /* AnalysisDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BA9414E47AB800712EDC /* AnalysisDetailsVC.m */; };
 		6B90BA9714E47AB800712EDC /* AnalysisDetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B90BA9514E47AB800712EDC /* AnalysisDetailsVC.xib */; };
 		6B90BADC14E484FA00712EDC /* HexWithImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BADB14E484FA00712EDC /* HexWithImageCell.m */; };
 		6B90BCEE14E9D33A00712EDC /* NSData+ATTData.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B90BCED14E9D33A00712EDC /* NSData+ATTData.m */; };
-		6B9571A3189089C700CDF58A /* TempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9571A1189089C700CDF58A /* TempViewController.m */; };
-		6B9571A4189089C700CDF58A /* TempViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9571A2189089C700CDF58A /* TempViewController.xib */; };
 		6B9BEB87175AB6AE00D0BA12 /* MoreTrackersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BEB85175AB6AE00D0BA12 /* MoreTrackersVC.m */; };
 		6B9BEB88175AB6AE00D0BA12 /* MoreTrackersVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9BEB86175AB6AE00D0BA12 /* MoreTrackersVC.xib */; };
 		6B9BEB8C175AB94A00D0BA12 /* ForumVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BEB8A175AB94900D0BA12 /* ForumVC.m */; };
@@ -212,7 +206,6 @@
 		6B9BF469175D666B00D0BA12 /* new.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 6B9BF468175D666B00D0BA12 /* new.jpeg */; };
 		6B9BF46B175D6A4900D0BA12 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B9BF46A175D6A4900D0BA12 /* new.png */; };
 		6B9CD0A2179721DB002DF14B /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9CD0A1179721DB002DF14B /* iAd.framework */; };
-		6BA44B4E1742A86400C90ACA /* playerType2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA44B4D1742A86400C90ACA /* playerType2.png */; };
 		6BA4AA80172EE71D006022E1 /* FriendTrackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA4AA7E172EE71D006022E1 /* FriendTrackerVC.m */; };
 		6BA4AA81172EE71D006022E1 /* FriendTrackerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA4AA7F172EE71D006022E1 /* FriendTrackerVC.xib */; };
 		6BA4AA84172EF5A5006022E1 /* GrabphLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA4AA83172EF5A5006022E1 /* GrabphLib.m */; };
@@ -298,6 +291,12 @@
 		6BCA887C1F13556E00633484 /* red_green2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA887B1F13556E00633484 /* red_green2.jpg */; };
 		6BCA887F1F13D92600633484 /* HudStatObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA887E1F13D92600633484 /* HudStatObj.m */; };
 		6BCA88821F13D93A00633484 /* HudActionObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA88811F13D93A00633484 /* HudActionObj.m */; };
+		6BCA88891F156FFE00633484 /* playerType0.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88831F156FFE00633484 /* playerType0.png */; };
+		6BCA888A1F156FFE00633484 /* playerType1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88841F156FFE00633484 /* playerType1.png */; };
+		6BCA888B1F156FFE00633484 /* playerType2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88851F156FFE00633484 /* playerType2.png */; };
+		6BCA888C1F156FFE00633484 /* playerType3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88861F156FFE00633484 /* playerType3.png */; };
+		6BCA888D1F156FFE00633484 /* playerType4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88871F156FFE00633484 /* playerType4.png */; };
+		6BCA888E1F156FFE00633484 /* playerType5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCA88881F156FFE00633484 /* playerType5.png */; };
 		6BCB301A19E44FF700BC1F4C /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301919E44FF700BC1F4C /* MainWindow-iPad.xib */; };
 		6BCB301C19E44FFE00BC1F4C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */; };
 		6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB303F19E5959100BC1F4C /* ExportCell.m */; };
@@ -400,6 +399,8 @@
 		6B2B4B4B169FAA9D00137792 /* doorOpen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = doorOpen.wav; sourceTree = "<group>"; };
 		6B2B4B4C169FAA9D00137792 /* creakDoor.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = creakDoor.wav; sourceTree = "<group>"; };
 		6B2B4B4F169FAB7600137792 /* doorOpen2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = doorOpen2.wav; sourceTree = "<group>"; };
+		6B3378191F16FE3E00312F11 /* PlayerTrackerObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerTrackerObj.h; sourceTree = "<group>"; };
+		6B33781A1F16FE3F00312F11 /* PlayerTrackerObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerTrackerObj.m; sourceTree = "<group>"; };
 		6B3BEA1819467D3F003857B3 /* playerType99.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType99.png; sourceTree = "<group>"; };
 		6B50C7F81464A4CE00DBD8D9 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
 		6B50CA5414685BE900DBD8D9 /* blankCard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankCard.png; sourceTree = "<group>"; };
@@ -629,11 +630,6 @@
 		6B90B70614E1A15900712EDC /* AnalysisVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalysisVC.xib; sourceTree = "<group>"; };
 		6B90B7B214E1F3EB00712EDC /* AnalysisLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisLib.h; sourceTree = "<group>"; };
 		6B90B7B314E1F3EB00712EDC /* AnalysisLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisLib.m; sourceTree = "<group>"; };
-		6B90B94314E3041500712EDC /* playerType0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType0.png; sourceTree = "<group>"; };
-		6B90B94414E3041500712EDC /* playerType1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType1.png; sourceTree = "<group>"; };
-		6B90B94514E3041500712EDC /* playerType3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType3.png; sourceTree = "<group>"; };
-		6B90B94614E3041500712EDC /* playerType4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType4.png; sourceTree = "<group>"; };
-		6B90B94714E3041500712EDC /* playerType5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType5.png; sourceTree = "<group>"; };
 		6B90B95114E3067300712EDC /* DatabaseManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManage.h; sourceTree = "<group>"; };
 		6B90B95214E3067300712EDC /* DatabaseManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManage.m; sourceTree = "<group>"; };
 		6B90B95314E3067300712EDC /* DatabaseManage.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatabaseManage.xib; sourceTree = "<group>"; };
@@ -644,9 +640,6 @@
 		6B90BADB14E484FA00712EDC /* HexWithImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexWithImageCell.m; sourceTree = "<group>"; };
 		6B90BCEC14E9D33A00712EDC /* NSData+ATTData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ATTData.h"; sourceTree = "<group>"; };
 		6B90BCED14E9D33A00712EDC /* NSData+ATTData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ATTData.m"; sourceTree = "<group>"; };
-		6B9571A0189089C700CDF58A /* TempViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempViewController.h; sourceTree = "<group>"; };
-		6B9571A1189089C700CDF58A /* TempViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempViewController.m; sourceTree = "<group>"; };
-		6B9571A2189089C700CDF58A /* TempViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TempViewController.xib; sourceTree = "<group>"; };
 		6B9BEB84175AB6AE00D0BA12 /* MoreTrackersVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTrackersVC.h; sourceTree = "<group>"; };
 		6B9BEB85175AB6AE00D0BA12 /* MoreTrackersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTrackersVC.m; sourceTree = "<group>"; };
 		6B9BEB86175AB6AE00D0BA12 /* MoreTrackersVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreTrackersVC.xib; sourceTree = "<group>"; };
@@ -665,7 +658,6 @@
 		6B9BF468175D666B00D0BA12 /* new.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = new.jpeg; sourceTree = "<group>"; };
 		6B9BF46A175D6A4900D0BA12 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
 		6B9CD0A1179721DB002DF14B /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		6BA44B4D1742A86400C90ACA /* playerType2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType2.png; sourceTree = "<group>"; };
 		6BA4AA7D172EE71D006022E1 /* FriendTrackerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTrackerVC.h; sourceTree = "<group>"; };
 		6BA4AA7E172EE71D006022E1 /* FriendTrackerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTrackerVC.m; sourceTree = "<group>"; };
 		6BA4AA7F172EE71D006022E1 /* FriendTrackerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendTrackerVC.xib; sourceTree = "<group>"; };
@@ -789,6 +781,12 @@
 		6BCA887E1F13D92600633484 /* HudStatObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudStatObj.m; sourceTree = "<group>"; };
 		6BCA88801F13D93A00633484 /* HudActionObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudActionObj.h; sourceTree = "<group>"; };
 		6BCA88811F13D93A00633484 /* HudActionObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudActionObj.m; sourceTree = "<group>"; };
+		6BCA88831F156FFE00633484 /* playerType0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType0.png; sourceTree = "<group>"; };
+		6BCA88841F156FFE00633484 /* playerType1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType1.png; sourceTree = "<group>"; };
+		6BCA88851F156FFE00633484 /* playerType2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType2.png; sourceTree = "<group>"; };
+		6BCA88861F156FFE00633484 /* playerType3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType3.png; sourceTree = "<group>"; };
+		6BCA88871F156FFE00633484 /* playerType4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType4.png; sourceTree = "<group>"; };
+		6BCA88881F156FFE00633484 /* playerType5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType5.png; sourceTree = "<group>"; };
 		6BCB301919E44FF700BC1F4C /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		6BCB303E19E5959100BC1F4C /* ExportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportCell.h; sourceTree = "<group>"; };
@@ -999,21 +997,6 @@
 				6B752816144CE97700E59D21 /* OddsFormVC.h */,
 				6B752817144CE97700E59D21 /* OddsFormVC.m */,
 				6B752818144CE97700E59D21 /* OddsFormVC.xib */,
-				6B751C4C144653FD00E59D21 /* CreateOldGameVC.h */,
-				6B751C4D144653FD00E59D21 /* CreateOldGameVC.m */,
-				6B751C4E144653FD00E59D21 /* CreateOldGameVC.xib */,
-				6BA5BF4F145CBE6D00F1C0BD /* StartNewGameVC.h */,
-				6BA5BF50145CBE6D00F1C0BD /* StartNewGameVC.m */,
-				6BA5BF51145CBE6D00F1C0BD /* StartNewGameVC.xib */,
-				6BA5BF54145CBE8700F1C0BD /* GameInProgressVC.h */,
-				6BA5BF55145CBE8700F1C0BD /* GameInProgressVC.m */,
-				6BA5BF56145CBE8700F1C0BD /* GameInProgressVC.xib */,
-				6BA5C0E6145F40CE00F1C0BD /* GameDetailsVC.h */,
-				6BA5C0E7145F40CE00F1C0BD /* GameDetailsVC.m */,
-				6BA5C0E8145F40CE00F1C0BD /* GameDetailsVC.xib */,
-				6BD84D04150026EF0048473A /* GameGraphVC.h */,
-				6BD84D05150026EF0048473A /* GameGraphVC.m */,
-				6BD84D06150026EF0048473A /* GameGraphVC.xib */,
 				6BB253A21B891445008AC8EE /* PlayerVC.h */,
 				6BB253A31B891445008AC8EE /* PlayerVC.m */,
 				6BB253A41B891445008AC8EE /* PlayerVC.xib */,
@@ -1144,9 +1127,21 @@
 				6B750D45143D306900E59D21 /* GamesVC.h */,
 				6B750D46143D306900E59D21 /* GamesVC.m */,
 				6B750D47143D306900E59D21 /* GamesVC.xib */,
-				6B9571A0189089C700CDF58A /* TempViewController.h */,
-				6B9571A1189089C700CDF58A /* TempViewController.m */,
-				6B9571A2189089C700CDF58A /* TempViewController.xib */,
+				6B751C4C144653FD00E59D21 /* CreateOldGameVC.h */,
+				6B751C4D144653FD00E59D21 /* CreateOldGameVC.m */,
+				6B751C4E144653FD00E59D21 /* CreateOldGameVC.xib */,
+				6BA5BF4F145CBE6D00F1C0BD /* StartNewGameVC.h */,
+				6BA5BF50145CBE6D00F1C0BD /* StartNewGameVC.m */,
+				6BA5BF51145CBE6D00F1C0BD /* StartNewGameVC.xib */,
+				6BA5BF54145CBE8700F1C0BD /* GameInProgressVC.h */,
+				6BA5BF55145CBE8700F1C0BD /* GameInProgressVC.m */,
+				6BA5BF56145CBE8700F1C0BD /* GameInProgressVC.xib */,
+				6BA5C0E6145F40CE00F1C0BD /* GameDetailsVC.h */,
+				6BA5C0E7145F40CE00F1C0BD /* GameDetailsVC.m */,
+				6BA5C0E8145F40CE00F1C0BD /* GameDetailsVC.xib */,
+				6BD84D04150026EF0048473A /* GameGraphVC.h */,
+				6BD84D05150026EF0048473A /* GameGraphVC.m */,
+				6BD84D06150026EF0048473A /* GameGraphVC.xib */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -1319,6 +1314,8 @@
 				6BCA887E1F13D92600633484 /* HudStatObj.m */,
 				6BCA88801F13D93A00633484 /* HudActionObj.h */,
 				6BCA88811F13D93A00633484 /* HudActionObj.m */,
+				6B3378191F16FE3E00312F11 /* PlayerTrackerObj.h */,
+				6B33781A1F16FE3F00312F11 /* PlayerTrackerObj.m */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -1441,12 +1438,12 @@
 				6B90A34914CB694400712EDC /* phoneicon.png */,
 				6B90A79B14CE2C5400712EDC /* cashGame.jpg */,
 				6B90A79314CE2AF300712EDC /* tournament.jpg */,
-				6B90B94314E3041500712EDC /* playerType0.png */,
-				6B90B94414E3041500712EDC /* playerType1.png */,
-				6BA44B4D1742A86400C90ACA /* playerType2.png */,
-				6B90B94514E3041500712EDC /* playerType3.png */,
-				6B90B94614E3041500712EDC /* playerType4.png */,
-				6B90B94714E3041500712EDC /* playerType5.png */,
+				6BCA88831F156FFE00633484 /* playerType0.png */,
+				6BCA88841F156FFE00633484 /* playerType1.png */,
+				6BCA88851F156FFE00633484 /* playerType2.png */,
+				6BCA88861F156FFE00633484 /* playerType3.png */,
+				6BCA88871F156FFE00633484 /* playerType4.png */,
+				6BCA88881F156FFE00633484 /* playerType5.png */,
 				6B3BEA1819467D3F003857B3 /* playerType99.png */,
 			);
 			name = Images;
@@ -1666,6 +1663,7 @@
 				6B750E52143E5ACD00E59D21 /* DatePickerViewController.xib in Resources */,
 				6B750EEE143E6FAE00E59D21 /* MoneyPickerVC.xib in Resources */,
 				6B750F67143E847800E59D21 /* greenFelt.jpg in Resources */,
+				6BCA888C1F156FFE00633484 /* playerType3.png in Resources */,
 				6B75111B143F97B800E59D21 /* grayBG.png in Resources */,
 				6B751367144360D600E59D21 /* blueWave.png in Resources */,
 				6BD4D95B1D120DDD00236804 /* Icon.png in Resources */,
@@ -1715,6 +1713,7 @@
 				6B50CBA514688C8B00DBD8D9 /* gradYellow.png in Resources */,
 				6B50CBA614688C8B00DBD8D9 /* gradPurple.png in Resources */,
 				6B50CC161468A31C00DBD8D9 /* MessageBox.xib in Resources */,
+				6BCA888E1F156FFE00633484 /* playerType5.png in Resources */,
 				6BAECB241C55C6C900DB14CC /* UpgradeVC.xib in Resources */,
 				6BD4D96B1D12100500236804 /* DefaultiPad.png in Resources */,
 				6B50CCD71468C9AD00DBD8D9 /* GoalsVC.xib in Resources */,
@@ -1786,21 +1785,18 @@
 				6BC2BFDA1F13384600483489 /* red_green.jpg in Resources */,
 				6B90A44E14CB876800712EDC /* CasinoGamesAddVC.xib in Resources */,
 				6B90A55B14CDE3F200712EDC /* CasinoCommentVC.xib in Resources */,
+				6BCA88891F156FFE00633484 /* playerType0.png in Resources */,
 				6B90A79414CE2AF300712EDC /* tournament.jpg in Resources */,
 				6B90A79C14CE2C5400712EDC /* cashGame.jpg in Resources */,
 				6B90A8A314CF31EB00712EDC /* compass.png in Resources */,
 				6B90A97F14CFBBB300712EDC /* CasinoStatsVC.xib in Resources */,
+				6BCA888A1F156FFE00633484 /* playerType1.png in Resources */,
 				6B90AAB714D0B94A00712EDC /* CasinoListVC.xib in Resources */,
 				6B90AECE14D3B8DD00712EDC /* instructions.rtf in Resources */,
 				6B90B34814DC58EF00712EDC /* CasinoMapVC.xib in Resources */,
 				6BD4D9561D120DDD00236804 /* Icon-120.png in Resources */,
 				6B90B70814E1A15900712EDC /* AnalysisVC.xib in Resources */,
-				6B90B94814E3041500712EDC /* playerType0.png in Resources */,
-				6B90B94914E3041500712EDC /* playerType1.png in Resources */,
 				6BB809801D011EBB00ADAD99 /* Default-Landscape~ipad.png in Resources */,
-				6B90B94A14E3041500712EDC /* playerType3.png in Resources */,
-				6B90B94B14E3041500712EDC /* playerType4.png in Resources */,
-				6B90B94C14E3041500712EDC /* playerType5.png in Resources */,
 				6B90B95514E3067300712EDC /* DatabaseManage.xib in Resources */,
 				6B90BA9714E47AB800712EDC /* AnalysisDetailsVC.xib in Resources */,
 				6BC871061CF76A0300A38454 /* OnlineReviewVC.xib in Resources */,
@@ -1814,6 +1810,7 @@
 				6BD84D08150026EF0048473A /* GameGraphVC.xib in Resources */,
 				6BD84E4C150144CB0048473A /* chart.png in Resources */,
 				6BD852DC150AB9580048473A /* Top5VC.xib in Resources */,
+				6BCA888D1F156FFE00633484 /* playerType4.png in Resources */,
 				6BD85342150ADE020048473A /* FriendSampleVC.xib in Resources */,
 				6BD85350150AE02C0048473A /* screenR8.png in Resources */,
 				6BD855371517A4100048473A /* AppInitialVC.xib in Resources */,
@@ -1831,11 +1828,11 @@
 				6BF0C4261667E6DB00D8D6AE /* IGAVC.xib in Resources */,
 				6BF0C4331667E6F700D8D6AE /* UniverseTrackerVC.xib in Resources */,
 				6BF0C4351667E6F700D8D6AE /* UserSummaryVC.xib in Resources */,
+				6BCA888B1F156FFE00633484 /* playerType2.png in Resources */,
 				6BF0C4371667E6F700D8D6AE /* ViewLocationsVC.xib in Resources */,
 				6BF0C43C1667E70800D8D6AE /* ProfileVC.xib in Resources */,
 				6BF0C4411667E71D00D8D6AE /* TauntVC.xib in Resources */,
 				6BB864F81677BA8E007BCD76 /* Last10NewVC.xib in Resources */,
-				6B9571A4189089C700CDF58A /* TempViewController.xib in Resources */,
 				6B6638C9169E539E00C6B9E5 /* LockAppVC.xib in Resources */,
 				6B6638CE169E597E00C6B9E5 /* UnLockAppVC.xib in Resources */,
 				6B6638D0169E5A7800C6B9E5 /* vault.jpg in Resources */,
@@ -1849,7 +1846,6 @@
 				6BA4AA81172EE71D006022E1 /* FriendTrackerVC.xib in Resources */,
 				6BA4AA88173463C4006022E1 /* black.png in Resources */,
 				6BD4D01F1F0F12170059614C /* EditSegmentVC.xib in Resources */,
-				6BA44B4E1742A86400C90ACA /* playerType2.png in Resources */,
 				6B9BEB88175AB6AE00D0BA12 /* MoreTrackersVC.xib in Resources */,
 				6B9BEB8D175AB94A00D0BA12 /* ForumVC.xib in Resources */,
 				6B9BF45D175D426700D0BA12 /* ForumCategoryVC.xib in Resources */,
@@ -1959,6 +1955,7 @@
 				6BAECB231C55C6C900DB14CC /* UpgradeVC.m in Sources */,
 				6B90A55A14CDE3F200712EDC /* CasinoCommentVC.m in Sources */,
 				6B90A97E14CFBBB300712EDC /* CasinoStatsVC.m in Sources */,
+				6B33781B1F16FE3F00312F11 /* PlayerTrackerObj.m in Sources */,
 				6B90AAB614D0B94A00712EDC /* CasinoListVC.m in Sources */,
 				6B90B34714DC58EF00712EDC /* CasinoMapVC.m in Sources */,
 				6B90B70714E1A15900712EDC /* AnalysisVC.m in Sources */,
@@ -1971,7 +1968,6 @@
 				6BD846DF14F6FFDB0048473A /* MyToolbar.m in Sources */,
 				6BD84D07150026EF0048473A /* GameGraphVC.m in Sources */,
 				6BD4D01E1F0F12170059614C /* EditSegmentVC.m in Sources */,
-				6B9571A3189089C700CDF58A /* TempViewController.m in Sources */,
 				6BD852DB150AB9580048473A /* Top5VC.m in Sources */,
 				6BD85341150ADE020048473A /* FriendSampleVC.m in Sources */,
 				6BD855361517A4100048473A /* AppInitialVC.m in Sources */,

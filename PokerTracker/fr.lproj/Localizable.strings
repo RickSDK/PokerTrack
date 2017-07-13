@@ -1,9 +1,122 @@
-/* 
-  Localizable.strings
-  PokerTracker
+/*
+ Localizable.strings
+ PokerTracker
+ 
+ Created by Rick Medved on 7/3/17.
+ 
+ */
 
-  Created by Rick Medved on 7/3/17.
+"Main Menu" = "Menu Principal";
+"Stats" = "Stats"; // short
+"Odds" = "Chances";
+"Trackers" = "Trackers";
+"Forum" = "Forum";
+"Casino Locator" = "Localisateur de Casino";
+"Cash" = "En Espèces";
+"Cash Game" = "Jeu d’argent";
+"Cash Games" = "Jeux d’argent";
+"Games" = "Jeux";
+"Game" = "Jeu";
+"Last Game" = "Dernier Match";
+"All Games" = "Tous les jeux";
+"Last 10 Games" = "Les 10 derniers jeux";
+"Gametype" = "Jeu";
+"gametype" = "Jeu";
+"GameType" = "Jeu";
+"LeavingGame" = "Laisser le jeu avec";
+"Delete" = "Supprimer toutes les données";
+"Delete Game" = "Supprimer le jeu";
+"GameMinutes" = "Minute de jeu";
+"Minutes on Break" = "Procès-verbal sur la pause";
+"breakMinutes" = "Procès-verbal sur la pause";
+"Analysis" = "Une analyse";
+"Edit Mode" = "Modo de Edición";
+"roiNameLabel" = "Retorno de la inversión (ROI)";
+"All" = "Tout";
+"Tournaments" = "Tournois";
+"Tournament" = "Tournoi";
+"tournamentSpots" = "Joueurs de tournoi";
+"tournamentSpotsPaid" = "# Emplacements payés";
+"tournamentFinish" = "Votre Finition";
+"Tips" = "Conseils";
+"tokes" = "Conseils";
+"Streak" = "Traînée";
+"Risked" = "Risqué";
+"Profit" = "Profit";
+"ROI" = "ROI";
+"Hours" = "Heures";
+"Hourly" = "Par heure";
+"Last Played" = "Dernier joué";
+"LifeTime" = "Tout"; //short
+"Last10" = "Les 10 derniers";
+"Location" = "Emplacement";
+"location" = "Emplacement";
+"Bankroll" = "Financer";
+"bankroll" = "Financer";
+"Buyin" = "Buy-in";
+"buyInAmount" = "Buy-in";
+"Completed" = "Déjà terminé?";
+"Cashout" = "Montant du Retrait";
+"cashoutAmount" = "Montant du Retrait";
+"Options" = "Options";
+"Export" = "Exportation"; // short
+"Import" = "Importer"; // short
+"Clear" = "Effacer toutes les données du serveur";
+"ImportJournal" = "Import Poker Jounral Data";
+"ImportIncome" = "Import Poker Income Data";
+"Email" = "Envoyer mes données par courrier électronique Excel";
+"Cleanup" = "Nettoyer les données de référence";
+"Resync" = "Re-Sync Net Tracker";
+"foodDrink" = "Nourriture boisson";
+"foodDrinks" = "Nourriture boisson";
+"StartTime" = "Heure de début";
+"startTime" = "Heure de début";
+"EndTime" = "Heure de fin";
+"endTime" = "Heure de fin";
+"Name" = "Prénom";
+"Limit" = "Limite";
+"limit" = "Limite";
+"Re-buy Amount" = "Montant du rachat";
+"rebuyAmount" = "Montant du rachat";
+"Number of Rebuys" = "Nombre de Rebuys";
+"numRebuys" = "Nombre de Rebuys";
+"Notes" = "Remarques";
+"notes" = "Remarques";
+"Stakes" = "Enjeux";
+"stakes" = "Enjeux";
+"Reports" = "Rapports";
+"Charts" = "Graphiques";
+"Goals" = "Buts";
+"Year" = "An";
+"Weekday" = "Jour de la semaine";
+"Month" = "Mois";
+"Daytime" = "Jour";
+"Current Chips" = "Chips actuels";
+"Type" = "Type";
+"Welcome" = "Bienvenue à";
+"Welcome2" = "Entrez votre montant de bankroll débutant:";
+"Cancel" = "Annuler";
+"OK" = "Oui";
+"Morning" = "Matin";
+"Afternoon" = "Après midi";
+"Evening" = "Soir";
+"Night" = "Nuit";
+"Details" = "Détails";
+"IncomeTotal" = "Total Brut";
+"Take-Home" = "Ramener à la maison";
+"Streak" = "Streak Actuel";
+"WinStreak" = "Longue victoire";
+"LoseStreak" = "Long Stade Lose";
+"Average" = "Moyenne";
+"Min" = "Min";
+"Max" = "Max";
+"notice" = "Remarquer";
+"upgradeMessage" = "Cette fonctionnalité n'est disponible qu'avec la version Pro de cette application. Appuyez sur 'Mettre à niveau' dans le menu principal.";
+"loginMessage" = "Vous devez être connecté pour utiliser cette fonctionnalité. Cliquez sur le bouton 'Login' dans le menu 'Options'.";
+"upgradeText" = "Merci d'avoir essayé Poker Track Lite. Nous croyons que c'est de loin la meilleure application de suivi de poker jamais créée. \n\nCependant, vous devez savoir que la version Pro de cette application n'est pas gratuite. Pour déverrouiller toutes les fonctionnalités, vous devrez effectuer une mise à niveau. La version lite ne trace que les statistiques sur 5 jeux. (D'autres fonctionnalités, comme la calculatrice des chances, sont toujours disponibles, y compris avec la version lite). \n\nSi vous aimez l'application, et que vous voulez plus de 5 jeux de statistiques, nous vous demandons de passer à la version complète et nous espérons que vous l'avez Comme ça! \n\nPTP est la seule application avec toutes ces fonctionnalités: \n * Entrée du jeu en temps réel \n * Odds calculator \n * Graphiques et graphiques les plus complets \n * Net Tracker \n * Friend Tracker \n * Player Tracker \n * Hand Tracker \n * Casino Tracker \n * Chip Tracker \n * Import / Export \n * Forum \n * Analyse AI \n * Conseils et conseils \n\nPTP est fourni avec une garantie. Si votre jeu ne s'améliore pas à la suite de cette application, vous récupérez votre argent!";
+"ExportText" = "L'exportation sauvegarde vos données sur un serveur afin que vous puissiez l'importer sur un nouveau périphérique. Remarque: les données ne sont PAS sauvegardées automatiquement lorsque vous entrez de nouveaux jeux. Vous devez l'exporter manuellement ici.";
+"FilterMessage" = "Pour créer un nouveau filtre, choisissez parmi les options ci-dessous, puis appuyez sur 'Enregistrer le Filtre'.";
+"saveFilter" = "Enregistrer le Filtre";
+"Filters" = "Filtres";
+"EditWarning" = "Pas en mode édition. Appuyez sur le stylet ci-dessus pour apporter des modifications.";
 
-*/
-
-"Games" = "GamesXX";

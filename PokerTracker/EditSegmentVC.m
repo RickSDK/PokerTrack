@@ -33,7 +33,7 @@
 	self.entity = [self.databaseField uppercaseString];
 	if ([@"tournamentType" isEqualToString:self.databaseField])
 		self.entity = @"TOURNAMENT";
-		
+
 	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:24];
 	[ProjectFunctions makeFAButton:self.addButton type:1 size:24];
 	[ProjectFunctions makeFAButton:self.editButton type:2 size:24];
@@ -85,7 +85,7 @@
 - (IBAction)deleteButtonPressed:(id)sender {
 	int numGames = [[self.listDict valueForKey:[self.list objectAtIndex:self.rowNum]] intValue];
 	if (numGames>0) {
-		[ProjectFunctions showAlertPopup:@"Sorry" message:@"There already exists games with this entry. You cannot edit or delete it."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"There already exists games with this entry. You cannot edit or delete it."];
 		return;
 	}
 	[ProjectFunctions showConfirmationPopup:@"Delete this entry?" message:@"" delegate:self tag:1];
@@ -110,7 +110,7 @@
 - (IBAction)editButtonPressed:(id)sender {
 	int numGames = [[self.listDict valueForKey:[self.list objectAtIndex:self.rowNum]] intValue];
 	if (numGames>0) {
-		[ProjectFunctions showAlertPopup:@"Sorry" message:@"There already exists games with this entry. You cannot edit or delete it."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"There already exists games with this entry. You cannot edit or delete it."];
 		return;
 	}
 	self.selectedAction = 1;
@@ -132,18 +132,18 @@
 
 -(void) setReturningValue:(NSString *) value {
 	if (value.length==0) {
-		[ProjectFunctions showAlertPopup:@"Error" message:@"Invalid entry!"];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Invalid entry!"];
 		return;
 	}
 	for (NSString *item in self.list) {
 		if ([item isEqualToString:value]) {
-			[ProjectFunctions showAlertPopup:@"Error" message:@"That value already exists!"];
+			[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"That value already exists!"];
 			return;
 		}
 	}
 	NSString *scrubbed = [ProjectFunctions scrubRefData:value context:self.managedObjectContext];
 	if (![scrubbed isEqualToString:value]) {
-		[ProjectFunctions showAlertPopup:@"Error!" message:@"That entry already exists!!!"];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"That entry already exists!!!"];
 		return;
 	}
 	self.initialDateValue = value;
@@ -193,7 +193,7 @@
 	int numGames = [[self.listDict valueForKey:[self.list objectAtIndex:indexPath.row]] intValue];
 	NSString *name = [self.list objectAtIndex:indexPath.row];
 	cell.textLabel.text=name;
-	cell.selection.text=[NSString stringWithFormat:@"(%d games)", numGames];
+	cell.selection.text=[NSString stringWithFormat:@"(%d %@)", numGames, NSLocalizedString(@"Games", nil)];
 	cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
 	cell.backgroundColor = [UIColor whiteColor];
 	if ([name isEqualToString:self.initialDateValue]) {

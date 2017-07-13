@@ -21,6 +21,19 @@
 
 
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Login"];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createNewAccountPressed:)];
+	
+	if([ProjectFunctions getProductionMode]) {
+		rickButton.alpha=0;
+		robbButton.alpha=0;
+		testButton.alpha=0;
+	}
+}
+
 - (IBAction) rickPressed: (id) sender {
 	loginEmail.text = @"rickmedved@hotmail.com";
 	loginPassword.text = @"rick23";
@@ -183,35 +196,5 @@
 	[aTextField resignFirstResponder];
 	return YES;
 }
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Login"];
-
-	UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithTitle:@"Create New Account" style:UIBarButtonItemStylePlain target:self action:@selector(createNewAccountPressed:)];
-	self.navigationItem.rightBarButtonItem = homeButton;
-	
-
-	if([ProjectFunctions getProductionMode]) {
-		rickButton.alpha=0;
-		robbButton.alpha=0;
-		testButton.alpha=0;
-	}
-    
-}
-
-
-
-
-
-
 
 @end

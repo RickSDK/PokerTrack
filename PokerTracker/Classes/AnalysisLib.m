@@ -613,7 +613,9 @@
 
         NSString *currentYearStr = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
         NSString *currentMonth = [ProjectFunctions getMonthFromDate:[NSDate date]];
-        NSPredicate *predicateMonth1 = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", currentYearStr, currentMonth];
+		
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:[currentYearStr intValue] type:@"All"];
+		NSPredicate *predicateMonth1 = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:currentMonth];
         NSArray *gamesMonth = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicateMonth1 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:NO limit:10];
         int numGamesThisMonth = (int)[gamesMonth count];
         NSString *statsThisMonth = [CoreDataLib getGameStat:managedObjectContext dataField:@"analysis1" predicate:predicateMonth1];
@@ -630,7 +632,8 @@
                     lastMonthDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*32];
                 NSString *lastMonthYear = [lastMonthDate convertDateToStringWithFormat:@"yyyy"];
                 NSString *lastMonthMonth = [ProjectFunctions getMonthFromDate:lastMonthDate];
-                NSPredicate *predicateLastMonth = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", lastMonthYear, lastMonthMonth];
+ //               NSPredicate *predicateLastMonth = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", lastMonthYear, lastMonthMonth];
+				NSPredicate *predicateLastMonth = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:lastMonthMonth];
                 NSString *statsLastMonth = [CoreDataLib getGameStat:managedObjectContext dataField:@"analysis1" predicate:predicateLastMonth];
                 NSArray *lastMonStats = [statsLastMonth componentsSeparatedByString:@"|"];
                 
@@ -655,7 +658,6 @@
                 
                 // best game this month
                 NSPredicate *predicateMonth = [NSPredicate predicateWithFormat:@"winnings > %d AND user_id = 0 AND year = %@ AND month = %@", winnings, currentYearStr, currentMonth];
-                
                 opening = [self getOpeningForTop5Games:opening numGames:(int)[gamesMonth count] predicate:predicateMonth moc:managedObjectContext name:@"the month"];
                 
                 // best game this year
@@ -1176,10 +1178,10 @@
     NSString *winLoc = @"Casino";
 	NSString *loseLoc = @"Casino";
 	NSString *gameLoc = @"Casino";
-
     for(NSString *location in locations) {
-        NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, @"location"];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, location];
+//        NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, @"location"];
+//		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, location];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"location" value:location];
 		int winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
 		int gameCount = [[CoreDataLib getGameStat:managedObjectContext dataField:@"gameCount" predicate:predicate] intValue];
         
@@ -1227,16 +1229,17 @@
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:gameType];
     
 	NSArray *typeList = [ProjectFunctions namesOfAllWeekdays];
-	NSString *weekday = @"Monday";
-	NSString *weekdayLo = @"Tuesday";
+	NSString *weekday = @"";
+	NSString *weekdayLo = @"";
+	if (typeList.count>2) {
+		weekday = [typeList objectAtIndex:0];
+		weekdayLo = [typeList objectAtIndex:1];
+	}
 	int min=0;
 	int max=0;
-	NSString *sectionField = @"weekday";
 	for(NSString *type in typeList) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, type];
-		int winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
-        
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"weekday" value:type];
+		double winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
 		if(winnings>max) {
 			weekday = type;
 			max=winnings;
@@ -1255,10 +1258,8 @@
 	NSArray *typeList2 = [ProjectFunctions namesOfAllDayTimes];
 	NSString *daytime = [typeList2 objectAtIndex:2];
 	NSString *daytimeLo = [typeList2 objectAtIndex:3];
-	NSString *sectionField2 = @"daytime";
 	for(NSString *type in typeList2) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField2];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, type];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"daytime" value:type];
 		int winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
 		if(winnings>min) {
 			daytime = type;
@@ -1596,15 +1597,17 @@
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:gameType];
 
 	NSArray *typeList = [ProjectFunctions namesOfAllWeekdays];
-	NSString *weekday = @"Monday";
-	NSString *weekdayLo = @"Tuesday";
+	NSString *weekday = @"";
+	NSString *weekdayLo = @"";
+	if (typeList.count>2) {
+		weekday = [typeList objectAtIndex:0];
+		weekdayLo = [typeList objectAtIndex:1];
+	}
 	int min=0;
 	int max=0;
-	NSString *sectionField = @"weekday";
 	for(NSString *type in typeList) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, type];
-		int winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"weekday" value:type];
+		double winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
 		if(winnings>min) {
 			weekday = type;
 			min=winnings;
@@ -1620,11 +1623,9 @@
 	NSArray *typeList2 = [ProjectFunctions namesOfAllDayTimes];
 	NSString *daytime = [typeList2 objectAtIndex:2];
 	NSString *daytimeLo = [typeList2 objectAtIndex:3];
-	NSString *sectionField2 = @"daytime";
 	for(NSString *type in typeList2) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, sectionField2];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, type];
-		int winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] intValue];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"daytime" value:type];
+		double winnings = [[CoreDataLib getGameStat:managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
 		if(winnings>min) {
 			daytime = type;
 			min=winnings;

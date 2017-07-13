@@ -54,6 +54,7 @@
 	//	gameObj.profit = [[mo valueForKey:@"winnings"] doubleValue];
 
 	// calculated values--------------------
+	gameObj.isTourney = [@"Tournament" isEqualToString:gameObj.type];
 	gameObj.hudStatsFlg = (gameObj.hudHeroStr.length>10 || gameObj.hudVillianStr.length>10);
 	NSString *middleValue = ([@"Cash" isEqualToString:gameObj.type])?gameObj.stakes:gameObj.tournamentType;
 	gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", gameObj.gametype, middleValue, gameObj.limit];

@@ -45,14 +45,10 @@
 	self.selectedFieldIndex=0;
 	self.changesMade=NO;
 
-//	self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Back" selector:@selector(cancelButtonClicked:) target:self];
 	self.viewEditable = NO;
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(saveButtonClicked:)];
 
-//	saveEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonClicked:)];
-//	self.navigationItem.rightBarButtonItem = saveEditButton;
-	
 	self.textViewBG.alpha=0;
 	self.activityLabel.alpha=0;
 	
@@ -63,7 +59,7 @@
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	
-	NSString *stakesName = NSLocalizedString(@"stakes", nil);
+	NSString *stakesName = @"stakes"; // not NSLocalizedString!
 	NSString *stakesValue = self.gameObj.stakes;
 	if([self.gameObj.type isEqualToString:@"Tournament"]) {
 		stakesName = @"tournamentType";

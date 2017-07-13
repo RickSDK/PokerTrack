@@ -22,7 +22,7 @@
 @synthesize managedObjectContext, nameField, looseTightSeg, passAgrSeg, user_id, typeLabel, skillLabel, passagrSlider, tightlooseSlider;
 @synthesize overallPlaySeg, strengthsText, weaknessText, casinoButton, saveButton, playerPic, picLabel, deleteButton;
 @synthesize sEditButton, wEditButton, selectedObjectForEdit, callBackViewController, managedObject;
-@synthesize playerNumLabel, readOnlyFlg, casino, showMenuFlg;
+@synthesize playerNumLabel, readOnlyFlg, casino, showMenuFlg, hudStyleLabel;
 
 
 -(void)changeTypeLabel
@@ -91,7 +91,7 @@
 {
 	[ProjectFunctions showConfirmationPopup:@"Delete Record" message:@"Are you sure you want to delete this player?" delegate:self tag:1];
 }
-
+/*
 -(void)setUserPic
 {
 	user_id = [[managedObject valueForKey:@"user_id"] intValue];
@@ -108,12 +108,12 @@
 
 	
 }
-
+*/
 -(IBAction) segmentPressed:(id)sender
 {
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
 	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
-	[self setUserPic];
+//	[self setUserPic];
 }	
 
 
@@ -270,13 +270,43 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	self.hudStyleLabel.text = @"-";
-	NSString *hudStyleStr = [managedObject valueForKey:@"desc"];
-	NSArray *components = [hudStyleStr componentsSeparatedByString:@":"];
-	if(components.count>6) {
-		self.hudStyleLabel.text = [components objectAtIndex:6];
-	}
+	[self updateDisplay];
+}
 
+-(void)updateDisplay {
+	if(managedObject) {
+		PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
+		self.hudStyleLabel.text = obj.hudPlayerType;
+		
+		nameField.text = obj.name;
+		self.strengthsText = obj.strengths;
+		self.weaknessText = obj.weaknesses;
+		
+		[casinoButton setTitle:[NSString stringWithFormat:@"%@", [managedObject valueForKey:@"status"]] forState:UIControlStateNormal];
+		
+		passagrSlider.value=(float)obj.agressiveNum/100;
+		tightlooseSlider.value=(float)obj.looseNum/100;
+		[self changeTypeLabel];
+		
+		playerPic.image = obj.pic;
+		picLabel.alpha=0;
+		
+		overallPlaySeg.selectedSegmentIndex=obj.playerSkill;
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
+		saveButton.enabled=YES;
+		sEditButton.alpha=0;
+		wEditButton.alpha=0;
+		casinoButton.enabled=NO;
+		nameField.enabled=NO;
+		passAgrSeg.enabled=NO;
+		looseTightSeg.enabled=NO;
+		overallPlaySeg.enabled=NO;
+		tightlooseSlider.enabled=NO;
+		passagrSlider.enabled=NO;
+		readOnlyFlg=YES;
+		NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
+		skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
+	}
 }
 
 
@@ -298,78 +328,6 @@
 	if([casino isEqualToString:@"All Locations"])
 		casino = @"Select";
 	[casinoButton setTitle:casino forState:UIControlStateNormal];
-	
-    user_id = [[managedObject valueForKey:@"user_id"] intValue];
-    if(user_id==0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@", @"PLAYER"];
-        NSArray *items = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:@"user_id" mOC:managedObjectContext ascendingFlg:NO];
-        user_id = 1;
-        if([items count]>0) {
-            NSManagedObject *mo = [items objectAtIndex:0];
-            user_id = [[mo valueForKey:@"user_id"] intValue];
-            user_id++;
-            [managedObject setValue:[NSNumber numberWithInt:user_id] forKey:@"user_id"];
-			[managedObjectContext save:nil];
-        }
-    }
-	
-	if(managedObject != nil) {
-		int player_id = [[managedObject valueForKey:@"player_id"] intValue];
-		if(player_id==0) {
-			player_id = [ProjectFunctions generateUniqueId];
-			[managedObject setValue:[NSNumber numberWithInt:player_id] forKey:@"player_id"];
-			[managedObjectContext save:nil];
-		}
-
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND user_id = %d", @"PLAYER", user_id];
-        NSArray *items = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-        if([items count]>1) {
-			player_id = [ProjectFunctions generateUniqueId];
-			[managedObject setValue:[NSNumber numberWithInt:player_id] forKey:@"player_id"];
-			[managedObjectContext save:nil];
-        }
-
-        playerNumLabel.text = [NSString stringWithFormat:@"user_id: %d, player_id: %d", [[managedObject valueForKey:@"user_id"] intValue], [[managedObject valueForKey:@"player_id"] intValue]];
-		
-		nameField.text = [managedObject valueForKey:@"name"];
-		self.strengthsText = [managedObject valueForKey:@"attrib_03"];
-		self.weaknessText = [managedObject valueForKey:@"attrib_04"];
-		
-		NSLog(@"%@", self.strengthsText);
-		[casinoButton setTitle:[NSString stringWithFormat:@"%@", [managedObject valueForKey:@"status"]] forState:UIControlStateNormal];
-		
-		int looseNum = [[managedObject valueForKey:@"looseNum"] intValue];
-		int agressiveNum = [[managedObject valueForKey:@"agressiveNum"] intValue];
-
-		passagrSlider.value=(float)agressiveNum/100;
-		tightlooseSlider.value=(float)looseNum/100;
-		[self changeTypeLabel];
-		
-		int playerSkill = [[managedObject valueForKey:@"attrib_02"] intValue];
-//		NSString *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"player%d.jpg", user_id]];
-//		NSString *jpgPath = [NSString stringWithFormat:@"player%d.jpg", user_id];
-		
-		[self setUserPic];
-		
-		overallPlaySeg.selectedSegmentIndex=playerSkill;
-		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
-		saveButton.enabled=YES;
-		sEditButton.alpha=0;
-		wEditButton.alpha=0;
-		casinoButton.enabled=NO;
-		nameField.enabled=NO;
-		passAgrSeg.enabled=NO;
-		looseTightSeg.enabled=NO;
-		overallPlaySeg.enabled=NO;
-		tightlooseSlider.enabled=NO;
-		passagrSlider.enabled=NO;
-		readOnlyFlg=YES;
-	}
-	
-	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
-	[self.mainTableView reloadData];
-	
 }
 
 -(void) setReturningValue:(NSString *) value2 {

@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *hudView;
 
+@property (nonatomic, strong) IBOutlet UIButton *vpipInfoButton;
 @property (nonatomic, strong) IBOutlet UILabel *vpipPercentLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *vpipPercentLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *vpipCountLabel1;
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) IBOutlet UIView *vpipBarView1;
 @property (nonatomic, strong) IBOutlet UIView *vpipBarView2;
 
+@property (nonatomic, strong) IBOutlet UIButton *pfrInfoButton;
 @property (nonatomic, strong) IBOutlet UILabel *pfrPercentLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *pfrPercentLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *pfrCountLabel1;
@@ -36,6 +38,7 @@
 @property (nonatomic, strong) IBOutlet UIView *pfrBarView1;
 @property (nonatomic, strong) IBOutlet UIView *pfrBarView2;
 
+@property (nonatomic, strong) IBOutlet UIButton *afInfoButton;
 @property (nonatomic, strong) IBOutlet UILabel *afPercentLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *afPercentLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *afCountLabel1;
@@ -45,30 +48,35 @@
 @property (nonatomic, strong) IBOutlet UIImageView *afPlayerType2ImageView;
 @property (nonatomic, strong) IBOutlet UIView *afBarView1;
 @property (nonatomic, strong) IBOutlet UIView *afBarView2;
+@property (nonatomic, strong) IBOutlet UILabel *afAmountLabel1;
+@property (nonatomic, strong) IBOutlet UILabel *afAmountLabel2;
 
 
 @property (nonatomic, strong) IBOutlet UIButton *trashbutton1;
 @property (nonatomic, strong) IBOutlet UILabel *foldCountLabel1;
+@property (nonatomic, strong) IBOutlet UILabel *checkCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *callCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *raiseCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *styleLabel1;
 @property (nonatomic, strong) IBOutlet UIImageView *skillImageView1;
+@property (nonatomic, strong) IBOutlet UIButton *foldButton1;
+@property (nonatomic, strong) IBOutlet UIButton *checkButton1;
+@property (nonatomic, strong) IBOutlet UIButton *callButton1;
+@property (nonatomic, strong) IBOutlet UIButton *raiseButton1;
 
 @property (nonatomic, strong) IBOutlet UIButton *trashbutton2;
 @property (nonatomic, strong) IBOutlet UILabel *foldCountLabel2;
+@property (nonatomic, strong) IBOutlet UILabel *checkCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *callCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *raiseCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *styleLabel2;
 @property (nonatomic, strong) IBOutlet UIImageView *skillImageView2;
+@property (nonatomic, strong) IBOutlet UIButton *foldButton2;
+@property (nonatomic, strong) IBOutlet UIButton *checkButton2;
+@property (nonatomic, strong) IBOutlet UIButton *callButton2;
+@property (nonatomic, strong) IBOutlet UIButton *raiseButton2;
 
 @property (nonatomic, strong) IBOutlet UILabel *editModeLabel2;
-
-@property (nonatomic, strong) IBOutlet UIButton *button1;
-@property (nonatomic, strong) IBOutlet UIButton *button2;
-@property (nonatomic, strong) IBOutlet UIButton *button3;
-@property (nonatomic, strong) IBOutlet UIButton *button4;
-@property (nonatomic, strong) IBOutlet UIButton *button5;
-@property (nonatomic, strong) IBOutlet UIButton *button6;
 
 @property (nonatomic, strong) PlayerObj *heroObj;
 @property (nonatomic, strong) PlayerObj *villianObj;

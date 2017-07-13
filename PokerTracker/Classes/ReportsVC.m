@@ -213,6 +213,7 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
+		[NSThread sleepForTimeInterval:0.3];
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -256,10 +257,9 @@
 	NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
 	NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
-	NSString *fullPred = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
 	NSArray *days = [self getValuesForField:field context:contextLocal];
 	for(NSString *day in days) {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:fullPred, day];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:field value:day];
 		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
 		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
 		double winnings = [[values stringAtIndex:0] doubleValue];

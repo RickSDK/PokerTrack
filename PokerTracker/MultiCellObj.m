@@ -22,7 +22,7 @@
 }
 
 +(MultiCellObj *)buildsMultiLineObjWithGame:(GameObj *)gameObj {
-	NSArray *titles = [NSArray arrayWithObjects:
+	NSMutableArray *titles = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 					   NSLocalizedString(@"Type", nil),
 					   NSLocalizedString(@"Date", nil),
 					   NSLocalizedString(@"Weekday", nil),
@@ -36,9 +36,9 @@
 					   NSLocalizedString(@"Profit", nil),
 					   NSLocalizedString(@"ROI", nil),
 					   NSLocalizedString(@"Notes", nil),
-					   nil];
-	NSArray *values = [NSArray arrayWithObjects:
-					   gameObj.type,
+					   nil]];
+	NSMutableArray *values = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+					   NSLocalizedString(gameObj.type, nil),
 					   gameObj.startTimeStr,
 					   gameObj.weekdayAltStr,
 					   gameObj.hours,
@@ -51,8 +51,8 @@
 					   gameObj.profitLongStr,
 					   gameObj.roiStr,
 					   gameObj.notes,
-					   nil];
-	NSArray *colors = [NSArray arrayWithObjects:
+					   nil]];
+	NSMutableArray *colors = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 					   [UIColor blackColor],
 					   [UIColor blackColor],
 					   [UIColor blackColor],
@@ -66,7 +66,20 @@
 					   [self colorForNumber:gameObj.profit],
 					   [UIColor blackColor],
 					   [UIColor blackColor],
-					   nil];
+					   nil]];
+	if(gameObj.isTourney) {
+		[titles addObject:NSLocalizedString(@"tournamentSpots", nil)];
+		[titles addObject:NSLocalizedString(@"tournamentSpotsPaid", nil)];
+		[titles addObject:NSLocalizedString(@"tournamentFinish", nil)];
+
+		[values addObject:[NSString stringWithFormat:@"%d", gameObj.tournamentSpots]];
+		[values addObject:[NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid]];
+		[values addObject:[NSString stringWithFormat:@"%d", gameObj.tournamentFinish]];
+
+		[colors addObject:[UIColor blackColor]];
+		[colors addObject:[UIColor blackColor]];
+		[colors addObject:[UIColor purpleColor]];
+	}
 	MultiCellObj *obj = [MultiCellObj multiCellObjWithTitle:gameObj.name altTitle:gameObj.location titles:titles values:values colors:colors labelPercent:0.5];
 	return obj;
 }

@@ -39,7 +39,6 @@
     [self computeStats];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Analysis", nil)];
@@ -63,7 +62,8 @@
 	
 	self.gameType = @"All";
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)];
+//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
 	
 	
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];

@@ -54,6 +54,7 @@
 @property (nonatomic) int tournamentSpots;
 @property (nonatomic) int tournamentSpotsPaid;
 @property (nonatomic) BOOL hudStatsFlg;
+@property (nonatomic) BOOL isTourney;
 
 @property (nonatomic, strong) NSString *startTimeStr;
 @property (nonatomic, strong) NSString *startTimeAltStr;

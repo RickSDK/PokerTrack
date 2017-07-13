@@ -27,6 +27,9 @@
 "Cash Games" = "Juegos de Dinero";
 "Tournaments" = "Torneos";
 "Tournament" = "Torneo";
+"tournamentSpots" = "Jugadores de Torneo";
+"tournamentSpotsPaid" = "# Puntos pagados";
+"tournamentFinish" = "Su Acabado";
 "Tips" = "Propinas";
 "tokes" = "Propinas";
 "Streak" = "Racha";
@@ -44,7 +47,6 @@
 "location" = "Localización";
 "Bankroll" = "Financiar";
 "bankroll" = "Financiar";
-"Retry" = "Rever";
 "Buyin" = "Compra";
 "buyInAmount" = "Compra";
 "Start" = "Empezar";

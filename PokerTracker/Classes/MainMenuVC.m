@@ -48,8 +48,6 @@
 	[super viewDidLoad];
 	[self setupData];
 	
-//	NSString *preferredLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
-
 	if([ProjectFunctions getProductionMode])
 		[self setTitle:NSLocalizedString(@"Main Menu", nil)];
 	else {
@@ -59,6 +57,10 @@
 	
 	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
 	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
+	self.playerTypeLabel.layer.cornerRadius = 7;
+	self.playerTypeLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
+	self.playerTypeLabel.layer.borderColor = [UIColor blackColor].CGColor;
+	self.playerTypeLabel.layer.borderWidth = 2.;
 	self.last10Label.text = NSLocalizedString(@"Last 10 Games", nil);
 	
 	self.topView.hidden=self.isPokerZilla;
@@ -113,17 +115,11 @@
 		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	}
 	
-	
-	
-	
-	
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.largeGraph];
 
 	self.largeGraph.alpha=0;
 	
-	
 	[self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
-	
 	
 	self.aboutImage.alpha=0;
 	self.aboutText.alpha=0;
@@ -141,11 +137,9 @@
 	openGamesCircle.alpha=0;
 	analysisButton.alpha=1;
 	
-	
 	self.graphChart.layer.cornerRadius = 8.0;
 	self.graphChart.layer.masksToBounds = YES;
 	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
-
 	
 	//---- This code added to prevent flicker----
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:0 type:@"All"];
@@ -153,16 +147,6 @@
 	double amountRisked = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"amountRisked" predicate:predicate2 limit:10] doubleValue];
 	double netIncome = [[CoreDataLib getGameStatWithLimit:managedObjectContext dataField:@"winnings" predicate:predicate2 limit:10] doubleValue];
 	[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
-	
-	
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
-	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
-	if([items count]>0 && !avoidPopup) {
-		self.alertViewNum=1;
-		[ProjectFunctions showConfirmationPopup:@"Game In Progress" message:@"You have a game in progress. Did you want to go to that screen?" delegate:self tag:1];
-	}
-	
 	
 	if([ProjectFunctions isLiteVersion]) {
 		upgradeButton.alpha=1;
@@ -172,38 +156,41 @@
 	self.editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:16];
 	[self.editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
 
-	if(showDisolve) {
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0 AND status = %@", @"In Progress"];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
+	if([items count]>0 && !avoidPopup) {
+		self.alertViewNum=1;
+		GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		detailViewController.mo = [items objectAtIndex:0];
+		detailViewController.newGameStated=NO;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+		//		[ProjectFunctions showConfirmationPopup:@"Game In Progress" message:@"You have a game in progress. Did you want to go to that screen?" delegate:self tag:1];
+	} else if(showDisolve) {
 		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
 		if([passwordCode length]>0) {
 			UnLockAppVC *detailViewController = [[UnLockAppVC alloc] initWithNibName:@"UnLockAppVC" bundle:nil];
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
 	}
+	
 }
 
 -(void)setupButtons {
 	[self createLabelForButton:self.gamesButton size:24 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
 	[self createLabelForButton:self.statsButton size:24 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
-//	[self createLabelForButton:self.oddsButton size:18 name:NSLocalizedString(@"Odds", nil) icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
-//	[self createLabelForButton:self.moreTrackersButton size:18 name:NSLocalizedString(@"Trackers", nil) icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
-//	[self createLabelForButton:self.forumButton size:18 name:NSLocalizedString(@"Forum", nil) icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
-//	[self createLabelForButton:self.netTrackerButton size:18 name:NSLocalizedString(@"Net Tracker", nil) icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
 	
-//	[self createFAButton:self.gamesButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAListOl]];
-//	[self createFAButton:self.statsButton size:30 icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
 	[self createFAButton:self.oddsButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
-	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAUser]];
+	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAhandPaperO]];
 	[self createFAButton:self.forumButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
 	[self createFAButton:self.netTrackerButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
 	[self createFAButton:self.startNewGameButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAPlus]];
-
 }
 
 -(void)createFAButton:(UIButton *)button size:(float)size icon:(NSString *)icon {
 	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
 	[button setTitle:icon forState:UIControlStateNormal];
 }
-
 
 -(void)createLabelForButton:(UIButton *)button size:(float)size name:(NSString *)name icon:(NSString *)icon {
 	if (name.length>6 && size>26)

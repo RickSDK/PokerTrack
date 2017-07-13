@@ -266,6 +266,11 @@
 		return NSLocalizedString(@"LifeTime", nil);
 }
 
++(NSPredicate *)predicateForBasic:(NSString *)basicPred field:(NSString *)field value:(NSString *)value {
+	NSString *fullPred = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
+	return [NSPredicate predicateWithFormat:fullPred, value];
+}
+
 +(NSString *)getBasicPredicateString:(int)year type:(NSString *)Type
 {
 	NSMutableString *predicateString = [NSMutableString stringWithCapacity:500];
@@ -324,28 +329,39 @@
 
 +(NSString *)convertNumberToMoneyString:(double)money
 {
-	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-	[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	NSString *moneyStr = [formatter stringFromNumber:[NSNumber numberWithDouble:money]];
+	if (money == round(money))
+		return [self convertNumberToMoneyStringNoDec:money];
 	
-	return [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
+	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+	[formatter setLocale:[NSLocale currentLocale]];
+	[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	return [formatter stringFromNumber:[NSNumber numberWithDouble:money]];
+}
 
-	if (0) {
-		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-		NSString *moneyStr = [formatter stringFromNumber:[NSNumber numberWithFloat:money]];
-		
-		NSString *symbol = [ProjectFunctions getMoneySymbol];
-		if([symbol length]>0 && ![symbol isEqualToString:@"$"])
-			moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:symbol];
-		
-		if([ProjectFunctions getUserDefaultValue:@"moneySymbol"] && [moneyStr rangeOfString:symbol].location == NSNotFound)
-			moneyStr = [NSString stringWithFormat:@"%@%.2f", symbol, money];
-		
-		moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@".00" withString:@""];
-		
-		return moneyStr;
-	}
++(NSString *)convertNumberToMoneyStringNoDec:(double)money {
+	NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
+	[currencyFormatter setLocale:[NSLocale currentLocale]];
+	[currencyFormatter setMaximumFractionDigits:0];
+	[currencyFormatter setMinimumFractionDigits:0];
+	[currencyFormatter setAlwaysShowsDecimalSeparator:NO];
+	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSNumber *someAmount = [NSNumber numberWithDouble:money];
+	NSString *string = [currencyFormatter stringFromNumber:someAmount];
+	return string;
+}
+
++(NSString *)convertNumberToMoneyStringOneDec:(double)money {
+	NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
+	[currencyFormatter setLocale:[NSLocale currentLocale]];
+	[currencyFormatter setMaximumFractionDigits:1];
+	[currencyFormatter setMinimumFractionDigits:0];
+	[currencyFormatter setAlwaysShowsDecimalSeparator:YES];
+	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSNumber *someAmount = [NSNumber numberWithDouble:money];
+	NSString *string = [currencyFormatter stringFromNumber:someAmount];
+	return string;
 }
 
 +(NSString *)convertStringToMoneyString:(NSString *)moneyStr
@@ -356,12 +372,22 @@
 
 +(double)convertMoneyStringToDouble:(NSString *)moneyStr
 {
-	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:@""];
-	moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"," withString:@""];
-	moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet symbolCharacterSet]];
-	moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet letterCharacterSet]];
+	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+	[numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
+	NSNumber* number = [numberFormatter numberFromString:moneyStr];
+	if (!number) {
+		[numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
+		number = [numberFormatter numberFromString:moneyStr];
+	}
+	if (!number) {
+		moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"$" withString:@""];
+		moneyStr = [moneyStr stringByReplacingOccurrencesOfString:@"," withString:@""];
+		moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet symbolCharacterSet]];
+		moneyStr = [moneyStr stringByTrimmingCharactersInSet: [NSCharacterSet letterCharacterSet]];
+		return [moneyStr doubleValue];
+	}
 	
-	return [moneyStr doubleValue];
+	return [number doubleValue];
 }
 
 +(NSString *)convertIntToMoneyString:(double)money
@@ -1387,19 +1413,6 @@
 		return label;
 }
 
-+(NSString *)convertNumberToMoneyStringOneDec:(double)money {
-	NSNumberFormatter *currencyFormatter = [[NSNumberFormatter alloc] init];
-	[currencyFormatter setLocale:[NSLocale currentLocale]];
-	[currencyFormatter setMaximumFractionDigits:1];
-	[currencyFormatter setMinimumFractionDigits:0];
-	[currencyFormatter setAlwaysShowsDecimalSeparator:YES];
-	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	
-	NSNumber *someAmount = [NSNumber numberWithDouble:money];
-	NSString *string = [currencyFormatter stringFromNumber:someAmount];
-	return string;
-}
-
 +(void)drawLeftLabelsAndLinesForContext:(CGContextRef)c totalMoneyRange:(float)totalMoneyRange min:(double)min leftEdgeOfChart:(int)leftEdgeOfChart totalHeight:(int)totalHeight totalWidth:(int)totalWidth
 {
 	//------ draw left hand labels and grid---------------------
@@ -1722,14 +1735,6 @@
 	NSArray *lines = [contents componentsSeparatedByString:@"\n"];
 	return lines;
 }
-/*
-+(void)executeThreadedJob:(NSString *)class:(SEL)aSelector:(UIActivityIndicatorView *)activityIndicator
-{
-	[activityIndicator startAnimating];
-	[NSClassFromString(class) performSelectorInBackground:aSelector withObject:nil];
-//	[NSClassFromString(class) performSelector:aSelector];
-}
-*/
 
 +(void)updateNewvalueIfNeeded:(NSString *)value type:(NSString *)type mOC:(NSManagedObjectContext *)mOC
 {
@@ -2064,19 +2069,23 @@
 		NSArray *components = [item componentsSeparatedByString:@":"];
 		if (components.count>1) {
 			NSString *value = [components objectAtIndex:1];
-			if (![value isEqualToString:defaultValue])
+			if (value.length >0 && ![value isEqualToString:defaultValue])
 				[options addObject:value];
 		}
 	}
 	NSArray *hardCodedValues = [self getDefaultOptionsForField:field];
 	for (NSString *item in hardCodedValues) {
-		if (![item isEqualToString:defaultValue])
+		if (item.length >0 && ![item isEqualToString:defaultValue])
 			[options addObject:item];
 	}
 	int numSegs = (int)[segmentBar numberOfSegments];
 	for(int i=0; i<numSegs-1; i++) {
 		[segmentBar setTitle:[options objectAtIndex:i] forSegmentAtIndex:i];
 	}
+	int index = (int)segmentBar.numberOfSegments-1;
+	NSString *rightTitle = [segmentBar titleForSegmentAtIndex:index];
+	if ([@"edit" isEqualToString:[rightTitle lowercaseString]])
+		[segmentBar setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forSegmentAtIndex:index];
 }
 
 +(NSArray *)getDefaultOptionsForField:(NSString *)field {
@@ -2624,7 +2633,7 @@
 +(NSArray *)namesOfAllMonths {
 	NSMutableArray *array = [[NSMutableArray alloc] init];
 	for (int i=1; i<=12; i++) {
-		[array addObject:[ProjectFunctions getMonthFromDate:[[NSString stringWithFormat:@"%02d/01/2017", i] convertStringToDateFinalSolution]]];
+		[array addObject:[ProjectFunctions getMonthFromDate:[[NSString stringWithFormat:@"%02d/01/2017", i] convertStringToDateWithFormat:@"MM/dd/yyyy"]]];
 	}
 	return array;
 }
@@ -2657,8 +2666,7 @@
 	double min=0;
 	double max=0;
 	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:month];
 		
 		
 		NSString *chart1 = [CoreDataLib getGameStat:mOC dataField:@"chart1" predicate:predicate];
@@ -2717,7 +2725,7 @@
 +(NSArray *)namesOfAllWeekdays {
 	NSMutableArray *array = [[NSMutableArray alloc] init];
 	for (int i=1; i<=7; i++) {
-		[array addObject:[ProjectFunctions getWeekDayFromDate:[[NSString stringWithFormat:@"01/%02d/2017", i] convertStringToDateFinalSolution]]];
+		[array addObject:[ProjectFunctions getWeekDayFromDate:[[NSString stringWithFormat:@"01/%02d/2017", i] convertStringToDateWithFormat:@"MM/dd/yyyy"]]];
 	}
 	return array;
 }
@@ -2738,8 +2746,7 @@
 	double min=0;
 	double max=0;
 	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND weekday = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"weekday" value:month];
 		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
 		int hours = minutes/60;
@@ -2797,8 +2804,7 @@
 	double min=0;
 	double max=0;
 	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND daytime = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"daytime" value:month];
 		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
 		int hours = minutes/60;
@@ -2873,7 +2879,7 @@
 	double min=0;
 	double max=0;
 	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND year = '%d'", basicPred, [month intValue]];
+		NSString *predString = [NSString stringWithFormat:@"%@ AND year = %d", basicPred, [month intValue]];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
 		double winnings = [[CoreDataLib getGameStat:mOC dataField:@"winnings" predicate:predicate] doubleValue];
 		int minutes = [[CoreDataLib getGameStat:mOC dataField:@"minutes" predicate:predicate] intValue];
@@ -3924,7 +3930,22 @@
 	
 }
 
++(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size {
+	label.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	label.text = [self faStringOfType:type];
+}
+
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size {
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:[self faStringOfType:type] forState:UIControlStateNormal];
+}
+
++(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size text:(NSString *)text {
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:[NSString stringWithFormat:@"%@ %@", [self faStringOfType:type], text] forState:UIControlStateNormal];
+}
+
++(NSString *)faStringOfType:(int)type {
 	NSString *title = nil;
 	switch (type) {
   case 0:
@@ -3963,16 +3984,52 @@
   case 11:
 			title = [NSString fontAwesomeIconStringForEnum:FAlineChart];
 			break;
+  case 12:
+			title = [NSString fontAwesomeIconStringForEnum:FARefresh];
+			break;
+  case 13:
+			title = [NSString fontAwesomeIconStringForEnum:FAGlobe];
+			break;
+  case 14:
+			title = [NSString fontAwesomeIconStringForEnum:FAUsd];
+			break;
+  case 15:
+			title = [NSString fontAwesomeIconStringForEnum:FAStar];
+			break;
+  case 16:
+			title = [NSString fontAwesomeIconStringForEnum:FABarChartO];
+			break;
+  case 17:
+			title = [NSString fontAwesomeIconStringForEnum:FAList];
+			break;
+  case 18:
+			title = [NSString fontAwesomeIconStringForEnum:FAListOl];
+			break;
+  case 19:
+			title = [NSString fontAwesomeIconStringForEnum:FAThumbsUp];
+			break;
+  case 20:
+			title = [NSString fontAwesomeIconStringForEnum:FAInfoCircle];
+			break;
+  case 21:
+			title = [NSString fontAwesomeIconStringForEnum:FAArrowDown];
+			break;
+  case 22:
+			title = [NSString fontAwesomeIconStringForEnum:FACheck];
+			break;
+  case 23:
+			title = [NSString fontAwesomeIconStringForEnum:FATimes];
+			break;
+  case 24:
+			title = [NSString fontAwesomeIconStringForEnum:FAArrowUp];
+			break;
 			
   default:
 			title = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
 			break;
 	}
-	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
-	[button setTitle:title forState:UIControlStateNormal];
+	return title;
 }
-
-
 
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC
 {

@@ -39,11 +39,14 @@
 	startLiveButton.enabled=NO;
 	self.addCasinoButton.enabled=NO;
 	
-	self.locationLabel.text = NSLocalizedString(@"Location", nil);
-	self.bankrollLabel.text = NSLocalizedString(@"Bankroll", nil);
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(popupButtonClicked)];
+
 	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
+	self.bankrollLabel.text = NSLocalizedString(@"Bankroll", nil);
 	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
-	[self.retryButton setTitle:NSLocalizedString(@"Retry", nil) forState:UIControlStateNormal];
+	[ProjectFunctions makeFALabel:self.locationLabel type:13 size:22];
+	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
+	[ProjectFunctions makeFAButton:self.addCasinoButton type:1 size:18];
 	
 	self.startLiveButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
 	[self.startLiveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPlay] forState:UIControlStateNormal];
@@ -291,11 +294,11 @@
 	NSString *tokes = @"0";
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
 		Type = @"Cash";
+		tourney = @"";
 		gName = [NSString stringWithFormat:@"%@ %@ %@", game, stakes, limit];
 	} else {
 		Type = @"Tournament";
-		foodDrinks = @"10";
-		tokes = @"5";
+		stakes = @"";
 		gName = [NSString stringWithFormat:@"%@ %@ %@", game, tourney, limit];
 	}
 	NSString *weekday = [ProjectFunctions getWeekDayFromDate:startTime];

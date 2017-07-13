@@ -59,7 +59,7 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rounder" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="24">
-                    <rect key="frame" x="117" y="204" width="88" height="30"/>
+                    <rect key="frame" x="117" y="208" width="88" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="22"/>
@@ -108,7 +108,7 @@
                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="wins small ROI 1-24" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="15">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Small wins ROI 1-24" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="15">
                     <rect key="frame" x="115" y="167" width="78" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
@@ -119,10 +119,10 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="16">
-                    <rect key="frame" x="129" y="105" width="79" height="38"/>
+                    <rect key="frame" x="129" y="99" width="79" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
-                    <string key="text">wins big 
+                    <string key="text">Big wins 
 ROI 25-49</string>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -130,18 +130,20 @@ ROI 25-49</string>
                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="wins really big ROI >= 50" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="17">
-                    <rect key="frame" x="112" y="33" width="96" height="36"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="17">
+                    <rect key="frame" x="112" y="30" width="96" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
+                    <string key="text">Huge wins
+ROI &gt;= 50</string>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="loses big ROI&lt;-65" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="18">
-                    <rect key="frame" x="122" y="377" width="78" height="32"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Big losses ROI&lt;-65" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="18">
+                    <rect key="frame" x="122" y="372" width="78" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
@@ -151,10 +153,10 @@ ROI 25-49</string>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="19">
-                    <rect key="frame" x="117" y="302" width="81" height="36"/>
+                    <rect key="frame" x="117" y="300" width="81" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
-                    <string key="text">loses money 
+                    <string key="text">Losses 
 ROI -65 to -25</string>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -163,7 +165,7 @@ ROI -65 to -25</string>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="25">
-                    <rect key="frame" x="125" y="229" width="78" height="36"/>
+                    <rect key="frame" x="125" y="230" width="78" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <string key="text">Average

@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *mainTitle;
 
 @property (nonatomic) int foldCount;
+@property (nonatomic) int checkCount;
 @property (nonatomic) int callCount;
 @property (nonatomic) int raiseCount;
 @property (nonatomic) int handCount;

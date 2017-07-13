@@ -23,7 +23,8 @@
                 <outlet property="onBreakLabel" destination="17" id="46"/>
                 <outlet property="pauseButton" destination="5" id="45"/>
                 <outlet property="pauseTimerLabel" destination="18" id="47"/>
-                <outlet property="playerTypeImage" destination="101" id="102"/>
+                <outlet property="playerTypeButton" destination="xPM-cd-hxv" id="91q-Yg-rvI"/>
+                <outlet property="popupView" destination="XZN-KM-R3q" id="G0X-xr-axY"/>
                 <outlet property="rebuyButton" destination="20" id="50"/>
                 <outlet property="timerLabel" destination="7" id="53"/>
                 <outlet property="tokesButton" destination="12" id="54"/>
@@ -69,10 +70,16 @@
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="playerType2.png" id="101">
-                    <rect key="frame" x="262" y="0.0" width="50" height="60"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xPM-cd-hxv">
+                    <rect key="frame" x="270" y="0.0" width="50" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                </imageView>
+                    <state key="normal" backgroundImage="Icon-120.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="playerTypeButtonPressed:" destination="-1" eventType="touchDown" id="yRK-Ii-4zG"/>
+                    </connections>
+                </button>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2tv-jl-IHf">
                     <rect key="frame" x="0.0" y="59" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -218,9 +225,9 @@
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="18">
-                    <rect key="frame" x="160" y="334" width="83" height="21"/>
+                    <rect key="frame" x="160" y="333" width="83" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -253,7 +260,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" image="metalPlate.png" id="62">
-                    <rect key="frame" x="-2" y="-8" width="320" height="424"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="420"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5">
@@ -278,25 +285,117 @@
                     <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="2" height="1"/>
                 </label>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="90">
-                    <rect key="frame" x="8" y="30" width="304" height="340"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <string key="text">Take Home = Chip stack - (Buyin + Rebuys)
-
-Gross Earnings = Take Home + Food + Tokes
-
-Net Profit = Take Home + Food
-
-The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.</string>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
                 <view contentMode="scaleToFill" id="rIz-Nh-ZzC" customClass="WebServiceView">
                     <rect key="frame" x="83" y="79" width="160" height="208"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="XZN-KM-R3q">
+                    <rect key="frame" x="4" y="4" width="312" height="407"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="90">
+                            <rect key="frame" x="8" y="142" width="296" height="257"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <mutableString key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
+
+Why is food considered profit?
+
+This is one stat that most people get wrong, including pros. The reason food and drinks are considered profit is because you are freely spending the money and receiving value for it. You have benefited from the money and are simply spending it during the game instead of after.
+
+Keep in mind this only applies to cash games when you are buying the food/drinks out of your chip stack.
+
+Consider this example: If two players buyin for $100 and cash out for $100, but one of the players bought a steak dinner and several drinks (from his chip stack) while the other did not, who had a more profitable night? Obviously the one who got the meal.
+
+Some people say, "Buying dinner is simply part of the cost of playing poker", but this is not true. You are going to eat dinner whether you are playing poker or not. It's not a cost of poker.
+
+And finally consider this: When playing poker, some nights you may buy a meal at the table and other times you may stop for a meal on the way home. If you stop on the way home, do you deduct that meal from your winnings for the night? Of course not. So why deduct the meal purchased at the table?
+
+On the other hand, tips spent in the form of dealer tokes are NOT profit. You in no way benefit from that money. Its just money flushed down the toilet. Whch is why, in my opinion, you shouldn't be tipping more than $1 per hand.
+
+Players have an emotional response to want to tip more for larger pots, but there's no logical reason for it. Did the dealer work harder for that pot? No. Keep that money in your chip stack.
+
+Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</mutableString>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-Terms-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kev-ju-TLb">
+                            <rect key="frame" x="100" y="8" width="104" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Risked:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pt4-8m-N98">
+                            <rect key="frame" x="8" y="38" width="136" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-Home:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vms-D1-fFk">
+                            <rect key="frame" x="8" y="63" width="136" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gross Income:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5o-nT-mF5">
+                            <rect key="frame" x="8" y="88" width="136" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profit:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RIe-Jv-QJc">
+                            <rect key="frame" x="8" y="113" width="136" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buyin + Rebuys" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nim-2f-ce2">
+                            <rect key="frame" x="136" y="38" width="160" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cashout - Risked" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N4f-P9-Hho">
+                            <rect key="frame" x="136" y="63" width="160" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-home + tips + food" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="1fU-uw-gl1">
+                            <rect key="frame" x="136" y="88" width="160" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-home + food" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gyc-Br-A2s">
+                            <rect key="frame" x="136" y="113" width="160" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="f8C-h7-Apd">
+                            <rect key="frame" x="267" y="0.0" width="49" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="X">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="xButtonClicked:" destination="-1" eventType="touchDown" id="oca-3d-O9Q"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -305,11 +404,11 @@ The average poker player loses $20/hr so anything above that is at least a decen
         </view>
     </objects>
     <resources>
+        <image name="Icon-120.png" width="120" height="120"/>
         <image name="blueChromeBut.png" width="400" height="100"/>
         <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="greenFelt3.png" width="320" height="480"/>
         <image name="metalPlate.png" width="200" height="300"/>
-        <image name="playerType2.png" width="150" height="200"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

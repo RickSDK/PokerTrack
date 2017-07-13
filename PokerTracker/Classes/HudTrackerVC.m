@@ -29,6 +29,21 @@
 	self.trashbutton1.enabled=NO;
 	self.trashbutton2.enabled=NO;
 	self.editModeLabel2.hidden=YES;
+	
+	[ProjectFunctions makeFAButton:self.vpipInfoButton type:20 size:18];
+	[ProjectFunctions makeFAButton:self.pfrInfoButton type:20 size:18];
+	[ProjectFunctions makeFAButton:self.afInfoButton type:20 size:18];
+
+	[ProjectFunctions makeFAButton:self.foldButton1 type:21 size:18];
+	[ProjectFunctions makeFAButton:self.checkButton1 type:22 size:18];
+	[ProjectFunctions makeFAButton:self.callButton1 type:23 size:18];
+	[ProjectFunctions makeFAButton:self.raiseButton1 type:24 size:18];
+	
+	[ProjectFunctions makeFAButton:self.foldButton2 type:21 size:18];
+	[ProjectFunctions makeFAButton:self.checkButton2 type:22 size:18];
+	[ProjectFunctions makeFAButton:self.callButton2 type:23 size:18];
+	[ProjectFunctions makeFAButton:self.raiseButton2 type:24 size:18];
+	
 	[self setupScreen];
 	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
 	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
@@ -45,9 +60,9 @@
 	self.afObj = [[HudStatObj alloc] init];
 	self.afObj = [HudStatObj createObjWithPercentLabel1:self.afPercentLabel1 percentLabel2:self.afPercentLabel2 countLabel1:self.afCountLabel1 countLabel2:self.afCountLabel2 bGImageView:self.afBGImageView playerType1ImageView:self.afPlayerType1ImageView playerType2ImageView:self.afPlayerType2ImageView barView1:self.afBarView1 barView2:self.afBarView2];
 	self.villianActionObj = [[HudActionObj alloc] init];
-	self.villianActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel1 callLabel:self.callCountLabel1 raiseLabel:self.raiseCountLabel1 styleLabel:self.styleLabel1 skillImageView:self.skillImageView1];
+	self.villianActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel1 checkLabel:self.checkCountLabel1 callLabel:self.callCountLabel1 raiseLabel:self.raiseCountLabel1 styleLabel:self.styleLabel1 skillImageView:self.skillImageView1];
 	self.heroActionObj = [[HudActionObj alloc] init];
-	self.heroActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel2 callLabel:self.callCountLabel2 raiseLabel:self.raiseCountLabel2 styleLabel:self.styleLabel2 skillImageView:self.skillImageView2];
+	self.heroActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel2 checkLabel:self.checkCountLabel2 callLabel:self.callCountLabel2 raiseLabel:self.raiseCountLabel2 styleLabel:self.styleLabel2 skillImageView:self.skillImageView2];
 }
 
 -(void)editButtonClicked {
@@ -57,12 +72,14 @@
 	self.hudView.alpha=(self.editMode)?.5:1;
 	self.editModeLabel2.hidden=!self.editMode;
 	if (self.defaultButtonLock) {
-		self.button1.enabled=self.editMode;
-		self.button2.enabled=self.editMode;
-		self.button3.enabled=self.editMode;
-		self.button4.enabled=self.editMode;
-		self.button5.enabled=self.editMode;
-		self.button6.enabled=self.editMode;
+		self.foldButton1.enabled=self.editMode;
+		self.foldButton2.enabled=self.editMode;
+		self.callButton1.enabled=self.editMode;
+		self.callButton2.enabled=self.editMode;
+		self.checkButton1.enabled=self.editMode;
+		self.checkButton2.enabled=self.editMode;
+		self.raiseButton1.enabled=self.editMode;
+		self.raiseButton2.enabled=self.editMode;
 	}
 
 }
@@ -109,8 +126,8 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.raiseCount;
 	int top2 = self.heroObj.raiseCount;
-	self.heroObj.pfr=75;
-	self.villianObj.pfr=75;
+	self.heroObj.pfr=50;
+	self.villianObj.pfr=50;
 	if (self.heroObj.handCount>0)
 		self.heroObj.pfr = top2*100/self.heroObj.handCount;
 	if (self.villianObj.handCount>0)
@@ -122,21 +139,30 @@
 -(void)calculateAF {
 	int bottom1 = self.villianObj.callCount+self.villianObj.raiseCount;
 	int bottom2 = self.heroObj.callCount+self.heroObj.raiseCount;
-	self.heroObj.af=75;
-	self.villianObj.af=75;
+	self.heroObj.af=16; // rounder
+	self.villianObj.af=16; // rounder
 	if (bottom2>0)
 		self.heroObj.af = self.heroObj.raiseCount*100/bottom2;
 	if (bottom1>0)
 		self.villianObj.af = self.villianObj.raiseCount*100/bottom1;
 	
 	[self updateHudStat:self.afObj top1:self.villianObj.raiseCount bottom1:bottom1 top2:self.heroObj.raiseCount bottom2:bottom2];
+	
+	self.afAmountLabel1.text = @"-";
+	if(self.villianObj.callCount>0)
+		self.afAmountLabel1.text = [NSString stringWithFormat:@"%.1f", (float)self.villianObj.raiseCount/self.villianObj.callCount];
+	self.afAmountLabel2.text = @"-";
+	if(self.heroObj.callCount>0)
+		self.afAmountLabel2.text = [NSString stringWithFormat:@"%.1f", (float)self.heroObj.raiseCount/self.heroObj.callCount];
 }
 
 -(void)updateDisplay {
 	self.heroActionObj.foldLabel.text = [NSString stringWithFormat:@"%d", self.heroObj.foldCount];
+	self.heroActionObj.checkLabel.text = [NSString stringWithFormat:@"%d", self.heroObj.checkCount];
 	self.heroActionObj.callLabel.text = [NSString stringWithFormat:@"%d", self.heroObj.callCount];
 	self.heroActionObj.raiseLabel.text = [NSString stringWithFormat:@"%d", self.heroObj.raiseCount];
 	self.villianActionObj.foldLabel.text = [NSString stringWithFormat:@"%d", self.villianObj.foldCount];
+	self.villianActionObj.checkLabel.text = [NSString stringWithFormat:@"%d", self.villianObj.checkCount];
 	self.villianActionObj.callLabel.text = [NSString stringWithFormat:@"%d", self.villianObj.callCount];
 	self.villianActionObj.raiseLabel.text = [NSString stringWithFormat:@"%d", self.villianObj.raiseCount];
 
@@ -156,48 +182,38 @@
 		pfr.image = [UIImage imageNamed:@"Icon.png"];
 		af.image = [UIImage imageNamed:@"Icon.png"];
 	} else {
-		float skillSpot = (float)player.vpip/6.5;
-		float skill1 = 7.15-skillSpot;
-		if(skill1<0)
-			skill1=0;
-		if(skill1>5)
-			skill1=5;
+		float skill1 = [self trimSkill:7.15-(float)player.vpip/6.5];
 		
-		int skill2Percent = 0;
+		float skill2Percent = 0;
 		if(player.vpip>0)
 			skill2Percent = player.pfr*100/player.vpip;
-		float skill2 = (skill2Percent/10)-2;
+		float skill2 = [self trimSkill:ceil(skill2Percent/10)-2];
+		float skill3 = [self trimSkill:(float)player.af/8];
 		
-		if(skill2<0)
-			skill2=0;
-		if(skill2>5)
-			skill2=5;
-		skillSpot = (float)player.af/8;
-		float skill3 = skillSpot;
-		if(skill3>5)
-			skill3=5;
-		float picId = (skill1+skill3)/2;
-		if(picId<0)
-			picId=0;
-		
-		NSString *style1 = (skill1>=3)?@"Tight":@"Loose";
-		NSString *style2 = (skill2+skill3>=6)?@"Aggressive":@"Passive";
 		vpip.image = [self playerImageForNumber:skill1];
 		pfr.image = [self playerImageForNumber:skill2];
 		af.image = [self playerImageForNumber:skill3];
-		
+
+		obj.skillImageView.image = [self playerImageForNumber:(skill1+skill3)/2];
+
+		NSString *style1 = (skill1>=3)?@"Tight":@"Loose";
+		NSString *style2 = (skill2+skill3>=6)?@"Aggressive":@"Passive";
 		player.playerStyleStr = [NSString stringWithFormat:@"%@-%@", style1, style2];
 		obj.styleLabel.text = player.playerStyleStr;
-		obj.skillImageView.image = [self playerImageForNumber:picId];
 	}
 }
 
+-(float)trimSkill:(float)skill {
+	if(skill<0)
+		skill=0;
+	if(skill>5)
+		skill=5;
+	return skill;
+}
+
 -(UIImage *)playerImageForNumber:(float)number {
+	number = [self trimSkill:number];
 	int picId = (int)floor(number);
-	if(picId<0)
-		picId=0;
-	if(picId>5)
-		picId=5;
 	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", picId]];
 }
 
@@ -221,16 +237,19 @@
 	if(self.editMode) {
 		int amount = obj.foldCount;
 		if(button.tag==1)
-			amount = obj.callCount;
+			amount = obj.checkCount;
 		if(button.tag==2)
+			amount = obj.callCount;
+		if(button.tag==3)
 			amount = obj.raiseCount;
+		NSArray *titles = [NSArray arrayWithObjects:@"Fold", @"Check", @"Call", @"Raise", nil];
 
 		self.selectedPlayerObj = obj;
 		self.selectedTag = (int)button.tag;
 		MinuteEnterVC *localViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
 		[localViewController setCallBackViewController:self];
 		localViewController.initialDateValue = [NSString stringWithFormat:@"%d", amount];
-		localViewController.sendTitle = button.titleLabel.text;
+		localViewController.sendTitle = [titles objectAtIndex:button.tag];
 		localViewController.managedObjectContext=self.managedObjectContext;
 		[self.navigationController pushViewController:localViewController animated:YES];
 		return;
@@ -240,9 +259,12 @@
 			obj.foldCount++;
 			break;
   case 1:
-			obj.callCount++;
+			obj.checkCount++;
 			break;
   case 2:
+			obj.callCount++;
+			break;
+  case 3:
 			obj.raiseCount++;
 			break;
   default:
@@ -254,13 +276,11 @@
 
 -(void)saveRecord {
 	if(self.gameMo) {
-		NSLog(@"+++Saving!! %@", [self packageDataForObj:self.heroObj]);
 		[self.gameMo setValue:[self packageDataForObj:self.heroObj] forKey:@"attrib01"];
 		[self.gameMo setValue:[self packageDataForObj:self.villianObj] forKey:@"attrib02"];
 		[self.managedObjectContext save:nil];
 	}
 	if(self.playerMo) {
-		NSLog(@"+++Saving!! %@", [self packageDataForObj:self.heroObj]);
 		[self.playerMo setValue:[self packageDataForObj:self.heroObj] forKey:@"attrib_05"];
 		[self.playerMo setValue:[self packageDataForObj:self.villianObj] forKey:@"desc"];
 		[self.managedObjectContext save:nil];
@@ -268,7 +288,7 @@
 }
 
 -(NSString *)packageDataForObj:(PlayerObj *)obj {
-	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%@", obj.foldCount, obj.callCount, obj.raiseCount, obj.vpip, obj.pfr, obj.af, obj.playerStyleStr];
+	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d:%@", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.vpip, obj.pfr, obj.af, obj.playerStyleStr];
 }
 
 -(void)loadDataIntoPlayer:(PlayerObj *)obj heroFlag:(BOOL)heroFlag {
@@ -278,33 +298,31 @@
 		NSString *status = [self.gameMo valueForKey:@"status"];
 		if([@"Completed" isEqualToString:status]) {
 			self.defaultButtonLock=YES;
-			self.button1.enabled=NO;
-			self.button2.enabled=NO;
-			self.button3.enabled=NO;
-			self.button4.enabled=NO;
-			self.button5.enabled=NO;
-			self.button6.enabled=NO;
+			self.foldButton1.enabled=NO;
+			self.foldButton2.enabled=NO;
+			self.callButton1.enabled=NO;
+			self.callButton2.enabled=NO;
+			self.checkButton1.enabled=NO;
+			self.checkButton2.enabled=NO;
+			self.raiseButton1.enabled=NO;
+			self.raiseButton2.enabled=NO;
 		}
-		NSArray *components = [packagedData componentsSeparatedByString:@":"];
-		NSLog(@"+++Check for data: %@", packagedData);
-		if(components.count>2) {
-			NSLog(@"+++Loading!!");
-			obj.foldCount=[[components objectAtIndex:0] intValue];
-			obj.callCount=[[components objectAtIndex:1] intValue];
-			obj.raiseCount=[[components objectAtIndex:2] intValue];
-		}
+		[self populateHUDWithData:packagedData obj:obj];
 	}
 	if(self.playerMo) {
 		NSString *field = (heroFlag)?@"attrib_05":@"desc";
 		NSString *packagedData = [self.playerMo valueForKey:field];
-		NSArray *components = [packagedData componentsSeparatedByString:@":"];
-		NSLog(@"+++Check for data: %@", packagedData);
-		if(components.count>2) {
-			NSLog(@"+++Loading!!");
-			obj.foldCount=[[components objectAtIndex:0] intValue];
-			obj.callCount=[[components objectAtIndex:1] intValue];
-			obj.raiseCount=[[components objectAtIndex:2] intValue];
-		}
+		[self populateHUDWithData:packagedData obj:obj];
+	}
+}
+
+-(void)populateHUDWithData:(NSString *)packagedData obj:(PlayerObj *)obj {
+	NSArray *components = [packagedData componentsSeparatedByString:@":"];
+	if(components.count>3) {
+		obj.foldCount=[[components objectAtIndex:0] intValue];
+		obj.checkCount=[[components objectAtIndex:1] intValue];
+		obj.callCount=[[components objectAtIndex:2] intValue];
+		obj.raiseCount=[[components objectAtIndex:3] intValue];
 	}
 }
 
@@ -312,8 +330,10 @@
 	if(self.selectedTag==0)
 		self.selectedPlayerObj.foldCount = [value intValue];
 	if(self.selectedTag==1)
-		self.selectedPlayerObj.callCount = [value intValue];
+		self.selectedPlayerObj.checkCount = [value intValue];
 	if(self.selectedTag==2)
+		self.selectedPlayerObj.callCount = [value intValue];
+	if(self.selectedTag==3)
 		self.selectedPlayerObj.raiseCount = [value intValue];
 	[self saveRecord];
 	[self updateDisplay];
@@ -328,6 +348,7 @@
 
 -(void)emptyTrashForPlayer:(PlayerObj *)player {
 	player.foldCount=0;
+	player.checkCount=0;
 	player.callCount=0;
 	player.raiseCount=0;
 	[self saveRecord];
@@ -343,7 +364,7 @@
 			[ProjectFunctions showAlertPopup:@"PFR" message:@"Pre-Flop Raise. This is the percentage of hands a player raises pre-flop."];
 			break;
   case 2:
-			[ProjectFunctions showAlertPopup:@"AF" message:@"Aggression Factor. This is the percentage of VPIP hands that are raised. It measures raises versus calls."];
+			[ProjectFunctions showAlertPopup:@"AF" message:@"Aggression Factor. This is the percentage of VPIP hands that are raised. It measures raises versus calls. The number in red is the traditional AF notation written as raises per call."];
 			break;
 			
   default:

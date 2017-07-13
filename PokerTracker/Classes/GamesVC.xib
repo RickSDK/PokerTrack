@@ -14,7 +14,7 @@
                 <outlet property="mainSegment" destination="20" id="Mqc-Bk-dCW"/>
                 <outlet property="mainTableView" destination="4" id="17"/>
                 <outlet property="moneyLabel" destination="GLg-wi-cwv" id="qga-jJ-7by"/>
-                <outlet property="playerTypeImageView" destination="7Oe-hS-b0Y" id="XE5-sn-ii3"/>
+                <outlet property="playerTypeButton" destination="p88-ul-mmq" id="Dcc-m2-cGA"/>
                 <outlet property="rightYear" destination="xpA-FX-077" id="njF-Zs-wlE"/>
                 <outlet property="roiLabel" destination="eZY-nt-dai" id="ZYd-Lg-VaG"/>
                 <outlet property="roiNameLabel" destination="lfr-6n-TI6" id="vA7-BX-4rX"/>
@@ -75,10 +75,16 @@
                                 <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="22"/>
                             </connections>
                         </segmentedControl>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playerType0.png" id="7Oe-hS-b0Y">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p88-ul-mmq">
                             <rect key="frame" x="0.0" y="0.0" width="44" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="playerTypeButtonPressed:" destination="-1" eventType="touchDown" id="RVl-ft-E6u"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -183,7 +189,6 @@
         </view>
     </objects>
     <resources>
-        <image name="playerType0.png" width="150" height="200"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

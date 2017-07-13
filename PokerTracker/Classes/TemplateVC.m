@@ -60,6 +60,10 @@
 	[self.mainTextfield resignFirstResponder];
 }
 
+-(void)popupButtonClicked {
+	self.popupView.hidden=!self.popupView.hidden;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	

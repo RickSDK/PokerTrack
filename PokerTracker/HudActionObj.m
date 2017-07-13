@@ -11,6 +11,7 @@
 @implementation HudActionObj
 
 +(HudActionObj *)createObjWithFoldLabel:(UILabel *)foldLabel
+							 checkLabel:(UILabel *)checkLabel
 							  callLabel:(UILabel *)callLabel
 							 raiseLabel:(UILabel *)raiseLabel
 							 styleLabel:(UILabel *)styleLabel
@@ -18,6 +19,7 @@
 	
 	HudActionObj *obj = [[HudActionObj alloc] init];
 	obj.foldLabel = foldLabel;
+	obj.checkLabel = checkLabel;
 	obj.callLabel = callLabel;
 	obj.raiseLabel = raiseLabel;
 	obj.skillImageView = skillImageView;

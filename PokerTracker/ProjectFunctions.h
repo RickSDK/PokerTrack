@@ -76,6 +76,7 @@
 +(NSArray *)sortArrayDescending:(NSArray *)list;
 +(NSString *)getWinLossStreakString:(int)streak;
 +(NSString *)getYearString:(int)year;
++(NSPredicate *)predicateForBasic:(NSString *)basicPred field:(NSString *)field value:(NSString *)value;
 +(NSString *)getBasicPredicateString:(int)year type:(NSString *)Type;
 +(NSString *)getPredicateString:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSString *)convertIntToMoneyString:(double)money;
@@ -210,5 +211,7 @@
 +(float)chartHeightForSize:(float)height;
 +(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size;
++(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size;
++(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size text:(NSString *)text;
 
 @end

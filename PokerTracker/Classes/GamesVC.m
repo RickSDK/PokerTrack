@@ -25,6 +25,7 @@
 #import "GameObj.h"
 #import "UpgradeVC.h"
 #import "StartNewGameVC.h"
+#import "AnalysisDetailsVC.h"
 
 
 
@@ -86,8 +87,7 @@
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	}
 	
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
-	self.navigationItem.rightBarButtonItem = addButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
 	
 	[ProjectFunctions setFontColorForSegment:self.mainSegment values:nil];
 	
@@ -131,8 +131,6 @@
 	}
 }
 
-
-
 -(void)yearChanged
 {
 	[ProjectFunctions resetTheYearSegmentBar:self.mainTableView displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:self.yearLabel];
@@ -175,8 +173,6 @@
 	}
 }
 
-
-
 -(void)calculateStats
 {
 	@autoreleasepool {
@@ -205,6 +201,7 @@
 		self.roiLabel.textColor = (percent>=0)?[UIColor greenColor]:[UIColor yellowColor];
 		
 		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:winnings];
+		[self.playerTypeButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:risked winnings:winnings] forState:UIControlStateNormal];
 
 		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
 		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
@@ -214,22 +211,11 @@
 	}
 }
 
--(NSManagedObject *)gameFromString:(NSString *)gameString localContext:(NSManagedObjectContext *)localContext {
-	NSArray *components = [gameString componentsSeparatedByString:@"|"];
-	NSDate *startTime = [[components objectAtIndex:0] convertStringToDateFinalSolution];
-	float winnings = [[components objectAtIndex:1] floatValue];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"startTime >= %@ AND winnings = %f", startTime, winnings];
-	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:localContext ascendingFlg:NO];
-	
-	if(games.count>0)
-		return [games objectAtIndex:0];
-	else
-		return nil;
+- (IBAction) playerTypeButtonPressed: (id) sender {
+	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
-
-
-
 
 - (void) computeStats
 {
@@ -254,6 +240,7 @@
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
+
 -(void)statsButtonClicked:(id)sender {
 	StatsPage *detailViewController = [[StatsPage alloc] initWithNibName:@"StatsPage" bundle:nil];
 	detailViewController.managedObjectContext = self.managedObjectContext;
@@ -360,7 +347,6 @@
 	return [sectionInfo numberOfObjects];
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
@@ -377,9 +363,5 @@
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
 }
-
-
-
-
 
 @end

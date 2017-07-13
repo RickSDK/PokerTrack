@@ -160,7 +160,7 @@
     NSString *title = self.titleLabel;
     if([title length]==0)
         title = @"Money";
-	[self setTitle:title];
+	[self setTitle:NSLocalizedString(title, nil)];
     
 	self.numberOfWheels=3;
 	

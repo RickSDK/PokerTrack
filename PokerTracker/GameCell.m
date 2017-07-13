@@ -91,6 +91,10 @@
 		self.pprLabel.textAlignment = NSTextAlignmentCenter;
 		self.pprLabel.textColor = [UIColor blackColor];
 		self.pprLabel.backgroundColor = [UIColor clearColor];
+		self.pprLabel.layer.cornerRadius = 7;
+		self.pprLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
+		self.pprLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+		self.pprLabel.layer.borderWidth = 1.;
 		[self.contentView addSubview:self.pprLabel];
 		
 		

@@ -98,7 +98,8 @@
 -(void)doTheHardWork
 {
 	@autoreleasepool {
-   
+		NSLog(@"Working...");
+		[NSThread sleepForTimeInterval:0.5];
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -110,8 +111,7 @@
 		NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 		NSArray *months = [ProjectFunctions namesOfAllMonths];
 		for(NSString *month in months) {
-			NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
-			NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+			NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:month];
 			NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
 			NSArray *values = [chart1 componentsSeparatedByString:@"|"];
 			double winnings = [[values stringAtIndex:0] doubleValue];

@@ -38,15 +38,13 @@
 }
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-
 @property (atomic, strong) NSMutableArray *gamesList;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
-
-//@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UISegmentedControl *gameTypeSegment;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;
+@property (atomic, strong) IBOutlet UIButton *playerTypeButton;
 
 @property (atomic) BOOL showMainMenuButton;
 @property (atomic) BOOL fetchIsReady;
@@ -68,6 +66,7 @@
 - (void) computeStats;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
+- (IBAction) playerTypeButtonPressed: (id) sender;
 
 
 @end

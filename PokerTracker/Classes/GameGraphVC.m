@@ -117,6 +117,7 @@
 	
 	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
 	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
 	self.hudButton.hidden=!self.gameObj.hudStatsFlg;
 
 	[self addGameID];
@@ -146,22 +147,24 @@
  
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(self.touchesFlg) {
-		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1" withRows:1 labelProportion:0];
-		cell.mainTitle = NSLocalizedString(@"Chip Stack Comment", nil);
-		cell.alternateTitle = @"";
-		cell.titleTextArray = [NSArray arrayWithObject:NSLocalizedString(@"Chip Notes", nil)];
 		NSString *note = @"";
 		if([ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]].length>0)
 			note=[ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]];
-		cell.fieldTextArray = [NSArray arrayWithObject:note];
-		cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
-		cell.accessoryType= UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		return cell;
+
+		if(note.length>0) {
+			MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1" withRows:1 labelProportion:0];
+			cell.mainTitle = NSLocalizedString(@"Chip Stack Comment", nil);
+			cell.alternateTitle = @"";
+			cell.titleTextArray = [NSArray arrayWithObject:NSLocalizedString(@"Chip Notes", nil)];
+			cell.fieldTextArray = [NSArray arrayWithObject:note];
+			cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
+			cell.accessoryType= UITableViewCellAccessoryNone;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			return cell;
+		}
 		
-	} else {
-		return [MultiLineDetailCellWordWrap multiCellForID:@"cell2" obj:self.multiCellObj tableView:tableView];
-	}
+	}	
+	return [MultiLineDetailCellWordWrap multiCellForID:@"cell2" obj:self.multiCellObj tableView:tableView];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -304,6 +307,7 @@
 - (IBAction) enterButtonPressed: (id) sender {
 	self.notesFlg=NO;
 	self.notesView.hidden=!self.notesFlg;
+	[self.textField resignFirstResponder];
 	
 	[ProjectFunctions setUserDefaultValue:self.textField.text forKey:[self noteIdforRow:self.closestPoint]];
 	[self drawNotes];

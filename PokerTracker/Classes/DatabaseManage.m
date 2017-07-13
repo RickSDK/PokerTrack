@@ -124,8 +124,6 @@
     [self.mainTableView setBackgroundView:nil];
 	menuArray = [[NSMutableArray alloc] init];
 
-	NSLog(NSLocalizedString(@"Export", nil));
-	
 	[menuArray addObject:NSLocalizedString(@"Export", nil)];
 	[menuArray addObject:NSLocalizedString(@"Import", nil)];
 	[menuArray addObject:NSLocalizedString(@"Clear", nil)];
@@ -149,6 +147,7 @@
 	[secondMenuArray addObject:@"Tournament Director"];
 	[secondMenuArray addObject:@"BuyPokerChips.com"];
 	[secondMenuArray addObject:@"Taunt"];
+	[secondMenuArray addObject:@"Login"];
 
 	self.gSelectedRow=0;
 	self.totalNumGamesImported=0;
@@ -156,7 +155,6 @@
 	self.numImportedLinesRead=0;
 	self.importInProgress=NO;
 	self.upgradeButton.hidden=![ProjectFunctions isLiteVersion];
-
 	
 	self.activityPopup.alpha=0;
 	self.activityBG.alpha=0;
@@ -170,9 +168,6 @@
 	importTextView.alpha=0;
 	laterButton.alpha=0;
 	importButton.alpha=0;
-	
-	
-
 
 	if([ProjectFunctions getUserDefaultValue:@"userName"])
 		self.emailLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"userName"]];
@@ -180,8 +175,8 @@
 	if([ProjectFunctions getUserDefaultValue:@"firstName"])
 		self.userLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"firstName"]];
 	
-	NSString *buttonName = ([ProjectFunctions getUserDefaultValue:@"userName"])?@"Logout":@"Login";
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:buttonName selector:@selector(loginButtonClicked:) target:self];
+	NSString *buttonName = ([ProjectFunctions getUserDefaultValue:@"userName"])?[NSString fontAwesomeIconStringForEnum:FASignOut]:[NSString fontAwesomeIconStringForEnum:FASignIn];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:buttonName target:self action:@selector(loginButtonClicked:)];
 
 }
 
@@ -229,7 +224,7 @@
 	int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
 	if(numGamesServer2>gamesOnServer)
 		gamesOnServer=numGamesServer2;
-	
+/*
 	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
@@ -244,7 +239,7 @@
 		
 		return cell;
 	}
-	
+*/
 
 	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Export", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -319,8 +314,8 @@
 
 	if(indexPath.section==0) {
 		NSArray *icons = [NSArray arrayWithObjects:
-						  [NSString fontAwesomeIconStringForEnum:FACreditCard],
-						  [NSString fontAwesomeIconStringForEnum:FAUsd],
+						  [NSString fontAwesomeIconStringForEnum:FADownload],
+						  [NSString fontAwesomeIconStringForEnum:FAUpload],
 						  [NSString fontAwesomeIconStringForEnum:FAtrash],
 						  [NSString fontAwesomeIconStringForEnum:FAArrowDown],
 						  [NSString fontAwesomeIconStringForEnum:FAArrowDown],
@@ -328,15 +323,12 @@
 						  [NSString fontAwesomeIconStringForEnum:FAEnvelope],
 						  [NSString fontAwesomeIconStringForEnum:FAtrash],
 						  [NSString fontAwesomeIconStringForEnum:FAGlobe],
-						  [NSString fontAwesomeIconStringForEnum:FALock],
-						  [NSString fontAwesomeIconStringForEnum:FALock],
-						  [NSString fontAwesomeIconStringForEnum:FALock],
-						  [NSString fontAwesomeIconStringForEnum:FALock],
-						  [NSString fontAwesomeIconStringForEnum:FALock],
 						  nil];
-
+		NSString *icon = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
+		if(icons.count>indexPath.row)
+			icon = [icons objectAtIndex:indexPath.row];
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [menuArray objectAtIndex:indexPath.row]];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", icon, [menuArray objectAtIndex:indexPath.row]];
 		
 		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Delete", nil)] || [ProjectFunctions getUserDefaultValue:@"userName"])
 			cell.textLabel.textColor = [UIColor blackColor];
@@ -363,11 +355,14 @@
 						  [NSString fontAwesomeIconStringForEnum:FAMobile],
 						  [NSString fontAwesomeIconStringForEnum:FADotCircleO],
 						  [NSString fontAwesomeIconStringForEnum:FAStar],
-						  [NSString fontAwesomeIconStringForEnum:FAStar],
+						  [NSString fontAwesomeIconStringForEnum:FASignIn],
 						  nil];
 		
+		NSString *icon = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
+		if(icons.count>indexPath.row)
+			icon = [icons objectAtIndex:indexPath.row];
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [icons objectAtIndex:indexPath.row], [secondMenuArray objectAtIndex:indexPath.row]];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", icon, [secondMenuArray objectAtIndex:indexPath.row]];
 	}
 	cell.backgroundColor = [UIColor ATTFaintBlue];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -1414,33 +1409,10 @@
 		}
 		if([menuItem isEqualToString:@"Lock App"]) {
 			LockAppVC *detailViewController = [[LockAppVC alloc] initWithNibName:@"LockAppVC" bundle:nil];
-//			detailViewController.managedObjectContext = managedObjectContext;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
-        
-        
-		if([menuItem isEqualToString:@"Friend Alerts"]) {
-			FriendAlertsVC *detailViewController = [[FriendAlertsVC alloc] initWithNibName:@"FriendAlertsVC" bundle:nil];
-			[self.navigationController pushViewController:detailViewController animated:YES];
-		}
-        
-		if([menuItem isEqualToString:@"Edit Bankroll"]) {
-            BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-            detailViewController.managedObjectContext = managedObjectContext;
-            detailViewController.callBackViewController = self;
-            [self.navigationController pushViewController:detailViewController animated:YES];
-		}
-        
-        
-        
-        
 		if([menuItem isEqualToString:@"Locations"]) {
 			LocationsVC *detailViewController = [[LocationsVC alloc] initWithNibName:@"LocationsVC" bundle:nil];
-			detailViewController.managedObjectContext = managedObjectContext;
-			[self.navigationController pushViewController:detailViewController animated:YES];
-		}
-		if([menuItem isEqualToString:@"Casino Locator"]) {
-			CasinoTrackerVC *detailViewController = [[CasinoTrackerVC alloc] initWithNibName:@"CasinoTrackerVC" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
@@ -1453,12 +1425,49 @@
 				[self.navigationController pushViewController:detailViewController animated:YES];
 			}
 		}
+		if([menuItem isEqualToString:@"Friend Alerts"]) {
+			FriendAlertsVC *detailViewController = [[FriendAlertsVC alloc] initWithNibName:@"FriendAlertsVC" bundle:nil];
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+		if([menuItem isEqualToString:@"Edit Bankroll"]) {
+            BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
+            detailViewController.managedObjectContext = managedObjectContext;
+            detailViewController.callBackViewController = self;
+            [self.navigationController pushViewController:detailViewController animated:YES];
+		}
 		if([menuItem isEqualToString:@"Email Developer"]) {
 			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", @"rickmedved@hotmail.com"]]];
 		}
 		if([menuItem isEqualToString:@"Write App Review"]) {
 			[ProjectFunctions writeAppReview];
 		}
+		if([menuItem isEqualToString:@"Sound"]) {
+			NSString *soundOn = [ProjectFunctions getUserDefaultValue:@"soundOn"];
+			soundOn = ([soundOn length]==0)?@"Off":@"";
+			[ProjectFunctions setUserDefaultValue:soundOn forKey:@"soundOn"];
+			[mainTableView reloadData];
+		}
+		if([menuItem isEqualToString:@"Casino Locator"]) {
+			CasinoTrackerVC *detailViewController = [[CasinoTrackerVC alloc] initWithNibName:@"CasinoTrackerVC" bundle:nil];
+			detailViewController.managedObjectContext = managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+		if([menuItem isEqualToString:@"Tournament Director"]) {
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/apple-store/id504430732?mt=8"]];
+		}
+		if([menuItem isEqualToString:@"BuyPokerChips.com"]) {
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.buypokerchips.com"]];
+		}
+		if([menuItem isEqualToString:@"Taunt"]) {
+			TauntVC *detailViewController = [[TauntVC alloc] initWithNibName:@"TauntVC" bundle:nil];
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+		if([menuItem isEqualToString:@"Login"]) {
+			LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
+			detailViewController.managedObjectContext = managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+		/*
 		if([menuItem isEqualToString:@"Currency Symbol"]) {
 			ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;
@@ -1469,29 +1478,13 @@
 			detailViewController.callBackViewController=self;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
-		if([menuItem isEqualToString:@"Sound"]) {
-            NSString *soundOn = [ProjectFunctions getUserDefaultValue:@"soundOn"];
-            soundOn = ([soundOn length]==0)?@"Off":@"";
-            [ProjectFunctions setUserDefaultValue:soundOn forKey:@"soundOn"];
-            [mainTableView reloadData];
-        }
 		if([menuItem isEqualToString:@"Background Threads"]) {
             NSString *flag = [ProjectFunctions getUserDefaultValue:@"bgThreads"];
             flag = ([flag length]==0)?@"Off":@"";
             [ProjectFunctions setUserDefaultValue:flag forKey:@"bgThreads"];
             [mainTableView reloadData];
         }
-		if([menuItem isEqualToString:@"Tournament Director"]) {
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/apple-store/id504430732?mt=8"]];
-//			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/us/app/tournament-director/id504430732?mt=8"]];
-		}
-		if([menuItem isEqualToString:@"BuyPokerChips.com"]) {
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.buypokerchips.com"]];
-		}
-		if([menuItem isEqualToString:@"Taunt"]) {
-			TauntVC *detailViewController = [[TauntVC alloc] initWithNibName:@"TauntVC" bundle:nil];
-			[self.navigationController pushViewController:detailViewController animated:YES];
-		}
+		 */
 	} // section==1
 	
 	

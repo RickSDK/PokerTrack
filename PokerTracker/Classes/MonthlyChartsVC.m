@@ -147,6 +147,7 @@
 {
 	@autoreleasepool {
     
+		[NSThread sleepForTimeInterval:0.1];
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -165,8 +166,7 @@
         int startYear = [[m2 valueForKey:@"name"] intValue];
 
 	for(int i=startYear; i<=endYear; i++) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND year = '%d'", basicPred2, i];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred2 field:@"year" value:[NSString stringWithFormat:@"%d", i]];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
             double winnings = [[values stringAtIndex:0] doubleValue];
@@ -188,13 +188,12 @@
 		NSArray *months = [ProjectFunctions namesOfAllMonths];
 	int i=0;
 	for(NSString *month in months) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND month = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-            NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-            NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            double winnings = [[values stringAtIndex:0] doubleValue];
-            int gameCount = [[values stringAtIndex:1] intValue];
-            int minutes = [[values stringAtIndex:2] intValue];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:month];
+		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
+		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
+		double winnings = [[values stringAtIndex:0] doubleValue];
+		int gameCount = [[values stringAtIndex:1] intValue];
+		int minutes = [[values stringAtIndex:2] intValue];
 
 		int hours = minutes/60;
 		int hourlyRate = 0;
@@ -210,8 +209,7 @@
 	NSArray *days = [ProjectFunctions namesOfAllWeekdays];
 	i=0;
 	for(NSString *month in days) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND weekday = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"weekday" value:month];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
             double winnings = [[values stringAtIndex:0] doubleValue];
@@ -232,8 +230,7 @@
 	NSArray *daytimes = [ProjectFunctions namesOfAllDayTimes];
 	i=0;
 	for(NSString *month in daytimes) {
-		NSString *predString = [NSString stringWithFormat:@"%@ AND daytime = '%@'", basicPred, month];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"daytime" value:month];
             NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
             NSArray *values = [chart1 componentsSeparatedByString:@"|"];
             double winnings = [[values stringAtIndex:0] doubleValue];

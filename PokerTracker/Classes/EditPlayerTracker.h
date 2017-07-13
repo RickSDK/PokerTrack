@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TemplateVC.h"
-
+#import "PlayerTrackerObj.h"
 
 @interface EditPlayerTracker : TemplateVC <UIActionSheetDelegate> {
 	NSManagedObjectContext *managedObjectContext;
@@ -56,6 +56,7 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSManagedObject *managedObject;
+@property (nonatomic, strong) PlayerTrackerObj *playerTrackerObj;
 @property (nonatomic, strong) UIViewController *callBackViewController;
 @property (nonatomic, strong) UISlider *passagrSlider;
 @property (nonatomic, strong) UISlider *tightlooseSlider;
