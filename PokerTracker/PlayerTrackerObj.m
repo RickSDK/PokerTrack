@@ -16,102 +16,48 @@
 	PlayerTrackerObj *obj = [[PlayerTrackerObj alloc] init];
 	obj.name = [mo valueForKey:@"name"];
 	
-	int playerType = [[mo valueForKey:@"attrib_01"] intValue];
-	int playerSkill = [[mo valueForKey:@"attrib_02"] intValue];	
-	int user_id = [[mo valueForKey:@"user_id"] intValue];
-	int agressiveNum = [[mo valueForKey:@"agressiveNum"] intValue];
-	int looseNum = [[mo valueForKey:@"looseNum"] intValue];
-	if(agressiveNum==0 && looseNum==0) {
-		looseNum=playerType/100;
-		agressiveNum=playerType-(looseNum*100);
-		
-		if(agressiveNum>100)
-			agressiveNum=100;
-		if(agressiveNum<1)
-			agressiveNum=1;
-		if(looseNum>100)
-			looseNum=100;
-		if(looseNum<1)
-			looseNum=1;
-	}
+	obj.playerSkill = [[mo valueForKey:@"attrib_02"] intValue];
+	obj.user_id = [[mo valueForKey:@"user_id"] intValue];
+	obj.agressiveNum = [[mo valueForKey:@"agressiveNum"] intValue];
+	obj.looseNum = [[mo valueForKey:@"looseNum"] intValue];
+	obj.player_id = [[mo valueForKey:@"player_id"] intValue];
 	
 	obj.location = [mo valueForKey:@"status"];
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-	if(playerSkill<skills.count)
-		obj.skillLevel = [skills objectAtIndex:playerSkill];
+	if(obj.playerSkill<skills.count)
+		obj.skillLevel = [skills objectAtIndex:obj.playerSkill];
 
-	obj.playerType = [self playerTypeString:looseNum passNum:agressiveNum];
-	obj.pic = [self getUserPic:user_id playerSkill:playerSkill];
+	obj.playerType = [self playerTypeString:obj.looseNum passNum:obj.agressiveNum];
+	obj.picId = (obj.playerSkill==0)?1:obj.playerSkill+2;
+	obj.pic = [self getUserPic:obj.user_id picId:obj.picId];
 	
 	obj.hudPlayerType = @"-";
-	NSString *hudStyleStr = [mo valueForKey:@"desc"];
-	NSArray *components = [hudStyleStr componentsSeparatedByString:@":"];
-	if(components.count>7) {
+	obj.hudString = [mo valueForKey:@"desc"];
+	NSArray *components = [obj.hudString componentsSeparatedByString:@":"];
+	if(components.count>8) {
 		obj.hudPlayerType = [components objectAtIndex:7];
+		obj.hudPicId = [[components objectAtIndex:8] intValue];
 		obj.hudFlag=YES;
 	}
 	obj.strengths = [mo valueForKey:@"attrib_03"];
-	obj.weaknesses = [mo valueForKey:@"attrib_04"];
+	obj.weaknesses = [mo valueForKey:@"attrib_04"];	
 	
-	obj.playerSkill = [[mo valueForKey:@"attrib_02"] intValue];
-	
-	//------------update this stuff for some reason------------------
-	if(user_id==0) {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@", @"PLAYER"];
-		NSArray *items = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:@"user_id" mOC:managedObjectContext ascendingFlg:NO];
-		user_id = 1;
-		if([items count]>0) {
-			NSManagedObject *mo2 = [items objectAtIndex:0];
-			user_id = [[mo2 valueForKey:@"user_id"] intValue];
-			user_id++;
-			[mo setValue:[NSNumber numberWithInt:user_id] forKey:@"user_id"];
-			[managedObjectContext save:nil];
-		}
-	}
-	
-	if(mo != nil) {
-		int player_id = [[mo valueForKey:@"player_id"] intValue];
-		if(player_id==0) {
-			player_id = [ProjectFunctions generateUniqueId];
-			[mo setValue:[NSNumber numberWithInt:player_id] forKey:@"player_id"];
-			[managedObjectContext save:nil];
-		}
-		
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND user_id = %d", @"PLAYER", user_id];
-		NSArray *items = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
-		if([items count]>1) {
-			player_id = [ProjectFunctions generateUniqueId];
-			[mo setValue:[NSNumber numberWithInt:player_id] forKey:@"player_id"];
-			[managedObjectContext save:nil];
-		}
-	}
-
-
 	return obj;
 }
 
-+(NSString *)playerTypeString:(int)looseNum passNum:(int)passNum
++(NSString *)playerTypeString:(int)looseNum passNum:(int)agressiveNum
 {
-	if(looseNum<=50 && passNum<=50)
-		return @"Loose-Passive";
-	
-	if(looseNum<=50 && passNum>50)
-		return @"Loose-Aggressive";
-	
-	if(looseNum>50 && passNum<=50)
-		return @"Tight-Passive";
-	
-	return @"Tight-Aggressive";
+	return [NSString stringWithFormat:@"%@-%@", (looseNum<=50)?@"Loose":@"Tight", (agressiveNum<=50)?@"Passive":@"Aggressive"];
 }
 
-+(UIImage *)getUserPic:(int)user_id playerSkill:(int)playerSkill
++(UIImage *)getUserPic:(int)user_id picId:(int)picId
 {
 	UIImage *image=nil;
 	NSString *jpgPath = [self getPicPath:user_id];
 	
 	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
 	if(fh==nil)
-		image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", playerSkill+1]];
+		image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", picId]];
 	else {
 		image = [UIImage imageWithContentsOfFile:jpgPath];
 	}

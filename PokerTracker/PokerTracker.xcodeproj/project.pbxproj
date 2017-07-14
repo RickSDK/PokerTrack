@@ -326,6 +326,7 @@
 		6BD4D9691D120FE200236804 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D9681D120FE200236804 /* Default@2x.png */; };
 		6BD4D96B1D12100500236804 /* DefaultiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D96A1D12100500236804 /* DefaultiPad.png */; };
 		6BD4D96D1D12108700236804 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D96C1D12108700236804 /* Default-Portrait@2x~ipad.png */; };
+		6BD7AFBC1F17359300C9830B /* red_greenH.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BD7AFBB1F17359300C9830B /* red_greenH.jpg */; };
 		6BD846DF14F6FFDB0048473A /* MyToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD846DE14F6FFDB0048473A /* MyToolbar.m */; };
 		6BD84C2814FEE0CE0048473A /* cardBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD84C2714FEE0CE0048473A /* cardBack.png */; };
 		6BD84C6C14FFEC3F0048473A /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD84C6B14FFEC3F0048473A /* green.png */; };
@@ -823,6 +824,11 @@
 		6BD4D9681D120FE200236804 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		6BD4D96A1D12100500236804 /* DefaultiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultiPad.png; sourceTree = "<group>"; };
 		6BD4D96C1D12108700236804 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6BD7AFBB1F17359300C9830B /* red_greenH.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = red_greenH.jpg; sourceTree = "<group>"; };
+		6BD7AFBD1F1847D200C9830B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6BD7AFBE1F1847E700C9830B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD7AFBF1F18481200C9830B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD7AFC01F19182700C9830B /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD846DD14F6FFDB0048473A /* MyToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyToolbar.h; sourceTree = "<group>"; };
 		6BD846DE14F6FFDB0048473A /* MyToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyToolbar.m; sourceTree = "<group>"; };
 		6BD84C2714FEE0CE0048473A /* cardBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardBack.png; sourceTree = "<group>"; };
@@ -1348,6 +1354,7 @@
 				6BA4AA87173463C4006022E1 /* black.png */,
 				6BC2BFD91F13384600483489 /* red_green.jpg */,
 				6BCA887B1F13556E00633484 /* red_green2.jpg */,
+				6BD7AFBB1F17359300C9830B /* red_greenH.jpg */,
 				6B9BF468175D666B00D0BA12 /* new.jpeg */,
 				6BE0EA6217628EA900DC1F02 /* IconImg.png */,
 				6B9BF46A175D6A4900D0BA12 /* new.png */,
@@ -1631,6 +1638,10 @@
 				es,
 				de,
 				fr,
+				"zh-Hans",
+				ru,
+				ko,
+				sv,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1676,6 +1687,7 @@
 				6B752382144918CD00E59D21 /* OddsCalculatorVC.xib in Resources */,
 				6BD4D9591D120DDD00236804 /* Icon-144.png in Resources */,
 				6B7526E3144C9F4600E59D21 /* FilterNameEnterVC.xib in Resources */,
+				6BD7AFBC1F17359300C9830B /* red_greenH.jpg in Resources */,
 				6B75281A144CE97700E59D21 /* OddsFormVC.xib in Resources */,
 				6B752866144CF0D500E59D21 /* CardHandPicker.xib in Resources */,
 				6B752A7E144E2CCE00E59D21 /* greenBG.png in Resources */,
@@ -2022,6 +2034,10 @@
 				6BD4D0181F0C0E710059614C /* de */,
 				6BD4D0191F0C0E750059614C /* fr */,
 				6BD4D01A1F0C0E870059614C /* ja */,
+				6BD7AFBD1F1847D200C9830B /* zh-Hans */,
+				6BD7AFBE1F1847E700C9830B /* ru */,
+				6BD7AFBF1F18481200C9830B /* ko */,
+				6BD7AFC01F19182700C9830B /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

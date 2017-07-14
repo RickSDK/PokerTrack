@@ -26,7 +26,7 @@
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 	
-	self.selectButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
+	self.selectButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(selectValue)];
 	self.navigationItem.rightBarButtonItem = self.selectButton;
 
 	[self setTitle:NSLocalizedString(self.databaseField, nil)];
@@ -37,6 +37,12 @@
 	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:24];
 	[ProjectFunctions makeFAButton:self.addButton type:1 size:24];
 	[ProjectFunctions makeFAButton:self.editButton type:2 size:24];
+	
+	if(self.readyOnlyFlg) {
+		self.deleteButton.hidden=YES;
+		self.addButton.hidden=YES;
+		self.editButton.hidden=YES;
+	}
 
 	[self refreshFromDatabase];
 
@@ -177,7 +183,7 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)save:(id)sender {
+- (void)selectValue {
 	[(ProjectFunctions *)self.callBackViewController setReturningValue:[self.list objectAtIndex:self.rowNum]];
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -218,6 +224,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(self.readyOnlyFlg) {
+		self.rowNum = (int)indexPath.row;
+		[self selectValue];
+	}
 	self.initialDateValue = nil;
 	self.optionSelectedFlg = YES;
 	self.rowNum = (int)indexPath.row;

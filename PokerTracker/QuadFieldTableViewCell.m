@@ -250,7 +250,7 @@ static NSInteger FONT_SIZE			= 12;
 	// bottom two segments are seperated by 10 pixs because font is the same
 	leftSection = trunc(baseRect.size.width * bottomSplit) + 5;
 	rect = baseRect;
-	rect.origin.y += 10;		// seperation between top and bottom line
+	rect.origin.y += 12;		// seperation between top and bottom line
 	rect.size.width = leftSection + 5;
 	bb.frame = rect;
 	rect.origin.x += leftSection;

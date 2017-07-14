@@ -21,18 +21,13 @@
 @synthesize imgPicker;
 @synthesize managedObject, managedObjectContext, menuNumber, image, cameraMode, callBackViewController;
 
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
-	[self setTitle:@"Choose Photo"]; 
+	[self setTitle:@"Choose Photo"];
 	NSString *name = [managedObject valueForKey:@"name"];
-	[self setTitle:name]; // <-- testing
-
-	
+	[self setTitle:name];
 
 	imgPicker = [[UIImagePickerController alloc] init];
-//	imgPicker.allowsImageEditing = YES;
 	imgPicker.allowsEditing = YES;
 	imgPicker.delegate = self;
 	if(cameraMode==0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -42,13 +37,8 @@
 	if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
 		[self presentViewController:imgPicker animated:YES completion:nil];
-
 	}
-
-
 }
-
-
 
 - (IBAction)grabImage {
 	[self presentViewController:imgPicker animated:NO completion:nil];
@@ -56,55 +46,18 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[picker dismissViewControllerAnimated:YES completion:nil];
-//	[picker dismissModalViewControllerAnimated:YES];
-
-
 	UIImage *img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-//	NSData *imgData = UIImageJPEGRepresentation(img, 1.0);
-//	int bytes = [imgData length];
-//	NSLog(@"size: %d", bytes);
 	image.image = img;
 	CGSize newSize;
 	newSize.height=100;
 	newSize.width=100;
 	UIImage *newImg = [ProjectFunctions imageWithImage:img newSize:newSize];
-//	imgData = UIImageJPEGRepresentation(newImg, 1.0);
-//	bytes = [imgData length];
-//	NSLog(@"new size: %d %d", bytes, menuNumber);
-//	NSString *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"player%d.jpg", menuNumber]];
-//	NSString *jpgPath = [NSString stringWithFormat:@"player%d.jpg", menuNumber];
 	NSString *jpgPath = [ProjectFunctions getPicPath:(int)menuNumber];
 
 	[UIImageJPEGRepresentation(newImg, 1.0) writeToFile:jpgPath atomically:YES];
 
 	[(EditPlayerTracker *)callBackViewController updateImage];
 	[self.navigationController popViewControllerAnimated:YES];
-
-//	EditPlayerTracker *detailViewController = [[EditPlayerTracker alloc] initWithNibName:@"EditPlayerTracker" bundle:nil];
-//	detailViewController.managedObject = managedObject;
-//	detailViewController.managedObjectContext = managedObjectContext;
-//	detailViewController.showMenuFlg=YES;
-//	[self.navigationController pushViewController:detailViewController animated:YES];
-//	[detailViewController release];	
 }
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-
-
 
 @end

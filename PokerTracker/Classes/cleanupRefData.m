@@ -52,7 +52,7 @@
 			}
 			[self.managedObjectContext save:nil];
 		}
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Cleanup done."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Cleanup done."];
 		
 	}
 }

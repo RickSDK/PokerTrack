@@ -20,10 +20,10 @@
 	int NumberOfRows=(int)[statsArray count];
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.4];
+		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.5];
 	}
 	
-	cell.mainTitle = @"Game Stats";
+	cell.mainTitle = NSLocalizedString(@"Game Stats", nil);
 	cell.alternateTitle = title;
 	
 	NSMutableArray *colorArray = [[NSMutableArray alloc] init];
@@ -81,7 +81,7 @@
 	int NumberOfRows=(int)[statsArray count];
 //	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 //	if (cell == nil) {
-		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.3];
+		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.4];
 //	}
 	
 	cell.mainTitle = title;

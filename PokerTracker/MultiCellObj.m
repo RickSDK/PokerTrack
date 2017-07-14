@@ -25,17 +25,17 @@
 	NSMutableArray *titles = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 					   NSLocalizedString(@"Type", nil),
 					   NSLocalizedString(@"Date", nil),
-					   NSLocalizedString(@"Weekday", nil),
+					   NSLocalizedString(@"weekday", nil),
 					   NSLocalizedString(@"Hours", nil),
 					   NSLocalizedString(@"Buyin", nil),
-					   NSLocalizedString(@"Number of Rebuys", nil),
-					   NSLocalizedString(@"Re-buy Amount", nil),
+					   NSLocalizedString(@"numRebuys", nil),
+					   NSLocalizedString(@"rebuyAmount", nil),
 					   NSLocalizedString(@"Current Chips", nil),
 					   NSLocalizedString(@"IncomeTotal", nil),
 					   NSLocalizedString(@"Take-Home", nil),
 					   NSLocalizedString(@"Profit", nil),
 					   NSLocalizedString(@"ROI", nil),
-					   NSLocalizedString(@"Notes", nil),
+					   NSLocalizedString(@"notes", nil),
 					   nil]];
 	NSMutableArray *values = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 					   NSLocalizedString(gameObj.type, nil),

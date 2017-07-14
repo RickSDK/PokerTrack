@@ -769,7 +769,7 @@
 		displayName = @"Stake";
 	
 	if(addAllTypesFlg) {
-		[finalList addObject:[NSString stringWithFormat:@"All %@s", displayName]];
+		[finalList addObject:NSLocalizedString(@"All", nil)];
 		if(![name isEqualToString:@"Game Type"])
 			[finalList addObject:@"*Custom*"];
 	}

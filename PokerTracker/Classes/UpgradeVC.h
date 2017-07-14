@@ -21,6 +21,7 @@
 @property (strong, nonatomic) SKProductsRequest *productsRequest;
 @property (strong, nonatomic) NSString *productID;
 @property (strong, nonatomic) IBOutlet UITextView *messageTextView;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 @property (nonatomic) int touchCount;
 
 - (void)loadStore;

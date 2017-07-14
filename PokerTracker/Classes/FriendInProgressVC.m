@@ -188,11 +188,11 @@
 		timeRunning = @"(Local Time)";
 
     timeRunningLabel.text = timeRunning;
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Location", nil) value:location color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"StartTime", nil) value:startTimeString color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"location", nil) value:location color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"startTime", nil) value:startTimeString color:[UIColor blackColor]]];
 	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Hours", nil) value:timeRunning color:[UIColor blackColor]]];
 	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Buyin", nil) value:[ProjectFunctions convertIntToMoneyString:buyIn] color:[UIColor blackColor]]];
-	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"Re-buy Amount", nil) value:[ProjectFunctions convertIntToMoneyString:rebuy] color:[UIColor blackColor]]];
+	[self.basicsArray addObject:[MultiLineDetailCellWordWrap multiObjectWithName:NSLocalizedString(@"rebuyAmount", nil) value:[ProjectFunctions convertIntToMoneyString:rebuy] color:[UIColor blackColor]]];
 
 	
 

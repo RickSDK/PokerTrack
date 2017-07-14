@@ -178,7 +178,10 @@
 
 -(void)setupButtons {
 	[self createLabelForButton:self.gamesButton size:24 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
-	[self createLabelForButton:self.statsButton size:24 name:NSLocalizedString(@"Stats", nil) icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
+	NSString *stats = NSLocalizedString(@"Stats", nil);
+	if (stats.length>6)
+		stats = [stats substringToIndex:6];
+	[self createLabelForButton:self.statsButton size:24 name:stats icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
 	
 	[self createFAButton:self.oddsButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
 	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAhandPaperO]];
@@ -618,7 +621,18 @@
 
 -(void)enterNewFilterValue:(NSString *)filterName buttonNumber:(int)buttonNumber
 {
-	NSArray *filterList = [NSArray arrayWithObjects:filterName, @"All Game Types", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", [NSString stringWithFormat:@"%d", buttonNumber], filterName, nil];
+	NSArray *filterList = [NSArray arrayWithObjects:
+						   filterName,
+						   NSLocalizedString(@"All", nil), //@"All Game Types",
+						   NSLocalizedString(@"All", nil), // games
+						   NSLocalizedString(@"All", nil), //@"All Limits",
+						   NSLocalizedString(@"All", nil), //@"All Stakes",
+						   NSLocalizedString(@"All", nil), //@"All Locations",
+						   NSLocalizedString(@"All", nil), //@"All Bankrolls",
+						   NSLocalizedString(@"All", nil), //@"All Types",
+						   [NSString stringWithFormat:@"%d", buttonNumber],
+						   filterName,
+						   nil];
 	[ProjectFunctions insertRecordIntoEntity:managedObjectContext EntityName:@"FILTER" valueList:filterList];
 }
 

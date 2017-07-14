@@ -9,68 +9,45 @@
 #import "EditPlayerTracker.h"
 #import "ProjectFunctions.h"
 #import "TextEnterVC.h"
-#import "ListPicker.h"
+//#import "ListPicker.h"
 #import "CoreDataLib.h"
 #import "AddPhotoVC.h"
 #import "NSArray+ATTArray.h"
 #import "PlayerTrackerVC.h"
 #import "MultiLineDetailCellWordWrap.h"
 #import "HudTrackerVC.h"
+#import "EditSegmentVC.h"
 
 
 @implementation EditPlayerTracker
-@synthesize managedObjectContext, nameField, looseTightSeg, passAgrSeg, user_id, typeLabel, skillLabel, passagrSlider, tightlooseSlider;
-@synthesize overallPlaySeg, strengthsText, weaknessText, casinoButton, saveButton, playerPic, picLabel, deleteButton;
-@synthesize sEditButton, wEditButton, selectedObjectForEdit, callBackViewController, managedObject;
+@synthesize managedObjectContext, nameField, looseTightSeg, passAgrSeg, typeLabel, skillLabel;
+@synthesize overallPlaySeg, casinoButton, saveButton, playerPic, picLabel, deleteButton;
+@synthesize selectedObjectForEdit, callBackViewController, managedObject;
 @synthesize playerNumLabel, readOnlyFlg, casino, showMenuFlg, hudStyleLabel;
-
-
--(void)changeTypeLabel
-{
-	if(tightlooseSlider.value<=.5 && passagrSlider.value<=.5)
-		typeLabel.text = @"Loose - Passive";
-	if(tightlooseSlider.value<=.5 && passagrSlider.value>.5)
-		typeLabel.text = @"Loose - Aggresive";
-	if(tightlooseSlider.value>.5 && passagrSlider.value<=.5)
-		typeLabel.text = @"Tight - Passive";
-	if(tightlooseSlider.value>.5 && passagrSlider.value>.5)
-		typeLabel.text = @"Tight - Aggresive";
-}
-
-- (IBAction) slider1changed:(id)sender
-{
-	[self changeTypeLabel];
-}
-
-- (IBAction) slider2changed:(id)sender
-{
-	[self changeTypeLabel];
-}
-
 
 -(void)updateImage
 {
-	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
-	saveButton.enabled=YES;
+	// This is called directly from AddPhotoVC
+	NSLog(@"updateImage!!");
 
-	NSString *jpgPath = [ProjectFunctions getPicPath:user_id];
+	NSString *jpgPath = [ProjectFunctions getPicPath:self.playerTrackerObj.user_id];
 	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
 	if(fh==nil)
 		NSLog(@"nil!");
 	else {
-		playerPic.image = [UIImage imageWithContentsOfFile:jpgPath];
+		self.playerTrackerObj.pic  = [UIImage imageWithContentsOfFile:jpgPath];
+		playerPic.image = self.playerTrackerObj.pic;
 		picLabel.alpha=0;
 	}
 	[fh closeFile];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if(buttonIndex<2) {
+	if(buttonIndex!=actionSheet.cancelButtonIndex) {
 		AddPhotoVC *detailViewController = [[AddPhotoVC alloc] initWithNibName:@"AddPhotoVC" bundle:nil];
 		detailViewController.managedObject = managedObject;
 		detailViewController.managedObjectContext = managedObjectContext;
-		detailViewController.menuNumber = user_id;
+		detailViewController.menuNumber = self.playerTrackerObj.user_id;
 		detailViewController.cameraMode=buttonIndex;
 		detailViewController.callBackViewController=self;
 		[self.navigationController pushViewController:detailViewController animated:YES];
@@ -91,32 +68,13 @@
 {
 	[ProjectFunctions showConfirmationPopup:@"Delete Record" message:@"Are you sure you want to delete this player?" delegate:self tag:1];
 }
-/*
--(void)setUserPic
-{
-	user_id = [[managedObject valueForKey:@"user_id"] intValue];
-	NSString *jpgPath = [ProjectFunctions getPicPath:user_id];
-	
-	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
-	if(fh==nil)
-		playerPic.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", (int)overallPlaySeg.selectedSegmentIndex+1]];
-	else {
-		playerPic.image = [UIImage imageWithContentsOfFile:jpgPath];
-		picLabel.alpha=0;
-	}
-	[fh closeFile];
 
-	
-}
-*/
 -(IBAction) segmentPressed:(id)sender
 {
-	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-	skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
-//	[self setUserPic];
-}	
-
-
+	self.playerTrackerObj.playerSkill = (int)overallPlaySeg.selectedSegmentIndex;
+	self.playerTrackerObj.picId = (self.playerTrackerObj.playerSkill==0)?1:self.playerTrackerObj.playerSkill+2;
+	[self updatePlayerTypeImage];
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -129,7 +87,7 @@
 	CGPoint startTouchPosition = [touch locationInView:touch.view];
 	if(startTouchPosition.x >= 15 && startTouchPosition.x <= 126 && startTouchPosition.y>=51 && startTouchPosition.y<=168) {
 		if(managedObject==nil)
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"Save record before adding photo"];
+			[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Save record before adding photo"];
 		else {
 			UIActionSheet *actionSheet;
 			actionSheet=[[UIActionSheet alloc] initWithTitle:@"Add a Photo" 
@@ -148,9 +106,6 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)aTextField {
-	saveButton.enabled=YES;
-	if([nameField.text length]==0)
-		saveButton.enabled=NO;
 	[aTextField resignFirstResponder];
 	return YES;
 }
@@ -160,49 +115,25 @@
 	return YES;
 }
 
-- (IBAction) editSPressed: (id) sender
-{
-	self.selectedObjectForEdit=1;
-	TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
-	localViewController.managedObjectContext=managedObjectContext;
-	[localViewController setCallBackViewController:self];
-	localViewController.initialDateValue = strengthsText;
-	localViewController.titleLabel = @"Player Strengths";
-	localViewController.strlen=500;
-	[self.navigationController pushViewController:localViewController animated:YES];
-}
-
-- (IBAction) editWPressed: (id) sender
-{
-	self.selectedObjectForEdit=2;
-	TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
-	[localViewController setCallBackViewController:self];
-	localViewController.managedObjectContext=managedObjectContext;
-	localViewController.initialDateValue = weaknessText;
-	localViewController.titleLabel = @"Player Weaknesses";
-	localViewController.strlen=500;
-	[self.navigationController pushViewController:localViewController animated:YES];
-}
-
 - (IBAction) hudButtonPressed: (id) sender
 {
-	HudTrackerVC *localViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
-	localViewController.managedObjectContext=managedObjectContext;
-	localViewController.playerMo = self.managedObject;
-	[self.navigationController pushViewController:localViewController animated:YES];
+	if(managedObject) {
+		HudTrackerVC *localViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
+		localViewController.managedObjectContext=managedObjectContext;
+		localViewController.playerMo = self.managedObject;
+		[self.navigationController pushViewController:localViewController animated:YES];
+	}
 }
 
 - (IBAction) casinoButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=3;
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
+	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", casinoButton.titleLabel.text];
-	localViewController.titleLabel = @"Location";
-	localViewController.selectedList=0;
-	localViewController.selectionList = [CoreDataLib getFieldList:@"Location" mOC:managedObjectContext addAllTypesFlg:YES];
-	localViewController.allowEditing=NO;
+	localViewController.initialDateValue = casinoButton.titleLabel.text;
+	localViewController.readyOnlyFlg = YES;
+	localViewController.databaseField = @"location";
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
 
@@ -211,52 +142,37 @@
 	if(readOnlyFlg) {
 		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		readOnlyFlg=NO;
-		sEditButton.alpha=1;
-		wEditButton.alpha=1;
-		casinoButton.enabled=YES;
-		nameField.enabled=YES;
-		passAgrSeg.enabled=YES;
-		looseTightSeg.enabled=YES;
-		overallPlaySeg.enabled=YES;
-		tightlooseSlider.enabled=YES;
-		passagrSlider.enabled=YES;
-		deleteButton.alpha=1;
+		[self updateButtonsEnabled:!readOnlyFlg];
 		return;
 	}
 	if([casinoButton.titleLabel.text isEqualToString:@"Select"]) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Select Primary Casino"];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Select Primary Casino"];
 		return;
 	}
+	if(nameField.text.length==0) {
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Enter a first name."];
+		return;
+	}
+	
+	if (self.playerTrackerObj.user_id==0)
+		[self generateUserId];
 
 	NSMutableArray *valueList = [[NSMutableArray alloc] init];
 	[valueList addObject:@"PLAYER"];
 	[valueList addObject:[NSString stringWithFormat:@"%@", nameField.text]];
-	
-	int tightlooseSliderVal=100*tightlooseSlider.value;
-	if(tightlooseSliderVal>99)
-		tightlooseSliderVal=99;
-	int passagrSliderVal=100*passagrSlider.value;
-	if(passagrSliderVal>99)
-		passagrSliderVal=99;
-	
-	int playerType=(tightlooseSliderVal*100) + passagrSliderVal;
-	int player_id=0;
-	if(managedObject)
-		player_id = [[managedObject valueForKey:@"player_id"] intValue];
-	
-	[valueList addObject:[NSString stringWithFormat:@"%d", playerType]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", 0]]; // playerType
 	[valueList addObject:[NSString stringWithFormat:@"%d", (int)overallPlaySeg.selectedSegmentIndex]];
-	[valueList addObject:[NSString stringWithFormat:@"%@", self.strengthsText]];
-	[valueList addObject:[NSString stringWithFormat:@"%@", self.weaknessText]];
+	[valueList addObject:[NSString stringWithFormat:@"%@", self.playerTrackerObj.strengths]];
+	[valueList addObject:[NSString stringWithFormat:@"%@", self.playerTrackerObj.weaknesses]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", casinoButton.titleLabel.text]];
-	[valueList addObject:[NSString stringWithFormat:@"%d", user_id]];
-	[valueList addObject:[NSString stringWithFormat:@"%d", player_id]];
-	[valueList addObject:[NSString stringWithFormat:@"%d", tightlooseSliderVal]];
-	[valueList addObject:[NSString stringWithFormat:@"%d", passagrSliderVal]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.user_id]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.player_id]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.looseNum]];
+	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.agressiveNum]];
 
-	if(managedObject == nil)
+	if(managedObject == nil) {
 		[CoreDataLib insertManagedObjectForEntity:@"EXTRA" valueList:valueList mOC:managedObjectContext];
-	else
+	} else
 		[CoreDataLib updateManagedObjectForEntity:managedObject entityName:@"EXTRA" valueList:valueList mOC:managedObjectContext];
 
 	[(PlayerTrackerVC *)callBackViewController reloadData];
@@ -270,81 +186,165 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self updateDisplay];
+	
+	if(managedObject) {
+		// check for HUD change!
+		NSString *hudString = [managedObject valueForKey:@"desc"];
+		if(![hudString isEqualToString:self.playerTrackerObj.hudString]) {
+			NSLog(@"Hud update!!");
+			self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
+		}
+	}
+	if(self.playerTrackerObj)
+		[self updateDisplay];
 }
 
 -(void)updateDisplay {
-	if(managedObject) {
-		PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
-		self.hudStyleLabel.text = obj.hudPlayerType;
-		
-		nameField.text = obj.name;
-		self.strengthsText = obj.strengths;
-		self.weaknessText = obj.weaknesses;
-		
-		[casinoButton setTitle:[NSString stringWithFormat:@"%@", [managedObject valueForKey:@"status"]] forState:UIControlStateNormal];
-		
-		passagrSlider.value=(float)obj.agressiveNum/100;
-		tightlooseSlider.value=(float)obj.looseNum/100;
-		[self changeTypeLabel];
-		
-		playerPic.image = obj.pic;
-		picLabel.alpha=0;
-		
-		overallPlaySeg.selectedSegmentIndex=obj.playerSkill;
-		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
-		saveButton.enabled=YES;
-		sEditButton.alpha=0;
-		wEditButton.alpha=0;
-		casinoButton.enabled=NO;
-		nameField.enabled=NO;
-		passAgrSeg.enabled=NO;
-		looseTightSeg.enabled=NO;
-		overallPlaySeg.enabled=NO;
-		tightlooseSlider.enabled=NO;
-		passagrSlider.enabled=NO;
-		readOnlyFlg=YES;
-		NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];
-		skillLabel.text = [skills stringAtIndex:(int)overallPlaySeg.selectedSegmentIndex];
+	PlayerTrackerObj *obj = self.playerTrackerObj;
+	self.hudStyleLabel.text = obj.hudPlayerType;
+	if(obj.hudFlag) {
+		self.hudPlayerTypeImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", self.playerTrackerObj.hudPicId]];
 	}
+	self.hudPlayerTypeImageView.hidden=!obj.hudFlag;
+	
+	nameField.text = obj.name;
+
+	if(self.playerTrackerObj.location)
+		[casinoButton setTitle:[NSString stringWithFormat:@"%@", self.playerTrackerObj.location] forState:UIControlStateNormal];
+	
+	[self updateSLider:self.bar1 bgImage:self.bgImage1 number:obj.looseNum];
+	[self updateSLider:self.bar2 bgImage:self.bgImage2 number:obj.agressiveNum];
+	
+	playerPic.image = obj.pic;
+	self.typeLabel.text = obj.playerType;
+	
+	overallPlaySeg.selectedSegmentIndex=obj.playerSkill;
+	[self updatePlayerTypeImage];
+	
+	[self.mainTableView reloadData];
 }
 
+-(void)updatePlayerTypeImage {
+	self.playerTypeImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", self.playerTrackerObj.picId]];
+}
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+-(void)updateSLider:(UIView *)bar bgImage:(UIImageView *)bgImage number:(int)number {
+	bar.center = CGPointMake(bgImage.frame.origin.x+bgImage.frame.size.width*number/100, bgImage.center.y);
+	
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player"];
 	
 	deleteButton.alpha=0;
 	
-	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
+	[ProjectFunctions makeFAButton:deleteButton type:0 size:24];
 
 	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
-	saveButton.enabled=NO;
+	if(managedObject)
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
 	
 	[casinoButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
 	if([casino isEqualToString:@"All Locations"])
 		casino = @"Select";
 	[casinoButton setTitle:casino forState:UIControlStateNormal];
+	
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:16 text:@"HUD Tracker"];
+
+	if(managedObject) {
+		self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
+		if(self.playerTrackerObj.user_id==0)
+			[self generateUserId];
+		readOnlyFlg=YES;
+	} else {
+		self.playerTrackerObj = [[PlayerTrackerObj alloc] init];
+		self.playerTrackerObj.strengths=@"";
+		self.playerTrackerObj.weaknesses=@"";
+		self.playerTrackerObj.playerSkill = 1; //average
+		self.playerTrackerObj.picId = 3;
+		deleteButton.alpha=0;
+		readOnlyFlg=NO;
+	}
+	[self updateButtonsEnabled:!readOnlyFlg];
 }
 
--(void) setReturningValue:(NSString *) value2 {
+-(void)updateButtonsEnabled:(BOOL)enabledFlg {
+	self.minusButton1.enabled=enabledFlg;
+	self.minusButton2.enabled=enabledFlg;
+	self.plusButton1.enabled=enabledFlg;
+	self.plusButton2.enabled=enabledFlg;
+	casinoButton.enabled=enabledFlg;
+	nameField.enabled=enabledFlg;
+	passAgrSeg.enabled=enabledFlg;
+	looseTightSeg.enabled=enabledFlg;
+	overallPlaySeg.enabled=enabledFlg;
+	if(managedObject)
+		deleteButton.alpha=enabledFlg;
+	picLabel.hidden=!enabledFlg;
+}
+
+-(void)generateUserId {
+	//------------update this stuff for some reason------------------
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@", @"PLAYER"];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:@"user_id" mOC:managedObjectContext ascendingFlg:NO];
+	self.playerTrackerObj.user_id = 1;
+	if([items count]>0) {
+		NSManagedObject *mo2 = [items objectAtIndex:0];
+		self.playerTrackerObj.user_id = [[mo2 valueForKey:@"user_id"] intValue];
+		self.playerTrackerObj.user_id++;
+	}
+	if(self.playerTrackerObj.player_id==0) {
+		self.playerTrackerObj.player_id = [ProjectFunctions generateUniqueId];
+	}
 	
-	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
+	NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND user_id = %d", @"PLAYER", self.playerTrackerObj.user_id];
+	NSArray *items2 = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate2 sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+	if([items2 count]>1) {
+		self.playerTrackerObj.player_id = [ProjectFunctions generateUniqueId];
+	}
+	NSLog(@"generateUserId: user_id: %d, player_id: %d", self.playerTrackerObj.user_id, self.playerTrackerObj.player_id);
+	if (managedObject) {
+		[managedObject setValue:[NSNumber numberWithInt:self.playerTrackerObj.user_id] forKey:@"user_id"];
+		[managedObject setValue:[NSNumber numberWithInt:self.playerTrackerObj.player_id] forKey:@"player_id"];
+		[managedObjectContext save:nil];
+	}
+}
+
+- (IBAction) plusMinusButtonPressed: (UIButton *) button {
+	if(button.tag==0)
+		self.playerTrackerObj.looseNum -= 10;
+	if(button.tag==1)
+		self.playerTrackerObj.looseNum += 10;
+	if(button.tag==2)
+		self.playerTrackerObj.agressiveNum -= 10;
+	if(button.tag==3)
+		self.playerTrackerObj.agressiveNum += 10;
+	
+	self.playerTrackerObj.looseNum = [self limitNumber:self.playerTrackerObj.looseNum];
+	self.playerTrackerObj.agressiveNum = [self limitNumber:self.playerTrackerObj.agressiveNum];
+	[self updateSLider:self.bar1 bgImage:self.bgImage1 number:self.playerTrackerObj.looseNum];
+	[self updateSLider:self.bar2 bgImage:self.bgImage2 number:self.playerTrackerObj.agressiveNum];
+	self.playerTrackerObj.playerType = [NSString stringWithFormat:@"%@-%@", (self.playerTrackerObj.looseNum<=50)?@"Loose":@"Tight", (self.playerTrackerObj.agressiveNum<=50)?@"Passive":@"Aggressive"];
+	self.typeLabel.text = self.playerTrackerObj.playerType;
+}
+
+-(int)limitNumber:(int)number {
+	if (number>100)
+		return 100;
+	if(number<0)
+		return 0;
+	return number;
+}
+
+-(void) setReturningValue:(NSString *) value {
 	if(selectedObjectForEdit==1)
-		self.strengthsText=value2;
+		self.playerTrackerObj.strengths = value;// self.strengthsText=value2;
 	if(selectedObjectForEdit==2)
-		self.weaknessText=value2;
+		self.playerTrackerObj.weaknesses = value;// self.weaknessText=value2;
 	if(selectedObjectForEdit==3)
-		[casinoButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];
-	
-	saveButton.enabled=YES;
-	if([nameField.text length]==0)
-		saveButton.enabled=NO;
-	[self.mainTableView reloadData];
-	
+		self.playerTrackerObj.location = value;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -354,13 +354,17 @@
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:1 labelProportion:0.0];
 	}
+
 	cell.mainTitle = (indexPath.row==0)?@"Strengths":@"Weaknesses";
 	
+	if(self.playerTrackerObj) {
 		cell.titleTextArray = [NSArray arrayWithObject:@""];
-	cell.fieldTextArray = [NSArray arrayWithObject:(indexPath.row==0)?self.strengthsText:self.weaknessText];
-	cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
+		cell.fieldTextArray = [NSArray arrayWithObject:(indexPath.row==0)?self.playerTrackerObj.strengths:self.playerTrackerObj.weaknesses];
+		cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
+	}
 	cell.accessoryType= UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
 	return cell;
 }
 
@@ -378,7 +382,7 @@
 		TextEnterVC *localViewController = [[TextEnterVC alloc] initWithNibName:@"TextEnterVC" bundle:nil];
 		localViewController.managedObjectContext=managedObjectContext;
 		[localViewController setCallBackViewController:self];
-		localViewController.initialDateValue = (indexPath.row==0)?self.strengthsText:self.weaknessText;
+		localViewController.initialDateValue = (indexPath.row==0)?self.playerTrackerObj.strengths:self.playerTrackerObj.weaknesses;
 		localViewController.titleLabel = (indexPath.row==0)?@"Player Strengths":@"Player Weaknesses";
 		localViewController.strlen=500;
 		[self.navigationController pushViewController:localViewController animated:YES];
@@ -396,7 +400,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [MultiLineDetailCellWordWrap cellHeightForData:[NSArray arrayWithObject:(indexPath.row==0)?self.strengthsText:self.weaknessText] tableView:self.mainTableView labelWidthProportion:0];
+	if (self.playerTrackerObj)
+		return [MultiLineDetailCellWordWrap cellHeightForData:[NSArray arrayWithObject:(indexPath.row==0)?self.playerTrackerObj.strengths:self.playerTrackerObj.weaknesses] tableView:self.mainTableView labelWidthProportion:0];
+	else
+		return 44;
 }
 
 

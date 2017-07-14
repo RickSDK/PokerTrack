@@ -48,6 +48,10 @@
 	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
 	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 	[self updateDisplay];
+	
+	if (self.playerMo) {
+		self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
+	}
 
 }
 
@@ -195,6 +199,8 @@
 		af.image = [self playerImageForNumber:skill3];
 
 		obj.skillImageView.image = [self playerImageForNumber:(skill1+skill3)/2];
+		float finalNumber = [self trimSkill:(skill1+skill3)/2];
+		player.picId = (int)floor(finalNumber);
 
 		NSString *style1 = (skill1>=3)?@"Tight":@"Loose";
 		NSString *style2 = (skill2+skill3>=6)?@"Aggressive":@"Passive";
@@ -288,7 +294,7 @@
 }
 
 -(NSString *)packageDataForObj:(PlayerObj *)obj {
-	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d:%@", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.vpip, obj.pfr, obj.af, obj.playerStyleStr];
+	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d:%@:%d", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.vpip, obj.pfr, obj.af, obj.playerStyleStr, obj.picId];
 }
 
 -(void)loadDataIntoPlayer:(PlayerObj *)obj heroFlag:(BOOL)heroFlag {

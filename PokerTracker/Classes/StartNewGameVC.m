@@ -42,7 +42,7 @@
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(popupButtonClicked)];
 
 	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
-	self.bankrollLabel.text = NSLocalizedString(@"Bankroll", nil);
+	self.bankrollLabel.text = NSLocalizedString(@"bankroll", nil);
 	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
 	[ProjectFunctions makeFALabel:self.locationLabel type:13 size:22];
 	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
@@ -59,7 +59,6 @@
 	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] field:@"tournamentType"];
 	
 	gameNameSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:0 currentValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] startGameScreen:YES];
-	//	blindTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:1 currentValue:[ProjectFunctions getUserDefaultValue:@"blindDefault"] startGameScreen:YES];
 	limitTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:2 currentValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] startGameScreen:YES];
 	TourneyTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:3 currentValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] startGameScreen:YES];
 	

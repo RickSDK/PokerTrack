@@ -195,7 +195,7 @@
 {
 	self.selectedObjectForEdit=4;
     self.popupViewNumber=99;
-    [ProjectFunctions showTwoButtonPopupWithTitle:NSLocalizedString(@"Re-buy Amount", nil) message:@"Select Rebuy Type" button1:@"Add-on" button2:@"Re-buy" delegate:self];
+    [ProjectFunctions showTwoButtonPopupWithTitle:NSLocalizedString(@"rebuyAmount", nil) message:@"Select Rebuy Type" button1:@"Add-on" button2:@"Re-buy" delegate:self];
     
 }
 
@@ -420,7 +420,7 @@
             MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
             detailViewController.managedObjectContext=managedObjectContext;
             [detailViewController setCallBackViewController:self];
-            detailViewController.titleLabel = NSLocalizedString(@"Re-buy Amount", nil);
+            detailViewController.titleLabel = NSLocalizedString(@"rebuyAmount", nil);
             detailViewController.initialDateValue = intitialAmount;
             [self.navigationController pushViewController:detailViewController animated:YES];
         } else {

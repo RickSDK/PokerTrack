@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UpgradeVC">
             <connections>
                 <outlet property="messageTextView" destination="kgU-8U-s00" id="uP1-TR-uNQ"/>
+                <outlet property="priceLabel" destination="jTd-gA-mpC" id="Ufd-xj-uw0"/>
                 <outlet property="promoCodeField" destination="KRM-Dh-pxz" id="28Z-xJ-EYE"/>
                 <outlet property="promoCodeView" destination="WWS-vF-N2Z" id="EyS-dC-jIZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -45,7 +46,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$12.99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="jTd-gA-mpC">
-                            <rect key="frame" x="234" y="406" width="63" height="59"/>
+                            <rect key="frame" x="227" y="406" width="93" height="59"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

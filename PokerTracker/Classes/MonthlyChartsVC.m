@@ -356,8 +356,20 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	NSArray *titles = [NSArray arrayWithObjects:@"Profits by Year", @"Profits by Month", @"Profits by Day", @"Profits by Time of Day", @"Hourly Breakdown", nil];
-	NSArray *titlesHourly = [NSArray arrayWithObjects:@"Hourly Profits by Year", @"Hourly Profits by Month", @"Hourly Profits by Day", @"Hourly Profits by Time of Day", @"Hourly Breakdown", nil];
+	NSArray *titles = [NSArray arrayWithObjects:
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"year", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"day", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"daytime", nil), NSLocalizedString(@"Profit", nil)],
+					   @"Hourly Breakdown",
+					   nil];
+	NSArray *titlesHourly = [NSArray arrayWithObjects:
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"year", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"day", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"daytime", nil), NSLocalizedString(@"Profit", nil)],
+							 @"Hourly Breakdown",
+							 nil];
 	if(moneySegment.selectedSegmentIndex==0)
 		return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 	else 

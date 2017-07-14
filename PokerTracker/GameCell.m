@@ -52,9 +52,9 @@
 		[self.contentView addSubview:self.dateLabel];
 		
 		self.hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 22, 50, 22)];
-		self.hoursLabel.font = [UIFont systemFontOfSize:14];
+		self.hoursLabel.font = [UIFont systemFontOfSize:10];
 		self.hoursLabel.adjustsFontSizeToFitWidth = YES;
-		self.hoursLabel.minimumScaleFactor = .8;
+		self.hoursLabel.minimumScaleFactor = .7;
 		self.hoursLabel.text = @"hours";
 		self.hoursLabel.textAlignment = NSTextAlignmentLeft;
 		self.hoursLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.5 alpha:1];
@@ -123,7 +123,7 @@
 	nameLabel.frame = CGRectMake(40, 0, width-150, 22);
 	locationLabel.frame = CGRectMake(width-110, 0, 100, 22);
 	dateLabel.frame = CGRectMake(40, 22, width*0.4, 22);
-	hoursLabel.frame = CGRectMake(10+width/2, 22, 50, 22);
+	hoursLabel.frame = CGRectMake(10+width/2, 22, 60, 22);
 	profitLabel.frame = CGRectMake(width-95, 20, 85, 22);
 }
 
@@ -133,9 +133,16 @@
 		faSymbol = [NSString stringWithFormat:@"%@ %@", faSymbol, [NSString fontAwesomeIconStringForEnum:FAuserSecret]];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
 	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ hrs)", gameObj.hours];
+	NSString *hours = NSLocalizedString(@"Hours", nil);
+	if([hours isEqualToString:@"Hours"])
+		hours = @"Hrs";
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ %@)", gameObj.hours, hours];
+	NSString *profitStr = [ProjectFunctions convertIntToMoneyString:gameObj.profit];
+	if(profitStr.length>8 && hours.length>3)
+		hours = [hours substringToIndex:1];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ %@)", gameObj.hours, hours];
 	cell.locationLabel.text = gameObj.location;
-	cell.profitLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:gameObj.profit]];
+	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
 	
 	if(gameObj.profit>=0) {
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green

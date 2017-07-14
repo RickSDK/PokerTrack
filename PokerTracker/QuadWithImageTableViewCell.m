@@ -7,6 +7,7 @@
 //
 
 #import "QuadWithImageTableViewCell.h"
+#import "ProjectFunctions.h"
 
 #define kTopSplit		0.6
 #define kBottomSplit	0.5
@@ -122,8 +123,6 @@ static NSInteger FONT_SIZE			= 12;
 		bb = [[UILabel alloc] initWithFrame:CGRectZero];
 		dd = [[UILabel alloc] initWithFrame:CGRectZero];
         
-//        leftImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Icon.png"]];
-  //      leftImage.center = CGPointMake(0, 0);
         leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 44)];
         leftImage.image = [UIImage imageNamed:@"Icon.png"];
 		
@@ -158,7 +157,7 @@ static NSInteger FONT_SIZE			= 12;
 					 cc: (UILabel *) cc dd: (UILabel *) dd {
 	
 	// Initialize the labels, their fonts, colors, alignment, and background color.
-	aa.font = [UIFont boldSystemFontOfSize:(FONT_SIZE)];
+	aa.font = [UIFont fontWithName:kFontAwesomeFamilyName size:17];
 	aa.backgroundColor = [UIColor clearColor];
 	
 	cc.font = [UIFont systemFontOfSize:FONT_SIZE];
@@ -182,7 +181,7 @@ static NSInteger FONT_SIZE			= 12;
 						   cc:(UILabel *) cc dd: (UILabel *) dd {
 	
 	// Initialize the labels, their fonts, colors, alignment, and background color.
-	aa.font = [UIFont boldSystemFontOfSize:(FONT_SIZE + 2)];
+	aa.font = [UIFont fontWithName:kFontAwesomeFamilyName size:17];
 	aa.textColor = [UIColor whiteColor];
 	aa.backgroundColor = [UIColor clearColor];
 	
@@ -261,7 +260,7 @@ static NSInteger FONT_SIZE			= 12;
 	leftSection = trunc(baseRect.size.width * bottomSplit) + 5;
 	rect = baseRect;
 	rect.origin.x += 40;
-	rect.origin.y += 10;		// seperation between top and bottom line
+	rect.origin.y += 12;		// seperation between top and bottom line
 	rect.size.width = leftSection - 5;
 	bb.frame = rect;
 	rect.origin.x += leftSection-40;

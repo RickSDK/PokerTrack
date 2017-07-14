@@ -246,17 +246,6 @@
 	
 	[self findCity];
 
-	/*
-	if(![ProjectFunctions getUserDefaultValue:@"userName"]) {
-		[ProjectFunctions showAlertPopup:@"Notice" :@"You must create a username before using this feature. Click the 'Login' button at the top of this screen to get started."];
-		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
-		self.navigationItem.rightBarButtonItem = moreButton;
-		[moreButton release];
-		casinoName.enabled=NO;
-		casinoType.enabled=NO;
-		
-	}
-	 */
 
 	activityBGView.alpha=0;
 	activityLabel.alpha=0;

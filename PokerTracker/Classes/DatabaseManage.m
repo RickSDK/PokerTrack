@@ -657,7 +657,7 @@
 				if([gameType length]>0) {
 					
 					NSArray *components = [line componentsSeparatedByString:@"\t"];
-					if([[components stringAtIndex:0] isEqualToString:NSLocalizedString(@"StartTime", nil)]) {
+					if([[components stringAtIndex:0] isEqualToString:NSLocalizedString(@"startTime", nil)]) {
 //					[self savePJcollumns:components:gameType];
 					}
 					if([components count]>10) {
@@ -1313,15 +1313,18 @@
 				[ProjectFunctions showAlertPopup:@"Error!" message:@"No data found on this device!"];
 				return;
 			}
-			NSManagedObject *mo = [games objectAtIndex:0];
-			int cashoutAmount = [[mo valueForKey:@"cashoutAmount"] intValue];
-			NSString *startTime = [[mo valueForKey:@"startTime"] convertDateToStringWithFormat:@"MM/dd/yyyy"];
-			if([ProjectFunctions getProductionMode] && cashoutAmount != 999) {
-				[ProjectFunctions showAlertPopup:@"Warning" message:[NSString stringWithFormat:@"As a safeguard, you must set the Cashout Amount of your earliest game (%@ currently: $%d) to 999 in order to delete the database.", startTime, cashoutAmount]];
-				return;
+			if (games.count>100) {
+				NSManagedObject *mo = [games objectAtIndex:0];
+				int cashoutAmount = [[mo valueForKey:@"cashoutAmount"] intValue];
+				NSString *startTime = [ProjectFunctions displayLocalFormatDate:[mo valueForKey:@"startTime"] showDay:YES showTime:NO];
+				NSString *message = NSLocalizedString(@"deleteSafeguard", nil);
+				if([ProjectFunctions getProductionMode] && cashoutAmount != 999) {
+					[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:[NSString stringWithFormat:@"%@ (%@ currently: %@)", message, startTime, [ProjectFunctions convertNumberToMoneyString:cashoutAmount]]];
+					return;
+				}
 			}
 			
-			[ProjectFunctions showConfirmationPopup:@"Warning!" message:@"This will permanently delete all data on this device! Do you wish to continue?" delegate:self tag:kDeleteAllData];
+			[ProjectFunctions showConfirmationPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"deleteMessage", nil) delegate:self tag:kDeleteAllData];
 			return;
 		}
 

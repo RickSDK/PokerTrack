@@ -52,6 +52,8 @@
 @property (atomic) int displayYear;
 @property (atomic) BOOL coreDataLocked;
 @property (atomic, strong) UILabel *yearLabel;
+@property (atomic, strong) IBOutlet UILabel *profitGoalLabel;
+@property (atomic, strong) IBOutlet UILabel *hourlyGoalLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;

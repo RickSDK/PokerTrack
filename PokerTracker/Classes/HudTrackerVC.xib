@@ -53,6 +53,7 @@
                 <outlet property="trashbutton1" destination="QPK-wP-cIZ" id="PYl-EL-dpE"/>
                 <outlet property="trashbutton2" destination="RGz-RT-1aV" id="rez-Ws-ds7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="villianActionLabel" destination="RnY-Rk-0X6" id="b7C-Os-pQq"/>
                 <outlet property="vpipBGImageView" destination="Ohb-5u-S0W" id="tAm-BB-OlS"/>
                 <outlet property="vpipBarView1" destination="Zje-Zo-UDG" id="1Hi-0V-NLa"/>
                 <outlet property="vpipBarView2" destination="6eT-2H-4iv" id="faj-cP-O1Z"/>
@@ -673,7 +674,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="360" y="282"/>

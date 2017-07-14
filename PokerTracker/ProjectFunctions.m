@@ -312,13 +312,13 @@
 	if([formDataArray count]==2)
 		return predicateString;
 
-	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:2] allValue:@"All Games" field:@"gametype" typeValue:@"Game" mOC:mOC buttonNum:buttonNum]];
-	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:3] allValue:@"All Limits" field:@"limit" typeValue:@"Limit" mOC:mOC buttonNum:buttonNum]];
-	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:4] allValue:@"All Stakes" field:@"stakes" typeValue:@"Stakes" mOC:mOC buttonNum:buttonNum]];
-	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:5] allValue:@"All Locations" field:@"location" typeValue:@"Location" mOC:mOC buttonNum:buttonNum]];
-	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:6] allValue:@"All Bankrolls" field:@"bankroll" typeValue:@"Bankroll" mOC:mOC buttonNum:buttonNum]];
+	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:2] allValue:NSLocalizedString(@"All", nil) field:@"gametype" typeValue:@"Game" mOC:mOC buttonNum:buttonNum]];
+	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:3] allValue:NSLocalizedString(@"All", nil) field:@"limit" typeValue:@"Limit" mOC:mOC buttonNum:buttonNum]];
+	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:4] allValue:NSLocalizedString(@"All", nil) field:@"stakes" typeValue:@"Stakes" mOC:mOC buttonNum:buttonNum]];
+	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:5] allValue:NSLocalizedString(@"All", nil) field:@"location" typeValue:@"Location" mOC:mOC buttonNum:buttonNum]];
+	[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:6] allValue:NSLocalizedString(@"All", nil) field:@"bankroll" typeValue:@"Bankroll" mOC:mOC buttonNum:buttonNum]];
 	if([formDataArray count]>7)
-		[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:7] allValue:@"All Types" field:@"tournamentType" typeValue:@"Tournament Type" mOC:mOC buttonNum:buttonNum]];
+		[predicateString appendString:[ProjectFunctions predicateExt:[formDataArray stringAtIndex:7] allValue:NSLocalizedString(@"All", nil) field:@"tournamentType" typeValue:@"Tournament Type" mOC:mOC buttonNum:buttonNum]];
 	
 	
 	if(kLOG)
@@ -3889,9 +3889,9 @@
 	[ProjectFunctions makeSegment:segment color:color];
 	int i=0;
 	if (segment.numberOfSegments==3 ) {
-		[segment setTitle:NSLocalizedString(@"All", nil) forSegmentAtIndex:i++];
+		[segment setTitle:[NSString stringWithFormat:@"%@ + %@", [NSString fontAwesomeIconStringForEnum:FAMoney], [NSString fontAwesomeIconStringForEnum:FATrophy]] forSegmentAtIndex:i++];
 	}
-	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:16.f];
+	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
 	NSMutableDictionary *attribsNormal;
 	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
 	
@@ -3903,9 +3903,6 @@
 
 	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:i++];
 	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:i++];
-
-//	[segment setTitle:NSLocalizedString(@"Cash", nil) forSegmentAtIndex:i++];
-//	[segment setTitle:NSLocalizedString(@"Tournaments", nil) forSegmentAtIndex:i++];
 }
 
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {

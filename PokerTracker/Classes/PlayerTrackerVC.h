@@ -27,6 +27,7 @@
 }
 
 - (IBAction) locationButtonPressed: (id) sender;
+- (IBAction) localButtonPressed: (id) sender;
 - (IBAction) allButtonPressed: (id) sender;
 -(void)reloadData;
 

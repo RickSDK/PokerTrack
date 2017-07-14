@@ -77,6 +77,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *raiseButton2;
 
 @property (nonatomic, strong) IBOutlet UILabel *editModeLabel2;
+@property (nonatomic, strong) IBOutlet UILabel *villianActionLabel;
 
 @property (nonatomic, strong) PlayerObj *heroObj;
 @property (nonatomic, strong) PlayerObj *villianObj;

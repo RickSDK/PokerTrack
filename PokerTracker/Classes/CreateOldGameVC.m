@@ -257,7 +257,7 @@
 	
 	self.hoursLabel.text = NSLocalizedString(@"Hours", nil);
 	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
-	self.cashoutLabel.text = NSLocalizedString(@"Cashout", nil);
+	self.cashoutLabel.text = NSLocalizedString(@"cashoutAmount", nil);
 
     
     buyinMoneyLabel.text = [ProjectFunctions getMoneySymbol];

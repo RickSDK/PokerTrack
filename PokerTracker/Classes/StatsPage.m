@@ -35,7 +35,7 @@
 #import "Last10NewVC.h"
 #import "Top5VC.h"
 
-#define kLeftLabelRation	0.4
+#define kLeftLabelRation	0.5
 #define kfilterButton	7
 #define kfiltername		8
 #define kSaveFilter		8
@@ -77,7 +77,16 @@
 														 @"ROI",
 														 nil]];
 	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"risked", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", @"ROI", nil]];
-	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:NSLocalizedString(@"LifeTime", nil), @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
+	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+														   NSLocalizedString(@"LifeTime", nil),
+														   NSLocalizedString(@"All", nil), //@"All GameTypes",
+														   NSLocalizedString(@"All", nil), // games
+														   NSLocalizedString(@"All", nil), //@"All Limits",
+														   NSLocalizedString(@"All", nil), //@"All Stakes",
+														   NSLocalizedString(@"All", nil), //@"All Locations",
+														   NSLocalizedString(@"All", nil), //@"All Bankrolls",
+														   NSLocalizedString(@"All", nil), //@"All Types",
+														   nil]];
 	profitArray = [[NSMutableArray alloc] init];
 	chartImageView = [[UIImageView alloc] init];
 	
@@ -389,7 +398,13 @@
 	
 	
 	[profitArray removeAllObjects];
-	NSArray *titleArray = [NSArray arrayWithObjects:@"Quarter 1", @"Quarter 2", @"Quarter 3", @"Quarter 4", @"Totals",nil]; 
+	NSArray *titleArray = [NSArray arrayWithObjects:
+						   [NSString stringWithFormat:@"%@ 1", NSLocalizedString(@"Quarter", nil)],
+						   [NSString stringWithFormat:@"%@ 2", NSLocalizedString(@"Quarter", nil)],
+						   [NSString stringWithFormat:@"%@ 3", NSLocalizedString(@"Quarter", nil)],
+						   [NSString stringWithFormat:@"%@ 4", NSLocalizedString(@"Quarter", nil)],
+						   NSLocalizedString(@"Total", nil),
+						   nil];
 	double totalMoney=0;
 		int totalGames=0;
 		int totalRisked=0;
@@ -459,12 +474,12 @@
 {
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
 	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex]];
-	[formDataArray replaceObjectAtIndex:2 withObject:@"All Games"];
-	[formDataArray replaceObjectAtIndex:3 withObject:@"All Limits"];
-	[formDataArray replaceObjectAtIndex:4 withObject:@"All Stakes"];
-	[formDataArray replaceObjectAtIndex:5 withObject:@"All Locations"];
-	[formDataArray replaceObjectAtIndex:6 withObject:@"All Bankrolls"];
-	[formDataArray replaceObjectAtIndex:7 withObject:@"All Types"];
+	[formDataArray replaceObjectAtIndex:2 withObject:NSLocalizedString(@"All", nil)]; // games
+	[formDataArray replaceObjectAtIndex:3 withObject:NSLocalizedString(@"All", nil)]; //,@"All Limits"
+	[formDataArray replaceObjectAtIndex:4 withObject:NSLocalizedString(@"All", nil)]; //@"All Stakes"
+	[formDataArray replaceObjectAtIndex:5 withObject:NSLocalizedString(@"All", nil)]; //@"All Locations"
+	[formDataArray replaceObjectAtIndex:6 withObject:NSLocalizedString(@"All", nil)]; //@"All Bankrolls"
+	[formDataArray replaceObjectAtIndex:7 withObject:NSLocalizedString(@"All", nil)]; //@"All Types"
 }
 
 -(void)filtersButtonClicked:(id)sender {
@@ -498,20 +513,17 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.section==1) {
-		int height = [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:statsArray
-																		 tableView:tableView
-															  labelWidthProportion:kLeftLabelRation]+20;
-		return height;
-	} 
 	if(indexPath.section==0)
 		return [ProjectFunctions chartHeightForSize:170];
-	
+	if(indexPath.section==1) {
+		return [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:statsArray
+																		 tableView:tableView
+															  labelWidthProportion:kLeftLabelRation]+20;
+	}
 	if(indexPath.section==2)
 		return [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:profitArray
 																   tableView:tableView
-														labelWidthProportion:kLeftLabelRation]+20;
-	
+														labelWidthProportion:0.4]+20;
 	return 8*18+25;
 }
 
@@ -521,7 +533,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	return CGFLOAT_MIN;
+	return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -547,7 +559,11 @@
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.5];
 	}
-	NSArray *titles = [NSArray arrayWithObjects:@"1", @"2", @"3", @"Games Won", @"Games Lost", @"All Games", nil];
+	NSArray *titles = [NSArray arrayWithObjects:@"1", @"2", @"3",
+					   NSLocalizedString(@"Games Won", nil),
+					   NSLocalizedString(@"Games Lost", nil),
+					   NSLocalizedString(@"All Games", nil),
+					   nil];
 	NSArray *labels = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil),
 					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)],
 					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Min", nil), NSLocalizedString(@"Profit", nil)],

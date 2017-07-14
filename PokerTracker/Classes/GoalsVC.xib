@@ -9,9 +9,11 @@
                 <outlet property="bankRollSegment" destination="37" id="40"/>
                 <outlet property="bankrollButton" destination="38" id="39"/>
                 <outlet property="hourlyButton" destination="12" id="23"/>
+                <outlet property="hourlyGoalLabel" destination="14" id="RTZ-dQ-XoC"/>
                 <outlet property="leftYear" destination="FKc-5D-xRV" id="iba-pL-M5I"/>
                 <outlet property="mainTableView" destination="4" id="7"/>
                 <outlet property="profitButton" destination="11" id="24"/>
+                <outlet property="profitGoalLabel" destination="13" id="eCD-FJ-rmX"/>
                 <outlet property="rightYear" destination="MtW-g4-3uU" id="Yfx-7H-lH1"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webServiceView" destination="wy2-Rx-S6R" id="1mg-vQ-I0C"/>
@@ -117,7 +119,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="12">
-                            <rect key="frame" x="228.0000000363998" y="23" width="72" height="37"/>
+                            <rect key="frame" x="198.0000000363998" y="23" width="102" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -136,8 +138,8 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hourly Goal" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="14">
-                            <rect key="frame" x="198" y="0.0" width="131" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hourly Goal" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="9" id="14">
+                            <rect key="frame" x="178" y="0.0" width="142" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>

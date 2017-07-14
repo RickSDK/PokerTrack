@@ -50,10 +50,45 @@
 
 - (void)viewDidLoad {
 	
-	displayLabelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Limit", nil), NSLocalizedString(@"Stakes", nil), NSLocalizedString(@"Location", nil), NSLocalizedString(@"Bankroll", nil), @"Tournament Type", nil]];
-	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"Timeframe", @"Game Type", @"Game", @"Limit", @"Stakes", @"Location", @"Bankroll", @"Tournament Type", nil]];
-	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:@"winnings", @"gameCount", @"streak", @"longestWinStreak", @"longestLoseStreak", @"hours", @"hourlyRate", nil]];
-	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:NSLocalizedString(@"LifeTime", nil), @"All GameTypes", @"All Games", @"All Limits", @"All Stakes", @"All Locations", @"All Bankrolls", @"All Types", nil]];
+	displayLabelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+																@"Timeframe",
+																@"Game Type",
+																NSLocalizedString(@"Game", nil),
+																NSLocalizedString(@"limit", nil),
+																NSLocalizedString(@"stakes", nil),
+																NSLocalizedString(@"location", nil),
+																NSLocalizedString(@"bankroll", nil),
+																@"Tournament Type",
+																nil]];
+	labelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+														 @"Timeframe",
+														 @"Game Type",
+														 @"Game",
+														 @"Limit",
+														 @"Stakes",
+														 @"Location",
+														 @"Bankroll",
+														 @"Tournament Type",
+														 nil]];
+	statsArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+														@"winnings",
+														@"gameCount",
+														@"streak",
+														@"longestWinStreak",
+														@"longestLoseStreak",
+														@"hours",
+														@"hourlyRate",
+														nil]];
+	formDataArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
+														   NSLocalizedString(@"LifeTime", nil),
+														   NSLocalizedString(@"All", nil), //@"All GameTypes",
+														   NSLocalizedString(@"All", nil),
+														   NSLocalizedString(@"All", nil), //@"All Limits",
+														   NSLocalizedString(@"All", nil), //@"All Stakes",
+														   NSLocalizedString(@"All", nil), //@"All Locations",
+														   NSLocalizedString(@"All", nil), //@"All Bankrolls",
+														   NSLocalizedString(@"All", nil), //@"All Types",
+														   nil]];
 	gamesList = [[NSMutableArray alloc] init];
 	
 	self.chartImageView = [[UIImageView alloc] init];
@@ -83,7 +118,6 @@
 	
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASearch] target:self action:@selector(mainMenuButtonClicked:)];
-//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"View" selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	self.chartImageView.alpha=0;
 	
@@ -115,7 +149,6 @@
 	self.filterObj=mo;
 	self.currentFilterLabel.text = [mo valueForKey:@"name"];
 	self.buttonNum=[[mo valueForKey:@"button"] intValue];
-	NSLog(@"+++self.buttonNum: %d", self.buttonNum);
 	yearLabel.text=[mo valueForKey:@"name"];
 	[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
 	[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
@@ -165,101 +198,14 @@
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
-    
     FilterListVC *detailViewController = [[FilterListVC alloc] initWithNibName:@"FilterListVC" bundle:nil];
     detailViewController.managedObjectContext = managedObjectContext;
     detailViewController.callBackViewController=self;
     [self.navigationController pushViewController:detailViewController animated:YES];
-   
-    
-//	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
-
-/*
-- (IBAction) yearSegmentPressed: (id) sender {
-	
-	[self computeStats];
-}
-
--(void)yearChanged:(UIButton *)barButton
-{
-	self.displayYear = [barButton.titleLabel.text intValue];
-    yearLabel.text = barButton.titleLabel.text;
-
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
-	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
-	if(customSegment.selectedSegmentIndex>0)
-		customSegment.selectedSegmentIndex = 0;
-	[self computeStats];
-}
-
-- (IBAction) yearGoesUp: (id) sender 
-{
-	[self yearChanged:rightYear];
-}
-- (IBAction) yearGoesDown: (id) sender
-{
-	[self yearChanged:leftYear];
-}
-
-
-- (IBAction) gameSegmentPressed: (id) sender {
-	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
-	[formDataArray replaceObjectAtIndex:1 withObject:gameType];
-	if(gameSegment.selectedSegmentIndex>0)
-		customSegment.selectedSegmentIndex = 0;
-	
-	yearLabel.text = [formDataArray objectAtIndex:0];
-
-	[self computeStats];
-}
-
-- (IBAction) customSegmentPressed: (id) sender {
-	if(customSegment.selectedSegmentIndex==4) {
-		customSegment.selectedSegmentIndex=0;
-		FilterListVC *detailViewController = [[FilterListVC alloc] initWithNibName:@"FilterListVC" bundle:nil];
-		detailViewController.managedObjectContext = managedObjectContext;
-		detailViewController.callBackViewController=self;
-		[self.navigationController pushViewController:detailViewController animated:YES];
-		return;
-	}
-	if(customSegment.selectedSegmentIndex>0) {
-		gameSegment.selectedSegmentIndex = 0;
-		[formDataArray replaceObjectAtIndex:0 withObject:@"LifeTime"];
-		[formDataArray replaceObjectAtIndex:1 withObject:@"All Games Types"];
-		NSString *button = [NSString stringWithFormat:@"%d", (int)customSegment.selectedSegmentIndex];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %@", button];
-		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
-		if([filters count]>0) {
-			NSManagedObject *mo = [filters objectAtIndex:0];
-			[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
-			[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
-			[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
-			[formDataArray replaceObjectAtIndex:3 withObject:[mo valueForKey:@"limit"]];
-			[formDataArray replaceObjectAtIndex:4 withObject:[mo valueForKey:@"stakes"]];
-			[formDataArray replaceObjectAtIndex:5 withObject:[mo valueForKey:@"location"]];
-			[formDataArray replaceObjectAtIndex:6 withObject:[mo valueForKey:@"bankroll"]];
-			[formDataArray replaceObjectAtIndex:7 withObject:[mo valueForKey:@"tournamentType"]];
-			yearLabel.text = [mo valueForKey:@"name"];
-		} else {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"No filter currently saved to that button"];
-			customSegment.selectedSegmentIndex=0;
-		}
-	} else {
-		[self initializeFormData];
-		yearLabel.text = [formDataArray objectAtIndex:0];
-	}
-	[self computeStats];
-	
-}
-
-*/
-
 
 -(void)doTheHardWord {
 	@autoreleasepool {
-	
 		[ProjectFunctions displayTimeFrameLabel:self.timeFramLabel mOC:self.managedObjectContext buttonNum:self.buttonNum timeFrame:[formDataArray objectAtIndex:0]];
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:(int)self.buttonNum];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
@@ -268,10 +214,10 @@
 		self.chartImageView.image = [ProjectFunctions plotStatsChart:managedObjectContext predicate:predicate displayBySession:displayBySession];
 		self.chartImageView.alpha=1;
 
-    NSString *stats2 = [CoreDataLib getGameStat:managedObjectContext dataField:@"stats2" predicate:predicate];
-    [statsArray removeAllObjects];
-    [statsArray addObjectsFromArray:[stats2 componentsSeparatedByString:@"|"]];
-
+		NSString *stats2 = [CoreDataLib getGameStat:managedObjectContext dataField:@"stats2" predicate:predicate];
+		[statsArray removeAllObjects];
+		[statsArray addObjectsFromArray:[stats2 componentsSeparatedByString:@"|"]];
+		
 		activityBGView.alpha=0;
 		[activityIndicator stopAnimating];
 		viewLocked=NO;
@@ -299,12 +245,12 @@
 {
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
 	[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex]];
-	[formDataArray replaceObjectAtIndex:2 withObject:@"All Games"];
-	[formDataArray replaceObjectAtIndex:3 withObject:@"All Limits"];
-	[formDataArray replaceObjectAtIndex:4 withObject:@"All Stakes"];
-	[formDataArray replaceObjectAtIndex:5 withObject:@"All Locations"];
-	[formDataArray replaceObjectAtIndex:6 withObject:@"All Bankrolls"];
-	[formDataArray replaceObjectAtIndex:7 withObject:@"All Types"];
+	[formDataArray replaceObjectAtIndex:2 withObject:NSLocalizedString(@"All", nil)]; //games
+	[formDataArray replaceObjectAtIndex:3 withObject:NSLocalizedString(@"All", nil)]; //@"All Limits"
+	[formDataArray replaceObjectAtIndex:4 withObject:NSLocalizedString(@"All", nil)]; //@"All Stakes"
+	[formDataArray replaceObjectAtIndex:5 withObject:NSLocalizedString(@"All", nil)]; //@"All Locations"
+	[formDataArray replaceObjectAtIndex:6 withObject:NSLocalizedString(@"All", nil)]; //@"All Bankrolls"
+	[formDataArray replaceObjectAtIndex:7 withObject:NSLocalizedString(@"All", nil)]; //@"All Types"
 }
 
 
@@ -369,7 +315,7 @@
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:kLeftLabelRation];
 		}
 		
-		cell.mainTitle = @"Game Stats";
+		cell.mainTitle = NSLocalizedString(@"Game Stats", nil);
 		cell.alternateTitle = [formDataArray objectAtIndex:0];
 		
 		NSArray *titles = [NSArray arrayWithObjects:NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"Games", nil), NSLocalizedString(@"Streak", nil), NSLocalizedString(@"WinStreak", nil), NSLocalizedString(@"LoseStreak", nil), NSLocalizedString(@"Hours", nil), NSLocalizedString(@"Hourly", nil), @"ROI", nil];

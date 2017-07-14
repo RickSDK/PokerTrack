@@ -264,7 +264,7 @@
 
 -(void)replyButtonClicked:(id)sender {
     if([ProjectFunctions isLiteVersion]) {
-        [ProjectFunctions showAlertPopup:@"Notice" message:@"Users of Lite version cannot post messages. Please upgrade!"];
+        [ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Users of Lite version cannot post messages. Please upgrade!"];
         return;
     }
     ForumCreateVC *detailViewController = [[ForumCreateVC alloc] initWithNibName:@"ForumCreateVC" bundle:nil];

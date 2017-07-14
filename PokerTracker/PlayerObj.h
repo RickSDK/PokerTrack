@@ -17,6 +17,7 @@
 @property (nonatomic) int callCount;
 @property (nonatomic) int raiseCount;
 @property (nonatomic) int handCount;
+@property (nonatomic) int picId;
 
 @property (nonatomic) int vpip;
 @property (nonatomic) int pfr;

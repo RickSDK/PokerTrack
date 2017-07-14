@@ -116,7 +116,7 @@
 	self.selectedRow=2;
 	TextLineEnterVC *detailViewController = [[TextLineEnterVC alloc] initWithNibName:@"TextLineEnterVC" bundle:nil];
 	detailViewController.initialDateValue = @"";
-	detailViewController.titleLabel = NSLocalizedString(@"Stakes", nil);
+	detailViewController.titleLabel = NSLocalizedString(@"stakes", nil);
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }

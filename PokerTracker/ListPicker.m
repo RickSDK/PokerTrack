@@ -89,13 +89,13 @@
 {
 	NSMutableArray *filterArray = [[NSMutableArray alloc] init];
 	[filterArray addObject:NSLocalizedString(@"LifeTime", nil)];
-	[filterArray addObject:@"All Game Types"];
-	[filterArray addObject:@"All Games"];
-	[filterArray addObject:@"All Limits"];
-	[filterArray addObject:@"All Stakes"];
-	[filterArray addObject:@"All Locations"];
-	[filterArray addObject:@"All Bankrolls"];
-	[filterArray addObject:@"All Types"];
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Game Types"
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; // games
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Limits"
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Stakes"
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Locations"
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Bankrolls"
+	[filterArray addObject:NSLocalizedString(@"All", nil)]; //@"All Types"
 	
 	[filterArray replaceObjectAtIndex:selectedList withObject:value];
 	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:filterArray mOC:managedObjectContext buttonNum:0];

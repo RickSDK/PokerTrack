@@ -139,7 +139,7 @@
 
 - (IBAction) gameSegmentChanged: (id) sender {
 	if(self.gameSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"All Games", nil)];
+		[self setTitle:NSLocalizedString(@"All", nil)];
 	}
 	if(self.gameSegment.selectedSegmentIndex==1) {
 		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
@@ -285,7 +285,7 @@
 									[self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:2]]];
 		}
 	}
-	[sectionTitles addObject:NSLocalizedString([field capitalizedString], nil)];
+	[sectionTitles addObject:NSLocalizedString(field, nil)];
 	[multiDimentionalValues addObject:valueArray];
 	[multiDimentionalValues0 addObject:valueArray0];
 	[multiDimentionalValues1 addObject:valueArray1];

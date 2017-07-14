@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString *databaseField;
 @property (nonatomic) int option;
 @property (nonatomic) BOOL optionSelectedFlg;
+@property (nonatomic) BOOL readyOnlyFlg;
 @property (nonatomic) int rowNum;
 @property (nonatomic) int selectedAction;
 

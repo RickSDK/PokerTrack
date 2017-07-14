@@ -89,7 +89,6 @@
 
 	if(viewDisplayFlg) {
 		mainTableView.alpha=0;
-//		saveButton.enabled=NO;
 		preflopView.alpha=1;
 		nextButton.alpha=1;
 		self.viewNumber=0;
@@ -145,7 +144,7 @@
 		return;
 	}
 	if(!viewEditable) {
-		[saveButton setTitle:@"Save"];
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		deleteButton.alpha=1;
         viewButton.alpha=0;
 		viewEditable = YES;
@@ -629,9 +628,12 @@
 
 	
 	
-	NSString *buttonName = (drilldown)?@"Edit":@"Save";
+	NSString *buttonName = (drilldown)?[NSString fontAwesomeIconStringForEnum:FAPencil]:[NSString fontAwesomeIconStringForEnum:FAFloppyO];
 	saveButton = [[UIBarButtonItem alloc] initWithTitle:buttonName style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonClicked:)];
+	
+	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:buttonName target:self action:@selector(saveButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
+
 	saveButton.enabled=drilldown;
 }
 

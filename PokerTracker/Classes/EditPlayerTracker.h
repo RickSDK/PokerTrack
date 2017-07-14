@@ -20,11 +20,7 @@
 	IBOutlet UISegmentedControl *looseTightSeg;
 	IBOutlet UISegmentedControl *passAgrSeg;
 	IBOutlet UISegmentedControl *overallPlaySeg;
-	IBOutlet NSString *strengthsText;
-	IBOutlet NSString *weaknessText;
 	IBOutlet UIButton *casinoButton;
-	IBOutlet UIButton *sEditButton;
-	IBOutlet UIButton *wEditButton;
 	IBOutlet UIButton *deleteButton;
 	IBOutlet UIImageView *playerPic;
 	IBOutlet UILabel *picLabel;
@@ -32,25 +28,20 @@
 	IBOutlet UILabel *skillLabel;
 	IBOutlet UILabel *hudStyleLabel;
 	IBOutlet UILabel *playerNumLabel;
-	IBOutlet UISlider *passagrSlider;
-	IBOutlet UISlider *tightlooseSlider;
 
 	UIBarButtonItem *saveButton;
 	int selectedObjectForEdit;
-	int user_id;
+//	int user_id;
 	BOOL readOnlyFlg;
 	BOOL showMenuFlg;
 }
 
-- (IBAction) editSPressed: (id) sender;
-- (IBAction) editWPressed: (id) sender;
 - (IBAction) casinoButtonPressed: (id) sender;
 - (IBAction) savePressed: (id) sender;
 - (IBAction) deletePressed: (id) sender;
 - (IBAction) segmentPressed:(id)sender;
-- (IBAction) slider1changed:(id)sender;
-- (IBAction) slider2changed:(id)sender;
 - (IBAction) hudButtonPressed: (id) sender;
+- (IBAction) plusMinusButtonPressed: (UIButton *) button;
 -(void)updateImage;
 
 
@@ -58,18 +49,12 @@
 @property (nonatomic, strong) NSManagedObject *managedObject;
 @property (nonatomic, strong) PlayerTrackerObj *playerTrackerObj;
 @property (nonatomic, strong) UIViewController *callBackViewController;
-@property (nonatomic, strong) UISlider *passagrSlider;
-@property (nonatomic, strong) UISlider *tightlooseSlider;
 @property (nonatomic, strong) NSString *casino;
 @property (nonatomic, strong) UITextField *nameField;
 @property (nonatomic, strong) UISegmentedControl *looseTightSeg;
 @property (nonatomic, strong) UISegmentedControl *passAgrSeg;
 @property (nonatomic, strong) UISegmentedControl *overallPlaySeg;
-@property (nonatomic, strong) NSString *strengthsText;
-@property (nonatomic, strong) NSString *weaknessText;
 @property (nonatomic, strong) UIButton *casinoButton;
-@property (nonatomic, strong) UIButton *sEditButton;
-@property (nonatomic, strong) UIButton *wEditButton;
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) UIImageView *playerPic;
 @property (nonatomic, strong) UILabel *picLabel;
@@ -78,9 +63,22 @@
 @property (nonatomic, strong) UILabel *playerNumLabel;
 @property (nonatomic, strong) UILabel *hudStyleLabel;
 
+@property (nonatomic, strong) IBOutlet UIImageView *playerTypeImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *hudPlayerTypeImageView;
+@property (nonatomic, strong) IBOutlet UIButton *hudButton;
+@property (nonatomic, strong) IBOutlet UIImageView *bgImage1;
+@property (nonatomic, strong) IBOutlet UIImageView *bgImage2;
+@property (nonatomic, strong) IBOutlet UIView *bar1;
+@property (nonatomic, strong) IBOutlet UIView *bar2;
+@property (nonatomic, strong) IBOutlet UIButton *minusButton1;
+@property (nonatomic, strong) IBOutlet UIButton *plusButton1;
+@property (nonatomic, strong) IBOutlet UIButton *minusButton2;
+@property (nonatomic, strong) IBOutlet UIButton *plusButton2;
+
+
 @property (nonatomic, strong) UIBarButtonItem *saveButton;
 @property (nonatomic) int selectedObjectForEdit;
-@property (nonatomic) int user_id;
+//@property (nonatomic) int user_id;
 @property (nonatomic) BOOL readOnlyFlg;
 @property (nonatomic) BOOL showMenuFlg;
 

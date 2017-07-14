@@ -153,9 +153,6 @@
     [self computeStats];
 }
 
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Goals", nil)];
@@ -178,6 +175,9 @@
 	
 	self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+
+	self.profitGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
+	self.hourlyGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
 
     int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
     
@@ -208,7 +208,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	NSArray *titles = [NSArray arrayWithObjects:@"Monthly Net Profits", @"Monthly Breakdown", NSLocalizedString(@"Hourly", nil), @"Hourly Breakdown", nil];
+	NSArray *titles = [NSArray arrayWithObjects:
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
+					   NSLocalizedString(@"Hourly", nil),
+					   NSLocalizedString(@"Hourly", nil),
+					   nil];
 	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
 }
 
@@ -220,7 +225,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if(section==0)
-		return @"Monthly Net Profits";
+		return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)];
 	if(section==2)
 		return NSLocalizedString(@"Hourly", nil);
 	return nil;
@@ -260,7 +265,7 @@
 		if (cell == nil) {
 			cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:NumberOfRows labelProportion:0.35];
 		}
-		cell.mainTitle = @"Net Profits by Month";
+		cell.mainTitle = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)];
 	
 		NSMutableArray *values = [[NSMutableArray alloc] init];
 		NSMutableArray *colors = [[NSMutableArray alloc] init];

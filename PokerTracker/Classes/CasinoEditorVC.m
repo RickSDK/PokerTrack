@@ -220,7 +220,7 @@
 - (IBAction) editButtonClicked: (id) sender
 {
 	if([ProjectFunctions isLiteVersion]) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"This feature only available in full version."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"This feature only available in full version."];
 		return;
 	}
 	

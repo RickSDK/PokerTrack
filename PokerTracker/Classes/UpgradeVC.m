@@ -25,6 +25,7 @@
 	self.productID = @"PTP_Upgrade"; // lite version
 	
 	self.messageTextView.text = NSLocalizedString(@"upgradeText", nil);
+	self.priceLabel.text = [ProjectFunctions convertNumberToMoneyString:12.99];
 	
 
 	self.promoCodeView.hidden=YES;

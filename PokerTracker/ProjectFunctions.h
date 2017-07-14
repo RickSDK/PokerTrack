@@ -42,8 +42,8 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 1
-#define kIsLiteVersion 0  // 0 or 1
+#define kPRODMode 0
+#define kIsLiteVersion 1  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221

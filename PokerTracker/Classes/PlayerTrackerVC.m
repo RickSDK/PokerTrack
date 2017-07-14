@@ -7,12 +7,13 @@
 //
 
 #import "PlayerTrackerVC.h"
-#import "ListPicker.h"
+//#import "ListPicker.h"
 #import "CoreDataLib.h"
 #import "ProjectFunctions.h"
 #import "EditPlayerTracker.h"
 #import "QuadWithImageTableViewCell.h"
 #import "PlayerTrackerObj.h"
+#import "EditSegmentVC.h"
 
 
 @implementation PlayerTrackerVC
@@ -80,18 +81,14 @@
 
 - (IBAction) locationButtonPressed: (id) sender
 {
-	NSArray *listOfVals = [CoreDataLib getFieldList:@"Location" mOC:managedObjectContext addAllTypesFlg:YES];
 	self.selectedObjectForEdit=2;
-	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
+	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
-	localViewController.titleLabel = NSLocalizedString(@"Location", nil);
-	localViewController.selectedList=0;
-	localViewController.selectionList = [[NSArray alloc] initWithArray:listOfVals];
-	localViewController.allowEditing=NO;
+	localViewController.initialDateValue = locationButton.titleLabel.text;
+	localViewController.readyOnlyFlg = YES;
+	localViewController.databaseField = @"location";
 	[self.navigationController pushViewController:localViewController animated:YES];
-	
 }
 
 - (IBAction) createPressed: (id) sender 
@@ -99,7 +96,7 @@
 	EditPlayerTracker *detailViewController = [[EditPlayerTracker alloc] initWithNibName:@"EditPlayerTracker" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.callBackViewController=self;
-	detailViewController.casino = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
+	detailViewController.casino = locationButton.titleLabel.text;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -109,23 +106,16 @@
 	if(![locationButton.titleLabel.text isEqualToString:@"All Locations"] )
 		predicate = [NSPredicate predicateWithFormat:@"status = %@", locationButton.titleLabel.text];
 	
-	if([locationButton.titleLabel.text isEqualToString:@"*Custom*"]) {
-		NSString *searchStr = [CoreDataLib getFieldValueForEntity:managedObjectContext entityName:@"SEARCH" field:@"searchStr" predString:@"type = 'Location'" indexPathRow:0];
-		searchStr = [searchStr stringByReplacingOccurrencesOfString:@"location" withString:@"status"];
-		predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"1=1 %@", searchStr]];
-	}
-    
     NSArray *newPlayers = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:@"name" mOC:managedObjectContext ascendingFlg:YES];
-	if([newPlayers count]>0) {
-        [playerList removeAllObjects];
-        [playerList addObjectsFromArray:newPlayers];
-        [mainTableView reloadData];
-    }
+	[playerList removeAllObjects];
+	[playerList addObjectsFromArray:newPlayers];
+	[mainTableView reloadData];
 }
 
 - (IBAction) allButtonPressed: (id) sender
 {
 	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
+	locationButton.titleLabel.text = @"All Locations";
 	[self reloadData];
 }
 
@@ -153,7 +143,9 @@
 		[locationManager stopUpdatingLocation];
 		locationButton.enabled=YES;
 		if(currentLocation!=nil) {
-			[locationButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions getDefaultLocation:currentLocation.coordinate.latitude long:currentLocation.coordinate.longitude moc:managedObjectContext]] forState:UIControlStateNormal];
+			NSString *location = [ProjectFunctions getDefaultLocation:currentLocation.coordinate.latitude long:currentLocation.coordinate.longitude moc:managedObjectContext];
+			[locationButton setTitle:location forState:UIControlStateNormal];
+			locationButton.titleLabel.text = location;
 			[self reloadData];
 		}
 	}
@@ -166,6 +158,11 @@
 	[self performSelectorInBackground:aSelector withObject:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self reloadData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player Tracker"];
@@ -175,34 +172,30 @@
 	
 	playerList = [[NSMutableArray alloc] init];
 								
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
-	self.navigationItem.rightBarButtonItem = addButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
 
 	[locationButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
 	
 	
-	if(1 || [playerList count]<1) {
-		[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
-	} else {
-		
-		locationButton.enabled=NO;
-		
-		self.locationManager = [[CLLocationManager alloc] init];
-		self.locationManager.delegate = self;
-		self.locationManager.distanceFilter = kCLDistanceFilterNone;
-		self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-		
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-			[self.locationManager requestWhenInUseAuthorization];
-			[self.locationManager startMonitoringSignificantLocationChanges];
-		}
-		[self.locationManager startUpdatingLocation];
+	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
+	locationButton.titleLabel.text = @"All Locations";
+}
 
-		[self executeThreadedJob:@selector(checkCurrentLocation)];
+- (IBAction) localButtonPressed: (id) sender {
+	locationButton.enabled=NO;
+	
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.distanceFilter = kCLDistanceFilterNone;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	
+	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+		[self.locationManager requestWhenInUseAuthorization];
+		[self.locationManager startMonitoringSignificantLocationChanges];
 	}
-	[self reloadData];
-
-
+	[self.locationManager startUpdatingLocation];
+	
+	[self executeThreadedJob:@selector(checkCurrentLocation)];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -218,11 +211,12 @@
 	NSLog(@"%@", error.localizedDescription);
 }
 
--(void) setReturningValue:(NSString *) value2 {
-	NSString *value = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"returnValue"]];
-	if(selectedObjectForEdit==2)
-		[locationButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];
-	
+-(void) setReturningValue:(NSString *) value {
+	if(selectedObjectForEdit==2) {
+		[locationButton setTitle:value forState:UIControlStateNormal];
+		locationButton.titleLabel.text = value;
+	}
+
 	[self reloadData];
 }
 
@@ -236,7 +230,10 @@
 	
 	NSManagedObject *mo = [playerList objectAtIndex:(int)indexPath.row];
 	PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:mo managedObjectContext:self.managedObjectContext];
+	
 	cell.aa.text = obj.name;
+	if (obj.hudFlag)
+		cell.aa.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAuserSecret], obj.name];
 	cell.leftImage.image = obj.pic;
 	
 	cell.ccColor = [UIColor orangeColor];

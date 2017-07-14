@@ -632,8 +632,8 @@
                     lastMonthDate = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*32];
                 NSString *lastMonthYear = [lastMonthDate convertDateToStringWithFormat:@"yyyy"];
                 NSString *lastMonthMonth = [ProjectFunctions getMonthFromDate:lastMonthDate];
- //               NSPredicate *predicateLastMonth = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", lastMonthYear, lastMonthMonth];
-				NSPredicate *predicateLastMonth = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:lastMonthMonth];
+                NSPredicate *predicateLastMonth = [NSPredicate predicateWithFormat:@"user_id = 0 AND year = %@ AND month = %@", lastMonthYear, lastMonthMonth];
+			//	NSPredicate *predicateLastMonth = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:lastMonthMonth];
                 NSString *statsLastMonth = [CoreDataLib getGameStat:managedObjectContext dataField:@"analysis1" predicate:predicateLastMonth];
                 NSArray *lastMonStats = [statsLastMonth componentsSeparatedByString:@"|"];
                 
