@@ -25,6 +25,44 @@
 @synthesize selectedObjectForEdit, callBackViewController, managedObject;
 @synthesize playerNumLabel, readOnlyFlg, casino, showMenuFlg, hudStyleLabel;
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Player"];
+	
+	deleteButton.alpha=0;
+	
+	[ProjectFunctions makeFAButton:deleteButton type:0 size:24];
+	
+	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
+	self.navigationItem.rightBarButtonItem = saveButton;
+	if(managedObject)
+		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
+	
+	[casinoButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
+	if([casino isEqualToString:@"All Locations"])
+		casino = @"Select";
+	[casinoButton setTitle:casino forState:UIControlStateNormal];
+	
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:16 text:@"HUD Tracker"];
+	
+	if(managedObject) {
+		self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
+		if(self.playerTrackerObj.user_id==0)
+			[self generateUserId];
+		readOnlyFlg=YES;
+	} else {
+		self.playerTrackerObj = [[PlayerTrackerObj alloc] init];
+		self.playerTrackerObj.strengths=@"";
+		self.playerTrackerObj.weaknesses=@"";
+		self.playerTrackerObj.playerSkill = 1; //average
+		self.playerTrackerObj.picId = 3;
+		deleteButton.alpha=0;
+		readOnlyFlg=NO;
+		self.hudButton.enabled=NO;
+	}
+	[self updateButtonsEnabled:!readOnlyFlg];
+}
+
 -(void)updateImage
 {
 	// This is called directly from AddPhotoVC
@@ -106,11 +144,14 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)aTextField {
+	NSLog(@"Return!");
 	[aTextField resignFirstResponder];
+	self.playerTrackerObj.name = aTextField.text;
 	return YES;
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+	NSLog(@"change!");
 	[textView resignFirstResponder];
 	return YES;
 }
@@ -143,6 +184,7 @@
 		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		readOnlyFlg=NO;
 		[self updateButtonsEnabled:!readOnlyFlg];
+		[self.mainTableView reloadData];
 		return;
 	}
 	if([casinoButton.titleLabel.text isEqualToString:@"Select"]) {
@@ -231,43 +273,6 @@
 -(void)updateSLider:(UIView *)bar bgImage:(UIImageView *)bgImage number:(int)number {
 	bar.center = CGPointMake(bgImage.frame.origin.x+bgImage.frame.size.width*number/100, bgImage.center.y);
 	
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Player"];
-	
-	deleteButton.alpha=0;
-	
-	[ProjectFunctions makeFAButton:deleteButton type:0 size:24];
-
-	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
-	if(managedObject)
-		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil]];
-	
-	[casinoButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
-	if([casino isEqualToString:@"All Locations"])
-		casino = @"Select";
-	[casinoButton setTitle:casino forState:UIControlStateNormal];
-	
-	[ProjectFunctions makeFAButton:self.hudButton type:5 size:16 text:@"HUD Tracker"];
-
-	if(managedObject) {
-		self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
-		if(self.playerTrackerObj.user_id==0)
-			[self generateUserId];
-		readOnlyFlg=YES;
-	} else {
-		self.playerTrackerObj = [[PlayerTrackerObj alloc] init];
-		self.playerTrackerObj.strengths=@"";
-		self.playerTrackerObj.weaknesses=@"";
-		self.playerTrackerObj.playerSkill = 1; //average
-		self.playerTrackerObj.picId = 3;
-		deleteButton.alpha=0;
-		readOnlyFlg=NO;
-	}
-	[self updateButtonsEnabled:!readOnlyFlg];
 }
 
 -(void)updateButtonsEnabled:(BOOL)enabledFlg {
@@ -363,6 +368,9 @@
 		cell.fieldColorArray = [NSArray arrayWithObject:[UIColor blackColor]];
 	}
 	cell.accessoryType= UITableViewCellAccessoryNone;
+	if(!readOnlyFlg)
+		cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
+	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
 	return cell;

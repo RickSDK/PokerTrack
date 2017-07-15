@@ -16,6 +16,31 @@
 @synthesize clearButton, currencySymbol, buttonClicked;
 @synthesize managedObjectContext;
 
+- (void)viewDidLoad {
+	
+	[super viewDidLoad];
+	
+	NSString *title = self.titleLabel;
+	if([title length]==0)
+		title = @"Money";
+	[self setTitle:NSLocalizedString(title, nil)];
+	
+	self.numberOfWheels=3;
+	
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
+	
+	self.label.text = [NSString stringWithFormat:@"%@", self.titleLabel];
+	
+	self.textField.text = [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:self.initialDateValue]];
+	
+	currencySymbol.text = [ProjectFunctions getMoneySymbol2];
+	
+	textField.keyboardType = UIKeyboardTypeDecimalPad;
+	
+	[self spinPicker];
+}
+
 -(void)spinPicker
 {
     if([textField.text intValue] != [textField.text floatValue])
@@ -151,37 +176,6 @@
 	[(ProjectFunctions *)callBackViewController setReturningValue:textField.text];
 	[self.navigationController popViewControllerAnimated:YES];
 }
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-
-    [super viewDidLoad];
-    
-    NSString *title = self.titleLabel;
-    if([title length]==0)
-        title = @"Money";
-	[self setTitle:NSLocalizedString(title, nil)];
-    
-	self.numberOfWheels=3;
-	
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
-	
-	self.label.text = [NSString stringWithFormat:@"%@", self.titleLabel];
-
-	self.textField.text = [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:self.initialDateValue]];
-	
-	currencySymbol.text = [ProjectFunctions getMoneySymbol2];
-	
-	textField.keyboardType = UIKeyboardTypeDecimalPad;
-
-	[self spinPicker];
-}
-
-
-
-
-
 
 
 

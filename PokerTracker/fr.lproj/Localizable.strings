@@ -83,6 +83,7 @@
 "daytime" = "Jour";
 "Current Chips" = "Chips actuels";
 "Type" = "Type";
+"tournamentType" = "Type";
 "Welcome" = "Bienvenue à";
 "Welcome2" = "Entrez votre montant de bankroll débutant:";
 "Cancel" = "Annuler";

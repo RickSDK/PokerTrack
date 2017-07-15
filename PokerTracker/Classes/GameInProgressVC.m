@@ -41,7 +41,8 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[self setTitle:NSLocalizedString(@"Game", nil)];
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	[self setTitle:(self.gameObj.isTourney)?NSLocalizedString(@"Tournament", nil):NSLocalizedString(@"Cash Game", nil)];
 	
 	self.userData = [[NSString alloc] init];
 	self.valuesArray = [[NSMutableArray alloc] init];
@@ -81,7 +82,6 @@
 	friendButton.alpha=0;
 	infoImage.alpha=0;
 	
-	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	
 	if([self.gameObj.type isEqualToString:@"Tournament"]) {
@@ -298,7 +298,6 @@
 	self.gameInProgress=NO;
 	[self startWebServiceCall:@"Ending Game"];
 	
-	grayPauseBG.alpha=.75;
 	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	

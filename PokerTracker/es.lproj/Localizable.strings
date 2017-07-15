@@ -100,6 +100,7 @@
 "GameType" = "Juego";
 "gametype" = "Juego";
 "Type" = "Tipo";
+"tournamentType" = "Tipo";
 "Welcome" = "Bienvenido a";
 "Welcome2" = "Ingrese el monto de sus fondos iniciales:";
 "LeavingGame" = "Dejando juego con";

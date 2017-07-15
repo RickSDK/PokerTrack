@@ -277,6 +277,7 @@
 -(NSManagedObject *)insertnewGameIntoDatabase:(NSString *)status
 {
 	NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:@"GAME" inManagedObjectContext:self.managedObjectContext];
+	[self.managedObjectContext save:nil];
 	NSDate *endTime = [NSDate date];
 	NSDate *startTime = [endTime dateByAddingTimeInterval:-1*60*60*3];
 	if([status isEqualToString:@"In Progress"])

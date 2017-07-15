@@ -22,6 +22,8 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)aTextField {
 	[aTextField resignFirstResponder];
+	datePicker.date = [self.textField.text convertStringToDateWithFormat:nil];
+	[self dateChanged:self];
 	return YES;
 }
 
@@ -32,13 +34,10 @@
     return self;
 }
 
-
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Date Picker"];
+	[self setTitle:NSLocalizedString(self.labelString, nil)];
 	
 	if(dateOnlyMode)
 		self.datePicker.datePickerMode = UIDatePickerModeDate;
@@ -75,11 +74,6 @@
 	[self dateChanged:self];
 }
 
-
-
-
-
-
 -(void)setTextFieldValue:(NSString *)value
 {
 	self.textField.text = [NSString stringWithFormat:@"%@", value];
@@ -99,13 +93,13 @@
 	if(dateOnlyMode)
 		dateFormat = @"yyyy-MM-dd";
 	[self setTextFieldValue:[datePicker.date convertDateToStringWithFormat:dateFormat]];
+	self.localDateLabel.text = [ProjectFunctions displayLocalFormatDate:datePicker.date showDay:YES showTime:YES];
 }
 
 - (IBAction)setDateToToday:(id)sender {
 	self.datePicker.date = [NSDate date];
 	[self dateChanged:self];
 }
-
 
 - (IBAction)save:(id)sender {
 	// User clicks Done
@@ -121,12 +115,8 @@
 	else {
 		[(OddsFormVC *)callBackViewController setReturningValue:textField.text];
 	}
-	
 	[self.navigationController popViewControllerAnimated:YES];
-	
-	
 
-	// Get input date
 }
 
 

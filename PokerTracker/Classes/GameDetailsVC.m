@@ -307,7 +307,7 @@
 
 
 -(void) setReturningValue:(NSString *) value {
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	
 	GameDetailObj *obj = [self.detailItems objectAtIndex:selectedFieldIndex];
 	

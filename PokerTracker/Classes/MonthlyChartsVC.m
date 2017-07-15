@@ -15,6 +15,7 @@
 #import "NSArray+ATTArray.h"
 #import "BankrollsVC.h"
 #import "PokerTrackerAppDelegate.h"
+#import "GrabphLib.h"
 
 #define kLeftLabelRation	0.4
 
@@ -120,155 +121,80 @@
 	activityBGView.alpha=1;
 	self.lockScreen=YES;
 	self.mainTableView.alpha=.5;
-	[self performSelectorInBackground:@selector(drawFirstCharts) withObject:nil];
+//	[self performSelectorInBackground:@selector(drawFirstCharts) withObject:nil];
+	[self performSelectorInBackground:@selector(drawAllCharts) withObject:nil];
 }
 
--(void)drawFirstCharts
-{
-	@autoreleasepool {
-		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
-		[contextLocal setUndoManager:nil];
-		
-		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
-		
-		self.chartYear1ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-		self.chartMonth1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-		activityBGView.alpha=0;
-		
-		[self doTheHardWord];
-		//        mainTableView.alpha=1;
-		//        [mainTableView reloadData];
-		//	[self performSelectorInBackground:@selector(doTheHardWord) withObject:nil];
+-(void)graphYearData:(NSManagedObjectContext *)context year:(int)year {
+	NSMutableArray *years = [[NSMutableArray alloc] init];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"YEAR" predicate:nil sortColumn:@"name" mOC:context ascendingFlg:YES];
+	for(NSManagedObject *mo in items) {
+		[years addObject:[mo valueForKey:@"name"]];
 	}
+	[self graphEngineForItems:years field:@"year" context:context year:year graph1:self.chartYear1ImageView graph2:self.chartYear2ImageView];
+
 }
 
--(void)doTheHardWord
-{
-	@autoreleasepool {
-    
-		[NSThread sleepForTimeInterval:0.1];
-        NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
-        [contextLocal setUndoManager:nil];
-        
-        PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+-(void)graphMonthData:(NSManagedObjectContext *)context year:(int)year {
+	NSArray *months = [ProjectFunctions namesOfAllMonths];
+	[self graphEngineForItems:months field:@"month" context:context year:year graph1:self.chartMonth1ImageView graph2:self.chartMonth2ImageView];
+}
 
-	NSString *basicPred2 = [ProjectFunctions getBasicPredicateString:0 type:@"All"];
-
-	[yearlyProfits removeAllObjects];
-	[yearHourlyProfits removeAllObjects];
-
-	int endYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-
-        NSArray *years = [CoreDataLib selectRowsFromEntity:@"YEAR" predicate:nil sortColumn:@"name" mOC:contextLocal ascendingFlg:YES];
-        NSManagedObject *m2 = [years objectAtIndex:0];
-        int startYear = [[m2 valueForKey:@"name"] intValue];
-
-	for(int i=startYear; i<=endYear; i++) {
-		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred2 field:@"year" value:[NSString stringWithFormat:@"%d", i]];
-            NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-            NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            double winnings = [[values stringAtIndex:0] doubleValue];
-            int gameCount = [[values stringAtIndex:1] intValue];
-            int minutes = [[values stringAtIndex:2] intValue];
-            
-		int hours = minutes/60;
+-(void)graphEngineForItems:(NSArray *)items field:(NSString*) field context:(NSManagedObjectContext *)context year:(int)year graph1:(UIImageView *)graph1  graph2:(UIImageView *)graph2 {
+	NSMutableArray *graphItemsProfit = [[NSMutableArray alloc] init];
+	NSMutableArray *graphItemsHourly = [[NSMutableArray alloc] init];
+	for(NSString *itemName in items) {
+		NSString *predString = [NSString stringWithFormat:@"year = %%d AND %@ = %%@", field];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, year, itemName];
+		if(year==0 || [@"year" isEqualToString:field]) {
+			NSString *predString = [NSString stringWithFormat:@"%@ = %%@", field];
+			predicate = [NSPredicate predicateWithFormat:predString, itemName];
+			
+		}
+		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:context ascendingFlg:NO];
+		double totalProfit=0;
+		double totalminutes=0;
+		for(NSManagedObject *game in games) {
+			totalProfit += [[game valueForKey:@"winnings"] doubleValue];
+			totalminutes += [[game valueForKey:@"minutes"] intValue];
+		}
+		int hours = totalminutes/60;
 		int hourlyRate = 0;
 		if(hours>0)
-			hourlyRate = winnings/hours;
-		[yearlyProfits addObject:[NSString stringWithFormat:@"%d|%f|%d", i, winnings, gameCount]];
-		[yearHourlyProfits addObject:[NSString stringWithFormat:@"%d|%d|%d", i, hourlyRate, gameCount]];
+			hourlyRate = totalProfit/hours;
+		[graphItemsProfit addObject:[GraphObject graphObjectWithName:itemName amount:totalProfit rowId:1 reverseColorFlg:NO currentMonthFlg:(year==[itemName intValue])]];
+		[graphItemsHourly addObject:[GraphObject graphObjectWithName:itemName amount:hourlyRate rowId:1 reverseColorFlg:NO currentMonthFlg:(year==[itemName intValue])]];
 	}
-	
-	
-	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
-	[monthlyProfits removeAllObjects];
-	[hourlyProfits removeAllObjects];
-		NSArray *months = [ProjectFunctions namesOfAllMonths];
-	int i=0;
-	for(NSString *month in months) {
-		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:month];
-		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-		double winnings = [[values stringAtIndex:0] doubleValue];
-		int gameCount = [[values stringAtIndex:1] intValue];
-		int minutes = [[values stringAtIndex:2] intValue];
+	graph1.image = [GrabphLib graphBarsWithItems:graphItemsProfit];
+	graph2.image = [GrabphLib graphBarsWithItems:graphItemsHourly];
+}
 
-		int hours = minutes/60;
-		int hourlyRate = 0;
-		if(hours>0)
-			hourlyRate = winnings/hours;
-		[monthlyProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [months objectAtIndex:i], winnings, gameCount]];
-		[hourlyProfits addObject:[NSString stringWithFormat:@"%@|%d|%d", [months objectAtIndex:i], hourlyRate, gameCount]];
-		i++;
-	}
+-(void)drawAllCharts {
+	NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
+	[contextLocal setUndoManager:nil];
 	
-	[dayProfits removeAllObjects];
-	[dayHourly removeAllObjects];
+	PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+	
+	[self graphYearData:contextLocal year:[yearLabel.text intValue]];
+	[self graphMonthData:contextLocal year:[yearLabel.text intValue]];
 	NSArray *days = [ProjectFunctions namesOfAllWeekdays];
-	i=0;
-	for(NSString *month in days) {
-		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"weekday" value:month];
-            NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-            NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            double winnings = [[values stringAtIndex:0] doubleValue];
-            int gameCount = [[values stringAtIndex:1] intValue];
-            int minutes = [[values stringAtIndex:2] intValue];
-
-		int hours = minutes/60;
-		int hourlyRate = 0;
-		if(hours>0)
-			hourlyRate = winnings/hours;
-		[dayProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [days objectAtIndex:i], winnings, gameCount]];
-		[dayHourly addObject:[NSString stringWithFormat:@"%@|%d|%d", [days objectAtIndex:i], hourlyRate, gameCount]];
-		i++;
-	}
+	[self graphEngineForItems:days field:@"weekday" context:contextLocal year:[yearLabel.text intValue] graph1:self.chart3ImageView graph2:self.chart4ImageView];
+	NSArray *dayTimes = [ProjectFunctions namesOfAllDayTimes];
+	[self graphEngineForItems:dayTimes field:@"daytime" context:contextLocal year:[yearLabel.text intValue] graph1:self.chart5ImageView graph2:self.chart6ImageView];
 	
-	[timeProfits removeAllObjects];
-	[timeHourly removeAllObjects];
-	NSArray *daytimes = [ProjectFunctions namesOfAllDayTimes];
-	i=0;
-	for(NSString *month in daytimes) {
-		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"daytime" value:month];
-            NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-            NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-            double winnings = [[values stringAtIndex:0] doubleValue];
-            int gameCount = [[values stringAtIndex:1] intValue];
-            int minutes = [[values stringAtIndex:2] intValue];
-
-		int hours = minutes/60;
-		int hourlyRate = 0;
-		if(hours>0)
-			hourlyRate = winnings/hours;
-		[timeProfits addObject:[NSString stringWithFormat:@"%@|%f|%d", [daytimes objectAtIndex:i], winnings, gameCount]];
-		[timeHourly addObject:[NSString stringWithFormat:@"%@|%d|%d", [daytimes objectAtIndex:i], hourlyRate, gameCount]];
-		i++;
-	}
-
-            if(viewUnLoaded)
-                return;
-
-		self.chart3ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-		self.chart5ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:NO];
-		
- 	self.chartMonth2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
- 	self.chart4ImageView.image = [ProjectFunctions graphDaysChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
- 	self.chart6ImageView.image = [ProjectFunctions graphDaytimeChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
- 	self.chartYear2ImageView.image = [ProjectFunctions graphYearlyChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:NO];
-		
-		self.lockScreen=NO;
-		self.bankRollSegment.enabled=YES;
-		self.moneySegment.enabled=YES;
-		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-		
-		[activityIndicator stopAnimating];
-		self.mainTableView.alpha=1;
-		[mainTableView reloadData];
-	}
+	activityBGView.alpha=0;
+	
+	self.lockScreen=NO;
+	self.bankRollSegment.enabled=YES;
+	self.moneySegment.enabled=YES;
+	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+	[activityIndicator stopAnimating];
+	self.mainTableView.alpha=1;
+	[mainTableView reloadData];
+	
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Charts", nil)];
@@ -625,13 +551,6 @@
 	
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(lockScreen)
-        return;
-    
-	self.showBreakdownFlg = !showBreakdownFlg;
-	[mainTableView reloadData];
-}
 
 -(void) setReturningValue:(NSString *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];

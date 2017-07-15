@@ -81,6 +81,7 @@
 "daytime" = "낮";
 "Current Chips" = "현재 칩";
 "Type" = "유형";
+"tournamentType" = "유형";
 "Welcome" = "에 오신 것을 환영합니다";
 "Welcome2" = "시작 자금 금액 입력 :";
 "Cancel" = "취소";

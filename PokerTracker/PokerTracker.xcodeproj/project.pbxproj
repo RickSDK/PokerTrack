@@ -327,6 +327,7 @@
 		6BD4D96B1D12100500236804 /* DefaultiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D96A1D12100500236804 /* DefaultiPad.png */; };
 		6BD4D96D1D12108700236804 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D96C1D12108700236804 /* Default-Portrait@2x~ipad.png */; };
 		6BD7AFBC1F17359300C9830B /* red_greenH.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BD7AFBB1F17359300C9830B /* red_greenH.jpg */; };
+		6BD7AFC31F1962C000C9830B /* GraphObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD7AFC21F1962C000C9830B /* GraphObject.m */; };
 		6BD846DF14F6FFDB0048473A /* MyToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD846DE14F6FFDB0048473A /* MyToolbar.m */; };
 		6BD84C2814FEE0CE0048473A /* cardBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD84C2714FEE0CE0048473A /* cardBack.png */; };
 		6BD84C6C14FFEC3F0048473A /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD84C6B14FFEC3F0048473A /* green.png */; };
@@ -829,6 +830,8 @@
 		6BD7AFBE1F1847E700C9830B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD7AFBF1F18481200C9830B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD7AFC01F19182700C9830B /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6BD7AFC11F1962C000C9830B /* GraphObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphObject.h; sourceTree = "<group>"; };
+		6BD7AFC21F1962C000C9830B /* GraphObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphObject.m; sourceTree = "<group>"; };
 		6BD846DD14F6FFDB0048473A /* MyToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyToolbar.h; sourceTree = "<group>"; };
 		6BD846DE14F6FFDB0048473A /* MyToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyToolbar.m; sourceTree = "<group>"; };
 		6BD84C2714FEE0CE0048473A /* cardBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cardBack.png; sourceTree = "<group>"; };
@@ -1310,6 +1313,8 @@
 				6B69562A1C529F97004CB475 /* GameObj.m */,
 				6BBECDF01CA36EE3005AEE43 /* NetUserObj.h */,
 				6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */,
+				6BD7AFC11F1962C000C9830B /* GraphObject.h */,
+				6BD7AFC21F1962C000C9830B /* GraphObject.m */,
 				6BC2BFCE1F10653500483489 /* GameDetailObj.h */,
 				6BC2BFCF1F10653500483489 /* GameDetailObj.m */,
 				6BC2BFD11F109E6A00483489 /* MultiCellObj.h */,
@@ -1910,6 +1915,7 @@
 				6B752381144918CD00E59D21 /* OddsCalculatorVC.m in Sources */,
 				6B75251F144A2C9100E59D21 /* ActionCell.m in Sources */,
 				6B752527144A2CF200E59D21 /* TextEditCell.m in Sources */,
+				6BD7AFC31F1962C000C9830B /* GraphObject.m in Sources */,
 				6B7526E2144C9F4600E59D21 /* FilterNameEnterVC.m in Sources */,
 				6B752819144CE97700E59D21 /* OddsFormVC.m in Sources */,
 				6B69562B1C529F97004CB475 /* GameObj.m in Sources */,

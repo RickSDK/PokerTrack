@@ -67,10 +67,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Number Picker"];
+	[self setTitle:NSLocalizedString(self.sendTitle, nil)];
 
 	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
-	self.titleLabel.text = [NSString stringWithFormat:@"%@", self.sendTitle];
+	self.titleLabel.text = @"";
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 

@@ -130,6 +130,7 @@
     );
 
 		[NSThread sleepForTimeInterval:0.4];
+		calculateButton.enabled = YES;
 		
 		if(startedCalculating)
 			[self executeThreadedJob:@selector(updateProgressBar)];
@@ -230,6 +231,14 @@
 
 
 -(void)calculateButtonClicked:(id)sender {
+	if(mo != nil) {
+		if(self.doneCalculating) {
+			[self gotoBigHands];
+			return;
+		} else {
+			[self.calculateButton setTitle:@"Done!"];
+		}
+	}
 	[self completeWithRandomCards];
 	[activityView startAnimating];
 	activityPopup.alpha=1;
@@ -587,13 +596,7 @@
 		} else {
 			self.boardFilledOut=YES;
 			if(mo != nil) {
-				BigHandsFormVC *detailViewController = [[BigHandsFormVC alloc] initWithNibName:@"BigHandsFormVC" bundle:nil];
-				detailViewController.managedObjectContext = managedObjectContext;
-				detailViewController.drilldown = YES;
-				detailViewController.viewEditable = NO;
-				detailViewController.mo = mo;
-				detailViewController.numPlayers=2;
-				[self.navigationController pushViewController:detailViewController animated:YES];
+				[self gotoBigHands];
 				return;
 			}
 			[self completeWithRandomCards];
@@ -601,6 +604,16 @@
 		}
 	}
 	
+}
+
+-(void)gotoBigHands {
+	BigHandsFormVC *detailViewController = [[BigHandsFormVC alloc] initWithNibName:@"BigHandsFormVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.drilldown = YES;
+	detailViewController.viewEditable = NO;
+	detailViewController.mo = mo;
+	detailViewController.numPlayers=2;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 

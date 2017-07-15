@@ -81,6 +81,7 @@
 "daytime" = "Dagtid";
 "Current Chips" = "Nuvarande Chips";
 "Type" = "Typ";
+"tournamentType" = "Typ";
 "Welcome" = "Välkommen till";
 "Welcome2" = "Ange din startbankrollbelopp:";
 "Cancel" = "Annullera";

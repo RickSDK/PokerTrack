@@ -24,7 +24,6 @@
 #import "PokerCell.h"
 #import "NSString+ATTString.h"
 #import "NSArray+ATTArray.h"
-#import "PokerOddsFunctions.h"
 #import "BigHandsPlayersFormVC.h"
 #import "ListPicker.h"
 
@@ -42,6 +41,14 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+}
+
+- (IBAction) playButtonPressed: (id) sender
+{
+	[self advanceScreen];
+}
+
+-(void)advanceScreen {
 	self.viewNumber++;
 	if(viewNumber>3)
 		self.viewNumber=0;
@@ -75,8 +82,6 @@
 	}
 }
 
-
-
 - (IBAction) deleteButtonPressed: (id) sender
 { 
 	self.buttonNumber=1;
@@ -85,7 +90,12 @@
 
 - (IBAction) viewButtonPressed: (id) sender
 {
+	if([mo valueForKey:@"preFlopOdds"]==nil) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Load Odds Calculator first"];
+		return;
+	}
 	self.viewDisplayFlg=!viewDisplayFlg;
+	self.playButton.enabled=self.viewDisplayFlg;
 
 	if(viewDisplayFlg) {
 		mainTableView.alpha=0;
@@ -134,15 +144,16 @@
 	}
 }
 
+- (IBAction) editButtonPressed: (id) sender {
+	NSMutableArray *values = [[NSMutableArray alloc] init];
+	[values addObject:@"Your Hand"];
+	for(int i=1; i<numPlayers; i++)
+		[values addObject:[NSString stringWithFormat:@"Player %d", i+1]];
+	[ProjectFunctions showActionSheet:self view:self.view title:@"Edit Hand Details" buttons:values];
+	return;
+}
+
 -(void)saveButtonClicked:(id)sender {
-	if(viewDisplayFlg) {
-		NSMutableArray *values = [[NSMutableArray alloc] init];
-		[values addObject:@"Your Hand"];
-		for(int i=1; i<numPlayers; i++)
-			[values addObject:[NSString stringWithFormat:@"Player %d", i+1]];
-		[ProjectFunctions showActionSheet:self view:self.view title:@"Edit Hand Details" buttons:values];
-		return;
-	}
 	if(!viewEditable) {
 		[saveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		deleteButton.alpha=1;
@@ -584,6 +595,9 @@
 	[self setTitle:@"Hand Tracker"];
     
     [self.mainTableView setBackgroundView:nil];
+	
+	[ProjectFunctions makeFAButton:self.playButton type:9 size:24];
+	[ProjectFunctions makeFAButton:self.editButton type:2 size:24];
 
 	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
 	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
@@ -635,6 +649,7 @@
 	self.navigationItem.rightBarButtonItem = saveButton;
 
 	saveButton.enabled=drilldown;
+	self.playButton.enabled=NO;
 }
 
 

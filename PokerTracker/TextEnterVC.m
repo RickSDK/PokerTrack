@@ -27,11 +27,14 @@
 
 - (BOOL)textView:(UITextView *)textViewLocal shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)string
 {
+	int extraVal = (string.length>0)?(int)string.length:-1;
+	int remaining = strlen-(int)textViewLocal.text.length-extraVal;
+	if(remaining<0)
+		remaining=0;
+	charMaxLabel.text = [NSString stringWithFormat:@"%d chars remaining", remaining];
 	return [ProjectFunctions limitTextViewLength:textViewLocal currentText:textView.text string:string limit:strlen saveButton:nil resignOnReturn:NO];
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Enter Text"];

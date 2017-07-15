@@ -81,6 +81,7 @@
 "daytime" = "昼間";
 "Current Chips" = "現在のチップ";
 "Type" = "タイプ";
+"tournamentType" = "タイプ";
 "Welcome" = "ようこそ";
 "Welcome2" = "あなたの出発銀行残高を入力してください：";
 "Cancel" = "キャンセル";

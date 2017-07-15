@@ -48,6 +48,8 @@
 - (IBAction) deleteButtonPressed: (id) sender;
 - (IBAction) oddsButtonPressed: (id) sender;
 -(void)setupVisualView;
+- (IBAction) playButtonPressed: (id) sender;
+- (IBAction) editButtonPressed: (id) sender;
 
 @property (nonatomic) int numPlayers;
 @property (nonatomic) int selectedRow;
@@ -63,6 +65,8 @@
 @property (nonatomic, strong) UIButton *viewButton;
 @property (nonatomic, strong) UIButton *oddsButton;
 @property (nonatomic, strong) UIButton *deleteButton;
+@property (nonatomic, strong) IBOutlet UIButton *playButton;
+@property (nonatomic, strong) IBOutlet UIButton *editButton;
 
 @property (nonatomic, strong) NSMutableArray *labelValues;
 @property (nonatomic, strong) NSMutableArray *formDataArray;

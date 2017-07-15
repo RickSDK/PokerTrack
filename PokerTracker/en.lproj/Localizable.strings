@@ -32,6 +32,7 @@
 "Quarter" = "Quarter";
 "Tournaments" = "Tournaments";
 "Tournament" = "Tournament";
+"tournamentType" = "Tournament Type";
 "tournamentSpots" = "Tournament Players";
 "tournamentSpotsPaid" = "# Spots Paid";
 "tournamentFinish" = "Your Finish";

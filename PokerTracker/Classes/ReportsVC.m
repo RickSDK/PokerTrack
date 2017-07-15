@@ -213,7 +213,6 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
-		[NSThread sleepForTimeInterval:0.3];
         NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
         [contextLocal setUndoManager:nil];
         
@@ -236,7 +235,6 @@
 		
 		activityBGView.alpha=0;
 		[self calcMoreStats];
-//		[self performSelectorInBackground:@selector(calcMoreStats) withObject:nil];
 	}
 }
 
@@ -260,12 +258,16 @@
 	NSArray *days = [self getValuesForField:field context:contextLocal];
 	for(NSString *day in days) {
 		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:field value:day];
-		NSString *chart1 = [CoreDataLib getGameStat:contextLocal dataField:@"chart1" predicate:predicate];
-		NSArray *values = [chart1 componentsSeparatedByString:@"|"];
-		double winnings = [[values stringAtIndex:0] doubleValue];
-		int gameCount = [[values stringAtIndex:1] intValue];
-		int minutes = [[values stringAtIndex:2] intValue];
-		
+
+		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:contextLocal ascendingFlg:NO];
+		double winnings=0;
+		int gameCount=(int)games.count;
+		int minutes=0;
+		for(NSManagedObject *game in games) {
+			winnings += [[game valueForKey:@"winnings"] doubleValue];
+			minutes += [[game valueForKey:@"minutes"] intValue];
+		}
+
 		if(gameCount>0) {
 			double primaryNumber = [self getPrimaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
 			int secondaryNumber = [self getSecondaryNumber:winnings gameCount:gameCount minutes:minutes selectedSegmentIndex:(int)topSegment.selectedSegmentIndex];
@@ -328,10 +330,10 @@
 	}
 }
 
-- (IBAction) refreshPressed: (id) sender
-{
-	[self computeStats];
-}
+//- (IBAction) refreshPressed: (id) sender
+//{
+//	[self computeStats];
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [sectionTitles count];

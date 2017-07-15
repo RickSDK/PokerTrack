@@ -81,6 +81,7 @@
 "daytime" = "白天";
 "Current Chips" = "当前芯片";
 "Type" = "类型";
+"tournamentType" = "类型";
 "Welcome" = "欢迎来到";
 "Welcome2" = "输入您的起始资金额:";
 "Cancel" = "取消";

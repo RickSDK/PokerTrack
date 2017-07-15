@@ -113,7 +113,7 @@
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 
-	[self setTitle:([@"Cash" isEqualToString:self.gameObj.type])?NSLocalizedString(@"Cash Game", nil):NSLocalizedString(@"Tournament", nil)];
+	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Charts", nil)]];
 	
 	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
 	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];

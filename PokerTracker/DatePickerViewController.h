@@ -39,6 +39,7 @@
 @property (nonatomic, strong) IBOutlet NSString *labelString;
 @property (nonatomic, strong) IBOutlet UITextField *textField;
 @property (nonatomic, strong) IBOutlet UILabel *fieldLabel;
+@property (nonatomic, strong) IBOutlet UILabel *localDateLabel;
 @property (nonatomic, strong) IBOutlet UINavigationItem *navItem;
 @property (nonatomic, strong) IBOutlet UIBarItem *clearButton;
 
