@@ -56,6 +56,9 @@
 }
 
 -(void)setupData {
+	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
+	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];
+	self.hudButton.hidden=!self.gameObj.hudStatsFlg;
 	self.locationLabel.text = self.gameObj.location;
 	
 	self.notesView.hidden=YES;
@@ -82,7 +85,6 @@
 	self.timeLabel.text = [ProjectFunctions displayLocalFormatDate:self.gameObj.startTime showDay:NO showTime:YES];
 	self.dateLabel.textColor = [self colorForType:self.gameObj.type];
 	self.timeLabel.textColor = [self colorForType:self.gameObj.type];
-
 }
 
 -(UIColor *)colorForType:(NSString *)type {
@@ -94,6 +96,10 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
+	NSLog(@"Here!");
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	
 	[self setupData];
 	
 	ChipStackObj *chipStackObj = [ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:nil displayBySession:NO];
@@ -101,6 +107,7 @@
 	[self drawNotes];
 	
 	self.gameGraphView.image = chipStackObj.image;
+	[self.mainTableView reloadData];
 }
 
 
@@ -110,15 +117,11 @@
 	self.cellRowsArray = [[NSMutableArray alloc] init];
 	self.pointsArray = [[NSArray alloc] init];
 	
-	self.gameObj = [GameObj gameObjFromDBObj:mo];
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+//	self.gameObj = [GameObj gameObjFromDBObj:mo];
 
 	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Charts", nil)]];
 	
-	self.pprLabel.text = [NSString stringWithFormat:@"%d%%", self.gameObj.ppr];
-	self.pprLabel.textColor = (self.gameObj.ppr>=0)?[UIColor greenColor]:[UIColor orangeColor];
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
-	self.hudButton.hidden=!self.gameObj.hudStatsFlg;
 
 	[self addGameID];
 	[self setupGraphView];

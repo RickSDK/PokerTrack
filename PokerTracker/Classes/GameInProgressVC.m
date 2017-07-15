@@ -63,6 +63,8 @@
 
 	[ProjectFunctions makeFAButton:self.pauseButton type:7 size:16];
 	[ProjectFunctions makeFAButton:self.doneButton type:8 size:16];
+	[ProjectFunctions makeFAButton:self.rebuyButton type:25 size:24];
+	self.rebuyAmountLabel.text = NSLocalizedString(@"rebuy", nil);
 
 	self.mainTableView.tableHeaderView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.01f)];
 	
@@ -470,13 +472,12 @@
     NSString *chipsButtonText = @"";
 
 
-        int foodDrinks=0;
-        int tokesMoney = 0;
-            foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
-            tokesMoney = [[mo valueForKey:@"tokes"] intValue];
-			foodButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"foodDrinks"] intValue]]];
-			tokesButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"tokes"] intValue]]];
-        chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
+	int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
+	int tokesMoney = [[mo valueForKey:@"tokes"] intValue];
+	foodButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"foodDrinks"] intValue]]];
+	tokesButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"tokes"] intValue]]];
+
+	chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
         
         self.startDate = [mo valueForKey:@"startTime"];
         int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
@@ -493,10 +494,6 @@
         // Stats-------
         double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
         double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
-
-        [buyinLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions displayMoney:mo column:@"buyInAmount"] waitUntilDone:YES];
-        [rebuysLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d",[[mo valueForKey:@"numRebuys"] intValue] ] waitUntilDone:YES];
-        [rebuyAmountLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions displayMoney:mo column:@"rebuyAmount"] waitUntilDone:YES];
 
         double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
 	

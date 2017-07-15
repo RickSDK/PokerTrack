@@ -458,6 +458,7 @@
 		spots = [[components stringAtIndex:13] intValue]; // 
 		finish = [[components stringAtIndex:15] intValue]; // 
 		notesColumn = 20;
+		NSLog(@"What the?!? %d %d %d", breakMinutes, spots, finish);
 	}
 	
 	winnings += tips;

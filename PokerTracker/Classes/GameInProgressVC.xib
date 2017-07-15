@@ -25,6 +25,7 @@
                 <outlet property="pauseTimerLabel" destination="18" id="47"/>
                 <outlet property="playerTypeButton" destination="xPM-cd-hxv" id="91q-Yg-rvI"/>
                 <outlet property="popupView" destination="XZN-KM-R3q" id="G0X-xr-axY"/>
+                <outlet property="rebuyAmountLabel" destination="0l9-pb-Zyh" id="iLE-9E-wU6"/>
                 <outlet property="rebuyButton" destination="20" id="50"/>
                 <outlet property="timerLabel" destination="7" id="53"/>
                 <outlet property="tokesButton" destination="12" id="54"/>
@@ -246,6 +247,13 @@
                         <action selector="rebuyButtonPressed:" destination="-1" eventType="touchDown" id="59"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-Rebuy-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="0l9-pb-Zyh">
+                    <rect key="frame" x="240" y="324" width="79" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="97">
                     <rect key="frame" x="192" y="0.0" width="128" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -298,7 +306,7 @@
                             <rect key="frame" x="8" y="142" width="296" height="257"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <mutableString key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
+                            <string key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
 
 Why is food considered profit?
 
@@ -316,7 +324,7 @@ On the other hand, tips spent in the form of dealer tokes are NOT profit. You in
 
 Players have an emotional response to want to tip more for larger pots, but there's no logical reason for it. Did the dealer work harder for that pot? No. Keep that money in your chip stack.
 
-Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</mutableString>
+Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</string>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -325,35 +333,35 @@ Players feel like they are being generous by giving large tips, but the reality 
                             <rect key="frame" x="100" y="8" width="104" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Risked:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pt4-8m-N98">
                             <rect key="frame" x="8" y="38" width="136" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-Home:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vms-D1-fFk">
                             <rect key="frame" x="8" y="63" width="136" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gross Income:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5o-nT-mF5">
                             <rect key="frame" x="8" y="88" width="136" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profit:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RIe-Jv-QJc">
                             <rect key="frame" x="8" y="113" width="136" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buyin + Rebuys" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nim-2f-ce2">

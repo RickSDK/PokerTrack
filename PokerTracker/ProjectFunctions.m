@@ -498,6 +498,7 @@
 				@"tournamentSpots",
 				@"tournamentFinish",
 				@"game_id",
+				@"tournamentSpotsPaid",
 				nil];
 	
 	if([entityName isEqualToString:@"GAME"] && [type isEqualToString:@"type"])
@@ -531,6 +532,7 @@
 				@"text", 
 				@"text",
 				@"text",
+				@"int",
 				@"int",
 				@"int",
 				@"int",
@@ -841,8 +843,6 @@
 		[temp addObject:@""];
 		[temp addObject:[valueList stringAtIndex:kFood]];
 		[temp addObject:[valueList stringAtIndex:kdealertokes]];
-		[temp replaceObjectAtIndex:kFood withObject:@"0"];
-		[temp replaceObjectAtIndex:kdealertokes withObject:@"0"];
 		valueList = temp;
 	}
 		
@@ -953,7 +953,7 @@
 			}
 		}
 	}
-	
+	NSLog(@"Scrubbing complete!");
 	[context save:nil];
 }
 
@@ -4019,6 +4019,9 @@
 			break;
   case 24:
 			title = [NSString fontAwesomeIconStringForEnum:FAArrowUp];
+			break;
+  case 25:
+			title = [NSString fontAwesomeIconStringForEnum:FARepeat];
 			break;
 			
   default:

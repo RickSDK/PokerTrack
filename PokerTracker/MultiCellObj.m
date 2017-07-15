@@ -22,6 +22,9 @@
 }
 
 +(MultiCellObj *)buildsMultiLineObjWithGame:(GameObj *)gameObj {
+	NSString *currentChips = @"Current Chips";
+	if([@"Completed" isEqualToString:gameObj.status])
+		currentChips = @"cashoutAmount";
 	NSMutableArray *titles = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 					   NSLocalizedString(@"Type", nil),
 					   NSLocalizedString(@"Date", nil),
@@ -30,7 +33,7 @@
 					   NSLocalizedString(@"Buyin", nil),
 					   NSLocalizedString(@"numRebuys", nil),
 					   NSLocalizedString(@"rebuyAmount", nil),
-					   NSLocalizedString(@"Current Chips", nil),
+					   NSLocalizedString(currentChips, nil),
 					   NSLocalizedString(@"IncomeTotal", nil),
 					   NSLocalizedString(@"Take-Home", nil),
 					   NSLocalizedString(@"Profit", nil),
@@ -67,6 +70,21 @@
 					   [UIColor blackColor],
 					   [UIColor blackColor],
 					   nil]];
+	if(gameObj.breakMinutes>0) {
+		[titles addObject:NSLocalizedString(@"breakMinutes", nil)];
+		[values addObject:[NSString stringWithFormat:@"%d", gameObj.breakMinutes]];
+		[colors addObject:[UIColor blackColor]];
+	}
+	if(gameObj.foodDrink>0) {
+		[titles addObject:NSLocalizedString(@"foodDrink", nil)];
+		[values addObject:gameObj.foodDrinkStr];
+		[colors addObject:[UIColor blackColor]];
+	}
+	if(gameObj.tokes>0) {
+		[titles addObject:NSLocalizedString(@"tips", nil)];
+		[values addObject:gameObj.tokesStr];
+		[colors addObject:[UIColor blackColor]];
+	}
 	if(gameObj.isTourney) {
 		[titles addObject:NSLocalizedString(@"tournamentSpots", nil)];
 		[titles addObject:NSLocalizedString(@"tournamentSpotsPaid", nil)];
