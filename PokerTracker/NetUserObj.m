@@ -39,6 +39,16 @@
 			netUserObj.ppr	= [NSString stringWithFormat:@"%d", pprInt-100];
 		}
 	}
+	if(netUserObj.country.length>0) {
+		NSString *fileName = [NSString stringWithFormat:@"%@.png", netUserObj.country];
+		fileName = [fileName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+		netUserObj.flagImage = [UIImage imageNamed:fileName];
+		if (netUserObj.flagImage) {
+			netUserObj.hasFlag = YES;
+		} else {
+			NSLog(@"need it!: %@", fileName);
+		}
+	}
 
 	return netUserObj;
 }

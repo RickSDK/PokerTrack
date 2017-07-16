@@ -82,8 +82,7 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	} else {
-		self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Friends" selector:@selector(friendButtonClicked:) target:self];
-		
+		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAUsers] target:self action:@selector(friendButtonClicked)];
 	}
 	
 	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
@@ -189,16 +188,9 @@
 
         NSString *thisDateString = [NSString stringWithFormat:@"%02d/1/%d", processMonth, processYear];
         NSDate *thisdate = [thisDateString convertStringToDateWithFormat:@"MM/dd/yyyy"];
-//        NSString *currentMonth = [[NSDate date] convertDateToStringWithFormat:@"MMM yyyy"];
-        
+		
         datelabel.text = [thisdate convertDateToStringWithFormat:@"MMMM yyyy"];
 
-//		NSString *localFlg=@"N";
-//		if(topSegment.selectedSegmentIndex==1)
-//			localFlg=@"Y";
-		
-//		NSString *dateText = [NSString stringWithFormat:@"%d%02d", processYear, processMonth];
-		
 		NSString *username = [ProjectFunctions getUserDefaultValue:@"userName"];
 		NSString *password = [ProjectFunctions getUserDefaultValue:@"password"];
 		if([username length]==0) {
@@ -219,7 +211,7 @@
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerNetTracker.php";
 		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
 		if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
-			NSLog(@"%@", responseStr);
+//			NSLog(@"%@", responseStr);
 	
             [last10MoneyAllList removeAllObjects];
             [monthMoneyAllList removeAllObjects];
@@ -239,48 +231,12 @@
                 if([line length]>20) {
 					count++;
 					self.skip++;
-          //          NSArray *elements = [line componentsSeparatedByString:@"<xx>"];
-  //                  NSString *basics = [elements stringAtIndex:0];
-    //                NSString *last10 = [elements stringAtIndex:1];
-	//				NSString *yearStats = [elements stringAtIndex:2];
-      //              NSString *monthStats = [elements stringAtIndex:3];
-        //            NSString *lastGame = [elements stringAtIndex:4];
 					
 					NetUserObj *netUserObj = [NetUserObj userObjFromString:line];
 					[self.netUserList addObject:netUserObj];
                   
- //                   NSArray *last10Elements = [last10 componentsSeparatedByString:@"|"];
-   //                 NSArray *yearElements = [yearStats componentsSeparatedByString:@"|"];
-     //               NSArray *monthElements = [monthStats componentsSeparatedByString:@"|"];
-       //             NSArray *basicsElements = [basics componentsSeparatedByString:@"|"];
-                    
-//                    int gamesThisMonth = [[monthElements stringAtIndex:2] intValue];
-                    
- //                   NSString *status = [basicsElements stringAtIndex:7];
                     if([netUserObj.friendStatus isEqualToString:@"Request Pending"])
                         [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", netUserObj.name]];
-                    /*
-                    NSString *lastMonthUpd = [monthElements stringAtIndex:0];
-                    
-                    //Money
-                    [last10MoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[last10Elements stringAtIndex:4] intValue]+1000000), last10, basics, lastGame, line]];
-                    
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthMoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[monthElements stringAtIndex:4] intValue]+1000000), monthStats, basics, lastGame, line]];
-                    [yearMoneyFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[yearElements stringAtIndex:4] intValue]+1000000), yearStats, basics, lastGame, line]];
-                    
-                    //Skill
-                    [last10ProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[last10Elements stringAtIndex:6] intValue], last10, basics, lastGame, line]];
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[monthElements stringAtIndex:6] intValue], monthStats, basics, lastGame, line]];
-                    [yearProfitFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[yearElements stringAtIndex:6] intValue], yearStats, basics, lastGame, line]];
-                    
-                    //Games
-                    [last10GamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[last10Elements stringAtIndex:2] intValue], last10, basics, lastGame, line]];
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthGamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[monthElements stringAtIndex:2] intValue], monthStats, basics, lastGame, line]];
-                    [yearGamesFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[yearElements stringAtIndex:2] intValue], yearStats, basics, lastGame, line]];
-					 */
 
 				}
 			self.keepGoing=(count>=kBatchLimit);
@@ -346,6 +302,9 @@
     }
 	
 	NetUserObj *netUserObj = [netUserList objectAtIndex:indexPath.row];
+	if(netUserObj.hasFlag)
+		cell.flagImageView.image=netUserObj.flagImage;
+	cell.flagImageView.hidden=!netUserObj.hasFlag;
 	
     NSArray *statFields = [netUserObj.monthStats componentsSeparatedByString:@"|"];
     NSArray *basicsFields = [netUserObj.basicsStr componentsSeparatedByString:@"|"];

@@ -84,7 +84,7 @@
 	friendButton.alpha=0;
 	infoImage.alpha=0;
 	
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+//	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	
 	if([self.gameObj.type isEqualToString:@"Tournament"]) {
 		currentStackLabel.text = @"Amount Won";
@@ -97,6 +97,32 @@
 	[self liveUpdate];
 	pauseTimerLabel.alpha=(self.gameObj.breakMinutes>0)?1:0;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	self.popupViewNumber=0;
+	if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
+		self.gamePaused=YES;
+		[self pauseScreen];
+	} else
+		self.gamePaused=NO;
+	
+	self.viewLoadedFlg=YES;
+	self.gameInProgress=YES;
+
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	[self.mainTableView reloadData];
+
+	[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
+}
+
+
 
 
 -(BOOL)shouldAutorotate
@@ -629,26 +655,6 @@
 {
 	[super viewWillDisappear:animated];
 	self.viewLoadedFlg=NO;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-	
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-	
-    self.popupViewNumber=0;
-    if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
-		self.gamePaused=YES;
-		[self pauseScreen];
-	} else
-		self.gamePaused=NO;
-	
-	self.viewLoadedFlg=YES;
-	self.gameInProgress=YES;
-	
-	[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
 }
 
 - (void)displayBadgeNumber {

@@ -28,8 +28,19 @@
 		format = @"M/d/yy hh:mm a";
 	
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
+//	df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 	[df setDateFormat:format];
 	NSString *dateString = [df stringFromDate:self];
+	
+	if(dateString==nil) {
+		NSLog(@"Date failure!!! %@", self);
+		NSDateFormatter *df = [[NSDateFormatter alloc] init];
+		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+		[df setDateFormat:format];
+		dateString = [df stringFromDate:self];
+	}
+	
+	
     if(dateString==nil)
         dateString=@"-";
 	return dateString;

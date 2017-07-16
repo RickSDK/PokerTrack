@@ -1010,7 +1010,7 @@
 			NSDate *ist = [istartTime convertStringToDateFinalSolution];
 			if(![self checkForDupe:ist buyInAmount:buyIn]) {
 				numRecords++;
-				NSLog(@"\t\timporting: $%d %@", buyIn, istartTime);
+				NSLog(@"\t\timporting: $%d %@ %@", buyIn, istartTime, ist);
 				[self ImportNewPTGame:components];
 			}
 		} else
@@ -1162,7 +1162,6 @@
 				[ProjectFunctions setUserDefaultValue:[components objectAtIndex:1] forKey:@"bankrollDefault"];
 				NSString *switchVal = [@"Y" isEqualToString:[components objectAtIndex:2]]?@"Y":@"";
 				[ProjectFunctions setUserDefaultValue:switchVal forKey:@"bankrollSwitch"];
-				NSLog(@"Here!!!! %@", line);
 			}
 		}
 			

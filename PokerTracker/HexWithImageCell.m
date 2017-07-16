@@ -41,7 +41,7 @@ static NSInteger ROW_SEP = 2;
 
 
 @synthesize a1, a2, b1, b2, c1, c2;
-@synthesize a1Color, a2Color, b1Color, b2Color, c1Color, c2Color, leftImageView;
+@synthesize a1Color, a2Color, b1Color, b2Color, c1Color, c2Color, leftImageView, flagImageView;
 
 + (CGFloat)cellHeight {  //return cellHeight which is constant
 	return 3*(FONT_SIZE + ROW_SEP) + 12;
@@ -174,9 +174,12 @@ static NSInteger ROW_SEP = 2;
 		[self.contentView addSubview:c1];
         [self.contentView addSubview:c2];
 
-		leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 55)];
+		leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 26, 22, 29)];
 		[self.contentView addSubview:leftImageView];
-
+		
+		flagImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 25)];
+		[self.contentView addSubview:flagImageView];
+		
 	}
 	return self;
 }

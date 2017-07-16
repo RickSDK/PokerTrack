@@ -45,7 +45,6 @@
 - (IBAction) gameSegmentChanged: (id) sender;
 - (IBAction) yearGoesUp: (id) sender;
 - (IBAction) yearGoesDown: (id) sender;
-- (IBAction) refreshPressed: (id) sender;
 - (void) computeStats;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;

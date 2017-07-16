@@ -101,7 +101,6 @@
 	gameObj.tournamentSpotsPaidStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid];
 	gameObj.tournamentFinishStr = [NSString stringWithFormat:@"%d", gameObj.tournamentFinish];
 	
-	
 	return gameObj;
 }
 

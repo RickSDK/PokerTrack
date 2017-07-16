@@ -300,6 +300,24 @@
 		6BCB301A19E44FF700BC1F4C /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301919E44FF700BC1F4C /* MainWindow-iPad.xib */; };
 		6BCB301C19E44FFE00BC1F4C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */; };
 		6BCB304019E5959100BC1F4C /* ExportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB303F19E5959100BC1F4C /* ExportCell.m */; };
+		6BCBD9481F1B14730078C165 /* Australia.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9471F1B14730078C165 /* Australia.png */; };
+		6BCBD94A1F1B14840078C165 /* Brazil.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9491F1B14840078C165 /* Brazil.png */; };
+		6BCBD94C1F1B148D0078C165 /* Canada.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD94B1F1B148D0078C165 /* Canada.png */; };
+		6BCBD94E1F1B17770078C165 /* China.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD94D1F1B17770078C165 /* China.png */; };
+		6BCBD9501F1B178B0078C165 /* France.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD94F1F1B178B0078C165 /* France.png */; };
+		6BCBD9521F1B17980078C165 /* Germany.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9511F1B17980078C165 /* Germany.png */; };
+		6BCBD9551F1B17AE0078C165 /* Greece.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9531F1B17AE0078C165 /* Greece.png */; };
+		6BCBD9561F1B17AE0078C165 /* Hong_Kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9541F1B17AE0078C165 /* Hong_Kong.png */; };
+		6BCBD95A1F1B17C20078C165 /* Ireland.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9571F1B17C20078C165 /* Ireland.png */; };
+		6BCBD95B1F1B17C20078C165 /* Israel.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9581F1B17C20078C165 /* Israel.png */; };
+		6BCBD95C1F1B17C20078C165 /* Italy.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9591F1B17C20078C165 /* Italy.png */; };
+		6BCBD95E1F1B17CF0078C165 /* Japan.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD95D1F1B17CF0078C165 /* Japan.png */; };
+		6BCBD9601F1B17E20078C165 /* Mexico.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD95F1F1B17E20078C165 /* Mexico.png */; };
+		6BCBD9631F1B17FA0078C165 /* South_Korea.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9611F1B17FA0078C165 /* South_Korea.png */; };
+		6BCBD9641F1B17FA0078C165 /* Spain.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9621F1B17FA0078C165 /* Spain.png */; };
+		6BCBD9661F1B180E0078C165 /* Sweden.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9651F1B180E0078C165 /* Sweden.png */; };
+		6BCBD9691F1B181F0078C165 /* United_Kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9671F1B181F0078C165 /* United_Kingdom.png */; };
+		6BCBD96A1F1B181F0078C165 /* USA.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9681F1B181F0078C165 /* USA.png */; };
 		6BCF5B251C56B494000B3542 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCF5B241C56B494000B3542 /* StoreKit.framework */; };
 		6BD4D0131F0AD1420059614C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D0151F0AD1420059614C /* Localizable.strings */; };
 		6BD4D01E1F0F12170059614C /* EditSegmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4D01C1F0F12170059614C /* EditSegmentVC.m */; };
@@ -793,6 +811,25 @@
 		6BCB301B19E44FFE00BC1F4C /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		6BCB303E19E5959100BC1F4C /* ExportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportCell.h; sourceTree = "<group>"; };
 		6BCB303F19E5959100BC1F4C /* ExportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportCell.m; sourceTree = "<group>"; };
+		6BCBD9471F1B14730078C165 /* Australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Australia.png; sourceTree = "<group>"; };
+		6BCBD9491F1B14840078C165 /* Brazil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Brazil.png; sourceTree = "<group>"; };
+		6BCBD94B1F1B148D0078C165 /* Canada.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canada.png; sourceTree = "<group>"; };
+		6BCBD94D1F1B17770078C165 /* China.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = China.png; sourceTree = "<group>"; };
+		6BCBD94F1F1B178B0078C165 /* France.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = France.png; sourceTree = "<group>"; };
+		6BCBD9511F1B17980078C165 /* Germany.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Germany.png; sourceTree = "<group>"; };
+		6BCBD9531F1B17AE0078C165 /* Greece.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Greece.png; sourceTree = "<group>"; };
+		6BCBD9541F1B17AE0078C165 /* Hong_Kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hong_Kong.png; sourceTree = "<group>"; };
+		6BCBD9571F1B17C20078C165 /* Ireland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ireland.png; sourceTree = "<group>"; };
+		6BCBD9581F1B17C20078C165 /* Israel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Israel.png; sourceTree = "<group>"; };
+		6BCBD9591F1B17C20078C165 /* Italy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Italy.png; sourceTree = "<group>"; };
+		6BCBD95D1F1B17CF0078C165 /* Japan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Japan.png; sourceTree = "<group>"; };
+		6BCBD95F1F1B17E20078C165 /* Mexico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mexico.png; sourceTree = "<group>"; };
+		6BCBD9611F1B17FA0078C165 /* South_Korea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = South_Korea.png; sourceTree = "<group>"; };
+		6BCBD9621F1B17FA0078C165 /* Spain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spain.png; sourceTree = "<group>"; };
+		6BCBD9651F1B180E0078C165 /* Sweden.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sweden.png; sourceTree = "<group>"; };
+		6BCBD9671F1B181F0078C165 /* United_Kingdom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = United_Kingdom.png; sourceTree = "<group>"; };
+		6BCBD9681F1B181F0078C165 /* USA.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USA.png; sourceTree = "<group>"; };
+		6BCBD96B1F1B1B360078C165 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BCF5B241C56B494000B3542 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6BD4D0141F0AD1420059614C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D0171F0AD2A20059614C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1335,6 +1372,7 @@
 		6B750D2E143D2B1300E59D21 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6BCBD93E1F1B0AFE0078C165 /* flags */,
 				6BD4D9641D120EF600236804 /* Default-568h.png */,
 				6BD4D9621D120EC000236804 /* Default-568h@2x.png */,
 				6BD4D9661D120FDB00236804 /* Default.png */,
@@ -1597,6 +1635,31 @@
 			name = imagesStore;
 			sourceTree = "<group>";
 		};
+		6BCBD93E1F1B0AFE0078C165 /* flags */ = {
+			isa = PBXGroup;
+			children = (
+				6BCBD9671F1B181F0078C165 /* United_Kingdom.png */,
+				6BCBD9681F1B181F0078C165 /* USA.png */,
+				6BCBD9651F1B180E0078C165 /* Sweden.png */,
+				6BCBD9611F1B17FA0078C165 /* South_Korea.png */,
+				6BCBD9621F1B17FA0078C165 /* Spain.png */,
+				6BCBD95F1F1B17E20078C165 /* Mexico.png */,
+				6BCBD95D1F1B17CF0078C165 /* Japan.png */,
+				6BCBD9571F1B17C20078C165 /* Ireland.png */,
+				6BCBD9581F1B17C20078C165 /* Israel.png */,
+				6BCBD9591F1B17C20078C165 /* Italy.png */,
+				6BCBD9531F1B17AE0078C165 /* Greece.png */,
+				6BCBD9541F1B17AE0078C165 /* Hong_Kong.png */,
+				6BCBD9511F1B17980078C165 /* Germany.png */,
+				6BCBD94F1F1B178B0078C165 /* France.png */,
+				6BCBD94D1F1B17770078C165 /* China.png */,
+				6BCBD94B1F1B148D0078C165 /* Canada.png */,
+				6BCBD9491F1B14840078C165 /* Brazil.png */,
+				6BCBD9471F1B14730078C165 /* Australia.png */,
+			);
+			name = flags;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1649,6 +1712,7 @@
 				ko,
 				sv,
 				"es-MX",
+				he,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1670,6 +1734,7 @@
 				6B750D1C143D29F200E59D21 /* MainMenuVC.xib in Resources */,
 				6BD4D95C1D120DDD00236804 /* Icon@2x.png in Resources */,
 				6B750D30143D2B2100E59D21 /* blueButton.png in Resources */,
+				6BCBD9601F1B17E20078C165 /* Mexico.png in Resources */,
 				6B750D32143D2B2500E59D21 /* buttonBlue.png in Resources */,
 				6B750D44143D305700E59D21 /* StatsPage.xib in Resources */,
 				6BBC4A821BC86F7C00CC0081 /* note.png in Resources */,
@@ -1703,6 +1768,7 @@
 				6B752DE9144F7F7700E59D21 /* BigHandsFormVC.xib in Resources */,
 				6B7531041450946300E59D21 /* LoginVC.xib in Resources */,
 				6B75325B1450D33600E59D21 /* PokerJournalExport.csv in Resources */,
+				6BCBD9521F1B17980078C165 /* Germany.png in Resources */,
 				6BD4D9541D120DDD00236804 /* Icon-29.png in Resources */,
 				6B753615145267F000E59D21 /* FriendLocatorVC.xib in Resources */,
 				6B75362E14526BCB00E59D21 /* CreateNewAccount.xib in Resources */,
@@ -1712,6 +1778,7 @@
 				6BA5BC42145B11FF00F1C0BD /* redCircle.png in Resources */,
 				6B147F1219D496A00012E0A8 /* EULAVC.xib in Resources */,
 				6BA5BE9E145C9DF300F1C0BD /* FriendDetailVC.xib in Resources */,
+				6BCBD96A1F1B181F0078C165 /* USA.png in Resources */,
 				6BD4D96D1D12108700236804 /* Default-Portrait@2x~ipad.png in Resources */,
 				6BA5BF53145CBE6D00F1C0BD /* StartNewGameVC.xib in Resources */,
 				6BA5BF58145CBE8700F1C0BD /* GameInProgressVC.xib in Resources */,
@@ -1746,6 +1813,7 @@
 				6BB091791472E70E00DF84AB /* whitebutton.png in Resources */,
 				6BB0918D1472EA1A00DF84AB /* tealButton.png in Resources */,
 				6BB091921472EA3A00DF84AB /* purpleButton.png in Resources */,
+				6BCBD94A1F1B14840078C165 /* Brazil.png in Resources */,
 				6BB8097F1D011EBB00ADAD99 /* Default-Landscape@2x~ipad.png in Resources */,
 				6BC2BFD81F13366C00483489 /* HudTrackerVC.xib in Resources */,
 				6BB091941472EA4900DF84AB /* redButton.png in Resources */,
@@ -1782,9 +1850,12 @@
 				6B909ED014C9ED1800712EDC /* greenFelt2.png in Resources */,
 				6BD4D9671D120FDB00236804 /* Default.png in Resources */,
 				6B909ED414C9EE6C00712EDC /* refresh.png in Resources */,
+				6BCBD9641F1B17FA0078C165 /* Spain.png in Resources */,
 				6BCA887C1F13556E00633484 /* red_green2.jpg in Resources */,
+				6BCBD95C1F1B17C20078C165 /* Italy.png in Resources */,
 				6B909EE914C9EFE200712EDC /* yellowGlossButton.png in Resources */,
 				6B909EEE14C9F07800712EDC /* metalPlate.png in Resources */,
+				6BCBD9691F1B181F0078C165 /* United_Kingdom.png in Resources */,
 				6B909EF814C9F1E700712EDC /* blueChromeBut.png in Resources */,
 				6B909EFA14C9F1F000712EDC /* redChromeBut.png in Resources */,
 				6B909EFC14C9F1F600712EDC /* whiteChromeBut.png in Resources */,
@@ -1793,11 +1864,14 @@
 				6B909F3214C9FAEA00712EDC /* greenBG2.png in Resources */,
 				6B909F3914C9FB7A00712EDC /* yellowButton.png in Resources */,
 				6B909FAD14CA113B00712EDC /* CasinoAddressUpdatorVC.xib in Resources */,
+				6BCBD95E1F1B17CF0078C165 /* Japan.png in Resources */,
 				6B90A03C14CA284700712EDC /* TextLineEnterVC.xib in Resources */,
 				6B90A0C314CA38E700712EDC /* MapKitTut.xib in Resources */,
 				6B90A27D14CB462700712EDC /* cardroom.jpg in Resources */,
 				6B90A27F14CB462700712EDC /* casino.jpg in Resources */,
 				6B90A28E14CB47EB00712EDC /* CasinoEditorVC.xib in Resources */,
+				6BCBD9631F1B17FA0078C165 /* South_Korea.png in Resources */,
+				6BCBD9481F1B14730078C165 /* Australia.png in Resources */,
 				6B90A34A14CB694400712EDC /* phoneicon.png in Resources */,
 				6B90A43614CB832E00712EDC /* indian.jpg in Resources */,
 				6B90A44914CB875800712EDC /* CasinoGamesEditVC.xib in Resources */,
@@ -1822,6 +1896,7 @@
 				6BD84C2814FEE0CE0048473A /* cardBack.png in Resources */,
 				6BE5C75718380F420028CA26 /* FriendAlertsVC.xib in Resources */,
 				6BD4D9601D120DDD00236804 /* Icon-Small@2x.png in Resources */,
+				6BCBD95B1F1B17C20078C165 /* Israel.png in Resources */,
 				6BD84C6C14FFEC3F0048473A /* green.png in Resources */,
 				6BD4D9611D120DDD00236804 /* Icon-72.png in Resources */,
 				6BD84C6E14FFEC440048473A /* yellow.png in Resources */,
@@ -1839,6 +1914,7 @@
 				6BD85A8B151CF4B60048473A /* FriendInProgressVC.xib in Resources */,
 				6BC80433156C74FF001C24BD /* ListPicker.xib in Resources */,
 				6BC8044B156C766F001C24BD /* cleanupRefData.xib in Resources */,
+				6BCBD9551F1B17AE0078C165 /* Greece.png in Resources */,
 				6BC80484156C81D2001C24BD /* crowdapplause.wav in Resources */,
 				6BF0C4191667E6A400D8D6AE /* BankrollsVC.xib in Resources */,
 				6BD4D9691D120FE200236804 /* Default@2x.png in Resources */,
@@ -1846,9 +1922,13 @@
 				6BCB301C19E44FFE00BC1F4C /* MainWindow.xib in Resources */,
 				6BF0C4261667E6DB00D8D6AE /* IGAVC.xib in Resources */,
 				6BF0C4331667E6F700D8D6AE /* UniverseTrackerVC.xib in Resources */,
+				6BCBD9501F1B178B0078C165 /* France.png in Resources */,
 				6BF0C4351667E6F700D8D6AE /* UserSummaryVC.xib in Resources */,
+				6BCBD9661F1B180E0078C165 /* Sweden.png in Resources */,
 				6BCA888B1F156FFE00633484 /* playerType2.png in Resources */,
+				6BCBD95A1F1B17C20078C165 /* Ireland.png in Resources */,
 				6BF0C4371667E6F700D8D6AE /* ViewLocationsVC.xib in Resources */,
+				6BCBD94E1F1B17770078C165 /* China.png in Resources */,
 				6BF0C43C1667E70800D8D6AE /* ProfileVC.xib in Resources */,
 				6BF0C4411667E71D00D8D6AE /* TauntVC.xib in Resources */,
 				6BB864F81677BA8E007BCD76 /* Last10NewVC.xib in Resources */,
@@ -1864,7 +1944,9 @@
 				6BB4ADCF16F39E5B0096E2B5 /* greenBar.png in Resources */,
 				6BA4AA81172EE71D006022E1 /* FriendTrackerVC.xib in Resources */,
 				6BA4AA88173463C4006022E1 /* black.png in Resources */,
+				6BCBD9561F1B17AE0078C165 /* Hong_Kong.png in Resources */,
 				6BD4D01F1F0F12170059614C /* EditSegmentVC.xib in Resources */,
+				6BCBD94C1F1B148D0078C165 /* Canada.png in Resources */,
 				6B9BEB88175AB6AE00D0BA12 /* MoreTrackersVC.xib in Resources */,
 				6B9BEB8D175AB94A00D0BA12 /* ForumVC.xib in Resources */,
 				6B9BF45D175D426700D0BA12 /* ForumCategoryVC.xib in Resources */,
@@ -2047,6 +2129,7 @@
 				6BD7AFBF1F18481200C9830B /* ko */,
 				6BD7AFC01F19182700C9830B /* sv */,
 				6BD7AFC41F1AD63B00C9830B /* es-MX */,
+				6BCBD96B1F1B1B360078C165 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -2071,8 +2154,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2096,8 +2179,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "86e2d28b-fe30-4e2f-b345-0f2e61b6d010";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

@@ -216,6 +216,15 @@
 	[df setDateFormat:format];
 	NSDate *dateVar = [df dateFromString:self];
 	
+	if(dateVar==nil) {
+		NSLog(@"-------date failure!!--------%@", self);
+		
+		NSDateFormatter *df = [[NSDateFormatter alloc] init];
+		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+		[df setDateFormat:format];
+		dateVar = [df dateFromString:self];
+	}
+	
 	
 	return dateVar;
 }
@@ -227,8 +236,18 @@
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setDateFormat:format];
 	NSDate *dateVar = [df dateFromString:self];
-	
+
 	if(dateVar==nil) {
+		NSLog(@"-------date failure!!--------%@", self);
+		
+		NSDateFormatter *df = [[NSDateFormatter alloc] init];
+		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+		[df setDateFormat:format];
+		dateVar = [df dateFromString:self];
+	}
+
+	if(dateVar==nil) {
+		NSLog(@"-------date failure--------%@", self);
 		int year=2015;
 		int month=1;
 		int day=1;
@@ -265,8 +284,10 @@
 //		NSLog(@"\t\t+++dtStr: %@", dtStr);
 		dateVar = [dtStr convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
 	}
-	if(dateVar==nil)
+	if(dateVar==nil) {
+		NSLog(@"-------TOTAL FAILURE!!!--------%@", self);
 		dateVar= [NSDate date];
+	}
 	
 	return dateVar;
 }

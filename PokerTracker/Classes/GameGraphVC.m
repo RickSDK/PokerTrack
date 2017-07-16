@@ -96,7 +96,6 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
-	NSLog(@"Here!");
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	

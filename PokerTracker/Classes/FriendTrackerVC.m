@@ -39,17 +39,82 @@
 
 
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Friends"];
+ 
+	self.userList = [[NSMutableArray alloc] init];
+	
+	self.playerDict = [[NSMutableDictionary alloc] init];
+	
+	timeFrameSegment.selectedSegmentIndex=1;
+	
+	chartLast10ImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
+	chartThisMonthImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
+	chartImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
+	
+	chartLast10ImageView.alpha=1;
+	chartThisMonthImageView.alpha=1;
+	chartImageView.alpha=1;
+	self.blackBG.alpha=0;
+	self.refreshButton.alpha=0;
+	
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"FRIEND" predicate:nil sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
+	NSMutableArray *friends = [[NSMutableArray alloc] init];
+	for(NSManagedObject *mo in items) {
+		int uid = [[mo valueForKey:@"user_id"] intValue];
+		[friends addObject:[NSString stringWithFormat:@"[%d]", uid]];
+	}
+	
+	self.friendList = [friends componentsJoinedByString:@"|"];
+	
+	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0 && [[ProjectFunctions getUserDefaultValue:@"userCity"] length]==0)
+		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Please update your profile to include your City and State" delegate:self];
+	
+	self.processMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
+	self.processYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
+	
+	self.profitList = [[NSMutableArray alloc] init];
+	moneyList = [[NSMutableArray alloc] init];
+	gamesList = [[NSMutableArray alloc] init];
+	
+	last10MoneyAllList = [[NSMutableArray alloc] init];
+	last10ProfitAllList = [[NSMutableArray alloc] init];
+	last10GamesAllList = [[NSMutableArray alloc] init];
+	monthMoneyAllList = [[NSMutableArray alloc] init];
+	monthProfitAllList = [[NSMutableArray alloc] init];
+	monthGamesAllList = [[NSMutableArray alloc] init];
+	
+	yearMoneyFriendsList = [[NSMutableArray alloc] init];
+	yearProfitFriendsList = [[NSMutableArray alloc] init];
+	yearGamesFriendsList = [[NSMutableArray alloc] init];
+	
+	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please login to use the Net Tracker System. Use the login button at the top."];
+		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
+		self.navigationItem.rightBarButtonItem = moreButton;
+	} else {
+		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed)];
+	}
+
+	[ProjectFunctions makeSegment:self.timeFrameSegment color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
+	[ProjectFunctions makeSegment:self.sortSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	[self startBackgroundProcess];
+	
+}
+
 -(void)populateArray
 {
-    
+	
     if(timeFrameSegment.selectedSegmentIndex==0) {
         datelabel.text = NSLocalizedString(@"Last10", nil);
     }
     if(timeFrameSegment.selectedSegmentIndex==1) {
-        datelabel.text = @"This Month";
+        datelabel.text = NSLocalizedString(@"month", nil);
     }
     if(timeFrameSegment.selectedSegmentIndex==2) {
-        datelabel.text = @"Last 90 Days";
+        datelabel.text = [NSString stringWithFormat:@"Last 90 %@", NSLocalizedString(@"day", nil)];
     }
     
 	[self.userList removeAllObjects];
@@ -532,85 +597,6 @@
 	LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Friends"];
- 
-    self.userList = [[NSMutableArray alloc] init];
-
-    self.playerDict = [[NSMutableDictionary alloc] init];
-    self.datelabel.text = @"This Month";
-    
-    
-    timeFrameSegment.selectedSegmentIndex=1;
-    
-    chartLast10ImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
-    chartThisMonthImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
-    chartImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
-
-    chartLast10ImageView.alpha=1;
-    chartThisMonthImageView.alpha=1;
-    chartImageView.alpha=1;
-    self.blackBG.alpha=0;
-    self.refreshButton.alpha=0;
-
-	
-	NSArray *items = [CoreDataLib selectRowsFromEntity:@"FRIEND" predicate:nil sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
-	NSMutableArray *friends = [[NSMutableArray alloc] init];
-	for(NSManagedObject *mo in items) {
-		int uid = [[mo valueForKey:@"user_id"] intValue];
-		[friends addObject:[NSString stringWithFormat:@"[%d]", uid]];
-	}
-    
-    
-    
-	self.friendList = [friends componentsJoinedByString:@"|"];
-	
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0 && [[ProjectFunctions getUserDefaultValue:@"userCity"] length]==0)
-		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Please update your profile to include your City and State" delegate:self];
-	
-    self.processMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
-    self.processYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-	
-	self.profitList = [[NSMutableArray alloc] init];
-	moneyList = [[NSMutableArray alloc] init];
-	gamesList = [[NSMutableArray alloc] init];
-    
-    last10MoneyAllList = [[NSMutableArray alloc] init];
-    last10ProfitAllList = [[NSMutableArray alloc] init];
-    last10GamesAllList = [[NSMutableArray alloc] init];
-    monthMoneyAllList = [[NSMutableArray alloc] init];
-    monthProfitAllList = [[NSMutableArray alloc] init];
-    monthGamesAllList = [[NSMutableArray alloc] init];
-    
-    yearMoneyFriendsList = [[NSMutableArray alloc] init];
-    yearProfitFriendsList = [[NSMutableArray alloc] init];
-    yearGamesFriendsList = [[NSMutableArray alloc] init];
-    
-    
-	
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please login to use the Net Tracker System. Use the login button at the top."];
-		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
-		self.navigationItem.rightBarButtonItem = moreButton;
-	} else {
-		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed)];
-		self.navigationItem.rightBarButtonItem = addButton;
-
-	}
-	
-    
-	[self startBackgroundProcess];
-	
-	[ProjectFunctions makeSegment:self.timeFrameSegment color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.sortSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-	
 }
 
 - (void)createPressed {

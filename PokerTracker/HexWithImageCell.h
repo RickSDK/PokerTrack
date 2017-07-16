@@ -30,6 +30,7 @@
 	float middleSplit;
 	float bottomSplit;		// divider fraction for bottom line
 	UIImageView *leftImageView;
+	UIImageView *flagImageView;
 }
 
 
@@ -41,6 +42,7 @@
 @property (readonly, strong) UILabel *c2;
 
 @property (strong) UIImageView *leftImageView;
+@property (strong) UIImageView *flagImageView;
 @property (strong) UIColor *a1Color;
 @property (strong) UIColor *a2Color;
 @property (strong) UIColor *b1Color;

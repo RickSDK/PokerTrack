@@ -29,6 +29,8 @@
 @property (nonatomic) int profit;
 @property (nonatomic, strong) NSString *ppr;
 @property (nonatomic) int hours;
+@property (nonatomic) BOOL hasFlag;
+@property (nonatomic, strong) UIImage *flagImage;
 @property (nonatomic, strong) NSString *hourly;
 @property (nonatomic, strong) NSString *lastStartTime;
 @property (nonatomic, strong) NSString *lastLocation;

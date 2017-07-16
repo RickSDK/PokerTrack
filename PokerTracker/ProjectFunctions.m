@@ -3778,7 +3778,7 @@
 
 +(int)getMinutesPlayedUsingStartTime:(NSDate *)startTime andEndTime:(NSDate *)endTime andBreakMin:(int)breakMinutes
 {
-    int minutesPlayed = [endTime timeIntervalSinceDate:startTime]/60;
+	int minutesPlayed = [endTime timeIntervalSinceDate:startTime]/60;
     return minutesPlayed-breakMinutes;
 }
 

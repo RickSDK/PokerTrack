@@ -54,7 +54,7 @@
 		[self setTitle:@"Test Mode"];
 		self.graphChart.alpha=.5;
 	}
-	
+
 	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
 	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
 	self.playerTypeLabel.layer.cornerRadius = 7;
