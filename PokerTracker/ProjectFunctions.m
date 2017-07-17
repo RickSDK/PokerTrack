@@ -3927,6 +3927,19 @@
 	
 }
 
++(void)changeColorForGameBar:(UISegmentedControl *)bar {
+	int number = (int)bar.selectedSegmentIndex;
+	if(bar.numberOfSegments==2)
+		number++;
+	
+	if(number==0)
+		[bar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	else if(number==1)
+		[bar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
+	else
+		[bar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
+}
+
 +(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size {
 	label.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
 	label.text = [self faStringOfType:type];

@@ -152,6 +152,7 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
+	[ProjectFunctions changeColorForGameBar:self.gameTypeSegment];
 	[self computeStats];
 }
 

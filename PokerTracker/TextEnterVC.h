@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface TextEnterVC : UIViewController {
+@interface TextEnterVC : TemplateVC {
 	//---Passed In----------------------------
 	UIViewController *callBackViewController;
 	NSString *initialDateValue;

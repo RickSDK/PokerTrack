@@ -10,10 +10,10 @@
 #import "LocationGetter.h"
 #import <CoreLocation/CoreLocation.h>
 #import "CustomSegment.h"
-//#import <MapKit/MapKit.h>
+#import "TemplateVC.h"
 
 
-@interface CasinoTrackerVC : UIViewController <CLLocationManagerDelegate> {
+@interface CasinoTrackerVC : TemplateVC <CLLocationManagerDelegate> {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIButton *locateButton;
 	IBOutlet CustomSegment *distanceSegment;

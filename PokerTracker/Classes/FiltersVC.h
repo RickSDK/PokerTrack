@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface FiltersVC : UIViewController {
+@interface FiltersVC : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *filterObj;

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface BigHandsPlayersFormVC : UIViewController {
+@interface BigHandsPlayersFormVC : TemplateVC {
     NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *mo;
 	int playersHand;

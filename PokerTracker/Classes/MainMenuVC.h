@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 #import "TemplateVC.h"
+#import "PopupView.h"
 
 
 @interface MainMenuVC : UIViewController {
@@ -101,7 +102,7 @@
 @property (nonatomic, strong) UILabel *smallYearLabel;
 @property (nonatomic, strong) UILabel *yearTotalLabel;
 
-@property (nonatomic, strong) IBOutlet UIView *aboutView;
+@property (nonatomic, strong) IBOutlet PopupView *aboutView;
 @property (nonatomic, strong) IBOutlet UIView *botView;
 @property (nonatomic, strong) IBOutlet UIView *reviewView;
 @property (nonatomic, strong) IBOutlet UILabel *reviewCountLabel;

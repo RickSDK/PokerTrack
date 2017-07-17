@@ -82,6 +82,7 @@
 		6B5CA21F1F1C3CEE003392BD /* Turkey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA2171F1C3CEE003392BD /* Turkey.png */; };
 		6B5CA2201F1C3CEE003392BD /* Ukraine.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA2181F1C3CEE003392BD /* Ukraine.png */; };
 		6B5CA2211F1C3CEE003392BD /* Vietnam.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA2191F1C3CEE003392BD /* Vietnam.png */; };
+		6B5CA2241F1C6CFB003392BD /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CA2231F1C6CFB003392BD /* PopupView.m */; };
 		6B6638C8169E539E00C6B9E5 /* LockAppVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6638C6169E539E00C6B9E5 /* LockAppVC.m */; };
 		6B6638C9169E539E00C6B9E5 /* LockAppVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6638C7169E539E00C6B9E5 /* LockAppVC.xib */; };
 		6B6638CD169E597E00C6B9E5 /* UnLockAppVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6638CB169E597E00C6B9E5 /* UnLockAppVC.m */; };
@@ -521,6 +522,8 @@
 		6B5CA2171F1C3CEE003392BD /* Turkey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Turkey.png; sourceTree = "<group>"; };
 		6B5CA2181F1C3CEE003392BD /* Ukraine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ukraine.png; sourceTree = "<group>"; };
 		6B5CA2191F1C3CEE003392BD /* Vietnam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Vietnam.png; sourceTree = "<group>"; };
+		6B5CA2221F1C6CFB003392BD /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
+		6B5CA2231F1C6CFB003392BD /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		6B6161C016D454CF00EE5C59 /* PokerTracker 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PokerTracker 5.xcdatamodel"; sourceTree = "<group>"; };
 		6B6638C5169E539E00C6B9E5 /* LockAppVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockAppVC.h; sourceTree = "<group>"; };
 		6B6638C6169E539E00C6B9E5 /* LockAppVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockAppVC.m; sourceTree = "<group>"; };
@@ -1681,6 +1684,8 @@
 				6B57B67B1B3DC80D002A79BA /* CustomButton.m */,
 				6BB2539F1B8911C6008AC8EE /* CustomView.h */,
 				6BB253A01B8911C6008AC8EE /* CustomView.m */,
+				6B5CA2221F1C6CFB003392BD /* PopupView.h */,
+				6B5CA2231F1C6CFB003392BD /* PopupView.m */,
 				6BB253A71B892BC8008AC8EE /* MultiLineObj.h */,
 				6BB253A81B892BC8008AC8EE /* MultiLineObj.m */,
 				6B57B67D1B3DC863002A79BA /* WebServiceView.h */,
@@ -2118,6 +2123,7 @@
 				6B750D1B143D29F200E59D21 /* MainMenuVC.m in Sources */,
 				6BCA88821F13D93A00633484 /* HudActionObj.m in Sources */,
 				6B57B67C1B3DC80D002A79BA /* CustomButton.m in Sources */,
+				6B5CA2241F1C6CFB003392BD /* PopupView.m in Sources */,
 				6B750D43143D305700E59D21 /* StatsPage.m in Sources */,
 				6B750D48143D306900E59D21 /* GamesVC.m in Sources */,
 				6B750D52143D308500E59D21 /* FriendsVC.m in Sources */,

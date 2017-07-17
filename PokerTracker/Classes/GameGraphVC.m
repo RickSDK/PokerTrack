@@ -125,7 +125,7 @@
 	[self addGameID];
 	[self setupGraphView];
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowRight] target:self action:@selector(detailsButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencilSquareO] target:self action:@selector(detailsButtonClicked:)];
 	
 	[self deselectChart];
 }

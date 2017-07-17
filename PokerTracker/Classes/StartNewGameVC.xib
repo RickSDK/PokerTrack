@@ -174,27 +174,10 @@
                                 <action selector="startButtonPressed:" destination="-1" eventType="touchDown" id="33"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" id="JJ6-IV-Mqs">
-                            <rect key="frame" x="8" y="10" width="304" height="398"/>
+                        <view contentMode="scaleToFill" id="JJ6-IV-Mqs" customClass="PopupView">
+                            <rect key="frame" x="8" y="10" width="304" height="379"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7MW-bY-gLs">
-                                    <rect key="frame" x="254" y="0.0" width="50" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="X">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="xButtonClicked:" destination="-1" eventType="touchDown" id="c1T-OV-Ppu"/>
-                                    </connections>
-                                </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pMy-42-0Pa">
-                                    <rect key="frame" x="78" y="11" width="108" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="14">
                                     <rect key="frame" x="105" y="59" width="104" height="55"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

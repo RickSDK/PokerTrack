@@ -103,7 +103,9 @@
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFilter] target:self action:@selector(filtersButtonClicked:)];
-	
+
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowLeft] target:self action:@selector(backButtonClicked)];
+
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
@@ -124,6 +126,11 @@
 	[self setupButtons];
 	
 }
+
+-(void)backButtonClicked {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 
 -(void)setupButtons {
 	self.last10Button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
@@ -258,6 +265,7 @@
 		return;
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[formDataArray replaceObjectAtIndex:1 withObject:self.gameType];
+	[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	[self computeStats];
 }
 

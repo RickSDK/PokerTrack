@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface MoreTrackersVC : UIViewController {
+@interface MoreTrackersVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
     
 }

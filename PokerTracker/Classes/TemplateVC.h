@@ -13,10 +13,11 @@
 #import "CustomSegment.h"
 #import "GameObj.h"
 #import "MultiCellObj.h"
+#import "PopupView.h"
 
 @interface TemplateVC : UIViewController
 
-@property (strong, nonatomic) IBOutlet UIView *popupView;
+@property (strong, nonatomic) IBOutlet PopupView *popupView;
 @property (strong, nonatomic) IBOutlet UITextField *mainTextfield;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) IBOutlet CustomSegment *mainSegment;

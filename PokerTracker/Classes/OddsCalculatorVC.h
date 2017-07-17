@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface OddsCalculatorVC : UIViewController {
+@interface OddsCalculatorVC : TemplateVC {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	BOOL bigHandsFlag;

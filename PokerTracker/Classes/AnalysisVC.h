@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface AnalysisVC : UIViewController {
+@interface AnalysisVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	
 	IBOutlet UILabel *yearLabel;

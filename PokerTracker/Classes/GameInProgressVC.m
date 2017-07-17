@@ -84,7 +84,7 @@
 	friendButton.alpha=0;
 	infoImage.alpha=0;
 	
-//	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	self.popupView.titleLabel.text = @"Terms";
 	
 	if([self.gameObj.type isEqualToString:@"Tournament"]) {
 		currentStackLabel.text = @"Amount Won";

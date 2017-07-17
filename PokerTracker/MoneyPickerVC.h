@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface MoneyPickerVC : UIViewController {
+@interface MoneyPickerVC : TemplateVC {
 	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	UIViewController *callBackViewController;

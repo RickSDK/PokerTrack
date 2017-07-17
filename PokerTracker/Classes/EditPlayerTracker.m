@@ -232,8 +232,8 @@
 	if(managedObject) {
 		// check for HUD change!
 		NSString *hudString = [managedObject valueForKey:@"desc"];
-		if(![hudString isEqualToString:self.playerTrackerObj.hudString]) {
-			NSLog(@"Hud update!!");
+		if(hudString && ![hudString isEqualToString:self.playerTrackerObj.hudString]) {
+			NSLog(@"Hud update!! %@ to %@", hudString, self.playerTrackerObj.hudString);
 			self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
 		}
 	}

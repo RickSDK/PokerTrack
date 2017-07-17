@@ -67,7 +67,6 @@
 	
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year = %d", [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]];
 	
@@ -300,15 +299,7 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	if(self.gameSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"Analysis", nil)];
-	}
-	if(self.gameSegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
-	}
-	if(self.gameSegment.selectedSegmentIndex==2) {
-		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
-	}
+	[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	if(displayYear>0)
 		yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
@@ -331,6 +322,7 @@
  
 	if(gameSegment.selectedSegmentIndex>0) {
 		gameSegment.selectedSegmentIndex=0;
+		[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	}
 	yearLabel.text = NSLocalizedString(@"Last10", nil);
     [top5Button setTitle:NSLocalizedString(@"Last10", nil)];

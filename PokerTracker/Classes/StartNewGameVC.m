@@ -35,6 +35,8 @@
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Game", nil)];
 	
+	self.popupView.titleLabel.text=@"Options";
+	
 	self.selectedObjectForEdit=0;
 	startLiveButton.enabled=NO;
 	self.addCasinoButton.enabled=NO;
@@ -91,15 +93,21 @@
 	if([gameType isEqualToString:@"Tournament"]) {
 		gameTypeSegmentBar.selectedSegmentIndex=1;
 		[self.gameTypeSegmentBar changeSegment];
-		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 	} else {
 		gameTypeSegmentBar.selectedSegmentIndex=0;
-		[gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
 	}
 	
 	[self setupSegments];
+}
 
-	
+-(void)addShadowToView:(UIView *)view {
+	view.layer.cornerRadius = 7;
+	view.layer.borderColor = [UIColor blackColor].CGColor;
+	view.layer.borderWidth = 1;
+	view.layer.masksToBounds = NO;
+	view.layer.shadowOffset = CGSizeMake(15, 15);
+	view.layer.shadowRadius = 5;
+	view.layer.shadowOpacity = 0.8;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -181,15 +189,16 @@
 	[ProjectFunctions setFontColorForSegment:gameTypeSegmentBar values:[NSArray arrayWithObjects:@"Cash Game", @"Tournament", nil]];
     
 	NSString *buyinAmount = @"";
+	[ProjectFunctions changeColorForGameBar:gameTypeSegmentBar];
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
-        [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
+ //       [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
 		blindTypeSegmentBar.alpha=1;
 		TourneyTypeSegmentBar.alpha=0;
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
 	} else {
-        [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
+ //       [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];

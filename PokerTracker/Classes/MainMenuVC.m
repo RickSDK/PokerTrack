@@ -54,6 +54,8 @@
 		[self setTitle:@"Test Mode"];
 		self.graphChart.alpha=.5;
 	}
+	
+	self.aboutView.titleLabel.text = @"Poker Track Pro";
 
 	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
 	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
@@ -121,10 +123,6 @@
 	
 	[self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
 	
-	self.aboutImage.alpha=0;
-	self.aboutText.alpha=0;
-	reviewButton.alpha=0;
-	emailButton.alpha=0;
 	yearLabel.alpha=0;
 	friendsNumLabel.alpha=0;
 	friendsNumCircle.alpha=0;
@@ -405,21 +403,7 @@
 		return;
 	}
 	
-	self.aboutView.hidden=aboutShowing;
-	aboutShowing = !aboutShowing;
-	if(aboutShowing) {
-		aboutImage.alpha=0.9;
-		aboutText.alpha=1;
-		reviewButton.alpha=1;
-		emailButton.alpha=1;
-		logoImage.alpha=1;
-	} else {
- 		aboutImage.alpha=0;
-		aboutText.alpha=0;
-		reviewButton.alpha=0;
-		emailButton.alpha=0;
-		logoImage.alpha=0;
-	}
+	self.aboutView.hidden=!self.aboutView.hidden;
 
 }
 

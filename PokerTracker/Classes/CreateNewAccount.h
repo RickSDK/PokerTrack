@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WebServiceView.h"
+#import "TemplateVC.h"
 
-@interface CreateNewAccount : UIViewController {
+@interface CreateNewAccount : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	//---XIB----------------------------

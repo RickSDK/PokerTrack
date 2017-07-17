@@ -10,9 +10,9 @@
 #import <iAd/iAd.h>
 #import "CustomSegment.h"
 #import "NetUserObj.h"
+#import "TemplateVC.h"
 
-
-@interface UniverseTrackerVC : UIViewController {
+@interface UniverseTrackerVC : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIActivityIndicatorView *activityIndicator;

@@ -138,15 +138,7 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	if(self.gameSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"All", nil)];
-	}
-	if(self.gameSegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
-	}
-	if(self.gameSegment.selectedSegmentIndex==2) {
-		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
-	}
+	[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[self computeStats];
 }

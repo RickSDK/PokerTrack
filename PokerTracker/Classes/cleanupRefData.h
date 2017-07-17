@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface cleanupRefData : UIViewController {
+@interface cleanupRefData : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 
 }

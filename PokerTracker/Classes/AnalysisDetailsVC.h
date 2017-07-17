@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-
-@interface AnalysisDetailsVC : UIViewController {
+@interface AnalysisDetailsVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 
 }

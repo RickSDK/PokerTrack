@@ -81,6 +81,7 @@
 +(NSString *)getPredicateString:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSString *)convertIntToMoneyString:(double)money;
 +(NSArray *)getArrayForSegment:(int)segment;
++(void)changeColorForGameBar:(UISegmentedControl *)bar;
 +(void)displayLoginMessage;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
