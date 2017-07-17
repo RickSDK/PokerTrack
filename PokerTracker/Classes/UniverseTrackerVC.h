@@ -64,12 +64,10 @@
 - (IBAction) nextButtonPressed: (id) sender;
 -(void)startBackgroundProcess;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, strong) UIImageView *activityPopup;
 @property (atomic, strong) UILabel *activityLabel;
 @property (atomic, strong) UILabel *datelabel;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UISegmentedControl *topSegment;
 @property (atomic, strong) UISegmentedControl *sortSegment;
 @property (atomic, strong) UISegmentedControl *timeFrameSegment;

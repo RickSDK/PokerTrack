@@ -56,12 +56,10 @@
 @property (atomic, strong) UILabel *currentFilterLabel;
 @property (atomic, strong) UILabel *timeFramLabel;
 @property (atomic, strong) NSMutableArray *gamesList;
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *filterObj;
 @property (atomic) int selectedFieldIndex;
 @property (atomic) BOOL displayBySession;
 @property (atomic) BOOL viewLocked;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UISegmentedControl *gameSegment;
 @property (atomic, strong) UISegmentedControl *customSegment;
 

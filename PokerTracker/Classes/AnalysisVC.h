@@ -61,9 +61,7 @@
 @property (atomic, copy) NSString *analysisText;
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, copy) NSString *gameType;
-@property (atomic, strong) UITableView *mainTableView;
 
 @property (atomic) int displayYear;
 @property (atomic) BOOL last10Flg;

@@ -107,15 +107,11 @@
 	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
 	
 	if([ProjectFunctions isLiteVersion]) {
-		NSString *title = ([ProjectFunctions isLiteVersion])?@"Upgrade":@"About";
-		self.aboutButton = [ProjectFunctions navigationButtonWithTitle:title selector:@selector(aboutButtonClicked:) target:self];
-		self.navigationItem.leftBarButtonItem = self.aboutButton;
-		
-		self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"More" selector:@selector(moreButtonClicked:) target:self];
+		self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Upgrade" selector:@selector(aboutButtonClicked:) target:self];
 	} else {
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(aboutButtonClicked:)];
-		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	}
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.largeGraph];
 

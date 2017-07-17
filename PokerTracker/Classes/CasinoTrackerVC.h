@@ -56,11 +56,9 @@
 
 @property (atomic, strong) UIBarButtonItem *nameBut;
 @property (atomic, strong) UIBarButtonItem *distBut;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) NSMutableArray *casinoArray;
 @property (atomic, strong) NSMutableArray *casinoDistArray;
 @property (atomic, strong) NSMutableArray *casinoNameArray;
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIButton *locateButton;
 @property (atomic, strong) CLLocationManager *locationManager;
 @property (atomic, strong) CLLocation *currentLocation;

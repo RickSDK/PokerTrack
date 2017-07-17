@@ -62,8 +62,6 @@
 - (IBAction) bankrollSegmentChanged: (id) sender;
 - (void) computeStats;
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, strong) UIToolbar *yearToolbar;
