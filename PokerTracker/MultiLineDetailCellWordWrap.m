@@ -69,10 +69,8 @@ static NSInteger X_INSET			= 5;
 }
 
 + (UITableViewCell *)multiCellForID:(NSString *)cellIdentifier obj:(MultiCellObj *)obj tableView:(UITableView *)tableView {
-	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//	if (cell == nil) {
-		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:obj.titles.count labelProportion:obj.labelPercent];
-//	}
+	MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:obj.titles.count labelProportion:obj.labelPercent];
+
 	cell.mainTitle = obj.mainTitle;
 	cell.alternateTitle = obj.altTitle;
 	cell.titleTextArray = obj.titles;

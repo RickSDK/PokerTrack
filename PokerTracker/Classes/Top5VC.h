@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface Top5VC : UIViewController {
+@interface Top5VC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 
 	IBOutlet UITableView *mainTableView;

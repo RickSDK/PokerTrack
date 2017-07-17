@@ -1709,9 +1709,9 @@
 	// type: 0 = assets, 1=real estate, 2=vehicles, 3=debt, 4=equity, 5=interest, 6 cc debt, 7 investments
 	//asset_type: 0=all, 1=real estate, 2=vehicle
 	//amount_type: 0=value, 1=balance, 2=equity, 3= interest
-	int asset_type = type;
-	if(asset_type>2)
-		asset_type=0;
+//	int asset_type = type;
+//	if(asset_type>2)
+//		asset_type=0;
 	
 	NSMutableArray *graphArray = [[NSMutableArray alloc] init];
 

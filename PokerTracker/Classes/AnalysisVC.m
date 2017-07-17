@@ -63,7 +63,6 @@
 	self.gameType = @"All";
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)];
-//	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Last10", nil) selector:@selector(top5ButtonClicked:) target:self];
 	
 	
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
@@ -280,7 +279,6 @@
 	last10Flg=NO;
 	
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	self.last10Flg=NO;
 	
 	[self computeStats];
 
@@ -318,7 +316,7 @@
 		yearLabel.text = NSLocalizedString(@"LifeTime", nil);
 	}
 
-	self.last10Flg=NO;
+	last10Flg=NO;
 	[self computeStats];
 }
 
@@ -338,7 +336,7 @@
     [top5Button setTitle:NSLocalizedString(@"Last10", nil)];
     last10Button.enabled = NO;
 	last10Button.hidden=YES;
-	self.last10Flg=YES;
+	last10Flg=YES;
 	self.displayYear=0;
     
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];

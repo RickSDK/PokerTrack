@@ -121,7 +121,6 @@
 	activityBGView.alpha=1;
 	self.lockScreen=YES;
 	self.mainTableView.alpha=.5;
-//	[self performSelectorInBackground:@selector(drawFirstCharts) withObject:nil];
 	[self performSelectorInBackground:@selector(drawAllCharts) withObject:nil];
 }
 
@@ -143,14 +142,17 @@
 -(void)graphEngineForItems:(NSArray *)items field:(NSString*) field context:(NSManagedObjectContext *)context year:(int)year graph1:(UIImageView *)graph1  graph2:(UIImageView *)graph2 {
 	NSMutableArray *graphItemsProfit = [[NSMutableArray alloc] init];
 	NSMutableArray *graphItemsHourly = [[NSMutableArray alloc] init];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:@"All"];
 	for(NSString *itemName in items) {
-		NSString *predString = [NSString stringWithFormat:@"year = %%d AND %@ = %%@", field];
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:predString, year, itemName];
+		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
+		NSPredicate *predicate = nil;
 		if(year==0 || [@"year" isEqualToString:field]) {
 			NSString *predString = [NSString stringWithFormat:@"%@ = %%@", field];
 			predicate = [NSPredicate predicateWithFormat:predString, itemName];
-			
-		}
+
+		} else
+			predicate = [NSPredicate predicateWithFormat:predString, itemName];
+		
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:context ascendingFlg:NO];
 		double totalProfit=0;
 		double totalminutes=0;

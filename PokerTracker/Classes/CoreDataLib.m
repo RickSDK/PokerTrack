@@ -764,9 +764,9 @@
 	else
 		list = [NSArray arrayWithObjects:name, nil];
 	
-	NSString *displayName = name;
-	if([name isEqualToString:@"Stakes"])
-		displayName = @"Stake";
+//	NSString *displayName = name;
+//	if([name isEqualToString:@"Stakes"])
+//		displayName = @"Stake";
 	
 	if(addAllTypesFlg) {
 		[finalList addObject:NSLocalizedString(@"All", nil)];

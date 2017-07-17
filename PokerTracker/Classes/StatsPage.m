@@ -135,7 +135,7 @@
 	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:@"10"];
 	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:[NSString fontAwesomeIconStringForEnum:FAThumbsDown]];
 	[ProjectFunctions makeFAButton:self.chartsButton type:16 size:18];
-	[ProjectFunctions makeFAButton:self.reportsButton type:17 size:18];
+	[ProjectFunctions makeFAButton:self.reportsButton type:26 size:18];
 	[ProjectFunctions makeFAButton:self.goalsButton type:15 size:18];
 	[ProjectFunctions makeFAButton:self.analysisButton type:3 size:18];
 
@@ -159,8 +159,7 @@
 		return;
 	AnalysisVC *detailViewController = [[AnalysisVC alloc] initWithNibName:@"AnalysisVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.gameType = self.gameType;
-	detailViewController.displayYear = displayYear;
+	detailViewController.last10Flg=YES;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 

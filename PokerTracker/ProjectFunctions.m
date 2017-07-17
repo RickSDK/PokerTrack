@@ -4023,6 +4023,9 @@
   case 25:
 			title = [NSString fontAwesomeIconStringForEnum:FARepeat];
 			break;
+  case 26:
+			title = [NSString fontAwesomeIconStringForEnum:FAListAlt];
+			break;
 			
   default:
 			title = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];

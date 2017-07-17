@@ -19,22 +19,12 @@
 @synthesize managedObjectContext, mainTableView, bestGames, worstGames;
 
 -(void)mainMenuButtonClicked:(id)sender {
-//	MainMenuVC *detailViewController = [[MainMenuVC alloc] initWithNibName:@"MainMenuVC" bundle:nil];
-//	detailViewController.managedObjectContext=managedObjectContext;
-//	[self.navigationController pushViewController:detailViewController animated:YES];
-//	[detailViewController release];
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Top 5 Lists"];
+	[self setTitle:@"Top 5"];
 	bestGames = [[NSMutableArray alloc] init];
 	worstGames = [[NSMutableArray alloc] init];
 	
@@ -46,21 +36,15 @@
 	[worstGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate2 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:YES limit:5]];
 
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
-
-	
 }
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	
 	return 44;
 }
-
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if(section==0)
@@ -69,12 +53,19 @@
 		return [worstGames count];
 }
 
-
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	NSArray *titles = [NSArray arrayWithObjects:@"Top 5 Best Games", @"Top 5 Worst Games", @"x", nil];
-	return [ProjectFunctions getViewForHeaderWithText:[titles stringAtIndex:(int)section]];
+	NSArray *titles = [NSArray arrayWithObjects:
+					   [NSString stringWithFormat:@"  %@ 5 Best", [NSString fontAwesomeIconStringForEnum:FAThumbsUp]],
+					   [NSString stringWithFormat:@"  %@ 5 Worst", [NSString fontAwesomeIconStringForEnum:FAThumbsDown]],
+					   nil];
+	UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 22.0)];
+	headerLabel.opaque = YES;
+	headerLabel.textColor = [UIColor whiteColor];
+	headerLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
+	headerLabel.text = [titles stringAtIndex:(int)section];
+	headerLabel.backgroundColor	= [UIColor colorWithRed:0 green:.4 blue:0 alpha:1];
+	return headerLabel;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
