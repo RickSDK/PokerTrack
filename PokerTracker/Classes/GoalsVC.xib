@@ -12,6 +12,7 @@
                 <outlet property="hourlyGoalLabel" destination="14" id="RTZ-dQ-XoC"/>
                 <outlet property="leftYear" destination="FKc-5D-xRV" id="iba-pL-M5I"/>
                 <outlet property="mainTableView" destination="4" id="7"/>
+                <outlet property="popupView" destination="ow8-vE-Kbc" id="cHf-kR-rKh"/>
                 <outlet property="profitButton" destination="11" id="24"/>
                 <outlet property="profitGoalLabel" destination="13" id="eCD-FJ-rmX"/>
                 <outlet property="rightYear" destination="MtW-g4-3uU" id="Yfx-7H-lH1"/>
@@ -111,7 +112,7 @@
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="1000" backgroundImage="yellowChromeBut.png">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
@@ -119,12 +120,12 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="12">
-                            <rect key="frame" x="198.0000000363998" y="23" width="102" height="37"/>
+                            <rect key="frame" x="198.00000003639977" y="23" width="102" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="20" backgroundImage="yellowChromeBut.png">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
@@ -146,7 +147,7 @@
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="17">
                     <rect key="frame" x="99" y="6" width="122" height="31"/>
@@ -155,13 +156,18 @@
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
                 <view contentMode="scaleToFill" id="wy2-Rx-S6R" customClass="WebServiceView">
                     <rect key="frame" x="80" y="93" width="160" height="208"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="ow8-vE-Kbc" customClass="PopupView">
+                    <rect key="frame" x="22" y="61" width="277" height="139"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

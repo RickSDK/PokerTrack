@@ -7,17 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface StatsPage : UIViewController {
+@interface StatsPage : TemplateVC {
  	//---Passed In----------------------------
-	NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *filterObj;
 	int displayYear;
 	NSString *gameType;
 	BOOL hideMainMenuButton;
 
 	//---XIB----------------------------
-	IBOutlet UITableView *mainTableView;
 	IBOutlet UIToolbar *analysisToolbar;
 	IBOutlet UIToolbar *yearToolbar;
 	IBOutlet UIToolbar *top5Toolbar;
@@ -31,8 +30,6 @@
 	IBOutlet UIImageView *largeGraph;
     IBOutlet UIButton *bankrollButton;
 
-	IBOutlet UIButton *top5Button;
-    IBOutlet UIButton *last10Button;
     IBOutlet UIButton *chartsButton;
     IBOutlet UIButton *reportsButton;
     IBOutlet UIButton *goalsButton;
@@ -67,18 +64,12 @@
 - (IBAction) goalsPressed: (id) sender;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
-- (IBAction) top5Pressed: (id) sender;
-- (IBAction) last10Pressed: (id) sender;
-
 
 -(void) computeStats;
 -(void)initializeFormData;
 //-(BOOL)saveNewFilter:(NSString *)valueCombo;
 
 @property (atomic, strong) NSMutableArray *profitArray;
-@property (atomic, strong) UIButton *top5Button;
-@property (atomic, strong) UIButton *last10Button;
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) NSManagedObject *filterObj;
 @property (atomic) int selectedFieldIndex;
 @property (atomic) BOOL hideMainMenuButton;
@@ -86,7 +77,6 @@
 @property (atomic) BOOL viewLocked;
 @property (atomic) BOOL rotateLock;
 @property (atomic) BOOL viewUnLoaded;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UISegmentedControl *gameSegment;
 @property (atomic, strong) UISegmentedControl *customSegment;
 @property (atomic, strong) UIToolbar *analysisToolbar;
@@ -117,7 +107,27 @@
 @property (atomic, strong) UIButton *analysisButton;
 
 @property (atomic, strong) NSMutableArray *multiDimenArray;
+
+@property (atomic, strong) NSMutableArray *titles1;
+@property (atomic, strong) NSMutableArray *values1;
+@property (atomic, strong) NSMutableArray *colors1;
+@property (atomic, strong) NSMutableArray *titles2;
+@property (atomic, strong) NSMutableArray *values2;
+@property (atomic, strong) NSMutableArray *colors2;
+@property (atomic, strong) NSMutableArray *titles3;
+@property (atomic, strong) NSMutableArray *values3;
+@property (atomic, strong) NSMutableArray *colors3;
+@property (atomic, strong) NSMutableArray *titles4;
+@property (atomic, strong) NSMutableArray *values4;
+@property (atomic, strong) NSMutableArray *colors4;
+
 @property (atomic, strong) UIButton *bankrollButton;
+
+@property (atomic, strong) IBOutlet UILabel *chartsLabel;
+@property (atomic, strong) IBOutlet UILabel *reportsLabel;
+@property (atomic, strong) IBOutlet UILabel *goalsLabel;
+@property (atomic, strong) IBOutlet UILabel *analysisLabel;
+
 
 
 

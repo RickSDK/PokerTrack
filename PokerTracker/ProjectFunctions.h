@@ -11,6 +11,7 @@
 #import "ChipStackObj.h"
 #import "NSString+FontAwesome.h"
 #import "UIFont+FontAwesome.h"
+#import "GameStatObj.h"
 
 
 #define kStartTime		0
@@ -42,8 +43,8 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 1
-#define kIsLiteVersion 1  // 0 or 1
+#define kPRODMode 0
+#define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221
@@ -67,6 +68,7 @@
 +(BOOL)isPokerZilla;
 +(NSString *)getAppID;
 +(void)writeAppReview;
++(int)getNowYear;
 +(NSString *)getProjectVersion;
 +(NSString *)getProjectDisplayVersion;
 +(float)projectVersionNumber;
@@ -83,6 +85,8 @@
 +(NSArray *)getArrayForSegment:(int)segment;
 +(void)changeColorForGameBar:(UISegmentedControl *)bar;
 +(void)displayLoginMessage;
++(GameStatObj *)gameStatObjForGames:(NSArray *)games;
++(GameStatObj *)gameStatObjDetailedForGames:(NSArray *)games;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;

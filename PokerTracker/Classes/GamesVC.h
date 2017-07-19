@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MyToolbar.h"
 #import "TemplateVC.h"
+#import "GameSummaryView.h"
 
 
 @interface GamesVC : TemplateVC <NSFetchedResultsControllerDelegate> {
@@ -20,10 +21,6 @@
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UILabel *yearLabel;
-	IBOutlet UILabel *gamesLabel;
-	IBOutlet UILabel *moneyLabel;
-	IBOutlet UILabel *roiLabel;
-	IBOutlet UILabel *roiNameLabel;
 	IBOutlet UIButton *leftYear;
 	IBOutlet UIButton *rightYear;
 	IBOutlet UISegmentedControl *gameTypeSegment;
@@ -44,17 +41,15 @@
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;
-@property (atomic, strong) IBOutlet UIButton *playerTypeButton;
+@property (atomic, strong) IBOutlet UIButton *top5Button;
+@property (atomic, strong) IBOutlet UIButton *last10Button;
+@property (nonatomic, strong) IBOutlet GameSummaryView *gameSummaryView;
 
 @property (atomic) BOOL showMainMenuButton;
 @property (atomic) BOOL fetchIsReady;
 
 @property (atomic) int displayYear;
 @property (atomic, strong) UILabel *yearLabel;
-@property (atomic, strong) UILabel *gamesLabel;
-@property (atomic, strong) UILabel *moneyLabel;
-@property (atomic, strong) UILabel *roiLabel;
-@property (atomic, strong) UILabel *roiNameLabel;
 @property (atomic, strong) UIButton *leftYear;
 @property (atomic, strong) UIButton *rightYear;
 @property (atomic, strong) MyToolbar *yearToolbar;
@@ -67,6 +62,8 @@
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
 - (IBAction) playerTypeButtonPressed: (id) sender;
+- (IBAction) top5Pressed: (id) sender;
+- (IBAction) last10Pressed: (id) sender;
 
 
 @end

@@ -82,7 +82,14 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	} else {
-		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAUsers] target:self action:@selector(friendButtonClicked)];
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAUsers] target:self action:@selector(friendButtonClicked:)],
+												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+												   nil];
+		
+		self.popupView.titleLabel.text = self.title;
+		self.popupView.textView.text = @"Net Tracker is a leader board of all players using PTP. A very limited amount of data is included on these screens so as to protect player privacy. Email addresses are never shared or displayed on any screen.\n\nYou can also opt out of Net Tracker on your profile.";
+		self.popupView.textView.hidden=NO;
 	}
 	
 	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
@@ -99,51 +106,6 @@
 	self.skip=0;
 	self.keepGoing=YES;
 	[self startBackgroundProcess];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-
--(void)populateArray
-{
-	/*
-	
-	[userList removeAllObjects];
-    switch (timeFrameSegment.selectedSegmentIndex) {
-        case 0: //Last10
-            if(sortSegment.selectedSegmentIndex==0)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10MoneyAllList]];
-            if(sortSegment.selectedSegmentIndex==1)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10ProfitAllList]];
-            if(sortSegment.selectedSegmentIndex==2)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10GamesAllList]];
-            break;
-        case 1: // Month
-            if(sortSegment.selectedSegmentIndex==0)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthMoneyAllList]];
-            if(sortSegment.selectedSegmentIndex==1)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthProfitAllList]];
-            if(sortSegment.selectedSegmentIndex==2)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthGamesAllList]];
-            break;
-        case 2: // Year
-            if(sortSegment.selectedSegmentIndex==0)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearMoneyFriendsList]];
-            if(sortSegment.selectedSegmentIndex==1)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearProfitFriendsList]];
-            if(sortSegment.selectedSegmentIndex==2)
-                self.userList = [NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearGamesFriendsList]];
-            break;
-            
-        default:
-            break;
-    }
-	[mainTableView reloadData];
-	 */
 }
 
 - (IBAction) prevButtonPressed: (id) sender
@@ -490,8 +452,6 @@
         [ProjectFunctions showAlertPopup:@"Notice" message:@"Year stats only available in friends mode"];
         return;
    }
-	[self populateArray];
-
 }
 
 

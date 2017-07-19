@@ -19,7 +19,14 @@
     [super viewDidLoad];
 	[self setTitle:@"HUD Tracker"];
 
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(editButtonClicked)];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(editButtonClicked)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
+	
+	self.popupView.titleLabel.text = @"Heads up Display";
+	self.popupView.textView.text = @"Use HUD to track the first pre-flop action of yourself and/or ONE other player at the table.\n\nSimply press the correct button for each hand: Fold, Check, Call or Raise.  Note you are only tracking pre-flop betting. And specifically, first action of pre-flop. HUD will then calculate values for Passive/Aggressive play and Tight/Loose play.\n\nIt will then chart your values and the opponent’s values side by side for comparison. It also calculates overall skill level and displays the appropriate PTP skill Icon.\n\nUse this tool to measure your own play or use it to compare how you are playing versus someone else at the table.\n\nGood Luck!";
+	self.popupView.textView.hidden=NO;
 	
 	self.heroObj = [[PlayerObj alloc] init];
 	self.villianObj = [[PlayerObj alloc] init];

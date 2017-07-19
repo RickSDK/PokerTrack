@@ -94,14 +94,27 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	} else {
-		self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed)];
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed)],
+												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+												   nil];
+		
+		self.popupView.titleLabel.text = self.title;
+		self.popupView.textView.text = @"Add friends here and you can compare stats! You can also be notified when your friend is starting a new game and even view their chip stack in real time!";
+		self.popupView.textView.hidden=NO;
 	}
+	
+	self.addFriendView.hidden=YES;
 
 	[ProjectFunctions makeSegment:self.timeFrameSegment color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.sortSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	[self startBackgroundProcess];
 	
+}
+
+- (IBAction) xButtonPressed: (id) sender {
+	self.addFriendView.hidden=YES;
 }
 
 -(void)populateArray
@@ -600,7 +613,7 @@
 }
 
 - (void)createPressed {
-	self.popupView.hidden=NO;
+	self.addFriendView.hidden=!self.addFriendView.hidden;
 	[self.mainTextfield	becomeFirstResponder];
 }
 
@@ -610,7 +623,7 @@
 		return;
 	}
 	[self.mainTextfield resignFirstResponder];
-	self.popupView.hidden=YES;
+	self.addFriendView.hidden=YES;
 	[self startWebService:@selector(addFriendFunction) message:@"Working..."];
 
 }

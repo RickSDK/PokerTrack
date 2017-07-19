@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface ProfileVC : UIViewController {
+@interface ProfileVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIImageView *activityPopup;

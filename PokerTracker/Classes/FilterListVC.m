@@ -41,7 +41,13 @@
 
 	
 	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)];
 	
+	self.popupView.titleLabel.text = self.title;
+	self.popupView.textView.text = @"This is no limit to the number of filters you can have, but only 3 can appear on your custom filter bar. Be sure to keep the names short.\n\nThe ones that appear on the Filter Bar will be listed below as 'Tab 1', 'Tab 2' & 'Tab 3'.\n\nYou can edit the names on here, or return to the previous page to create a new filter.";
+	self.popupView.textView.hidden=NO;
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {

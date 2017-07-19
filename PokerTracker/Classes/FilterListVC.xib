@@ -10,6 +10,7 @@
                 <outlet property="editButton" destination="UwA-ZG-1WF" id="C8N-S7-k2G"/>
                 <outlet property="filterSegment" destination="SCv-yf-SiG" id="eUf-cN-Apt"/>
                 <outlet property="mainTableView" destination="5" id="gEA-Dn-YYk"/>
+                <outlet property="popupView" destination="fBT-2E-c42" id="dYP-6f-PPG"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -69,6 +70,11 @@
                     </segments>
                     <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </segmentedControl>
+                <view contentMode="scaleToFill" id="fBT-2E-c42" customClass="PopupView">
+                    <rect key="frame" x="17" y="46" width="286" height="271"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

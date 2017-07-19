@@ -19,6 +19,7 @@
                 <outlet property="importTextView" destination="43" id="47"/>
                 <outlet property="laterButton" destination="41" id="46"/>
                 <outlet property="mainTableView" destination="10" id="39"/>
+                <outlet property="popupView" destination="uBj-ep-5gR" id="TKh-sB-Mtq"/>
                 <outlet property="progressView" destination="21" id="22"/>
                 <outlet property="userLabel" destination="26" id="27"/>
                 <outlet property="view" destination="8" id="9"/>
@@ -185,6 +186,11 @@ Step 3: Press 'Import' below</string>
                     <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
+                <view contentMode="scaleToFill" id="uBj-ep-5gR" customClass="PopupView">
+                    <rect key="frame" x="25" y="58" width="267" height="281"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

@@ -58,7 +58,6 @@
 		self.playerTrackerObj.picId = 3;
 		deleteButton.alpha=0;
 		readOnlyFlg=NO;
-		self.hudButton.enabled=NO;
 	}
 	[self updateButtonsEnabled:!readOnlyFlg];
 }
@@ -163,7 +162,8 @@
 		localViewController.managedObjectContext=managedObjectContext;
 		localViewController.playerMo = self.managedObject;
 		[self.navigationController pushViewController:localViewController animated:YES];
-	}
+	} else
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Save record first"];
 }
 
 - (IBAction) casinoButtonPressed: (id) sender

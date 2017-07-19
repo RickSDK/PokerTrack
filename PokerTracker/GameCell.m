@@ -131,16 +131,19 @@
 	NSString *faSymbol = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
 	if(gameObj.hudStatsFlg)
 		faSymbol = [NSString stringWithFormat:@"%@ %@", faSymbol, [NSString fontAwesomeIconStringForEnum:FAuserSecret]];
+	if([@"Calendar" isEqualToString:gameObj.type])
+		faSymbol = [NSString fontAwesomeIconStringForEnum:FACalendar];
+	if([@"Calendar-o" isEqualToString:gameObj.type])
+		faSymbol = [NSString fontAwesomeIconStringForEnum:FAcalendarCheckO];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
 	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
-	NSString *hours = NSLocalizedString(@"Hours", nil);
-	if([hours isEqualToString:@"Hours"])
-		hours = @"Hrs";
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ %@)", gameObj.hours, hours];
+	NSString *hoursLabel = NSLocalizedString(@"Hours", nil);
+	if([hoursLabel isEqualToString:@"Hours"])
+		hoursLabel = @"Hrs";
 	NSString *profitStr = [ProjectFunctions convertIntToMoneyString:gameObj.profit];
-	if(profitStr.length>8 && hours.length>3)
-		hours = [hours substringToIndex:1];
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%@ %@)", gameObj.hours, hours];
+	if(profitStr.length>8 && hoursLabel.length>3)
+		hoursLabel = [hoursLabel substringToIndex:1];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"(%.1f %@)", [gameObj.hours floatValue], hoursLabel];
 	cell.locationLabel.text = gameObj.location;
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
 	
@@ -151,14 +154,15 @@
 	}
 	
 	cell.nameLabel.textColor = [UIColor blackColor];
-	if(gameObj.cashGameFlg) {
+	if(!gameObj.tournamentGameFlg) {
 		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
 	} else {
 		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
 	}
 	
 	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:gameObj.buyInAmount+gameObj.reBuyAmount winnings:gameObj.profit];
-	cell.pprLabel.text = [NSString stringWithFormat:@"%d", gameObj.ppr];
+	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
+	
 	cell.profitImageView.hidden=YES;
 	int value = [ProjectFunctions getNewPlayerType:gameObj.risked winnings:gameObj.profit];
 	cell.pprLabel.backgroundColor = [self colorForType:value];

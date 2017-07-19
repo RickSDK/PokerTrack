@@ -26,6 +26,8 @@
 #import "UpgradeVC.h"
 #import "StartNewGameVC.h"
 #import "AnalysisDetailsVC.h"
+#import "Last10NewVC.h"
+#import "Top5VC.h"
 
 
 
@@ -34,7 +36,7 @@
 
 @implementation GamesVC
 @synthesize managedObjectContext;
-@synthesize showMainMenuButton, moneyLabel, gamesLabel, activityIndicator, bankrollButton, roiLabel, roiNameLabel;
+@synthesize showMainMenuButton, activityIndicator, bankrollButton;
 @synthesize displayYear, yearLabel, leftYear, rightYear, mainTableView, gamesList, gameTypeSegment, yearToolbar, bankRollSegment;
 
 
@@ -55,7 +57,9 @@
 	[self.mainTableView setBackgroundView:nil];
 	[self setTitle:NSLocalizedString(@"Games", nil)];
 	
-	self.roiNameLabel.text = NSLocalizedString(@"roiNameLabel", nil);
+	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:@"10"];
+	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:[NSString fontAwesomeIconStringForEnum:FAThumbsDown]];
+
 	
 	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
@@ -100,11 +104,24 @@
 		self.bankrollButton.alpha=0;
 		self.bankRollSegment.alpha=0;
 	}
-	
+
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+
 	if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0)
 		[self scrubAllGames];
 	
 	
+}
+
+- (IBAction) top5Pressed: (id) sender {
+	Top5VC *detailViewController = [[Top5VC alloc] initWithNibName:@"Top5VC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+- (IBAction) last10Pressed: (id) sender {
+	Last10NewVC *detailViewController = [[Last10NewVC alloc] initWithNibName:@"Last10NewVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)scrubAllGames {
@@ -190,26 +207,17 @@
 			[self setTitle:NSLocalizedString(@"Tournaments", nil)];
 		}
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
-		
-		NSString *gameString = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"games" predicate:predicate];
-		NSString *labelStr = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Games", nil), gameString];
-		double winnings = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"winnings" predicate:predicate] doubleValue];
-		double risked = [[CoreDataLib getGameStat:self.managedObjectContext dataField:@"amountRisked" predicate:predicate] doubleValue];
-		int percent = 0;
-		if(risked>0)
-			percent = winnings*100/risked;
-		NSString *roiString = [NSString stringWithFormat:@"%d%%", percent];
-		self.roiLabel.textColor = (percent>=0)?[UIColor greenColor]:[UIColor yellowColor];
-		
-		self.playerTypeImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:winnings];
-		[self.playerTypeButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:risked winnings:winnings] forState:UIControlStateNormal];
-
-		[ProjectFunctions updateMoneyLabel:self.moneyLabel money:winnings];
-		[self.gamesLabel performSelectorOnMainThread:@selector(setText: ) withObject:labelStr waitUntilDone:NO];
-		[self.roiLabel performSelectorOnMainThread:@selector(setText: ) withObject:roiString waitUntilDone:NO];
+		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
+		[self.gameSummaryView populateViewWithObj:[ProjectFunctions gameStatObjForGames:games]];
 
 		[self.mainTableView reloadData];
 	}
+}
+
+-(void)gotoAnalysis {
+	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (IBAction) playerTypeButtonPressed: (id) sender {

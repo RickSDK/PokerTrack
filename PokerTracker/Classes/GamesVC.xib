@@ -8,16 +8,14 @@
             <connections>
                 <outlet property="bankRollSegment" destination="36" id="38"/>
                 <outlet property="bankrollButton" destination="33" id="34"/>
+                <outlet property="gameSummaryView" destination="UUr-sZ-8V1" id="dWb-5E-5P6"/>
                 <outlet property="gameTypeSegment" destination="20" id="23"/>
-                <outlet property="gamesLabel" destination="R7t-jg-EI6" id="nwG-a8-Ege"/>
+                <outlet property="last10Button" destination="Nru-nJ-Ajw" id="oya-eo-gbt"/>
                 <outlet property="leftYear" destination="uAd-aP-rVH" id="hvg-89-NOn"/>
                 <outlet property="mainSegment" destination="20" id="Mqc-Bk-dCW"/>
                 <outlet property="mainTableView" destination="4" id="17"/>
-                <outlet property="moneyLabel" destination="GLg-wi-cwv" id="qga-jJ-7by"/>
-                <outlet property="playerTypeButton" destination="p88-ul-mmq" id="Dcc-m2-cGA"/>
                 <outlet property="rightYear" destination="xpA-FX-077" id="njF-Zs-wlE"/>
-                <outlet property="roiLabel" destination="eZY-nt-dai" id="ZYd-Lg-VaG"/>
-                <outlet property="roiNameLabel" destination="lfr-6n-TI6" id="vA7-BX-4rX"/>
+                <outlet property="top5Button" destination="3AI-KN-902" id="MI4-FN-f4Y"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webServiceView" destination="2GW-pd-5Ei" id="KmH-1a-IFi"/>
                 <outlet property="yearLabel" destination="13" id="16"/>
@@ -29,67 +27,8 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="YW4-rQ-c2p">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Games" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="R7t-jg-EI6">
-                            <rect key="frame" x="47" y="0.0" width="165" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="profit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="GLg-wi-cwv">
-                            <rect key="frame" x="210" y="0.0" width="102" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Return on Investment (ROI):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="lfr-6n-TI6">
-                            <rect key="frame" x="47" y="22" width="185" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eZY-nt-dai">
-                            <rect key="frame" x="232" y="22" width="80" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="20" customClass="CustomSegment">
-                            <rect key="frame" x="8" y="51" width="304" height="30"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <segments>
-                                <segment title="All"/>
-                                <segment title="Cash Games"/>
-                                <segment title="Tournaments"/>
-                            </segments>
-                            <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="22"/>
-                            </connections>
-                        </segmentedControl>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p88-ul-mmq">
-                            <rect key="frame" x="0.0" y="0.0" width="44" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="playerTypeButtonPressed:" destination="-1" eventType="touchDown" id="RVl-ft-E6u"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4">
-                    <rect key="frame" x="0.0" y="89" width="320" height="327"/>
+                    <rect key="frame" x="0.0" y="147" width="320" height="269"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <view key="tableHeaderView" contentMode="scaleToFill" id="11">
@@ -182,6 +121,61 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="PVi-F2-JOb">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nru-nJ-Ajw">
+                            <rect key="frame" x="8" y="4" width="150" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Last 10" backgroundImage="blueChromeBut.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="last10Pressed:" destination="-1" eventType="touchDown" id="XGH-FH-PEv"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3AI-KN-902">
+                            <rect key="frame" x="162" y="4" width="150" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Top 5" backgroundImage="blueChromeBut.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="top5Pressed:" destination="-1" eventType="touchDown" id="Xk3-Qp-5Jv"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="UUr-sZ-8V1" customClass="GameSummaryView">
+                    <rect key="frame" x="0.0" y="42" width="320" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="YW4-rQ-c2p">
+                    <rect key="frame" x="0.0" y="98" width="320" height="49"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="20" customClass="CustomSegment">
+                            <rect key="frame" x="8" y="8" width="304" height="30"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <segments>
+                                <segment title="All"/>
+                                <segment title="Cash Games"/>
+                                <segment title="Tournaments"/>
+                            </segments>
+                            <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="22"/>
+                            </connections>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -189,6 +183,7 @@
         </view>
     </objects>
     <resources>
+        <image name="blueChromeBut.png" width="400" height="100"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>

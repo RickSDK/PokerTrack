@@ -9,10 +9,11 @@
                 <outlet property="activityIndicator" destination="49" id="63"/>
                 <outlet property="activityLabel" destination="52" id="64"/>
                 <outlet property="activityPopup" destination="42" id="65"/>
+                <outlet property="addFriendView" destination="Q2D-og-7Y3" id="91j-bu-cJk"/>
                 <outlet property="datelabel" destination="112" id="114"/>
                 <outlet property="mainTableView" destination="9" id="18"/>
                 <outlet property="mainTextfield" destination="sUb-Bc-ZlK" id="wal-bu-Bnt"/>
-                <outlet property="popupView" destination="Q2D-og-7Y3" id="KUX-bM-gpm"/>
+                <outlet property="popupView" destination="HaR-La-3Vg" id="NJj-iN-XkF"/>
                 <outlet property="refreshButton" destination="120" id="122"/>
                 <outlet property="sortSegment" destination="31" id="38"/>
                 <outlet property="timeFrameSegment" destination="26" id="39"/>
@@ -125,6 +126,7 @@
                             </state>
                             <connections>
                                 <action selector="xButtonClicked:" destination="-1" eventType="touchDown" id="vwy-Gf-DsH"/>
+                                <action selector="xButtonPressed:" destination="-1" eventType="touchDown" id="hpm-MQ-D8o"/>
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email address" minimumFontSize="17" id="sUb-Bc-ZlK">
@@ -145,6 +147,11 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="HaR-La-3Vg" customClass="PopupView">
+                    <rect key="frame" x="16" y="20" width="288" height="208"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

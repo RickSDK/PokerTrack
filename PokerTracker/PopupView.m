@@ -66,11 +66,25 @@
 	[self.xButton addTarget:self action:@selector(xButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:self.xButton];
 	
+	self.textView = [[UITextView alloc] initWithFrame:CGRectMake(5, 35, self.frame.size.width-10, self.frame.size.height-40)];
+	self.textView.backgroundColor=[UIColor clearColor];
+	self.textView.textColor = [UIColor whiteColor];
+	self.textView.editable=NO;
+	self.textView.hidden=YES;
+	[self addSubview:self.textView];
+
+	
 	[self sendSubviewToBack:self.insideView];
 }
 
 -(void)xButtonClicked {
 	self.hidden=YES;
+}
+
+-(void)hideXButton {
+	self.xButton.hidden=YES;
+	self.titleLabel.text = @"";
+	self.hidden=NO;
 }
 
 

@@ -167,7 +167,6 @@
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
 	}
-	
 }
 
 -(void)setupButtons {
@@ -596,6 +595,11 @@
 		detailViewController.managedObjectContext = managedObjectContext;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
+	if(alertViewNum==2017) {
+		GamesVC *detailViewController = [[GamesVC alloc] initWithNibName:@"GamesVC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
 
 
@@ -768,6 +772,11 @@
         minYear = [startTime convertDateToStringWithFormat:@"yyyy"];
         NSDate *startTimeMax = [[games objectAtIndex:[games count]-1] valueForKey:@"startTime"];
         maxYear = [startTimeMax convertDateToStringWithFormat:@"yyyy"];
+		
+		if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0) {
+			alertViewNum=2017;
+			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.5 update notice. Game data needs to be scrubbed." delegate:self];
+		}
     }
 	self.displayYear = [maxYear intValue];
     if(self.displayYear==0)
@@ -775,11 +784,15 @@
     
     int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
     int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
-    
-    if(currentMinYear != [minYear intValue])
+	
+	if(currentMinYear != [minYear intValue]) {
+		NSLog(@"!!!Setting year to: %@", minYear);
         [ProjectFunctions setUserDefaultValue:minYear forKey:@"minYear2"];
-    if(currentMaxYear != [maxYear intValue])
+	}
+	if(currentMaxYear != [maxYear intValue]) {
+		NSLog(@"!!!Setting year to: %@", maxYear);
         [ProjectFunctions setUserDefaultValue:maxYear forKey:@"maxYear"];
+	}
 	
 }
 

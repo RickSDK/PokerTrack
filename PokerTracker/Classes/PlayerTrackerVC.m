@@ -167,13 +167,18 @@
     [super viewDidLoad];
 	[self setTitle:@"Player Tracker"];
     
-    [mainTableView setBackgroundView:nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
+	
+	self.popupView.titleLabel.text = self.title;
+	self.popupView.textView.text = @"Track players you often play against to record useful information.";
+	self.popupView.textView.hidden=NO;
 
 	
 	playerList = [[NSMutableArray alloc] init];
 								
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
-
 	[locationButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
 	
 	

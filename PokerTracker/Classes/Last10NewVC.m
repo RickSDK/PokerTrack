@@ -14,13 +14,15 @@
 #import "MainMenuVC.h"
 #import "NSArray+ATTArray.h"
 #import "Top5VC.h"
+#import "AnalysisDetailsVC.h"
+#import "GameStatObj.h"
 
 @interface Last10NewVC ()
 
 @end
 
 @implementation Last10NewVC
-@synthesize managedObjectContext, mainTableView, bestGames, worstGames;
+@synthesize managedObjectContext, mainTableView, bestGames;
 
 -(void)top5ButtonClicked:(id)sender {
     Top5VC *detailViewController = [[Top5VC alloc] initWithNibName:@"Top5VC" bundle:nil];
@@ -32,18 +34,10 @@
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Last10", nil)];
 	bestGames = [[NSMutableArray alloc] init];
-	worstGames = [[NSMutableArray alloc] init];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0"];
     [self.mainTableView setBackgroundView:nil];
@@ -52,29 +46,24 @@
     
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+	[self.gameSummaryView populateViewWithObj:[ProjectFunctions gameStatObjForGames:bestGames]];
 	
 }
+
+-(void)gotoAnalysis {
+	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	
-	return 44;
-}
-
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [bestGames count];
 }
-
-
-
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -88,11 +77,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSManagedObject *mo = nil;
-	if(indexPath.section==0)
-		mo = [bestGames objectAtIndex:indexPath.row];
-	else
-		mo = [worstGames objectAtIndex:indexPath.row];
+	NSManagedObject *mo = [bestGames objectAtIndex:indexPath.row];
 	
 	if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
 		GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
@@ -108,20 +93,5 @@
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-
 
 @end

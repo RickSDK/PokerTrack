@@ -15,5 +15,8 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *insideView;
 @property (nonatomic, strong) UIButton *xButton;
+@property (nonatomic, strong) UITextView *textView;
+
+-(void)hideXButton;
 
 @end

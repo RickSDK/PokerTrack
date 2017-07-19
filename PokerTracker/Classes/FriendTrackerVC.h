@@ -62,6 +62,7 @@
 - (IBAction) nextButtonPressed: (id) sender;
 - (IBAction) refreshButtonPressed: (id) sender;
 - (IBAction) addButtonPressed: (id) sender;
+
 -(void)startBackgroundProcess;
 
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
@@ -79,6 +80,7 @@
 @property (atomic, strong) UIButton *refreshButton;
 
 @property (atomic, strong) UIImageView *blackBG;
+@property (atomic, strong) IBOutlet UIView *addFriendView;
 
 @property (atomic, strong) UIBarButtonItem *prevButton;
 @property (atomic, strong) UIBarButtonItem *nextButton;

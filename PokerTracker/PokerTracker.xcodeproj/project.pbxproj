@@ -83,6 +83,9 @@
 		6B5CA2201F1C3CEE003392BD /* Ukraine.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA2181F1C3CEE003392BD /* Ukraine.png */; };
 		6B5CA2211F1C3CEE003392BD /* Vietnam.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA2191F1C3CEE003392BD /* Vietnam.png */; };
 		6B5CA2241F1C6CFB003392BD /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CA2231F1C6CFB003392BD /* PopupView.m */; };
+		6B5CA2271F1FAC38003392BD /* GameSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CA2261F1FAC38003392BD /* GameSummaryView.m */; };
+		6B5CA22A1F1FAC4D003392BD /* GameSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CA2291F1FAC4D003392BD /* GameSegmentView.m */; };
+		6B5CA22D1F1FB741003392BD /* GameStatObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5CA22C1F1FB741003392BD /* GameStatObj.m */; };
 		6B6638C8169E539E00C6B9E5 /* LockAppVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6638C6169E539E00C6B9E5 /* LockAppVC.m */; };
 		6B6638C9169E539E00C6B9E5 /* LockAppVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6638C7169E539E00C6B9E5 /* LockAppVC.xib */; };
 		6B6638CD169E597E00C6B9E5 /* UnLockAppVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6638CB169E597E00C6B9E5 /* UnLockAppVC.m */; };
@@ -524,6 +527,12 @@
 		6B5CA2191F1C3CEE003392BD /* Vietnam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Vietnam.png; sourceTree = "<group>"; };
 		6B5CA2221F1C6CFB003392BD /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		6B5CA2231F1C6CFB003392BD /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
+		6B5CA2251F1FAC38003392BD /* GameSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSummaryView.h; sourceTree = "<group>"; };
+		6B5CA2261F1FAC38003392BD /* GameSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSummaryView.m; sourceTree = "<group>"; };
+		6B5CA2281F1FAC4D003392BD /* GameSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSegmentView.h; sourceTree = "<group>"; };
+		6B5CA2291F1FAC4D003392BD /* GameSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSegmentView.m; sourceTree = "<group>"; };
+		6B5CA22B1F1FB741003392BD /* GameStatObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStatObj.h; sourceTree = "<group>"; };
+		6B5CA22C1F1FB741003392BD /* GameStatObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameStatObj.m; sourceTree = "<group>"; };
 		6B6161C016D454CF00EE5C59 /* PokerTracker 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PokerTracker 5.xcdatamodel"; sourceTree = "<group>"; };
 		6B6638C5169E539E00C6B9E5 /* LockAppVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockAppVC.h; sourceTree = "<group>"; };
 		6B6638C6169E539E00C6B9E5 /* LockAppVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockAppVC.m; sourceTree = "<group>"; };
@@ -1208,12 +1217,6 @@
 				6B90BA9314E47AB800712EDC /* AnalysisDetailsVC.h */,
 				6B90BA9414E47AB800712EDC /* AnalysisDetailsVC.m */,
 				6B90BA9514E47AB800712EDC /* AnalysisDetailsVC.xib */,
-				6BD852D8150AB9580048473A /* Top5VC.h */,
-				6BD852D9150AB9580048473A /* Top5VC.m */,
-				6BD852DA150AB9580048473A /* Top5VC.xib */,
-				6BB864F41677BA8E007BCD76 /* Last10NewVC.h */,
-				6BB864F51677BA8E007BCD76 /* Last10NewVC.m */,
-				6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */,
 				6BF0C41F1667E6DB00D8D6AE /* IGAVC.h */,
 				6BF0C4201667E6DB00D8D6AE /* IGAVC.m */,
 				6BF0C4211667E6DB00D8D6AE /* IGAVC.xib */,
@@ -1261,6 +1264,12 @@
 				6BD84D04150026EF0048473A /* GameGraphVC.h */,
 				6BD84D05150026EF0048473A /* GameGraphVC.m */,
 				6BD84D06150026EF0048473A /* GameGraphVC.xib */,
+				6BD852D8150AB9580048473A /* Top5VC.h */,
+				6BD852D9150AB9580048473A /* Top5VC.m */,
+				6BD852DA150AB9580048473A /* Top5VC.xib */,
+				6BB864F41677BA8E007BCD76 /* Last10NewVC.h */,
+				6BB864F51677BA8E007BCD76 /* Last10NewVC.m */,
+				6BB864F61677BA8E007BCD76 /* Last10NewVC.xib */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -1433,6 +1442,8 @@
 				6BCA88791F1344BE00633484 /* PlayerObj.m */,
 				6BCA887D1F13D92600633484 /* HudStatObj.h */,
 				6BCA887E1F13D92600633484 /* HudStatObj.m */,
+				6B5CA22B1F1FB741003392BD /* GameStatObj.h */,
+				6B5CA22C1F1FB741003392BD /* GameStatObj.m */,
 				6BCA88801F13D93A00633484 /* HudActionObj.h */,
 				6BCA88811F13D93A00633484 /* HudActionObj.m */,
 				6B3378191F16FE3E00312F11 /* PlayerTrackerObj.h */,
@@ -1686,6 +1697,10 @@
 				6BB253A01B8911C6008AC8EE /* CustomView.m */,
 				6B5CA2221F1C6CFB003392BD /* PopupView.h */,
 				6B5CA2231F1C6CFB003392BD /* PopupView.m */,
+				6B5CA2251F1FAC38003392BD /* GameSummaryView.h */,
+				6B5CA2261F1FAC38003392BD /* GameSummaryView.m */,
+				6B5CA2281F1FAC4D003392BD /* GameSegmentView.h */,
+				6B5CA2291F1FAC4D003392BD /* GameSegmentView.m */,
 				6BB253A71B892BC8008AC8EE /* MultiLineObj.h */,
 				6BB253A81B892BC8008AC8EE /* MultiLineObj.m */,
 				6B57B67D1B3DC863002A79BA /* WebServiceView.h */,
@@ -2176,6 +2191,7 @@
 				6BB08CD7146F7DBD00DF84AB /* FiltersVC.m in Sources */,
 				6BB08CDC146F7DD200DF84AB /* MonthlyChartsVC.m in Sources */,
 				6BB08D24146F8F4D00DF84AB /* StatsFunctions.m in Sources */,
+				6B5CA2271F1FAC38003392BD /* GameSummaryView.m in Sources */,
 				6BB090041471E9C000DF84AB /* FilterListVC.m in Sources */,
 				6BB09C43148571D100DF84AB /* NSArray+ATTArray.m in Sources */,
 				6B90908314B398B700712EDC /* Appirater.m in Sources */,
@@ -2204,6 +2220,7 @@
 				6B33781B1F16FE3F00312F11 /* PlayerTrackerObj.m in Sources */,
 				6B90AAB614D0B94A00712EDC /* CasinoListVC.m in Sources */,
 				6B90B34714DC58EF00712EDC /* CasinoMapVC.m in Sources */,
+				6B5CA22D1F1FB741003392BD /* GameStatObj.m in Sources */,
 				6B90B70714E1A15900712EDC /* AnalysisVC.m in Sources */,
 				6B90B7B414E1F3EB00712EDC /* AnalysisLib.m in Sources */,
 				6B90B95414E3067300712EDC /* DatabaseManage.m in Sources */,
@@ -2235,6 +2252,7 @@
 				6BF0C4251667E6DB00D8D6AE /* IGAVC.m in Sources */,
 				6BF0C4321667E6F700D8D6AE /* UniverseTrackerVC.m in Sources */,
 				6BF0C4341667E6F700D8D6AE /* UserSummaryVC.m in Sources */,
+				6B5CA22A1F1FAC4D003392BD /* GameSegmentView.m in Sources */,
 				6BF0C4361667E6F700D8D6AE /* ViewLocationsVC.m in Sources */,
 				6BF0C43B1667E70800D8D6AE /* ProfileVC.m in Sources */,
 				6BF0C4401667E71D00D8D6AE /* TauntVC.m in Sources */,

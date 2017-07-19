@@ -71,7 +71,7 @@
 - (void) saveButtonClicked:(id)sender {
 	[self resignkeyboards];
 	if(!viewEditable) {
-		[saveEditButton setTitle:@"Save"];
+		[saveEditButton setTitle:[NSString fontAwesomeIconStringForEnum:FAFloppyO]];
 		self.viewEditable = YES;
 		self.saveEditButton.enabled=NO;
 		self.changesMade=NO;
@@ -120,10 +120,6 @@
 		
 
 -(void)mainMenuButtonClicked:(id)sender {
-//	MainMenuVC *detailViewController = [[MainMenuVC alloc] initWithNibName:@"MainMenuVC" bundle:nil];
-//	detailViewController.managedObjectContext=managedObjectContext;
-//	[self.navigationController pushViewController:detailViewController animated:YES];
-//	[detailViewController release];
 	if(changesMade)
 		[ProjectFunctions showConfirmationPopup:@"Warning" message:@"Changes have not been saved. Are you sure you want to exit?" delegate:self tag:1];
 	else
@@ -140,14 +136,6 @@
 	self.viewEditable=NO;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Profile"];
@@ -158,14 +146,12 @@
 	} else {
 		[self disableFields];
 	}
-
+	
+	[self.popupView hideXButton];
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-//	UIBarButtonItem *mainMenuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//	self.navigationItem.leftBarButtonItem = mainMenuButton;
 	
-	NSString *buttonName = (viewEditable)?@"Save":@"Edit";
-	saveEditButton = [ProjectFunctions navigationButtonWithTitle:buttonName selector:@selector(saveButtonClicked:) target:self];
+	saveEditButton = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(saveButtonClicked:)];
 
 	self.navigationItem.rightBarButtonItem = saveEditButton;
 	

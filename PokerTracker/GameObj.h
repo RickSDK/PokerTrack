@@ -10,7 +10,7 @@
 
 @interface GameObj : NSObject
 
-@property (nonatomic) BOOL cashGameFlg;
+@property (nonatomic) BOOL tournamentGameFlg;
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *type;

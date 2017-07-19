@@ -203,6 +203,7 @@
 	
 	self.showBreakdownFlg=NO;
     
+	displayYear = [ProjectFunctions getNowYear];
     yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 
     [self.mainTableView setBackgroundView:nil];
@@ -231,8 +232,6 @@
 	
 	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
 	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-	self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 
 	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	

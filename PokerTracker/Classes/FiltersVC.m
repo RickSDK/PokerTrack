@@ -116,8 +116,15 @@
 	
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASearch] target:self action:@selector(mainMenuButtonClicked:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASearch] target:self action:@selector(mainMenuButtonClicked:)];
+	self.popupView.titleLabel.text = self.title;
+	self.popupView.textView.text = NSLocalizedString(@"FilterMessage", nil);
+	self.popupView.textView.hidden=NO;
+
 	
 	self.chartImageView.alpha=0;
 	

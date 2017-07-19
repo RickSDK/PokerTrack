@@ -86,11 +86,6 @@
     [actionSheet showInView:self.view];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
@@ -114,20 +109,12 @@
     [self refreshPage];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void)loadForum
 {
 	@autoreleasepool {
     
         [self.forumPostings removeAllObjects];
-
-        
-        
+		
         NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", nil];
 	NSString *username = [ProjectFunctions getUserDefaultValue:@"userName"];
 	NSString *password = [ProjectFunctions getUserDefaultValue:@"password"];
@@ -158,7 +145,6 @@
 	[self performSelectorInBackground:@selector(loadForum) withObject:nil];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
@@ -167,7 +153,6 @@
         cell = [[ForumCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
    
     if(indexPath.row==0) {
-        
         cell.repliesLabel.alpha=0;
         cell.repliesNumber.alpha=0;
         cell.bodyLabel.alpha=0;
@@ -212,9 +197,6 @@
             if([@"Y" isEqualToString:[parts objectAtIndex:4]])
                 cell.mainImg.image = [UIImage imageNamed:@"new.png"];
         }
-        
-        
-        
         cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
     }
     
@@ -241,12 +223,9 @@
 	return CGFLOAT_MIN;
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return CGFLOAT_MIN;
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row==0) {
@@ -268,7 +247,5 @@
         }
     }
 }
-
-
 
 @end

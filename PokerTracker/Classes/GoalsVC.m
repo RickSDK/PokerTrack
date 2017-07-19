@@ -24,6 +24,50 @@
 @synthesize monthlyProfits, hourlyProfits, bankrollButton, bankRollSegment;
 @synthesize activityBGView, activityIndicator, yearToolbar, coreDataLocked;
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:NSLocalizedString(@"Goals", nil)];
+	
+	displayYear = [ProjectFunctions getNowYear];
+	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
+	
+	[mainTableView setBackgroundView:nil];
+	
+	self.monthlyProfits = [[NSMutableArray alloc] init];
+	self.hourlyProfits = [[NSMutableArray alloc] init];
+	chart1ImageView = [[UIImageView alloc] init];
+	chart2ImageView = [[UIImageView alloc] init];
+	self.selectedObjectForEdit=0;
+	
+	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
+	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
+	
+	self.popupView.titleLabel.text = self.title;
+	self.popupView.textView.text = @"Track your goals! Choose a monthly amount and an hourly amount. Then check here to see which months you hit your goals.";
+	self.popupView.textView.hidden=NO;
+
+	
+	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
+	
+	self.profitGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
+	self.hourlyGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
+	
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	
+	self.bankrollButton.alpha=1;
+	self.bankRollSegment.alpha=1;
+	
+	if(numBanks==0) {
+		self.bankrollButton.alpha=0;
+		self.bankRollSegment.alpha=0;
+	}
+}
+
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
@@ -151,44 +195,6 @@
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
     [self computeStats];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:NSLocalizedString(@"Goals", nil)];
-    
-    yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-
-    [mainTableView setBackgroundView:nil];
-
-	self.monthlyProfits = [[NSMutableArray alloc] init];
-	self.hourlyProfits = [[NSMutableArray alloc] init];
-	chart1ImageView = [[UIImageView alloc] init];
-	chart2ImageView = [[UIImageView alloc] init];
-	self.selectedObjectForEdit=0;
-	
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
-	
-	
-	self.displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
-	self.profitGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
-	self.hourlyGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
-
-    int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-    
-    self.bankrollButton.alpha=1;
-    self.bankRollSegment.alpha=1;
-    
-    if(numBanks==0) {
-        self.bankrollButton.alpha=0;
-        self.bankRollSegment.alpha=0;
-    }
-
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

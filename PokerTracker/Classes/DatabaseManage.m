@@ -50,6 +50,7 @@
 #define kImportData		3
 #define kImportPokerJounralData	4
 #define kClearServerData	5
+#define kLogout		101
 
 
 
@@ -94,11 +95,7 @@
 
 -(void)loginButtonClicked:(id)sender {
 	if([ProjectFunctions getUserDefaultValue:@"userName"]) {
-		[ProjectFunctions setUserDefaultValue:nil forKey:@"emailAddress"];
-		[ProjectFunctions setUserDefaultValue:nil forKey:@"userName"];
-		[ProjectFunctions setUserDefaultValue:nil forKey:@"firstName"];
-		[ProjectFunctions setUserDefaultValue:nil forKey:@"password"];
-		[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+		[ProjectFunctions showConfirmationPopup:@"Log out?" message:@"You are already logged in. Did you want to log out?" delegate:self tag:kLogout];
 	} else {
 		LoginVC *detailViewController = [[LoginVC alloc] initWithNibName:@"LoginVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
@@ -174,9 +171,16 @@
 	
 	if([ProjectFunctions getUserDefaultValue:@"firstName"])
 		self.userLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"firstName"]];
+
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASignIn] target:self action:@selector(loginButtonClicked:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
 	
-	NSString *buttonName = ([ProjectFunctions getUserDefaultValue:@"userName"])?[NSString fontAwesomeIconStringForEnum:FASignOut]:[NSString fontAwesomeIconStringForEnum:FASignIn];
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:buttonName target:self action:@selector(loginButtonClicked:)];
+	self.popupView.titleLabel.text = @"Database Backup";
+	self.popupView.textView.text = @"Using this screen you can back up all your games. This is very important in case you lose your phone or upgrade to a new phone.\n\nKeep in mind you must manually back up your games on this screen to have them saved on the server. As you play new games they do NOT automatically get backed up.\n\nIts a good idea to back up your games often to prevent data loss.\n\nClick the login button at the top to get started.";
+	self.popupView.textView.hidden=NO;
+
 
 }
 
@@ -1285,6 +1289,13 @@
 	}
 	if(alertView.tag==kClearServerData) { // kClearServerData
 		[self executeThreadedJob:@selector(clearServerData)];
+	}
+	if(alertView.tag==kLogout) {
+		[ProjectFunctions setUserDefaultValue:nil forKey:@"emailAddress"];
+		[ProjectFunctions setUserDefaultValue:nil forKey:@"userName"];
+		[ProjectFunctions setUserDefaultValue:nil forKey:@"firstName"];
+		[ProjectFunctions setUserDefaultValue:nil forKey:@"password"];
+		[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 	}
 	
 	

@@ -44,6 +44,7 @@
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowLeft] target:self action:@selector(backButtonClicked)];
 
+	[self.mainTableView setBackgroundView:nil];
 }
 
 -(void)backButtonClicked {

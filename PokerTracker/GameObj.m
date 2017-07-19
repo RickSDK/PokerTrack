@@ -17,7 +17,7 @@
 
 +(GameObj *)gameObjFromDBObj:(NSManagedObject *)mo {
 	GameObj *gameObj = [GameObj new];
-	gameObj.cashGameFlg = [@"Cash" isEqualToString:[mo valueForKey:@"Type"]];
+	gameObj.tournamentGameFlg = [@"Tournament" isEqualToString:[mo valueForKey:@"Type"]];
 	gameObj.type = [mo valueForKey:@"Type"];
 	gameObj.startTime = [mo valueForKey:@"startTime"];
 	gameObj.endTime = [mo valueForKey:@"endTime"];
@@ -108,7 +108,7 @@
 	GameObj *gameObj = [[GameObj alloc] init];
 	NSArray *components = [line componentsSeparatedByString:@"|"];
 	if(components.count>6) {
-		gameObj.cashGameFlg = [@"Cash" isEqualToString:[components objectAtIndex:6]];
+		gameObj.tournamentGameFlg = [@"Tournament" isEqualToString:[components objectAtIndex:6]];
 		gameObj.type = [components objectAtIndex:6];
 		gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", [components objectAtIndex:8], [components objectAtIndex:9], [components objectAtIndex:10]];
 		gameObj.startTime = [[components objectAtIndex:0] convertStringToDateFinalSolution];
@@ -123,8 +123,6 @@
 		int cashout = [[components objectAtIndex:3] intValue];
 		gameObj.profit = cashout-gameObj.buyInAmount-gameObj.reBuyAmount;
 		gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.buyInAmount+gameObj.reBuyAmount netIncome:gameObj.profit];
-//		NSLog(@"+++%@", line);
-//		NSLog(@"%@ %d %d %@ [%@] [%@]", gameObj.name, gameObj.profit, gameObj.minutes, gameObj.hours, [components objectAtIndex:0], [components objectAtIndex:12]);
 	}
 	return gameObj;
 }

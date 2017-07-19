@@ -41,6 +41,7 @@
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Reports", nil)];
 	
+	displayYear = [ProjectFunctions getNowYear];
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];

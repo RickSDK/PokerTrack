@@ -7,20 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GameSummaryView.h"
+#import "TemplateVC.h"
 
-@interface Last10NewVC : UIViewController
+@interface Last10NewVC : TemplateVC
 {
-    NSManagedObjectContext *managedObjectContext;
-	IBOutlet UITableView *mainTableView;
-    
 	NSMutableArray *bestGames;
-	NSMutableArray *worstGames;
 }
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) UITableView *mainTableView;
 
+@property (nonatomic, strong) IBOutlet GameSummaryView *gameSummaryView;
 @property (nonatomic, strong) NSMutableArray *bestGames;
-@property (nonatomic, strong) NSMutableArray *worstGames;
 
 @end
