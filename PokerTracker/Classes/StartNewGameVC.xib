@@ -13,12 +13,14 @@
                 <outlet property="bankrollLabel" destination="15" id="hOu-aU-KA0"/>
                 <outlet property="blindTypeSegmentBar" destination="11" id="19"/>
                 <outlet property="buyinButton" destination="13" id="20"/>
+                <outlet property="buyinLabel" destination="dNV-ig-wRc" id="2yp-CA-So0"/>
                 <outlet property="completedButton" destination="6" id="21"/>
                 <outlet property="gameNameSegmentBar" destination="7" id="23"/>
                 <outlet property="gameTypeSegmentBar" destination="10" id="24"/>
                 <outlet property="limitTypeSegmentBar" destination="9" id="25"/>
                 <outlet property="locationButton" destination="41" id="42"/>
                 <outlet property="locationLabel" destination="38" id="zYz-c3-4Z9"/>
+                <outlet property="locationTextLabel" destination="yLc-6F-FFD" id="k1f-0O-i8d"/>
                 <outlet property="mainSegment" destination="10" id="hHF-LR-e9d"/>
                 <outlet property="popupView" destination="JJ6-IV-Mqs" id="IpV-wy-jSk"/>
                 <outlet property="retryButton" destination="65" id="cfE-yt-VgP"/>
@@ -174,8 +176,22 @@
                                 <action selector="startButtonPressed:" destination="-1" eventType="touchDown" id="33"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="yLc-6F-FFD">
+                            <rect key="frame" x="83" y="193" width="164" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buyin Amount" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="dNV-ig-wRc">
+                            <rect key="frame" x="33" y="306" width="224" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <view contentMode="scaleToFill" id="JJ6-IV-Mqs" customClass="PopupView">
-                            <rect key="frame" x="8" y="10" width="304" height="379"/>
+                            <rect key="frame" x="8" y="10" width="304" height="283"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="14">

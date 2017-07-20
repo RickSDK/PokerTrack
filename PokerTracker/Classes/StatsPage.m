@@ -33,6 +33,7 @@
 #import "BankrollsVC.h"
 #import "PokerTrackerAppDelegate.h"
 #import "GameStatObj.h"
+#import "FilterObj.h"
 
 #define kLeftLabelRation	0.5
 #define kfilterButton	7
@@ -80,7 +81,7 @@
 	multiDimenArray = [[NSMutableArray alloc] init];
 	selectedFieldIndex=0;
 	displayBySession=NO;
-	self.gameType = @"All";
+	self.gameType = NSLocalizedString(@"All", nil);
 	largeGraph.alpha=0;
 	
 	UIImageView *bar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]];
@@ -109,6 +110,7 @@
 	
 	[self setupButtons];
 	[self arrayInit];
+	[self computeStats];
 	
 }
 
@@ -152,9 +154,9 @@
     [super viewWillAppear:animated];
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
-    [self computeStats];
-    
 	[self checkCustomSegment];
+//    [self computeStats];
+    
 }
 
 - (IBAction) analysisPressed: (id) sender
@@ -203,8 +205,10 @@
 		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 		if([filters count]>0) {
 			NSManagedObject *mo = [filters objectAtIndex:0];
-			[customSegment setTitle:[mo valueForKey:@"name"] forSegmentAtIndex:i];
-		}
+			FilterObj *obj = [FilterObj objectFromMO:mo];
+			[customSegment setTitle:obj.shortName forSegmentAtIndex:i];
+		} else
+			[customSegment setTitle:@"Extra" forSegmentAtIndex:i];
 	}
 		
 }
@@ -249,6 +253,15 @@
 - (IBAction) gameSegmentPressed: (id) sender {
 	if(rotateLock)
 		return;
+	if(self.gameSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Stats", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+	}
+	if(self.gameSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+	}
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[formDataArray replaceObjectAtIndex:1 withObject:self.gameType];
 	[ProjectFunctions changeColorForGameBar:self.gameSegment];
@@ -264,7 +277,7 @@
         self.displayYear=0;
 		gameSegment.selectedSegmentIndex = 0;
 		[formDataArray replaceObjectAtIndex:0 withObject:NSLocalizedString(@"LifeTime", nil)];
-		[formDataArray replaceObjectAtIndex:1 withObject:@"All Games Types"];
+		[formDataArray replaceObjectAtIndex:1 withObject:NSLocalizedString(@"All", nil)];
 		NSString *button = [NSString stringWithFormat:@"%d", (int)customSegment.selectedSegmentIndex];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %@", button];
 		NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
@@ -279,11 +292,13 @@
 			[formDataArray replaceObjectAtIndex:5 withObject:[self scrubFilterValue:[mo valueForKey:@"location"]]];
 			[formDataArray replaceObjectAtIndex:6 withObject:[self scrubFilterValue:[mo valueForKey:@"bankroll"]]];
 			[formDataArray replaceObjectAtIndex:7 withObject:[self scrubFilterValue:[mo valueForKey:@"tournamentType"]]];
-			yearLabel.text = [self scrubFilterValue:[mo valueForKey:@"name"]];
+			FilterObj *obj = [FilterObj objectFromMO:mo];
+			yearLabel.text = obj.shortName;
 			NSLog(@"+++formDataArray: %@", formDataArray);
  		} else {
 			[ProjectFunctions showAlertPopup:@"Notice" message:@"No filter currently saved to that button"];
-			customSegment.selectedSegmentIndex=0;
+			self.customSegment.selectedSegmentIndex=0;
+			return;
 		}
 	} else { // no custom button
 		[self initializeFormData];
@@ -300,6 +315,7 @@
 -(NSString *)scrubFilterValue:(NSString *)value {
 	if(value.length>3 && [@"All" isEqualToString:[value substringToIndex:3]])
 		return NSLocalizedString(@"All", nil);
+	
 	return value;
 }
 
@@ -343,9 +359,11 @@
 }
 
 -(void)addDataToArray:(NSMutableArray *)titles values:(NSMutableArray *)values colors:(NSMutableArray *)colors title:(NSString *)title value:(NSString *)value color:(UIColor *)color {
-	[titles addObject:title];
-	[values addObject:value];
-	[colors addObject:color];
+	if(value) {
+		[titles addObject:title];
+		[values addObject:value];
+		[colors addObject:color];
+	}
 }
 
 -(UIColor *)colorForValue:(double)value {
@@ -368,7 +386,7 @@
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:contextLocal buttonNum:(int)customSegment.selectedSegmentIndex];
 		
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:YES];
-		GameStatObj *gameStatObj = [ProjectFunctions gameStatObjDetailedForGames:games];
+		GameStatObj *gameStatObj = [GameStatObj gameStatObjDetailedForGames:games];
 		[self.titles1 removeAllObjects];
 		[self.values1 removeAllObjects];
 		[self.colors1 removeAllObjects];
@@ -384,24 +402,25 @@
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"ROI" value:gameStatObj.roi color:[self colorForValue:gameStatObj.profit]];
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Profit High" value:gameStatObj.profitHigh color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Profit Low" value:gameStatObj.profitLow color:[UIColor redColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Weekday" value:gameStatObj.bestWeekday color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Daytime" value:gameStatObj.bestDaytime color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Weekday" value:gameStatObj.worstWeekday color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Daytime" value:gameStatObj.worstDaytime color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Day" value:gameStatObj.bestWeekday color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Time" value:gameStatObj.bestDaytime color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Day" value:gameStatObj.worstWeekday color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Time" value:gameStatObj.worstDaytime color:[UIColor blackColor]];
 
 		[self.titles2 removeAllObjects];
 		[self.values2 removeAllObjects];
 		[self.colors2 removeAllObjects];
-		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:@"Quarter 1" value:gameStatObj.quarter1 color:[self colorForValue:gameStatObj.quarter1Profit]];
-		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:@"Quarter 2" value:gameStatObj.quarter2 color:[self colorForValue:gameStatObj.quarter2Profit]];
-		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:@"Quarter 3" value:gameStatObj.quarter3 color:[self colorForValue:gameStatObj.quarter3Profit]];
-		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:@"Quarter 4" value:gameStatObj.quarter4 color:[self colorForValue:gameStatObj.quarter4Profit]];
-		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:@"Totals" value:gameStatObj.totals color:[self colorForValue:gameStatObj.quarter1Profit+gameStatObj.quarter2Profit+gameStatObj.quarter3Profit+gameStatObj.quarter4Profit]];
+		
+		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:[NSString stringWithFormat:@"%@ 1", NSLocalizedString(@"Quarter", nil)] value:gameStatObj.quarter1 color:[self colorForValue:gameStatObj.quarter1Profit]];
+		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:[NSString stringWithFormat:@"%@ 2", NSLocalizedString(@"Quarter", nil)] value:gameStatObj.quarter2 color:[self colorForValue:gameStatObj.quarter2Profit]];
+		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:[NSString stringWithFormat:@"%@ 3", NSLocalizedString(@"Quarter", nil)] value:gameStatObj.quarter3 color:[self colorForValue:gameStatObj.quarter3Profit]];
+		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:[NSString stringWithFormat:@"%@ 4", NSLocalizedString(@"Quarter", nil)] value:gameStatObj.quarter4 color:[self colorForValue:gameStatObj.quarter4Profit]];
+		[self addDataToArray:self.titles2 values:self.values2 colors:self.colors2 title:NSLocalizedString(@"Total", nil) value:gameStatObj.totals color:[self colorForValue:gameStatObj.quarter1Profit+gameStatObj.quarter2Profit+gameStatObj.quarter3Profit+gameStatObj.quarter4Profit]];
 
 		[self.titles3 removeAllObjects];
 		[self.values3 removeAllObjects];
 		[self.colors3 removeAllObjects];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Games Won" value:gameStatObj.gamesWon color:[UIColor blackColor]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:NSLocalizedString(@"Games Won", nil) value:gameStatObj.gamesWon color:[UIColor blackColor]];
 		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Risked" value:gameStatObj.gamesWonAverageRisked color:[UIColor blackColor]];
 		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Rebuy" value:gameStatObj.gamesWonAverageRebuy color:[UIColor blackColor]];
 		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Profit" value:gameStatObj.gamesWonAverageProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
@@ -411,7 +430,7 @@
 		[self.titles4 removeAllObjects];
 		[self.values4 removeAllObjects];
 		[self.colors4 removeAllObjects];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Games Lost" value:gameStatObj.gamesLost color:[UIColor blackColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:NSLocalizedString(@"Games Lost", nil) value:gameStatObj.gamesLost color:[UIColor blackColor]];
 		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Risked" value:gameStatObj.gamesLostAverageRisked color:[UIColor blackColor]];
 		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Rebuy" value:gameStatObj.gamesLostAverageRebuy color:[UIColor blackColor]];
 		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Profit" value:gameStatObj.gamesLostAverageProfit color:[UIColor redColor]];
@@ -519,7 +538,7 @@
 	}
 	if(indexPath.section==1) {
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:self.titles1.count labelProportion:0.5];
-		cell.mainTitle = @"Game Stats";
+		cell.mainTitle = NSLocalizedString(@"Game Stats", nil);
 		cell.alternateTitle=self.yearLabel.text;
 		
 		cell.titleTextArray = self.titles1;
@@ -531,7 +550,7 @@
 	}
 	if(indexPath.section==2) {
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:self.titles2.count labelProportion:0.5];
-		cell.mainTitle = @"Quarterly Stats";
+		cell.mainTitle = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quarter", nil), NSLocalizedString(@"Stats", nil)];
 		cell.alternateTitle=self.yearLabel.text;
 		
 		cell.titleTextArray = self.titles2;
@@ -543,7 +562,7 @@
 	}
 	if(indexPath.section==3) {
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:self.titles3.count labelProportion:0.5];
-		cell.mainTitle = @"Games Won";
+		cell.mainTitle = NSLocalizedString(@"Games Won", nil);
 		cell.alternateTitle=self.yearLabel.text;
 		
 		cell.titleTextArray = self.titles3;
@@ -555,7 +574,7 @@
 	}
 	
 		MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withRows:self.titles4.count labelProportion:0.5];
-		cell.mainTitle = @"Games Lost";
+		cell.mainTitle = NSLocalizedString(@"Games Lost", nil);
 		cell.alternateTitle=self.yearLabel.text;
 		
 		cell.titleTextArray = self.titles4;

@@ -51,6 +51,7 @@
 
 	self.textViewBG.alpha=0;
 	self.activityLabel.alpha=0;
+	self.deleteButton.enabled=NO;
 	
 	[self setupData];
 }
@@ -89,27 +90,12 @@
 	
 	[self.mainTableView reloadData];
 }
-/*
-- (IBAction) graphButtonPressed: (id) sender
-{
-	GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
-	detailViewController.managedObjectContext=managedObjectContext;
-	detailViewController.mo=mo;
-	[self.navigationController pushViewController:detailViewController animated:YES];
+
+- (IBAction) deleteButtonPressed: (id) sender {
+	self.buttonForm=101;
+	[ProjectFunctions showConfirmationPopup:@"Warning!" message:@"Are you sure you want to delete this game?" delegate:self tag:101];
 }
 
-- (IBAction) doneButtonPressed: (id) sender 
-{
-	self.selectedFieldIndex = kCashOut;
-	
-	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-	detailViewController.managedObjectContext=managedObjectContext;
-	detailViewController.callBackViewController = self;
-	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", [self.formDataArray stringAtIndex:kCashOut]];
-	detailViewController.titleLabel = [NSString stringWithFormat:@"%@", [self.labelValues stringAtIndex:kCashOut]];
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-*/
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if(buttonForm==99) {
@@ -142,10 +128,7 @@
 }
 
 - (void) cancelButtonClicked:(id)sender {
-//	if(changesMade)
-//		[ProjectFunctions showConfirmationPopup:@"Warning" message:@"Your changes have not been saved! Do you want to exit without saving?" delegate:self tag:1];
-//	else
-		[self.navigationController popViewControllerAnimated:YES];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)refreshWebRequest
@@ -170,6 +153,7 @@
 
 - (void) saveButtonClicked:(id)sender {
 	viewEditable = !viewEditable;
+	self.deleteButton.enabled=viewEditable;
 	[mainTableView reloadData];
 	[self setTitle:(viewEditable)?NSLocalizedString(@"Edit Mode", nil):NSLocalizedString(@"Details", nil)];
 }
@@ -196,7 +180,7 @@
 	if(section==0)
 		return 1;
 	
-    return self.detailItems.count+1;
+    return self.detailItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

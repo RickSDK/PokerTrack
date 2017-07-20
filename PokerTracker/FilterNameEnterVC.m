@@ -25,11 +25,9 @@
         [self.filerObj setValue:filterName.text forKey:@"name"];
 		[self.filerObj setValue:[NSNumber numberWithInt:button] forKey:@"button"];
         [self.managedObjectContext save:nil];
- //       [(FilterListVC *)callBackViewController reloadView];
-    } 
+    }
         [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%@|%d", filterName.text, (int)customButtonSegment.selectedSegmentIndex] forKey:@"returnValue"];
         [(ProjectFunctions *)callBackViewController setReturningValue:@"test"];
- //   }
     
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -68,16 +66,11 @@
     [super viewDidLoad];
 
 	
-//	UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel:)];
-//	self.navigationItem.leftBarButtonItem = modalButton;
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
 	
 	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
 	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
 	
-	//	saveButton =  [ProjectFunctions navigationButtonWithTitle:@"Save" selector:@selector(save:) target:self];
-	//	self.navigationItem.rightBarButtonItem = saveButton;
-
 	saveButton =  [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(save:)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 

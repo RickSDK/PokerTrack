@@ -85,8 +85,6 @@
 +(NSArray *)getArrayForSegment:(int)segment;
 +(void)changeColorForGameBar:(UISegmentedControl *)bar;
 +(void)displayLoginMessage;
-+(GameStatObj *)gameStatObjForGames:(NSArray *)games;
-+(GameStatObj *)gameStatObjDetailedForGames:(NSArray *)games;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;

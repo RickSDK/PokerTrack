@@ -60,5 +60,7 @@
 @property (nonatomic, strong)  NSString *gamesLostAverageRisked;
 @property (nonatomic, strong)  NSString *gamesLostAverageRebuy;
 
++(GameStatObj *)gameStatObjForGames:(NSArray *)games;
++(GameStatObj *)gameStatObjDetailedForGames:(NSArray *)games;
 
 @end

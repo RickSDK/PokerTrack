@@ -464,6 +464,10 @@
 
 - (IBAction) doneButtonPressed: (id) sender
 {
+	if(!self.cashUpdatedFlg) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Update your 'Current Chips' before ending the game."];
+		return;
+	}
 	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];
 }
 

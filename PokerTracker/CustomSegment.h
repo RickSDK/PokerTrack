@@ -11,5 +11,8 @@
 @interface CustomSegment : UISegmentedControl
 
 -(void)changeSegment;
+-(void)turnIntoTop5Segment;
+-(void)turnIntoGameSegment;
+-(void)gameSegmentChanged;
 
 @end

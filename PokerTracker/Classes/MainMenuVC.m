@@ -170,22 +170,21 @@
 }
 
 -(void)setupButtons {
-	[self createLabelForButton:self.gamesButton size:24 name:NSLocalizedString(@"Games", nil) icon:[NSString fontAwesomeIconStringForEnum:FACheckCircle]];
-	NSString *stats = NSLocalizedString(@"Stats", nil);
-	if (stats.length>6)
-		stats = [stats substringToIndex:6];
-	[self createLabelForButton:self.statsButton size:24 name:stats icon:[NSString fontAwesomeIconStringForEnum:FAlineChart]];
-	
-	[self createFAButton:self.oddsButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAcalculator]];
-	[self createFAButton:self.moreTrackersButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAhandPaperO]];
-	[self createFAButton:self.forumButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAComments]];
-	[self createFAButton:self.netTrackerButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAGlobe]];
-	[self createFAButton:self.startNewGameButton size:24 icon:[NSString fontAwesomeIconStringForEnum:FAPlus]];
+	[ProjectFunctions makeFAButton:self.startNewGameButton type:1 size:24];
+	[self createMainMenuButton:self.gamesButton name:NSLocalizedString(@"Games", nil) type:27 size:24];
+	[self createMainMenuButton:self.statsButton name:NSLocalizedString(@"Stats", nil) type:11 size:24];
+	[self createMainMenuButton:self.oddsButton name:NSLocalizedString(@"Odds", nil) type:28 size:18];
+	[self createMainMenuButton:self.moreTrackersButton name:NSLocalizedString(@"More", nil) type:29 size:18];
+	[self createMainMenuButton:self.forumButton name:NSLocalizedString(@"Forum", nil) type:30 size:18];
+	[self createMainMenuButton:self.netTrackerButton name:NSLocalizedString(@"Net Tracker", nil) type:31 size:18];
 }
 
--(void)createFAButton:(UIButton *)button size:(float)size icon:(NSString *)icon {
-	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
-	[button setTitle:icon forState:UIControlStateNormal];
+-(void)createMainMenuButton:(UIButton *)button name:(NSString *)name type:(int)type size:(float)size {
+	if(size==24 && name.length>6)
+		name = [name substringToIndex:6];
+	if(name.length>11)
+		name = [name substringToIndex:11];
+	[ProjectFunctions makeFAButton:button type:type size:size text:name];
 }
 
 -(void)createLabelForButton:(UIButton *)button size:(float)size name:(NSString *)name icon:(NSString *)icon {

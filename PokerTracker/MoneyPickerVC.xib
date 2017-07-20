@@ -27,7 +27,6 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="10"/>
                         <outlet property="delegate" destination="-1" id="11"/>
@@ -36,14 +35,12 @@
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Amount" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" id="5">
                     <rect key="frame" x="107" y="15" width="107" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="24"/>
                     <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="13">
                     <rect key="frame" x="20" y="9" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Clear" backgroundImage="blackChromeBut.png">
@@ -56,7 +53,6 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="27">
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="+$1" backgroundImage="whiteChromeBut.png">
@@ -67,7 +63,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="37">
                     <rect key="frame" x="125" y="222" width="72" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="0" backgroundImage="whiteChromeBut.png">
@@ -81,7 +76,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39">
                     <rect key="frame" x="20" y="66" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="1" backgroundImage="whiteChromeBut.png">
@@ -95,7 +89,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="40">
                     <rect key="frame" x="124" y="66" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="2" backgroundImage="whiteChromeBut.png">
@@ -109,7 +102,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="41">
                     <rect key="frame" x="227" y="66" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="3" backgroundImage="whiteChromeBut.png">
@@ -123,7 +115,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="42">
                     <rect key="frame" x="20" y="118" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="4" backgroundImage="whiteChromeBut.png">
@@ -137,7 +128,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="43">
                     <rect key="frame" x="124" y="118" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="5" backgroundImage="whiteChromeBut.png">
@@ -151,7 +141,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="44">
                     <rect key="frame" x="227" y="118" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="6" backgroundImage="whiteChromeBut.png">
@@ -165,7 +154,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="45">
                     <rect key="frame" x="20" y="170" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="7" backgroundImage="whiteChromeBut.png">
@@ -179,7 +167,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="58">
                     <rect key="frame" x="20" y="222" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="+100" backgroundImage="whiteChromeBut.png">
@@ -193,7 +180,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="63">
                     <rect key="frame" x="227" y="222" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="." backgroundImage="whiteChromeBut.png">
@@ -207,7 +193,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="46">
                     <rect key="frame" x="124" y="170" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="8" backgroundImage="whiteChromeBut.png">
@@ -221,7 +206,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="47">
                     <rect key="frame" x="227" y="170" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="9" backgroundImage="whiteChromeBut.png">
@@ -235,7 +219,6 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="66">
                     <rect key="frame" x="227" y="9" width="73" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="+1" backgroundImage="whiteChromeBut.png">
@@ -249,7 +232,6 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="23">
                     <rect key="frame" x="112" y="0.0" width="102" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <color key="textColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

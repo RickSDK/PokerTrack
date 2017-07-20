@@ -30,9 +30,10 @@
 	worstGames = [[NSMutableArray alloc] init];
 	
     [mainTableView setBackgroundView:nil];
-	
 
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
+	
+	[self.mainSegment turnIntoTop5Segment];
 	
 	[self calculate];
 }

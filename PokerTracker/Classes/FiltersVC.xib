@@ -8,10 +8,17 @@
             <connections>
                 <outlet property="activityIndicator" destination="16" id="18"/>
                 <outlet property="currentFilterLabel" destination="nfa-9j-IYK" id="ady-MW-tCO"/>
+                <outlet property="deleteButton" destination="pEw-Ah-and" id="KI2-au-VyU"/>
+                <outlet property="mainSegment" destination="c6I-NM-KE0" id="nkx-oR-Qmt"/>
                 <outlet property="mainTableView" destination="4" id="22"/>
+                <outlet property="mainTextfield" destination="vwI-Km-qET" id="eLL-eI-MTG"/>
+                <outlet property="popupSaveButton" destination="4M9-uX-eZ5" id="C1Q-nv-pT5"/>
                 <outlet property="popupView" destination="pxd-MX-dRT" id="oCI-1D-w9J"/>
+                <outlet property="saveButton" destination="mF8-t9-bip" id="y1b-fT-aMh"/>
+                <outlet property="saveView" destination="LOI-Um-GvB" id="DFG-sE-kai"/>
                 <outlet property="timeFramLabel" destination="LA9-eY-Jf9" id="YQ4-PV-CcY"/>
                 <outlet property="view" destination="1" id="3"/>
+                <outlet property="viewButton" destination="W1n-W2-nBd" id="Ox6-M5-5x1"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -52,7 +59,7 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4">
-                    <rect key="frame" x="0.0" y="41" width="320" height="375"/>
+                    <rect key="frame" x="0.0" y="41" width="320" height="330"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
@@ -69,6 +76,106 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="i49-UE-Qbq">
+                    <rect key="frame" x="0.0" y="360" width="320" height="56"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mF8-t9-bip">
+                            <rect key="frame" x="21" y="5" width="93" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="save" backgroundImage="yellowChromeBut.png">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="-1" eventType="touchDown" id="mEr-N1-tdW"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="W1n-W2-nBd">
+                            <rect key="frame" x="222" y="5" width="77" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="search" backgroundImage="greenChromeBut.png">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="viewButtonPressed:" destination="-1" eventType="touchDown" id="oF6-YE-Ccf"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View All Filters" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dTT-lj-waa">
+                            <rect key="frame" x="209" y="40" width="103" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eHB-Ya-eee">
+                            <rect key="frame" x="16" y="40" width="103" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pEw-Ah-and">
+                            <rect key="frame" x="129" y="6" width="72" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="delete" backgroundImage="redChromeBut.png">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="deleteButtonPressed:" destination="-1" eventType="touchDown" id="3CA-6U-g7o"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="LOI-Um-GvB" customClass="PopupView">
+                    <rect key="frame" x="27" y="23" width="264" height="211"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" id="vwI-Km-qET">
+                            <rect key="frame" x="8" y="40" width="248" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="ExX-FU-VAp"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4M9-uX-eZ5">
+                            <rect key="frame" x="86" y="159" width="93" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="Button" backgroundImage="yellowChromeBut.png">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="popupSaveButtonPressed:" destination="-1" eventType="touchDown" id="wma-Hm-B52"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Tab to display:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wGE-Wt-hTU">
+                            <rect key="frame" x="8" y="93" width="183" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="c6I-NM-KE0" customClass="CustomSegment">
+                            <rect key="frame" x="8" y="122" width="248" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="1"/>
+                                <segment title="2"/>
+                                <segment title="3"/>
+                                <segment title="Other"/>
+                            </segments>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -77,7 +184,10 @@
         </view>
     </objects>
     <resources>
+        <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="greenFelt.png" width="320" height="480"/>
+        <image name="redChromeBut.png" width="400" height="100"/>
+        <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

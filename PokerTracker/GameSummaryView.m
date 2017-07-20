@@ -45,14 +45,14 @@
 	self.gameSummaryLabel.adjustsFontSizeToFitWidth = YES;
 	self.gameSummaryLabel.textColor = [UIColor whiteColor];
 	self.gameSummaryLabel.backgroundColor = [UIColor clearColor];
-	self.gameSummaryLabel.text = @"Games";
+	self.gameSummaryLabel.text = NSLocalizedString(@"Games", nil);
 	[self addSubview:self.gameSummaryLabel];
 	
 	UILabel *roiNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 25, 200, 25)];
 	roiNameLabel.font = [UIFont systemFontOfSize:14];	// label is 17, system is 14
 	roiNameLabel.textAlignment = NSTextAlignmentLeft;
 	roiNameLabel.textColor = [UIColor whiteColor];
-	roiNameLabel.text = @"Return on Investment (ROI)";
+	roiNameLabel.text = NSLocalizedString(@"roiNameLabel", nil);
 	[self addSubview:roiNameLabel];
 
 	self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-85, 5, 80, 25)];

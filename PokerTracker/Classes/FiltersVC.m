@@ -50,6 +50,9 @@
 
 - (void)viewDidLoad {
 	
+	self.mainSegment.selectedSegmentIndex=2;
+	self.deleteButton.enabled=NO;
+	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:24];
 	displayLabelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 																@"Timeframe",
 																@"Game Type",
@@ -115,16 +118,17 @@
 		displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 	
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-	
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FASearch] target:self action:@selector(mainMenuButtonClicked:)],
-											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
-											   nil];
-	
+	[ProjectFunctions makeFAButton:self.saveButton type:32 size:24];
+	[ProjectFunctions makeFAButton:self.popupSaveButton type:32 size:24];
+	[ProjectFunctions makeFAButton:self.viewButton type:33 size:24];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(popupButtonClicked)];
+
 	self.popupView.titleLabel.text = self.title;
 	self.popupView.textView.text = NSLocalizedString(@"FilterMessage", nil);
 	self.popupView.textView.hidden=NO;
-
+	
+	self.saveView.titleLabel.text = @"SaveFilter";
+	self.saveView.hidden=YES;
 	
 	self.chartImageView.alpha=0;
 	
@@ -152,10 +156,31 @@
 	
 }
 
+-(IBAction)deleteButtonPressed:(id)sender {
+	[ProjectFunctions showConfirmationPopup:@"Notice" message:[NSString stringWithFormat:@"Are you sure you want to delete this Filter: '%@'?", [filterObj valueForKey:@"name"]] delegate:self tag:101];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if(alertView.cancelButtonIndex==buttonIndex)
+		return;
+	if(alertView.tag==101) {
+		if(self.filterObj) {
+			[self.managedObjectContext deleteObject:self.filterObj];
+			[self.managedObjectContext save:nil];
+			[ProjectFunctions showAlertPopup:@"Delete Success" message:@""];
+		}
+	}
+}
+
 -(void)chooseFilterObj:(NSManagedObject *)mo {
+	self.deleteButton.enabled=YES;
 	self.filterObj=mo;
 	self.currentFilterLabel.text = [mo valueForKey:@"name"];
+	self.mainTextfield.text = [mo valueForKey:@"name"];
 	self.buttonNum=[[mo valueForKey:@"button"] intValue];
+	self.mainSegment.selectedSegmentIndex=3;
+	if(self.buttonNum>0 && self.buttonNum<4)
+		self.mainSegment.selectedSegmentIndex=self.buttonNum-1;
 	yearLabel.text=[mo valueForKey:@"name"];
 	[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
 	[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
@@ -171,7 +196,7 @@
 
 -(void)setFilterIndex:(int)row_id
 {
-	NSArray *filterList = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
+	NSArray *filterList = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 	if([filterList count]>row_id) {
 		NSManagedObject *mo = [filterList objectAtIndex:row_id];
 		self.currentFilterLabel.text = [mo valueForKey:@"name"];
@@ -204,24 +229,17 @@
 	
 }
 
--(void)mainMenuButtonClicked:(id)sender {
-    FilterListVC *detailViewController = [[FilterListVC alloc] initWithNibName:@"FilterListVC" bundle:nil];
-    detailViewController.managedObjectContext = managedObjectContext;
-    detailViewController.callBackViewController=self;
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
-
 -(void)doTheHardWord {
 	@autoreleasepool {
 		[ProjectFunctions displayTimeFrameLabel:self.timeFramLabel mOC:self.managedObjectContext buttonNum:self.buttonNum timeFrame:[formDataArray objectAtIndex:0]];
-		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:managedObjectContext buttonNum:(int)self.buttonNum];
+		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:formDataArray mOC:self.managedObjectContext buttonNum:(int)self.buttonNum];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO];
 		[gamesList removeAllObjects];
 		[gamesList addObjectsFromArray:games];
-		self.chartImageView.image = [ProjectFunctions plotStatsChart:managedObjectContext predicate:predicate displayBySession:displayBySession];
+		self.chartImageView.image = [ProjectFunctions plotStatsChart:self.managedObjectContext predicate:predicate displayBySession:displayBySession];
 		self.chartImageView.alpha=1;
 
-		NSString *stats2 = [CoreDataLib getGameStat:managedObjectContext dataField:@"stats2" predicate:predicate];
+		NSString *stats2 = [CoreDataLib getGameStat:self.managedObjectContext dataField:@"stats2" predicate:predicate];
 		[statsArray removeAllObjects];
 		[statsArray addObjectsFromArray:[stats2 componentsSeparatedByString:@"|"]];
 		
@@ -277,7 +295,6 @@
 	return CGFLOAT_MIN;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section==0) {
 		int height = [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:statsArray
@@ -291,14 +308,12 @@
 	return 44;
 }
 
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if(section==3) {
 		return [gamesList count];
 	}
 	if(section==2)
-		return [formDataArray count]+1;
+		return [formDataArray count];
 	else
 		return 1;	
 }
@@ -375,22 +390,12 @@
 	}
 	if(indexPath.section==2) {
 		NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
-		if(indexPath.row==kSaveFilter) {
-			ActionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-			if (cell == nil) {
-				cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-			}
-			cell.backgroundColor = [UIColor colorWithRed:1 green:.8 blue:0 alpha:1];
-			cell.textLabel.text = NSLocalizedString(@"saveFilter", nil);
-			return cell;
-		}
 		
 		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 		if (cell == nil) {
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
 		
-//		cell.textLabel.text = [labelValues objectAtIndex:indexPath.row];
 		cell.textLabel.text = [displayLabelValues objectAtIndex:indexPath.row];
 		cell.selection.text = [formDataArray objectAtIndex:indexPath.row];
 		NSString *value = [formDataArray objectAtIndex:indexPath.row];
@@ -411,6 +416,31 @@
 	
 }
 
+-(BOOL)textField:(UITextField *)textFieldlocal shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	return [ProjectFunctions limitTextFieldLength:textFieldlocal currentText:self.mainTextfield.text string:string limit:20 saveButton:nil resignOnReturn:YES];
+}
+
+-(IBAction)saveButtonPressed:(id)sender {
+	self.saveView.hidden=!self.saveView.hidden;
+}
+
+-(IBAction)popupSaveButtonPressed:(id)sender {
+	if(self.mainTextfield.text.length==0) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Enter a filter name."];
+		return;
+	}
+	[self saveNewFilter:[NSString stringWithFormat:@"%@|%d", self.mainTextfield.text, (int)self.mainSegment.selectedSegmentIndex]];
+	self.saveView.hidden=YES;
+}
+
+-(IBAction)viewButtonPressed:(id)sender {
+	FilterListVC *detailViewController = [[FilterListVC alloc] initWithNibName:@"FilterListVC" bundle:nil];
+	detailViewController.managedObjectContext = self.managedObjectContext;
+	detailViewController.callBackViewController=self;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 -(void) setReturningValue:(NSObject *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
 	if(selectedFieldIndex==kSaveFilter) {
@@ -429,7 +459,7 @@
 -(NSArray *)getListOfYears
 {
 	NSMutableArray *list = [[NSMutableArray alloc] init];
-	[list addObject:NSLocalizedString(@"LifeTime", nil)];
+	[list addObject:NSLocalizedString(@"All", nil)];
 	[list addObject:@"*Custom*"];
 	[list addObject:@"This Month"];
 	[list addObject:@"Last Month"];
@@ -452,23 +482,23 @@
 	NSLog(@"saveCustomSearch : %@ %@ %d", type, searchNum, row_id);
 	if([type isEqualToString:@"Timeframe"]) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = 0", type];
-		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
+		NSArray *items = [CoreDataLib selectRowsFromEntity:@"SEARCH" predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:YES];
 		if([items count]>0) {
 			NSManagedObject *mo = [items objectAtIndex:0];
 			NSDate *startTime = [mo valueForKey:@"startTime"];
 			NSDate *endTime = [mo valueForKey:@"endTime"];
 			
 			NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
-			[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:@"Timeframe", @"", [startTime convertDateToStringWithFormat:nil], [endTime convertDateToStringWithFormat:nil], @"", searchNum, nil] mOC:managedObjectContext predicate:predicate2];
+			[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:@"Timeframe", @"", [startTime convertDateToStringWithFormat:nil], [endTime convertDateToStringWithFormat:nil], @"", searchNum, nil] mOC:self.managedObjectContext predicate:predicate2];
 			NSLog(@"Creating new Timeframe record for searchNum: %@", searchNum);
 		}
 	} else {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
-		NSString *checkmarkList = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"checkmarkList" predicate:predicate indexPathRow:0];
-		NSString *searchStr = [CoreDataLib getFieldValueForEntityWithPredicate:managedObjectContext entityName:@"SEARCH" field:@"searchStr" predicate:predicate indexPathRow:0];
+		NSString *checkmarkList = [CoreDataLib getFieldValueForEntityWithPredicate:self.managedObjectContext entityName:@"SEARCH" field:@"checkmarkList" predicate:predicate indexPathRow:0];
+		NSString *searchStr = [CoreDataLib getFieldValueForEntityWithPredicate:self.managedObjectContext entityName:@"SEARCH" field:@"searchStr" predicate:predicate indexPathRow:0];
 		
 		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"type = %@ AND searchNum = %d", type, row_id];
-		[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:type, searchStr, @"", @"", checkmarkList, searchNum, nil] mOC:managedObjectContext predicate:predicate2];
+		[CoreDataLib insertOrUpdateManagedObjectForEntity:@"SEARCH" valueList:[NSArray arrayWithObjects:type, searchStr, @"", @"", checkmarkList, searchNum, nil] mOC:self.managedObjectContext predicate:predicate2];
 		
 		NSLog(@"Creating new search record for searchNum: %@", searchNum);
 	}
@@ -497,11 +527,17 @@
 		buttonNumber = [self getMaxFilterPlusOne];
 
 	
-	NSArray *oldFilters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
+	NSArray *oldFilters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
 	int newRowId=1;
 	NSLog(@"saving filter");
 	for(NSManagedObject *mo in oldFilters) {
 		int row_id = [[mo valueForKey:@"row_id"] intValue];
+		int button = [[mo valueForKey:@"button"] intValue];
+		NSLog(@"button %d %d", button, buttonNumber);
+		if(buttonNumber<=3 && button==buttonNumber) {
+			NSLog(@"Clearing out button!!");
+			[mo setValue:[NSNumber numberWithInt:0] forKey:@"button"];
+		}
 		NSLog(@"+++row_id: %d", row_id);
 		if(row_id>=newRowId)
 			newRowId=row_id+1;
@@ -523,17 +559,13 @@
 		mo = [filters objectAtIndex:0];
 		newRowId = [[mo valueForKey:@"row_id"] intValue];
 	} else {
-		NSLog(@"---inserting");
-		mo = [NSEntityDescription insertNewObjectForEntityForName:@"FILTER" inManagedObjectContext:self.managedObjectContext];
+		NSLog(@"---inserting: %@", buttonName);
+		mo = [NSEntityDescription insertNewObjectForEntityForName:@"FILTER" inManagedObjectContext:self.self.managedObjectContext];
 		[mo setValue:[NSNumber numberWithInt:newRowId] forKey:@"row_id"];
 	}
 	BOOL success = [CoreDataLib updateManagedObject:mo keyList:keyList valueList:valueList typeList:typeList mOC:self.managedObjectContext];
 	if(success) {
 		gameSegment.selectedSegmentIndex = 0;
-	}
-	if(buttonNumber<3) {
-		[customSegment setTitle:buttonName forSegmentAtIndex:buttonNumber];
-		customSegment.selectedSegmentIndex = buttonNumber;
 	}
 	
 	// save custom filters
@@ -544,8 +576,15 @@
 			[self saveCustomSearch:type searchNum:[NSString stringWithFormat:@"%d", buttonNumber] row_id:newRowId];
 	}
 	NSLog(@"+++newRowId: %d", newRowId);
-	[managedObjectContext save:nil];
-	NSLog(@"Done!");
+	
+	NSError *error;
+	[self.managedObjectContext save:&error];
+	NSLog(@"%@", error);
+	if(error)
+		[ProjectFunctions showAlertPopup:@"Error!" message:error.description];
+	else
+		[ProjectFunctions showAlertPopup:@"Success!" message:@""];
+	
 	return success;
 }
 
@@ -562,7 +601,7 @@
 			detailViewController.initialDateValue = [formDataArray objectAtIndex:indexPath.row];
 			detailViewController.titleLabel = [NSString stringWithFormat:@"%@", [labelValues objectAtIndex:indexPath.row]];
 			detailViewController.selectedList = (int)indexPath.row;
-			detailViewController.managedObjectContext = managedObjectContext;
+			detailViewController.managedObjectContext = self.managedObjectContext;
 			detailViewController.showNumRecords=YES;
 			detailViewController.allowEditing=NO;
 			if(indexPath.row==0)
@@ -575,7 +614,7 @@
 		if(indexPath.row==kSaveFilter) {
 			FilterNameEnterVC *detailViewController = [[FilterNameEnterVC alloc] initWithNibName:@"FilterNameEnterVC" bundle:nil];
 			detailViewController.callBackViewController = self;
-			detailViewController.managedObjectContext = managedObjectContext;
+			detailViewController.managedObjectContext = self.managedObjectContext;
 			detailViewController.filerObj=self.filterObj;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
@@ -585,23 +624,18 @@
 		
 		if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
 			GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
-			detailViewController.managedObjectContext = managedObjectContext;
+			detailViewController.managedObjectContext = self.managedObjectContext;
 			detailViewController.mo = mo;
 			detailViewController.newGameStated=NO;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		} else {
 			GameDetailsVC *detailViewController = [[GameDetailsVC alloc] initWithNibName:@"GameDetailsVC" bundle:nil];
-			detailViewController.managedObjectContext = managedObjectContext;
+			detailViewController.managedObjectContext = self.managedObjectContext;
 			detailViewController.viewEditable = NO;
 			detailViewController.mo = mo;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
 	} 
 }
-
-
-
-
-
 
 @end

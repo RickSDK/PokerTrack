@@ -39,7 +39,6 @@
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 1;
 	
-//	UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
 	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:14.f];
 	NSMutableDictionary *attribsNormal;
 	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
@@ -51,6 +50,35 @@
 	[self setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
 	
 	[self changeSegment];
+}
+
+-(void)turnIntoTop5Segment {
+	if(self.numberOfSegments==3) {
+		[self setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAStar], NSLocalizedString(@"Game", nil)] forSegmentAtIndex:0];
+		[self setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FACalendar], NSLocalizedString(@"month", nil)] forSegmentAtIndex:1];
+		[self setTitle:[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAcalendarCheckO], NSLocalizedString(@"Quarter", nil)] forSegmentAtIndex:2];
+	}
+}
+
+-(void)turnIntoGameSegment {
+	if(self.numberOfSegments==3) {
+		[self setTitle:[NSString stringWithFormat:@"%@ + %@", [NSString fontAwesomeIconStringForEnum:FAMoney], [NSString fontAwesomeIconStringForEnum:FATrophy]] forSegmentAtIndex:0];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:1];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:2];
+	}
+}
+
+-(void)gameSegmentChanged {
+	int number = (int)self.selectedSegmentIndex;
+	if(self.numberOfSegments==2)
+		number++;
+	
+	if(number==0)
+		[self setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	else if(number==1)
+		[self setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
+	else
+		[self setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 }
 
 -(void)changeSegment {

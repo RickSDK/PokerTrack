@@ -57,9 +57,8 @@
 	[self.mainTableView setBackgroundView:nil];
 	[self setTitle:NSLocalizedString(@"Games", nil)];
 	
-	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:@"10"];
-	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:[NSString fontAwesomeIconStringForEnum:FAThumbsDown]];
-
+	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:NSLocalizedString(@"Last10", nil)];
+	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:NSLocalizedString(@"Top 5", nil)];
 	
 	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
@@ -208,7 +207,7 @@
 		}
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
-		[self.gameSummaryView populateViewWithObj:[ProjectFunctions gameStatObjForGames:games]];
+		[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:games]];
 
 		[self.mainTableView reloadData];
 	}

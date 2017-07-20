@@ -29,6 +29,10 @@
 @synthesize managedObjectContext, mo, locationLabel;
 
 -(void)detailsButtonClicked:(id)sender {
+	[self gotoDetails];
+}
+
+-(void)gotoDetails {
 	GameDetailsVC *detailViewController = [[GameDetailsVC alloc] initWithNibName:@"GameDetailsVC" bundle:nil];
 	detailViewController.managedObjectContext = self.managedObjectContext;
 	detailViewController.viewEditable = self.viewEditable;
@@ -179,6 +183,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return [MultiLineDetailCellWordWrap heightForMultiCellObj:self.multiCellObj tableView:self.mainTableView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[self gotoDetails];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

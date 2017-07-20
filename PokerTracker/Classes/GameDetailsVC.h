@@ -40,6 +40,8 @@
 
 }
 
+- (IBAction) deleteButtonPressed: (id) sender;
+
 @property (atomic, strong) NSMutableArray *formDataArray;
 @property (atomic, strong) NSMutableArray *labelValues;
 @property (atomic, strong) NSMutableArray *labelTypes;
@@ -60,6 +62,7 @@
 @property (atomic, strong) UILabel *activityLabel;
 
 @property (atomic, strong) UIButton *graphButton;
+@property (atomic, strong) IBOutlet UIButton *deleteButton;
 @property (atomic, strong) UILabel *dateLabel;
 @property (atomic, strong) UILabel *timeLabel;
 @property (atomic, strong) UILabel *amountLabel;

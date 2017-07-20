@@ -44,6 +44,8 @@
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(popupButtonClicked)];
 
 	self.buyinLabel.text = NSLocalizedString(@"Buyin", nil);
+	self.locationTextLabel.text = NSLocalizedString(@"location", nil);
+	
 	self.bankrollLabel.text = NSLocalizedString(@"bankroll", nil);
 	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
 	[ProjectFunctions makeFALabel:self.locationLabel type:13 size:22];

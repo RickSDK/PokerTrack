@@ -12,6 +12,7 @@
 #import "FilterNameEnterVC.h"
 #import "ProjectFunctions.h"
 #import "SelectionCell.h"
+#import "FilterObj.h"
 
 @implementation FilterListVC
 @synthesize managedObjectContext, filterList, callBackViewController, mainTableView, editMode, filterObj;
@@ -20,25 +21,13 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	[self setTitle:NSLocalizedString(@"Filters", nil)];
+	[self setTitle:NSLocalizedString(@"Filter List", nil)];
 	
 	NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
-	for(NSManagedObject *mo in filters) {
-		int row_id = [[mo valueForKey:@"row_id"] intValue];
-		if(row_id==0) {
-			self.maxFilterId++;
-			[mo setValue:[NSNumber numberWithInt:self.maxFilterId] forKey:@"row_id"];
-			[self.managedObjectContext save:nil];
-		}
-	}
 	self.filterList = [[NSMutableArray alloc] initWithArray:filters];
 	
-	detailsButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-	[detailsButton setTitle:[NSString fontAwesomeIconStringForEnum:FASearch] forState:UIControlStateNormal];
-
-	editButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-	[editButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forState:UIControlStateNormal];
-
+	[ProjectFunctions makeFAButton:detailsButton type:33 size:24];
+	[ProjectFunctions makeFAButton:editButton type:2 size:24];
 	
 	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
@@ -105,13 +94,12 @@
 	cell.backgroundColor = [UIColor whiteColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	NSManagedObject *mo = [self.filterList objectAtIndex:indexPath.row];
-	int button = [[mo valueForKey:@"button"] intValue];
-//	int row_id = [[mo valueForKey:@"row_id"] intValue];
+	FilterObj *obj = [FilterObj objectFromMO:mo];
 
-	if(button<=3)
-		cell.selection.text = [NSString stringWithFormat:@"(Tab %d)", button];
+	if(obj.button<=3 && obj.button>0)
+		cell.selection.text = [NSString stringWithFormat:@"(Tab %d)", obj.button];
 
-	cell.textLabel.text = [NSString stringWithFormat:@"%@", [mo valueForKey:@"name"]];
+	cell.textLabel.text = obj.name;
 	
 	
     if(self.editMode) {
@@ -137,17 +125,16 @@
 	
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	self.filterSegment.selectedSegmentIndex=0;
-//	NSManagedObject *mo = [self.filterList objectAtIndex:indexPath.row];
-//	self.selectedButton = [[mo valueForKey:@"button"] intValue];
 	self.filterObj = [self.filterList objectAtIndex:indexPath.row];
 	self.selectedRowId = (int)indexPath.row;
 	self.editButton.enabled=YES;
 	self.detailsButton.enabled=YES;
+	[(FiltersVC *)callBackViewController chooseFilterObj:self.filterObj];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction) detailsButtonPressed: (id) sender {
 	[(FiltersVC *)callBackViewController chooseFilterObj:self.filterObj];
-//	[(FiltersVC *)callBackViewController setFilterIndex:self.selectedRowId];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction) editButtonPressed: (id) sender {

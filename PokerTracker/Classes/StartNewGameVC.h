@@ -80,6 +80,7 @@
 @property (atomic, strong) UIButton *completedButton;
 @property (atomic, strong) UIButton *locationButton;
 @property (atomic, strong) UIButton *addCasinoButton;
+@property (atomic, strong) IBOutlet UILabel *locationTextLabel;
 
 @property (atomic) int selectedObjectForEdit;
 @property (atomic) int addCasinoFlg;

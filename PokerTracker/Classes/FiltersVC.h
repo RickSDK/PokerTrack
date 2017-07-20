@@ -52,6 +52,10 @@
 -(void) computeStats;
 -(void)initializeFormData;
 -(BOOL)saveNewFilter:(NSString *)valueCombo;
+-(IBAction)saveButtonPressed:(id)sender;
+-(IBAction)viewButtonPressed:(id)sender;
+-(IBAction)popupSaveButtonPressed:(id)sender;
+-(IBAction)deleteButtonPressed:(id)sender;
 
 @property (atomic, strong) UILabel *currentFilterLabel;
 @property (atomic, strong) UILabel *timeFramLabel;
@@ -81,5 +85,12 @@
 @property (atomic, strong) NSMutableArray *formDataArray;
 @property (atomic, copy) NSString *gameType;
 @property (atomic, strong) UIToolbar *yearToolbar;
+
+@property (atomic, strong) IBOutlet UIButton *saveButton;
+@property (atomic, strong) IBOutlet UIButton *viewButton;
+@property (atomic, strong) IBOutlet PopupView *saveView;
+@property (atomic, strong) IBOutlet UIButton *popupSaveButton;
+@property (atomic, strong) IBOutlet UIButton *deleteButton;
+
 
 @end

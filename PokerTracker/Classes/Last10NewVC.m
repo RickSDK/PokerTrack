@@ -39,16 +39,40 @@
 	[self setTitle:NSLocalizedString(@"Last10", nil)];
 	bestGames = [[NSMutableArray alloc] init];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user_id = 0"];
-    [self.mainTableView setBackgroundView:nil];
-	
-	[bestGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:NO limit:10]];
-    
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 
-	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
-	[self.gameSummaryView populateViewWithObj:[ProjectFunctions gameStatObjForGames:bestGames]];
+	[self.mainSegment turnIntoGameSegment];
 	
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+	
+	[self calculateStats];
+	
+}
+
+-(void)calculateStats {
+	[bestGames removeAllObjects];
+	NSPredicate *predicate = nil;
+	if(self.mainSegment.selectedSegmentIndex>0) {
+		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
+		predicate=[NSPredicate predicateWithFormat:@"user_id = 0 AND Type = %@", gameType];
+	}
+	[bestGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:NO limit:10]];
+	[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:bestGames]];
+	[self.mainTableView reloadData];
+}
+
+-(IBAction)segmentChanged:(id)sender {
+	if(self.mainSegment.selectedSegmentIndex==0) {
+		[self setTitle:NSLocalizedString(@"Games", nil)];
+	}
+	if(self.mainSegment.selectedSegmentIndex==1) {
+		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
+	}
+	if(self.mainSegment.selectedSegmentIndex==2) {
+		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
+	}
+	[self.mainSegment gameSegmentChanged];
+	[self calculateStats];
 }
 
 -(void)gotoAnalysis {
