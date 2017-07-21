@@ -21,7 +21,15 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+- (IBAction) changeIconButtonPressed: (id) sender {
+	[self gotoChangeIcon];
+}
+
 -(void)editButtonClicked {
+	[self gotoChangeIcon];
+}
+
+-(void)gotoChangeIcon {
 	ChangeIconVC *detailViewController = [[ChangeIconVC alloc] initWithNibName:@"ChangeIconVC" bundle:nil];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }

@@ -39,7 +39,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Date" lineBreakMode="tailTruncation" minimumFontSize="10" id="7">
-                            <rect key="frame" x="70" y="22" width="133" height="20"/>
+                            <rect key="frame" x="65" y="22" width="138" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                             <color key="textColor" red="1" green="0.879207038" blue="0.22903527949999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -48,11 +48,11 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="playerType3.png" id="97">
-                            <rect key="frame" x="8" y="2" width="54" height="60"/>
+                            <rect key="frame" x="0.0" y="2" width="54" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Time" lineBreakMode="tailTruncation" minimumFontSize="10" id="8">
-                            <rect key="frame" x="70" y="42" width="117" height="20"/>
+                            <rect key="frame" x="65" y="42" width="122" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
                             <color key="textColor" red="1" green="0.879207038" blue="0.22903527949999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -61,7 +61,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jlc-JD-cfu">
-                            <rect key="frame" x="70" y="2" width="144" height="20"/>
+                            <rect key="frame" x="65" y="2" width="149" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -70,7 +70,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="$524" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="21">
-                            <rect key="frame" x="173.99999979267952" y="-1" width="138" height="43"/>
+                            <rect key="frame" x="173.99999958004312" y="-1" width="138" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="40"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -79,7 +79,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="102%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="wac-eE-a53">
-                            <rect key="frame" x="265.99999979267949" y="40" width="46" height="21"/>
+                            <rect key="frame" x="265.99999958004315" y="40" width="46" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

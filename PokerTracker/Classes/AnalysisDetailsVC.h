@@ -15,6 +15,7 @@
 }
 
 - (IBAction) igaButtonPressed: (id) sender;
+- (IBAction) changeIconButtonPressed: (id) sender;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) IBOutlet UIImageView *image0;

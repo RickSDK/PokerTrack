@@ -51,6 +51,7 @@
 
 @property (nonatomic) BOOL nowPlayingFlg;
 @property (nonatomic) BOOL friendFlg;
+@property (nonatomic) int iconGroupNumber;
 
 +(NetUserObj *)userObjFromString:(NSString *)line;
 +(NetUserObj *)friendObjFromLine:(NSString *)line;

@@ -396,7 +396,7 @@
         } else
             cell.fieldTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"25", @"Grinder", @"$125", nil];
         cell.mainTitle = @"";
-        cell.imageView.image = [ProjectFunctions getPlayerTypeImage:self.gRisked winnings:self.gIncome];
+        cell.leftImage.image = [ProjectFunctions getPlayerTypeImage:self.gRisked winnings:self.gIncome];
         
         cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;

@@ -70,6 +70,12 @@
 	self.roiLabel.textColor = [UIColor greenColor];
 	self.roiLabel.text = @"-";
 	[self addSubview:self.roiLabel];
+	
+	self.layer.cornerRadius = 7;
+	self.layer.masksToBounds = YES;				// clips background images to rounded corners
+	self.layer.borderColor = [UIColor blackColor].CGColor;
+	self.layer.borderWidth = 2.;
+
 }
 
 -(void)addTarget:(SEL)selector target:(id)target {

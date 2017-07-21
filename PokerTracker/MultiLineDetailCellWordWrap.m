@@ -256,6 +256,9 @@ static NSInteger X_INSET			= 5;
 			[self.contentView addSubview:label];
 			[fieldColors addObject:[UIColor blackColor]];
 		}
+		self.leftImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[self.contentView addSubview:self.leftImage];
+
 		self.fieldColorArray = fieldColors;
     }
     return self;
@@ -292,7 +295,9 @@ static NSInteger X_INSET			= 5;
 - (void)layoutSubviews {
 	
     [super layoutSubviews];
-	
+
+	self.leftImage.frame = CGRectMake(0, 0, self.frame.size.height*.75, self.frame.size.height);
+
     // Start with a rect that is inset from the content view.
     CGRect baseRect = CGRectInset(self.contentView.bounds, X_INSET, Y_INSET);
 	int leftSection = trunc(baseRect.size.width * labelWidthProportion);

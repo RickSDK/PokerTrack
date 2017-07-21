@@ -18,6 +18,7 @@
 	NSArray *fieldTextArray;
 	NSArray *fieldColorArray;
 	UIColor *labelColor;
+	UIImageView *leftImage;
 
 @private
 	UILabel *mainTitleLabel;
@@ -32,6 +33,7 @@
 
 @property (nonatomic, strong) NSString *mainTitle;
 @property (nonatomic, strong) NSString *alternateTitle;
+@property (nonatomic, strong) UIImageView *leftImage;
 
 @property (nonatomic, strong) NSArray *titleTextArray;
 @property (nonatomic, strong) NSArray *fieldTextArray;

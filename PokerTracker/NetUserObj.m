@@ -33,6 +33,9 @@
 			netUserObj.moneySymbol = [basicsElements objectAtIndex:9];
 			netUserObj.version = [basicsElements objectAtIndex:10];
 		}
+		if(basicsElements.count>11)
+			netUserObj.iconGroupNumber = [basicsElements objectAtIndex:11];
+
 		NSArray *monthElements = [netUserObj.monthStats componentsSeparatedByString:@"|"];
 		if(monthElements.count>6) {
 			int pprInt = [[monthElements objectAtIndex:6] intValue];

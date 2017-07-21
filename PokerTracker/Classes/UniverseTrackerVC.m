@@ -327,7 +327,7 @@
         streakStr = [NSString stringWithFormat:@"L%d", streak*-1];
 	cell.c2.text = [NSString stringWithFormat:@"stk: %@", streakStr];
 	
-	cell.leftImageView.image = [ProjectFunctions getPlayerTypeImage:moneyRisked winnings:profit];
+	cell.leftImageView.image = [ProjectFunctions getPtpPlayerTypeImage:moneyRisked winnings:profit iconGroupNumber:netUserObj.iconGroupNumber];
     if(sortSegment.selectedSegmentIndex==1) {
         cell.b2.text = [NSString stringWithFormat:@"ROI: %@%%", netUserObj.ppr];
         cell.b2Color = [UIColor blueColor];

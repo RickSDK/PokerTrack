@@ -81,7 +81,7 @@
 
 -(void)savePressed {
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)self.mainSegment.selectedSegmentIndex] forKey:@"IconGroupNumber"];
-	[ProjectFunctions showAlertPopup:@"Success" message:@""];
+	[ProjectFunctions showAlertPopup:@"Icons Changed" message:@""];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

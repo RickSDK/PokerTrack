@@ -25,12 +25,6 @@
 @synthesize gameTypeStr, gpsValues, basicsArray, casinoName, userLabel, gameObj;
 
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
 -(void)menuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
@@ -206,7 +200,9 @@
 	
 	UIColor *profitColor = (profit>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
 	
-	playerTypeImg.image = [ProjectFunctions getPlayerTypeImage:buyIn+rebuy winnings:profit];
+//	playerTypeImg.image = [ProjectFunctions getPlayerTypeImage:buyIn+rebuy winnings:profit];
+	playerTypeImg.image = [ProjectFunctions getPtpPlayerTypeImage:buyIn+rebuy winnings:profit iconGroupNumber:self.netUserObj.iconGroupNumber];
+
 	[ProjectFunctions updateMoneyLabel:profitLabel money:profit];
 
     self.profitStr = [ProjectFunctions convertIntToMoneyString:profit];
@@ -223,9 +219,8 @@
 	
     hourlyLabel.text = hourly;
 
-	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = menuButton;
-	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(menuButtonClicked:)];
+
 	if(self.gameObj && self.gameObj.location.length>0) {
 		self.gameTypeStr = self.gameObj.name;
 		self.gameTypeLabel.text = self.gameObj.type;
@@ -235,14 +230,7 @@
 	
 	 
 }
-/*
--(NSString *)objectForAdding:(NSString *)obj {
-    if(obj)
-        return obj;
-    else
-        return @"Error";
-}
-*/
+
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 	return CGFLOAT_MIN;
@@ -281,7 +269,7 @@
         if(cell==nil)
             cell = [[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         
-        cell.imageView.image = playerTypeImg.image;
+        cell.leftImage.image = playerTypeImg.image;
         cell.nameLabel.text = self.profitStr;
         cell.cityLabel.text = self.chipAmountLabelString;
         

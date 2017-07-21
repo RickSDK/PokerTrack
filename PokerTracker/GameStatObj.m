@@ -76,8 +76,8 @@
 	for(NSString *daytime in namesOfAllDayTimes)
 		[dayTimesDict setObject:@"0" forKey:daytime];
 	
-	NSString *winStreakDay=@"";
-	NSString *loseStreakDay=@"";
+	NSString *winStreakDay=@"-";
+	NSString *loseStreakDay=@"-";
 	double profitHigh=0;
 	NSString *profitHighDay=@"";
 	double profitLow=0;
@@ -179,8 +179,12 @@
 	} else
 		obj.streak = [NSString stringWithFormat:@"Lose %d", streak*-1];
 	
-	obj.winStreak = [NSString stringWithFormat:@"Win %d (%@)", winStreak, winStreakDay];
-	obj.loseStreak = [NSString stringWithFormat:@"Lose %d (%@)", loseStreak*-1, loseStreakDay];
+	obj.winStreak = @"-";
+	if(winStreak>0)
+		obj.winStreak = [NSString stringWithFormat:@"Win %d (%@)", winStreak, winStreakDay];
+	obj.loseStreak = @"-";
+	if(loseStreak<0)
+		obj.loseStreak = [NSString stringWithFormat:@"Lose %d (%@)", loseStreak*-1, loseStreakDay];
 	
 	int percent=0;
 	if(obj.games>0)
@@ -220,6 +224,8 @@
 		obj.gamesWonAverageRebuy = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonRebuys/totalGamesWon]];
 		obj.gamesWonAverageRisked = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonRisked/totalGamesWon]];
 	}
+	if(totalGamesWonMinProfit==99999)
+		totalGamesWonMinProfit=0;
 	obj.gamesWonMinProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMinProfit]];
 	obj.gamesWonMaxProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMaxProfit]];
 	
@@ -235,7 +241,8 @@
 		obj.gamesLostAverageRebuy = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostRebuys/totalGamesLost]];
 		obj.gamesLostAverageRisked = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostRisked/totalGamesLost]];
 	}
-	
+	if(totalGamesLostMaxProfit==-99999)
+		totalGamesLostMaxProfit=0;
 	obj.gamesLostMaxProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMaxProfit]];
 	obj.gamesLostMinProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMinProfit]];
 	

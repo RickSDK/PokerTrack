@@ -11,10 +11,11 @@
 @interface ImageCell : UITableViewCell {
     UILabel *nameLabel;
     UILabel *cityLabel;
-
+	UIImageView *leftImage;
 }
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *cityLabel;
+@property (nonatomic, strong) UIImageView *leftImage;
 
 @end

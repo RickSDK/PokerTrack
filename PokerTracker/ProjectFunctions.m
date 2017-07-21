@@ -2368,18 +2368,26 @@
 
     NSString *last90Days = [ProjectFunctions getLast90Days:mOC];
     last10Reverse = [NSMutableArray arrayWithArray:[self reverseArray:last10Reverse]];
+	int iconGroupNumber = [[ProjectFunctions getUserDefaultValue:@"IconGroupNumber"] intValue];
 
-    NSString *dataUpload = [NSString stringWithFormat:@"Last10|%@[xx]%@|%@[xx]%@|%@[xx]%@[xx]%@[xx]%@|%@|%@[xx]%@[xx]%@[xx]%@",
+    NSString *dataUpload = [NSString stringWithFormat:@"Last10|%@[xx]%@|%@[xx]%@|%@[xx]%@[xx]%@[xx]%@|%@|%@[xx]%@[xx]%@[xx]%@[xx]%d",
                             last10Stats, 
-                            dateText, monthStats, 
-                            yearText, yearStats, 
+                            dateText,
+							monthStats,
+                            yearText,
+							yearStats,
                             lastGame, 
-                            last10String, playFlg,
-                            [ProjectFunctions getProjectDisplayVersion], [ProjectFunctions getMoneySymbol],
-                            last90Days, thisMonthStr, [last10Reverse componentsJoinedByString:@":"]];
+                            last10String,
+							playFlg,
+                            [ProjectFunctions getProjectDisplayVersion],
+							[ProjectFunctions getMoneySymbol],
+                            last90Days,
+							thisMonthStr,
+							[last10Reverse componentsJoinedByString:@":"],
+							iconGroupNumber];
 
     NSLog(@"Sending Universe tracker Stats...");
-
+	NSLog(@"+++dataUpload: %@", dataUpload);
 	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"LastUpd", @"Data", @"dateText", nil];
 	NSDate *lastUpd = [[ProjectFunctions getUserDefaultValue:@"lastSyncedDate"] convertStringToDateFinalSolution];
 	NSString *lastUpdDate = [lastUpd convertDateToStringWithFormat:@"MM/dd/yyyy HH:mm:ss"];
@@ -3476,6 +3484,10 @@
 
 +(UIImage *)playerImageOfType:(int)type {
 	int iconGroupNumber = [[ProjectFunctions getUserDefaultValue:@"IconGroupNumber"] intValue];
+	return [self ptpPlayerImageOfType:type iconGroupNumber:iconGroupNumber];
+}
+
++(UIImage *)ptpPlayerImageOfType:(int)type iconGroupNumber:(int)iconGroupNumber {
 	NSString *letter = @"";
 	if(iconGroupNumber==1)
 		letter=@"b";
@@ -3486,13 +3498,19 @@
 	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d%@.png", type, letter]];
 }
 
++(UIImage *)getPtpPlayerTypeImage:(double)amountRisked winnings:(double)winnings iconGroupNumber:(int)iconGroupNumber {
+	if(winnings==0)
+		return [UIImage imageNamed:@"playerType99.png"];
+	int type = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
+	return [self ptpPlayerImageOfType:type iconGroupNumber:iconGroupNumber];
+}
+
 +(UIImage *)getPlayerTypeImage:(double)amountRisked winnings:(double)winnings
 {
     if(winnings==0)
         return [UIImage imageNamed:@"playerType99.png"];
 	int value = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
 	return [self playerImageOfType:value];
-//	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", value]];
 }
 
 +(void)setFontColorForSegment:(UISegmentedControl *)segment values:(NSArray *)values

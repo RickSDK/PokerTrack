@@ -16,7 +16,7 @@
 	NSManagedObject *mo;
 
 	//---XIB----------------------------
-	IBOutlet UISegmentedControl *gameTypeSegmentBar;
+	IBOutlet CustomSegment *gameTypeSegmentBar;
 	IBOutlet UISegmentedControl *gameNameSegmentBar;
 	IBOutlet UISegmentedControl *blindTypeSegmentBar;
 	IBOutlet UISegmentedControl *limitTypeSegmentBar;
@@ -48,7 +48,7 @@
 - (IBAction) limitSegmentPressed: (id) sender;
 
 
-@property (nonatomic, strong) UISegmentedControl *gameTypeSegmentBar;
+@property (nonatomic, strong) CustomSegment *gameTypeSegmentBar;
 @property (nonatomic, strong) UISegmentedControl *gameNameSegmentBar;
 @property (nonatomic, strong) UISegmentedControl *blindTypeSegmentBar;
 @property (nonatomic, strong) UISegmentedControl *limitTypeSegmentBar;

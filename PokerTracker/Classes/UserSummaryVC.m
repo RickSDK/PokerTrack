@@ -24,19 +24,7 @@
 @synthesize nameLabel, locationLabel, dateLabel, viewgameButton, friendName, friend_id, removeFriendButton;
 @synthesize activityIndicator, imageViewBG, activityLabel, topSegment, selectedSegment, latestMonth, playerImageView;
 @synthesize versionLabel, moneySymbolLabel, cityString, nameString, loadedFlg;
-@synthesize adView, selfFlg, netUserObj;
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    self.adView.alpha=0;
-    NSLog(@"failed");
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    self.adView.alpha=1;
-    NSLog(@"yes!");
-}
+@synthesize selfFlg, netUserObj;
 
 - (IBAction) segmentChanged: (id) sender
 {
@@ -231,7 +219,8 @@
     int risked = [[statFields stringAtIndex:3] intValue];
     int profit = [[statFields stringAtIndex:4] intValue];
     
-    playerImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
+ //   playerImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
+	playerImageView.image = [ProjectFunctions getPtpPlayerTypeImage:risked winnings:profit iconGroupNumber:self.netUserObj.iconGroupNumber];
 	[values addObject:[ProjectFunctions convertIntToMoneyString:risked]];
 	[values addObject:[ProjectFunctions convertIntToMoneyString:profit]];
     NSString *ppr = @"-";
@@ -434,7 +423,7 @@
             cell = [[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         
-        cell.imageView.image = playerImageView.image;
+        cell.leftImage.image = playerImageView.image;
         cell.nameLabel.text = self.nameString;
         cell.cityLabel.text = self.cityString;
         cell.backgroundColor = [UIColor colorWithRed:.7 green:.9 blue:.7 alpha:1];

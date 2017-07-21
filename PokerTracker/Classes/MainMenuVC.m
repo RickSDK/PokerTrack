@@ -55,6 +55,7 @@
 		self.graphChart.alpha=.5;
 	}
 	
+	[self findMinAndMaxYear];
 	self.aboutView.titleLabel.text = @"Poker Track Pro";
 
 	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
@@ -208,7 +209,6 @@
 	
 	self.reviewView.hidden=YES;
 	[self calculateStats];
-	[self findMinAndMaxYear];
 
 	int bankroll = [[ProjectFunctions getUserDefaultValue:@"defaultBankroll"] intValue];
 	if(bankroll==0) {

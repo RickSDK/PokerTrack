@@ -7,20 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 #import "NetUserObj.h"
+#import "TemplateVC.h"
 
 
-@interface UserSummaryVC : UIViewController <ADBannerViewDelegate> {
-	NSManagedObjectContext *managedObjectContext;
-	IBOutlet UITableView *mainTableView;
+@interface UserSummaryVC : TemplateVC {
 	IBOutlet UIButton *addFriendButton;
 	IBOutlet UIButton *removeFriendButton;
 	IBOutlet UIButton *viewgameButton;
 	IBOutlet UILabel *nameLabel;
 	IBOutlet UILabel *locationLabel;
 	IBOutlet UILabel *dateLabel;
-    IBOutlet ADBannerView *adView;
     IBOutlet UISegmentedControl *topSegment;
 	
 	IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -49,10 +46,7 @@
 - (IBAction) segmentChanged: (id) sender;
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, copy) NSString *user;
-@property (atomic, strong) ADBannerView *adView;
 @property (atomic, strong) NetUserObj *netUserObj;
 @property (atomic, strong) NSMutableArray *values;
 @property (atomic, strong) UIButton *addFriendButton;

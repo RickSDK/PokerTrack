@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "NetUserObj.h"
 #import "GameObj.h"
+#import "TemplateVC.h"
 
 
-@interface FriendInProgressVC : UIViewController {
+@interface FriendInProgressVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	NSManagedObject *mo;
 	

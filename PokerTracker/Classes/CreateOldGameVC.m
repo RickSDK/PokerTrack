@@ -35,6 +35,7 @@
 
 -(IBAction) gameTypeSegmentPressed: (id) sender
 {
+	[self.gameTypeSegmentBar gameSegmentChanged];
 	[self setSegmentForType];
 }
 

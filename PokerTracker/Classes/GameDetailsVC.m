@@ -227,13 +227,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here -- for example, create and push another view controller.
+	if(indexPath.section==0)
+		return;
 	if(!viewEditable) {
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"EditWarning", nil)];
 		return;
 	}
-	if(indexPath.section==0)
-		return;
 	
 	if(indexPath.row==self.detailItems.count) {
 		self.buttonForm=101;

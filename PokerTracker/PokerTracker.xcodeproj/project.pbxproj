@@ -288,8 +288,6 @@
 		6BB09C43148571D100DF84AB /* NSArray+ATTArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB09C42148571D100DF84AB /* NSArray+ATTArray.m */; };
 		6BB0A0D21496DAEF00DF84AB /* FullvLite.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6BB0A0D11496DAEF00DF84AB /* FullvLite.rtf */; };
 		6BB253A11B8911C6008AC8EE /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB253A01B8911C6008AC8EE /* CustomView.m */; };
-		6BB253A51B891445008AC8EE /* PlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB253A31B891445008AC8EE /* PlayerVC.m */; };
-		6BB253A61B891445008AC8EE /* PlayerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB253A41B891445008AC8EE /* PlayerVC.xib */; };
 		6BB253A91B892BC8008AC8EE /* MultiLineObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB253A81B892BC8008AC8EE /* MultiLineObj.m */; };
 		6BB4ADCF16F39E5B0096E2B5 /* greenBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB4ADCE16F39E5B0096E2B5 /* greenBar.png */; };
 		6BB7B5A01C94ACD60013DD8D /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7B59B1C94ACD60013DD8D /* NSString+FontAwesome.m */; };
@@ -840,9 +838,6 @@
 		6BB0A0D11496DAEF00DF84AB /* FullvLite.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = FullvLite.rtf; sourceTree = "<group>"; };
 		6BB2539F1B8911C6008AC8EE /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
 		6BB253A01B8911C6008AC8EE /* CustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
-		6BB253A21B891445008AC8EE /* PlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerVC.h; sourceTree = "<group>"; };
-		6BB253A31B891445008AC8EE /* PlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerVC.m; sourceTree = "<group>"; };
-		6BB253A41B891445008AC8EE /* PlayerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerVC.xib; sourceTree = "<group>"; };
 		6BB253A71B892BC8008AC8EE /* MultiLineObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiLineObj.h; sourceTree = "<group>"; };
 		6BB253A81B892BC8008AC8EE /* MultiLineObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiLineObj.m; sourceTree = "<group>"; };
 		6BB4ADCE16F39E5B0096E2B5 /* greenBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenBar.png; sourceTree = "<group>"; };
@@ -1170,9 +1165,6 @@
 				6B752816144CE97700E59D21 /* OddsFormVC.h */,
 				6B752817144CE97700E59D21 /* OddsFormVC.m */,
 				6B752818144CE97700E59D21 /* OddsFormVC.xib */,
-				6BB253A21B891445008AC8EE /* PlayerVC.h */,
-				6BB253A31B891445008AC8EE /* PlayerVC.m */,
-				6BB253A41B891445008AC8EE /* PlayerVC.xib */,
 				6B90998C14C6005400712EDC /* AddPhotoVC.h */,
 				6B90998D14C6005400712EDC /* AddPhotoVC.m */,
 				6B90998E14C6005400712EDC /* AddPhotoVC.xib */,
@@ -2065,7 +2057,6 @@
 				6B3BEA1919467D3F003857B3 /* playerType99.png in Resources */,
 				6B909B1314C6478A00712EDC /* UnSelectedCheckBox.png in Resources */,
 				6BBC4A7D1BC82F1400CC0081 /* blueArrowDown.png in Resources */,
-				6BB253A61B891445008AC8EE /* PlayerVC.xib in Resources */,
 				6B5CA1F11F1C3C51003392BD /* Dominican_Republic.png in Resources */,
 				6B909D1E14C7AFF500712EDC /* CasinoTrackerEditVC.xib in Resources */,
 				6B909D9E14C8BD3D00712EDC /* greenButton.png in Resources */,
@@ -2298,7 +2289,6 @@
 				6BB7B5A01C94ACD60013DD8D /* NSString+FontAwesome.m in Sources */,
 				6B90995E14C52AAD00712EDC /* EmailFile.m in Sources */,
 				6B90998F14C6005400712EDC /* AddPhotoVC.m in Sources */,
-				6BB253A51B891445008AC8EE /* PlayerVC.m in Sources */,
 				6B909A4A14C61A7D00712EDC /* QuadWithImageTableViewCell.m in Sources */,
 				6B909AB714C624C800712EDC /* CasinoTrackerVC.m in Sources */,
 				6B909AE614C63FBD00712EDC /* LocationsEdit.m in Sources */,

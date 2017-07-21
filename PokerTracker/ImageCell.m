@@ -33,6 +33,9 @@
         self.cityLabel.font = [UIFont boldSystemFontOfSize:20];
         self.cityLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.cityLabel];
+		
+		self.leftImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[self.contentView addSubview:self.leftImage];
 }
     return self;
 }
@@ -40,8 +43,10 @@
 - (void)layoutSubviews {
 	
 	[super layoutSubviews];
-    
+	
+	
 	[ImageCell layoutSubviews:self.nameLabel cityLabel:self.cityLabel inBound:self.frame];
+	self.leftImage.frame = CGRectMake(0, 0, self.frame.size.height*.75, self.frame.size.height);
     
     
 }
