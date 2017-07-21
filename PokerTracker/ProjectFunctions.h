@@ -43,7 +43,7 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 0
+#define kPRODMode 1
 #define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
@@ -87,6 +87,7 @@
 +(void)displayLoginMessage;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
++(UIImage *)playerImageOfType:(int)type;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key;
 +(NSString *)getUserDefaultValue:(NSString *)key;

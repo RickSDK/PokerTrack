@@ -772,8 +772,9 @@
         NSDate *startTimeMax = [[games objectAtIndex:[games count]-1] valueForKey:@"startTime"];
         maxYear = [startTimeMax convertDateToStringWithFormat:@"yyyy"];
 		
-		if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0) {
+		if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0 && [ProjectFunctions getUserDefaultValue:@"v11.5"].length==0) {
 			alertViewNum=2017;
+			[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.5"];
 			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.5 update notice. Game data needs to be scrubbed." delegate:self];
 		}
     }

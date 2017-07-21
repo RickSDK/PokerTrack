@@ -126,6 +126,8 @@
 "Games Won" = "Juegos Ganados";
 "Games Lost" = "Juegos Perdidos";
 "All Games" = "Todos los Juegos";
+"Best" = "Mejor";
+"Worst" = "Peor";
 "deleteSafeguard" = "Como salvaguardia, debe establecer la Cantidad de retiro de su juego más antiguo en 999 para eliminar la base de datos.";
 "deleteMessage" = "¡Esto eliminará de forma permanente todos los datos de este dispositivo! ¿Desea continuar?";
 "upgradeMessage" = "Esta función sólo está disponible con la versión Pro de esta aplicación. Presiona 'Upgrade' en el menú principal.";

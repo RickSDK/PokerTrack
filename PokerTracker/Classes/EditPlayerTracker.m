@@ -245,7 +245,7 @@
 	PlayerTrackerObj *obj = self.playerTrackerObj;
 	self.hudStyleLabel.text = obj.hudPlayerType;
 	if(obj.hudFlag) {
-		self.hudPlayerTypeImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", self.playerTrackerObj.hudPicId]];
+		self.hudPlayerTypeImageView.image = [ProjectFunctions playerImageOfType:self.playerTrackerObj.hudPicId];
 	}
 	self.hudPlayerTypeImageView.hidden=!obj.hudFlag;
 	
@@ -267,7 +267,7 @@
 }
 
 -(void)updatePlayerTypeImage {
-	self.playerTypeImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", self.playerTrackerObj.picId]];
+	self.playerTypeImageView.image = [ProjectFunctions playerImageOfType:self.playerTrackerObj.picId];
 }
 
 -(void)updateSLider:(UIView *)bar bgImage:(UIImageView *)bgImage number:(int)number {

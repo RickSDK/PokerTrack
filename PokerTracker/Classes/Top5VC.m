@@ -136,8 +136,8 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 	NSArray *titles = [NSArray arrayWithObjects:
-					   [NSString stringWithFormat:@"  %@ 5 Best", [NSString fontAwesomeIconStringForEnum:FAThumbsUp]],
-					   [NSString stringWithFormat:@"  %@ 5 Worst", [NSString fontAwesomeIconStringForEnum:FAThumbsDown]],
+					   [NSString stringWithFormat:@"  %@ 5 %@", [NSString fontAwesomeIconStringForEnum:FAThumbsUp], NSLocalizedString(@"Best", nil)],
+					   [NSString stringWithFormat:@"  %@ 5 %@", [NSString fontAwesomeIconStringForEnum:FAThumbsDown], NSLocalizedString(@"Worst", nil)],
 					   nil];
 	UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 22.0)];
 	headerLabel.opaque = YES;

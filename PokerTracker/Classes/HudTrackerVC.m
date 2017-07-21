@@ -227,7 +227,7 @@
 -(UIImage *)playerImageForNumber:(float)number {
 	number = [self trimSkill:number];
 	int picId = (int)floor(number);
-	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", picId]];
+	return [ProjectFunctions playerImageOfType:picId];
 }
 
 -(void)positionBarsForsStat:(HudStatObj *)stat percent1:(int)percent1  percent2:(int)percent2 {

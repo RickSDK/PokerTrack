@@ -400,12 +400,12 @@
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:NSLocalizedString(@"Hours", nil) value:gameStatObj.hours color:[UIColor blackColor]];
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:NSLocalizedString(@"Hourly", nil) value:gameStatObj.hourly color:[self colorForValue:gameStatObj.profit]];
 		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"ROI" value:gameStatObj.roi color:[self colorForValue:gameStatObj.profit]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Profit High" value:gameStatObj.profitHigh color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Profit Low" value:gameStatObj.profitLow color:[UIColor redColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Day" value:gameStatObj.bestWeekday color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Best Time" value:gameStatObj.bestDaytime color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Day" value:gameStatObj.worstWeekday color:[UIColor blackColor]];
-		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:@"Worst Time" value:gameStatObj.worstDaytime color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Best", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.profitHigh color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Worst", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.profitLow color:[UIColor redColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Best", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.bestWeekday color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Best", nil), NSLocalizedString(@"daytime", nil)] value:gameStatObj.bestDaytime color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Worst", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.worstWeekday color:[UIColor blackColor]];
+		[self addDataToArray:self.titles1 values:self.values1 colors:self.colors1 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Worst", nil), NSLocalizedString(@"daytime", nil)] value:gameStatObj.worstDaytime color:[UIColor blackColor]];
 
 		[self.titles2 removeAllObjects];
 		[self.values2 removeAllObjects];
@@ -421,21 +421,21 @@
 		[self.values3 removeAllObjects];
 		[self.colors3 removeAllObjects];
 		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:NSLocalizedString(@"Games Won", nil) value:gameStatObj.gamesWon color:[UIColor blackColor]];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Risked" value:gameStatObj.gamesWonAverageRisked color:[UIColor blackColor]];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Rebuy" value:gameStatObj.gamesWonAverageRebuy color:[UIColor blackColor]];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Average Profit" value:gameStatObj.gamesWonAverageProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Max Profit" value:gameStatObj.gamesWonMaxProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:@"Min Profit" value:gameStatObj.gamesWonMinProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Risked", nil)] value:gameStatObj.gamesWonAverageRisked color:[UIColor blackColor]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"rebuy", nil)] value:gameStatObj.gamesWonAverageRebuy color:[UIColor blackColor]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesWonAverageProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Max", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesWonMaxProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+		[self addDataToArray:self.titles3 values:self.values3 colors:self.colors3 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Min", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesWonMinProfit color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
 		[self.titles4 removeAllObjects];
 		[self.values4 removeAllObjects];
 		[self.colors4 removeAllObjects];
 		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:NSLocalizedString(@"Games Lost", nil) value:gameStatObj.gamesLost color:[UIColor blackColor]];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Risked" value:gameStatObj.gamesLostAverageRisked color:[UIColor blackColor]];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Rebuy" value:gameStatObj.gamesLostAverageRebuy color:[UIColor blackColor]];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Average Profit" value:gameStatObj.gamesLostAverageProfit color:[UIColor redColor]];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Max Profit" value:gameStatObj.gamesLostMaxProfit color:[UIColor redColor]];
-		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:@"Min Profit" value:gameStatObj.gamesLostMinProfit color:[UIColor redColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Risked", nil)] value:gameStatObj.gamesLostAverageRisked color:[UIColor blackColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"rebuy", nil)] value:gameStatObj.gamesLostAverageRebuy color:[UIColor blackColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesLostAverageProfit color:[UIColor redColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Max", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesLostMaxProfit color:[UIColor redColor]];
+		[self addDataToArray:self.titles4 values:self.values4 colors:self.colors4 title:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Min", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesLostMinProfit color:[UIColor redColor]];
 
 		chartImageView.image = [ProjectFunctions plotStatsChart:contextLocal predicate:predicate displayBySession:displayBySession];
 		self.chartImageView2.image = chartImageView.image;

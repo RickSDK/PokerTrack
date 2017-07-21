@@ -107,6 +107,8 @@
 "Games Won" = "Jeux Gagnés";
 "Games Lost" = "Jeux Perdus";
 "All Games" = "Tous les Jeux";
+"Best" = "Meilleur";
+"Worst" = "Pire";
 "deleteSafeguard" = "En tant que sauvegarde, vous devez définir le montant de Cashout de votre premier jeu à 999 afin de supprimer la base de données.";
 "deleteMessage" = "Cela supprimera définitivement toutes les données sur cet appareil! Souhaitez-vous continuer?";
 "upgradeMessage" = "Cette fonctionnalité n'est disponible qu'avec la version Pro de cette application. Appuyez sur 'Mettre à niveau' dans le menu principal.";

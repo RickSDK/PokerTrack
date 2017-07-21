@@ -3474,12 +3474,25 @@
 	return 5;
 }
 
++(UIImage *)playerImageOfType:(int)type {
+	int iconGroupNumber = [[ProjectFunctions getUserDefaultValue:@"IconGroupNumber"] intValue];
+	NSString *letter = @"";
+	if(iconGroupNumber==1)
+		letter=@"b";
+	if(iconGroupNumber==2)
+		letter=@"c";
+	if(iconGroupNumber==3)
+		letter=@"d";
+	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d%@.png", type, letter]];
+}
+
 +(UIImage *)getPlayerTypeImage:(double)amountRisked winnings:(double)winnings
 {
     if(winnings==0)
         return [UIImage imageNamed:@"playerType99.png"];
 	int value = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
-	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", value]];
+	return [self playerImageOfType:value];
+//	return [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", value]];
 }
 
 +(void)setFontColorForSegment:(UISegmentedControl *)segment values:(NSArray *)values

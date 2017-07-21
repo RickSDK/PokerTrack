@@ -61,7 +61,7 @@
 	double totalGamesLostMinProfit=0;
 	double totalGamesLostMaxProfit=0;
 	if(games.count>0)
-		totalGamesLostMaxProfit=99999;
+		totalGamesLostMaxProfit=-99999;
 	double totalGamesLostProfit=0;
 	double totalGamesLostRisked=0;
 	double totalGamesLostRebuys=0;

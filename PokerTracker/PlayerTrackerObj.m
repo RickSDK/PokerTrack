@@ -57,7 +57,7 @@
 	
 	NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:jpgPath];
 	if(fh==nil)
-		image = [UIImage imageNamed:[NSString stringWithFormat:@"playerType%d.png", picId]];
+		image = [ProjectFunctions playerImageOfType:picId];
 	else {
 		image = [UIImage imageWithContentsOfFile:jpgPath];
 	}

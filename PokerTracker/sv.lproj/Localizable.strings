@@ -107,6 +107,8 @@
 "All Games" = "Alla Spel";
 "Filters" = "Filter";
 "saveFilter" = "Spara filter";
+"Best" = "Bäst";
+"Worst" = "Värst";
 "deleteSafeguard" = "Som en skyddsåtgärd måste du ställa in utbetalningsbeloppet för ditt tidigaste spel till 999 för att radera databasen.";
 "deleteMessage" = "Detta tar bort permanent alla data på den här enheten! Vill du fortsätta?";
 "ExportText" = "Exportera sparar dina data till en server så att du kan importera den till en ny enhet. Obs! Data säkerhetskopieras inte automatiskt när du anger nya spel. Du måste manuellt exportera det här.";

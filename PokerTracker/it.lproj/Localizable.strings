@@ -107,6 +107,8 @@
 "All Games" = "Tutti i Giochi";
 "Filters" = "Filtri";
 "saveFilter" = "Salva Filtro";
+"Best" = "Migliore";
+"Worst" = "Peggio";
 "deleteSafeguard" = "Per salvaguardare, è necessario impostare l'importo di Cashout del tuo primo gioco a 999 per eliminare il database.";
 "deleteMessage" = "Questo eliminerà definitivamente tutti i dati di questo dispositivo! Vuoi continuare?";
 "ExportText" = "L'esportazione salva i dati in un server in modo da poterlo importare in un nuovo dispositivo. Nota: i dati non vengono eseguiti automaticamente durante l'accesso a nuovi giochi. È necessario esportarlo manualmente.";

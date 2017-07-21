@@ -6,6 +6,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnalysisDetailsVC">
             <connections>
+                <outlet property="image0" destination="5" id="ExL-n4-IBQ"/>
+                <outlet property="image1" destination="7" id="Lhl-sv-vpV"/>
+                <outlet property="image2" destination="6" id="Vz9-GD-rLf"/>
+                <outlet property="image3" destination="8" id="8Au-FX-ogf"/>
+                <outlet property="image4" destination="9" id="d46-NH-Qe3"/>
+                <outlet property="image5" destination="22" id="xWl-3F-hSx"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>

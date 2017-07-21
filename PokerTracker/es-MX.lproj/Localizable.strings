@@ -125,6 +125,8 @@
 "Game Stats" = "Estadísticas del juego";
 "Games Won" = "Juegos Ganados";
 "Games Lost" = "Juegos Perdidos";
+"Best" = "Mejor";
+"Worst" = "Peor";
 "All Games" = "Todos los Juegos";
 "deleteSafeguard" = "Como salvaguardia, debe establecer la Cantidad de retiro de su juego más antiguo en 999 para eliminar la base de datos.";
 "deleteMessage" = "¡Esto eliminará de forma permanente todos los datos de este dispositivo! ¿Desea continuar?";

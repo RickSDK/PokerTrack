@@ -30,6 +30,7 @@
 #import "BankrollsVC.h"
 #import "ExportCell.h"
 #import "UpgradeVC.h"
+#import "ChangeIconVC.h"
 
 #define kstartDate		0
 #define kendDate		1
@@ -145,6 +146,7 @@
 	[secondMenuArray addObject:@"BuyPokerChips.com"];
 	[secondMenuArray addObject:@"Taunt"];
 	[secondMenuArray addObject:@"Login"];
+	[secondMenuArray addObject:@"Edit Icons"];
 
 	self.gSelectedRow=0;
 	self.totalNumGamesImported=0;
@@ -228,22 +230,6 @@
 	int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
 	if(numGamesServer2>gamesOnServer)
 		gamesOnServer=numGamesServer2;
-/*
-	if(indexPath.section==1 && [[secondMenuArray stringAtIndex:(int)indexPath.row] isEqualToString:@"Currency Symbol"]) {
-		SelectionCell *cell = (SelectionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (cell == nil) {
-			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-		}
-		cell.backgroundColor = [UIColor ATTFaintBlue];
-		cell.selectionStyle = UITableViewCellSelectionStyleGray;
-		
-		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-		cell.textLabel.text=[NSString stringWithFormat:@"%@ Currency Symbol", [NSString fontAwesomeIconStringForEnum:FAUsd]];
-		cell.selection.text = [ProjectFunctions getMoneySymbol];
-		
-		return cell;
-	}
-*/
 
 	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Export", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -360,6 +346,7 @@
 						  [NSString fontAwesomeIconStringForEnum:FADotCircleO],
 						  [NSString fontAwesomeIconStringForEnum:FAStar],
 						  [NSString fontAwesomeIconStringForEnum:FASignIn],
+						  [NSString fontAwesomeIconStringForEnum:FAPictureO],
 						  nil];
 		
 		NSString *icon = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
@@ -1481,24 +1468,10 @@
 			detailViewController.managedObjectContext = managedObjectContext;
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
-		/*
-		if([menuItem isEqualToString:@"Currency Symbol"]) {
-			ListPicker *detailViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
-			detailViewController.managedObjectContext = managedObjectContext;
-			detailViewController.selectionList = [ProjectFunctions moneySymbols];
-			detailViewController.initialDateValue = [ProjectFunctions getMoneySymbol];
-			detailViewController.titleLabel = @"Money Symbol";
-			detailViewController.hideNumRecords=YES;
-			detailViewController.callBackViewController=self;
+		if([menuItem isEqualToString:@"Edit Icons"]) {
+			ChangeIconVC *detailViewController = [[ChangeIconVC alloc] initWithNibName:@"ChangeIconVC" bundle:nil];
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
-		if([menuItem isEqualToString:@"Background Threads"]) {
-            NSString *flag = [ProjectFunctions getUserDefaultValue:@"bgThreads"];
-            flag = ([flag length]==0)?@"Off":@"";
-            [ProjectFunctions setUserDefaultValue:flag forKey:@"bgThreads"];
-            [mainTableView reloadData];
-        }
-		 */
 	} // section==1
 	
 	
