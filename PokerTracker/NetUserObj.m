@@ -34,7 +34,7 @@
 			netUserObj.version = [basicsElements objectAtIndex:10];
 		}
 		if(basicsElements.count>11)
-			netUserObj.iconGroupNumber = [basicsElements objectAtIndex:11];
+			netUserObj.iconGroupNumber = [[basicsElements objectAtIndex:11] intValue];
 
 		NSArray *monthElements = [netUserObj.monthStats componentsSeparatedByString:@"|"];
 		if(monthElements.count>6) {
@@ -76,7 +76,6 @@
 	netUserObj.last10Elements = [netUserObj.last10Str componentsSeparatedByString:@"|"];
 	netUserObj.yearElements = [netUserObj.yearStats componentsSeparatedByString:@"|"];
 	netUserObj.monthElements = [netUserObj.monthStats componentsSeparatedByString:@"|"];
-
 	if(basicsElements.count>10) {
 		netUserObj.name = [basicsElements objectAtIndex:0];
 		netUserObj.userId = [basicsElements objectAtIndex:1];
@@ -89,6 +88,9 @@
 		netUserObj.moneySymbol = [basicsElements objectAtIndex:9];
 		netUserObj.version = [basicsElements objectAtIndex:10];
 	}
+	if(basicsElements.count>11)
+		netUserObj.iconGroupNumber = [[basicsElements objectAtIndex:11] intValue];
+//	NSLog(@"iconGroupNumber: %d %@", netUserObj.iconGroupNumber, netUserObj.basicsStr);
 
 	return netUserObj;
 }

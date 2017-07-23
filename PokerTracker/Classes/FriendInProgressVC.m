@@ -67,16 +67,9 @@
         
 	} else {
 		NSLog(@"Here: %@", self.netUserObj.lastGameStr);
-//        NSArray *segments = [self.userValues componentsSeparatedByString:@"<aa>"];
- //       NSArray *elements = [[segments objectAtIndex:0] componentsSeparatedByString:@"<xx>"];
- //       NSString *basics = [elements stringAtIndex:2];
- //       NSString *lastGame = [elements stringAtIndex:3];
- //       NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
-		
 		
         NSArray *lastGameFields = [self.netUserObj.lastGameStr componentsSeparatedByString:@"|"];
 
-//		userName = [basicsFields stringAtIndex:0];
         self.userLabel.text=self.netUserObj.name;
 		
 		location = [lastGameFields stringAtIndex:4];
@@ -200,7 +193,6 @@
 	
 	UIColor *profitColor = (profit>=0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
 	
-//	playerTypeImg.image = [ProjectFunctions getPlayerTypeImage:buyIn+rebuy winnings:profit];
 	playerTypeImg.image = [ProjectFunctions getPtpPlayerTypeImage:buyIn+rebuy winnings:profit iconGroupNumber:self.netUserObj.iconGroupNumber];
 
 	[ProjectFunctions updateMoneyLabel:profitLabel money:profit];

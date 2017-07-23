@@ -214,7 +214,6 @@
 	}
 	
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
-	NSLog(@"predicateString: %@", predicateString);
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
 	
 	if([timeFrame isEqualToString:NSLocalizedString(@"LifeTime", nil)] || [timeFrame intValue]>0)

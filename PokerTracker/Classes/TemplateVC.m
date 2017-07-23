@@ -68,7 +68,7 @@
 	self.popupView.titleLabel.text = title;
 	self.popupView.textView.text = text;
 	self.popupView.textView.hidden=NO;
-	self.popupView.hidden=NO;
+	self.popupView.hidden=!self.popupView.hidden;
 }
 
 -(void)addHomeButton {

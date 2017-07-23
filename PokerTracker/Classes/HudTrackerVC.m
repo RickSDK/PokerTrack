@@ -12,6 +12,7 @@
 #import "PlayerTrackerObj.h"
 #import "MainMenuVC.h"
 #import "GameCell.h"
+#import "QuadWithImageTableViewCell.h"
 
 @interface HudTrackerVC ()
 
@@ -87,10 +88,16 @@
 		self.playersView.titleLabel.text = @"Link a Player";
 		NSArray *newPlayers = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:nil sortColumn:@"name" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.mainArray addObjectsFromArray:newPlayers];
+		if(newPlayers.count==0) {
+			[ProjectFunctions showAlertPopup:@"Notice" message:@"No players saved on this device. Go to Player Pracker to create one."];
+		}
 	} else {
 		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO limit:20];
 		[self.mainArray addObjectsFromArray:games];
 		self.playersView.titleLabel.text = @"Link a Game";
+		if(games.count==0) {
+			[ProjectFunctions showAlertPopup:@"Notice" message:@"No games saved on this device."];
+		}
 	}
 	[self.mainTableView reloadData];
 	self.playersView.hidden=NO;
@@ -115,7 +122,7 @@
 }
 
 -(void)popupButtonClicked {
-	[self populatePopupWithTitle:@"Heads up Display" text:@"Use HUD to track the first pre-flop action of yourself and/or ONE other player at the table.\n\nSimply press the correct button for each hand: Fold, Check, Call or Raise.  Note you are only tracking pre-flop betting. And specifically, first action of pre-flop. HUD will then calculate values for Passive/Aggressive play and Tight/Loose play.\n\nIt will then chart your values and the opponent’s values side by side for comparison. It also calculates overall skill level and displays the appropriate PTP skill Icon.\n\nThe stats are automatically saved every time you press a button.\n\nUse this tool to measure your own play or use it to compare how you are playing versus someone else at the table.\n\nGood Luck!"];
+	[self populatePopupWithTitle:@"Heads up Display" text:@"Use HUD to track the first pre-flop action of yourself and/or ONE other player at the table.\n\nSimply press the correct button for each hand: Fold, Check, Call or Raise.  Note you are only tracking pre-flop betting. And specifically, first action of pre-flop. HUD will then calculate values for Passive/Aggressive play and Tight/Loose play.\n\nIt will then chart your values and the opponent’s values side by side for comparison. It also calculates overall skill level and displays the appropriate PTP skill Icon.\n\nIf you have a player or game linked, the stats are automatically saved every time you press a button.\n\nUse this tool to measure your own play or use it to compare how you are playing versus someone else at the table.\n\nGood Luck!"];
 }
 
 -(void)updateHudStat:(HudStatObj *)stat top1:(int)top1 bottom1:(int)bottom1 top2:(int)top2 bottom2:(int)bottom2 midPoint:(float)midpoint midPoint2:(float)midpoint2 {
@@ -436,7 +443,7 @@
 - (IBAction) infoButtonPressed: (UIButton *) button {
 	switch (button.tag) {
   case 0:
-			[self populatePopupWithTitle:@"VPIP" text:@"VPIP and PFR are two basic but powerful poker statistics. Combined, they give you a clear picture of how your opponents are playing and ways to exploit their mistakes.\n\nVPIP tracks the percentage of hands in which a particular player voluntarily puts money into the pot preflop. VPIP increases when a player could fold but instead commits money to the pot preflop. This includes limping (merely calling the big blind), calling, and raising.\n\nPosting the small and big blinds does not influence the VPIP statistic. These actions are involuntary and therefore give no useful information on player tendencies.\n\n-pokercopilot.com"];
+			[self populatePopupWithTitle:@"VPIP" text:@"VPIP and PFR are two basic but powerful poker statistics. Combined, they give you a clear picture of how your opponents are playing and ways to exploit their mistakes.\n\nVPIP tracks the percentage of hands in which a particular player voluntarily puts money into the pot preflop. VPIP increases when a player could fold but instead commits money to the pot preflop. This includes limping (merely calling the big blind), calling, and raising.\n\nPosting the small and big blinds does not influence the VPIP statistic. These actions are involuntary and therefore give no useful information on player tendencies.\n\nA player with a high VPIP and low PFR is one you want at your table. These opponents play far too many hands, and they usually play them very passively. Players who have a very high VPIP and low PFR call far too much preflop. When they do raise, they are weighted towards value.\n\n-pokercopilot.com"];
 			break;
   case 1:
 			[self populatePopupWithTitle:@"PFR" text:@"Pre-Flop Raise. PFR tracks the percentage of hands in which a particular player makes a preflop raise when having the opportunity to fold or call instead. This includes reraises.\n\nVPIP is always higher than PFR (or equal). All preflop raises increase VPIP, but not all actions that influence VPIP will affect PFR. For example, limping preflop will increase VPIP but not PFR.\n\nNew players usually call too much preflop. Calling far more often than raising causes your VPIP to rise higher than your PFR, creating a gap between the two stats. This is a warning sign that you are moving away from the aggressive strategy essential to winning at poker. Winning players have a tight gap between their VPIP and their PFR.\n\nA quick rule of the thumb is that the higher the PFR, the more aggressive a player is. The bigger the gap between VPIP and PFR, the more passive a player is.\n\n-pokercopilot.com"];
@@ -451,27 +458,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
 	NSManagedObject *mo = [self.mainArray objectAtIndex:indexPath.row];
-	NSLog(@"linkButtonTag: %d", self.linkButtonTag);
 	if(self.linkButtonTag==0) {
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 		PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:mo managedObjectContext:self.managedObjectContext];
-		
-		if(cell==nil)
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-		cell.textLabel.text=obj.name;
-		cell.imageView.image=obj.pic;
-		cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
-		cell.accessoryType= UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		return cell;
+		QuadWithImageTableViewCell *cell = [[QuadWithImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		return [QuadWithImageTableViewCell cellForPlayer:obj cell:cell];
 	} else {
-		GameCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-		if (cell == nil) {
-			cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-		}
+		GameCell *cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		[GameCell populateCell:cell obj:mo evenFlg:indexPath.row%2==0];
 		return cell;
 	}
@@ -484,12 +478,16 @@
 		self.playerMo = mo;
 		if (self.playerMo) {
 			self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
+			[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 		}
+		if(!self.gameMo)
+			[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
 	} else {
 		self.gameMo = mo;
+		[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
+		if(!self.playerMo)
+			[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 	}
-	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
-	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 	[self updateDisplay];
 }
 

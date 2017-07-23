@@ -236,21 +236,8 @@
 	NSManagedObject *mo = [playerList objectAtIndex:(int)indexPath.row];
 	PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:mo managedObjectContext:self.managedObjectContext];
 	
-	cell.aa.text = obj.name;
-	if (obj.hudFlag)
-		cell.aa.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAuserSecret], obj.name];
-	cell.leftImage.image = obj.pic;
-	
-	cell.ccColor = [UIColor orangeColor];
-	cell.bb.text = obj.playerType;
-	cell.cc.text = obj.location;
-	cell.dd.text = obj.skillLevel;
-
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-
-	return cell;
-}	
+	return [QuadWithImageTableViewCell cellForPlayer:obj cell:cell];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	EditPlayerTracker *detailViewController = [[EditPlayerTracker alloc] initWithNibName:@"EditPlayerTracker" bundle:nil];

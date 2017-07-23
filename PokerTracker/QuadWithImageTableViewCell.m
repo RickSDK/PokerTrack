@@ -269,6 +269,24 @@ static NSInteger FONT_SIZE			= 12;
 	
 }
 
++(QuadWithImageTableViewCell *)cellForPlayer:(PlayerTrackerObj *)obj cell:(QuadWithImageTableViewCell *)cell
+{
+	cell.aa.text = obj.name;
+	if (obj.hudFlag)
+		cell.aa.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAuserSecret], obj.name];
+	cell.leftImage.image = obj.pic;
+	
+	cell.ccColor = [UIColor orangeColor];
+	cell.bb.text = obj.playerType;
+	cell.cc.text = obj.location;
+	cell.dd.text = obj.skillLevel;
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	
+	return cell;
+}
+
 - (void)becomeAHeaderCellWithBackGroundColor:(UIColor *)hColor 
 								andTextColor:(UIColor *)tColor {
 	self.backgroundColor = hColor;

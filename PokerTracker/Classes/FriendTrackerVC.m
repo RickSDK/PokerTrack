@@ -276,8 +276,9 @@
             NSArray *users = [responseStr componentsSeparatedByString:@"<br>"];
             for(NSString *line in users)
                 if([line length]>20) {
-                    //               NSLog(@"%@", line);
+                                   NSLog(@"---line---%@", line);
 					NetUserObj *obj = [NetUserObj friendObjFromLine:line];
+					NSLog(@"-----iconGroupNumber---- %d", obj.iconGroupNumber);
 					[self.mainArray addObject:obj];
  
                     [data appendFormat:@"%@<1>%@+", obj.name, obj.last90Days];
@@ -506,7 +507,10 @@
         streakStr = [NSString stringWithFormat:@"L%d", streak*-1];
 	cell.c2.text = [NSString stringWithFormat:@"stk: %@", streakStr];
 	
-	cell.leftImageView.image = [ProjectFunctions getPlayerTypeImage:moneyRisked winnings:profit];
+	int iconGroupNumber=0;
+	if(basicsFields.count>11)
+		iconGroupNumber = [[basicsFields objectAtIndex:11] intValue];
+	cell.leftImageView.image = [ProjectFunctions getPtpPlayerTypeImage:moneyRisked winnings:profit iconGroupNumber:iconGroupNumber];
     if(sortSegment.selectedSegmentIndex==1) {
         cell.b2.text = [NSString stringWithFormat:@"ROI: %d%%", [indexStr intValue]-100];
         cell.b2Color = [UIColor blueColor];

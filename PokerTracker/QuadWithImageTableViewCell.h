@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PlayerTrackerObj.h"
 
 
 @interface QuadWithImageTableViewCell : UITableViewCell {
@@ -65,7 +66,9 @@
 + (void) headerCustomizeLabel:(UILabel *) aa  bb: (UILabel *) bb
 						   cc: (UILabel *) cc dd: (UILabel *) dd;
 
-- (void)becomeAHeaderCellWithBackGroundColor:(UIColor *)hColor 
++(QuadWithImageTableViewCell *)cellForPlayer:(PlayerTrackerObj *)obj cell:(QuadWithImageTableViewCell *)cell;
+
+- (void)becomeAHeaderCellWithBackGroundColor:(UIColor *)hColor
 								andTextColor:(UIColor *)tColor;
 
 @end

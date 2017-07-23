@@ -218,9 +218,13 @@
 	[values addObject:str];
     int risked = [[statFields stringAtIndex:3] intValue];
     int profit = [[statFields stringAtIndex:4] intValue];
-    
- //   playerImageView.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
-	playerImageView.image = [ProjectFunctions getPtpPlayerTypeImage:risked winnings:profit iconGroupNumber:self.netUserObj.iconGroupNumber];
+
+	int iconGroupNumber=0;
+	if(basicsFields.count>11)
+		iconGroupNumber = [[basicsFields objectAtIndex:11] intValue];
+	self.netUserObj.iconGroupNumber=iconGroupNumber;
+
+ 	playerImageView.image = [ProjectFunctions getPtpPlayerTypeImage:risked winnings:profit iconGroupNumber:iconGroupNumber];
 	[values addObject:[ProjectFunctions convertIntToMoneyString:risked]];
 	[values addObject:[ProjectFunctions convertIntToMoneyString:profit]];
     NSString *ppr = @"-";
