@@ -56,6 +56,16 @@
 	// calculated values--------------------
 	gameObj.isTourney = [@"Tournament" isEqualToString:gameObj.type];
 	gameObj.hudStatsFlg = (gameObj.hudHeroStr.length>10 || gameObj.hudVillianStr.length>10);
+	if(gameObj.hudHeroStr.length>10) {
+		NSArray *components = [gameObj.hudHeroStr componentsSeparatedByString:@":"];
+		if(components.count>6) {
+			int looseNum = [[components objectAtIndex:5] intValue];
+			int agressiveNum = [[components objectAtIndex:6] intValue];
+			gameObj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:looseNum agressiveNum:agressiveNum];
+		}
+		if (gameObj.hudHeroStr.length>10 && gameObj.hudVillianStr.length>10 && [@"0:0:0:0" isEqualToString:[gameObj.hudHeroStr substringToIndex:7]] && [@"0:0:0:0" isEqualToString:[gameObj.hudVillianStr substringToIndex:7]])
+			gameObj.hudStatsFlg=NO;
+	}
 	NSString *middleValue = ([@"Cash" isEqualToString:gameObj.type])?gameObj.stakes:gameObj.tournamentType;
 	gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", gameObj.gametype, middleValue, gameObj.limit];
 	gameObj.risked = gameObj.buyInAmount + gameObj.reBuyAmount;

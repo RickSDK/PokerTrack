@@ -7,6 +7,7 @@
 //
 
 #import "TemplateVC.h"
+#import "AnalysisDetailsVC.h"
 
 @interface TemplateVC ()
 
@@ -44,7 +45,53 @@
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowLeft] target:self action:@selector(backButtonClicked)];
 
+	self.startDegree=0;
 	[self.mainTableView setBackgroundView:nil];
+	[self.ptpGameSegment turnIntoGameSegment];
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
+	[self.yearChangeView setYear:-1 min:currentMinYear];
+	[self.yearChangeView addTargetSelector:@selector(calculateStats) target:self];
+}
+
+-(void)saveDatabase {
+	NSError *error;
+	[self.managedObjectContext save:&error];
+	if(error) {
+		NSLog(@"%@", error.description);
+		NSLog(@"%@", error.debugDescription);
+		[ProjectFunctions showAlertPopup:@"Database Error" message:error.localizedDescription];
+	}
+}
+
+-(void)populatePopupWithTitle:(NSString *)title text:(NSString *)text {
+	self.popupView.titleLabel.text = title;
+	self.popupView.textView.text = text;
+	self.popupView.textView.hidden=NO;
+	self.popupView.hidden=NO;
+}
+
+-(void)addHomeButton {
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+}
+
+-(void)mainMenuButtonClicked:(id)sender {
+	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+}
+
+-(void)gotoAnalysis {
+	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = self.managedObjectContext;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) ptpGameSegmentChanged: (id) sender {
+	[self.ptpGameSegment gameSegmentChanged];
+	[self calculateStats];
+}
+
+-(void)calculateStats {
+	
 }
 
 -(void)backButtonClicked {

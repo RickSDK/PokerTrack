@@ -254,7 +254,7 @@
 		 pauseTimerLabel.alpha=0;
 		 [mo setValue:[NSDate date] forKey:@"endTime"];
 		 [mo setValue:@"Y" forKey:@"onBreakFlag"];
-		 [managedObjectContext save:nil];
+		 [self saveDatabase];
 		 [self pauseScreen];
 	 } else {
 		 pauseTimerLabel.alpha=1;
@@ -263,7 +263,7 @@
 		 breakMinutes += totalSeconds/60;
 		 [mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"breakMinutes"];
 		 [mo setValue:@"N" forKey:@"onBreakFlag"];
-		 [managedObjectContext save:nil];
+		 [self saveDatabase];
 		 [self unPauseScreen];
 	 }
 	
@@ -354,7 +354,7 @@
 	[mo setValue:[NSString stringWithFormat:@"%.1f", hours] forKey:@"hours"];
 	
 	
-	[managedObjectContext save:nil];
+	[self saveDatabase];
 	
     [ProjectFunctions updateBankroll:netProfit bankrollName:[mo valueForKey:@"bankroll"] MOC:managedObjectContext];
 
@@ -716,10 +716,7 @@
 	if(selectedObjectForEdit==9) {
 		[mo setValue:value forKey:@"notes"];
 	}
-	NSError *error = nil;
-	if (![managedObjectContext save:&error]) {
-		NSLog(@"Error whoa! %@", error.localizedDescription);
-	}
+	[self saveDatabase];
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
 	[self updatePicture];

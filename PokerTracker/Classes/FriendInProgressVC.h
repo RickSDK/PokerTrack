@@ -47,7 +47,6 @@
     
     NSMutableArray *basicsArray;
 	NetUserObj *netUserObj;
-	GameObj *gameObj;
     BOOL profitFlg;
     BOOL playingFlg;
 
@@ -67,7 +66,6 @@
 @property (nonatomic, strong) UILabel *currentChipsLabel;
 @property (nonatomic, strong) UITableView *mainTableView;
 @property (atomic, strong) NetUserObj *netUserObj;
-@property (atomic, strong) GameObj *gameObj;
 
 @property (nonatomic, strong) UILabel *timeRunningLabel;
 @property (nonatomic, strong) UILabel *profitLabel;

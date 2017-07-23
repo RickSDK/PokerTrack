@@ -47,6 +47,7 @@
 	
 	if(managedObject) {
 		self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
+		NSLog(@"+++%d %d %d", self.playerTrackerObj.looseNum, self.playerTrackerObj.agressiveNum, self.playerTrackerObj.playerSkill);
 		if(self.playerTrackerObj.user_id==0)
 			[self generateUserId];
 		readOnlyFlg=YES;
@@ -232,6 +233,7 @@
 	if(managedObject) {
 		// check for HUD change!
 		NSString *hudString = [managedObject valueForKey:@"desc"];
+		NSLog(@"+++%@", hudString);
 		if(hudString && ![hudString isEqualToString:self.playerTrackerObj.hudString]) {
 			NSLog(@"Hud update!! %@ to %@", hudString, self.playerTrackerObj.hudString);
 			self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
@@ -331,7 +333,9 @@
 	self.playerTrackerObj.agressiveNum = [self limitNumber:self.playerTrackerObj.agressiveNum];
 	[self updateSLider:self.bar1 bgImage:self.bgImage1 number:self.playerTrackerObj.looseNum];
 	[self updateSLider:self.bar2 bgImage:self.bgImage2 number:self.playerTrackerObj.agressiveNum];
-	self.playerTrackerObj.playerType = [NSString stringWithFormat:@"%@-%@", (self.playerTrackerObj.looseNum<=50)?@"Loose":@"Tight", (self.playerTrackerObj.agressiveNum<=50)?@"Passive":@"Aggressive"];
+	self.playerTrackerObj.playerType = [ProjectFunctions playerTypeFromLlooseNum:self.playerTrackerObj.looseNum agressiveNum:self.playerTrackerObj.agressiveNum];
+
+//	self.playerTrackerObj.playerType = [NSString stringWithFormat:@"%@-%@", (self.playerTrackerObj.looseNum<=50)?@"Loose":@"Tight", (self.playerTrackerObj.agressiveNum<=50)?@"Passive":@"Aggressive"];
 	self.typeLabel.text = self.playerTrackerObj.playerType;
 }
 

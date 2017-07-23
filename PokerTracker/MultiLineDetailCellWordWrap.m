@@ -15,8 +15,8 @@ static NSInteger X_INSET			= 5;
 
 @implementation MultiLineDetailCellWordWrap
 
-@synthesize titleTextArray, fieldTextArray, fieldColorArray, labelColor;
-@synthesize mainTitle, alternateTitle;
+@synthesize titleTextArray, fieldTextArray, fieldColorArray, leftImage;
+@synthesize mainTitle, alternateTitle, labelColor;
 
 //dataArray is the data normally passed into the fieldTextArray.  This function assumes wrapping is not needed on the title.
 

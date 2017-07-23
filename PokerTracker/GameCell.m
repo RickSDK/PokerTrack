@@ -32,9 +32,7 @@
 		[self.contentView addSubview:self.faLabel];
 		
 		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 170, 22)];
-		self.nameLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
-		self.nameLabel.adjustsFontSizeToFitWidth = YES;
-		self.nameLabel.minimumScaleFactor = .8;
+		self.nameLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13];
 		self.nameLabel.text = @"nameLabel";
 		self.nameLabel.textAlignment = NSTextAlignmentLeft;
 		self.nameLabel.textColor = [UIColor blackColor];
@@ -97,6 +95,18 @@
 		self.pprLabel.layer.borderWidth = 1.;
 		[self.contentView addSubview:self.pprLabel];
 		
+		self.hudTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 24, 30, 20)];
+		self.hudTypeLabel.font = [UIFont systemFontOfSize:6];
+		self.hudTypeLabel.adjustsFontSizeToFitWidth = YES;
+		self.hudTypeLabel.minimumScaleFactor = .5;
+		self.hudTypeLabel.text = @"Tight-Agressive";
+		self.hudTypeLabel.textAlignment = NSTextAlignmentCenter;
+		self.hudTypeLabel.textColor = [UIColor grayColor];
+		self.hudTypeLabel.backgroundColor = [UIColor clearColor];
+		self.hudTypeLabel.numberOfLines=2;
+		[self.contentView addSubview:self.hudTypeLabel];
+		
+		
 		
 	}
 	return self;
@@ -144,8 +154,18 @@
 	if(profitStr.length>8 && hoursLabel.length>3)
 		hoursLabel = [hoursLabel substringToIndex:1];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%.1f %@)", [gameObj.hours floatValue], hoursLabel];
-	cell.locationLabel.text = gameObj.location;
+	NSString *location = gameObj.location;
+	if(location.length>12) {
+		NSArray *components = [location componentsSeparatedByString:@" "];
+		if(components.count>0)
+			location = [components objectAtIndex:0];
+		if([@"the" isEqualToString:[location lowercaseString]] && components.count>1)
+			location = [components objectAtIndex:1];
+	}
+	cell.locationLabel.text = location;
 	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
+	cell.hudTypeLabel.text = gameObj.hudPlayerType;
+	cell.hudTypeLabel.hidden=!gameObj.hudStatsFlg;
 	
 	if(gameObj.profit>=0) {
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green

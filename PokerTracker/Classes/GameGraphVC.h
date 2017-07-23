@@ -12,8 +12,6 @@
 
 @interface GameGraphVC : TemplateVC
 
-
-
 @property (atomic, strong) NSManagedObject *mo;
 @property (atomic, strong) IBOutlet UILabel *dateLabel;
 @property (atomic, strong) IBOutlet UILabel *timeLabel;
@@ -27,7 +25,8 @@
 @property (atomic, strong) IBOutlet UILabel *pprLabel;
 @property (atomic, strong) IBOutlet UIButton *notesButton;
 @property (atomic, strong) IBOutlet UIButton *hudButton;
-@property (atomic, strong) IBOutlet UIView *notesView;
+@property (atomic, strong) IBOutlet UILabel *commentTimeLabel;
+@property (atomic, strong) IBOutlet UILabel *commentProfitLabel;
 @property (atomic, strong) IBOutlet UIView *bottomView;
 @property (atomic, strong) IBOutlet UITextField *textField;
 

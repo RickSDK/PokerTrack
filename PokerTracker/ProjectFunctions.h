@@ -89,6 +89,7 @@
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(UIImage *)playerImageOfType:(int)type;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
++(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum ;
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key;
 +(NSString *)getUserDefaultValue:(NSString *)key;
 +(UIImage *)plotStatsChart:(NSManagedObjectContext *)mOC predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;

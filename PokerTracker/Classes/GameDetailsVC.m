@@ -26,6 +26,7 @@
 #import "MainMenuVC.h"
 #import "GameDetailObj.h"
 #import "EditSegmentVC.h"
+#import "HudTrackerVC.h"
 
 
 @implementation GameDetailsVC
@@ -52,7 +53,13 @@
 	self.textViewBG.alpha=0;
 	self.activityLabel.alpha=0;
 	self.deleteButton.enabled=NO;
+	self.hudButton.enabled=NO;
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18 text:@"HUD"];
 	
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
 	[self setupData];
 }
 
@@ -119,7 +126,7 @@
 			[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", newBankroll] forKey:@"defaultBankroll"];
 			
 			[managedObjectContext deleteObject:mo];
-			[managedObjectContext save:nil];
+			[self saveDatabase];
 			[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
 
 			[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
@@ -154,6 +161,7 @@
 - (void) saveButtonClicked:(id)sender {
 	viewEditable = !viewEditable;
 	self.deleteButton.enabled=viewEditable;
+	self.hudButton.enabled=viewEditable;
 	[mainTableView reloadData];
 	[self setTitle:(viewEditable)?NSLocalizedString(@"Edit Mode", nil):NSLocalizedString(@"Details", nil)];
 }
@@ -288,6 +296,13 @@
 	}	
 }
 
+- (IBAction) hudButtonPressed: (id) sender {
+	HudTrackerVC *localViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
+	localViewController.managedObjectContext=managedObjectContext;
+	localViewController.gameMo = mo;
+	[self.navigationController pushViewController:localViewController animated:YES];
+}
+
 
 -(void) setReturningValue:(NSString *) value {
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
@@ -318,7 +333,7 @@
 	}
 	
 	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
-	[self.managedObjectContext save:nil];
+	[self saveDatabase];
 	[self setupData];
 }
 

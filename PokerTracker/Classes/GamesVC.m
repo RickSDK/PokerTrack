@@ -208,7 +208,6 @@
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:games]];
-
 		[self.mainTableView reloadData];
 	}
 }

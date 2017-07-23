@@ -34,9 +34,11 @@
 	obj.hudPlayerType = @"-";
 	obj.hudString = [mo valueForKey:@"desc"];
 	NSArray *components = [obj.hudString componentsSeparatedByString:@":"];
-	if(components.count>8) {
-		obj.hudPlayerType = [components objectAtIndex:7];
-		obj.hudPicId = [[components objectAtIndex:8] intValue];
+	if(components.count>6) {
+		int looseNum = [[components objectAtIndex:5] intValue];
+		int agressiveNum = [[components objectAtIndex:6] intValue];
+		obj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:looseNum agressiveNum:agressiveNum];
+		obj.hudPicId = [[components objectAtIndex:4] intValue];
 		obj.hudFlag=YES;
 	}
 	obj.strengths = [mo valueForKey:@"attrib_03"];

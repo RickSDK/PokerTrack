@@ -13,6 +13,8 @@
 -(void)changeSegment;
 -(void)turnIntoTop5Segment;
 -(void)turnIntoGameSegment;
+-(void)turnIntoFilterSegment:(NSManagedObjectContext *)context;
+-(void)turnIntoTypeSegment;
 -(void)gameSegmentChanged;
 
 @end

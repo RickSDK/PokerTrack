@@ -78,6 +78,11 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *editModeLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *villianActionLabel;
+@property (nonatomic, strong) IBOutlet UIButton *linkPlayerButton;
+@property (nonatomic, strong) IBOutlet UIButton *linkGameButton;
+@property (nonatomic, strong) IBOutlet UIImageView *linkPlayerImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *linkGameImageView;
+@property (nonatomic, strong) IBOutlet PopupView *playersView;
 
 @property (nonatomic, strong) PlayerObj *heroObj;
 @property (nonatomic, strong) PlayerObj *villianObj;
@@ -92,10 +97,12 @@
 @property (atomic) BOOL editMode;
 @property (atomic) BOOL defaultButtonLock;
 @property (atomic) int selectedTag;
+@property (atomic) int linkButtonTag;
 
 - (IBAction) buttonPressed1: (UIButton *) button;
 - (IBAction) buttonPressed2: (UIButton *) button;
 - (IBAction) trashButtonPressed1: (UIButton *) button;
 - (IBAction) trashButtonPressed2: (UIButton *) button;
+- (IBAction) linkButtonPressed: (UIButton *) button;
 
 @end

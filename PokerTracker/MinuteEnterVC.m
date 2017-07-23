@@ -11,7 +11,20 @@
 
 
 @implementation MinuteEnterVC
-@synthesize textField, titleLabel, initialDateValue, callBackViewController, sendTitle, managedObjectContext;
+@synthesize textField, titleLabel, initialDateValue, callBackViewController, sendTitle;
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:NSLocalizedString(self.sendTitle, nil)];
+	
+	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
+	self.titleLabel.text = @"";
+	
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
+	
+}
 
 - (IBAction)save:(id)sender {
 	[ProjectFunctions setUserDefaultValue:textField.text forKey:@"returnValue"];
@@ -57,28 +70,5 @@
 - (IBAction)cancel:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
 }
-
--(void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:NSLocalizedString(self.sendTitle, nil)];
-
-	self.textField.text = [NSString stringWithFormat:@"%@", self.initialDateValue];
-	self.titleLabel.text = @"";
-	
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FATimes] target:self action:@selector(cancel:)];
-
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(save:)];
-
-}
-
-
-
 
 @end

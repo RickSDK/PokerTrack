@@ -214,6 +214,7 @@
 	}
 	
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
+	NSLog(@"predicateString: %@", predicateString);
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
 	
 	if([timeFrame isEqualToString:NSLocalizedString(@"LifeTime", nil)] || [timeFrame intValue]>0)
@@ -895,6 +896,12 @@
 
 +(int)getNowYear {
 	return [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
+}
+
++(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum {
+	NSString *style1 = (looseNum>=50)?@"Tight":@"Loose";
+	NSString *style2 = (agressiveNum>=50)?@"Aggressive":@"Passive";
+	return [NSString stringWithFormat:@"%@-%@", style1, style2];
 }
 
 +(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
@@ -4094,6 +4101,15 @@
 			break;
   case 33:
 			title = [NSString fontAwesomeIconStringForEnum:FASearch];
+			break;
+  case 34:
+			title = [NSString fontAwesomeIconStringForEnum:FAdatabase];
+			break;
+  case 35:
+			title = [NSString fontAwesomeIconStringForEnum:FApieChart];
+			break;
+  case 36:
+			title = [NSString fontAwesomeIconStringForEnum:FALink];
 			break;
 
   default:

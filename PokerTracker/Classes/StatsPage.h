@@ -21,7 +21,7 @@
 	IBOutlet UIToolbar *yearToolbar;
 	IBOutlet UIToolbar *top5Toolbar;
 	IBOutlet UISegmentedControl *gameSegment;
-	IBOutlet UISegmentedControl *customSegment;
+	IBOutlet CustomSegment *customSegment;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UILabel *yearLabel;
@@ -78,7 +78,7 @@
 @property (atomic) BOOL rotateLock;
 @property (atomic) BOOL viewUnLoaded;
 @property (atomic, strong) UISegmentedControl *gameSegment;
-@property (atomic, strong) UISegmentedControl *customSegment;
+@property (atomic, strong) CustomSegment *customSegment;
 @property (atomic, strong) UIToolbar *analysisToolbar;
 @property (atomic, strong) UIToolbar *yearToolbar;
 @property (atomic, strong) UIToolbar *top5Toolbar;

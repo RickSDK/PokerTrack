@@ -8,6 +8,10 @@
 
 #import "HudTrackerVC.h"
 #import "MinuteEnterVC.h"
+#import "CoreDataLib.h"
+#import "PlayerTrackerObj.h"
+#import "MainMenuVC.h"
+#import "GameCell.h"
 
 @interface HudTrackerVC ()
 
@@ -23,10 +27,6 @@
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(editButtonClicked)],
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
 											   nil];
-	
-	self.popupView.titleLabel.text = @"Heads up Display";
-	self.popupView.textView.text = @"Use HUD to track the first pre-flop action of yourself and/or ONE other player at the table.\n\nSimply press the correct button for each hand: Fold, Check, Call or Raise.  Note you are only tracking pre-flop betting. And specifically, first action of pre-flop. HUD will then calculate values for Passive/Aggressive play and Tight/Loose play.\n\nIt will then chart your values and the opponent’s values side by side for comparison. It also calculates overall skill level and displays the appropriate PTP skill Icon.\n\nUse this tool to measure your own play or use it to compare how you are playing versus someone else at the table.\n\nGood Luck!";
-	self.popupView.textView.hidden=NO;
 	
 	self.heroObj = [[PlayerObj alloc] init];
 	self.villianObj = [[PlayerObj alloc] init];
@@ -51,6 +51,10 @@
 	[ProjectFunctions makeFAButton:self.callButton2 type:23 size:18];
 	[ProjectFunctions makeFAButton:self.raiseButton2 type:24 size:18];
 	
+	[ProjectFunctions makeFAButton:self.linkPlayerButton type:36 size:16];
+	[ProjectFunctions makeFAButton:self.linkGameButton type:36 size:16];
+	
+	self.playersView.hidden=YES;
 	[self setupScreen];
 	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
 	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
@@ -59,7 +63,7 @@
 	if (self.playerMo) {
 		self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
 	}
-
+	
 }
 
 -(void)setupScreen {
@@ -74,6 +78,22 @@
 	self.villianActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel1 checkLabel:self.checkCountLabel1 callLabel:self.callCountLabel1 raiseLabel:self.raiseCountLabel1 styleLabel:self.styleLabel1 skillImageView:self.skillImageView1];
 	self.heroActionObj = [[HudActionObj alloc] init];
 	self.heroActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel2 checkLabel:self.checkCountLabel2 callLabel:self.callCountLabel2 raiseLabel:self.raiseCountLabel2 styleLabel:self.styleLabel2 skillImageView:self.skillImageView2];
+}
+
+- (IBAction) linkButtonPressed: (UIButton *) button {
+	[self.mainArray removeAllObjects];
+	self.linkButtonTag = (int)button.tag;
+	if(self.linkButtonTag==0) {
+		self.playersView.titleLabel.text = @"Link a Player";
+		NSArray *newPlayers = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:nil sortColumn:@"name" mOC:self.managedObjectContext ascendingFlg:YES];
+		[self.mainArray addObjectsFromArray:newPlayers];
+	} else {
+		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO limit:20];
+		[self.mainArray addObjectsFromArray:games];
+		self.playersView.titleLabel.text = @"Link a Game";
+	}
+	[self.mainTableView reloadData];
+	self.playersView.hidden=NO;
 }
 
 -(void)editButtonClicked {
@@ -92,14 +112,17 @@
 		self.raiseButton1.enabled=self.editMode;
 		self.raiseButton2.enabled=self.editMode;
 	}
-
 }
 
--(void)updateHudStat:(HudStatObj *)stat top1:(int)top1 bottom1:(int)bottom1 top2:(int)top2 bottom2:(int)bottom2 {
+-(void)popupButtonClicked {
+	[self populatePopupWithTitle:@"Heads up Display" text:@"Use HUD to track the first pre-flop action of yourself and/or ONE other player at the table.\n\nSimply press the correct button for each hand: Fold, Check, Call or Raise.  Note you are only tracking pre-flop betting. And specifically, first action of pre-flop. HUD will then calculate values for Passive/Aggressive play and Tight/Loose play.\n\nIt will then chart your values and the opponent’s values side by side for comparison. It also calculates overall skill level and displays the appropriate PTP skill Icon.\n\nThe stats are automatically saved every time you press a button.\n\nUse this tool to measure your own play or use it to compare how you are playing versus someone else at the table.\n\nGood Luck!"];
+}
+
+-(void)updateHudStat:(HudStatObj *)stat top1:(int)top1 bottom1:(int)bottom1 top2:(int)top2 bottom2:(int)bottom2 midPoint:(float)midpoint midPoint2:(float)midpoint2 {
 	stat.percentLabel1.text = @"-";
 	stat.percentLabel2.text = @"-";
-	int percent1= 50;
-	int percent2= 50;
+	int percent1= midpoint;
+	int percent2= midpoint2;
 	
 	stat.countLabel1.text = [NSString stringWithFormat:@"%d/%d", top1, bottom1];
 	stat.countLabel2.text = [NSString stringWithFormat:@"%d/%d", top2, bottom2];
@@ -112,9 +135,13 @@
 		percent2 = top2*100/bottom2;
 		stat.percentLabel2.text = [NSString stringWithFormat:@"%d%%", percent2];
 	}
+	if(midpoint>1)
+		percent1 = percent1*100/(midpoint*2);
+	if(midpoint2>1)
+		percent2 = percent2*100/(midpoint2*2);
+
 	
 	[self positionBarsForsStat:stat percent1:percent1 percent2:percent2];
-	
 }
 
 -(void)calculateVPIP {
@@ -129,7 +156,7 @@
 	if (self.villianObj.handCount>0)
 		self.villianObj.vpip = top1*100/self.villianObj.handCount;
 	
-	[self updateHudStat:self.vpipObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount];
+	[self updateHudStat:self.vpipObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount midPoint:26.975 midPoint2:26.975];
 }
 
 -(void)calculatePFR {
@@ -137,14 +164,14 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.raiseCount;
 	int top2 = self.heroObj.raiseCount;
-	self.heroObj.pfr=50;
-	self.villianObj.pfr=50;
+	self.heroObj.pfr=25;
+	self.villianObj.pfr=25;
 	if (self.heroObj.handCount>0)
 		self.heroObj.pfr = top2*100/self.heroObj.handCount;
 	if (self.villianObj.handCount>0)
 		self.villianObj.pfr = top1*100/self.villianObj.handCount;
 	
-	[self updateHudStat:self.pfrObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount];
+	[self updateHudStat:self.pfrObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount midPoint:self.villianObj.vpip/2 midPoint2:self.heroObj.vpip/2];
 }
 
 -(void)calculateAF {
@@ -157,7 +184,7 @@
 	if (bottom1>0)
 		self.villianObj.af = self.villianObj.raiseCount*100/bottom1;
 	
-	[self updateHudStat:self.afObj top1:self.villianObj.raiseCount bottom1:bottom1 top2:self.heroObj.raiseCount bottom2:bottom2];
+	[self updateHudStat:self.afObj top1:self.villianObj.raiseCount bottom1:bottom1 top2:self.heroObj.raiseCount bottom2:bottom2 midPoint:24 midPoint2:24];
 	
 	self.afAmountLabel1.text = @"-";
 	if(self.villianObj.callCount>0)
@@ -183,6 +210,26 @@
 	
 	[self updatePlayerSkillImage:self.heroActionObj player:self.heroObj vpip:self.vpipObj.playerType2ImageView pfr:self.pfrObj.playerType2ImageView af:self.afObj.playerType2ImageView];
 	[self updatePlayerSkillImage:self.villianActionObj player:self.villianObj vpip:self.vpipObj.playerType1ImageView pfr:self.pfrObj.playerType1ImageView af:self.afObj.playerType1ImageView];
+	
+	if(self.playerMo) {
+		self.linkPlayerButton.hidden=YES;
+		self.linkPlayerImageView.image=[UIImage imageNamed:@"green.png"];
+	} else {
+		self.linkPlayerButton.hidden=NO;
+		self.linkPlayerImageView.image=[UIImage imageNamed:@"red.png"];
+	}
+	if(self.gameMo) {
+		self.linkGameButton.hidden=YES;
+		self.linkGameImageView.image=[UIImage imageNamed:@"green.png"];
+	} else {
+		self.linkGameButton.hidden=NO;
+		self.linkGameImageView.image=[UIImage imageNamed:@"red.png"];
+	}
+	if(self.villianObj.handCount>0)
+		self.linkPlayerButton.hidden=YES;
+	if(self.heroObj.handCount>0)
+		self.linkGameButton.hidden=YES;
+
 }
 
 -(void)updatePlayerSkillImage:(HudActionObj *)obj player:(PlayerObj *)player vpip:(UIImageView *)vpip pfr:(UIImageView *)pfr af:(UIImageView *)af {
@@ -193,22 +240,24 @@
 		pfr.image = [UIImage imageNamed:@"Icon.png"];
 		af.image = [UIImage imageNamed:@"Icon.png"];
 	} else {
-		float skill1 = [self trimSkill:7.15-(float)player.vpip/6.5];
+		float skill1 = [self boxValue:7.15-(float)player.vpip/6.5 min:0 max:5];
 		
 		float skill2Percent = 0;
 		if(player.vpip>0)
 			skill2Percent = player.pfr*100/player.vpip;
-		float skill2 = [self trimSkill:ceil(skill2Percent/10)-2];
-		float skill3 = [self trimSkill:(float)player.af/8];
+		float skill2 = [self boxValue:ceil(skill2Percent/10)-2 min:0 max:5];
+		float skill3 = [self boxValue:(float)player.af/8 min:0 max:5];
 		
 		vpip.image = [self playerImageForNumber:skill1];
 		pfr.image = [self playerImageForNumber:skill2];
 		af.image = [self playerImageForNumber:skill3];
 
 		obj.skillImageView.image = [self playerImageForNumber:(skill1+skill3)/2];
-		float finalNumber = [self trimSkill:(skill1+skill3)/2];
+		float finalNumber = [self boxValue:(skill1+skill3)/2 min:0 max:5];
 		player.picId = (int)floor(finalNumber);
 
+		player.looseNum = skill1*20;
+		player.agressiveNum = (skill2+skill3)*10;
 		NSString *style1 = (skill1>=3)?@"Tight":@"Loose";
 		NSString *style2 = (skill2+skill3>=6)?@"Aggressive":@"Passive";
 		player.playerStyleStr = [NSString stringWithFormat:@"%@-%@", style1, style2];
@@ -216,21 +265,23 @@
 	}
 }
 
--(float)trimSkill:(float)skill {
-	if(skill<0)
-		skill=0;
-	if(skill>5)
-		skill=5;
-	return skill;
-}
-
 -(UIImage *)playerImageForNumber:(float)number {
-	number = [self trimSkill:number];
+	number = [self boxValue:number min:0 max:5];
 	int picId = (int)floor(number);
 	return [ProjectFunctions playerImageOfType:picId];
 }
 
+-(int)boxValue:(int)value min:(int)min max:(int)max {
+	if(value<min)
+		value=min;
+	if(value>max)
+		value=max;
+	return value;
+}
+
 -(void)positionBarsForsStat:(HudStatObj *)stat percent1:(int)percent1  percent2:(int)percent2 {
+	percent1=[self boxValue:percent1 min:0 max:100];
+	percent2=[self boxValue:percent2 min:0 max:100];
 	UIImageView *bg = stat.bGImageView;
 	stat.barView1.center = CGPointMake(bg.center.x-16, bg.frame.origin.y+bg.frame.size.height*percent1/100);
 	stat.barView2.center = CGPointMake(bg.center.x+16, bg.frame.origin.y+bg.frame.size.height*percent2/100);
@@ -267,6 +318,11 @@
 		[self.navigationController pushViewController:localViewController animated:YES];
 		return;
 	}
+	if(self.heroObj.handCount==0 && self.villianObj.handCount==0 && self.heroObj.checkCount==0 && self.villianObj.checkCount==0 && !self.gameMo && !self.playerMo) {
+		self.linkGameButton.hidden=YES;
+		self.linkPlayerButton.hidden=YES;
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"You don't have a player or game linked so these stats will not be saved."];
+	}
 	switch (button.tag) {
   case 0:
 			obj.foldCount++;
@@ -289,19 +345,25 @@
 
 -(void)saveRecord {
 	if(self.gameMo) {
+		NSLog(@"+++Saving gameMo data: %@ (hero)", [self packageDataForObj:self.heroObj]);
 		[self.gameMo setValue:[self packageDataForObj:self.heroObj] forKey:@"attrib01"];
 		[self.gameMo setValue:[self packageDataForObj:self.villianObj] forKey:@"attrib02"];
-		[self.managedObjectContext save:nil];
+		[self saveDatabase];
 	}
 	if(self.playerMo) {
+		NSLog(@"+++Saving playerMo data");
 		[self.playerMo setValue:[self packageDataForObj:self.heroObj] forKey:@"attrib_05"];
 		[self.playerMo setValue:[self packageDataForObj:self.villianObj] forKey:@"desc"];
-		[self.managedObjectContext save:nil];
+		[self.playerMo setValue:[NSNumber numberWithInt:self.villianObj.looseNum] forKey:@"looseNum"];
+		[self.playerMo setValue:[NSNumber numberWithInt:self.villianObj.agressiveNum] forKey:@"agressiveNum"];
+		int segment = [self boxValue:self.villianObj.picId-2 min:0 max:3];
+		[self.playerMo setValue:[NSNumber numberWithInt:segment] forKey:@"attrib_02"];
+		[self saveDatabase];
 	}
 }
 
 -(NSString *)packageDataForObj:(PlayerObj *)obj {
-	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d:%@:%d", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.vpip, obj.pfr, obj.af, obj.playerStyleStr, obj.picId];
+	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.picId, obj.looseNum, obj.agressiveNum];
 }
 
 -(void)loadDataIntoPlayer:(PlayerObj *)obj heroFlag:(BOOL)heroFlag {
@@ -340,6 +402,7 @@
 }
 
 -(void) setReturningValue:(NSString *) value {
+	NSLog(@"+++%d %@", self.selectedTag, value);
 	if(self.selectedTag==0)
 		self.selectedPlayerObj.foldCount = [value intValue];
 	if(self.selectedTag==1)
@@ -348,15 +411,17 @@
 		self.selectedPlayerObj.callCount = [value intValue];
 	if(self.selectedTag==3)
 		self.selectedPlayerObj.raiseCount = [value intValue];
-	[self saveRecord];
 	[self updateDisplay];
+	[self saveRecord];
 }
 
 - (IBAction) trashButtonPressed1: (UIButton *) button {
 	[self emptyTrashForPlayer:self.villianObj];
+	self.linkPlayerButton.hidden=NO;
 }
 - (IBAction) trashButtonPressed2: (UIButton *) button {
 	[self emptyTrashForPlayer:self.heroObj];
+	self.linkGameButton.hidden=NO;
 }
 
 -(void)emptyTrashForPlayer:(PlayerObj *)player {
@@ -371,18 +436,61 @@
 - (IBAction) infoButtonPressed: (UIButton *) button {
 	switch (button.tag) {
   case 0:
-			[ProjectFunctions showAlertPopup:@"VPIP" message:@"Voluntarily Puts money In Pot. This is the percentage of hands a player calls or raises pre-flop."];
+			[self populatePopupWithTitle:@"VPIP" text:@"VPIP and PFR are two basic but powerful poker statistics. Combined, they give you a clear picture of how your opponents are playing and ways to exploit their mistakes.\n\nVPIP tracks the percentage of hands in which a particular player voluntarily puts money into the pot preflop. VPIP increases when a player could fold but instead commits money to the pot preflop. This includes limping (merely calling the big blind), calling, and raising.\n\nPosting the small and big blinds does not influence the VPIP statistic. These actions are involuntary and therefore give no useful information on player tendencies.\n\n-pokercopilot.com"];
 			break;
   case 1:
-			[ProjectFunctions showAlertPopup:@"PFR" message:@"Pre-Flop Raise. This is the percentage of hands a player raises pre-flop."];
+			[self populatePopupWithTitle:@"PFR" text:@"Pre-Flop Raise. PFR tracks the percentage of hands in which a particular player makes a preflop raise when having the opportunity to fold or call instead. This includes reraises.\n\nVPIP is always higher than PFR (or equal). All preflop raises increase VPIP, but not all actions that influence VPIP will affect PFR. For example, limping preflop will increase VPIP but not PFR.\n\nNew players usually call too much preflop. Calling far more often than raising causes your VPIP to rise higher than your PFR, creating a gap between the two stats. This is a warning sign that you are moving away from the aggressive strategy essential to winning at poker. Winning players have a tight gap between their VPIP and their PFR.\n\nA quick rule of the thumb is that the higher the PFR, the more aggressive a player is. The bigger the gap between VPIP and PFR, the more passive a player is.\n\n-pokercopilot.com"];
 			break;
   case 2:
-			[ProjectFunctions showAlertPopup:@"AF" message:@"Aggression Factor. This is the percentage of VPIP hands that are raised. It measures raises versus calls. The number in red is the traditional AF notation written as raises per call."];
+			[self populatePopupWithTitle:@"AF" text:@"Aggression Factor. This is the percentage of VPIP hands that are raised. It measures raises versus calls.\n\nEvery time you raise, your AF goes up, and every time you call it goes down. Checking and folding do not influence your AF\n\nHaving a high AF means you are playing more aggressive poker and you generally do not want this number to drop below 25%.\n\nThe number in red is the traditional AF notation written as raises per call."];
 			break;
 			
   default:
 			break;
 	}
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
+	NSManagedObject *mo = [self.mainArray objectAtIndex:indexPath.row];
+	NSLog(@"linkButtonTag: %d", self.linkButtonTag);
+	if(self.linkButtonTag==0) {
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		PlayerTrackerObj *obj = [PlayerTrackerObj createObjWithMO:mo managedObjectContext:self.managedObjectContext];
+		
+		if(cell==nil)
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		cell.textLabel.text=obj.name;
+		cell.imageView.image=obj.pic;
+		cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
+		cell.accessoryType= UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		return cell;
+	} else {
+		GameCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		if (cell == nil) {
+			cell = [[GameCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		}
+		[GameCell populateCell:cell obj:mo evenFlg:indexPath.row%2==0];
+		return cell;
+	}
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	self.playersView.hidden=YES;
+	NSManagedObject *mo = [self.mainArray objectAtIndex:indexPath.row];
+	if(self.linkButtonTag==0) {
+		self.playerMo = mo;
+		if (self.playerMo) {
+			self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
+		}
+	} else {
+		self.gameMo = mo;
+	}
+	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
+	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
+	[self updateDisplay];
 }
 
 @end

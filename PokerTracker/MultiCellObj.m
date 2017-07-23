@@ -98,6 +98,11 @@
 		[colors addObject:[UIColor blackColor]];
 		[colors addObject:[UIColor purpleColor]];
 	}
+	if(gameObj.hudStatsFlg) {
+		[titles addObject:@"HUD Play"];
+		[values addObject:gameObj.hudPlayerType];
+		[colors addObject:[UIColor blackColor]];
+	}
 	MultiCellObj *obj = [MultiCellObj multiCellObjWithTitle:gameObj.name altTitle:gameObj.location titles:titles values:values colors:colors labelPercent:0.5];
 	return obj;
 }

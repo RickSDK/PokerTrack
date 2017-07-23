@@ -311,37 +311,32 @@
 }
 
 +(UIImage *)pieChartWithItems:(NSArray *)itemList startDegree:(float)startDegree {
+	int valueType=0; // 0=int, 1=float, 2=percent, 3=money
 	
 	int totalWidth=[self totalWidth];
 	int totalHeight=totalWidth/2;
-	
-	int maxItems=10;
-	if(itemList.count>maxItems) { // if there's too many objects
-		NSMutableArray *newArray = [[NSMutableArray alloc] init];
-		int i=0;
-		double othersTotal=0;
-		for (GraphObject *graphObj in itemList) {
-			i++;
-			if(i<maxItems)
-				[newArray addObject:graphObj];
-			else
-				othersTotal+=abs(graphObj.amount);
-		}
+	NSArray *sortedArray = [itemList sortedArrayUsingSelector:@selector(compare:)];
+	NSMutableArray *newArray = [[NSMutableArray alloc] init];
+	double totalPieSize=0;
+	double othersTotal=0;
+	int maxItems=12;
+	int i=0;
+	for (GraphObject *graphObj in sortedArray) {
+		totalPieSize += graphObj.amount;
+		i++;
+		if(i<maxItems)
+			[newArray addObject:graphObj];
+		else
+			othersTotal+=abs(graphObj.amount);
+	}
+	if(othersTotal>0) {
 		GraphObject *othersObj = [[GraphObject alloc] init];
 		othersObj.name=@"Others";
 		othersObj.amount=othersTotal;
 		[newArray addObject:othersObj];
-		itemList=newArray;
 	}
-	
-	
-	NSMutableArray *sortedArray = [[NSMutableArray alloc] init];
-	double totalPieSize=0;
-	for (GraphObject *graphObj in itemList) {
-		totalPieSize+=abs(graphObj.amount);
-		[sortedArray addObject:graphObj];
-	}
-	
+	itemList=newArray;
+
 	if(itemList.count>3) { // sort and stagger
 		double min = 0;
 		
@@ -418,7 +413,10 @@
 				NSLog(@"+++%@: Wedge from %d to %d (of 360)", graphObj.name, (int)startDegree, (int)endDegree);
 			
 			NSString *percentStr = [NSString stringWithFormat:@"%.1f%%", percentage];
-			percentStr = [ProjectFunctions convertNumberToMoneyString:value];
+			if(valueType==0)
+				percentStr = [NSString stringWithFormat:@"%d", (int)value];
+			if(valueType==3)
+				percentStr = [ProjectFunctions convertNumberToMoneyString:value];
 			
 			if(percentage>25) { // place label inside
 				[self centerTextAtPoint:midPoint name:shortName percentStr:percentStr color:[self colorForObject:graphObj.rowId] context:c rowId:graphObj.rowId];

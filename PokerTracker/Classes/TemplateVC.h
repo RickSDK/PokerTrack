@@ -14,6 +14,8 @@
 #import "GameObj.h"
 #import "MultiCellObj.h"
 #import "PopupView.h"
+#import "GameSummaryView.h"
+#import "YearChangeView.h"
 
 @interface TemplateVC : UIViewController
 
@@ -21,8 +23,10 @@
 @property (strong, nonatomic) IBOutlet UITextField *mainTextfield;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) IBOutlet CustomSegment *mainSegment;
+@property (strong, nonatomic) IBOutlet CustomSegment *ptpGameSegment;
 
 @property (strong, nonatomic) IBOutlet WebServiceView *webServiceView;
+@property (strong, nonatomic) IBOutlet YearChangeView *yearChangeView;
 @property (strong, nonatomic) UIImageView *bgImageView;
 @property (strong, nonatomic) NSMutableArray *webServiceElements;
 @property (strong, nonatomic) NSMutableArray *textFieldElements;
@@ -30,12 +34,18 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) GameObj *gameObj;
 @property (strong, nonatomic) MultiCellObj *multiCellObj;
+@property (nonatomic) float startDegree;
 
+@property (nonatomic, strong) IBOutlet GameSummaryView *gameSummaryView;
 
 -(void)startWebService:(SEL)aSelector message:(NSString *)message;
 -(void)stopWebService;
 -(void)resignResponders;
+-(void)addHomeButton;
+-(void)saveDatabase;
+-(void)populatePopupWithTitle:(NSString *)title text:(NSString *)text;
 - (IBAction) segmentChanged: (id) sender;
+- (IBAction) ptpGameSegmentChanged: (id) sender;
 - (IBAction) xButtonClicked: (id) sender;
 -(BOOL)isPokerZilla;
 

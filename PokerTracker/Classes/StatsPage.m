@@ -34,6 +34,7 @@
 #import "PokerTrackerAppDelegate.h"
 #import "GameStatObj.h"
 #import "FilterObj.h"
+#import "PieChartVC.h"
 
 #define kLeftLabelRation	0.5
 #define kfilterButton	7
@@ -141,12 +142,12 @@
 	[ProjectFunctions makeFAButton:self.chartsButton type:16 size:18];
 	[ProjectFunctions makeFAButton:self.reportsButton type:26 size:18];
 	[ProjectFunctions makeFAButton:self.goalsButton type:15 size:18];
-	[ProjectFunctions makeFAButton:self.analysisButton type:3 size:18];
+	[ProjectFunctions makeFAButton:self.analysisButton type:35 size:18];
 	
-	self.chartsLabel.text = NSLocalizedString(@"Charts", nil);
+	self.chartsLabel.text = NSLocalizedString(@"Bar Charts", nil);
 	self.reportsLabel.text = NSLocalizedString(@"Reports", nil);
 	self.goalsLabel.text = NSLocalizedString(@"Goals", nil);
-	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
+	self.analysisLabel.text = NSLocalizedString(@"Pie Charts", nil);
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -154,7 +155,8 @@
     [super viewWillAppear:animated];
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
-	[self checkCustomSegment];
+	[self.customSegment turnIntoFilterSegment:self.managedObjectContext];
+//	[self checkCustomSegment];
 //    [self computeStats];
     
 }
@@ -163,9 +165,9 @@
 {
 	if(rotateLock)
 		return;
-	AnalysisVC *detailViewController = [[AnalysisVC alloc] initWithNibName:@"AnalysisVC" bundle:nil];
+	PieChartVC *detailViewController = [[PieChartVC alloc] initWithNibName:@"PieChartVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.last10Flg=YES;
+//	detailViewController.last10Flg=YES;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 

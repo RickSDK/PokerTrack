@@ -12,6 +12,7 @@
                 <outlet property="dateLabel" destination="17" id="20"/>
                 <outlet property="deleteButton" destination="Zfh-po-Q6V" id="uA4-3U-82f"/>
                 <outlet property="graphButton" destination="16" id="21"/>
+                <outlet property="hudButton" destination="bCN-0I-1HY" id="RLf-h9-62h"/>
                 <outlet property="mainTableView" destination="4" id="7"/>
                 <outlet property="textViewBG" destination="8" id="13"/>
                 <outlet property="timeLabel" destination="22" id="23"/>
@@ -104,6 +105,18 @@
                                 <action selector="deleteButtonPressed:" destination="-1" eventType="touchDown" id="ZTX-zr-wVN"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bCN-0I-1HY">
+                            <rect key="frame" x="209" y="2" width="90" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="HUD" backgroundImage="greenChromeBut.png">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="hudButtonPressed:" destination="-1" eventType="touchDown" id="a06-FQ-LP9"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -115,6 +128,7 @@
     </objects>
     <resources>
         <image name="activityPopup.png" width="300" height="160"/>
+        <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="greenFelt.png" width="320" height="480"/>
         <image name="metalPlate.png" width="200" height="300"/>
         <image name="redChromeBut.png" width="400" height="100"/>

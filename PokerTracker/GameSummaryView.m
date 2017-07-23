@@ -31,6 +31,8 @@
 
 - (void)commonInit
 {
+	float width = [[UIScreen mainScreen] bounds].size.width;
+
 	self.backgroundColor = [UIColor blackColor];
 	
 	self.skillButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -55,7 +57,7 @@
 	roiNameLabel.text = NSLocalizedString(@"roiNameLabel", nil);
 	[self addSubview:roiNameLabel];
 
-	self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-85, 5, 80, 25)];
+	self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(width-85, 5, 80, 25)];
 	self.profitLabel.font = [UIFont boldSystemFontOfSize:17];	// label is 17, system is 14
 	self.profitLabel.textAlignment = NSTextAlignmentRight;
 	self.profitLabel.minimumScaleFactor=.5;
@@ -64,7 +66,7 @@
 	self.profitLabel.text = @"$0";
 	[self addSubview:self.profitLabel];
 	
-	self.roiLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width-65, 25, 60, 25)];
+	self.roiLabel = [[UILabel alloc] initWithFrame:CGRectMake(width-65, 25, 60, 25)];
 	self.roiLabel.font = [UIFont boldSystemFontOfSize:14];	// label is 17, system is 14
 	self.roiLabel.textAlignment = NSTextAlignmentRight;
 	self.roiLabel.textColor = [UIColor greenColor];
@@ -75,8 +77,16 @@
 	self.layer.masksToBounds = YES;				// clips background images to rounded corners
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 2.;
-
 }
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+	
+	float width = [[UIScreen mainScreen] bounds].size.width;
+	self.profitLabel.frame = CGRectMake(width-85, 5, 80, 25);
+	self.roiLabel.frame = CGRectMake(width-65, 25, 60, 25);
+}
+
 
 -(void)addTarget:(SEL)selector target:(id)target {
 	[self.skillButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];

@@ -63,7 +63,7 @@
 
 -(IBAction)segmentChanged:(id)sender {
 	if(self.mainSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"Games", nil)];
+		[self setTitle:NSLocalizedString(@"Last10", nil)];
 	}
 	if(self.mainSegment.selectedSegmentIndex==1) {
 		[self setTitle:NSLocalizedString(@"Cash Games", nil)];

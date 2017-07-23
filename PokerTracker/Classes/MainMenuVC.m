@@ -64,7 +64,8 @@
 	self.playerTypeLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
 	self.playerTypeLabel.layer.borderColor = [UIColor blackColor].CGColor;
 	self.playerTypeLabel.layer.borderWidth = 2.;
-	self.last10Label.text = NSLocalizedString(@"Last 10 Games", nil);
+	self.last10Label.text = NSLocalizedString(@"Last 10", nil);
+	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
 	
 	self.topView.hidden=self.isPokerZilla;
 	self.last10Label.hidden=self.isPokerZilla;
@@ -160,7 +161,6 @@
 		detailViewController.mo = [items objectAtIndex:0];
 		detailViewController.newGameStated=NO;
 		[self.navigationController pushViewController:detailViewController animated:YES];
-		//		[ProjectFunctions showConfirmationPopup:@"Game In Progress" message:@"You have a game in progress. Did you want to go to that screen?" delegate:self tag:1];
 	} else if(showDisolve) {
 		NSString *passwordCode = [ProjectFunctions getUserDefaultValue:@"passwordCode"];
 		if([passwordCode length]>0) {
@@ -172,10 +172,10 @@
 
 -(void)setupButtons {
 	[ProjectFunctions makeFAButton:self.startNewGameButton type:1 size:24];
-	[self createMainMenuButton:self.gamesButton name:NSLocalizedString(@"Games", nil) type:27 size:24];
+	[self createMainMenuButton:self.gamesButton name:NSLocalizedString(@"Games", nil) type:34 size:24];
 	[self createMainMenuButton:self.statsButton name:NSLocalizedString(@"Stats", nil) type:11 size:24];
 	[self createMainMenuButton:self.oddsButton name:NSLocalizedString(@"Odds", nil) type:28 size:18];
-	[self createMainMenuButton:self.moreTrackersButton name:NSLocalizedString(@"More", nil) type:29 size:18];
+	[self createMainMenuButton:self.moreTrackersButton name:NSLocalizedString(@"More", nil) type:5 size:18];
 	[self createMainMenuButton:self.forumButton name:NSLocalizedString(@"Forum", nil) type:30 size:18];
 	[self createMainMenuButton:self.netTrackerButton name:NSLocalizedString(@"Net Tracker", nil) type:31 size:18];
 }
@@ -755,7 +755,6 @@
 
 -(void)calculateStats
 {
-//	[self doTheHardWork];
 	[self.activityIndicatorData startAnimating];
 	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
 }

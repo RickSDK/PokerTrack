@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MoreTrackersVC">
             <connections>
                 <outlet property="handTrackerButton" destination="16" id="JE2-uz-Maq"/>
+                <outlet property="hudTrackerButton" destination="Ej3-Ai-qin" id="2kQ-OR-E5c"/>
                 <outlet property="playerTrackerButton" destination="9" id="kab-ZU-oLe"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -21,7 +22,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9">
-                    <rect key="frame" x="58" y="91" width="205" height="50"/>
+                    <rect key="frame" x="58" y="56" width="205" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Player Tracker" backgroundImage="yellowBigChromeBut.png">
@@ -29,11 +30,11 @@
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="playersPressed:" destination="-1" eventType="touchDown" id="26"/>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchDown" id="wCJ-Hk-eBK"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="16">
-                    <rect key="frame" x="58" y="200" width="205" height="50"/>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="16">
+                    <rect key="frame" x="58" y="129" width="205" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Hand Tracker" backgroundImage="yellowBigChromeBut.png">
@@ -41,7 +42,19 @@
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="handsPressed:" destination="-1" eventType="touchDown" id="25"/>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchDown" id="g85-HV-kAb"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ej3-Ai-qin">
+                    <rect key="frame" x="58" y="203" width="205" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="HUD Tracker" backgroundImage="yellowBigChromeBut.png">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonPressed:" destination="-1" eventType="touchDown" id="hxW-yz-xrb"/>
                     </connections>
                 </button>
             </subviews>

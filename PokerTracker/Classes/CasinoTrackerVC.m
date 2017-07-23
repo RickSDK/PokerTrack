@@ -53,8 +53,7 @@
 	self.mainTableView.alpha=0;
 	
 	
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createPressed:)];
-	self.navigationItem.rightBarButtonItem = addButton;
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
 	
 	progressView.alpha=1;
 	progressView.progress=0;

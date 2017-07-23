@@ -9,7 +9,7 @@
 #import "ImageCell.h"
 
 @implementation ImageCell
-@synthesize nameLabel, cityLabel;
+@synthesize nameLabel, cityLabel, leftImage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

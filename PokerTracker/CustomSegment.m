@@ -8,6 +8,7 @@
 
 #import "CustomSegment.h"
 #import "ProjectFunctions.h"
+#import "CoreDataLib.h"
 
 @implementation CustomSegment
 
@@ -65,6 +66,43 @@
 		[self setTitle:[NSString stringWithFormat:@"%@ + %@", [NSString fontAwesomeIconStringForEnum:FAMoney], [NSString fontAwesomeIconStringForEnum:FATrophy]] forSegmentAtIndex:0];
 		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:1];
 		[self setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:2];
+	}
+}
+
+-(void)turnIntoFilterSegment:(NSManagedObjectContext *)context {
+	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:11.f];
+	NSMutableDictionary *attribsNormal;
+	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
+	
+	NSMutableDictionary *attribsSelected;
+	attribsSelected = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor whiteColor], UITextAttributeTextColor, nil];
+	
+	[self setTitleTextAttributes:attribsNormal forState:UIControlStateNormal];
+	[self setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
+	if(self.numberOfSegments==4) {
+		[self setTitle:@"-None-" forSegmentAtIndex:0];
+		for(int i=1; i<=3; i++) {
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %d", i];
+			NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:context ascendingFlg:YES];
+			if([filters count]>0) {
+				NSManagedObject *mo = [filters objectAtIndex:0];
+				NSString *name = [mo valueForKey:@"name"];
+				if(name.length>12)
+					name = [name substringToIndex:12];
+				[self setTitle:name forSegmentAtIndex:i];
+			} else
+				[self setTitle:@"Extra" forSegmentAtIndex:i];
+		}
+	}
+}
+
+-(void)turnIntoTypeSegment {
+	if(self.numberOfSegments==5) {
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:0];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAdatabase] forSegmentAtIndex:1];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FApaperPlane] forSegmentAtIndex:2];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:3];
+		[self setTitle:[NSString fontAwesomeIconStringForEnum:FAGlobe] forSegmentAtIndex:4];
 	}
 }
 

@@ -121,7 +121,7 @@
 - (void)computeStats
 {
     
-    self.mainTableView.alpha=.5;
+    self.mainTableView.alpha=0;
 	[activityIndicator startAnimating];
     gameSegment.enabled=NO;
 

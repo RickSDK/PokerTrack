@@ -9,6 +9,7 @@
 #import "MoreTrackersVC.h"
 #import "BigHandsVC.h"
 #import "PlayerTrackerVC.h"
+#import "HudTrackerVC.h"
 
 @interface MoreTrackersVC ()
 
@@ -17,27 +18,31 @@
 @implementation MoreTrackersVC
 @synthesize managedObjectContext;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (IBAction) handsPressed: (id) sender
-{
-	BigHandsVC *detailViewController = [[BigHandsVC alloc] initWithNibName:@"BigHandsVC" bundle:nil];
-	detailViewController.showMainMenuButton=NO;
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-- (IBAction) playersPressed: (id) sender {
- 	PlayerTrackerVC *detailViewController = [[PlayerTrackerVC alloc] initWithNibName:@"PlayerTrackerVC" bundle:nil];
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-   
+- (IBAction) buttonPressed: (UIButton *) button {
+	switch (button.tag) {
+  case 0: {
+	  PlayerTrackerVC *detailViewController = [[PlayerTrackerVC alloc] initWithNibName:@"PlayerTrackerVC" bundle:nil];
+	  detailViewController.managedObjectContext = self.managedObjectContext;
+	  [self.navigationController pushViewController:detailViewController animated:YES];
+  }
+			break;
+  case 1: {
+			BigHandsVC *detailViewController = [[BigHandsVC alloc] initWithNibName:@"BigHandsVC" bundle:nil];
+			detailViewController.showMainMenuButton=NO;
+			detailViewController.managedObjectContext = self.managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+  }
+			break;
+  case 2: {
+			HudTrackerVC *detailViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
+			detailViewController.managedObjectContext = self.managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+  }
+			break;
+			
+  default:
+			break;
+	}
 }
 
 - (void)viewDidLoad
@@ -45,13 +50,9 @@
     [super viewDidLoad];
     [self setTitle:@"More Trackers"];
  
-	self.playerTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-	[self.playerTrackerButton setTitle:[NSString stringWithFormat:@"%@ Player Tracker", [NSString fontAwesomeIconStringForEnum:FAUser]] forState:UIControlStateNormal];
-	
-	self.handTrackerButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
-	[self.handTrackerButton setTitle:[NSString stringWithFormat:@"%@ Hand Tracker", [NSString fontAwesomeIconStringForEnum:FAhandPaperO]] forState:UIControlStateNormal];
-
-    // Do any additional setup after loading the view from its nib.
+	[ProjectFunctions makeFAButton:self.playerTrackerButton type:3 size:20 text:@"Player Tracker"];
+	[ProjectFunctions makeFAButton:self.handTrackerButton type:29 size:20 text:@"Hand Tracker"];
+	[ProjectFunctions makeFAButton:self.hudTrackerButton type:5 size:20 text:@"HUD Tracker"];
 }
 
 

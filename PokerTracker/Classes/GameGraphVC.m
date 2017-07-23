@@ -28,6 +28,25 @@
 @implementation GameGraphVC
 @synthesize managedObjectContext, mo, locationLabel;
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	self.cellRowsArray = [[NSMutableArray alloc] init];
+	self.pointsArray = [[NSArray alloc] init];
+	
+	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Charts", nil)]];
+	
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
+	self.popupView.titleLabel.text=@"Chipstack Comment";
+	
+	[self addGameID];
+	[self setupGraphView];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowCircleRight] target:self action:@selector(detailsButtonClicked:)];
+	
+	[self deselectChart];
+}
+
 -(void)detailsButtonClicked:(id)sender {
 	[self gotoDetails];
 }
@@ -65,7 +84,7 @@
 	self.hudButton.hidden=!self.gameObj.hudStatsFlg;
 	self.locationLabel.text = self.gameObj.location;
 	
-	self.notesView.hidden=YES;
+	self.popupView.hidden=YES;
 	
 	self.gamePPRView.image = [ProjectFunctions getPlayerTypeImage:self.gameObj.risked winnings:self.gameObj.profit];
 	
@@ -111,27 +130,6 @@
 	
 	self.gameGraphView.image = chipStackObj.image;
 	[self.mainTableView reloadData];
-}
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
-	self.cellRowsArray = [[NSMutableArray alloc] init];
-	self.pointsArray = [[NSArray alloc] init];
-	
-//	self.gameObj = [GameObj gameObjFromDBObj:mo];
-
-	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Charts", nil)]];
-	
-	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
-
-	[self addGameID];
-	[self setupGraphView];
-	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencilSquareO] target:self action:@selector(detailsButtonClicked:)];
-	
-	[self deselectChart];
 }
 
 -(void)setupGraphView {
@@ -231,7 +229,6 @@
 	self.chipAmountLabel.text = @"-";
 	self.chipTimeLabel.text = @"-";
 	self.touchesFlg=NO;
-	self.notesView.hidden=!self.notesFlg;
 	self.bottomView.hidden=YES;
 	[self.mainTableView reloadData];
 }
@@ -280,6 +277,9 @@
 				closestPoint = point2;
 				[self updateMoneyLabel:self.chipAmountLabel money:[[items objectAtIndex:2] intValue]];
 				self.chipTimeLabel.text = [items objectAtIndex:3];
+				self.commentTimeLabel.text = [items objectAtIndex:3];
+				self.commentProfitLabel.text = [ProjectFunctions convertIntToMoneyString:[[items objectAtIndex:2] intValue]];
+
 				finalPoint=i;
 				[self.mainTableView reloadData];
 			}
@@ -309,14 +309,16 @@
 }
 
 - (IBAction) notesButtonPressed: (id) sender {
-	self.notesFlg=!self.notesFlg;
-	self.notesView.hidden=!self.notesFlg;
+	self.popupView.hidden=!self.popupView.hidden;
 	self.textField.text=[ProjectFunctions getUserDefaultValue:[self noteIdforRow:self.closestPoint]];
+	if(self.popupView.hidden)
+		[self.textField resignFirstResponder];
+	else
+		[self.textField becomeFirstResponder];
 }
 
 - (IBAction) enterButtonPressed: (id) sender {
-	self.notesFlg=NO;
-	self.notesView.hidden=!self.notesFlg;
+	self.popupView.hidden=YES;
 	[self.textField resignFirstResponder];
 	
 	[ProjectFunctions setUserDefaultValue:self.textField.text forKey:[self noteIdforRow:self.closestPoint]];

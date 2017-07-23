@@ -106,6 +106,7 @@
 @property (nonatomic, strong) IBOutlet UIView *botView;
 @property (nonatomic, strong) IBOutlet UIView *reviewView;
 @property (nonatomic, strong) IBOutlet UILabel *reviewCountLabel;
+@property (nonatomic, strong) IBOutlet UILabel *analysisLabel;
 @property (nonatomic, strong) IBOutlet UITextView *aboutTextView;
 @property (nonatomic, strong) IBOutlet UIView *topView;
 @property (nonatomic, strong) IBOutlet UILabel *last10Label;

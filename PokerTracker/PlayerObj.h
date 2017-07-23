@@ -18,6 +18,8 @@
 @property (nonatomic) int raiseCount;
 @property (nonatomic) int handCount;
 @property (nonatomic) int picId;
+@property (nonatomic) int looseNum;
+@property (nonatomic) int agressiveNum;
 
 @property (nonatomic) int vpip;
 @property (nonatomic) int pfr;

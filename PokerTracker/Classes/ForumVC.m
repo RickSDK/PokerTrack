@@ -25,6 +25,18 @@
 @synthesize  managedObjectContext, forumPostings, activityIndicator, mainTableView;
 
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	[self setTitle:@"Forum"];
+	
+	self.forumPostings = [[NSMutableArray alloc] initWithCapacity:4];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(addButtonPressed:)];
+	
+	[self refreshPage];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -94,19 +106,6 @@
 -(BOOL)shouldAutorotate
 {
     return YES;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self setTitle:@"Forum"];
-    
-    self.forumPostings = [[NSMutableArray alloc] initWithCapacity:4];
-    
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-
-    [self refreshPage];
 }
 
 -(void)loadForum

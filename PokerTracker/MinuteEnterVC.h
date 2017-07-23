@@ -15,7 +15,6 @@
 	UIViewController *callBackViewController;
 	NSString *initialDateValue;
 	NSString *sendTitle;
-	NSManagedObjectContext *managedObjectContext;
 
 	//---XIB----------------------------
 	IBOutlet UITextField *textField;
@@ -37,7 +36,6 @@
 @property (nonatomic, strong) NSString *sendTitle;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIViewController *callBackViewController;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 
 @end

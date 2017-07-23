@@ -10,15 +10,15 @@
 #import "TemplateVC.h"
 
 @interface MoreTrackersVC : TemplateVC {
-	NSManagedObjectContext *managedObjectContext;
-    
+	
 }
 
-- (IBAction) handsPressed: (id) sender;
-- (IBAction) playersPressed: (id) sender;
+- (IBAction) buttonPressed: (UIButton *) button;
+
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) IBOutlet UIButton *playerTrackerButton;
 @property (nonatomic, strong) IBOutlet UIButton *handTrackerButton;
+@property (nonatomic, strong) IBOutlet UIButton *hudTrackerButton;
 
 @end

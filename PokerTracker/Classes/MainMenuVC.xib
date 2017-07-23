@@ -12,6 +12,7 @@
                 <outlet property="activityIndicatorData" destination="88" id="rgT-By-nHW"/>
                 <outlet property="activityIndicatorNet" destination="Ep4-Ub-2IL" id="tT4-wL-uKz"/>
                 <outlet property="analysisButton" destination="90" id="95"/>
+                <outlet property="analysisLabel" destination="QmQ-Ge-e2C" id="QZU-JA-1Vc"/>
                 <outlet property="bankrollLabel" destination="63" id="66"/>
                 <outlet property="bankrollNameLabel" destination="62" id="124"/>
                 <outlet property="botView" destination="HcZ-gq-xfZ" id="sxK-97-XLn"/>
@@ -26,6 +27,7 @@
                 <outlet property="gamesButton" destination="5" id="3Pj-td-jO1"/>
                 <outlet property="graphChart" destination="97" id="100"/>
                 <outlet property="largeGraph" destination="Wki-CA-D7y" id="xPl-Fv-n3u"/>
+                <outlet property="last10Label" destination="gJM-mh-Zvl" id="9RL-QF-uxO"/>
                 <outlet property="moreTrackersButton" destination="33" id="vOy-nK-XLs"/>
                 <outlet property="netTrackerButton" destination="7" id="HUu-L1-3Ky"/>
                 <outlet property="oddsButton" destination="29" id="36"/>
@@ -96,7 +98,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="90">
-                            <rect key="frame" x="270" y="0.0" width="50" height="55"/>
+                            <rect key="frame" x="270" y="0.0" width="50" height="57"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" backgroundImage="playerType4.png">
@@ -110,6 +112,24 @@
                                 <action selector="analysisButtonClicked:" destination="-1" eventType="touchDown" id="120"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" id="gJM-mh-Zvl">
+                            <rect key="frame" x="270" y="-1" width="50" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Analysis" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" id="QmQ-Ge-e2C">
+                            <rect key="frame" x="270" y="42" width="50" height="14"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <size key="shadowOffset" width="1" height="1"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

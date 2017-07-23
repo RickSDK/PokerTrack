@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSString *notes;
 @property (nonatomic, strong) NSString *hourlyStr;
 @property (nonatomic, strong) NSString *tournamentType;
+@property (nonatomic, strong) NSString *hudPlayerType;
 
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
