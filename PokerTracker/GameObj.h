@@ -56,12 +56,14 @@
 @property (nonatomic) int tournamentSpotsPaid;
 @property (nonatomic) BOOL hudStatsFlg;
 @property (nonatomic) BOOL isTourney;
+@property (nonatomic) BOOL playFlag;
 
 @property (nonatomic, strong) NSString *startTimeStr;
 @property (nonatomic, strong) NSString *startTimeAltStr;
 @property (nonatomic, strong) NSString *startTimePTP;
 @property (nonatomic, strong) NSString *weekdayAltStr;
 @property (nonatomic, strong) NSString *endTimeStr;
+@property (nonatomic, strong) NSString *lastUpdStr;
 @property (nonatomic, strong) NSString *endTimePTP;
 @property (nonatomic, strong) NSString *profitStr;
 @property (nonatomic, strong) NSString *profitLongStr;
@@ -74,6 +76,7 @@
 @property (nonatomic, strong) NSString *tokesStr;
 @property (nonatomic, strong) NSString *reBuyAmountStr;
 @property (nonatomic, strong) NSString *roiStr;
+@property (nonatomic, strong) NSString *pprStr;
 @property (nonatomic, strong) NSString *numRebuysStr;
 @property (nonatomic, strong) NSString *breakMinutesStr;
 @property (nonatomic, strong) NSString *tournamentFinishStr;
@@ -81,11 +84,14 @@
 @property (nonatomic, strong) NSString *tournamentSpotsPaidStr;
 @property (nonatomic, strong) NSString *hudHeroStr;
 @property (nonatomic, strong) NSString *hudVillianStr;
+@property (nonatomic, strong) NSString *gpsValues;
+
 
 
 @property (nonatomic) BOOL onBreakFlag;
 
 +(GameObj *)gameObjFromDBObj:(NSManagedObject *)mo;
 +(GameObj *)populateGameFromString:(NSString *)line;
++(GameObj *)populateGameFromNetUserString:(NSString *)line;
 
 @end

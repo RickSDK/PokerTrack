@@ -8,32 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "NetUserObj.h"
+#import "TemplateVC.h"
 
-@interface FriendLast10GamesVC : UIViewController {
-    int user_id;
-    NSString *friendName;
+@interface FriendLast10GamesVC : TemplateVC {
     NSMutableArray *gameList;
-	NSManagedObjectContext *managedObjectContext;
 	BOOL selfFlg;
 	NetUserObj *netUserObj;
-    
-    IBOutlet UIActivityIndicatorView *activityIndicator;
-    IBOutlet UITableView *mainTableView;
-	IBOutlet UIImageView *imageViewBG;
-	IBOutlet UILabel *activityLabel;
-
 }
 
-@property (nonatomic) int user_id;
-@property (nonatomic, strong) NSString *friendName;
 @property (nonatomic, strong) NSMutableArray *gameList;
 
 @property (atomic, strong) NetUserObj *netUserObj;
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) UIImageView *imageViewBG;
-@property (nonatomic, strong) UILabel *activityLabel;
-@property (nonatomic, strong) UITableView *mainTableView;
 @property (atomic) BOOL selfFlg;
 
 @end

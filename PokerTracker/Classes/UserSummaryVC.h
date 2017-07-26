@@ -9,31 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "NetUserObj.h"
 #import "TemplateVC.h"
+#import "MultiCellObj.h"
 
 
 @interface UserSummaryVC : TemplateVC {
 	IBOutlet UIButton *addFriendButton;
 	IBOutlet UIButton *removeFriendButton;
 	IBOutlet UIButton *viewgameButton;
-	IBOutlet UILabel *nameLabel;
-	IBOutlet UILabel *locationLabel;
-	IBOutlet UILabel *dateLabel;
     IBOutlet UISegmentedControl *topSegment;
 	
-	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UIImageView *imageViewBG;
-	IBOutlet UIImageView *playerImageView;
-	IBOutlet UILabel *activityLabel;
 	IBOutlet UILabel *versionLabel;
 	IBOutlet UILabel *moneySymbolLabel;
 
 	NSString *user;
-	NSMutableArray *values;
     NSString *friendName;
     NSString *latestMonth;
     NSString *nameString;
     NSString *cityString;
-    int friend_id;
     int selectedSegment;
     int popupBoxNumber;
     BOOL loadedFlg;
@@ -48,33 +40,26 @@
 
 @property (atomic, copy) NSString *user;
 @property (atomic, strong) NetUserObj *netUserObj;
-@property (atomic, strong) NSMutableArray *values;
 @property (atomic, strong) UIButton *addFriendButton;
 @property (atomic, strong) UIButton *removeFriendButton;
 @property (atomic, strong) UIButton *viewgameButton;
 @property (atomic, strong) UISegmentedControl *topSegment;
 
-@property (atomic, strong) UILabel *nameLabel;
-@property (atomic, strong) UILabel *locationLabel;
-@property (atomic, strong) UILabel *dateLabel;
-
 @property (atomic, copy) NSString *friendName;
 @property (atomic, copy) NSString *latestMonth;
 @property (atomic, copy) NSString *nameString;
 @property (atomic, copy) NSString *cityString;
-@property (atomic) int friend_id;
 @property (atomic) int selectedSegment;
 @property (atomic) int popupBoxNumber;
 @property (atomic) BOOL loadedFlg;
 @property (atomic) BOOL selfFlg;
 
-
-@property (atomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (atomic, strong) UIImageView *imageViewBG;
-@property (atomic, strong) UIImageView *playerImageView;
-@property (atomic, strong) UILabel *activityLabel;
 @property (atomic, strong) UILabel *versionLabel;
 @property (atomic, strong) UILabel *moneySymbolLabel;
+@property (atomic, strong) IBOutlet UILabel *nameLabel;
+@property (atomic, strong) IBOutlet UILabel *cityLabel;
+@property (atomic, strong) IBOutlet UIImageView *flagImageView;
+@property (nonatomic, strong) MultiCellObj *multiCellObj;
 
 
 

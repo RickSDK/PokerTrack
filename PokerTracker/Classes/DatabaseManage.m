@@ -31,6 +31,7 @@
 #import "ExportCell.h"
 #import "UpgradeVC.h"
 #import "ChangeIconVC.h"
+#import "Scrub2017VC.h"
 
 #define kstartDate		0
 #define kendDate		1
@@ -147,6 +148,7 @@
 	[secondMenuArray addObject:@"Taunt"];
 	[secondMenuArray addObject:@"Login"];
 	[secondMenuArray addObject:@"Edit Icons"];
+	[secondMenuArray addObject:@"Food Scrub"];
 
 	self.gSelectedRow=0;
 	self.totalNumGamesImported=0;
@@ -347,6 +349,7 @@
 						  [NSString fontAwesomeIconStringForEnum:FAStar],
 						  [NSString fontAwesomeIconStringForEnum:FASignIn],
 						  [NSString fontAwesomeIconStringForEnum:FAPictureO],
+						  [NSString fontAwesomeIconStringForEnum:FACutlery],
 						  nil];
 		
 		NSString *icon = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
@@ -1472,6 +1475,12 @@
 			ChangeIconVC *detailViewController = [[ChangeIconVC alloc] initWithNibName:@"ChangeIconVC" bundle:nil];
 			[self.navigationController pushViewController:detailViewController animated:YES];
 		}
+		if([menuItem isEqualToString:@"Food Scrub"]) {
+			Scrub2017VC *detailViewController = [[Scrub2017VC alloc] initWithNibName:@"Scrub2017VC" bundle:nil];
+			detailViewController.managedObjectContext = managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
+
 	} // section==1
 	
 	

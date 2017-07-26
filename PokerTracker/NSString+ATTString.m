@@ -194,6 +194,9 @@
 
 -(NSDate *)convertStringToDateWithFormat:(NSString *)format
 {
+	if(format==nil && self.length==20)
+		format = @"MM/dd/yy hh:mm:ss a";
+	
 	if(format==nil || [format isEqualToString:@""])
 		format = @"MM/dd/yyyy hh:mm:ss a";
 	
@@ -216,6 +219,7 @@
 	[df setDateFormat:format];
 	NSDate *dateVar = [df dateFromString:self];
 	
+/*
 	if(dateVar==nil) {
 		NSLog(@"-------date failure!!--------%@", self);
 		
@@ -223,31 +227,69 @@
 		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 		[df setDateFormat:format];
 		dateVar = [df dateFromString:self];
+		NSLog(@"-------second Try: %@", dateVar);
 	}
-	
-	
+*/
+
+	if(dateVar==nil) {
+		return [self convertStringToDateFinalSolution];
+	}
 	return dateVar;
+}
+
+-(NSDate *)tryThisFormat:(NSString *)format {
+	NSDateFormatter *df = [[NSDateFormatter alloc] init];
+	[df setDateFormat:format];
+	NSLog(@"\t\tTrying: %@", format);
+	return [df dateFromString:self];
 }
 
 -(NSDate *)convertStringToDateFinalSolution
 {
 	NSString *format = @"MM/dd/yyyy hh:mm:ss a";
-	
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setDateFormat:format];
 	NSDate *dateVar = [df dateFromString:self];
 
 	if(dateVar==nil) {
 		NSLog(@"-------date failure!!--------%@", self);
-		
 		NSDateFormatter *df = [[NSDateFormatter alloc] init];
 		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 		[df setDateFormat:format];
 		dateVar = [df dateFromString:self];
+		NSLog(@"\t\tTry #2: %@", dateVar);
+	}
+	NSString *dateStr = self;
+	if(dateVar==nil) {
+		dateStr = [dateStr stringByReplacingOccurrencesOfString:@" ??" withString:@""];
+		dateVar = [dateStr tryThisFormat:@"MM/dd/yyyy HH:mm:ss"];
+	}
+
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"M/d/yy hh:mm a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yy hh:mm a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yy HH:mm"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yy hh:mm:ss a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yy hh:mm a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yy hh:mm:ss a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yyyy hh:mm:ss a"];
+	if(dateVar==nil)
+		dateVar = [self tryThisFormat:@"MM/dd/yyyy HH:mm"];
+	
+
+	if(dateVar==nil) {
+		[df setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
+		dateVar = [df dateFromString:self];
+		NSLog(@"\t\tTry #3: %@", dateVar);
 	}
 
 	if(dateVar==nil) {
-		NSLog(@"-------date failure--------%@", self);
 		int year=2015;
 		int month=1;
 		int day=1;
@@ -283,6 +325,7 @@
 		NSString *dtStr = [NSString stringWithFormat:@"%02d/%02d/%d %02d:%02d:00 %@", month, day, year, hour, min, amPm];
 //		NSLog(@"\t\t+++dtStr: %@", dtStr);
 		dateVar = [dtStr convertStringToDateWithFormat:@"MM/dd/yyyy hh:mm:ss a"];
+		NSLog(@"\t\tFinal Solution: %@", dateVar);
 	}
 	if(dateVar==nil) {
 		NSLog(@"-------TOTAL FAILURE!!!--------%@", self);

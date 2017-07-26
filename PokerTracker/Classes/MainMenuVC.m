@@ -33,6 +33,8 @@
 #import "DatePickerViewController.h"
 #import "UpgradeVC.h"
 #import "ReviewsVC.h"
+#import "NSString+ATTString.h"
+#import "Scrub2017VC.h"
 
 
 @implementation MainMenuVC
@@ -167,6 +169,23 @@
 			UnLockAppVC *detailViewController = [[UnLockAppVC alloc] initWithNibName:@"UnLockAppVC" bundle:nil];
 			[self.navigationController pushViewController:detailViewController animated:NO];
 		}
+	}
+}
+
+-(void)tourneyDataScrub {
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Type = %@", @"Tournament"];
+	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
+	float totalFoodAndTokes=0;
+	for(NSManagedObject *game in games) {
+		totalFoodAndTokes += [[game valueForKey:@"tokes"] intValue];
+		totalFoodAndTokes += [[game valueForKey:@"foodDrinks"] intValue];
+	}
+	if(totalFoodAndTokes>0) {
+		Scrub2017VC *detailViewController = [[Scrub2017VC alloc] initWithNibName:@"Scrub2017VC" bundle:nil];
+		detailViewController.managedObjectContext = managedObjectContext;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	} else {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"tourneyScrub2017"];
 	}
 }
 
@@ -775,6 +794,8 @@
 			alertViewNum=2017;
 			[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.5"];
 			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.5 update notice. Game data needs to be scrubbed." delegate:self];
+		} else if([ProjectFunctions getUserDefaultValue:@"tourneyScrub2017"].length==0) {
+				[self tourneyDataScrub];
 		}
     }
 	self.displayYear = [maxYear intValue];

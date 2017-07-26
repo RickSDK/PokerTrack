@@ -145,6 +145,29 @@
 	return (streak>0)?[NSString stringWithFormat:@"Win %d", streak]:[NSString stringWithFormat:@"Lose %d", (streak*-1)];
 }
 
++(NSString *)hourlyStringFromProfit:(double)profit hours:(float)hours {
+	if(hours>0) {
+		float hourly = profit/hours;
+		return [NSString stringWithFormat:@"%@/hr", [ProjectFunctions smallLabelForMoney:hourly totalMoneyRange:hourly]];
+	} else
+		return @"-";
+}
+
++(NSString *)pprStringFromProfit:(double)profit risked:(double)risked {
+	if(risked==0)
+		return @"-";
+	else {
+		int ppr = round(100*(profit+risked)/risked-100);
+		return [NSString stringWithFormat:@"%d%% (%@)", ppr, [ProjectFunctions getPlayerTypelabel:risked winnings:profit]];
+	}
+}
+
++(UIColor *)colorForProfit:(double)profit {
+	if(profit==0)
+		return [UIColor blackColor];
+	return (profit>0)?[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]:[UIColor redColor];
+}
+
 + (NSString *)escapeQuotes:(NSString *)string 
 {
 	return [string stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
@@ -728,7 +751,7 @@
 	
 	if([entityName isEqualToString:@"CHIPSTACK"] && [type isEqualToString:@"type"])
 		list = [NSArray arrayWithObjects:
-				@"int", 
+				@"float", 
 				@"date", 
 				nil];
 	
@@ -897,6 +920,10 @@
 	return [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 }
 
++(NSString *)getNetTrackerMonth {
+	return [[NSDate date] convertDateToStringWithFormat:@"MMM yyyy"];
+}
+
 +(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum {
 	NSString *style1 = (looseNum>=50)?@"Tight":@"Loose";
 	NSString *style2 = (agressiveNum>=50)?@"Aggressive":@"Passive";
@@ -953,11 +980,13 @@
 	if([@"Tournament" isEqualToString:type]) {
 		int tournamentSpotsPaid = [[mo valueForKey:@"tournamentSpotsPaid"] intValue];
 		int tournamentSpots = [[mo valueForKey:@"tournamentSpots"] intValue];
-		if (tournamentSpots>0 && breakMinutes>0 && tournamentSpotsPaid==0) {
+		if (tournamentSpots>0 && breakMinutes>0 && tournamentSpotsPaid==0 && [year intValue]<=2017) {
 			NSString *attrib05 = [mo valueForKey:@"attrib05"];
 			if (attrib05.length == 0) {
 				NSLog(@"Fixing tournament!!!");
 				[mo setValue:[NSNumber numberWithInt:0] forKey:@"breakMinutes"];
+				[mo setValue:[NSNumber numberWithInt:0] forKey:@"foodDrinks"];
+				[mo setValue:[NSNumber numberWithInt:0] forKey:@"tokes"];
 				[mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"tournamentSpotsPaid"];
 				[mo setValue:@"Y" forKey:@"attrib05"]; // mark as scrubbed!
 			}
@@ -1393,33 +1422,31 @@
 	if(totalMoneyRange>5000000)
 		moneyRoundingFactor=100000;
 	
-//	int moneyInt = money/moneyRoundingFactor;
 	float moneyFloat = money/moneyRoundingFactor;
-//	moneyInt *=moneyRoundingFactor;
 	moneyFloat *=moneyRoundingFactor;
 	if(totalMoneyRange>10)
 		moneyFloat = round(moneyFloat);
 	
-	BOOL negValue = (money<0)?YES:NO;
-	if(negValue)
-		money*=-1;
+//	BOOL negValue = (money<0)?YES:NO;
+//	if(negValue)
+//		money*=-1;
 	
 	
 	NSString *label = [ProjectFunctions convertNumberToMoneyString:moneyFloat];
-	if(money>1000)
+	if(abs(money)>1000)
 		label = [NSString stringWithFormat:@"%@k", [self convertNumberToMoneyStringOneDec:money/1000]];
-	if(money>10000)
-		label = [NSString stringWithFormat:@"%@k", [ProjectFunctions convertNumberToMoneyString:money/1000]];
-	if(money>100000)
+	if(abs(money)>10000)
+		label = [NSString stringWithFormat:@"%@k", [ProjectFunctions convertNumberToMoneyString:(int)money/1000]];
+	if(abs(money)>100000)
 		label = [NSString stringWithFormat:@"%dk", (int)money/1000];
-	if(money>1000000)
+	if(abs(money)>1000000)
 		label = [NSString stringWithFormat:@"%@M", [self convertNumberToMoneyStringOneDec:money/1000000]];
-	if(money>10000000)
-		label = [NSString stringWithFormat:@"%@M", [ProjectFunctions convertNumberToMoneyString:money/1000000]];
+	if(abs(money)>10000000)
+		label = [NSString stringWithFormat:@"%@M", [ProjectFunctions convertNumberToMoneyString:(int)money/1000000]];
 	
-	if (negValue)
-		return [NSString stringWithFormat:@"-%@", label];
-	else
+//	if (negValue)
+//		return [NSString stringWithFormat:@"-%@", label];
+//	else
 		return label;
 }
 
@@ -1520,11 +1547,11 @@
 
 	NSDate *firstDate = (items.count>0)?[[items objectAtIndex:0] valueForKey:@"timeStamp"]:[NSDate date];
 	NSDate *lastDate = (items.count>0)?[[items objectAtIndex:items.count-1] valueForKey:@"timeStamp"]:[NSDate date];
-	int min=0;
-	int max=0;
+	double min=0;
+	double max=0;
 	int numGames=0;
 	for (NSManagedObject *mo in items) {
-		int money = [[mo valueForKey:@"amount"] intValue];
+		double money = [[mo valueForKey:@"amount"] doubleValue];
 		if(money<min)
 			min = money;
 		if(money>max)
@@ -1577,9 +1604,9 @@
 	
 	// Graph the Chart---------------------
 	CGContextSetLineWidth(c, 2);
-	int oldX=leftEdgeOfChart;
-	int oldY=(max*yMultiplier);
-	int currentMoney = 0;
+	float oldX=leftEdgeOfChart;
+	float oldY=(max*yMultiplier);
+	float currentMoney = 0;
 	//	NSLog(@"start [%d, %d]", oldX, oldY);
 	int i=0;
 	BOOL prevWinFlg=NO;
@@ -1597,7 +1624,7 @@
 		
 		BOOL winFlg=(money>=0)?YES:NO;
 			
-		//		NSLog(@"$%d [%d, %d]", money, plotX, plotY);
+				NSLog(@"$%f [%d, %f]", money, plotX, plotY);
 		if(money>=0)
 			CGContextSetRGBStrokeColor(c, 0, .5, 0, 1); // green
 		else
@@ -3631,15 +3658,15 @@
 					   @"Q", @"₪", @"TL", nil];
 }
 
-+(void)createChipTimeStamp:(NSManagedObjectContext *)managedObjectContext mo:(NSManagedObject *)mo timeStamp:(NSDate *)timeStamp amount:(int)amount rebuyFlg:(BOOL)rebuyFlg
++(void)createChipTimeStamp:(NSManagedObjectContext *)managedObjectContext mo:(NSManagedObject *)mo timeStamp:(NSDate *)timeStamp amount:(double)amount rebuyFlg:(BOOL)rebuyFlg
 {
 	if(timeStamp==nil)
 		timeStamp=[NSDate date];
 
-    if(amount>32000)
-        amount=32000; // temp code needed until field size is larger
+//    if(amount>32000)
+  //      amount=32000; // temp code needed until field size is larger
     
-	NSArray *a1 = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",amount], [timeStamp convertDateToStringWithFormat:nil], nil];
+	NSArray *a1 = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%f", amount], [timeStamp convertDateToStringWithFormat:nil], nil];
 	
 	NSManagedObject *m1 = [CoreDataLib insertManagedObjectForEntity:@"CHIPSTACK" valueList:a1 mOC:managedObjectContext];
 	

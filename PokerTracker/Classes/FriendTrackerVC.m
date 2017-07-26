@@ -30,24 +30,19 @@
 
 @implementation FriendTrackerVC
 @synthesize managedObjectContext;
-@synthesize activityIndicator, activityLabel, activityPopup, chartImageView;
-@synthesize datelabel, userList, mainTableView, topSegment, profileButton, friendList, friendButton, friendModeOn;
-@synthesize profitList, moneyList, gamesList, sortSegment, prevButton, nextButton, processYear, processMonth, timeFrameSegment;
-@synthesize last10MoneyAllList, last10ProfitAllList, last10GamesAllList, monthMoneyAllList, monthProfitAllList, monthGamesAllList;
-@synthesize yearMoneyFriendsList, yearProfitFriendsList, yearGamesFriendsList;
-@synthesize chartLast10ImageView, chartThisMonthImageView, refreshButton, playerDict, blackBG, showRefreshFlg;
-
-
+@synthesize chartImageView;
+@synthesize datelabel, mainTableView, topSegment, friendButton, friendModeOn;
+@synthesize sortSegment, processYear, processMonth, timeFrameSegment;
+@synthesize chartLast10ImageView, chartThisMonthImageView, playerDict, showRefreshFlg;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:@"Friends"];
- 
-	self.userList = [[NSMutableArray alloc] init];
-	
+
+	timeFrameSegment.selectedSegmentIndex=1;
+
 	self.playerDict = [[NSMutableDictionary alloc] init];
 	
-	timeFrameSegment.selectedSegmentIndex=1;
 	
 	chartLast10ImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
 	chartThisMonthImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chart.png"]];
@@ -56,45 +51,10 @@
 	chartLast10ImageView.alpha=1;
 	chartThisMonthImageView.alpha=1;
 	chartImageView.alpha=1;
-	self.blackBG.alpha=0;
-	self.refreshButton.alpha=0;
-	
-	NSArray *items = [CoreDataLib selectRowsFromEntity:@"FRIEND" predicate:nil sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
-	NSMutableArray *friends = [[NSMutableArray alloc] init];
-	for(NSManagedObject *mo in items) {
-		int uid = [[mo valueForKey:@"user_id"] intValue];
-		[friends addObject:[NSString stringWithFormat:@"[%d]", uid]];
-	}
-	
-	self.friendList = [friends componentsJoinedByString:@"|"];
-	
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0 && [[ProjectFunctions getUserDefaultValue:@"userCity"] length]==0)
-		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Please update your profile to include your City and State" delegate:self];
 	
 	self.processMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
 	self.processYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-	
-	self.profitList = [[NSMutableArray alloc] init];
-	moneyList = [[NSMutableArray alloc] init];
-	gamesList = [[NSMutableArray alloc] init];
-	
-	last10MoneyAllList = [[NSMutableArray alloc] init];
-	last10ProfitAllList = [[NSMutableArray alloc] init];
-	last10GamesAllList = [[NSMutableArray alloc] init];
-	monthMoneyAllList = [[NSMutableArray alloc] init];
-	monthProfitAllList = [[NSMutableArray alloc] init];
-	monthGamesAllList = [[NSMutableArray alloc] init];
-	
-	yearMoneyFriendsList = [[NSMutableArray alloc] init];
-	yearProfitFriendsList = [[NSMutableArray alloc] init];
-	yearGamesFriendsList = [[NSMutableArray alloc] init];
-	
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please login to use the Net Tracker System. Use the login button at the top."];
-		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Login" style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonClicked:)];
-		self.navigationItem.rightBarButtonItem = moreButton;
-	} else {
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
 												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed)],
 												   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
 												   nil];
@@ -102,15 +62,10 @@
 		self.popupView.titleLabel.text = self.title;
 		self.popupView.textView.text = @"Add friends here and you can compare stats! You can also be notified when your friend is starting a new game and even view their chip stack in real time!";
 		self.popupView.textView.hidden=NO;
-	}
 	
 	self.addFriendView.hidden=YES;
 
-	[ProjectFunctions makeSegment:self.timeFrameSegment color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.sortSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
 	[self startBackgroundProcess];
-	
 }
 
 - (IBAction) xButtonPressed: (id) sender {
@@ -119,7 +74,6 @@
 
 -(void)populateArray
 {
-	
     if(timeFrameSegment.selectedSegmentIndex==0) {
         datelabel.text = NSLocalizedString(@"Last10", nil);
     }
@@ -129,66 +83,7 @@
     if(timeFrameSegment.selectedSegmentIndex==2) {
         datelabel.text = [NSString stringWithFormat:@"Last 90 %@", NSLocalizedString(@"day", nil)];
     }
-    
-	[self.userList removeAllObjects];
-    
-    
-    switch (timeFrameSegment.selectedSegmentIndex) {
-        case 0: //Last10
-            if(sortSegment.selectedSegmentIndex==0)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10MoneyAllList]]];
-            if(sortSegment.selectedSegmentIndex==1)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10ProfitAllList]]];
-            if(sortSegment.selectedSegmentIndex==2)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:last10GamesAllList]]];
-            break;
-        case 1: // Month
-            if(sortSegment.selectedSegmentIndex==0)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthMoneyAllList]]];
-            if(sortSegment.selectedSegmentIndex==1)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthProfitAllList]]];
-            if(sortSegment.selectedSegmentIndex==2)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:monthGamesAllList]]];
-            break;
-        case 2: // Year
-            if(sortSegment.selectedSegmentIndex==0)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearMoneyFriendsList]]];
-            if(sortSegment.selectedSegmentIndex==1)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearProfitFriendsList]]];
-            if(sortSegment.selectedSegmentIndex==2)
-                [self.userList addObjectsFromArray:[NSMutableArray arrayWithArray:[ProjectFunctions sortArrayDescending:yearGamesFriendsList]]];
-            break;
-            
-        default:
-            break;
-    }
-    
-
-    [ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)[self.userList count]] forKey:@"FriendsCount"];
-    
-    
 	[mainTableView reloadData];
-}
-
-- (IBAction) prevButtonPressed: (id) sender
-{
-    self.processMonth--;
-    if(processMonth<1) {
-        self.processMonth=12;
-        processYear--;
-    }
- 	[self startBackgroundProcess];
-    
-}
-- (IBAction) nextButtonPressed: (id) sender
-{
-    self.processMonth++;
-    if(processMonth>12) {
-        self.processMonth=1;
-        processYear++;
-    }
-	[self startBackgroundProcess];
-    
 }
 
 -(void)uploadStatsFunction
@@ -201,196 +96,92 @@
 	}
 }
 
-- (IBAction) refreshButtonPressed: (id) sender
-{
-	[activityIndicator startAnimating];
-	activityLabel.alpha=1;
-	activityPopup.alpha=1;
-    self.refreshButton.alpha=0;
-	
-	[self performSelectorInBackground:@selector(uploadStatsFunction) withObject:nil];
- }
-
 -(void)backgroundProcess
 {
 	@autoreleasepool {
 
- //   [ProjectFunctions uploadUniverseStats:managedObjectContext];
-
-        if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0 && [[ProjectFunctions getUserDefaultValue:@"Universe"] length]==0) {
-            [ProjectFunctions setUserDefaultValue:@"Y" forKey:@"Universe"];
-            [ProjectFunctions uploadUniverseStats:managedObjectContext];
-        }
-        
-        
-        
-        prevButton.enabled=YES;
-        nextButton.enabled=YES;
-        int thisMonth = [[[NSDate date] convertDateToStringWithFormat:@"MM"] intValue];
-        int thisYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-        if(processMonth==thisMonth && processYear==thisYear)
-            nextButton.enabled=NO;
-        if(processMonth==6 && processYear==2012)
-            prevButton.enabled=NO;
-        
-//    NSString *thisDateString = [NSString stringWithFormat:@"%02d/1/%d", processMonth, processYear];
-//    NSDate *thisdate = [thisDateString convertStringToDateWithFormat:@"MM/dd/yyyy"];
-        NSString *currentMonth = [[NSDate date] convertDateToStringWithFormat:@"MMM yyyy"];
-        
-	NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"localFlg", @"dateText", @"friendFlg", nil];
-	NSString *localFlg=@"N";
-	if(topSegment.selectedSegmentIndex==1)
-		localFlg=@"Y";
-        
-        NSString *dateText = [NSString stringWithFormat:@"%d%02d", processYear, processMonth];
-	
-	NSString *username = [ProjectFunctions getUserDefaultValue:@"userName"];
-	NSString *password = [ProjectFunctions getUserDefaultValue:@"password"];
-	if([username length]==0) {
-		username = @"test@aol.com";
-		password = @"test123";
-	}
-        NSMutableString *data = [[NSMutableString alloc] initWithCapacity:5000];
-        NSMutableString *dataLast10 = [[NSMutableString alloc] initWithCapacity:5000];
-        NSMutableString *dataThisMonth = [[NSMutableString alloc] initWithCapacity:5000];
-	NSString *friendFlg = @"Y";
-	NSArray *valueList = [NSArray arrayWithObjects:username, password, localFlg, dateText, friendFlg, nil];
-	NSString *webAddr = @"http://www.appdigity.com/poker/pokerFriendTracker.php";
-	NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
-        NSLog(@"Size of response: %d", (int)[responseStr length]);
-        if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
-            
-            [last10MoneyAllList removeAllObjects];
-            [monthMoneyAllList removeAllObjects];
-            [yearMoneyFriendsList removeAllObjects];
-            
-            [last10ProfitAllList removeAllObjects];
-            [monthProfitAllList removeAllObjects];
-            [yearProfitFriendsList removeAllObjects];
-            
-            [last10GamesAllList removeAllObjects];
-            [monthGamesAllList removeAllObjects];
-            [yearGamesFriendsList removeAllObjects];
-            
+		//   [ProjectFunctions uploadUniverseStats:managedObjectContext];
+		
+		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"localFlg", @"dateText", @"friendFlg", nil];
+		
+		NSString *dateText = [NSString stringWithFormat:@"%d%02d", processYear, processMonth];
+		
+		NSString *username = [ProjectFunctions getUserDefaultValue:@"userName"];
+		NSString *password = [ProjectFunctions getUserDefaultValue:@"password"];
+		if([username length]==0) {
+			username = @"test@aol.com";
+			password = @"test123";
+		}
+		NSMutableString *data = [[NSMutableString alloc] initWithCapacity:5000];
+		NSMutableString *dataLast10 = [[NSMutableString alloc] initWithCapacity:5000];
+		NSMutableString *dataThisMonth = [[NSMutableString alloc] initWithCapacity:5000];
+		NSString *friendFlg = @"Y";
+		NSArray *valueList = [NSArray arrayWithObjects:username, password, @"N", dateText, friendFlg, nil];
+		NSString *webAddr = @"http://www.appdigity.com/poker/pokerFriendTracker.php";
+		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
+		if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 			[self.mainArray removeAllObjects];
             NSArray *users = [responseStr componentsSeparatedByString:@"<br>"];
-            for(NSString *line in users)
-                if([line length]>20) {
-                                   NSLog(@"---line---%@", line);
+			for(NSString *line in users)
+				if([line length]>20) {
+					                                  NSLog(@"---line---%@", line);
 					NetUserObj *obj = [NetUserObj friendObjFromLine:line];
-					NSLog(@"-----iconGroupNumber---- %d", obj.iconGroupNumber);
 					[self.mainArray addObject:obj];
- 
-                    [data appendFormat:@"%@<1>%@+", obj.name, obj.last90Days];
-                    [dataLast10 appendFormat:@"%@<1>%@+", obj.name, obj.last10Games];
-                    [dataThisMonth appendFormat:@"%@<1>%@+", obj.name, obj.thisMonthGames];
-
-                    int gamesThisMonth = [[obj.monthElements stringAtIndex:2] intValue];
-                    
-                    if([obj.status isEqualToString:@"Request Pending"])
-                        [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", obj.name]];
-                    
-                    NSString *lastMonthUpd = [obj.monthElements stringAtIndex:0];
 					
-                    //Money
-                    [last10MoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.last10Elements stringAtIndex:4] intValue]+1000000), obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
-                    
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthMoneyAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.monthElements stringAtIndex:4] intValue]+1000000), obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
-                    [yearMoneyFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", ([[obj.yearElements stringAtIndex:4] intValue]+1000000), obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
-                    
-                    //Skill
-                    [last10ProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.last10Elements stringAtIndex:6] intValue], obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthProfitAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.monthElements stringAtIndex:6] intValue], obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
-                    [yearProfitFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.yearElements stringAtIndex:6] intValue], obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
-                    
-                    //Games
-                    [last10GamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.last10Elements stringAtIndex:2] intValue], obj.last10Str, obj.basicsStr, obj.lastGameStr, line]];
-                    if([lastMonthUpd isEqualToString:currentMonth] && gamesThisMonth>0)
-                        [monthGamesAllList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.monthElements stringAtIndex:2] intValue], obj.monthStats, obj.basicsStr, obj.lastGameStr, line]];
-                    [yearGamesFriendsList addObject:[NSString stringWithFormat:@"%08d<xx>%@<xx>%@<xx>%@<aa>%@", [[obj.yearElements stringAtIndex:2] intValue], obj.yearStats, obj.basicsStr, obj.lastGameStr, line]];
-                    
-                }
-	}
-        
-	[self populateArray];
+					[data appendFormat:@"%@<1>%@+", obj.name, obj.last90Days];
+					[dataLast10 appendFormat:@"%@<1>%@+", obj.name, obj.last10Games];
+					[dataThisMonth appendFormat:@"%@<1>%@+", obj.name, obj.thisMonthGames];
+				}
+		}
 		
+		chartImageView = [GrabphLib graphStatsChart:self.managedObjectContext data:data type:0];
+		chartLast10ImageView = [GrabphLib graphStatsChart:self.managedObjectContext data:dataLast10 type:1];
+		chartThisMonthImageView = [GrabphLib graphStatsChart:self.managedObjectContext data:dataThisMonth type:2];
 		
-        UIImageView *img = [GrabphLib graphStatsChart:self.managedObjectContext data:data type:0];
-        UIImageView *imgLast10 = [GrabphLib graphStatsChart:self.managedObjectContext data:dataLast10 type:1];
-        UIImageView *imgThisMonth = [GrabphLib graphStatsChart:self.managedObjectContext data:dataThisMonth type:2];
-	
-        chartImageView.image = img.image;
-        chartLast10ImageView.image = imgLast10.image;
-        chartThisMonthImageView.image = imgThisMonth.image;
-        
-
-
-
-
-        NSArray *players = [data componentsSeparatedByString:@"+"];
-        int i=0;
-        for(NSString *player in players) {
-            NSArray *components = [player componentsSeparatedByString:@"<1>"];
-            if([components count]>1) {
-                [self.playerDict setValue:[NSString stringWithFormat:@"%d", i] forKey:[components objectAtIndex:0]];
-                i++;
-            }
-        }
-	activityLabel.alpha=0;
-	activityPopup.alpha=0;
-	profileButton.enabled=YES;
-	[activityIndicator stopAnimating];
-	
-	
+		NSArray *players = [data componentsSeparatedByString:@"+"];
+		int i=0;
+		for(NSString *player in players) {
+			NSArray *components = [player componentsSeparatedByString:@"<1>"];
+			if([components count]>1) {
+				[self.playerDict setValue:[NSString stringWithFormat:@"%d", i] forKey:[components objectAtIndex:0]];
+				i++;
+			}
+		}
+		[self.webServiceView stop];
+		[self checkSortingOrder];
 	}
 }
 
 -(void)startBackgroundProcess
 {
-	[activityIndicator startAnimating];
-	activityLabel.alpha=1;
-	activityPopup.alpha=1;
-	profileButton.enabled=NO;
-    prevButton.enabled=NO;
-    nextButton.enabled=NO;
-	
+	[self.webServiceView startWithTitle:@"Loading..."];
 	[self performSelectorInBackground:@selector(backgroundProcess) withObject:nil];
 }
 
--(void)mainMenuButtonClicked:(id)sender {
-	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-}
-
--(void)netTrackerButtonClicked:(id)sender {
-    UniverseTrackerVC *detailViewController = [[UniverseTrackerVC alloc] initWithNibName:@"UniverseTrackerVC" bundle:nil];
-    detailViewController.managedObjectContext = managedObjectContext;
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
     return 2;
 }
 
 - (IBAction) sortSegmentChanged: (id) sender
 {
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please log in to view these features"];
-		return;
-	}
+	[self checkSortingOrder];
+}
+
+-(void)checkSortingOrder {
+	if(self.sortSegment.selectedSegmentIndex==0)
+		self.mainArray = [NSMutableArray arrayWithArray:[self.mainArray sortedArrayUsingSelector:@selector(compare:)]];
+	if(self.sortSegment.selectedSegmentIndex==1)
+		self.mainArray = [NSMutableArray arrayWithArray:[self.mainArray sortedArrayUsingSelector:@selector(comparePpr:)]];
+	if(self.sortSegment.selectedSegmentIndex==2)
+		self.mainArray = [NSMutableArray arrayWithArray:[self.mainArray sortedArrayUsingSelector:@selector(compareGames:)]];
 	[self populateArray];
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     if(section==0)
         return 1;
     else
-        return [self.userList count];
+        return self.mainArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -423,135 +214,26 @@
             default:
                 break;
         }
-        
-        
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-    }
-
-    HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[HexWithImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    
-    NSString *user = [self.userList objectAtIndex:indexPath.row];
-    //   NSLog(@"%@", user);
-	
-	NSArray *elements = [user componentsSeparatedByString:@"<xx>"];
-    NSString *indexStr = [elements stringAtIndex:0];
-    NSString *statsStr = [elements stringAtIndex:1];
-    NSString *basics = [elements stringAtIndex:2];
-    NSString *lastGame = [elements stringAtIndex:3];
-    //    NSLog(@"%@ [%@]", basics, @"");
-    
-    NSArray *statFields = [statsStr componentsSeparatedByString:@"|"];
-    NSArray *basicsFields = [basics componentsSeparatedByString:@"|"];
-    NSArray *lastGameFields = [lastGame componentsSeparatedByString:@"|"];
-	
-    
-	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", (int)indexPath.row+1, [basicsFields stringAtIndex:0]];
-	int uid = [[basicsFields stringAtIndex:1] intValue];
-	int user_id = [[basicsFields stringAtIndex:6] intValue];
-	NSString *friendStatus = [basicsFields stringAtIndex:7];
-	
-	if([[basicsFields stringAtIndex:3] length]==0)
-		cell.b1.text = [lastGameFields stringAtIndex:0];
-	else {
-		if([[basicsFields stringAtIndex:5] isEqualToString:@"USA"])
-			cell.b1.text = [NSString stringWithFormat:@"%@, %@", [basicsFields stringAtIndex:3], [basicsFields stringAtIndex:4]];
-		else
-			cell.b1.text = [NSString stringWithFormat:@"%@, %@", [basicsFields stringAtIndex:3], [basicsFields stringAtIndex:5]];
+	} else {
+		HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		if (cell == nil) {
+			cell = [[HexWithImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		}
+		
+		NetUserObj *netUserObj = [self.mainArray objectAtIndex:indexPath.row];
+		netUserObj.rowId = (int)indexPath.row+1;
+		netUserObj.sortType = (int)sortSegment.selectedSegmentIndex;
+		cell = [HexWithImageCell cellForCell:cell netUserObj:netUserObj];
+		cell.backgroundColor = [self colorForCellOnNumber:[[self.playerDict valueForKey:netUserObj.name] intValue]];
+		return cell;
 	}
-	cell.b1Color = [UIColor orangeColor];
-	
-    NSString *nowPlayingFlg = [basicsFields stringAtIndex:8];
-    
-    if([nowPlayingFlg length]==0)
-        nowPlayingFlg = [lastGameFields stringAtIndex:13];
-    
-	if([nowPlayingFlg isEqualToString:@"Y"]) {
-		cell.b1.text = [NSString stringWithFormat:@"Now Playing: %@", [lastGameFields stringAtIndex:4]];
-		cell.b1Color = [UIColor purpleColor];
-	}
-	
-    //    int hours = [[statFields stringAtIndex:7] intValue]/60;
-    int minutes = [[statFields stringAtIndex:7] intValue];
-    float hoursFloat = (float)minutes/60;
-	int profit = [[statFields stringAtIndex:4] intValue];
-	int moneyRisked = [[statFields stringAtIndex:3] intValue];
-	int hourly = 0;
-    if(hoursFloat>0)
-        hourly = (float)profit/hoursFloat;
-    
-	cell.b2.text = [NSString stringWithFormat:@"%@%d/hr", [ProjectFunctions getMoneySymbol], hourly];
-	if(hourly>=0)
-		cell.b2Color = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-	else
-		cell.b2Color = [UIColor redColor];
-	
-	cell.a2.text = [NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:profit]];
-	if(profit>=0)
-		cell.a2Color = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-	else
-		cell.a2Color = [UIColor redColor];
-    
-	cell.c1.text = [NSString stringWithFormat:@"games: %@", [statFields stringAtIndex:1]];
-    
-    int streak = [[statFields stringAtIndex:5] intValue];
-    NSString *streakStr = @"-";
-    if(streak>0)
-        streakStr = [NSString stringWithFormat:@"W%d", streak];
-    if(streak<0)
-        streakStr = [NSString stringWithFormat:@"L%d", streak*-1];
-	cell.c2.text = [NSString stringWithFormat:@"stk: %@", streakStr];
-	
-	int iconGroupNumber=0;
-	if(basicsFields.count>11)
-		iconGroupNumber = [[basicsFields objectAtIndex:11] intValue];
-	cell.leftImageView.image = [ProjectFunctions getPtpPlayerTypeImage:moneyRisked winnings:profit iconGroupNumber:iconGroupNumber];
-    if(sortSegment.selectedSegmentIndex==1) {
-        cell.b2.text = [NSString stringWithFormat:@"ROI: %d%%", [indexStr intValue]-100];
-        cell.b2Color = [UIColor blueColor];
-    }
-    if(uid==user_id) {
-		cell.a1Color = [UIColor ATTBlue];
-		cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:.5 alpha:1];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    } else if([friendStatus isEqualToString:@"Active"]) {
-        cell.a1Color = [UIColor blackColor];
-        cell.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:1 alpha:1];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    } else if([friendStatus isEqualToString:@"Pending"] || [friendStatus isEqualToString:@"Request Pending"] || [friendStatus isEqualToString:@"Requested"]) {
-        cell.a1Color = [UIColor blackColor];
-        cell.backgroundColor = [UIColor colorWithRed:.8 green:1 blue:.8 alpha:1];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    } else {
-        cell.a1Color = [UIColor blackColor];
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    }
-	
-    if([friendStatus isEqualToString:@"Requested"])
-        cell.b1.text = @"Friend Request Pending";
-    
-    if([friendStatus isEqualToString:@"Request Pending"]) {
-        cell.backgroundColor = [UIColor colorWithRed:.8 green:1 blue:.8 alpha:1];
-        cell.b1.text = @"Friend Request!";
-    }
-    
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-    NSString *name = [basicsFields stringAtIndex:0];
-    
-    cell.backgroundColor = [self colorForCellOnNumber:[[self.playerDict valueForKey:name] intValue]];
-
-	return cell;
 }
 
 -(UIColor *)colorForCellOnNumber:(int)number { 
-    switch (number) {
+    switch (number%9) {
         case 0:
             return [UIColor colorWithRed:1 green:.8 blue:.8 alpha:1];
             break;
@@ -573,34 +255,17 @@
         case 6:
             return [UIColor colorWithRed:.8 green:1 blue:.9 alpha:1];
             break;
-        case 7:
-            return [UIColor colorWithRed:1 green:.8 blue:.7 alpha:1];
-            break;
-            
+		case 7:
+			return [UIColor colorWithRed:1 green:.8 blue:.7 alpha:1];
+			break;
+		case 8:
+			return [UIColor colorWithRed:1 green:.9 blue:1 alpha:1];
+			break;
+			
         default:
             break;
     }
     return [UIColor colorWithRed:1 green:.9 blue:1 alpha:1];
-}
-
-- (IBAction) segmentChanged: (id) sender
-{
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please log in to view these features"];
-		return;
-	}
-	[self startBackgroundProcess];
-}
-
-- (IBAction) profileButtonPressed: (id) sender
-{
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please log in to view these features"];
-		return;
-	}
-	ProfileVC *detailViewController = [[ProfileVC alloc] initWithNibName:@"ProfileVC" bundle:nil];
-	detailViewController.managedObjectContext=managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -629,7 +294,6 @@
 	[self.mainTextfield resignFirstResponder];
 	self.addFriendView.hidden=YES;
 	[self startWebService:@selector(addFriendFunction) message:@"Working..."];
-
 }
 
 -(void)addFriendFunction {
@@ -659,61 +323,36 @@
 	}
 }
 
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    self.showRefreshFlg=!self.showRefreshFlg;
-    if(self.showRefreshFlg)
-        self.refreshButton.alpha=1;
-    else
-        self.refreshButton.alpha=0;
-}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0) {
-        self.showRefreshFlg=!self.showRefreshFlg;
-        if(self.showRefreshFlg)
-            self.refreshButton.alpha=1;
-        else
-            self.refreshButton.alpha=0;
         return;
     }
-    
-	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]==0) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Please log in to view these features"];
-	} else {
-		UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
-		detailViewController.managedObjectContext=managedObjectContext;
-		detailViewController.user=[self.userList objectAtIndex:indexPath.row];
-        detailViewController.selectedSegment=(int)timeFrameSegment.selectedSegmentIndex;
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	}
+	UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	detailViewController.netUserObj=[self.mainArray objectAtIndex:indexPath.row];
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (IBAction) timeSegmentChanged: (id) sender
 {
-    
-	[self populateArray];
-    
+	for(NetUserObj *obj in self.mainArray) {
+		switch (self.timeFrameSegment.selectedSegmentIndex) {
+			case 0:
+    [NetUserObj populateGameStats:obj line:obj.last10Str type:(int)self.timeFrameSegment.selectedSegmentIndex];
+    break;
+			case 1:
+    [NetUserObj populateGameStats:obj line:obj.monthStats type:(int)self.timeFrameSegment.selectedSegmentIndex];
+    break;
+			case 2:
+    [NetUserObj populateGameStats:obj line:obj.yearStats type:(int)self.timeFrameSegment.selectedSegmentIndex];
+    break;
+				
+			default:
+    break;
+		}
+	}
+	[self checkSortingOrder];
 }
 
-
-
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-
-
-- (void)dealloc {
-    playerDict=nil;
-    
-    
-    
-}
-
+//710 lines
 @end

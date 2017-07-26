@@ -132,7 +132,7 @@
     int totalWidth=500;
     int totalHeight=300;
     
-    NSLog(@"\n\n%@\n\n", data);
+//    NSLog(@"\n\n%@\n\n", data);
     
 	UIImageView *dynamicChartImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
     

@@ -13,6 +13,11 @@
 @property (nonatomic, strong)  NSString *name;
 @property (nonatomic) double profit;
 @property (nonatomic) double risked;
+@property (nonatomic) int foodDrinks;
+@property (nonatomic) int tokes;
+@property (nonatomic) double cashoutAmount;
+@property (nonatomic) double grossIncome;
+@property (nonatomic) double takehomeAmount;
 @property (nonatomic) double quarter1Profit;
 @property (nonatomic) double quarter2Profit;
 @property (nonatomic) double quarter3Profit;
@@ -26,6 +31,7 @@
 @property (nonatomic, strong)  NSString *riskedString;
 @property (nonatomic, strong)  NSString *gameCount;
 @property (nonatomic, strong)  NSString *streak;
+@property (nonatomic, strong)  NSString *streakReverse;
 @property (nonatomic, strong)  NSString *winStreak;
 @property (nonatomic, strong)  NSString *loseStreak;
 @property (nonatomic, strong)  NSString *hours;

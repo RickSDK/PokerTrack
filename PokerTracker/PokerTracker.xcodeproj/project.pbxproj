@@ -46,6 +46,8 @@
 		6B50D6F5146CA25B00DBD8D9 /* LocationGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B50D6F4146CA25B00DBD8D9 /* LocationGetter.m */; };
 		6B50D727146CAE3900DBD8D9 /* LocationsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B50D725146CAE3900DBD8D9 /* LocationsVC.m */; };
 		6B50D728146CAE3900DBD8D9 /* LocationsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B50D726146CAE3900DBD8D9 /* LocationsVC.xib */; };
+		6B57265C1F27FAF4009FCBAB /* Scrub2017VC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B57265A1F27FAF4009FCBAB /* Scrub2017VC.m */; };
+		6B57265D1F27FAF4009FCBAB /* Scrub2017VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B57265B1F27FAF4009FCBAB /* Scrub2017VC.xib */; };
 		6B57B67C1B3DC80D002A79BA /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B57B67B1B3DC80D002A79BA /* CustomButton.m */; };
 		6B57B67F1B3DC863002A79BA /* WebServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B57B67E1B3DC863002A79BA /* WebServiceView.m */; };
 		6B5CA1E81F1C3C51003392BD /* Austria.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B5CA1DE1F1C3C51003392BD /* Austria.png */; };
@@ -326,6 +328,8 @@
 		6BBD4CA71F23ED72004A6BFD /* playerType5b.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD4C9F1F23ED72004A6BFD /* playerType5b.png */; };
 		6BBD4CA81F23ED72004A6BFD /* playerType5c.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD4CA01F23ED72004A6BFD /* playerType5c.png */; };
 		6BBD4CA91F23ED72004A6BFD /* playerType5d.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD4CA11F23ED72004A6BFD /* playerType5d.png */; };
+		6BBD4CAC1F2665BB004A6BFD /* World.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD4CAB1F2665BB004A6BFD /* World.jpg */; };
+		6BBD4CAE1F266640004A6BFD /* World2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD4CAD1F266640004A6BFD /* World2.jpg */; };
 		6BBECDF21CA36EE3005AEE43 /* NetUserObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */; };
 		6BC0DBDD178B4FAA00F0252D /* greenGradWide.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */; };
 		6BC0DBE0178B690600F0252D /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC0DBDF178B690600F0252D /* ImageCell.m */; };
@@ -508,6 +512,9 @@
 		6B50D724146CAE3900DBD8D9 /* LocationsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsVC.h; sourceTree = "<group>"; };
 		6B50D725146CAE3900DBD8D9 /* LocationsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsVC.m; sourceTree = "<group>"; };
 		6B50D726146CAE3900DBD8D9 /* LocationsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationsVC.xib; sourceTree = "<group>"; };
+		6B5726591F27FAF4009FCBAB /* Scrub2017VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scrub2017VC.h; sourceTree = "<group>"; };
+		6B57265A1F27FAF4009FCBAB /* Scrub2017VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scrub2017VC.m; sourceTree = "<group>"; };
+		6B57265B1F27FAF4009FCBAB /* Scrub2017VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scrub2017VC.xib; sourceTree = "<group>"; };
 		6B57B67A1B3DC80D002A79BA /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		6B57B67B1B3DC80D002A79BA /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
 		6B57B67D1B3DC863002A79BA /* WebServiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServiceView.h; sourceTree = "<group>"; };
@@ -887,6 +894,9 @@
 		6BBD4C9F1F23ED72004A6BFD /* playerType5b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType5b.png; sourceTree = "<group>"; };
 		6BBD4CA01F23ED72004A6BFD /* playerType5c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType5c.png; sourceTree = "<group>"; };
 		6BBD4CA11F23ED72004A6BFD /* playerType5d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playerType5d.png; sourceTree = "<group>"; };
+		6BBD4CAA1F2503F1004A6BFD /* PokerTracker 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PokerTracker 6.xcdatamodel"; sourceTree = "<group>"; };
+		6BBD4CAB1F2665BB004A6BFD /* World.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = World.jpg; sourceTree = "<group>"; };
+		6BBD4CAD1F266640004A6BFD /* World2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = World2.jpg; sourceTree = "<group>"; };
 		6BBECDF01CA36EE3005AEE43 /* NetUserObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetUserObj.h; sourceTree = "<group>"; };
 		6BBECDF11CA36EE3005AEE43 /* NetUserObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetUserObj.m; sourceTree = "<group>"; };
 		6BC0DBDC178B4FAA00F0252D /* greenGradWide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenGradWide.png; sourceTree = "<group>"; };
@@ -1096,6 +1106,9 @@
 				6B750D18143D29F200E59D21 /* MainMenuVC.h */,
 				6B750D19143D29F200E59D21 /* MainMenuVC.m */,
 				6B750D1A143D29F200E59D21 /* MainMenuVC.xib */,
+				6B5726591F27FAF4009FCBAB /* Scrub2017VC.h */,
+				6B57265A1F27FAF4009FCBAB /* Scrub2017VC.m */,
+				6B57265B1F27FAF4009FCBAB /* Scrub2017VC.xib */,
 				6BD4D9411D11EC1F00236804 /* ReviewsVC.h */,
 				6BD4D9421D11EC1F00236804 /* ReviewsVC.m */,
 				6BD4D9431D11EC1F00236804 /* ReviewsVC.xib */,
@@ -1803,6 +1816,8 @@
 		6BCBD93E1F1B0AFE0078C165 /* flags */ = {
 			isa = PBXGroup;
 			children = (
+				6BBD4CAB1F2665BB004A6BFD /* World.jpg */,
+				6BBD4CAD1F266640004A6BFD /* World2.jpg */,
 				6BCBD9671F1B181F0078C165 /* United_Kingdom.png */,
 				6BCBD9681F1B181F0078C165 /* USA.png */,
 				6BCBD9651F1B180E0078C165 /* Sweden.png */,
@@ -1948,12 +1963,14 @@
 				6B750D53143D308500E59D21 /* FriendsVC.xib in Resources */,
 				6B750D5D143E1FD400E59D21 /* greenGrad.png in Resources */,
 				6B7705F81D0114850067CA3A /* pokerzilla.png in Resources */,
+				6BBD4CAE1F266640004A6BFD /* World2.jpg in Resources */,
 				6B750E52143E5ACD00E59D21 /* DatePickerViewController.xib in Resources */,
 				6B750EEE143E6FAE00E59D21 /* MoneyPickerVC.xib in Resources */,
 				6B750F67143E847800E59D21 /* greenFelt.jpg in Resources */,
 				6BBD4C731F215E65004A6BFD /* playerType1c.png in Resources */,
 				6B5CA1EE1F1C3C51003392BD /* Cyprus.png in Resources */,
 				6BCA888C1F156FFE00633484 /* playerType3.png in Resources */,
+				6BBD4CAC1F2665BB004A6BFD /* World.jpg in Resources */,
 				6B75111B143F97B800E59D21 /* grayBG.png in Resources */,
 				6B751367144360D600E59D21 /* blueWave.png in Resources */,
 				6BD4D95B1D120DDD00236804 /* Icon.png in Resources */,
@@ -2043,6 +2060,7 @@
 				6BB091B81472EC9300DF84AB /* bb.png in Resources */,
 				6BB093141473253000DF84AB /* wb.png in Resources */,
 				6BD4D9551D120DDD00236804 /* Icon-58.png in Resources */,
+				6B57265D1F27FAF4009FCBAB /* Scrub2017VC.xib in Resources */,
 				6B5CA21F1F1C3CEE003392BD /* Turkey.png in Resources */,
 				6BBD4C741F215E65004A6BFD /* playerType1d.png in Resources */,
 				6BBD4CA41F23ED72004A6BFD /* playerType4c.png in Resources */,
@@ -2279,6 +2297,7 @@
 				6BA5BF57145CBE8700F1C0BD /* GameInProgressVC.m in Sources */,
 				6BA5C0E9145F40CE00F1C0BD /* GameDetailsVC.m in Sources */,
 				6BA5CA001463692500F1C0BD /* FriendSendMessage.m in Sources */,
+				6B57265C1F27FAF4009FCBAB /* Scrub2017VC.m in Sources */,
 				6B147F1119D496A00012E0A8 /* EULAVC.m in Sources */,
 				6BC9B4871464762600122784 /* ListPickerCustom.m in Sources */,
 				6BC9B48C1464763500122784 /* ListPickerCustomDate.m in Sources */,
@@ -2515,13 +2534,14 @@
 		6B01B3D6166FC2D900D875B7 /* PokerTracker.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6BBD4CAA1F2503F1004A6BFD /* PokerTracker 6.xcdatamodel */,
 				6B01B3D7166FC2D900D875B7 /* PokerTracker 2.xcdatamodel */,
 				6B01B3D8166FC2D900D875B7 /* PokerTracker 3.xcdatamodel */,
 				6B01B3D9166FC2D900D875B7 /* PokerTracker 4.xcdatamodel */,
 				6B6161C016D454CF00EE5C59 /* PokerTracker 5.xcdatamodel */,
 				6B01B3DA166FC2D900D875B7 /* PokerTracker.xcdatamodel */,
 			);
-			currentVersion = 6B6161C016D454CF00EE5C59 /* PokerTracker 5.xcdatamodel */;
+			currentVersion = 6BBD4CAA1F2503F1004A6BFD /* PokerTracker 6.xcdatamodel */;
 			path = PokerTracker.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -16,54 +16,44 @@
 #import "GameObj.h"
 
 @implementation FriendLast10GamesVC
-@synthesize user_id, friendName, gameList, managedObjectContext, selfFlg;
-@synthesize activityIndicator, imageViewBG, activityLabel, mainTableView, netUserObj;
-
-
-#pragma mark - View lifecycle
+@synthesize gameList, selfFlg;
+@synthesize netUserObj;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:friendName];
+    [self setTitle:self.netUserObj.name];
 
-    gameList = [[NSMutableArray alloc] init];
-    
-    [activityIndicator startAnimating];
-	self.imageViewBG.alpha=1;
-	self.activityLabel.alpha=1;
-	[self performSelectorInBackground:@selector(loadTable) withObject:nil];
+	[self addHomeButton];
+    self.gameList = [[NSMutableArray alloc] init];
 	
 	if(self.selfFlg) {
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh" style:UIBarButtonItemStylePlain target:self action:@selector(refreshButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	}
 
+	[self.webServiceView startWithTitle:@"Loading..."];
+	[self performSelectorInBackground:@selector(loadTable) withObject:nil];
 }
 
 -(void)refreshButtonClicked:(id)sender {
-	[activityIndicator startAnimating];
-	activityLabel.alpha=1;
-	
+	[self.webServiceView startWithTitle:@"Working..."];
 	[self performSelectorInBackground:@selector(uploadStatsFunction) withObject:nil];
 }
-
 
 -(void)uploadStatsFunction
 {
 	@autoreleasepool {
         [ProjectFunctions uploadUniverseStats:self.managedObjectContext];
-		[activityIndicator stopAnimating];
-		activityLabel.alpha=0;
+		[self.webServiceView stop];
 	}
 }
-
 
 -(void)loadTable
 {
 	@autoreleasepool {
 		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Password", @"friend_id", nil];
-		NSString *friendId = [NSString stringWithFormat:@"%d", user_id];
+		NSString *friendId = [NSString stringWithFormat:@"%d", self.netUserObj.userId];
 		NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], friendId, nil];
 		NSString *webAddr = @"http://www.appdigity.com/poker/pokerGetLast10.php";
 		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
@@ -72,54 +62,15 @@
 			NSArray *games = [responseStr componentsSeparatedByString:@"[li]"];
 			for(NSString *line in games) {
 				if([line length]>15) {
-//					NSLog(@"+++%@", line);
-					GameObj *gameObj = [GameObj populateGameFromString:line];
-//					NSLog(@"gameObj: %@ %@", gameObj.name, gameObj.type);
+					GameObj *gameObj = [GameObj populateGameFromNetUserString:line];
 					[gameList addObject:gameObj];
 				}
 			}
 		}
 		
-		[activityIndicator stopAnimating];
-		self.imageViewBG.alpha=0;
-		self.activityLabel.alpha=0;
-		[mainTableView reloadData];
+		[self.webServiceView stop];
+		[self.mainTableView reloadData];
 	}
-}
-
-
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	return CGFLOAT_MIN;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - Table view data source
@@ -151,20 +102,12 @@
     return cell;
 }
 
-
-
-#pragma mark - Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//	GameObj *gameObj = [gameList objectAtIndex:indexPath.row];
 	FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
 	detailViewController.netUserObj=self.netUserObj;
 	detailViewController.gameObj = [gameList objectAtIndex:indexPath.row];
 	[self.navigationController pushViewController:detailViewController animated:YES];
-	
 }
-
-
 
 @end

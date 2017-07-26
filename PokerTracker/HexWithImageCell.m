@@ -318,5 +318,71 @@ static NSInteger ROW_SEP = 2;
 	c2.textColor = tColor;
 }
 
++(HexWithImageCell *)cellForCell:(HexWithImageCell *)cell netUserObj:(NetUserObj *)netUserObj {
+	if(netUserObj.hasFlag)
+		cell.flagImageView.image=netUserObj.flagImage;
+	cell.flagImageView.hidden=!netUserObj.hasFlag;
+	
+	cell.a1.text = [NSString stringWithFormat:@"#%d - %@", netUserObj.rowId, netUserObj.name];
+	
+	cell.b1.text = netUserObj.location;
+	cell.b1Color = [UIColor orangeColor];
+	
+	if(netUserObj.nowPlayingFlg) {
+		cell.b1.text = [NSString stringWithFormat:@"Now Playing: %@", netUserObj.lastGame.location];
+		cell.b1Color = [UIColor purpleColor];
+	}
+	
+	cell.b2.text = netUserObj.hourly;
+	if(netUserObj.profit>=0) {
+		cell.b2Color = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+		cell.a2Color = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+	} else {
+		cell.b2Color = [UIColor redColor];
+		cell.a2Color = [UIColor redColor];
+	}
+	cell.a2.text = netUserObj.profitStr;
+	
+	cell.c1.text = netUserObj.games;
+	
+	cell.c2.text = netUserObj.streak;
+	
+	cell.leftImageView.image = netUserObj.leftImage;
+	
+	if(netUserObj.sortType==1) {
+		cell.b2.text = [NSString stringWithFormat:@"ROI: %@%%", netUserObj.ppr];
+		cell.b2Color = [UIColor blueColor];
+	}
+	if(netUserObj.userId==netUserObj.viewingUserId) {
+		cell.a1Color = [UIColor blueColor];
+		cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:.5 alpha:1];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	} else if([netUserObj.friendStatus isEqualToString:@"Active"]) {
+		cell.a1Color = [UIColor blackColor];
+		cell.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:1 alpha:1];
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	} else if([netUserObj.friendStatus isEqualToString:@"Pending"] || [netUserObj.friendStatus isEqualToString:@"Request Pending"] || [netUserObj.friendStatus isEqualToString:@"Requested"]) {
+		cell.a1Color = [UIColor blackColor];
+		cell.backgroundColor = [UIColor colorWithRed:.8 green:1 blue:.8 alpha:1];
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	} else {
+		cell.a1Color = [UIColor blackColor];
+		cell.backgroundColor = [UIColor whiteColor];
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	}
+	
+	if([netUserObj.friendStatus isEqualToString:@"Requested"])
+		cell.b1.text = @"Friend Request Pending";
+	
+	if([netUserObj.friendStatus isEqualToString:@"Request Pending"]) {
+		cell.backgroundColor = [UIColor colorWithRed:.8 green:1 blue:.8 alpha:1];
+		cell.b1.text = @"Friend Request!";
+	}
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	return cell;
+}
+
+
 
 @end

@@ -82,6 +82,11 @@
 	NSString *profitHighDay=@"";
 	double profitLow=0;
 	NSString *profitLowDay=@"";
+	obj.foodDrinks = 0;
+	obj.cashoutAmount = 0;
+	obj.tokes = 0;
+	int streakReverse=0;
+	BOOL streakAlive=YES;
 	for(NSManagedObject *game in games) {
 		double profit = [[game valueForKey:@"winnings"] doubleValue];
 		double buyInAmount = [[game valueForKey:@"buyInAmount"] doubleValue];
@@ -89,6 +94,9 @@
 		double risked = buyInAmount+rebuyAmount;
 		hours += [[game valueForKey:@"hours"] floatValue];
 		int minutes = [[game valueForKey:@"minutes"] intValue];
+		obj.foodDrinks += [[game valueForKey:@"foodDrinks"] intValue];
+		obj.cashoutAmount += [[game valueForKey:@"cashoutAmount"] intValue];
+		obj.tokes += [[game valueForKey:@"tokes"] intValue];
 		NSString *weekday = [game valueForKey:@"weekday"];
 		NSString *daytime = [game valueForKey:@"daytime"];
 		
@@ -107,6 +115,12 @@
 		if(profit>=0) {
 			obj.wins++;
 			totalGamesWon++;
+			if(streakAlive) {
+				if(streakReverse>=0)
+					streakReverse++;
+				else
+					streakAlive=NO;
+			}
 			totalGamesWonBuyin += buyInAmount + rebuyAmount;
 			totalGamesWonProfit+=profit;
 			totalGamesWonRisked += risked;
@@ -118,6 +132,12 @@
 				totalGamesWonMaxProfit = profit;
 		} else {
 			obj.losses++;
+			if(streakAlive) {
+				if(streakReverse<=0)
+					streakReverse--;
+				else
+					streakAlive=NO;
+			}
 			totalGamesLost++;
 			totalGamesLostProfit+=profit;
 			totalGamesLostBuyin += buyInAmount + rebuyAmount;
@@ -178,6 +198,10 @@
 		obj.streak = [NSString stringWithFormat:@"Win %d", streak];
 	} else
 		obj.streak = [NSString stringWithFormat:@"Lose %d", streak*-1];
+	if(streakReverse>=0) {
+		obj.streakReverse = [NSString stringWithFormat:@"Win %d", streakReverse];
+	} else
+		obj.streakReverse = [NSString stringWithFormat:@"Lose %d", streakReverse*-1];
 	
 	obj.winStreak = @"-";
 	if(winStreak>0)
@@ -192,6 +216,7 @@
 	obj.name = [NSString stringWithFormat:@"%@: %d (%dW, %dL) %d%%", NSLocalizedString(@"Games", nil), obj.games, obj.wins, obj.losses, percent];
 	hours = (float)totalMinutes/60;
 	obj.hours = [NSString stringWithFormat:@"%.1f", hours];
+	obj.hourly = @"-";
 	if(hours>0)
 		obj.hourly = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString:obj.profit/hours]];
 	obj.roi = @"-";
@@ -199,6 +224,8 @@
 		double roiAmount = obj.profit*100/obj.risked;
 		obj.roi = [NSString stringWithFormat:@"%d%%", (int)round(roiAmount)];
 	}
+	obj.grossIncome = obj.profit+obj.foodDrinks+obj.tokes;
+	obj.takehomeAmount = obj.profit+obj.foodDrinks;
 	obj.profitHigh = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions convertNumberToMoneyString:profitHigh], profitHighDay];
 	obj.profitLow = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions convertNumberToMoneyString:profitLow], profitLowDay];
 	obj.profitString = [ProjectFunctions convertNumberToMoneyString:obj.profit];

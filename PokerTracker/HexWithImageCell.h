@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetUserObj.h"
 
 
 @interface HexWithImageCell : UITableViewCell {
@@ -63,4 +64,7 @@
 
 - (void)becomeAHeaderCellWithBackGroundColor:(UIColor *)hColor 
 								andTextColor:(UIColor *)tColor;
+
++(HexWithImageCell *)cellForCell:(HexWithImageCell *)cell netUserObj:(NetUserObj *)netUserObj;
+
 @end

@@ -85,6 +85,8 @@
 +(NSArray *)getArrayForSegment:(int)segment;
 +(void)changeColorForGameBar:(UISegmentedControl *)bar;
 +(void)displayLoginMessage;
++(NSString *)hourlyStringFromProfit:(double)profit hours:(float)hours;
++(NSString *)pprStringFromProfit:(double)profit risked:(double)risked;
 +(NSArray *)getColumnListForEntity:(NSString *)entityName type:(NSString *)type;
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(UIImage *)playerImageOfType:(int)type;
@@ -171,7 +173,7 @@
 +(UIImage *)graphDaysChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(UIImage *)graphDaytimeChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(ChipStackObj *)plotGameChipsChart:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;
-+(void)createChipTimeStamp:(NSManagedObjectContext *)managedObjectContext mo:(NSManagedObject *)mo timeStamp:(NSDate *)timeStamp amount:(int)amount rebuyFlg:(BOOL)rebuyFlg;
++(void)createChipTimeStamp:(NSManagedObjectContext *)managedObjectContext mo:(NSManagedObject *)mo timeStamp:(NSDate *)timeStamp amount:(double)amount rebuyFlg:(BOOL)rebuyFlg;
 +(void)showActionSheet:(id)delegate view:(UIView *)view title:(NSString *)title buttons:(NSArray *)buttons;
 +(NSString *)numberWithSuffix:(int)number;
 +(int)synvLiveUpdateInfo:(NSManagedObjectContext *)MoC;
@@ -215,7 +217,9 @@
 +(void)ptpLocationAuthorizedCheck:(CLAuthorizationStatus)status;
 +(NSString *)smallLabelForMoney:(double)money totalMoneyRange:(double)totalMoneyRange;
 +(float)chartHeightForSize:(float)height;
++(UIColor *)colorForProfit:(double)profit;
 +(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
++(NSString *)getNetTrackerMonth;
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size;
 +(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size;
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size text:(NSString *)text;

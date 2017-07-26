@@ -89,7 +89,7 @@
 		NSArray *newPlayers = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:nil sortColumn:@"name" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.mainArray addObjectsFromArray:newPlayers];
 		if(newPlayers.count==0) {
-			[ProjectFunctions showAlertPopup:@"Notice" message:@"No players saved on this device. Go to Player Pracker to create one."];
+			[ProjectFunctions showAlertPopup:@"Notice" message:@"No players saved on this device. Go to Player Tracker to create one."];
 		}
 	} else {
 		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:NO limit:20];

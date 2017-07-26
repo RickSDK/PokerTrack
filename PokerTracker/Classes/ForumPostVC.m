@@ -249,7 +249,7 @@
 		
         UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
         detailViewController.managedObjectContext=managedObjectContext;
-        detailViewController.friend_id=user_id;
+ //       detailViewController.friend_id=user_id;
         detailViewController.selectedSegment=0;
         detailViewController.user=@"00999803<xx>Jun 2013|3 (0W, 3L) 0%|3|370|-197|-3|46|392<xx>Rick|3|rickmedved@hotmail.com|Lynnwood|WA|USA|3|self|N|$|Version 7.6 (iPhone)<xx>06/07/2013 05:00:00 PM|120|100|98|Tulalip Casino|170|Cash|N|Hold'em|$1/$3|No-Limit|06/07/2013 07:50:19 PM|06/07/2013 07:50:18 PM|$|48.088244:-122.189383|0|N|<aa>Rick|3|rickmedved@hotmail.com|Lynnwood|WA|USA|3|self|N|$|Version 7.6 (iPhone)<xx>Last10|10 (4W, 6L) 40%|10|1120|179|-3|115|1640<xx>2013|42 (20W, 22L) 47%|42|4590|1301|-3|128|7918<xx>Jun 2013|3 (0W, 3L) 0%|3|370|-197|-3|46|392<xx>06/07/2013 05:00:00 PM|120|100|98|Tulalip Casino|170|Cash|N|Hold'em|$1/$3|No-Limit|06/07/2013 07:50:19 PM|06/07/2013 07:50:18 PM|$|48.088244:-122.189383|0|N|<xx>03/16/2013|-77:03/21/2013|6:03/22/2013|144:03/22/2013|96:03/23/2013|213:03/29/2013|1064:04/04/2013|100:04/10/2013|-120:04/11/2013|-30:04/14/2013|-34:04/18/2013|60:04/19/2013|-120:04/23/2013|-38:04/25/2013|-30:04/26/2013|181:04/29/2013|58:05/02/2013|-120:05/06/2013|122:05/09/2013|20:05/10/2013|-120:05/12/2013|-120:05/14/2013|-37:05/18/2013|171:05/19/2013|114:05/28/2013|348:06/03/2013|-50:06/06/2013|-30:06/07/2013|-117:<xx>06/03/2013|-50:06/06/2013|-30:06/07/2013|-117:<xx>05/09/2013|20:05/10/2013|-120:05/12/2013|-120:05/14/2013|-37:05/18/2013|171:05/19/2013|114:05/28/2013|348:06/03/2013|-50:06/06/2013|-30:06/07/2013|-117";
         [self.navigationController pushViewController:detailViewController animated:YES];
@@ -278,7 +278,7 @@
 {
     UserSummaryVC *detailViewController = [[UserSummaryVC alloc] initWithNibName:@"UserSummaryVC" bundle:nil];
     detailViewController.managedObjectContext=managedObjectContext;
-    detailViewController.friend_id=user_id;
+//    detailViewController.friend_id=user_id;
     detailViewController.selectedSegment=1;
     [self.navigationController pushViewController:detailViewController animated:YES];
 }

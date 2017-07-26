@@ -121,7 +121,7 @@
 - (void)computeStats
 {
     
-    self.mainTableView.alpha=0;
+    self.mainTableView.alpha=.5;
 	[activityIndicator startAnimating];
     gameSegment.enabled=NO;
 
@@ -131,16 +131,13 @@
     self.rightYear.enabled=NO;
     
     [ProjectFunctions setFontColorForSegment:gameSegment values:nil];
-    
-    
+	
     if([ProjectFunctions useThreads]) {
         [self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
     } else {
         // sync implementation
         [self doTheHardWork];
     }
-
-    
 }
 
 
@@ -171,27 +168,30 @@
         int limit=0;
         if([yearLabel.text isEqualToString:NSLocalizedString(@"Last10", nil)])
             limit=10;
-        
-            
-        NSString *analysis1 = [CoreDataLib getGameStatWithLimit:contextLocal dataField:@"analysis1" predicate:predicate limit:limit];
-        NSArray *values = [analysis1 componentsSeparatedByString:@"|"];
-        if([values count]<11) {
-            [ProjectFunctions showAlertPopup:@"Error" message:@"Error with Stats"];
-            return;
-        }
-        amountRisked = [[values stringAtIndex:0] doubleValue];
-        foodDrinks = [[values stringAtIndex:1] intValue];
-        tokes = [[values stringAtIndex:2] intValue];
-        grosssIncome = [[values stringAtIndex:3] doubleValue];
-        takehomeIncome = [[values stringAtIndex:4] doubleValue];
-        netIncome = [[values stringAtIndex:5] doubleValue];
-        hourlyRate = [[values stringAtIndex:6] intValue];
-        gamesStr = [values stringAtIndex:7];
-        riskedLabelStr = [values stringAtIndex:8];
-        profitLabelStr = [values stringAtIndex:9];
-        deviationLabelStr = [values stringAtIndex:10];
-        
-  
+
+		NSArray *games = nil;
+		if(limit>0)
+			games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:NO limit:limit];
+		else
+			games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:NO];
+		
+		GameStatObj *gameStatObj = [GameStatObj gameStatObjDetailedForGames:games];
+		amountRisked = gameStatObj.risked;
+		foodDrinks = gameStatObj.foodDrinks;
+		tokes = gameStatObj.tokes;
+		grosssIncome = gameStatObj.grossIncome;
+		takehomeIncome = gameStatObj.takehomeAmount;
+		netIncome = gameStatObj.profit;
+		hourlyRate = 0;
+		gamesStr = gameStatObj.name;
+		riskedLabelStr = @"-";
+		profitLabelStr = @"-";
+		if (gameStatObj.games>0) {
+			riskedLabelStr = [ProjectFunctions convertNumberToMoneyString:gameStatObj.risked/gameStatObj.games];
+			profitLabelStr = [ProjectFunctions convertNumberToMoneyString:gameStatObj.profit/gameStatObj.games];
+		}
+		deviationLabelStr = @"-";
+
         [self.playerBasicsArray removeAllObjects];
         [self.colorArray1 removeAllObjects];
         [self.colorArray2 removeAllObjects];
@@ -206,7 +206,7 @@
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%@", name]];
         [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%d%%", ppr]];
         [self.playerBasicsArray addObject:[ProjectFunctions getPlayerTypelabel:amountRisked winnings:netIncome]];
-        [self.playerBasicsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:netIncome]]];
+        [self.playerBasicsArray addObject:gameStatObj.profitString];
         
         [self.colorArray1 addObject:[UIColor blackColor]];
         [self.colorArray1 addObject:[self addColorBasedOnValue:netIncome]];
@@ -214,16 +214,16 @@
         [self.colorArray1 addObject:[self addColorBasedOnValue:netIncome]];
 
    
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", gamesStr]];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:amountRisked]]];
+        [self.playerStatsArray addObject:gamesStr];
+        [self.playerStatsArray addObject:gameStatObj.riskedString];
         [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:foodDrinks]]];
         [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:tokes]]];
         [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:grosssIncome]]];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:netIncome]]];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertIntToMoneyString:hourlyRate]]];
+        [self.playerStatsArray addObject:gameStatObj.profitString];
+        [self.playerStatsArray addObject:gameStatObj.hourly];
         [self.playerStatsArray addObject:riskedLabelStr];
         [self.playerStatsArray addObject:profitLabelStr];
-        [self.playerStatsArray addObject:deviationLabelStr];
+        [self.playerStatsArray addObject:gameStatObj.streakReverse];
  
         [self.colorArray2 addObject:[UIColor blackColor]];
         [self.colorArray2 addObject:[UIColor blackColor]];
@@ -237,7 +237,7 @@
         [self.colorArray2 addObject:[UIColor blackColor]];
 
 
-		self.analysisText = [AnalysisLib getAnalysisForPlayer:contextLocal predicate:predicate displayYear:displayYear gameType:self.gameType last10Flg:last10Flg amountRisked:amountRisked foodDrinks:foodDrinks tokes:tokes grosssIncome:grosssIncome takehomeIncome:takehomeIncome netIncome:netIncome limit:limit];
+		self.analysisText = [AnalysisLib getAnalysisForPlayer:contextLocal predicate:predicate displayYear:displayYear gameType:self.gameType last10Flg:last10Flg amountRisked:gameStatObj.risked foodDrinks:foodDrinks tokes:tokes grosssIncome:grosssIncome takehomeIncome:takehomeIncome netIncome:gameStatObj.profit limit:limit];
 							 
         self.gRisked=amountRisked;
         self.gIncome=netIncome;
@@ -267,8 +267,6 @@
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 }
 
-
-
 -(void)yearChanged:(UIButton *)barButton
 {
 	self.displayYear = [barButton.titleLabel.text intValue];
@@ -280,7 +278,6 @@
 	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	[self computeStats];
-
 }
 
 
@@ -296,7 +293,6 @@
 - (IBAction) segmentChanged: (id) sender {
 	[self computeStats];
 }
-
 
 - (IBAction) gameSegmentChanged: (id) sender {
 	[ProjectFunctions changeColorForGameBar:self.gameSegment];
@@ -319,8 +315,7 @@
 
 - (IBAction) last10Pressed: (id) sender
 {
- 
-	if(gameSegment.selectedSegmentIndex>0) {
+ 	if(gameSegment.selectedSegmentIndex>0) {
 		gameSegment.selectedSegmentIndex=0;
 		[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	}
@@ -413,10 +408,18 @@
 
         cell.alternateTitle = yearLabel.text;
 		
-        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Games", nil), NSLocalizedString(@"Risked", nil), NSLocalizedString(@"foodDrink", nil), NSLocalizedString(@"Tips", nil), NSLocalizedString(@"IncomeTotal", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Hourly", nil),
+        cell.titleTextArray = [NSArray arrayWithObjects:
+							   NSLocalizedString(@"Games", nil),
+							   NSLocalizedString(@"Risked", nil),
+							   NSLocalizedString(@"foodDrink", nil),
+							   NSLocalizedString(@"Tips", nil),
+							   NSLocalizedString(@"IncomeTotal", nil),
+							   NSLocalizedString(@"Profit", nil),
+							   NSLocalizedString(@"Hourly", nil),
 							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)],
 							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)],
-							   @"Standard Deviation", nil];
+							   NSLocalizedString(@"Streak", nil),
+							   nil];
         if([self.playerStatsArray count]>=10) {
             cell.fieldTextArray = self.playerStatsArray;
             cell.fieldColorArray = self.colorArray2;
@@ -464,9 +467,5 @@
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
 }
-
-
-
-
 
 @end

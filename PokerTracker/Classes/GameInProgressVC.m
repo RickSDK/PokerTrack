@@ -382,12 +382,12 @@
 		[self startWebServiceCall:@"Updating NetTracker..."];
 		[self performSelectorInBackground:@selector(refreshWebRequest) withObject:nil];
 		if(gamesSinceSync>1 && gamesSinceSync%10==0)
-			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'More' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
+			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'Options' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
 		
 	} else {
 		[self endWebServiceCall];
-		if(gamesSinceSync>1 && gamesSinceSync%10==0)
-			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'More' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
+		if(gamesSinceSync>1 && gamesSinceSync%20==0)
+			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'Options' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
 		else
 			[ProjectFunctions showAlertPopupWithDelegate:@"Game Over!" message:@"Game data has been saved" delegate:self];
 
@@ -700,8 +700,8 @@
 		else
 			cashoutAmount = thisRebuy;
 		
-		int amount1 = thisRebuy+thisRebuy-rebuyAmount-buyInAmount;
-		int amount2 = cashoutAmount-rebuyAmount-buyInAmount;
+		double amount1 = thisRebuy+thisRebuy-rebuyAmount-buyInAmount;
+		double amount2 = cashoutAmount-rebuyAmount-buyInAmount;
 		if(!addOnFlg)
 			[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:amount1 rebuyFlg:NO];
 		[NSThread sleepForTimeInterval:0.1];
