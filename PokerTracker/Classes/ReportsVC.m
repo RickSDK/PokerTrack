@@ -20,7 +20,7 @@
 @synthesize managedObjectContext, mainTableView;
 @synthesize sectionTitles, multiDimentionalValues;
 @synthesize topSegment, activityBGView, activityIndicator;
-@synthesize displayYear, yearLabel, leftYear, rightYear, gameSegment, gameType, viewLocked, refreshButton, yearToolbar;
+@synthesize gameSegment, gameType, viewLocked, refreshButton;
 @synthesize multiDimentionalValues0, multiDimentionalValues1, multiDimentionalValues2, viewUnLoaded;
 @synthesize bankRollSegment, bankrollButton;
 
@@ -40,20 +40,14 @@
 	
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Reports", nil)];
+	[self changeNavToIncludeType:26];
 	
-	displayYear = [ProjectFunctions getNowYear];
-	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	
 	activityBGView.alpha=0;
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
-	
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
 	
@@ -88,18 +82,6 @@
     [self computeStats];
 }
 
-
-
--(void)yearChanged:(UIButton *)barButton
-{
-	self.displayYear = [barButton.titleLabel.text intValue];
-    yearLabel.text = barButton.titleLabel.text;
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-    
-	[self computeStats];
-
-}
-
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
     [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
@@ -113,15 +95,6 @@
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
     
-}
-
-- (IBAction) yearGoesUp: (id) sender 
-{
-	[self yearChanged:rightYear];
-}
-- (IBAction) yearGoesDown: (id) sender
-{
-	[self yearChanged:leftYear];
 }
 
 - (IBAction) segmentChanged: (id) sender {
@@ -187,13 +160,15 @@
     return number;
 }
 
+-(void)calculateStats {
+	[self computeStats];
+}
+
 - (void)computeStats
 {
 	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	[activityIndicator startAnimating];
 	activityBGView.alpha=1;
-    leftYear.enabled=NO;
-    rightYear.enabled=NO;
     gameSegment.enabled=NO;
     topSegment.enabled=NO;
     self.bankRollSegment.enabled=NO;
@@ -233,7 +208,7 @@
 
 -(NSArray *)getValuesForField:(NSString *)field context:(NSManagedObjectContext *)context {
 	NSMutableDictionary *daysOfWeekDict = [[NSMutableDictionary alloc] init];
-	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:self.gameType];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:context ascendingFlg:NO];
 	for (NSManagedObject *mo in allGames) {
@@ -247,7 +222,7 @@
 	NSMutableArray *valueArray0 = [[NSMutableArray alloc] init];
 	NSMutableArray *valueArray1 = [[NSMutableArray alloc] init];
 	NSMutableArray *valueArray2 = [[NSMutableArray alloc] init];
-	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:self.gameType];
 	NSArray *days = [self getValuesForField:field context:contextLocal];
 	for(NSString *day in days) {
 		NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:field value:day];
@@ -296,7 +271,7 @@
 		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
 		
-		NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:self.gameType];
 		
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
 		
@@ -313,8 +288,6 @@
 		refreshButton.enabled=YES;
 		gameSegment.enabled=YES;
 		topSegment.enabled=YES;
-		
-		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 		
 		self.bankRollSegment.enabled=YES;
 		self.bankrollButton.enabled=YES;

@@ -20,13 +20,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Pie Charts"];
+	[self changeNavToIncludeType:35];
 	[self.filterSegment turnIntoFilterSegment:self.managedObjectContext];
 	[self.typeSegment turnIntoTypeSegment];
 	[self addHomeButton];
-	[self calculateStats];
+	[self computeStats];
 }
 
 -(void)calculateStats {
+	self.filterSegment.selectedSegmentIndex=0;
+	[self computeStats];
+}
+
+-(void)computeStats {
 	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
 	NSString *predStr = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:gameType];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:predStr];
@@ -102,7 +108,7 @@
 
 
 - (IBAction) filterSegmentChanged: (id) sender {
-	[self calculateStats];
+	[self computeStats];
 }
 
 -(NSString *)scrubFilterValue:(NSString *)value {
@@ -113,7 +119,7 @@
 }
 
 - (IBAction) typeSegmentChanged: (id) sender {
-	[self calculateStats];
+	[self computeStats];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

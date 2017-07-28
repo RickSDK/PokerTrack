@@ -65,9 +65,10 @@
 	self.layer.borderWidth = 2.;
 	self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradWide.png"]];
 	
-	self.nowYear = [ProjectFunctions getNowYear];
+	self.nowYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
+	if(self.nowYear==0)
+		self.nowYear = [ProjectFunctions getNowYear];
 	self.invocation = [[NSInvocation alloc] init];
-
 }
 
 - (void)layoutSubviews {
@@ -84,9 +85,11 @@
 }
 
 -(void)setYear:(int)year min:(int)min {
-	self.minYear = min;
-	if(year<0)
+	if(self.minYear==0)
+		self.minYear = min;
+	if(year<0) {
 		year=self.nowYear;
+	}
 	
 	if(year>self.nowYear)
 		year=0;
@@ -95,8 +98,10 @@
 	
 	if(year>0)
 		self.yearLabel.text = [NSString stringWithFormat:@"%d", year];
-	else
+	else {
 		self.yearLabel.text = NSLocalizedString(@"All", nil);
+		[self.yearDownButton setTitle:[NSString stringWithFormat:@"%d", self.nowYear] forState:UIControlStateNormal];
+	}
 	
 	if(year==min)
 		[self.yearDownButton setTitle:@"-" forState:UIControlStateNormal];
@@ -121,15 +126,11 @@
 }
 
 -(void)yearGoesUp {
-	int year = [self.yearLabel.text intValue];
-	year++;
-	[self setYear:year min:self.minYear];
+	[self setYear:[self.yearUpButton.titleLabel.text intValue] min:self.minYear];
 }
 
 -(void)yearGoesDown {
-	int year = [self.yearLabel.text intValue];
-	year--;
-	[self setYear:year min:self.minYear];
+	[self setYear:[self.yearDownButton.titleLabel.text intValue] min:self.minYear];
 }
 
 @end

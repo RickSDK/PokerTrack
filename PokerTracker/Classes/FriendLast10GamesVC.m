@@ -22,7 +22,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:self.netUserObj.name];
+    [self setTitle:[NSString stringWithFormat:@"%@ Last 10", self.netUserObj.name]];
+	[self changeNavToIncludeType:18];
 
 	[self addHomeButton];
     self.gameList = [[NSMutableArray alloc] init];

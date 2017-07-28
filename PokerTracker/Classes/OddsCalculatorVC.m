@@ -44,10 +44,14 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	if(bigHandsFlag)
+	if(bigHandsFlag) {
 		[self setTitle:@"Hand Tracker"];
-	else
+		[self changeNavToIncludeType:37];
+	}
+	else {
 		[self setTitle:@"Odds Calculator"];
+		[self changeNavToIncludeType:28];
+	}
 
 	[self showButtonTitle:self.button1];
 	[self showButtonTitle:self.button2];

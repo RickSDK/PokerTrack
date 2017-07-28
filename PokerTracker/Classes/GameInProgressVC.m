@@ -96,6 +96,7 @@
 	[self setUpScreen];
 	[self liveUpdate];
 	pauseTimerLabel.alpha=(self.gameObj.breakMinutes>0)?1:0;
+	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -116,7 +117,7 @@
 	self.gameInProgress=YES;
 
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	[self.multiCellObj populateObjWithGame:self.gameObj];
 	[self.mainTableView reloadData];
 
 	[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
@@ -718,7 +719,7 @@
 	}
 	[self saveDatabase];
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	[self.multiCellObj populateObjWithGame:self.gameObj];
 	[self updatePicture];
 	[self setUpScreen];
 	if(doLiveUpdate)

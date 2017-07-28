@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:@"PTP User"];
+	[self changeNavToIncludeType:3];
 	
 	addFriendButton.alpha=1;
 	removeFriendButton.alpha=0;
@@ -83,6 +84,7 @@
 	NSString *mainTitle = [titles objectAtIndex:topSegment.selectedSegmentIndex];
 	NSString *alternateTitle = (topSegment.selectedSegmentIndex>=1)?[[NSDate date] convertDateToStringWithFormat:@"MMMM yyyy"]:NSLocalizedString(@"Last10", nil);
 	NSArray *values = (topSegment.selectedSegmentIndex>=1)?self.netUserObj.monthStatsValues:self.netUserObj.last10StatsValues;
+	
 	self.multiCellObj = [MultiCellObj multiCellObjWithTitle:mainTitle altTitle:alternateTitle titles:self.netUserObj.statsTitles values:values colors:(self.topSegment.selectedSegmentIndex==0)?self.netUserObj.last10StatsColors:self.netUserObj.monthStatsColors labelPercent:.4];
 }
 

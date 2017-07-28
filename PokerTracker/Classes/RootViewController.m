@@ -61,7 +61,7 @@
 
 	[ProjectFunctions setUserDefaultValue:@"" forKey:@"GPSLoc"];
 
-	[NSThread sleepForTimeInterval:.01];
+//	[NSThread sleepForTimeInterval:.01];
 	
 	
 	MainMenuVC *detailViewController = [[MainMenuVC alloc] initWithNibName:@"MainMenuVC" bundle:nil];

@@ -44,6 +44,7 @@
 -(void)addHomeButton;
 -(void)saveDatabase;
 -(void)populatePopupWithTitle:(NSString *)title text:(NSString *)text;
+-(void)changeNavToIncludeType:(int)type;
 - (IBAction) segmentChanged: (id) sender;
 - (IBAction) ptpGameSegmentChanged: (id) sender;
 - (IBAction) xButtonClicked: (id) sender;

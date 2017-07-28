@@ -34,7 +34,8 @@
 	self.cellRowsArray = [[NSMutableArray alloc] init];
 	self.pointsArray = [[NSArray alloc] init];
 	
-	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Charts", nil)]];
+	[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Game", nil), NSLocalizedString(@"Summary", nil)]];
+	[self changeNavToIncludeType:11];
 	
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
 	self.popupView.titleLabel.text=@"Chipstack Comment";
@@ -44,7 +45,26 @@
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowCircleRight] target:self action:@selector(detailsButtonClicked:)];
 	
+	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 	[self deselectChart];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	self.gameObj = [GameObj gameObjFromDBObj:mo];
+	[self.multiCellObj populateObjWithGame:self.gameObj];
+	
+	[self setupData];
+	
+	ChipStackObj *chipStackObj = [ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:nil displayBySession:NO];
+	self.pointsArray = chipStackObj.pointArray;
+	[self drawNotes];
+	
+	self.gameGraphView.image = chipStackObj.image;
+	[self.mainTableView reloadData];
 }
 
 -(void)detailsButtonClicked:(id)sender {
@@ -112,24 +132,6 @@
 
 -(UIColor *)colorForType:(NSString *)type {
 	return ([@"Cash" isEqualToString:self.gameObj.type])?[UIColor colorWithRed:1 green:.9 blue:.3 alpha:1]:[UIColor colorWithRed:.5 green:.8 blue:1 alpha:1];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
-	
-	self.gameObj = [GameObj gameObjFromDBObj:mo];
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
-	
-	[self setupData];
-	
-	ChipStackObj *chipStackObj = [ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:nil displayBySession:NO];
-	self.pointsArray = chipStackObj.pointArray;
-	[self drawNotes];
-	
-	self.gameGraphView.image = chipStackObj.image;
-	[self.mainTableView reloadData];
 }
 
 -(void)setupGraphView {

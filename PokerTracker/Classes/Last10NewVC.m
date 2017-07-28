@@ -37,6 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Last10", nil)];
+	[self changeNavToIncludeType:18];
 	bestGames = [[NSMutableArray alloc] init];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];

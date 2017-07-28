@@ -166,7 +166,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player Tracker"];
-    
+	[self changeNavToIncludeType:4];
+	
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)],
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],

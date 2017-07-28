@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"HUD Tracker"];
+	[self changeNavToIncludeType:5];
 
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(editButtonClicked)],
@@ -156,12 +157,15 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.callCount+self.villianObj.raiseCount;
 	int top2 = self.heroObj.callCount+self.heroObj.raiseCount;
-	self.heroObj.vpip=50;
-	self.villianObj.vpip=50;
-	if (self.heroObj.handCount>0)
-		self.heroObj.vpip = top2*100/self.heroObj.handCount;
-	if (self.villianObj.handCount>0)
-		self.villianObj.vpip = top1*100/self.villianObj.handCount;
+//	self.heroObj.vpip=50;
+//	self.villianObj.vpip=50;
+//	if (self.heroObj.handCount>0)
+//		self.heroObj.vpip = top2*100/self.heroObj.handCount;
+//	if (self.villianObj.handCount>0)
+//		self.villianObj.vpip = top1*100/self.villianObj.handCount;
+	
+	self.heroObj.vpip = [PlayerObj vpipForPlayer:self.heroObj];
+	self.villianObj.vpip = [PlayerObj vpipForPlayer:self.villianObj];
 	
 	[self updateHudStat:self.vpipObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount midPoint:26.975 midPoint2:26.975];
 }
@@ -171,12 +175,15 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.raiseCount;
 	int top2 = self.heroObj.raiseCount;
-	self.heroObj.pfr=25;
-	self.villianObj.pfr=25;
-	if (self.heroObj.handCount>0)
-		self.heroObj.pfr = top2*100/self.heroObj.handCount;
-	if (self.villianObj.handCount>0)
-		self.villianObj.pfr = top1*100/self.villianObj.handCount;
+//	self.heroObj.pfr=25;
+//	self.villianObj.pfr=25;
+//	if (self.heroObj.handCount>0)
+//		self.heroObj.pfr = top2*100/self.heroObj.handCount;
+//	if (self.villianObj.handCount>0)
+//		self.villianObj.pfr = top1*100/self.villianObj.handCount;
+
+	self.heroObj.pfr = [PlayerObj pfrForPlayer:self.heroObj];
+	self.villianObj.pfr = [PlayerObj pfrForPlayer:self.villianObj];
 	
 	[self updateHudStat:self.pfrObj top1:top1 bottom1:self.villianObj.handCount top2:top2 bottom2:self.heroObj.handCount midPoint:self.villianObj.vpip/2 midPoint2:self.heroObj.vpip/2];
 }

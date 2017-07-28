@@ -36,8 +36,8 @@
 
 @implementation GamesVC
 @synthesize managedObjectContext;
-@synthesize showMainMenuButton, activityIndicator, bankrollButton;
-@synthesize displayYear, yearLabel, leftYear, rightYear, mainTableView, gamesList, gameTypeSegment, yearToolbar, bankRollSegment;
+@synthesize bankrollButton;
+@synthesize mainTableView, gamesList, gameTypeSegment, bankRollSegment;
 
 
 -(void)viewWillAppear:(BOOL)animated
@@ -56,39 +56,16 @@
 	self.gamesList = [[NSMutableArray alloc] init];
 	[self.mainTableView setBackgroundView:nil];
 	[self setTitle:NSLocalizedString(@"Games", nil)];
+	[self changeNavToIncludeType:34];
 	
 	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:NSLocalizedString(@"Last10", nil)];
 	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:NSLocalizedString(@"Top 5", nil)];
-	
-	int minYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
-	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
-	
-	if([allGames count]>0) {
-		NSManagedObject *firstGame = [allGames objectAtIndex:0];
-		NSDate *startTime = [firstGame valueForKey:@"startTime"];
-		int year1 = [[startTime convertDateToStringWithFormat:@"yyyy"] intValue];
-		if(year1<minYear)
-			[ProjectFunctions setUserDefaultValue:[startTime convertDateToStringWithFormat:@"yyyy"] forKey:@"minYear2"];
-	}
-	
-	[self.yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[self.yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
 	[ProjectFunctions makeGameSegment:self.mainSegment color:[UIColor colorWithRed:0 green:.4 blue:0 alpha:1]];
 	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
 	if([gameType isEqualToString:@"Tournament"])
 		self.mainSegment.selectedSegmentIndex=2;
 	if([gameType isEqualToString:@"Cash"])
 		self.mainSegment.selectedSegmentIndex=1;
-	
-	self.yearLabel.text = [NSString stringWithFormat:@"%d", self.displayYear];
-	
-	[ProjectFunctions resetTheYearSegmentBar:self.mainTableView displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:self.yearLabel];
-	
-	
-	if(showMainMenuButton) {
-		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-	}
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
 	
@@ -147,25 +124,6 @@
 	}
 }
 
--(void)yearChanged
-{
-	[ProjectFunctions resetTheYearSegmentBar:self.mainTableView displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:self.yearLabel];
-	[self computeStats];
-}
-
-- (IBAction) yearGoesUp: (id) sender
-{
-	self.displayYear = [rightYear.titleLabel.text intValue];
-    self.yearLabel.text = [NSString stringWithFormat:@"%d", self.displayYear];
-	[self yearChanged];
-}
-- (IBAction) yearGoesDown: (id) sender
-{
-	self.displayYear = [leftYear.titleLabel.text intValue];
-    self.yearLabel.text = [NSString stringWithFormat:@"%d", self.displayYear];
-	[self yearChanged];
-}
-
 -(IBAction) segmentChanged:(id)sender
 {
 	[ProjectFunctions changeColorForGameBar:self.gameTypeSegment];
@@ -205,7 +163,7 @@
 		if(self.mainSegment.selectedSegmentIndex==2) {
 			[self setTitle:NSLocalizedString(@"Tournaments", nil)];
 		}
-		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
+		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:games]];
 		[self.mainTableView reloadData];
@@ -244,24 +202,9 @@
     
 }
 
--(void)mainMenuButtonClicked:(id)sender {
-	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-}
-
--(void)statsButtonClicked:(id)sender {
-	StatsPage *detailViewController = [[StatsPage alloc] initWithNibName:@"StatsPage" bundle:nil];
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	detailViewController.gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
-	detailViewController.displayYear=self.displayYear;
-	detailViewController.hideMainMenuButton=NO;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return 44;
 }
-
 
 -(UIColor *)getFieldColor:(int)value
 {
@@ -271,7 +214,6 @@
 		return [UIColor redColor];
 	return [UIColor blackColor];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -321,7 +263,7 @@
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
 	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
-	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.displayYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
+	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 
 	[fetchRequest setPredicate:predicate];
 	

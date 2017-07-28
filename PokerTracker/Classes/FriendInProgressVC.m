@@ -26,13 +26,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Game Summary"];
+	[self changeNavToIncludeType:34];
 	
 	[self addHomeButton];
 	if(!self.gameObj)
 		self.gameObj=self.netUserObj.lastGame;
 	
 	self.userLabel.text = self.netUserObj.name;
-	if(self.netUserObj.nowPlayingFlg)
+	if(self.gameObj.playFlag)
 		self.nowPlayingLabel.text = @"Now PLaying!";
 	else
 		self.nowPlayingLabel.text = (self.gameObj.profit>=0)?@"Win":@"Loss";
@@ -43,56 +44,21 @@
 }
 
 -(void)setupData {
-	NSString *stakes = @"-";
+	self.multiCellObj = [MultiCellObj initWithTitle:self.gameObj.type altTitle:self.gameObj.gametype labelPercent:.4];
+	[self.multiCellObj addBlackLineWithTitle:@"location" value:self.gameObj.location];
+	[self.multiCellObj addBlackLineWithTitle:@"game" value:self.gameObj.gametype];
+	[self.multiCellObj addBlackLineWithTitle:@"limit" value:self.gameObj.limit];
 	if(self.gameObj.stakes && !self.gameObj.tournamentGameFlg)
-		stakes = self.gameObj.stakes;
-	NSArray *values = [NSArray arrayWithObjects:
-					   self.gameObj.location,
-					   self.gameObj.gametype,
-					   self.gameObj.limit,
-					   stakes,
-					   self.gameObj.startTimeStr,
-					   self.gameObj.buyInAmountStr,
-					   self.gameObj.reBuyAmountStr,
-					   self.gameObj.cashoutAmountStr,
-					   self.gameObj.profitStr,
-					   self.gameObj.endTimeStr,
-					   self.gameObj.hours,
-					   self.gameObj.hourlyStr,
-					   self.gameObj.pprStr,
-					   nil];
-	NSArray *titles = [NSArray arrayWithObjects:
-					   NSLocalizedString(@"location", nil),
-					   NSLocalizedString(@"game", nil),
-					   NSLocalizedString(@"limit", nil),
-					   NSLocalizedString(@"stakes", nil),
-					   NSLocalizedString(@"startTime", nil),
-					   NSLocalizedString(@"Buyin", nil),
-					   NSLocalizedString(@"rebuyAmount", nil),
-					   NSLocalizedString(@"chips", nil),
-					   NSLocalizedString(@"profit", nil),
-					   NSLocalizedString(@"endTime", nil),
-					   NSLocalizedString(@"Hours", nil),
-					   NSLocalizedString(@"Hourly", nil),
-					   NSLocalizedString(@"ROI", nil),
-					   nil];
-	NSArray *colors =  [NSArray arrayWithObjects:
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[ProjectFunctions colorForProfit:self.gameObj.profit],
-						[UIColor blackColor],
-						[UIColor blackColor],
-						[ProjectFunctions colorForProfit:self.gameObj.profit],
-						[ProjectFunctions colorForProfit:self.gameObj.profit],
-						nil];
-	
-	self.multiCellObj = [MultiCellObj multiCellObjWithTitle:self.gameObj.type altTitle:self.gameObj.gametype titles:titles values:values colors:colors labelPercent:.4];
+		[self.multiCellObj addBlackLineWithTitle:@"stakes" value:self.gameObj.stakes];
+	[self.multiCellObj addBlackLineWithTitle:@"startTime" value:self.gameObj.startTimeStr];
+	[self.multiCellObj addBlackLineWithTitle:@"Buyin" value:self.gameObj.buyInAmountStr];
+	[self.multiCellObj addBlackLineWithTitle:@"rebuyAmount" value:self.gameObj.reBuyAmountStr];
+	[self.multiCellObj addBlackLineWithTitle:self.gameObj.playFlag?@"Current Chips":@"cashoutAmount" value:self.gameObj.cashoutAmountStr];
+	[self.multiCellObj addMoneyLineWithTitle:@"profit" amount:self.gameObj.profit];
+	[self.multiCellObj addBlackLineWithTitle:@"endTime" value:self.gameObj.endTimeStr];
+	[self.multiCellObj addBlackLineWithTitle:@"Hours" value:self.gameObj.hours];
+	[self.multiCellObj addColoredLineWithTitle:@"Hourly" value:self.gameObj.hourlyStr amount:self.gameObj.profit];
+	[self.multiCellObj addColoredLineWithTitle:@"ROI" value:self.gameObj.pprStr amount:self.gameObj.profit];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

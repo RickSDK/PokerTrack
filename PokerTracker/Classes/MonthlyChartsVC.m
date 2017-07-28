@@ -22,10 +22,9 @@
 @implementation MonthlyChartsVC
 @synthesize managedObjectContext;
 @synthesize mainTableView, selectedObjectForEdit, profitButton, hourlyButton;
-@synthesize displayYear, yearLabel, leftYear, rightYear;
 @synthesize chartMonth1ImageView, chartMonth2ImageView, chart3ImageView, chart4ImageView, chart5ImageView, chart6ImageView, chartYear1ImageView, chartYear2ImageView;
 @synthesize yearlyProfits, yearHourlyProfits, monthlyProfits, hourlyProfits, showBreakdownFlg;
-@synthesize activityBGView, activityIndicator, yearToolbar, moneySegment;
+@synthesize activityBGView, activityIndicator, moneySegment;
 @synthesize dayProfits, dayHourly, timeProfits, timeHourly, lockScreen, viewUnLoaded;
 @synthesize bankRollSegment, bankrollButton;
 
@@ -57,25 +56,6 @@
 	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
     
-}
-
--(void)yearChanged:(UIButton *)barButton
-{
-	self.displayYear = [barButton.titleLabel.text intValue];
-    yearLabel.text = barButton.titleLabel.text;
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
-	[self computeStats];
-}
-
-- (IBAction) yearGoesUp: (id) sender 
-{
-	[self yearChanged:rightYear];
-}
-
-- (IBAction) yearGoesDown: (id) sender
-{
-	[self yearChanged:leftYear];
 }
 
 - (IBAction) moneySegmentChanged: (id) sender
@@ -111,12 +91,14 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+-(void)calculateStats {
+	[self computeStats];
+}
+
 - (void)computeStats
 {
 	self.bankRollSegment.enabled=NO;
 	self.moneySegment.enabled=NO;
-	self.leftYear.enabled=NO;
-	self.rightYear.enabled=NO;
 	[activityIndicator startAnimating];
 	activityBGView.alpha=1;
 	self.lockScreen=YES;
@@ -178,19 +160,18 @@
 	PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
 	
-	[self graphYearData:contextLocal year:[yearLabel.text intValue]];
-	[self graphMonthData:contextLocal year:[yearLabel.text intValue]];
+	[self graphYearData:contextLocal year:self.yearChangeView.statYear];
+	[self graphMonthData:contextLocal year:self.yearChangeView.statYear];
 	NSArray *days = [ProjectFunctions namesOfAllWeekdays];
-	[self graphEngineForItems:days field:@"weekday" context:contextLocal year:[yearLabel.text intValue] graph1:self.chart3ImageView graph2:self.chart4ImageView];
+	[self graphEngineForItems:days field:@"weekday" context:contextLocal year:self.yearChangeView.statYear graph1:self.chart3ImageView graph2:self.chart4ImageView];
 	NSArray *dayTimes = [ProjectFunctions namesOfAllDayTimes];
-	[self graphEngineForItems:dayTimes field:@"daytime" context:contextLocal year:[yearLabel.text intValue] graph1:self.chart5ImageView graph2:self.chart6ImageView];
+	[self graphEngineForItems:dayTimes field:@"daytime" context:contextLocal year:self.yearChangeView.statYear graph1:self.chart5ImageView graph2:self.chart6ImageView];
 	
 	activityBGView.alpha=0;
 	
 	self.lockScreen=NO;
 	self.bankRollSegment.enabled=YES;
 	self.moneySegment.enabled=YES;
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	[activityIndicator stopAnimating];
 	self.mainTableView.alpha=1;
 	[mainTableView reloadData];
@@ -200,14 +181,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Charts", nil)];
-	
+	[self changeNavToIncludeType:16];
 	self.showBreakdownFlg=NO;
     
-	displayYear = [ProjectFunctions getNowYear];
-    yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-
-    [self.mainTableView setBackgroundView:nil];
-
 	yearlyProfits = [[NSMutableArray alloc] init];
 	yearHourlyProfits = [[NSMutableArray alloc] init];
 	monthlyProfits = [[NSMutableArray alloc] init];
@@ -229,11 +205,6 @@
 	
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
-	
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 	
 	[profitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[profitButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];

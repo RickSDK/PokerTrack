@@ -54,6 +54,30 @@
 	[self.yearChangeView addTargetSelector:@selector(calculateStats) target:self];
 }
 
+-(void)changeNavToIncludeType:(int)type {
+	float width = [[UIScreen mainScreen] bounds].size.width;
+	UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width-70, 44)];
+	UILabel *ptpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width-70, 20)];
+	ptpLabel.backgroundColor = [UIColor clearColor];
+	ptpLabel.numberOfLines = 1;
+	ptpLabel.font = [UIFont boldSystemFontOfSize: 8.0f];
+	ptpLabel.textAlignment = NSTextAlignmentCenter;
+	ptpLabel.textColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]; // mustard
+	ptpLabel.text = @"-Poker Track Pro-";
+	
+	UILabel *mainLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, width-70, 24)];
+	mainLabel.backgroundColor = [UIColor clearColor];
+	mainLabel.numberOfLines = 1;
+	mainLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20];
+	mainLabel.textAlignment = NSTextAlignmentCenter;
+	mainLabel.textColor = [UIColor whiteColor];
+	mainLabel.text = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions faStringOfType:type] , self.navigationItem.title];
+	
+	[navView addSubview:ptpLabel];
+	[navView addSubview:mainLabel];
+	self.navigationItem.titleView = navView;
+}
+
 -(void)saveDatabase {
 	NSError *error;
 	[self.managedObjectContext save:&error];
@@ -107,6 +131,7 @@
 - (void)viewWillTransitionToSize:(CGSize)size
 	   withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
 	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+	NSLog(@"here!");
 	self.bgImageView.frame = CGRectMake(0, 0, size.width, size.height+44);
 }
 

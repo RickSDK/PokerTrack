@@ -593,7 +593,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Hand Tracker"];
-    
+	[self changeNavToIncludeType:37];
+	
     [self.mainTableView setBackgroundView:nil];
 	
 	[ProjectFunctions makeFAButton:self.playButton type:9 size:24];

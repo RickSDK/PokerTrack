@@ -38,6 +38,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:@"Friends"];
+	[self changeNavToIncludeType:4];
 
 	timeFrameSegment.selectedSegmentIndex=1;
 

@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Change Icons"];
+	[self changeNavToIncludeType:40];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAFloppyO] target:self action:@selector(savePressed)];
 	

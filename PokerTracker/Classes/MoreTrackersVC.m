@@ -49,6 +49,7 @@
 {
     [super viewDidLoad];
     [self setTitle:@"More Trackers"];
+	[self changeNavToIncludeType:5];
  
 	[ProjectFunctions makeFAButton:self.playerTrackerButton type:3 size:20 text:@"Player Tracker"];
 	[ProjectFunctions makeFAButton:self.handTrackerButton type:29 size:20 text:@"Hand Tracker"];

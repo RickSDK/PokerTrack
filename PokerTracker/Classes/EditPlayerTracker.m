@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:@"Player"];
+	[self changeNavToIncludeType:3];
 	
 	deleteButton.alpha=0;
 	

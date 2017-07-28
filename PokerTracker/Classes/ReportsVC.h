@@ -13,7 +13,6 @@
 @interface ReportsVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
-	int displayYear;
 	NSString *gameType;
 
 	//---XIB----------------------------
@@ -21,12 +20,8 @@
 	IBOutlet UISegmentedControl *topSegment;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UILabel *yearLabel;
-	IBOutlet UIButton *leftYear;
-	IBOutlet UIButton *rightYear;
 	IBOutlet UISegmentedControl *gameSegment;
 	IBOutlet UIButton *refreshButton;
-	IBOutlet UIToolbar *yearToolbar;
 	
 	//---Gloabls----------------------------
 	NSMutableArray *sectionTitles;
@@ -43,8 +38,6 @@
 
 - (IBAction) segmentChanged: (id) sender;
 - (IBAction) gameSegmentChanged: (id) sender;
-- (IBAction) yearGoesUp: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
 - (void) computeStats;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
@@ -61,14 +54,9 @@
 @property (atomic, strong) UIButton *refreshButton;
 @property (atomic) BOOL viewLocked;
 @property (atomic) BOOL viewUnLoaded;
-@property (atomic, strong) UIToolbar *yearToolbar;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 
-@property (atomic) int displayYear;
-@property (atomic, strong) UILabel *yearLabel;
-@property (atomic, strong) UIButton *leftYear;
-@property (atomic, strong) UIButton *rightYear;
 @property (atomic, strong) UISegmentedControl *gameSegment;
 
 @end

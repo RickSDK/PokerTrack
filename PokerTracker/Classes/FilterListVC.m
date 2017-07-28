@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Filter List", nil)];
+	[self changeNavToIncludeType:39];
 	
 	NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:managedObjectContext ascendingFlg:YES];
 	self.filterList = [[NSMutableArray alloc] initWithArray:filters];

@@ -41,6 +41,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Details", nil)];
+	[self changeNavToIncludeType:17];
 	
 	self.detailItems = [[NSMutableArray alloc] init];
 	self.selectedFieldIndex=0;
@@ -55,6 +56,7 @@
 	self.deleteButton.enabled=NO;
 	self.hudButton.enabled=NO;
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18 text:@"HUD"];
+	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 	
 }
 
@@ -65,7 +67,7 @@
 
 -(void)setupData {
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
-	self.multiCellObj = [MultiCellObj buildsMultiLineObjWithGame:self.gameObj];
+	[self.multiCellObj populateObjWithGame:self.gameObj];
 	
 	NSString *stakesName = @"stakes"; // not NSLocalizedString!
 	NSString *stakesValue = self.gameObj.stakes;

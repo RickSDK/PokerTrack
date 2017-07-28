@@ -21,27 +21,18 @@
 
 
 @implementation AnalysisVC
-@synthesize managedObjectContext, yearLabel, leftYear, rightYear, gameSegment, gameType, displayYear, activityIndicator, last10Flg;
+@synthesize managedObjectContext, gameSegment, activityIndicator, last10Flg;
 @synthesize yearToolbar;
-@synthesize last10Button, top5Button;
+@synthesize top5Button;
 @synthesize playerBasicsArray, playerStatsArray, colorArray1, colorArray2, gRisked, gIncome, mainTableView;
 @synthesize playerTypeLabel, bankRollSegment, bankrollButton, analysisText;
 
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-
-    [ProjectFunctions setBankSegment:self.bankRollSegment];
-    [self computeStats];
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Analysis", nil)];
+	[self changeNavToIncludeType:3];
 	
 	[self.mainTableView setBackgroundView:nil];
 	
@@ -51,17 +42,14 @@
 	self.colorArray1 = [[NSMutableArray alloc] initWithCapacity:10];
 	self.colorArray2 = [[NSMutableArray alloc] initWithCapacity:10];
 	
-	[ProjectFunctions addColorToButton:self.last10Button color:[UIColor colorWithRed:1 green:.8 blue:0 alpha:1]];
-	
-	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-	if(last10Flg) {
-		yearLabel.text = NSLocalizedString(@"Last10", nil);
-		last10Button.enabled=NO;
-		last10Button.hidden=YES;
-	}
-	
-	self.gameType = @"All";
-	
+	self.yearChangeView.yearLabel.text = NSLocalizedString(@"Last10", nil);
+	self.last10Flg=YES;
+
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FABullseye] target:self action:@selector(last10Pressed)],
+											   nil];
+
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)];
 	
 	
@@ -88,12 +76,18 @@
 		self.bankrollButton.alpha=1;
 		self.bankRollSegment.alpha=1;
 	}
-	
-	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:self.displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
-	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	self.multiCellObj = [MultiCellObj initWithTitle:@"Stats" altTitle:@"Last 10" labelPercent:.4];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	[ProjectFunctions setBankSegment:self.bankRollSegment];
+	[self computeStats];
+}
 
 - (IBAction) detailsButtonPressed: (id) sender
 {
@@ -117,20 +111,18 @@
     
 }
 
+-(void)calculateStats {
+	[self computeStats];
+}
 
 - (void)computeStats
 {
     
     self.mainTableView.alpha=.5;
 	[activityIndicator startAnimating];
-    gameSegment.enabled=NO;
 
     self.bankrollButton.enabled=NO;
     self.bankRollSegment.enabled=NO;
-    self.leftYear.enabled=NO;
-    self.rightYear.enabled=NO;
-    
-    [ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	
     if([ProjectFunctions useThreads]) {
         [self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
@@ -161,13 +153,18 @@
         NSString *riskedLabelStr = @"";
         NSString *profitLabelStr = @"";
         NSString *deviationLabelStr = @"";
-        
-        NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:self.gameType];
+		
+		int limit=0;
+		int year = self.yearChangeView.statYear;
+		if([self.yearChangeView.yearLabel.text isEqualToString:NSLocalizedString(@"Last10", nil)]) {
+			limit=10;
+			year=0;
+		}
+		
+		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
+        NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:gameType];
         basicPred = [NSString stringWithFormat:@"%@ AND status = 'Completed'", basicPred];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
-        int limit=0;
-        if([yearLabel.text isEqualToString:NSLocalizedString(@"Last10", nil)])
-            limit=10;
 
 		NSArray *games = nil;
 		if(limit>0)
@@ -213,31 +210,19 @@
         [self.colorArray1 addObject:[UIColor blackColor]];
         [self.colorArray1 addObject:[self addColorBasedOnValue:netIncome]];
 
-   
-        [self.playerStatsArray addObject:gamesStr];
-        [self.playerStatsArray addObject:gameStatObj.riskedString];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:foodDrinks]]];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:tokes]]];
-        [self.playerStatsArray addObject:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:grosssIncome]]];
-        [self.playerStatsArray addObject:gameStatObj.profitString];
-        [self.playerStatsArray addObject:gameStatObj.hourly];
-        [self.playerStatsArray addObject:riskedLabelStr];
-        [self.playerStatsArray addObject:profitLabelStr];
-        [self.playerStatsArray addObject:gameStatObj.streakReverse];
- 
-        [self.colorArray2 addObject:[UIColor blackColor]];
-        [self.colorArray2 addObject:[UIColor blackColor]];
-        [self.colorArray2 addObject:[UIColor blackColor]];
-        [self.colorArray2 addObject:[UIColor blackColor]];
-        [self.colorArray2 addObject:[self addColorBasedOnValue:grosssIncome]];
-        [self.colorArray2 addObject:[self addColorBasedOnValue:netIncome]];
-        [self.colorArray2 addObject:[self addColorBasedOnValue:netIncome]];
-        [self.colorArray2 addObject:[UIColor blackColor]];
-        [self.colorArray2 addObject:[self addColorBasedOnValue:netIncome]];
-        [self.colorArray2 addObject:[UIColor blackColor]];
-
-
-		self.analysisText = [AnalysisLib getAnalysisForPlayer:contextLocal predicate:predicate displayYear:displayYear gameType:self.gameType last10Flg:last10Flg amountRisked:gameStatObj.risked foodDrinks:foodDrinks tokes:tokes grosssIncome:grosssIncome takehomeIncome:takehomeIncome netIncome:gameStatObj.profit limit:limit];
+		[self.multiCellObj removeAllObjects];
+		[self.multiCellObj addBlackLineWithTitle:@"Games" value:gamesStr];
+		[self.multiCellObj addBlackLineWithTitle:@"Risked" value:gameStatObj.riskedString];
+		[self.multiCellObj addBlackLineWithTitle:@"foodDrink" value:[ProjectFunctions convertIntToMoneyString:foodDrinks]];
+		[self.multiCellObj addBlackLineWithTitle:@"Tips" value:[ProjectFunctions convertIntToMoneyString:tokes]];
+		[self.multiCellObj addMoneyLineWithTitle:@"IncomeTotal" amount:grosssIncome];
+		[self.multiCellObj addMoneyLineWithTitle:@"Profit" amount:gameStatObj.profit];
+		[self.multiCellObj addColoredLineWithTitle:@"Hourly" value:gameStatObj.hourly amount:gameStatObj.profit];
+		[self.multiCellObj addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)] value:riskedLabelStr];
+		[self.multiCellObj addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)] value:profitLabelStr];
+		[self.multiCellObj addBlackLineWithTitle:@"Streak" value:gameStatObj.streakReverse];
+		
+		self.analysisText = [AnalysisLib getAnalysisForPlayer:contextLocal predicate:predicate displayYear:self.yearChangeView.statYear gameType:gameType last10Flg:last10Flg amountRisked:gameStatObj.risked foodDrinks:foodDrinks tokes:tokes grosssIncome:grosssIncome takehomeIncome:takehomeIncome netIncome:gameStatObj.profit limit:limit];
 							 
         self.gRisked=amountRisked;
         self.gIncome=netIncome;
@@ -246,11 +231,9 @@
         self.mainTableView.alpha=1;
         [mainTableView reloadData];
 
-        gameSegment.enabled=YES;
         self.bankrollButton.enabled=YES;
         self.bankRollSegment.enabled=YES;
 
-        [self performSelectorOnMainThread:@selector(updateDisplay) withObject:nil waitUntilDone:NO];
 
 	}
 }
@@ -262,48 +245,12 @@
         return [UIColor redColor];
 }
 
--(void)updateDisplay
-{
-	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-}
-
--(void)yearChanged:(UIButton *)barButton
-{
-	self.displayYear = [barButton.titleLabel.text intValue];
-    yearLabel.text = barButton.titleLabel.text;
-    last10Button.enabled = YES;
-	last10Button.hidden=NO;
-	last10Flg=NO;
-	
-	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
-	[self computeStats];
-}
-
-
-- (IBAction) yearGoesUp: (id) sender 
-{
-	[self yearChanged:rightYear];
-}
-- (IBAction) yearGoesDown: (id) sender
-{
-	[self yearChanged:leftYear];
-}
-
 - (IBAction) segmentChanged: (id) sender {
 	[self computeStats];
 }
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	[ProjectFunctions changeColorForGameBar:self.gameSegment];
-	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
-	if(displayYear>0)
-		yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-	else {
-		yearLabel.text = NSLocalizedString(@"LifeTime", nil);
-	}
-
-	last10Flg=NO;
+	[self.ptpGameSegment gameSegmentChanged];
 	[self computeStats];
 }
 
@@ -313,21 +260,11 @@
         [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-- (IBAction) last10Pressed: (id) sender
+- (void)last10Pressed
 {
- 	if(gameSegment.selectedSegmentIndex>0) {
-		gameSegment.selectedSegmentIndex=0;
-		[ProjectFunctions changeColorForGameBar:self.gameSegment];
-	}
-	yearLabel.text = NSLocalizedString(@"Last10", nil);
-    [top5Button setTitle:NSLocalizedString(@"Last10", nil)];
-    last10Button.enabled = NO;
-	last10Button.hidden=YES;
+	self.yearChangeView.yearLabel.text = NSLocalizedString(@"Last10", nil);
 	last10Flg=YES;
-	self.displayYear=0;
-    
-	[ProjectFunctions resetTheYearSegmentBar:nil displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-
+	
 	[self computeStats];
 }
 
@@ -337,7 +274,8 @@
     }
 
     if(indexPath.section==1) {
-        return 20*10+10;
+		return [MultiLineDetailCellWordWrap heightForMultiCellObj:self.multiCellObj tableView:tableView];
+//        return 20*10+10;
     }
 
     NSArray *data = [NSArray arrayWithObject:@"dummy"];
@@ -383,7 +321,7 @@
                                                               withRows:4
                                                        labelProportion:.55];
         
-        cell.alternateTitle = yearLabel.text;
+        cell.alternateTitle = self.yearChangeView.yearLabel.text;
         cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"ROI", @"Type", NSLocalizedString(@"Profit", nil), nil];
         if([self.playerBasicsArray count]==4) {
             cell.fieldTextArray = self.playerBasicsArray;
@@ -397,38 +335,8 @@
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         return cell;
     } else if(indexPath.section==1) {
-        MultiLineDetailCellWordWrap *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        
-        if(cell==nil)
-            cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault
-                                                       reuseIdentifier:cellIdentifier
-                                                              withRows:10
-                                                       labelProportion:.45];
-        
-
-        cell.alternateTitle = yearLabel.text;
-		
-        cell.titleTextArray = [NSArray arrayWithObjects:
-							   NSLocalizedString(@"Games", nil),
-							   NSLocalizedString(@"Risked", nil),
-							   NSLocalizedString(@"foodDrink", nil),
-							   NSLocalizedString(@"Tips", nil),
-							   NSLocalizedString(@"IncomeTotal", nil),
-							   NSLocalizedString(@"Profit", nil),
-							   NSLocalizedString(@"Hourly", nil),
-							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Buyin", nil)],
-							   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)],
-							   NSLocalizedString(@"Streak", nil),
-							   nil];
-        if([self.playerStatsArray count]>=10) {
-            cell.fieldTextArray = self.playerStatsArray;
-            cell.fieldColorArray = self.colorArray2;
-        } else
-            cell.fieldTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", nil];
-        cell.mainTitle = @"Stats";
-        cell.accessoryType= UITableViewCellAccessoryNone;
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        return cell;
+		self.multiCellObj.altTitle = self.yearChangeView.yearLabel.text;
+		return [MultiLineDetailCellWordWrap multiCellForID:cellIdentifier obj:self.multiCellObj tableView:tableView];
    } else { // section==2
         MultiLineDetailCellWordWrap *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
@@ -438,7 +346,7 @@
                                                               withRows:1
                                                        labelProportion:0];
         
-        cell.alternateTitle = yearLabel.text;
+        cell.alternateTitle = self.yearChangeView.yearLabel.text;
         cell.titleTextArray = [NSArray arrayWithObject:@""];
         cell.fieldTextArray = [NSArray arrayWithObject:@"Loading..."];
         cell.mainTitle = @"Analysis";

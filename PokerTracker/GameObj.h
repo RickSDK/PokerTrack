@@ -84,6 +84,8 @@
 @property (nonatomic, strong) NSString *tournamentSpotsPaidStr;
 @property (nonatomic, strong) NSString *hudHeroStr;
 @property (nonatomic, strong) NSString *hudVillianStr;
+@property (nonatomic, strong) NSString *hudSkillLevel;
+@property (nonatomic, strong) NSString *hudVpip;
 @property (nonatomic, strong) NSString *gpsValues;
 
 

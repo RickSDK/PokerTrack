@@ -151,7 +151,9 @@
 		[self setTitle:@"Your Hand"];
 	else 
 		[self setTitle:[NSString stringWithFormat:@"Player %d", playersHand+1]];
-	
+
+	[self changeNavToIncludeType:37];
+
 //	UIBarButtonItem *selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectButtonClicked:)];
 //	self.navigationItem.rightBarButtonItem = selectButton;
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(selectButtonClicked:)];

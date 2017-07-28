@@ -29,6 +29,7 @@
 {
 	[super viewDidLoad];
 	[self setTitle:@"Forum"];
+	[self changeNavToIncludeType:30];
 	
 	self.forumPostings = [[NSMutableArray alloc] initWithCapacity:4];
 	

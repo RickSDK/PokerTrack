@@ -112,6 +112,7 @@
 	
 	
 	[self setTitle:NSLocalizedString(@"Filters", nil)];
+	[self changeNavToIncludeType:39];
 	[super viewDidLoad];
 	
 	if(displayYear==0)

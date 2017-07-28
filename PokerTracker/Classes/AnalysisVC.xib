@@ -10,13 +10,10 @@
                 <outlet property="bankRollSegment" destination="88" id="91"/>
                 <outlet property="bankrollButton" destination="89" id="90"/>
                 <outlet property="gameSegment" destination="8" id="33"/>
-                <outlet property="last10Button" destination="ZJn-FH-T32" id="172-Fm-qaa"/>
-                <outlet property="leftYear" destination="35L-Qk-Osx" id="PeW-4h-FoD"/>
                 <outlet property="mainTableView" destination="94" id="97"/>
-                <outlet property="rightYear" destination="f0T-Fg-cJc" id="WNV-xa-qXv"/>
+                <outlet property="ptpGameSegment" destination="8" id="jok-Xw-2Z9"/>
                 <outlet property="view" destination="1" id="3"/>
-                <outlet property="yearLabel" destination="16" id="44"/>
-                <outlet property="yearToolbar" destination="9" id="59"/>
+                <outlet property="yearChangeView" destination="qNR-0w-8la" id="pox-aG-Ytr"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -33,11 +30,11 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="94">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="372"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <view key="tableHeaderView" contentMode="scaleToFill" id="98">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="vCS-Ip-T7M" customClass="CustomView">
@@ -45,7 +42,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8" customClass="CustomSegment">
                                 <rect key="frame" x="14" y="11" width="293" height="30"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,70 +51,10 @@
                                     <segment title="Cash Games"/>
                                     <segment title="Tournaments"/>
                                 </segments>
-                                <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="gameSegmentChanged:" destination="-1" eventType="valueChanged" id="45"/>
                                 </connections>
                             </segmentedControl>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="9" customClass="MyToolbar">
-                                <rect key="frame" x="0.0" y="51" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <items>
-                                    <barButtonItem style="plain" id="K3L-zg-rsH">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="35L-Qk-Osx">
-                                            <rect key="frame" x="12" y="6" width="73" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" title="-" backgroundImage="yellowChromeBut.png">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="yearGoesDown:" destination="-1" eventType="touchDown" id="TeV-6X-UKV"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" id="7G5-2c-xus">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZJn-FH-T32">
-                                            <rect key="frame" x="95" y="6" width="50" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                            <state key="normal" title="Last 10">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="last10Pressed:" destination="-1" eventType="touchDown" id="HrO-TB-eaG"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="12"/>
-                                    <barButtonItem style="plain" id="RIE-CK-HWr">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="f0T-Fg-cJc">
-                                            <rect key="frame" x="235" y="6" width="73" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <size key="titleShadowOffset" width="1" height="1"/>
-                                            <state key="normal" title="-" backgroundImage="yellowChromeBut.png">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="yearGoesUp:" destination="-1" eventType="touchDown" id="S9g-RX-60z"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                </items>
-                                <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </toolbar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Year" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="16">
-                                <rect key="frame" x="148" y="58" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="1" height="1"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -151,6 +88,11 @@
                         <action selector="bankrollSegmentChanged:" destination="-1" eventType="valueChanged" id="93"/>
                     </connections>
                 </segmentedControl>
+                <view contentMode="scaleToFill" id="qNR-0w-8la" customClass="YearChangeView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -160,7 +102,6 @@
     <resources>
         <image name="greenFelt3.png" width="320" height="480"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
-        <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

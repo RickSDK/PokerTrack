@@ -13,18 +13,13 @@
 @interface MonthlyChartsVC : TemplateVC {
 	//---Passed In----------------------------
     NSManagedObjectContext *managedObjectContext;
-	int displayYear;
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UIButton *profitButton;
 	IBOutlet UIButton *hourlyButton;
-	IBOutlet UILabel *yearLabel;
-	IBOutlet UIButton *leftYear;
-	IBOutlet UIButton *rightYear;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UIToolbar *yearToolbar;
 	IBOutlet UISegmentedControl *moneySegment;
 	IBOutlet UISegmentedControl *bankRollSegment;
     IBOutlet UIButton *bankrollButton;
@@ -55,8 +50,6 @@
     BOOL viewUnLoaded;
 }
 
-- (IBAction) yearGoesUp: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
 - (IBAction) moneySegmentChanged: (id) sender;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
@@ -64,17 +57,12 @@
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (atomic, strong) UIToolbar *yearToolbar;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 
-@property (atomic) int displayYear;
 @property (atomic) BOOL showBreakdownFlg;
 @property (atomic) BOOL lockScreen;
 @property (atomic) BOOL viewUnLoaded;
-@property (atomic, strong) UILabel *yearLabel;
-@property (atomic, strong) UIButton *leftYear;
-@property (atomic, strong) UIButton *rightYear;
 
 @property (atomic) int selectedObjectForEdit;
 @property (atomic, strong) UIButton *profitButton;

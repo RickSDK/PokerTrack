@@ -115,6 +115,7 @@
 +(void)SetButtonAttributes:(UIButton *)button yearStr:(NSString *)yearStr enabled:(BOOL)enabled;
 +(void)resetTheYearSegmentBar:(UITableView *)tableView displayYear:(int)displayYear MoC:(NSManagedObjectContext *)MoC leftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton displayYearLabel:(UILabel *)displayYearLabel;
 +(NSString *)labelForYearValue:(int)yearValue;
++(NSString *)faStringOfType:(int)type;
 +(NSString *)labelForGameSegment:(int)segmentIndex;
 +(NSString *)getMonthFromDate:(NSDate *)date;
 +(NSArray *)namesOfAllWeekdays;
@@ -138,7 +139,7 @@
 +(NSString *)scrubRefData:(NSString *)data context:(NSManagedObjectContext *)context;
 +(NSString *)formatForDataBase:(NSString *)str;
 +(NSString *)getDayTimeFromDate:(NSDate *)localDate;
-+(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
++(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC displayYear:(int)displayYear chartNum:(int)chartNum goalFlg:(BOOL)goalFlg;
 +(NSString *)getGamesTextFromInt:(int)numGames;
 +(CLLocation *)getCurrentLocation;
 +(NSString *)getLatitudeFromLocation:(CLLocation *)currentLocation decimalPlaces:(int)decimalPlaces;

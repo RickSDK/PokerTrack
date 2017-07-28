@@ -47,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Player Types"];
+	[self changeNavToIncludeType:3];
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencil] target:self action:@selector(editButtonClicked)];
 	
 }

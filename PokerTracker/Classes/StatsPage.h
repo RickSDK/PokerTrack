@@ -12,21 +12,16 @@
 @interface StatsPage : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObject *filterObj;
-	int displayYear;
 	NSString *gameType;
 	BOOL hideMainMenuButton;
 
 	//---XIB----------------------------
 	IBOutlet UIToolbar *analysisToolbar;
-	IBOutlet UIToolbar *yearToolbar;
 	IBOutlet UIToolbar *top5Toolbar;
 	IBOutlet UISegmentedControl *gameSegment;
 	IBOutlet CustomSegment *customSegment;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UILabel *yearLabel;
-	IBOutlet UIButton *leftYear;
-	IBOutlet UIButton *rightYear;
 	IBOutlet UIImageView *largeGraph;
     IBOutlet UIButton *bankrollButton;
 
@@ -53,11 +48,8 @@
 
 }
 
-- (IBAction) yearSegmentPressed: (id) sender;
 - (IBAction) gameSegmentPressed: (id) sender;
 - (IBAction) customSegmentPressed: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
-- (IBAction) yearGoesUp: (id) sender;
 - (IBAction) analysisPressed: (id) sender;
 - (IBAction) reportsPressed: (id) sender;
 - (IBAction) chartsPressed: (id) sender;
@@ -80,14 +72,8 @@
 @property (atomic, strong) UISegmentedControl *gameSegment;
 @property (atomic, strong) CustomSegment *customSegment;
 @property (atomic, strong) UIToolbar *analysisToolbar;
-@property (atomic, strong) UIToolbar *yearToolbar;
 @property (atomic, strong) UIToolbar *top5Toolbar;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
-
-@property (atomic) int displayYear;
-@property (atomic, strong) UILabel *yearLabel;
-@property (atomic, strong) UIButton *leftYear;
-@property (atomic, strong) UIButton *rightYear;
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) IBOutlet UIImageView *chartImageView;

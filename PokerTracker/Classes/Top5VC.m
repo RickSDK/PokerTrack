@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Top 5"];
+	[self changeNavToIncludeType:19];
 	bestGames = [[NSMutableArray alloc] init];
 	worstGames = [[NSMutableArray alloc] init];
 	

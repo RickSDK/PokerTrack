@@ -33,9 +33,9 @@
 - (void)commonInit
 {
 //	[self setTintColor:[UIColor colorWithRed:(6/255.0) green:(122/255.0) blue:(180/255.0) alpha:1.0]];
-	[self setTintColor:[UIColor colorWithRed:0 green:.4 blue:0 alpha:1.0]];
+	[self setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1.0]];
 	
-	self.layer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1].CGColor;
+	self.layer.backgroundColor = [UIColor whiteColor].CGColor;
 	self.layer.cornerRadius = 4;
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 1;

@@ -42,6 +42,7 @@
 	bigHands = [[NSMutableArray alloc] initWithArray:[CoreDataLib selectRowsFromTable:@"BIGHAND" mOC:managedObjectContext]];
 
 	[self setTitle:@"Hand Tracker"];
+	[self changeNavToIncludeType:37];
 	
 	if(showMainMenuButton) {
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];

@@ -115,6 +115,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Options", nil)];
+	[self changeNavToIncludeType:38];
 	
 	self.activityLabelString = [[NSString alloc] init];
 	self.activityLabelString = @"Working...";

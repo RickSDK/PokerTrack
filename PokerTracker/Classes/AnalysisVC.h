@@ -13,25 +13,18 @@
 @interface AnalysisVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	
-	IBOutlet UILabel *yearLabel;
-	IBOutlet UIButton *leftYear;
-	IBOutlet UIButton *rightYear;
-	IBOutlet UIButton *last10Button;
 	IBOutlet UISegmentedControl *gameSegment;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	int displayYear;
-    
+	
 	double gRisked;
 	double gIncome;
 	BOOL last10Flg;
-	NSString *gameType;
 	NSString *analysisText;
     
     NSMutableArray *playerBasicsArray;
     NSMutableArray *playerStatsArray;
     NSMutableArray *colorArray1;
     NSMutableArray *colorArray2;
-	IBOutlet UIToolbar *yearToolbar;
 
     UIBarButtonItem *top5Button;
 	IBOutlet UISegmentedControl *bankRollSegment;
@@ -41,9 +34,6 @@
 }
 
 - (IBAction) gameSegmentChanged: (id) sender;
-- (IBAction) last10Pressed: (id) sender;
-- (IBAction) yearGoesUp: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
 - (IBAction) detailsButtonPressed: (id) sender;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
@@ -61,19 +51,12 @@
 @property (atomic, copy) NSString *analysisText;
 
 
-@property (atomic, copy) NSString *gameType;
-
-@property (atomic) int displayYear;
 @property (atomic) BOOL last10Flg;
 @property (atomic) double gRisked;
 @property (atomic) double gIncome;
 
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (atomic, strong) UILabel *yearLabel;
 @property (atomic, strong) UILabel *thLabel;
-@property (atomic, strong) UIButton *leftYear;
-@property (atomic, strong) UIButton *rightYear;
-@property (atomic, strong) UIButton *last10Button;
 @property (atomic, strong) UISegmentedControl *gameSegment;
 @property (atomic, strong) UIToolbar *yearToolbar;
 

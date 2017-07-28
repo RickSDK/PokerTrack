@@ -426,8 +426,6 @@
 		6BD855371517A4100048473A /* AppInitialVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD855351517A4100048473A /* AppInitialVC.xib */; };
 		6BD855D11517DA0A0048473A /* BigHandsPlayersFormVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD855CF1517DA0A0048473A /* BigHandsPlayersFormVC.m */; };
 		6BD855D21517DA0A0048473A /* BigHandsPlayersFormVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD855D01517DA0A0048473A /* BigHandsPlayersFormVC.xib */; };
-		6BD856F9151937680048473A /* ProfitReportsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD856F7151937680048473A /* ProfitReportsVC.m */; };
-		6BD856FA151937680048473A /* ProfitReportsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD856F8151937680048473A /* ProfitReportsVC.xib */; };
 		6BD859A3151BC18D0048473A /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD859A2151BC18D0048473A /* button.png */; };
 		6BD85A8A151CF4B60048473A /* FriendInProgressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD85A88151CF4B60048473A /* FriendInProgressVC.m */; };
 		6BD85A8B151CF4B60048473A /* FriendInProgressVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD85A89151CF4B60048473A /* FriendInProgressVC.xib */; };
@@ -1029,9 +1027,6 @@
 		6BD855CE1517DA0A0048473A /* BigHandsPlayersFormVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigHandsPlayersFormVC.h; sourceTree = "<group>"; };
 		6BD855CF1517DA0A0048473A /* BigHandsPlayersFormVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigHandsPlayersFormVC.m; sourceTree = "<group>"; };
 		6BD855D01517DA0A0048473A /* BigHandsPlayersFormVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BigHandsPlayersFormVC.xib; sourceTree = "<group>"; };
-		6BD856F6151937680048473A /* ProfitReportsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfitReportsVC.h; sourceTree = "<group>"; };
-		6BD856F7151937680048473A /* ProfitReportsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfitReportsVC.m; sourceTree = "<group>"; };
-		6BD856F8151937680048473A /* ProfitReportsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfitReportsVC.xib; sourceTree = "<group>"; };
 		6BD859A2151BC18D0048473A /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		6BD85A87151CF4B60048473A /* FriendInProgressVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendInProgressVC.h; sourceTree = "<group>"; };
 		6BD85A88151CF4B60048473A /* FriendInProgressVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendInProgressVC.m; sourceTree = "<group>"; };
@@ -1335,9 +1330,6 @@
 		6B12CA771667EBB500725098 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
-				6BD856F6151937680048473A /* ProfitReportsVC.h */,
-				6BD856F7151937680048473A /* ProfitReportsVC.m */,
-				6BD856F8151937680048473A /* ProfitReportsVC.xib */,
 				6B750D40143D305700E59D21 /* StatsPage.h */,
 				6B750D41143D305700E59D21 /* StatsPage.m */,
 				6B750D42143D305700E59D21 /* StatsPage.xib */,
@@ -2174,7 +2166,6 @@
 				6BD855371517A4100048473A /* AppInitialVC.xib in Resources */,
 				6B5CA1F91F1C3CB7003392BD /* India.png in Resources */,
 				6BD855D21517DA0A0048473A /* BigHandsPlayersFormVC.xib in Resources */,
-				6BD856FA151937680048473A /* ProfitReportsVC.xib in Resources */,
 				6BD859A3151BC18D0048473A /* button.png in Resources */,
 				6BD85A8B151CF4B60048473A /* FriendInProgressVC.xib in Resources */,
 				6BC80433156C74FF001C24BD /* ListPicker.xib in Resources */,
@@ -2353,7 +2344,6 @@
 				6BD85341150ADE020048473A /* FriendSampleVC.m in Sources */,
 				6BD855361517A4100048473A /* AppInitialVC.m in Sources */,
 				6BD855D11517DA0A0048473A /* BigHandsPlayersFormVC.m in Sources */,
-				6BD856F9151937680048473A /* ProfitReportsVC.m in Sources */,
 				6BCA887F1F13D92600633484 /* HudStatObj.m in Sources */,
 				6BD85A8A151CF4B60048473A /* FriendInProgressVC.m in Sources */,
 				6B69561B1C51E193004CB475 /* TemplateVC.m in Sources */,
@@ -2435,8 +2425,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2460,8 +2450,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

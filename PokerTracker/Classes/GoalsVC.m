@@ -20,27 +20,20 @@
 @implementation GoalsVC
 @synthesize managedObjectContext;
 @synthesize mainTableView, selectedObjectForEdit, profitButton, hourlyButton;
-@synthesize displayYear, yearLabel, leftYear, rightYear, chart1ImageView, chart2ImageView;
+@synthesize chart1ImageView, chart2ImageView;
 @synthesize monthlyProfits, hourlyProfits, bankrollButton, bankRollSegment;
-@synthesize activityBGView, activityIndicator, yearToolbar, coreDataLocked;
+@synthesize activityBGView, activityIndicator, coreDataLocked;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:NSLocalizedString(@"Goals", nil)];
-	
-	displayYear = [ProjectFunctions getNowYear];
-	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
-	
-	[mainTableView setBackgroundView:nil];
+	[self changeNavToIncludeType:15];
 	
 	self.monthlyProfits = [[NSMutableArray alloc] init];
 	self.hourlyProfits = [[NSMutableArray alloc] init];
 	chart1ImageView = [[UIImageView alloc] init];
 	chart2ImageView = [[UIImageView alloc] init];
 	self.selectedObjectForEdit=0;
-	
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
 											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)],
@@ -51,9 +44,6 @@
 	self.popupView.textView.text = @"Track your goals! Choose a monthly amount and an hourly amount. Then check here to see which months you hit your goals.";
 	self.popupView.textView.hidden=NO;
 
-	
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
 	self.profitGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
 	self.hourlyGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
 	
@@ -87,24 +77,6 @@
     
 }
 
--(void)yearChanged:(UIButton *)barButton
-{
-	self.displayYear = [barButton.titleLabel.text intValue];
-    yearLabel.text = barButton.titleLabel.text;
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-    
-	[self computeStats];
-}
-
-- (IBAction) yearGoesUp: (id) sender 
-{
-	[self yearChanged:rightYear];
-}
-- (IBAction) yearGoesDown: (id) sender
-{
-	[self yearChanged:leftYear];
-}
-
 - (IBAction) monthlyProfitGoalChanged: (id) sender
 {
 	self.selectedObjectForEdit=0;
@@ -127,13 +99,14 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+-(void)calculateStats {
+	[self computeStats];
+}
 
 - (void)computeStats
 {
 	self.bankRollSegment.enabled=NO;
 	self.bankrollButton.enabled=NO;
-	self.leftYear.enabled=NO;
-	self.rightYear.enabled=NO;
 	self.mainTableView.alpha=.5;
 	[self.webServiceView startWithTitle:@"Working..."];
 	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
@@ -152,7 +125,7 @@
         
 		[self.monthlyProfits removeAllObjects];
 		[hourlyProfits removeAllObjects];
-		NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:@"All"];
 		NSArray *months = [ProjectFunctions namesOfAllMonths];
 		for(NSString *month in months) {
 			NSPredicate *predicate = [ProjectFunctions predicateForBasic:basicPred field:@"month" value:month];
@@ -174,13 +147,12 @@
 		[profitButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertIntToMoneyString:profitGoal]] forState:UIControlStateNormal];
 		[hourlyButton setTitle:[NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertIntToMoneyString:hourlyGoal]] forState:UIControlStateNormal];
 
-		self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:1 goalFlg:YES];
-		self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal yearStr:yearLabel.text chartNum:2 goalFlg:YES];
+		self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal displayYear:self.yearChangeView.statYear chartNum:1 goalFlg:YES];
+		self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal displayYear:self.yearChangeView.statYear chartNum:2 goalFlg:YES];
 		
 		self.bankRollSegment.enabled=YES;
 		self.bankrollButton.enabled=YES;
 		
-		[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:contextLocal leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
 		self.mainTableView.alpha=1;
 		[self.webServiceView stop];
 		[mainTableView reloadData];

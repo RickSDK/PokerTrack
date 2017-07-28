@@ -13,18 +13,13 @@
 @interface GoalsVC : TemplateVC {
  	//---Passed In----------------------------
 	NSManagedObjectContext *managedObjectContext;
-	int displayYear;
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UILabel *yearLabel;
-	IBOutlet UIButton *leftYear;
-	IBOutlet UIButton *rightYear;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIButton *profitButton;
 	IBOutlet UIButton *hourlyButton;
-	IBOutlet UIToolbar *yearToolbar;
 	IBOutlet UISegmentedControl *bankRollSegment;
     IBOutlet UIButton *bankrollButton;
 
@@ -38,8 +33,6 @@
 
 }
 
-- (IBAction) yearGoesUp: (id) sender;
-- (IBAction) yearGoesDown: (id) sender;
 - (IBAction) monthlyProfitGoalChanged: (id) sender;
 - (IBAction) hourlyGoalChanged: (id) sender;
 - (void) computeStats;
@@ -49,13 +42,9 @@
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 
-@property (atomic) int displayYear;
 @property (atomic) BOOL coreDataLocked;
-@property (atomic, strong) UILabel *yearLabel;
 @property (atomic, strong) IBOutlet UILabel *profitGoalLabel;
 @property (atomic, strong) IBOutlet UILabel *hourlyGoalLabel;
-@property (atomic, strong) UIButton *leftYear;
-@property (atomic, strong) UIButton *rightYear;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 
@@ -68,9 +57,6 @@
 
 @property (atomic, strong) UIImageView *chart1ImageView;
 @property (atomic, strong) UIImageView *chart2ImageView;
-
-@property (atomic, strong) UIToolbar *yearToolbar;
-
 
 
 @end

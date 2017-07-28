@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[self setTitle:@"Net Tracker"];
+	[self changeNavToIncludeType:13];
 	
 	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0 && [[ProjectFunctions getUserDefaultValue:@"userCity"] length]==0)
 		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Please update your profile to include your City and State" delegate:self];

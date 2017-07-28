@@ -976,6 +976,11 @@
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"location"] type:@"Location" mOC:context];
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"bankroll"] type:@"Bankroll" mOC:context];
 	[ProjectFunctions updateNewvalueIfNeeded:[mo valueForKey:@"year"] type:@"Year" mOC:context];
+	NSString *hudString = [mo valueForKey:@"attrib01"];
+	if(hudString && hudString.length>10) {
+		NSLog(@"Hud stats!");
+		[mo setValue:@"Y" forKey:@"hudHeroLine"];
+	}
 	
 	if([@"Tournament" isEqualToString:type]) {
 		int tournamentSpotsPaid = [[mo valueForKey:@"tournamentSpotsPaid"] intValue];
@@ -2692,7 +2697,7 @@
 	return array;
 }
 
-+(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC yearStr:(NSString *)yearStr chartNum:(int)chartNum goalFlg:(BOOL)goalFlg
++(UIImage *)graphGoalsChart:(NSManagedObjectContext *)mOC displayYear:(int)displayYear chartNum:(int)chartNum goalFlg:(BOOL)goalFlg
 {
 	int totalWidth=640;
 	int totalHeight=300;
@@ -2703,8 +2708,6 @@
 	if(goalFlg)
 		mainGoal = (chartNum==1)?[[ProjectFunctions getUserDefaultValue:@"profitGoal"] intValue]:[[ProjectFunctions getUserDefaultValue:@"hourlyGoal"] intValue];
 	
-	
-	int displayYear = [yearStr intValue];
 	NSMutableArray *itemList = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:displayYear type:@"All"];
 	NSArray *months = [self namesOfAllMonths];
@@ -4136,6 +4139,18 @@
 			break;
   case 36:
 			title = [NSString fontAwesomeIconStringForEnum:FALink];
+			break;
+  case 37:
+			title = [NSString fontAwesomeIconStringForEnum:FAhandPaperO];
+			break;
+  case 38:
+			title = [NSString fontAwesomeIconStringForEnum:FACog];
+			break;
+  case 39:
+			title = [NSString fontAwesomeIconStringForEnum:FAFilter];
+			break;
+  case 40:
+			title = [NSString fontAwesomeIconStringForEnum:FAPictureO];
 			break;
 
   default:

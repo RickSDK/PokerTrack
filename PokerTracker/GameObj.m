@@ -10,6 +10,7 @@
 #import "ProjectFunctions.h"
 #import "NSString+ATTString.h"
 #import "NSDate+ATTDate.h"
+#import "PlayerObj.h"
 
 @implementation GameObj
 
@@ -56,9 +57,22 @@
 	// calculated values--------------------
 	gameObj.isTourney = [@"Tournament" isEqualToString:gameObj.type];
 	gameObj.hudStatsFlg = (gameObj.hudHeroStr.length>10 || gameObj.hudVillianStr.length>10);
+	gameObj.hudSkillLevel = @"-";
+	gameObj.hudVpip = @"-";
+	gameObj.hudPlayerType = @"-";
 	if(gameObj.hudHeroStr.length>10) {
 		NSArray *components = [gameObj.hudHeroStr componentsSeparatedByString:@":"];
 		if(components.count>6) {
+			PlayerObj *hudPlayerObj = [[PlayerObj alloc] init];
+			hudPlayerObj.foldCount = [[components objectAtIndex:0] intValue];
+			hudPlayerObj.checkCount = [[components objectAtIndex:1] intValue];
+			hudPlayerObj.callCount = [[components objectAtIndex:2] intValue];
+			hudPlayerObj.raiseCount = [[components objectAtIndex:3] intValue];
+			hudPlayerObj.picId = [[components objectAtIndex:4] intValue];
+			int vpip = [PlayerObj vpipForPlayer:hudPlayerObj];
+			int pfr = [PlayerObj pfrForPlayer:hudPlayerObj];
+			gameObj.hudVpip	= [NSString stringWithFormat:@"%d / %d", vpip, pfr];
+			gameObj.hudSkillLevel = [self playerSkillLevelForType:hudPlayerObj.picId];
 			int looseNum = [[components objectAtIndex:5] intValue];
 			int agressiveNum = [[components objectAtIndex:6] intValue];
 			gameObj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:looseNum agressiveNum:agressiveNum];
@@ -107,8 +121,16 @@
 	gameObj.tournamentSpotsStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpots];
 	gameObj.tournamentSpotsPaidStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid];
 	gameObj.tournamentFinishStr = [NSString stringWithFormat:@"%d", gameObj.tournamentFinish];
+	gameObj = [self updateMoreFieldsForObj:gameObj];
 	
 	return gameObj;
+}
+
++(NSString *)playerSkillLevelForType:(int)type {
+	NSArray *types = [NSArray arrayWithObjects:@"Donkey", @"Fish", @"Rounder", @"Grinder", @"Shark", @"Pro", nil];
+	if(type<types.count)
+		return [types objectAtIndex:type];
+	return @"?";
 }
 
 +(GameObj *)updateMoreFieldsForObj:(GameObj *)gameObj {

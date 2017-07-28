@@ -11,6 +11,7 @@
 @interface GameStatObj : NSObject
 
 @property (nonatomic, strong)  NSString *name;
+@property (nonatomic, strong)  NSString *shortName;
 @property (nonatomic) double profit;
 @property (nonatomic) double risked;
 @property (nonatomic) int foodDrinks;
@@ -25,8 +26,16 @@
 @property (nonatomic) int games;
 @property (nonatomic) int wins;
 @property (nonatomic) int losses;
+@property (nonatomic) int hudGames;
+@property (nonatomic) float bestDayAmount;
+@property (nonatomic) float worstDayAmount;
+@property (nonatomic) float bestTimeAmount;
+@property (nonatomic) float worstTimeAmount;
 
 //-------------detailed stats-----------
+@property (nonatomic, strong)  NSString *hudVpvp_Pfr;
+@property (nonatomic, strong)  NSString *hudPlayerType;
+@property (nonatomic, strong)  NSString *hudSkillLevel;
 @property (nonatomic, strong)  NSString *profitString;
 @property (nonatomic, strong)  NSString *riskedString;
 @property (nonatomic, strong)  NSString *gameCount;

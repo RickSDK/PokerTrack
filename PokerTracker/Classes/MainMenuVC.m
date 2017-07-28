@@ -50,53 +50,9 @@
 	[super viewDidLoad];
 	[self setupData];
 	
-	if([ProjectFunctions getProductionMode])
-		[self setTitle:NSLocalizedString(@"Main Menu", nil)];
-	else {
-		[self setTitle:@"Test Mode"];
-		self.graphChart.alpha=.5;
-	}
-	
-	[self findMinAndMaxYear];
-	self.aboutView.titleLabel.text = @"Poker Track Pro";
-
-	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
-	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
-	self.playerTypeLabel.layer.cornerRadius = 7;
-	self.playerTypeLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
-	self.playerTypeLabel.layer.borderColor = [UIColor blackColor].CGColor;
-	self.playerTypeLabel.layer.borderWidth = 2.;
-	self.last10Label.text = NSLocalizedString(@"Last 10", nil);
-	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
-	
-	self.topView.hidden=self.isPokerZilla;
-	self.last10Label.hidden=self.isPokerZilla;
-	self.forumButton.hidden=self.isPokerZilla;
-	self.netTrackerButton.hidden=self.isPokerZilla;
-	self.botView.hidden=self.isPokerZilla;
-	self.pokerZillaImageView.hidden=!self.isPokerZilla;
-	
 	self.aboutView.hidden=YES;
 	if(self.isPokerZilla)
 		self.aboutTextView.text = @"Congratulations!! you are using the 2nd best Poker Stats Tracking app ever! Features include: \n\nReal-time game entry\nWidest array of stats and graphs\nPlayer Tracker\nHand Tracker\nOdds Calculator.\n\nBy the way, the only tracker better is Poker Track Pro, which has all these features plus more. Please check out Poker Track Pro for even more features including tracking your friends!!";
-	
-	int xPos=15;
-	int yPos=270;
-	int width=290;
-	int height=113;
-	if([[UIScreen mainScreen] bounds].size.height >= 568) { // iPhone 5
-		height+=75;
-		yPos=275;
-	}
-	if([[UIScreen mainScreen] bounds].size.width >= 700) { // iPad
-		xPos=90;
-		width=600;
-		height=350;
-	}
-	if(self.isPokerZilla)
-		yPos-=50;
-	
-	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
 	
 	if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
 		UIImage *image = [UIImage imageNamed:@"greenGradient.png"];
@@ -104,8 +60,8 @@
 		self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1];
 	}
 	
-	
-	
+	[self positionGraph];
+	[self findMinAndMaxYear];
 	
 	self.toggleMode = [[ProjectFunctions getUserDefaultValue:@"toggleMode"] intValue];
 	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
@@ -172,18 +128,53 @@
 	}
 }
 
+-(void)positionGraph {
+	int xPos=15;
+	int yPos=270;
+	int width=290;
+	int height=113;
+	if([[UIScreen mainScreen] bounds].size.height >= 568) { // iPhone 5
+		height+=75;
+		yPos=275;
+	}
+	if([[UIScreen mainScreen] bounds].size.width >= 700) { // iPad
+		xPos=90;
+		width=600;
+		height=350;
+	}
+	if(self.isPokerZilla)
+		yPos-=50;
+	
+	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
+	yearLabel.center = self.graphChart.center;
+}
+
 -(void)tourneyDataScrub {
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"Type = %@", @"Tournament"];
 	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
 	float totalFoodAndTokes=0;
 	for(NSManagedObject *game in games) {
-		totalFoodAndTokes += [[game valueForKey:@"tokes"] intValue];
-		totalFoodAndTokes += [[game valueForKey:@"foodDrinks"] intValue];
+		int amount = [[game valueForKey:@"tokes"] intValue] + [[game valueForKey:@"foodDrinks"] intValue] + [[game valueForKey:@"breakMinutes"] intValue];
+		totalFoodAndTokes += amount;
+		if(amount>0) {
+			[game setValue:[NSNumber numberWithInt:0] forKey:@"tokes"];
+			[game setValue:[NSNumber numberWithInt:0] forKey:@"foodDrinks"];
+			[game setValue:[NSNumber numberWithInt:0] forKey:@"breakMinutes"];
+		}
 	}
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"tourneyScrub2017"];
 	if(totalFoodAndTokes>0) {
-		Scrub2017VC *detailViewController = [[Scrub2017VC alloc] initWithNibName:@"Scrub2017VC" bundle:nil];
-		detailViewController.managedObjectContext = managedObjectContext;
-		[self.navigationController pushViewController:detailViewController animated:YES];
+		NSError *error;
+		[self.managedObjectContext save:&error];
+		if(error) {
+			NSLog(@"%@", error.description);
+			NSLog(@"%@", error.debugDescription);
+			[ProjectFunctions showAlertPopup:@"Database Error" message:error.localizedDescription];
+		}
+		[ProjectFunctions showAlertPopup:@"Tournaments Fixed" message:@"Some of your tournaments had values populated for tips, food or break minutes. They have been fixed."];
+//		Scrub2017VC *detailViewController = [[Scrub2017VC alloc] initWithNibName:@"Scrub2017VC" bundle:nil];
+//		detailViewController.managedObjectContext = managedObjectContext;
+//		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else {
 		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"tourneyScrub2017"];
 	}
@@ -197,6 +188,64 @@
 	[self createMainMenuButton:self.moreTrackersButton name:NSLocalizedString(@"More", nil) type:5 size:18];
 	[self createMainMenuButton:self.forumButton name:NSLocalizedString(@"Forum", nil) type:30 size:18];
 	[self createMainMenuButton:self.netTrackerButton name:NSLocalizedString(@"Net Tracker", nil) type:31 size:18];
+
+	NSString *mainMenuText = ([ProjectFunctions getProductionMode])?NSLocalizedString(@"Main Menu", nil):@"Test Mode";
+	[self setTitle:mainMenuText];
+	
+	float width = [[UIScreen mainScreen] bounds].size.width;
+	UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width-70, 64)];
+//	UILabel *ptpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width-70, 30)];
+//	ptpLabel.backgroundColor = [UIColor clearColor];
+//	ptpLabel.numberOfLines = 1;
+//	ptpLabel.font = [UIFont boldSystemFontOfSize: 18.0f];
+//	ptpLabel.textAlignment = NSTextAlignmentCenter;
+//	ptpLabel.textColor = [UIColor whiteColor];
+//	ptpLabel.text = @"Poker Track Pro";
+	
+	UIImageView *ptp = [[UIImageView alloc] initWithFrame:CGRectMake(width/2-85, 0, 100, 64)];
+	ptp.image = [UIImage imageNamed:@"logo2.png"];
+	
+//	UILabel *mainMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, width-70, 20)];
+//	mainMenuLabel.backgroundColor = [UIColor clearColor];
+//	mainMenuLabel.numberOfLines = 1;
+//	mainMenuLabel.font = [UIFont boldSystemFontOfSize: 12.0f];
+//	mainMenuLabel.textAlignment = NSTextAlignmentCenter;
+//	mainMenuLabel.textColor = [UIColor whiteColor];
+//	mainMenuLabel.text = @"-Main Menu-";
+
+	UILabel *mainMenuLabel = [[UILabel alloc] initWithFrame:CGRectMake(width/2-70, 38, 50, 20)];
+	mainMenuLabel.backgroundColor = [UIColor clearColor];
+	mainMenuLabel.numberOfLines = 1;
+	mainMenuLabel.font = [UIFont boldSystemFontOfSize: 7.0f];
+	mainMenuLabel.textAlignment = NSTextAlignmentCenter;
+	mainMenuLabel.textColor = [UIColor whiteColor];
+	mainMenuLabel.text = mainMenuText;
+
+//	[navView addSubview:ptpLabel];
+	[navView addSubview:mainMenuLabel];
+	[navView addSubview:ptp];
+	
+	self.navigationItem.titleView = navView;
+	
+	self.aboutView.titleLabel.text = @"Poker Track Pro";
+	
+	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
+	self.playerTypeLabel.text = NSLocalizedString(@"Analysis", nil);
+	self.playerTypeLabel.layer.cornerRadius = 7;
+	self.playerTypeLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
+	self.playerTypeLabel.layer.borderColor = [UIColor blackColor].CGColor;
+	self.playerTypeLabel.layer.borderWidth = 2.;
+	self.last10Label.text = NSLocalizedString(@"Last 10", nil);
+	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
+	self.last10Label.backgroundColor=[UIColor blackColor];
+	self.analysisLabel.backgroundColor=[UIColor blackColor];
+	
+	self.topView.hidden=self.isPokerZilla;
+	self.last10Label.hidden=self.isPokerZilla;
+	self.forumButton.hidden=self.isPokerZilla;
+	self.netTrackerButton.hidden=self.isPokerZilla;
+	self.botView.hidden=self.isPokerZilla;
+	self.pokerZillaImageView.hidden=!self.isPokerZilla;
 }
 
 -(void)createMainMenuButton:(UIButton *)button name:(NSString *)name type:(int)type size:(float)size {
@@ -664,8 +713,6 @@
 
 		[self enterNewFilterValue:@"This Month" buttonNumber:1];
 		[self enterNewFilterValue:@"Last Month" buttonNumber:2];
-		
-		
 	}
 
 }
@@ -702,6 +749,13 @@
 		[self updateMoneyLabel:bankrollLabel money:winnings];
 		[bankrollNameLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@:", [ProjectFunctions getMonthFromDate:[NSDate date]]] waitUntilDone:NO];
 	}
+}
+
+-(void)calculateStats
+{
+	[self.activityIndicatorData startAnimating];
+	[self doTheHardWork];
+//	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
 }
 
 -(void)doTheHardWork {
@@ -745,9 +799,6 @@
 		double netIncome = [[values stringAtIndex:5] doubleValue];
 		
 		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:amountRisked winnings:netIncome] forState:UIControlStateNormal];
-		yearLabel.alpha=0.2;
-		yearLabel.text = [NSString stringWithFormat:@"%d", thisYear];
-		smallYearLabel.text = [NSString stringWithFormat:@"%d:", thisYear];
 		
 		[self updateMainGraphWithCOntext:contextLocal year:thisYear];
 		
@@ -768,16 +819,9 @@
 	} else {
 		self.graphChart.image = self.largeGraph.image;
 		refreshButton.alpha=1;
-		yearLabel.alpha=0.2;
+		yearLabel.alpha=0.1;
 	}
 }
-
--(void)calculateStats
-{
-	[self.activityIndicatorData startAnimating];
-	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
-}
-
 
 -(void)findMinAndMaxYear {
     NSString *minYear = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
@@ -814,6 +858,9 @@
         [ProjectFunctions setUserDefaultValue:maxYear forKey:@"maxYear"];
 	}
 	
+	yearLabel.alpha=0.2;
+	yearLabel.text = [NSString stringWithFormat:@"%d", currentMaxYear];
+	smallYearLabel.text = [NSString stringWithFormat:@"%d:", currentMaxYear];
 }
 
 -(void) setReturningValue:(NSString *) value2 {
@@ -824,7 +871,6 @@
 	bankrollLabel.text = [ProjectFunctions convertIntToMoneyString:bankroll];
 	
 }
-
 
 - (IBAction) statsPressed: (id) sender 
 {
@@ -838,7 +884,6 @@
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.hideMainMenuButton = YES;
 	detailViewController.gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
-	detailViewController.displayYear = displayYear;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -854,8 +899,6 @@
     
 	GamesVC *detailViewController = [[GamesVC alloc] initWithNibName:@"GamesVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.displayYear = displayYear;
-	detailViewController.showMainMenuButton=NO;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 

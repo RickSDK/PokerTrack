@@ -27,5 +27,7 @@
 
 @property (nonatomic, strong) NSString *playerStyleStr;
 
++(int)vpipForPlayer:(PlayerObj *)player;
++(int)pfrForPlayer:(PlayerObj *)player;
 
 @end
