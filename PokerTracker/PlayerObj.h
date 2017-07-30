@@ -20,14 +20,17 @@
 @property (nonatomic) int picId;
 @property (nonatomic) int looseNum;
 @property (nonatomic) int agressiveNum;
+@property (nonatomic) int playerId;
 
 @property (nonatomic) int vpip;
 @property (nonatomic) int pfr;
 @property (nonatomic) int af;
 
 @property (nonatomic, strong) NSString *playerStyleStr;
+@property (nonatomic, strong) NSString *name;
 
 +(int)vpipForPlayer:(PlayerObj *)player;
 +(int)pfrForPlayer:(PlayerObj *)player;
++(NSString *)afForPlayer:(PlayerObj *)player;
 
 @end

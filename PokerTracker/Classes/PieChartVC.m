@@ -27,7 +27,12 @@
 	[self computeStats];
 }
 
--(void)calculateStats {
+-(void)ptpGameSegmentChanged:(id)sender {
+	[self updateTitleForBar:self.ptpGameSegment title:@"Pie Charts" type:35];
+	[self computeStats];
+}
+
+-(void)yearChanged {
 	self.filterSegment.selectedSegmentIndex=0;
 	[self computeStats];
 }

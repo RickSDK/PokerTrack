@@ -133,8 +133,6 @@
 	
 	self.chartImageView.alpha=0;
 	
-	[ProjectFunctions resetTheYearSegmentBar:mainTableView displayYear:displayYear MoC:self.managedObjectContext leftButton:leftYear rightButton:rightYear displayYearLabel:yearLabel];
-	
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:displayYear]];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:gameType];
@@ -431,6 +429,7 @@
 		[ProjectFunctions showAlertPopup:@"Notice" message:@"Enter a filter name."];
 		return;
 	}
+	[self.mainTextfield resignFirstResponder];
 	[self saveNewFilter:[NSString stringWithFormat:@"%@|%d", self.mainTextfield.text, (int)self.mainSegment.selectedSegmentIndex]];
 	self.saveView.hidden=YES;
 }

@@ -61,11 +61,16 @@
 	[self loadDataIntoPlayer:self.heroObj heroFlag:YES];
 	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 	[self updateDisplay];
+	[self initializeVillian];
 	
+}
+
+-(void)initializeVillian {
 	if (self.playerMo) {
+		self.villianObj.playerId = [[self.playerMo valueForKey:@"player_id"] intValue];
+		self.villianObj.name = [self.playerMo valueForKey:@"name"];
 		self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
 	}
-	
 }
 
 -(void)setupScreen {
@@ -157,12 +162,6 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.callCount+self.villianObj.raiseCount;
 	int top2 = self.heroObj.callCount+self.heroObj.raiseCount;
-//	self.heroObj.vpip=50;
-//	self.villianObj.vpip=50;
-//	if (self.heroObj.handCount>0)
-//		self.heroObj.vpip = top2*100/self.heroObj.handCount;
-//	if (self.villianObj.handCount>0)
-//		self.villianObj.vpip = top1*100/self.villianObj.handCount;
 	
 	self.heroObj.vpip = [PlayerObj vpipForPlayer:self.heroObj];
 	self.villianObj.vpip = [PlayerObj vpipForPlayer:self.villianObj];
@@ -175,12 +174,6 @@
 	self.heroObj.handCount = self.heroObj.foldCount+self.heroObj.callCount+self.heroObj.raiseCount;
 	int top1 = self.villianObj.raiseCount;
 	int top2 = self.heroObj.raiseCount;
-//	self.heroObj.pfr=25;
-//	self.villianObj.pfr=25;
-//	if (self.heroObj.handCount>0)
-//		self.heroObj.pfr = top2*100/self.heroObj.handCount;
-//	if (self.villianObj.handCount>0)
-//		self.villianObj.pfr = top1*100/self.villianObj.handCount;
 
 	self.heroObj.pfr = [PlayerObj pfrForPlayer:self.heroObj];
 	self.villianObj.pfr = [PlayerObj pfrForPlayer:self.villianObj];
@@ -239,8 +232,8 @@
 		self.linkGameButton.hidden=NO;
 		self.linkGameImageView.image=[UIImage imageNamed:@"red.png"];
 	}
-	if(self.villianObj.handCount>0)
-		self.linkPlayerButton.hidden=YES;
+//	if(self.villianObj.handCount>0)
+//		self.linkPlayerButton.hidden=YES;
 	if(self.heroObj.handCount>0)
 		self.linkGameButton.hidden=YES;
 
@@ -360,6 +353,7 @@
 -(void)saveRecord {
 	if(self.gameMo) {
 		NSLog(@"+++Saving gameMo data: %@ (hero)", [self packageDataForObj:self.heroObj]);
+		NSLog(@"+++Saving gameMo data: %@ (vil)", [self packageDataForObj:self.villianObj]);
 		[self.gameMo setValue:[self packageDataForObj:self.heroObj] forKey:@"attrib01"];
 		[self.gameMo setValue:[self packageDataForObj:self.villianObj] forKey:@"attrib02"];
 		[self saveDatabase];
@@ -377,7 +371,8 @@
 }
 
 -(NSString *)packageDataForObj:(PlayerObj *)obj {
-	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.picId, obj.looseNum, obj.agressiveNum];
+	NSLog(@"obj.playerId: %d", obj.playerId);
+	return [NSString stringWithFormat:@"%d:%d:%d:%d:%d:%d:%d:%d:%@", obj.foldCount, obj.checkCount, obj.callCount, obj.raiseCount, obj.picId, obj.looseNum, obj.agressiveNum, obj.playerId, (obj.name)?obj.name:@""];
 }
 
 -(void)loadDataIntoPlayer:(PlayerObj *)obj heroFlag:(BOOL)heroFlag {
@@ -397,6 +392,19 @@
 			self.raiseButton2.enabled=NO;
 		}
 		[self populateHUDWithData:packagedData obj:obj];
+		if(!heroFlag && obj.playerId>0) {
+			NSLog(@"Load player...");
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"player_id = %d", obj.playerId];
+			NSArray *players = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:YES];
+			if (players.count>0) {
+				self.playerMo = [players objectAtIndex:0];
+				[self initializeVillian];
+				return;
+			} else {
+				[ProjectFunctions showAlertPopup:@"Error" message:@"Unable to load Villian!"];
+			}
+
+		}
 	}
 	if(self.playerMo) {
 		NSString *field = (heroFlag)?@"attrib_05":@"desc";
@@ -406,6 +414,7 @@
 }
 
 -(void)populateHUDWithData:(NSString *)packagedData obj:(PlayerObj *)obj {
+	NSLog(@"populateHUDWithData: %@", packagedData);
 	NSArray *components = [packagedData componentsSeparatedByString:@":"];
 	if(components.count>3) {
 		obj.foldCount=[[components objectAtIndex:0] intValue];
@@ -413,10 +422,12 @@
 		obj.callCount=[[components objectAtIndex:2] intValue];
 		obj.raiseCount=[[components objectAtIndex:3] intValue];
 	}
+	if(components.count>7) {
+		obj.playerId = [[components objectAtIndex:7] intValue];
+	}
 }
 
 -(void) setReturningValue:(NSString *) value {
-	NSLog(@"+++%d %@", self.selectedTag, value);
 	if(self.selectedTag==0)
 		self.selectedPlayerObj.foldCount = [value intValue];
 	if(self.selectedTag==1)
@@ -484,8 +495,9 @@
 	if(self.linkButtonTag==0) {
 		self.playerMo = mo;
 		if (self.playerMo) {
-			self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
 			[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
+			[self initializeVillian];
+			NSLog(@"villianObj.playerId: %d", self.villianObj.playerId);
 		}
 		if(!self.gameMo)
 			[self loadDataIntoPlayer:self.heroObj heroFlag:YES];

@@ -37,7 +37,7 @@
 @implementation GamesVC
 @synthesize managedObjectContext;
 @synthesize bankrollButton;
-@synthesize mainTableView, gamesList, gameTypeSegment, bankRollSegment;
+@synthesize mainTableView, gamesList, bankRollSegment;
 
 
 -(void)viewWillAppear:(BOOL)animated
@@ -59,17 +59,9 @@
 	[self changeNavToIncludeType:34];
 	
 	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:NSLocalizedString(@"Last10", nil)];
-	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:NSLocalizedString(@"Top 5", nil)];
-	[ProjectFunctions makeGameSegment:self.mainSegment color:[UIColor colorWithRed:0 green:.4 blue:0 alpha:1]];
-	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
-	if([gameType isEqualToString:@"Tournament"])
-		self.mainSegment.selectedSegmentIndex=2;
-	if([gameType isEqualToString:@"Cash"])
-		self.mainSegment.selectedSegmentIndex=1;
+	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:NSLocalizedString(@"Top5", nil)];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
-	
-	[ProjectFunctions setFontColorForSegment:self.mainSegment values:nil];
 	
 	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
 	
@@ -90,11 +82,17 @@
 }
 
 - (IBAction) top5Pressed: (id) sender {
+	[self performSelector:@selector(gotoTop5) withObject:nil afterDelay:.1];
+}
+-(void)gotoTop5 {
 	Top5VC *detailViewController = [[Top5VC alloc] initWithNibName:@"Top5VC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 - (IBAction) last10Pressed: (id) sender {
+	[self performSelector:@selector(gotoLast10) withObject:nil afterDelay:.1];
+}
+-(void)gotoLast10 {
 	Last10NewVC *detailViewController = [[Last10NewVC alloc] initWithNibName:@"Last10NewVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
@@ -126,7 +124,8 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-	[ProjectFunctions changeColorForGameBar:self.gameTypeSegment];
+	[ProjectFunctions changeColorForGameBar:self.ptpGameSegment];
+	[self updateTitleForBar:self.ptpGameSegment title:@"Games" type:34];
 	[self computeStats];
 }
 
@@ -153,16 +152,8 @@
 	@autoreleasepool {
 		self.fetchIsReady=NO;
 		
-		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
-		if(self.mainSegment.selectedSegmentIndex==0) {
-			[self setTitle:NSLocalizedString(@"Games", nil)];
-		}
-		if(self.mainSegment.selectedSegmentIndex==1) {
-			[self setTitle:NSLocalizedString(@"Cash Games", nil)];
-		}
-		if(self.mainSegment.selectedSegmentIndex==2) {
-			[self setTitle:NSLocalizedString(@"Tournaments", nil)];
-		}
+		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
+		[self updateTitleForBar:self.ptpGameSegment title:@"Games" type:34];
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:games]];
@@ -262,7 +253,7 @@
 	NSArray *sortDescriptors = @[sortDescriptor];
 	[fetchRequest setSortDescriptors:sortDescriptors];
 	
-	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.mainSegment.selectedSegmentIndex];
+	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
 	NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 
 	[fetchRequest setPredicate:predicate];

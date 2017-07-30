@@ -48,6 +48,7 @@
 	
 	self.bankrollLabel.text = NSLocalizedString(@"bankroll", nil);
 	[self.completedButton setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
+	[self.completed2Button setTitle:NSLocalizedString(@"Completed", nil) forState:UIControlStateNormal];
 	[ProjectFunctions makeFALabel:self.locationLabel type:13 size:22];
 	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
 	[ProjectFunctions makeFAButton:self.addCasinoButton type:1 size:18];

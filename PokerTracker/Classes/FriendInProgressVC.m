@@ -46,7 +46,7 @@
 -(void)setupData {
 	self.multiCellObj = [MultiCellObj initWithTitle:self.gameObj.type altTitle:self.gameObj.gametype labelPercent:.4];
 	[self.multiCellObj addBlackLineWithTitle:@"location" value:self.gameObj.location];
-	[self.multiCellObj addBlackLineWithTitle:@"game" value:self.gameObj.gametype];
+	[self.multiCellObj addBlackLineWithTitle:@"Game" value:self.gameObj.gametype];
 	[self.multiCellObj addBlackLineWithTitle:@"limit" value:self.gameObj.limit];
 	if(self.gameObj.stakes && !self.gameObj.tournamentGameFlg)
 		[self.multiCellObj addBlackLineWithTitle:@"stakes" value:self.gameObj.stakes];
@@ -54,7 +54,7 @@
 	[self.multiCellObj addBlackLineWithTitle:@"Buyin" value:self.gameObj.buyInAmountStr];
 	[self.multiCellObj addBlackLineWithTitle:@"rebuyAmount" value:self.gameObj.reBuyAmountStr];
 	[self.multiCellObj addBlackLineWithTitle:self.gameObj.playFlag?@"Current Chips":@"cashoutAmount" value:self.gameObj.cashoutAmountStr];
-	[self.multiCellObj addMoneyLineWithTitle:@"profit" amount:self.gameObj.profit];
+	[self.multiCellObj addMoneyLineWithTitle:@"Profit" amount:self.gameObj.profit];
 	[self.multiCellObj addBlackLineWithTitle:@"endTime" value:self.gameObj.endTimeStr];
 	[self.multiCellObj addBlackLineWithTitle:@"Hours" value:self.gameObj.hours];
 	[self.multiCellObj addColoredLineWithTitle:@"Hourly" value:self.gameObj.hourlyStr amount:self.gameObj.profit];

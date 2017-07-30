@@ -8,7 +8,15 @@
 
 "Main Menu" = "Huvudmeny";
 "Stats" = "Statistik"; // short
+"Odds" = "Odds";
+"Trackers" = "Trackers";
+"Forum" = "Forum";
+"Net Tracker" = "Net Tracker";
+"New Game" = "Nytt Spel";
 "Casino Locator" = "Casino Locator";
+"Top5" = "Topp 5";
+"Summary" = "Sammanfattning";
+"More" = "Mer";
 "Cash" = "Kontanter";
 "Cash Game" = "Kontanter Spel";
 "Cash Games" = "Kontanter Spel";

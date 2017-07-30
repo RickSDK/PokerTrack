@@ -78,6 +78,7 @@
 @property (atomic, strong) UIButton *buyinButton;
 @property (atomic, strong) UIButton *startLiveButton;
 @property (atomic, strong) UIButton *completedButton;
+@property (atomic, strong) IBOutlet UIButton *completed2Button;
 @property (atomic, strong) UIButton *locationButton;
 @property (atomic, strong) UIButton *addCasinoButton;
 @property (atomic, strong) IBOutlet UILabel *locationTextLabel;

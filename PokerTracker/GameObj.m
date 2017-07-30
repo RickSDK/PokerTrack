@@ -71,7 +71,8 @@
 			hudPlayerObj.picId = [[components objectAtIndex:4] intValue];
 			int vpip = [PlayerObj vpipForPlayer:hudPlayerObj];
 			int pfr = [PlayerObj pfrForPlayer:hudPlayerObj];
-			gameObj.hudVpip	= [NSString stringWithFormat:@"%d / %d", vpip, pfr];
+			NSString *af = [PlayerObj afForPlayer:hudPlayerObj];
+			gameObj.hudVpip	= [NSString stringWithFormat:@"%d / %d (%@)", vpip, pfr, af];
 			gameObj.hudSkillLevel = [self playerSkillLevelForType:hudPlayerObj.picId];
 			int looseNum = [[components objectAtIndex:5] intValue];
 			int agressiveNum = [[components objectAtIndex:6] intValue];
@@ -79,6 +80,12 @@
 		}
 		if (gameObj.hudHeroStr.length>10 && gameObj.hudVillianStr.length>10 && [@"0:0:0:0" isEqualToString:[gameObj.hudHeroStr substringToIndex:7]] && [@"0:0:0:0" isEqualToString:[gameObj.hudVillianStr substringToIndex:7]])
 			gameObj.hudStatsFlg=NO;
+	}
+	if(gameObj.hudVillianStr.length>10) {
+		NSArray *components = [gameObj.hudVillianStr componentsSeparatedByString:@":"];
+		if(components.count>8) {
+			gameObj.hudVillianName = [components objectAtIndex:8];
+		}
 	}
 	NSString *middleValue = ([@"Cash" isEqualToString:gameObj.type])?gameObj.stakes:gameObj.tournamentType;
 	gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", gameObj.gametype, middleValue, gameObj.limit];
@@ -97,7 +104,7 @@
 	gameObj.minutes = [ProjectFunctions getMinutesPlayedUsingStartTime:gameObj.startTime andEndTime:endTime andBreakMin:gameObj.breakMinutes];
 
 	
-	gameObj.hourlyStr = [ProjectFunctions hourlyStringFromProfit:gameObj.profit hours:gameObj.minutes/60];
+//	gameObj.hourlyStr = [ProjectFunctions hourlyStringFromProfit:gameObj.profit hours:gameObj.minutes/60];
 	gameObj.hours = [NSString stringWithFormat:@"%.1f", (float)gameObj.minutes/60];
 	gameObj.startTimeStr = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
 	gameObj.startTimeAltStr = [gameObj.startTime convertDateToStringWithFormat:@"EEEE hh:mm a"];
@@ -134,13 +141,20 @@
 }
 
 +(GameObj *)updateMoreFieldsForObj:(GameObj *)gameObj {
+	gameObj.endTimeStr = [ProjectFunctions displayLocalFormatDate:gameObj.endTime showDay:YES showTime:YES];
+	if(gameObj.playFlag) {
+		gameObj.endTimeStr = @"In Progress...";
+		int gameMinutes = [[NSDate date] timeIntervalSinceDate:gameObj.startTime]/60;
+		if(gameMinutes>gameObj.minutes)
+			gameObj.minutes = gameMinutes;
+	}
 	gameObj.tournamentGameFlg = [@"Tournament" isEqualToString:gameObj.type];
 	gameObj.risked = gameObj.buyInAmount+gameObj.reBuyAmount;
 	gameObj.takeHome = gameObj.cashoutAmount - gameObj.risked;
 	gameObj.profit = gameObj.cashoutAmount + gameObj.foodDrink - gameObj.risked;
 	gameObj.grossIncome = gameObj.cashoutAmount + gameObj.tokes + gameObj.foodDrink - gameObj.risked;
 	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit];
-	gameObj.hourlyStr = [ProjectFunctions hourlyStringFromProfit:gameObj.profit hours:gameObj.minutes/60];
+	gameObj.hourlyStr = [ProjectFunctions hourlyStringFromProfit:gameObj.profit hours:(float)gameObj.minutes/60];
 	gameObj.hours = [NSString stringWithFormat:@"%.1f", (float)gameObj.minutes/60];
 	gameObj.startTimeStr = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
 	if(!gameObj.lastUpd)
@@ -150,7 +164,6 @@
 	gameObj.startTimePTP = [gameObj.startTime convertDateToStringWithFormat:nil];
 	gameObj.endTimePTP = [gameObj.endTime convertDateToStringWithFormat:nil];
 	gameObj.weekdayAltStr = [NSString stringWithFormat:@"%@ %@", gameObj.weekday, gameObj.daytime];
-	gameObj.endTimeStr = [ProjectFunctions displayLocalFormatDate:gameObj.endTime showDay:YES showTime:YES];
 	gameObj.profitStr = [ProjectFunctions convertNumberToMoneyString:gameObj.profit];
 	gameObj.profitLongStr = [NSString stringWithFormat:@"%@ (%@)", gameObj.profitStr, gameObj.hourlyStr];
 	gameObj.buyInAmountStr = [ProjectFunctions convertNumberToMoneyString:gameObj.buyInAmount];
@@ -194,18 +207,16 @@
 		gameObj.gametype = [components objectAtIndex:8];
 		gameObj.stakes = [components objectAtIndex:9];
 		gameObj.limit = [components objectAtIndex:10];
-		gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", [components objectAtIndex:8], [components objectAtIndex:9], [components objectAtIndex:10]];
+		gameObj.name = [NSString stringWithFormat:@"%@ %@ %@", gameObj.gametype, gameObj.stakes, gameObj.limit];
 		
-		gameObj.endTimeStr = [components objectAtIndex:11];
-		gameObj.lastUpdStr = [components objectAtIndex:12];
-		gameObj.endTime = [[components objectAtIndex:11] convertStringToDateFinalSolution];
-		gameObj.lastUpd = [[components objectAtIndex:12] convertStringToDateFinalSolution];
+		gameObj.lastUpdStr = [components objectAtIndex:11];
+		gameObj.endTimeStr = [components objectAtIndex:12];
+		gameObj.lastUpd = [[components objectAtIndex:11] convertStringToDateFinalSolution];
+		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateFinalSolution];
 		gameObj.status = @"unknown";
 	} else
 		NSLog(@"Not enough!!!! [%@]", line);
 	gameObj = [self updateMoreFieldsForObj:gameObj];
-	if(gameObj.playFlag)
-		gameObj.endTimeStr = @"In Progress...";
 	
 	return gameObj;
 }

@@ -107,6 +107,7 @@
 	if(self.topSegment.selectedSegmentIndex==2) {
 		[self setTitle:NSLocalizedString(@"Games", nil)];
 	}
+	[self changeNavToIncludeType:26];
     [mainTableView reloadData];
 }
 
@@ -114,6 +115,7 @@
 - (IBAction) gameSegmentChanged: (id) sender {
 	[ProjectFunctions changeColorForGameBar:self.gameSegment];
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
+	[self updateTitleForBar:self.gameSegment title:@"Reports" type:26];
 	[self computeStats];
 }
 
@@ -160,7 +162,7 @@
     return number;
 }
 
--(void)calculateStats {
+-(void)yearChanged {
 	[self computeStats];
 }
 

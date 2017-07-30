@@ -69,7 +69,7 @@
 @property (nonatomic) BOOL friendFlg;
 @property (nonatomic) int iconGroupNumber;
 
-+(NetUserObj *)userObjFromString:(NSString *)line;
++(NetUserObj *)userObjFromString:(NSString *)line type:(int)type;
 +(NetUserObj *)friendObjFromLine:(NSString *)line;
 +(void)populateGameStats:(NetUserObj *)netUserObj line:(NSString *)line type:(int)type;
 - (NSComparisonResult)compare:(NetUserObj *)otherObject;

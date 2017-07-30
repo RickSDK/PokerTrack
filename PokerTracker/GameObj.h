@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *hourlyStr;
 @property (nonatomic, strong) NSString *tournamentType;
 @property (nonatomic, strong) NSString *hudPlayerType;
+@property (nonatomic, strong) NSString *hudVillianName;
 
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;

@@ -116,9 +116,12 @@
 		[self addIntLineWithTitle:@"tournamentFinish" value:gameObj.tournamentFinish color:[UIColor blueColor]];
 	}
 	if(gameObj.hudStatsFlg) {
-		[self addLineWithTitle:@"VPIP / PFR" value:gameObj.hudVpip color:[UIColor purpleColor]];
+		[self addLineWithTitle:@"VPIP / PFR (AF)" value:gameObj.hudVpip color:[UIColor purpleColor]];
 		[self addLineWithTitle:@"HUD Play" value:gameObj.hudPlayerType color:[UIColor purpleColor]];
 		[self addLineWithTitle:@"HUD Skill Level" value:gameObj.hudSkillLevel color:[UIColor purpleColor]];
+		if(gameObj.hudVillianName.length>0)
+			[self addLineWithTitle:@"HUD Villian" value:gameObj.hudVillianName color:[UIColor purpleColor]];
+		
 	}
 	[self addBlackLineWithTitle:@"notes" value:gameObj.notes];
 }

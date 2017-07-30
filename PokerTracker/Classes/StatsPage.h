@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TemplateVC.h"
+#import "MultiCellObj.h"
 
 @interface StatsPage : TemplateVC {
  	//---Passed In----------------------------
@@ -59,7 +60,6 @@
 
 -(void) computeStats;
 -(void)initializeFormData;
-//-(BOOL)saveNewFilter:(NSString *)valueCombo;
 
 @property (atomic, strong) NSMutableArray *profitArray;
 @property (atomic, strong) NSManagedObject *filterObj;
@@ -94,19 +94,6 @@
 
 @property (atomic, strong) NSMutableArray *multiDimenArray;
 
-@property (atomic, strong) NSMutableArray *titles1;
-@property (atomic, strong) NSMutableArray *values1;
-@property (atomic, strong) NSMutableArray *colors1;
-@property (atomic, strong) NSMutableArray *titles2;
-@property (atomic, strong) NSMutableArray *values2;
-@property (atomic, strong) NSMutableArray *colors2;
-@property (atomic, strong) NSMutableArray *titles3;
-@property (atomic, strong) NSMutableArray *values3;
-@property (atomic, strong) NSMutableArray *colors3;
-@property (atomic, strong) NSMutableArray *titles4;
-@property (atomic, strong) NSMutableArray *values4;
-@property (atomic, strong) NSMutableArray *colors4;
-
 @property (atomic, strong) UIButton *bankrollButton;
 
 @property (atomic, strong) IBOutlet UILabel *chartsLabel;
@@ -114,6 +101,10 @@
 @property (atomic, strong) IBOutlet UILabel *goalsLabel;
 @property (atomic, strong) IBOutlet UILabel *analysisLabel;
 
+@property (atomic, strong) MultiCellObj *gameStatsSection;
+@property (atomic, strong) MultiCellObj *quarterStatsSection;
+@property (atomic, strong) MultiCellObj *gamesWonSection;
+@property (atomic, strong) MultiCellObj *gamesLostSection;
 
 
 

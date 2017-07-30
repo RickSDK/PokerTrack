@@ -51,10 +51,22 @@
 	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
 	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	[self.yearChangeView setYear:-1 min:currentMinYear];
-	[self.yearChangeView addTargetSelector:@selector(calculateStats) target:self];
+	[self.yearChangeView addTargetSelector:@selector(yearChanged) target:self];
+}
+
+-(void)yearChanged {
+	[self calculateStats];
+}
+
+-(void)calculateStats {
+	
 }
 
 -(void)changeNavToIncludeType:(int)type {
+	[self changeNavToIncludeType:type title:self.navigationItem.title];
+}
+
+-(void)changeNavToIncludeType:(int)type title:(NSString *)title {
 	float width = [[UIScreen mainScreen] bounds].size.width;
 	UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width-70, 44)];
 	UILabel *ptpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width-70, 20)];
@@ -71,11 +83,21 @@
 	mainLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20];
 	mainLabel.textAlignment = NSTextAlignmentCenter;
 	mainLabel.textColor = [UIColor whiteColor];
-	mainLabel.text = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions faStringOfType:type] , self.navigationItem.title];
+	mainLabel.text = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions faStringOfType:type] , title];
 	
 	[navView addSubview:ptpLabel];
 	[navView addSubview:mainLabel];
 	self.navigationItem.titleView = navView;
+}
+
+-(NSString *)updateTitleForBar:(UISegmentedControl *)segment title:(NSString *)title type:(int)type {
+	if(segment.selectedSegmentIndex==1)
+		title = @"Cash Games";
+	if(segment.selectedSegmentIndex==2)
+		title = @"Tournaments";
+	title = NSLocalizedString(title, nil);
+	[self changeNavToIncludeType:type title:title];
+	return title;
 }
 
 -(void)saveDatabase {
@@ -112,10 +134,6 @@
 - (IBAction) ptpGameSegmentChanged: (id) sender {
 	[self.ptpGameSegment gameSegmentChanged];
 	[self calculateStats];
-}
-
--(void)calculateStats {
-	
 }
 
 -(void)backButtonClicked {

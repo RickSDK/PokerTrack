@@ -63,6 +63,10 @@
 	double totalGamesLostMaxProfit=0;
 	if(games.count>0)
 		totalGamesLostMaxProfit=-99999;
+	NSString *largestWinGame = @"-";
+	NSString *smallestWinGame = @"-";
+	NSString *largestLossGame = @"-";
+	NSString *smallestLossGame = @"-";
 	double totalGamesLostProfit=0;
 	double totalGamesLostRisked=0;
 	double totalGamesLostRebuys=0;
@@ -102,6 +106,7 @@
 		NSString *weekday = [game valueForKey:@"weekday"];
 		NSString *daytime = [game valueForKey:@"daytime"];
 		NSString *hudString = [game valueForKey:@"attrib01"];
+		NSString *displayDay = [ProjectFunctions displayLocalFormatDate:[game valueForKey:@"startTime"] showDay:YES showTime:NO];
 		
 		double weekdayAmount = [[weekDayDict valueForKey:weekday] doubleValue];
 		weekdayAmount+=profit;
@@ -142,10 +147,14 @@
 			totalGamesWonRisked += risked;
 			totalGamesWonRebuys += rebuyAmount;
 			streak = (streak>=0)?streak+1:1;
-			if (profit>0 && profit<totalGamesWonMinProfit)
+			if (profit>0 && profit<totalGamesWonMinProfit) {
 				totalGamesWonMinProfit = profit;
-			if (profit>totalGamesWonMaxProfit)
+				smallestWinGame = displayDay;
+			}
+			if (profit>totalGamesWonMaxProfit) {
 				totalGamesWonMaxProfit = profit;
+				largestWinGame = displayDay;
+			}
 		} else {
 			obj.losses++;
 			if(streakAlive) {
@@ -160,26 +169,30 @@
 			totalGamesLostRisked += risked;
 			totalGamesLostRebuys += rebuyAmount;
 			streak = (streak>=0)?-1:streak-1;
-			if (profit<totalGamesLostMinProfit)
+			if (profit<totalGamesLostMinProfit) {
 				totalGamesLostMinProfit = profit;
-			if (profit>totalGamesLostMaxProfit)
+				largestLossGame = displayDay;
+			}
+			if (profit>totalGamesLostMaxProfit) {
 				totalGamesLostMaxProfit = profit;
+				smallestLossGame = displayDay;
+			}
 		}
 		if(streak>winStreak) {
 			winStreak=streak;
-			winStreakDay = [ProjectFunctions displayLocalFormatDate:[game valueForKey:@"startTime"] showDay:YES showTime:NO];
+			winStreakDay = displayDay;
 		}
 		if(streak<loseStreak) {
 			loseStreak=streak;
-			loseStreakDay = [ProjectFunctions displayLocalFormatDate:[game valueForKey:@"startTime"] showDay:YES showTime:NO];
+			loseStreakDay = displayDay;
 		}
 		if(obj.profit > profitHigh) {
 			profitHigh=obj.profit;
-			profitHighDay = [NSString stringWithFormat:@"(%@)", [ProjectFunctions displayLocalFormatDate:[game valueForKey:@"startTime"] showDay:YES showTime:NO]];
+			profitHighDay = [NSString stringWithFormat:@"(%@)", displayDay];
 		}
 		if(obj.profit < profitLow) {
 			profitLow=obj.profit;
-			profitLowDay = [NSString stringWithFormat:@"(%@)", [ProjectFunctions displayLocalFormatDate:[game valueForKey:@"startTime"] showDay:YES showTime:NO]];
+			profitLowDay = [NSString stringWithFormat:@"(%@)", displayDay];
 		}
 		int i=0;
 		NSString *gameMonth = [game valueForKey:@"month"];
@@ -206,17 +219,20 @@
 			i++;
 		}
 	}
+	obj.hudGamesStr=@"-";
 	if(obj.hudGames>0) {
 		obj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:hudPlayerObj.looseNum/obj.hudGames agressiveNum:hudPlayerObj.agressiveNum/obj.hudGames];
 		int vpip = [PlayerObj vpipForPlayer:hudPlayerObj];
 		int pfr = [PlayerObj pfrForPlayer:hudPlayerObj];
-		obj.hudVpvp_Pfr = [NSString stringWithFormat:@"%d / %d", vpip, pfr];
+		NSString *af = [PlayerObj afForPlayer:hudPlayerObj];
+		obj.hudVpvp_Pfr = [NSString stringWithFormat:@"%d / %d (%@)", vpip, pfr, af];
 		NSArray *types = [NSArray arrayWithObjects:@"Donkey", @"Fish", @"Rounder", @"Grinder", @"Shark", @"Pro", nil];
 		int playType = hudPlayerObj.picId/obj.hudGames;
 		NSString *hudSkillLevel = @"Grinder";
 		if(playType<types.count)
 			hudSkillLevel = [types objectAtIndex:playType];
 		obj.hudSkillLevel = hudSkillLevel;
+		obj.hudGamesStr = [NSString stringWithFormat:@"%d (%d hands)", obj.hudGames, hudPlayerObj.foldCount+hudPlayerObj.checkCount+hudPlayerObj.callCount+hudPlayerObj.raiseCount];
 	}
 
 	obj.quarter1Profit = quarter1Profit;
@@ -283,8 +299,8 @@
 	}
 	if(totalGamesWonMinProfit==99999)
 		totalGamesWonMinProfit=0;
-	obj.gamesWonMinProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMinProfit]];
-	obj.gamesWonMaxProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMaxProfit]];
+	obj.gamesWonMinProfit = [NSString stringWithFormat:@"%@ (%@)", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMinProfit], smallestWinGame];
+	obj.gamesWonMaxProfit = [NSString stringWithFormat:@"%@ (%@)", [ProjectFunctions convertNumberToMoneyString:totalGamesWonMaxProfit], largestWinGame];
 	
 	//-------Games lost-----
 	obj.gamesLost = [NSString stringWithFormat:@"%d", totalGamesLost];
@@ -300,8 +316,8 @@
 	}
 	if(totalGamesLostMaxProfit==-99999)
 		totalGamesLostMaxProfit=0;
-	obj.gamesLostMaxProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMaxProfit]];
-	obj.gamesLostMinProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMinProfit]];
+	obj.gamesLostMaxProfit = [NSString stringWithFormat:@"%@ (%@)", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMaxProfit], smallestLossGame];
+	obj.gamesLostMinProfit = [NSString stringWithFormat:@"%@ (%@)", [ProjectFunctions convertNumberToMoneyString:totalGamesLostMinProfit], largestLossGame];
 	
 	NSArray *sortedWeekdayArray = [self sortedArrayFromDict:weekDayDict];
 	NSArray *sortedDaytimeArray = [self sortedArrayFromDict:dayTimesDict];
@@ -318,9 +334,9 @@
 			obj.bestDayAmount = [[bestComps objectAtIndex:0] floatValue]-100000;
 			obj.worstDayAmount = [[worstComps objectAtIndex:0] floatValue]-100000;
 			if(obj.wins>0)
-				obj.bestWeekday = [NSString stringWithFormat:@"%@s (%@ ave.)", [bestComps objectAtIndex:1], [self moneyForString:[bestComps objectAtIndex:0]]];
+				obj.bestWeekday = [NSString stringWithFormat:@"%@s (%@ total)", [bestComps objectAtIndex:1], [self moneyForString:[bestComps objectAtIndex:0]]];
 			if(obj.losses>0)
-				obj.worstWeekday = [NSString stringWithFormat:@"%@s (%@ ave.)", [worstComps objectAtIndex:1], [self moneyForString:[worstComps objectAtIndex:0]]];
+				obj.worstWeekday = [NSString stringWithFormat:@"%@s (%@ total)", [worstComps objectAtIndex:1], [self moneyForString:[worstComps objectAtIndex:0]]];
 		}
 	}
 	if(sortedDaytimeArray.count>0) {
@@ -332,9 +348,9 @@
 			obj.bestTimeAmount = [[bestComps objectAtIndex:0] floatValue]-100000;
 			obj.worstTimeAmount = [[worstComps objectAtIndex:0] floatValue]-100000;
 			if(obj.wins>0)
-				obj.bestDaytime = [NSString stringWithFormat:@"%@s (%@ ave.)", [bestComps objectAtIndex:1], [self moneyForString:[bestComps objectAtIndex:0]]];
+				obj.bestDaytime = [NSString stringWithFormat:@"%@s (%@ total)", [bestComps objectAtIndex:1], [self moneyForString:[bestComps objectAtIndex:0]]];
 			if(obj.losses>0)
-				obj.worstDaytime = [NSString stringWithFormat:@"%@s (%@ ave.)", [worstComps objectAtIndex:1], [self moneyForString:[worstComps objectAtIndex:0]]];
+				obj.worstDaytime = [NSString stringWithFormat:@"%@s (%@ total)", [worstComps objectAtIndex:1], [self moneyForString:[worstComps objectAtIndex:0]]];
 		}
 	}
 	

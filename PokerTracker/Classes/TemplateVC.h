@@ -45,6 +45,8 @@
 -(void)saveDatabase;
 -(void)populatePopupWithTitle:(NSString *)title text:(NSString *)text;
 -(void)changeNavToIncludeType:(int)type;
+-(void)changeNavToIncludeType:(int)type title:(NSString *)title;
+-(NSString *)updateTitleForBar:(UISegmentedControl *)segment title:(NSString *)title type:(int)type;
 - (IBAction) segmentChanged: (id) sender;
 - (IBAction) ptpGameSegmentChanged: (id) sender;
 - (IBAction) xButtonClicked: (id) sender;

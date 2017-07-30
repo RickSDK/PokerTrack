@@ -11,7 +11,7 @@
 
 @implementation NetUserObj
 
-+(NetUserObj *)userObjFromString:(NSString *)line {
++(NetUserObj *)userObjFromString:(NSString *)line type:(int)type {
 	NetUserObj *netUserObj = [NetUserObj new];
 	NSArray *elements = [line componentsSeparatedByString:@"<xx>"];
 	if(elements.count>4) {
@@ -57,7 +57,7 @@
 
 		//-----------monthStats----------------
 		
-		[self populateGameStats:netUserObj line:netUserObj.monthStats type:99];
+		[self populateGameStats:netUserObj line:netUserObj.monthStats type:type];
 
 		//-----------lastGameStr----------------
 		if(netUserObj.lastGameStr.length>20)
@@ -196,7 +196,7 @@
 }
 
 +(NetUserObj *)friendObjFromLine:(NSString *)line {
-	return [self userObjFromString:line];
+	return [self userObjFromString:line type:1];
 }
 
 - (NSComparisonResult)compare:(NetUserObj *)otherObject {

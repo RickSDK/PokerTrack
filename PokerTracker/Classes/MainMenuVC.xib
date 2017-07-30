@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainMenuVC">
             <connections>
-                <outlet property="aboutText" destination="45" id="46"/>
                 <outlet property="aboutTextView" destination="45" id="T0U-aS-gyT"/>
                 <outlet property="aboutView" destination="CJx-aU-Fr0" id="PtM-n3-REt"/>
                 <outlet property="activityIndicatorData" destination="88" id="rgT-By-nHW"/>
@@ -27,6 +26,7 @@
                 <outlet property="friendsNumLabel" destination="109" id="112"/>
                 <outlet property="gamesButton" destination="5" id="3Pj-td-jO1"/>
                 <outlet property="graphChart" destination="97" id="100"/>
+                <outlet property="iNewGameLabel" destination="kaR-qC-vrr" id="6pq-v2-shh"/>
                 <outlet property="largeGraph" destination="Wki-CA-D7y" id="xPl-Fv-n3u"/>
                 <outlet property="last10Label" destination="gJM-mh-Zvl" id="9RL-QF-uxO"/>
                 <outlet property="moreTrackersButton" destination="33" id="vOy-nK-XLs"/>
@@ -82,10 +82,10 @@
                                 <action selector="casinoTrackerClicked:" destination="-1" eventType="touchDown" id="72"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Casino Locator" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" id="jk0-gd-6we">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Casino Locator" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="6" id="jk0-gd-6we">
                             <rect key="frame" x="5" y="4" width="60" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                            <fontDescription key="fontDescription" type="system" weight="black" pointSize="12"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

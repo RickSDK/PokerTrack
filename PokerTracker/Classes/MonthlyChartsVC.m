@@ -91,7 +91,7 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
--(void)calculateStats {
+-(void)yearChanged {
 	[self computeStats];
 }
 

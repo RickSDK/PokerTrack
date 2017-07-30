@@ -291,20 +291,11 @@
 	
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Odds Calc"];
-    
-    [mainTableView setBackgroundView:nil];
-
-
+	[self setTitle:@"Odds Calc"]; 
+	[self changeNavToIncludeType:28];
+	
 	labelValues = [[NSMutableArray alloc] init];
 	formDataArray = [[NSMutableArray alloc] init];
 	playerTurnResults = [[NSMutableArray alloc] init];
@@ -324,8 +315,6 @@
 	
 
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-//	self.leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Main Menu", nil) style:UIBarButtonItemStylePlain target:self action:@selector(mainMenuButtonClicked:)];
-//	self.navigationItem.leftBarButtonItem = leftButton;
 
 	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = calculateButton;

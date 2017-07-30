@@ -8,7 +8,15 @@
 
 "Main Menu" = "Main Menu";
 "Stats" = "Stats"; // Statsistics
+"Odds" = "Odds";
+"Trackers" = "Trackers";
+"Forum" = "Forum";
+"Net Tracker" = "Net Tracker";
+"New Game" = "New Game";
 "Casino Locator" = "Casino Locator";
+"Top5" = "Top 5";
+"Summary" = "Summary";
+"More" = "More";
 "Cash" = "Cash";
 "Cash Game" = "Cash Game";
 "Cash Games" = "Cash Games";
@@ -94,7 +102,6 @@
 "Details" = "Details";
 "IncomeTotal" = "Total Gross";
 "Take-Home" = "Take-Home";
-"Streak" = "Current Streak";
 "WinStreak" = "Longest Win Streak";
 "LoseStreak" = "Longest Lose Streak";
 "Average" = "Average";

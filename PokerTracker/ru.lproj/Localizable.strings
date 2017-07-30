@@ -8,7 +8,15 @@
 
 "Main Menu" = "Главное меню";
 "Stats" = "Статистика"; // short
+"Odds" = "шансы";
+"Trackers" = "трекеры";
+"Forum" = "Форум";
+"Net Tracker" = "Net Tracker";
+"New Game" = "Новая игра";
 "Casino Locator" = "Казино Локатор";
+"Top5" = "Топ-5";
+"Summary" = "Резюме";
+"More" = "Больше";
 "Cash" = "Денежные средства";
 "Cash Game" = "Наличная игра";
 "Cash Games" = "Наличные игры";

@@ -257,20 +257,19 @@
 		}
 	}
 	
-	
-	if([[formDataArray stringAtIndex:0] isEqualToString:@"Last 7 Days"])
+	if([timeFrame isEqualToString:@"Last 7 Days"])
 		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*7];
 	
-	if([[formDataArray stringAtIndex:0] isEqualToString:@"Last 30 Days"])
+	if([timeFrame isEqualToString:@"Last 30 Days"])
 		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*30];
 	
-	if([[formDataArray stringAtIndex:0] isEqualToString:@"Last 90 Days"])
+	if([timeFrame isEqualToString:@"Last 90 Days"])
 		startTime = [[NSDate date] dateByAddingTimeInterval:-1*60*60*24*90];
 	
-	if([[formDataArray stringAtIndex:0] isEqualToString:@"This Month"])
+	if([timeFrame isEqualToString:@"This Month"])
 		startTime = [ProjectFunctions getFirstDayOfMonth:[NSDate date]];
 
-	if([[formDataArray stringAtIndex:0] isEqualToString:@"Last Month"]) {
+	if([timeFrame isEqualToString:@"Last Month"]) {
 		NSDate *day1 = [ProjectFunctions getFirstDayOfMonth:[NSDate date]];
 		NSDate *lastMonth = [day1 dateByAddingTimeInterval:-1*60*60*24];
 		startTime = [ProjectFunctions getFirstDayOfMonth:lastMonth];
@@ -278,6 +277,7 @@
 	}
 	
 	NSString *formatString = @"startTime >= %@ AND startTime < %@";
+	NSLog(@"+++formatString: %@ (%@) (%@) [%@]", formatString, startTime, endTime, predicateString);
 	return [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@ AND %@", predicateString, formatString], startTime, endTime];
 }
 
@@ -316,7 +316,7 @@
 +(NSString *)predicateExt:(NSString *)value allValue:(NSString *)allValue field:(NSString *)field typeValue:(NSString *)typeValue mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum
 {
 	NSString *result = @"";
-	if(![value isEqualToString:allValue] && ![value isEqualToString:@"*Custom*"])
+	if(![value isEqualToString:allValue] && ![value isEqualToString:@"*Custom*"] && ![value isEqualToString:@"All"])
 		result = [NSString stringWithFormat:@" AND %@ = '%@'", field, [ProjectFunctions formatForDataBase:value]];
 	
 	if([value isEqualToString:@"*Custom*"])
@@ -921,7 +921,11 @@
 }
 
 +(NSString *)getNetTrackerMonth {
-	return [[NSDate date] convertDateToStringWithFormat:@"MMM yyyy"];
+	NSDateFormatter *df = [[NSDateFormatter alloc] init];
+	df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+	[df setDateFormat:@"MMM yyyy"];
+	NSString *dateString = [df stringFromDate:[NSDate date]];
+	return dateString;
 }
 
 +(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum {
@@ -2374,7 +2378,7 @@
         NSString *status = [mo valueForKey:@"status"];
         playFlg = ([status isEqualToString:@"In Progress"])?@"Y":@"N";
     }
-    dateText = [[NSDate date] convertDateToStringWithFormat:@"MMM yyyy"];
+    dateText = [ProjectFunctions getNetTrackerMonth];
     yearText = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
     
     //----------last10Stats--------

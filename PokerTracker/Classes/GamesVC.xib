@@ -9,10 +9,9 @@
                 <outlet property="bankRollSegment" destination="36" id="38"/>
                 <outlet property="bankrollButton" destination="33" id="34"/>
                 <outlet property="gameSummaryView" destination="UUr-sZ-8V1" id="dWb-5E-5P6"/>
-                <outlet property="gameTypeSegment" destination="20" id="23"/>
                 <outlet property="last10Button" destination="Nru-nJ-Ajw" id="oya-eo-gbt"/>
-                <outlet property="mainSegment" destination="20" id="Mqc-Bk-dCW"/>
                 <outlet property="mainTableView" destination="4" id="17"/>
+                <outlet property="ptpGameSegment" destination="20" id="FKS-T9-eCU"/>
                 <outlet property="top5Button" destination="3AI-KN-902" id="MI4-FN-f4Y"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webServiceView" destination="2GW-pd-5Ei" id="KmH-1a-IFi"/>
@@ -110,7 +109,6 @@
                                 <segment title="Cash Games"/>
                                 <segment title="Tournaments"/>
                             </segments>
-                            <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="22"/>
                             </connections>

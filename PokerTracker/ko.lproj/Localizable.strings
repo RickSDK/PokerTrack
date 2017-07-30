@@ -8,7 +8,15 @@
 
 "Main Menu" = "기본 메뉴";
 "Stats" = "통계"; // short
-"Casino Locator" = "Casino Locator";
+"Odds" = "승산";
+"Trackers" = "추적자";
+"Forum" = "법정";
+"Net Tracker" = "인터넷 추적기";
+"New Game" = "새로운 게임";
+"Casino Locator" = "카지노 찾기";
+"Top5" = "상위 5 위";
+"Summary" = "개요";
+"More" = "더";
 "Cash" = "현금";
 "Cash Game" = "현금 게임";
 "Cash Games" = "현금 게임";

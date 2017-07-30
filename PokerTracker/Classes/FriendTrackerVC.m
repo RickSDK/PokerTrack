@@ -125,8 +125,9 @@
             NSArray *users = [responseStr componentsSeparatedByString:@"<br>"];
 			for(NSString *line in users)
 				if([line length]>20) {
-					                                  NSLog(@"---line---%@", line);
 					NetUserObj *obj = [NetUserObj friendObjFromLine:line];
+//					NSLog(@"---line---%@", line);
+					NSLog(@"---%@ monthStats---%@", obj.name, obj.monthStats);
 					[self.mainArray addObject:obj];
 					
 					[data appendFormat:@"%@<1>%@+", obj.name, obj.last90Days];

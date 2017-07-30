@@ -21,6 +21,7 @@
 	obj.agressiveNum = [[mo valueForKey:@"agressiveNum"] intValue];
 	obj.looseNum = [[mo valueForKey:@"looseNum"] intValue];
 	obj.player_id = [[mo valueForKey:@"player_id"] intValue];
+	NSLog(@"+++player_id: %d", obj.player_id);
 	
 	obj.location = [mo valueForKey:@"status"];
 	NSArray *skills = [NSArray arrayWithObjects:@"Weak", @"Average", @"Strong", @"Pro", nil];

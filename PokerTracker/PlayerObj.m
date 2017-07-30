@@ -28,5 +28,13 @@
 	return pfr;
 }
 
++(NSString *)afForPlayer:(PlayerObj *)player {
+	int handCount = player.callCount+player.raiseCount;
+	NSString *af = @"-";
+	if(handCount>0)
+		af = [NSString stringWithFormat:@"%d%%", player.raiseCount*100/handCount];
+	return af;
+}
+
 
 @end

@@ -102,7 +102,7 @@
 					count++;
 					self.skip++;
 					
-					NetUserObj *netUserObj = [NetUserObj userObjFromString:line];
+					NetUserObj *netUserObj = [NetUserObj userObjFromString:line type:99];
 					[self.mainArray addObject:netUserObj];
                   
                     if([netUserObj.friendStatus isEqualToString:@"Request Pending"])

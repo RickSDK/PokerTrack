@@ -8,7 +8,15 @@
 
 "Main Menu" = "主菜单";
 "Stats" = "统计"; // short
-"Casino Locator" = "Casino Locator";
+"Odds" = "可能性";
+"Trackers" = "跟踪器";
+"Forum" = "论坛";
+"Net Tracker" = "网络追踪器";
+"New Game" = "新游戏";
+"Casino Locator" = "赌场定位器";
+"Top5" = "前5名";
+"Summary" = "概要";
+"More" = "更多";
 "Cash" = "现金";
 "Cash Game" = "现金游戏";
 "Cash Games" = "现金游戏";

@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self setTitle:@"Top 5"];
+	[self setTitle:NSLocalizedString(@"Top5", nil)];
 	[self changeNavToIncludeType:19];
 	bestGames = [[NSMutableArray alloc] init];
 	worstGames = [[NSMutableArray alloc] init];
@@ -99,7 +99,7 @@
 						risked += [[mo valueForKey:@"buyInAmount"] doubleValue]+[[mo valueForKey:@"rebuyAmount"] doubleValue];
 					}
 					if(games.count>0)
-						[allmonths addObject:[NSString stringWithFormat:@"%09d|Quarter %d %d|%d|%f|%f", (int)profit+100000, i+1, year, (int)games.count, risked, hours]];
+						[allmonths addObject:[NSString stringWithFormat:@"%09d|%@ %d %d|%d|%f|%f", (int)profit+100000, NSLocalizedString(@"Quarter", nil), i+1, year, (int)games.count, risked, hours]];
 				}
 			}
 		}

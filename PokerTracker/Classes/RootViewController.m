@@ -66,7 +66,7 @@
 	
 	MainMenuVC *detailViewController = [[MainMenuVC alloc] initWithNibName:@"MainMenuVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext_;
-	detailViewController.showDisolve=YES;
+	detailViewController.checkForScreenLockPassword = YES;
 	[self.navigationController pushViewController:detailViewController animated:NO];
 
 	

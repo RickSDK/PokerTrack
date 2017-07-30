@@ -36,6 +36,7 @@
 @property (nonatomic, strong)  NSString *hudVpvp_Pfr;
 @property (nonatomic, strong)  NSString *hudPlayerType;
 @property (nonatomic, strong)  NSString *hudSkillLevel;
+@property (nonatomic, strong)  NSString *hudGamesStr;
 @property (nonatomic, strong)  NSString *profitString;
 @property (nonatomic, strong)  NSString *riskedString;
 @property (nonatomic, strong)  NSString *gameCount;

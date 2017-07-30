@@ -63,15 +63,7 @@
 }
 
 -(IBAction)segmentChanged:(id)sender {
-	if(self.mainSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"Last10", nil)];
-	}
-	if(self.mainSegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Cash Games", nil)];
-	}
-	if(self.mainSegment.selectedSegmentIndex==2) {
-		[self setTitle:NSLocalizedString(@"Tournaments", nil)];
-	}
+	[self updateTitleForBar:self.mainSegment title:@"Last10" type:18];
 	[self.mainSegment gameSegmentChanged];
 	[self calculateStats];
 }

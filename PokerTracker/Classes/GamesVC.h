@@ -18,7 +18,6 @@
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UISegmentedControl *gameTypeSegment;
 	IBOutlet UISegmentedControl *bankRollSegment;
     IBOutlet UIButton *bankrollButton;
 
@@ -29,7 +28,6 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (atomic, strong) NSMutableArray *gamesList;
-@property (atomic, strong) UISegmentedControl *gameTypeSegment;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;

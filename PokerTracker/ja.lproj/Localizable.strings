@@ -8,7 +8,15 @@
 
 "Main Menu" = "メインメニュー";
 "Stats" = "統計"; // short
+"Odds" = "オッズ";
+"Trackers" = "トラッカー";
+"Forum" = "フォーラム";
+"Net Tracker" = "ネットトラッカー";
+"New Game" = "新しいゲーム";
 "Casino Locator" = "カジノロケータ";
+"Top5" = "トップ5";
+"Summary" = "概要";
+"More" = "もっと";
 "Cash" = "現金";
 "Cash Game" = "現金ゲーム";
 "Cash Games" = "現金ゲーム";

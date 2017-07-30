@@ -36,7 +36,8 @@
 	[self setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1.0]];
 	
 	self.layer.backgroundColor = [UIColor whiteColor].CGColor;
-	self.layer.cornerRadius = 4;
+	self.layer.cornerRadius = 7;
+	self.layer.masksToBounds = YES;				// clips background images to rounded corners
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 1;
 	

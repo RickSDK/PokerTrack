@@ -8,7 +8,15 @@
 
 "Main Menu" = "Menu principale";
 "Stats" = "Statistica"; // Statistics
-"Casino Locator" = "Casino Locator";
+"Odds" = "Probabilità";
+"Trackers" = "Trackers";
+"Forum" = "Forum";
+"Net Tracker" = "Net Tracker";
+"New Game" = "Nuovo Gioco";
+"Top5" = "Top 5";
+"Summary" = "Sommario";
+"More" = "Di Più";
+"Casino Locator" = "Locatore di Casinò";
 "Cash" = "Contanti";
 "Cash Game" = "Gioco in Contanti";
 "Cash Games" = "Giochi di Denaro";

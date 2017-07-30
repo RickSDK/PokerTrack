@@ -191,7 +191,7 @@
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.callBackViewController = self;
 	detailViewController.managedObjectContext=managedObjectContext;
-	detailViewController.titleLabel = @"Total Food/Drinks";
+	detailViewController.titleLabel = @"foodDrink";
 	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -466,7 +466,7 @@
 - (IBAction) doneButtonPressed: (id) sender
 {
 	if(!self.cashUpdatedFlg) {
-		[ProjectFunctions showAlertPopup:@"Notice" message:@"Update your 'Current Chips' before ending the game."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Update your 'Current Chips' before ending the game."];
 		return;
 	}
 	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];
@@ -631,7 +631,7 @@
         self.userData = [ProjectFunctions getFriendsPlayingData]; // web service call
         friendButton.alpha=0;
         if([self.userData length]>10) {
-			self.netUserObj = [NetUserObj userObjFromString:self.userData];
+			self.netUserObj = [NetUserObj userObjFromString:self.userData type:1];
             NSArray *elements = [self.userData componentsSeparatedByString:@"<xx>"];
             if([elements count]>1)
                 friendButton.alpha=1;
