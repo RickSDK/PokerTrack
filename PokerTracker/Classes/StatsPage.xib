@@ -61,7 +61,7 @@
 						<string key="NSFrame">{{0, 179}, {320, 325}}</string>
 						<reference key="NSSuperview" ref="46261495"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="736859544"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -94,6 +94,7 @@
 						<string key="NSFrame">{{243, 475}, {77, 30}}</string>
 						<reference key="NSSuperview" ref="46261495"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -194,14 +195,12 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<reference key="IBUINormalTitleColor" ref="129737668"/>
+								<reference key="IBUINormalTitleColor" ref="524107585"/>
 								<reference key="IBUIHighlightedTitleColor" ref="129737668"/>
-								<string key="IBUITitleShadowOffset">{1, 1}</string>
 								<string key="IBUINormalTitle">Button</string>
-								<reference key="IBUINormalTitleShadowColor" ref="524107585"/>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="110108105">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="897486298">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">purpleChromeBut.png</string>
+									<string key="NSResourceName">yellowChromeBut.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="631138559"/>
 								<reference key="IBUIFont" ref="183705301"/>
@@ -218,12 +217,10 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<reference key="IBUINormalTitleColor" ref="129737668"/>
+								<reference key="IBUINormalTitleColor" ref="524107585"/>
 								<reference key="IBUIHighlightedTitleColor" ref="129737668"/>
-								<string key="IBUITitleShadowOffset">{1, 1}</string>
 								<string key="IBUINormalTitle">Button</string>
-								<reference key="IBUINormalTitleShadowColor" ref="524107585"/>
-								<reference key="IBUINormalBackgroundImage" ref="110108105"/>
+								<reference key="IBUINormalBackgroundImage" ref="897486298"/>
 								<reference key="IBUIFontDescription" ref="631138559"/>
 								<reference key="IBUIFont" ref="183705301"/>
 							</object>
@@ -239,12 +236,10 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<reference key="IBUINormalTitleColor" ref="129737668"/>
+								<reference key="IBUINormalTitleColor" ref="524107585"/>
 								<reference key="IBUIHighlightedTitleColor" ref="129737668"/>
-								<string key="IBUITitleShadowOffset">{1, 1}</string>
 								<string key="IBUINormalTitle">Button</string>
-								<reference key="IBUINormalTitleShadowColor" ref="524107585"/>
-								<reference key="IBUINormalBackgroundImage" ref="110108105"/>
+								<reference key="IBUINormalBackgroundImage" ref="897486298"/>
 								<reference key="IBUIFontDescription" ref="631138559"/>
 								<reference key="IBUIFont" ref="183705301"/>
 							</object>
@@ -260,12 +255,10 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<reference key="IBUINormalTitleColor" ref="129737668"/>
+								<reference key="IBUINormalTitleColor" ref="524107585"/>
 								<reference key="IBUIHighlightedTitleColor" ref="129737668"/>
-								<string key="IBUITitleShadowOffset">{1, 1}</string>
 								<string key="IBUINormalTitle">Button</string>
-								<reference key="IBUINormalTitleShadowColor" ref="524107585"/>
-								<reference key="IBUINormalBackgroundImage" ref="110108105"/>
+								<reference key="IBUINormalBackgroundImage" ref="897486298"/>
 								<reference key="IBUIFontDescription" ref="631138559"/>
 								<reference key="IBUIFont" ref="183705301"/>
 							</object>
@@ -451,7 +444,7 @@
 						<string key="NSFrame">{{0, 106}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="46261495"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="982032382"/>
+						<reference key="NSNextKeyView" ref="987098921"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwLjUwMTk2MDgxNCAwAA</bytes>
@@ -464,7 +457,7 @@
 						<string key="NSFrame">{{0, 150}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="46261495"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="736859544"/>
+						<reference key="NSNextKeyView" ref="982032382"/>
 						<reference key="IBUIBackgroundColor" ref="524107585"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1003,9 +996,6 @@
 						<string key="gameSegmentPressed:">id</string>
 						<string key="goalsPressed:">id</string>
 						<string key="reportsPressed:">id</string>
-						<string key="yearGoesDown:">id</string>
-						<string key="yearGoesUp:">id</string>
-						<string key="yearSegmentPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="analysisPressed:">
@@ -1040,18 +1030,6 @@
 							<string key="name">reportsPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="yearGoesDown:">
-							<string key="name">yearGoesDown:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="yearGoesUp:">
-							<string key="name">yearGoesUp:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="yearSegmentPressed:">
-							<string key="name">yearSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="activityBGView">UIImageView</string>
@@ -1070,14 +1048,10 @@
 						<string key="goalsButton">UIButton</string>
 						<string key="goalsLabel">UILabel</string>
 						<string key="largeGraph">UIImageView</string>
-						<string key="leftYear">UIButton</string>
 						<string key="playerTypeImageView">UIImageView</string>
 						<string key="reportsButton">UIButton</string>
 						<string key="reportsLabel">UILabel</string>
-						<string key="rightYear">UIButton</string>
 						<string key="top5Toolbar">UIToolbar</string>
-						<string key="yearLabel">UILabel</string>
-						<string key="yearToolbar">UIToolbar</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="activityBGView">
@@ -1144,10 +1118,6 @@
 							<string key="name">largeGraph</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="leftYear">
-							<string key="name">leftYear</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="playerTypeImageView">
 							<string key="name">playerTypeImageView</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -1160,20 +1130,8 @@
 							<string key="name">reportsLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="rightYear">
-							<string key="name">rightYear</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="top5Toolbar">
 							<string key="name">top5Toolbar</string>
-							<string key="candidateClassName">UIToolbar</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="yearLabel">
-							<string key="name">yearLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="yearToolbar">
-							<string key="name">yearToolbar</string>
 							<string key="candidateClassName">UIToolbar</string>
 						</object>
 					</dictionary>
@@ -1193,8 +1151,6 @@
 						<string key="gameSegmentPressed:">id</string>
 						<string key="goalsPressed:">id</string>
 						<string key="reportsPressed:">id</string>
-						<string key="yearGoesDown:">id</string>
-						<string key="yearGoesUp:">id</string>
 						<string key="yearSegmentPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -1228,14 +1184,6 @@
 						</object>
 						<object class="IBActionInfo" key="reportsPressed:">
 							<string key="name">reportsPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="yearGoesDown:">
-							<string key="name">yearGoesDown:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="yearGoesUp:">
-							<string key="name">yearGoesUp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="yearSegmentPressed:">
@@ -1505,8 +1453,8 @@
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="Default.png">{320, 480}</string>
 			<string key="greenFelt.png">{320, 480}</string>
-			<string key="purpleChromeBut.png">{400, 100}</string>
 			<string key="whiteChromeBut.png">{400, 100}</string>
+			<string key="yellowChromeBut.png">{400, 100}</string>
 		</dictionary>
 	</data>
 </archive>

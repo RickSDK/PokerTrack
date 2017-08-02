@@ -336,6 +336,7 @@
 	
 	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
 	[self saveDatabase];
+	[ProjectFunctions findMinAndMaxYear:self.managedObjectContext];
 	[self setupData];
 }
 

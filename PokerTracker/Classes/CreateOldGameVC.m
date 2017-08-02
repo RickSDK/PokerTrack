@@ -223,6 +223,7 @@
 	[ProjectFunctions scrubDataForObj:self.mo context:managedObjectContext];
 
 	[ProjectFunctions updateGamesOnDevice:self.managedObjectContext];
+	[ProjectFunctions findMinAndMaxYear:self.managedObjectContext];
 
 	if([ProjectFunctions shouldSyncGameResultsWithServer:managedObjectContext]) {
 		[activityIndicatorServer startAnimating];

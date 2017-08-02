@@ -68,6 +68,7 @@
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) IBOutlet UIButton *playButton;
 @property (nonatomic, strong) IBOutlet UIButton *editButton;
+@property (nonatomic, strong) IBOutlet UIButton *calcOddsButton;
 
 @property (nonatomic, strong) NSMutableArray *labelValues;
 @property (nonatomic, strong) NSMutableArray *formDataArray;

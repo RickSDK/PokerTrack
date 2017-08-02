@@ -934,6 +934,36 @@
 	return [NSString stringWithFormat:@"%@-%@", style1, style2];
 }
 
++(int)getYearOfFirstGameAscendingFlg:(BOOL)ascendingFlg context:(NSManagedObjectContext *)context {
+	NSArray *items = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:context ascendingFlg:ascendingFlg limit:1];
+	if(items.count>0) {
+		NSManagedObject *game = [items objectAtIndex:0];
+		int year = [[[game valueForKey:@"startTime"] convertDateToStringWithFormat:@"yyyy"] intValue];
+		if(year>1970)
+			return year;
+	}
+	return [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
+}
+
++(void)findMinAndMaxYear:(NSManagedObjectContext *)context {
+	int minYear = [self getYearOfFirstGameAscendingFlg:YES context:context];
+	int maxYear = [self getYearOfFirstGameAscendingFlg:NO context:context];
+	NSLog(@"findMinAndMaxYear: %d %d", minYear, maxYear);
+	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
+	int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
+	
+	if(currentMinYear != minYear) {
+		currentMinYear = minYear;
+		NSLog(@"!!!Setting minYear2 year to: %d", minYear);
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", minYear] forKey:@"minYear2"];
+	}
+	if(currentMaxYear != maxYear) {
+		currentMaxYear = maxYear;
+		NSLog(@"!!!Setting maxYear year to: %d", maxYear);
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", maxYear] forKey:@"maxYear"];
+	}
+}
+
 +(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
 	NSLog(@"scrubbing...");
 	[self scrubDataForObj:mo context:context field:@"gametype"];
@@ -3950,6 +3980,7 @@
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context {
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
 	NSLog(@"+++gamesOnDevice: %d", (int)allGames.count);
+	[ProjectFunctions findMinAndMaxYear:context];
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnDevice"];
 	return (int)allGames.count;
 }

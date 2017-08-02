@@ -48,9 +48,9 @@
 	[self setupAboutView];
 	[self setupNavBar];
 	[self positionGraph];
-	[self findMinAndMaxYear];
 	[self setupButtons];
 	[self checkLockAndInProgressGame];
+	[self firstTimeUseCheck];
 }
 
 -(void)setupAboutView {
@@ -127,8 +127,19 @@
 	self.graphChart.layer.masksToBounds = YES;
 	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
 	
+	int currentMaxYear = [self getMaxYear];
 	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
 	yearLabel.center = self.graphChart.center;
+	yearLabel.alpha=0.1;
+	yearLabel.text = [NSString stringWithFormat:@"%d", currentMaxYear];
+	smallYearLabel.text = [NSString stringWithFormat:@"%d:", currentMaxYear];
+}
+
+-(int)getMaxYear {
+	int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
+	if(currentMaxYear==0)
+		currentMaxYear = [ProjectFunctions getNowYear];
+	return currentMaxYear;
 }
 
 -(void)tourneyDataScrub {
@@ -144,7 +155,6 @@
 			[game setValue:[NSNumber numberWithInt:0] forKey:@"breakMinutes"];
 		}
 	}
-	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"tourneyScrub2017"];
 	if(totalFoodAndTokes>0) {
 		NSError *error;
 		[self.managedObjectContext save:&error];
@@ -153,7 +163,6 @@
 			NSLog(@"%@", error.debugDescription);
 			[ProjectFunctions showAlertPopup:@"Database Error" message:error.localizedDescription];
 		}
-		[ProjectFunctions showAlertPopup:@"Tournaments Fixed" message:@"Some of your tournaments had values populated for tips, food or break minutes. They have been fixed."];
 	}
 }
 
@@ -244,7 +253,6 @@
 	
 	self.reviewView.hidden=YES;
 	[self calculateStats];
-	[self firstTimeUseCheck];
 
 	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
 	self.statusImageView.hidden=!self.loggedInFlg;
@@ -260,9 +268,27 @@
 			self.alertViewNum=99;
 			[ProjectFunctions showAlertPopupWithDelegate:@"Welcome" message:[NSString stringWithFormat:@"%@ %@!", NSLocalizedString(@"Welcome", nil), ([self isPokerZilla])?@"PokerZilla":@"Poker Track Pro"] delegate:self];
 		}
-	} else if([ProjectFunctions isLiteVersion] && [ProjectFunctions getUserDefaultValue:@"UpgradeCheck"].length==0) {
-		self.alertViewNum=199;
-		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Poker Track Lite is not the full version of this app. Check out the details." delegate:self];
+	} else {
+		// user has already updated bankroll
+		if([ProjectFunctions isLiteVersion] && [ProjectFunctions getUserDefaultValue:@"UpgradeCheck"].length==0) {
+			self.alertViewNum=199;
+			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Poker Track Lite is not the full version of this app. Check out the details." delegate:self];
+		}
+	}
+}
+
+-(void)checkForDataScrub:(int)numGames {
+	if(numGames>0) {
+		if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0) {
+			alertViewNum=2017;
+			[self tourneyDataScrub];
+			[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.8"];
+			[ProjectFunctions setUserDefaultValue:@"" forKey:@"scrub2017"];
+			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.8 update notice. Game data needs to be scrubbed." delegate:self];
+		}
+	} else { // no scrubs needed
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.8"];
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"scrub2017"];
 	}
 }
 
@@ -639,14 +665,10 @@
 		//----- last 10 games
 		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
 		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:NO limit:10];
+		if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0)
+			[self checkForDataScrub:(int)games.count];
+
 		GameStatObj *gameStatObj = [GameStatObj gameStatObjForGames:games];
-		
-//		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
-//		NSString *analysis1 = [CoreDataLib getGameStatWithLimit:contextLocal dataField:@"analysis1" predicate:predicate limit:10];
-//		NSArray *values = [analysis1 componentsSeparatedByString:@"|"];
-//		double amountRisked = [[values stringAtIndex:0] doubleValue];
-//		double netIncome = [[values stringAtIndex:5] doubleValue];
-//		NSLog(@"%f %f | %f %f", gameStatObj.profit, gameStatObj.risked, netIncome, amountRisked);
 		
 		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:gameStatObj.risked winnings:gameStatObj.profit] forState:UIControlStateNormal];
 		
@@ -665,61 +687,6 @@
 	self.largeGraph.image = [ProjectFunctions plotStatsChart:contextLocal predicate:pred displayBySession:displayBySession];
 	self.graphChart.image = self.largeGraph.image;
 	NSLog(@"updateMainGraphWithCOntext2");
-}
-
--(int)getYearOfFirstGameAscendingFlg:(BOOL)ascendingFlg {
-	NSArray *items = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:ascendingFlg limit:1];
-	if(items.count>0) {
-		NSManagedObject *game = [items objectAtIndex:0];
-		int year = [[[game valueForKey:@"startTime"] convertDateToStringWithFormat:@"yyyy"] intValue];
-		if(year>1970)
-			return year;
-	}
-	return [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
-}
-
--(void)findMinAndMaxYear {
-	NSLog(@"findMinAndMaxYear");
-//	int minYear = [self getYearOfFirstGameAscendingFlg:YES];
-//	int maxYear = [self getYearOfFirstGameAscendingFlg:NO];
-//	NSLog(@"%d %d", minYear, maxYear);
-	NSString *minYear = [[NSDate date] convertDateToStringWithFormat:@"yyyy"];
-	NSString *maxYear = minYear;
-
-    NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:@"startTime" mOC:managedObjectContext ascendingFlg:YES];
-    if([games count]>0) {
-        NSDate *startTime = [[games objectAtIndex:0] valueForKey:@"startTime"];
-        minYear = [startTime convertDateToStringWithFormat:@"yyyy"];
-        NSDate *startTimeMax = [[games objectAtIndex:[games count]-1] valueForKey:@"startTime"];
-        maxYear = [startTimeMax convertDateToStringWithFormat:@"yyyy"];
-		
-		if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0 && [ProjectFunctions getUserDefaultValue:@"v11.5"].length==0) {
-			alertViewNum=2017;
-			[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.5"];
-			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.5 update notice. Game data needs to be scrubbed." delegate:self];
-		} else if([ProjectFunctions getUserDefaultValue:@"tourneyScrub2017"].length==0) {
-				[self tourneyDataScrub];
-		}
-	} else { // no scrubs needed
-		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.5"];
-		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"tourneyScrub2017"];
-	}
-    int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
-    int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
-	
-	if(currentMinYear != [minYear intValue]) {
-		NSLog(@"!!!Setting year to: %@", minYear);
-        [ProjectFunctions setUserDefaultValue:minYear forKey:@"minYear2"];
-	}
-	if(currentMaxYear != [maxYear intValue]) {
-		NSLog(@"!!!Setting year to: %@", maxYear);
-        [ProjectFunctions setUserDefaultValue:maxYear forKey:@"maxYear"];
-	}
-	
-	yearLabel.alpha=0.1;
-	yearLabel.text = [NSString stringWithFormat:@"%d", currentMaxYear];
-	smallYearLabel.text = [NSString stringWithFormat:@"%d:", currentMaxYear];
-	NSLog(@"findMinAndMaxYear2");
 }
 
 -(void) setReturningValue:(NSString *) value2 {

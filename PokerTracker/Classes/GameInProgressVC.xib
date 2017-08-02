@@ -311,15 +311,15 @@
                             <rect key="frame" x="8" y="142" width="296" height="332"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <string key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
+                            <mutableString key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
 
 Why is food considered profit?
 
-This is one stat that most people get wrong, including pros. The reason food and drinks are considered profit is because you are freely spending the money and receiving value for it. You have benefited from the money and are simply spending it during the game instead of after.
+This is one stat that most people get wrong. The reason food and drinks are considered profit is because you are freely spending the money and receiving value for it. You have benefited from the money and are simply spending it during the game instead of after.
 
 Keep in mind this only applies to cash games when you are buying the food/drinks out of your chip stack.
 
-Consider this example: If two players buyin for $100 and cash out for $100, but one of the players bought a steak dinner and several drinks (from his chip stack) while the other did not, who had a more profitable night? Obviously the one who got the meal.
+Consider this example: If two players buy-in for $100 and cash out for $100, but one of the players bought a steak dinner and several drinks (from his chip stack) while the other did not, who had a more profitable night? Obviously the one who got the meal.
 
 Some people say, "Buying dinner is simply part of the cost of playing poker", but this is not true. You are going to eat dinner whether you are playing poker or not. It's not a cost of poker.
 
@@ -329,37 +329,37 @@ On the other hand, tips spent in the form of dealer tokes are NOT profit. You in
 
 Players have an emotional response to want to tip more for larger pots, but there's no logical reason for it. Did the dealer work harder for that pot? No. Keep that money in your chip stack.
 
-Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</string>
+Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</mutableString>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Risked:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pt4-8m-N98">
-                            <rect key="frame" x="8" y="38" width="136" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount Risked:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pt4-8m-N98">
+                            <rect key="frame" x="8" y="38" width="125" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.87362640039999995" blue="0.14711714649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-Home:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vms-D1-fFk">
-                            <rect key="frame" x="8" y="63" width="136" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take-Home:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vms-D1-fFk">
+                            <rect key="frame" x="8" y="63" width="125" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.87362640039999995" blue="0.14711714649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gross Income:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5o-nT-mF5">
-                            <rect key="frame" x="8" y="88" width="136" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gross Income:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="F5o-nT-mF5">
+                            <rect key="frame" x="8" y="88" width="125" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.87362640039999995" blue="0.14711714649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profit:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RIe-Jv-QJc">
-                            <rect key="frame" x="8" y="113" width="136" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profit:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RIe-Jv-QJc">
+                            <rect key="frame" x="8" y="113" width="125" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="0.87362640039999995" blue="0.14711714649999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buyin + Rebuys" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nim-2f-ce2">

@@ -43,7 +43,7 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 1
+#define kPRODMode 0
 #define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
@@ -116,6 +116,7 @@
 +(void)resetTheYearSegmentBar:(UITableView *)tableView displayYear:(int)displayYear MoC:(NSManagedObjectContext *)MoC leftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton displayYearLabel:(UILabel *)displayYearLabel;
 +(NSString *)labelForYearValue:(int)yearValue;
 +(NSString *)faStringOfType:(int)type;
++(void)findMinAndMaxYear:(NSManagedObjectContext *)context;
 +(NSString *)labelForGameSegment:(int)segmentIndex;
 +(NSString *)getMonthFromDate:(NSDate *)date;
 +(NSArray *)namesOfAllWeekdays;

@@ -356,6 +356,7 @@
 	
 	
 	[self saveDatabase];
+	[ProjectFunctions findMinAndMaxYear:self.managedObjectContext];
 	
     [ProjectFunctions updateBankroll:netProfit bankrollName:[mo valueForKey:@"bankroll"] MOC:managedObjectContext];
 

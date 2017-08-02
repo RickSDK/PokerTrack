@@ -15,10 +15,14 @@
 +(GameStatObj *)gameStatObjForGames:(NSArray *)games {
 	GameStatObj *obj = [[GameStatObj alloc] init];
 	for(NSManagedObject *game in games) {
+		double cashoutAmount = [[game valueForKey:@"cashoutAmount"] doubleValue];
+		int foodDrinks = [[game valueForKey:@"foodDrinks"] intValue];
+		double risked = [[game valueForKey:@"buyInAmount"] doubleValue] + [[game valueForKey:@"rebuyAmount"] doubleValue];
+
+		double profit = cashoutAmount + foodDrinks - risked;
 		obj.games++;
-		double profit = [[game valueForKey:@"winnings"] doubleValue];
+		obj.risked += risked;
 		obj.profit += profit;
-		obj.risked += [[game valueForKey:@"buyInAmount"] doubleValue] + [[game valueForKey:@"rebuyAmount"] doubleValue];
 		if(profit>=0)
 			obj.wins++;
 		else
@@ -94,14 +98,17 @@
 	PlayerObj *hudPlayerObj = [[PlayerObj alloc] init];
 	BOOL streakAlive=YES;
 	for(NSManagedObject *game in games) {
-		double profit = [[game valueForKey:@"winnings"] doubleValue];
 		double buyInAmount = [[game valueForKey:@"buyInAmount"] doubleValue];
 		double rebuyAmount = [[game valueForKey:@"rebuyAmount"] doubleValue];
+		double cashoutAmount = [[game valueForKey:@"cashoutAmount"] doubleValue];
 		double risked = buyInAmount+rebuyAmount;
-		hours += [[game valueForKey:@"hours"] floatValue];
+		int foodDrinks = [[game valueForKey:@"foodDrinks"] intValue];
 		int minutes = [[game valueForKey:@"minutes"] intValue];
-		obj.foodDrinks += [[game valueForKey:@"foodDrinks"] intValue];
-		obj.cashoutAmount += [[game valueForKey:@"cashoutAmount"] intValue];
+		
+		hours += [[game valueForKey:@"hours"] floatValue];
+		obj.foodDrinks += foodDrinks;
+		obj.cashoutAmount += cashoutAmount;
+		double profit = cashoutAmount + foodDrinks - risked;
 		obj.tokes += [[game valueForKey:@"tokes"] intValue];
 		NSString *weekday = [game valueForKey:@"weekday"];
 		NSString *daytime = [game valueForKey:@"daytime"];

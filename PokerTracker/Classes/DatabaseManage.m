@@ -149,7 +149,6 @@
 	[secondMenuArray addObject:@"Taunt"];
 	[secondMenuArray addObject:@"Login"];
 	[secondMenuArray addObject:@"Edit Icons"];
-	[secondMenuArray addObject:@"Food Scrub"];
 
 	self.gSelectedRow=0;
 	self.totalNumGamesImported=0;

@@ -52,7 +52,6 @@
 	//	gameObj.name = [mo valueForKey:@"name"];
 	//	gameObj.hours = [mo valueForKey:@"hours"];
 	//	gameObj.minutes = [[mo valueForKey:@"minutes"] intValue];
-	//	gameObj.profit = [[mo valueForKey:@"winnings"] doubleValue];
 
 	// calculated values--------------------
 	gameObj.isTourney = [@"Tournament" isEqualToString:gameObj.type];
@@ -212,6 +211,10 @@
 		gameObj.lastUpdStr = [components objectAtIndex:11];
 		gameObj.endTimeStr = [components objectAtIndex:12];
 		gameObj.lastUpd = [[components objectAtIndex:11] convertStringToDateFinalSolution];
+		int gameMinutes = [gameObj.lastUpd timeIntervalSinceDate:gameObj.startTime]/60;
+		if(gameMinutes>gameObj.minutes)
+			gameObj.minutes = gameMinutes;
+//		NSLog(@"+++lastUpd: %d %@", gameMinutes, gameObj.location);
 		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateFinalSolution];
 		gameObj.status = @"unknown";
 	} else

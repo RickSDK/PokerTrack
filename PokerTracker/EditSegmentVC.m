@@ -91,7 +91,7 @@
 - (IBAction)deleteButtonPressed:(id)sender {
 	int numGames = [[self.listDict valueForKey:[self.list objectAtIndex:self.rowNum]] intValue];
 	if (numGames>0) {
-		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"There already exists games with this entry. You cannot edit or delete it."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"There already exists games with this entry. You cannot delete it."];
 		return;
 	}
 	[ProjectFunctions showConfirmationPopup:@"Delete this entry?" message:@"" delegate:self tag:1];
@@ -99,7 +99,10 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if(buttonIndex != alertView.cancelButtonIndex) {
+	if(buttonIndex == alertView.cancelButtonIndex)
+		return;
+	
+	if(alertView.tag==1) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", [self.list objectAtIndex:self.rowNum]];
 		NSArray *records = [CoreDataLib selectRowsFromEntity:self.entity predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
 		if(records.count>0) {
@@ -111,14 +114,21 @@
 			[self refreshFromDatabase];
 		}
 	}
+	if(alertView.tag==2) {
+		[self gotoTextLineEnter];
+	}
 }
 
 - (IBAction)editButtonPressed:(id)sender {
 	int numGames = [[self.listDict valueForKey:[self.list objectAtIndex:self.rowNum]] intValue];
 	if (numGames>0) {
-		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"There already exists games with this entry. You cannot edit or delete it."];
+		[ProjectFunctions showConfirmationPopup:NSLocalizedString(@"notice", nil) message:@"This entry exists with games associated to it. Did you want to change the name and update all those records with the new name?" delegate:self tag:2];
 		return;
 	}
+	[self gotoTextLineEnter];
+}
+
+-(void)gotoTextLineEnter {
 	self.selectedAction = 1;
 	TextLineEnterVC *detailViewController = [[TextLineEnterVC alloc] initWithNibName:@"TextLineEnterVC" bundle:nil];
 	detailViewController.titleLabel = self.title;
@@ -141,23 +151,23 @@
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Invalid entry!"];
 		return;
 	}
-	for (NSString *item in self.list) {
-		if ([item isEqualToString:value]) {
-			[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"That value already exists!"];
-			return;
-		}
-	}
 	NSString *scrubbed = [ProjectFunctions scrubRefData:value context:self.managedObjectContext];
-	if (![scrubbed isEqualToString:value]) {
-		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"That entry already exists!!!"];
-		return;
-	}
-	self.initialDateValue = value;
+//	if (![scrubbed isEqualToString:value]) {
+//		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"That entry already exists!!!"];
+//		return;
+//	}
+	self.initialDateValue = scrubbed;
 	if (self.selectedAction==1) { // edit
-		[self changeRefDataFrom:[self.list objectAtIndex:self.rowNum] newValue:value];
+		[self changeRefDataFrom:[self.list objectAtIndex:self.rowNum] newValue:scrubbed];
 	}
 	if (self.selectedAction==2) { // add
-		[self addDataToList:value];
+		for (NSString *item in self.list) {
+			if ([item isEqualToString:scrubbed]) {
+				[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:[NSString stringWithFormat:@"The value '%@' already exists! You cannot add it.", scrubbed]];
+				return;
+			}
+		}
+		[self addDataToList:scrubbed];
 	}
 }
 
@@ -169,14 +179,34 @@
 }
 
 -(void)changeRefDataFrom:(NSString *)oldValue newValue:(NSString *)newValue {
+	NSString *field = [self.entity lowercaseString];
+	if([@"tournament" isEqualToString:field])
+		field = @"tournamentType";
+	NSString *predStr = [NSString stringWithFormat:@"%@ = %%@", field];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:predStr, oldValue];
+	NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:nil mOC:self.managedObjectContext ascendingFlg:NO];
+	for(NSManagedObject *game in games) {
+		[game setValue:newValue forKey:field];
+	}
+	NSLog(@"number of games updated: %d", (int)games.count);
+	
+	BOOL alreadyExists=NO;
 	NSArray *records = [CoreDataLib selectRowsFromTable:self.entity mOC:self.managedObjectContext];
 	for(NSManagedObject *record in records) {
-		if ([oldValue isEqualToString:[record valueForKey:@"name"]]) {
-			[record setValue:newValue forKey:@"name"];
-			[self.managedObjectContext save:nil];
+		if ([newValue isEqualToString:[record valueForKey:@"name"]]) {
+			alreadyExists=YES;
 		}
 	}
+	if(!alreadyExists) {
+		for(NSManagedObject *record in records) {
+			if ([oldValue isEqualToString:[record valueForKey:@"name"]]) {
+				[record setValue:newValue forKey:@"name"];
+			}
+		}
+	}
+	[self saveDatabase];
 	[self refreshFromDatabase];
+
 }
 
 - (IBAction)cancel:(id)sender {

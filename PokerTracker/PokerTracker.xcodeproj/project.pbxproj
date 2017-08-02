@@ -2425,8 +2425,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2450,8 +2450,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

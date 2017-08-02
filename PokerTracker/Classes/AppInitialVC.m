@@ -38,7 +38,6 @@
 	[ProjectFunctions showAlertPopup:@"Help Screen" message:@"Click on the yellow button, enter any amount and then click 'Enter'"];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:([ProjectFunctions isPokerZilla])?@"PokerZilla":@"Poker Track Pro"];
@@ -49,6 +48,7 @@
 	self.topLabel.text = NSLocalizedString(@"Welcome2", nil);
 	liteLabel.alpha=0;
 	[self setReturningValue:@"100"];
+	[ProjectFunctions findMinAndMaxYear:self.managedObjectContext];
 }
 
 

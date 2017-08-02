@@ -640,6 +640,10 @@
 		
 		
 	}
+	
+	NSString *preFlopOdds = [mo valueForKey:@"preFlopOdds"];
+	self.calcOddsButton.enabled = (preFlopOdds.length==0);
+	[ProjectFunctions makeFAButton:self.calcOddsButton type:28 size:14 text:@"Odds Calc"];
 
 	
 	
@@ -795,6 +799,7 @@
 
 #pragma mark -
 #pragma mark Table view delegate
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section>0)
