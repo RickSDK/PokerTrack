@@ -35,6 +35,7 @@
 //-------------detailed stats-----------
 @property (nonatomic, strong)  NSString *hudVpvp_Pfr;
 @property (nonatomic, strong)  NSString *hudPlayerType;
+@property (nonatomic, strong)  NSString *hudPlayerTypeLong;
 @property (nonatomic, strong)  NSString *hudSkillLevel;
 @property (nonatomic, strong)  NSString *hudGamesStr;
 @property (nonatomic, strong)  NSString *profitString;
@@ -47,6 +48,7 @@
 @property (nonatomic, strong)  NSString *hours;
 @property (nonatomic, strong)  NSString *hourly;
 @property (nonatomic, strong)  NSString *roi;
+@property (nonatomic, strong)  NSString *roiLong;
 @property (nonatomic, strong)  NSString *profitHigh;
 @property (nonatomic, strong)  NSString *profitLow;
 @property (nonatomic, strong)  NSString *bestWeekday;

@@ -93,6 +93,8 @@
 		[self.detailItems addObject:[GameDetailObj detailObjWithName:@"tournamentSpots" value:self.gameObj.tournamentSpotsStr type:4]];
 		[self.detailItems addObject:[GameDetailObj detailObjWithName:@"tournamentSpotsPaid" value:self.gameObj.tournamentSpotsPaidStr type:4]];
 		[self.detailItems addObject:[GameDetailObj detailObjWithName:@"tournamentFinish" value:self.gameObj.tournamentFinishStr type:4]];
+		[self.detailItems addObject:[GameDetailObj detailObjWithName:@"startingChips" value:[NSString stringWithFormat:@"%d", (int)self.gameObj.startingChips] type:4]];
+		[self.detailItems addObject:[GameDetailObj detailObjWithName:@"rebuyChips" value:[NSString stringWithFormat:@"%d", (int)self.gameObj.rebuyChips] type:4]];
 	}
 	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"breakMinutes" value:self.gameObj.breakMinutesStr type:4]];
 	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"notes" value:self.gameObj.notes type:5]];
@@ -331,7 +333,15 @@
 		[mo setValue:value forKey:obj.name];
 	}
 	if(obj.type==4) { // int
-		[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:obj.name];
+		//attrib05	//startingChips
+		//hudHeroLine	//currentChips
+		//hudVillianLine // rebuyChips
+		if([@"startingChips" isEqualToString:obj.name])
+			[mo setValue:value forKey:@"attrib05"];
+		else if([@"rebuyChips" isEqualToString:obj.name])
+			[mo setValue:value forKey:@"hudVillianLine"];
+		else
+			[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:obj.name];
 	}
 	
 	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];

@@ -53,6 +53,23 @@
 	[self firstTimeUseCheck];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	self.reviewView.hidden=YES;
+	
+	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
+	self.statusImageView.hidden=!self.loggedInFlg;
+
+	if(self.loggedInFlg)
+		[self countFriendsPlaying];
+
+	[self calculateStats];
+}
+
 -(void)setupAboutView {
 	self.aboutView.hidden=YES;
 	if(self.isPokerZilla)
@@ -129,7 +146,7 @@
 	
 	int currentMaxYear = [self getMaxYear];
 	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
-	yearLabel.center = self.graphChart.center;
+	yearLabel.center = CGPointMake(self.graphChart.center.x+15, self.graphChart.center.y-5);
 	yearLabel.alpha=0.1;
 	yearLabel.text = [NSString stringWithFormat:@"%d", currentMaxYear];
 	smallYearLabel.text = [NSString stringWithFormat:@"%d:", currentMaxYear];
@@ -243,21 +260,6 @@
 
 -(BOOL)isPokerZilla {
 	return [ProjectFunctions isPokerZilla];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
-	
-	self.reviewView.hidden=YES;
-	[self calculateStats];
-
-	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
-	self.statusImageView.hidden=!self.loggedInFlg;
-	if(self.loggedInFlg)
-		[self countFriendsPlaying];
 }
 
 -(void)firstTimeUseCheck {

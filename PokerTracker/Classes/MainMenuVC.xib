@@ -233,7 +233,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="left" text="2011" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="18">
-                    <rect key="frame" x="15" y="304" width="290" height="95"/>
+                    <rect key="frame" x="45" y="304" width="260" height="76"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="80"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>

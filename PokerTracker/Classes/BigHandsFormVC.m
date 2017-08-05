@@ -39,6 +39,69 @@
 #pragma mark -
 #pragma mark View lifecycle
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Hand Tracker"];
+	[self changeNavToIncludeType:37];
+	
+	[self.mainTableView setBackgroundView:nil];
+	
+	[ProjectFunctions makeFAButton:self.playButton type:9 size:24];
+	[ProjectFunctions makeFAButton:self.editButton type:2 size:24];
+	
+	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
+	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
+	
+	self.selectedRow=0;
+	self.indexPathRow=0;
+	self.viewEditable=YES;
+	labelValues = [[NSMutableArray alloc] init];
+	formDataArray = [[NSMutableArray alloc] init];
+	oddsDataArray = [[NSMutableArray alloc] init];
+	
+	if(mo != nil)
+		self.numPlayers = [[mo valueForKey:@"numPlayers"] intValue];
+	
+	[self setupdata];
+	
+	winLossSegment.tintColor = [UIColor colorWithRed:.8 green:.6 blue:0 alpha:1];
+	nextButton.alpha=0;
+	visualView.alpha=0;
+	preflopView.alpha=0;
+	flopView.alpha=0;
+	turnView.alpha=0;
+	viewButton.alpha=0;
+	oddsButton.alpha=0;
+	deleteButton.alpha=0;
+	
+	if(mo != nil) {
+		NSString *winStatus = [mo valueForKey:@"winStatus"];
+		
+		if([winStatus isEqualToString:@"Loss"])
+			winLossSegment.selectedSegmentIndex=1;
+		if([winStatus isEqualToString:@"Chop"])
+			winLossSegment.selectedSegmentIndex=2;
+		
+		self.viewEditable=NO;
+		viewButton.alpha=1;
+		
+		[self setupVisualView];
+	}
+	
+	NSString *preFlopOdds = [mo valueForKey:@"preFlopOdds"];
+	self.calcOddsButton.enabled = (preFlopOdds.length==0);
+	[ProjectFunctions makeFAButton:self.calcOddsButton type:28 size:14 text:@"Odds Calc"];
+	
+	NSString *buttonName = (drilldown)?[NSString fontAwesomeIconStringForEnum:FAPencil]:[NSString fontAwesomeIconStringForEnum:FAFloppyO];
+	saveButton = [[UIBarButtonItem alloc] initWithTitle:buttonName style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonClicked:)];
+	
+	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:buttonName target:self action:@selector(saveButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = saveButton;
+	
+	saveButton.enabled=drilldown;
+	self.playButton.enabled=NO;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 }
@@ -96,9 +159,10 @@
 	}
 	self.viewDisplayFlg=!viewDisplayFlg;
 	self.playButton.enabled=self.viewDisplayFlg;
+	
+	mainTableView.hidden = viewDisplayFlg;
 
 	if(viewDisplayFlg) {
-		mainTableView.alpha=0;
 		preflopView.alpha=1;
 		nextButton.alpha=1;
 		self.viewNumber=0;
@@ -106,7 +170,6 @@
 			oddsButton.alpha=1;
 	} else {
 		saveButton.enabled=YES;
-		mainTableView.alpha=1;
 		preflopView.alpha=0;
 		flopView.alpha=0;
 		turnView.alpha=0;
@@ -114,9 +177,6 @@
 		nextButton.alpha=0;
 		oddsButton.alpha=0;
 	}
-    
-	
-		
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -201,7 +261,6 @@
 	[mo setValue:nil forKey:@"preFlopOdds"];
 	NSLog(@"---Done");
 	
-	
 	BigHandsVC *detailViewController = [[BigHandsVC alloc] initWithNibName:@"BigHandsVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.showMainMenuButton=YES;
@@ -219,7 +278,6 @@
 	item = [item stringByReplacingOccurrencesOfString:@"(C" withString:@" (Chop "];
 	return item;
 }
-
 
 -(void)setupdata
 {
@@ -286,15 +344,6 @@
 	
 	[labelValues addObject:@"Button"];
 	[formDataArray addObject:buttonText];
-	
-//	[labelValues addObject:@"Turn Action"];
-//	[formDataArray addObject:turnADefault];
-	
-//	[labelValues addObject:@"River Action"];
-//	[formDataArray addObject:riverADefault];
-	
-//	[labelValues addObject:@"Final Analysis"];
-//	[formDataArray addObject:detailsDefault];
 	
 	[oddsDataArray addObject:[self unpackOdds:[mo valueForKey:@"preFlopOdds"] number:0]];
 	[oddsDataArray addObject:[self unpackOdds:[mo valueForKey:@"postFlopOdds"] number:0]];
@@ -379,21 +428,29 @@
 	[self drawLabel:myView string:actionStr x:x y:y size:12 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
 }
 
+-(void)drawPreflopView {
+	[self drawLabel:preflopView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
+}
+
+-(void)drawFlopView {
+	[self drawLabel:flopView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
+}
+
+-(void)drawTurnView {
+	[self drawLabel:turnView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
+}
+
 -(void)setupVisualView {
 	[self drawLabel:visualView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
-	[self drawLabel:preflopView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
-	[self drawLabel:flopView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
-	[self drawLabel:turnView string:@"You" x:160 y:350 size:24 color:[UIColor whiteColor]];
+	[self drawPreflopView];
+	[self drawFlopView];
+	[self drawTurnView];
 
 	NSString *flop = [formDataArray stringAtIndex:numPlayers+1];
 	NSString *turn = [formDataArray stringAtIndex:numPlayers+2];
 	NSString *river = [formDataArray stringAtIndex:numPlayers+3];
 	NSString *pot = [formDataArray stringAtIndex:numPlayers+4];
 	NSArray *cards = [flop componentsSeparatedByString:@"-"];
-
-
-	
-	
 
 	NSString *seat1X = @"130";
 	NSString *seat1Y = @"350";
@@ -528,8 +585,6 @@
 			
 		}
 		[self drawLabel:preflopView string:playerText x:cardX-40 y:cardY+30 size:11 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
-		
-		
 	}
 	
 	[self drawLabel:preflopView string:[ProjectFunctions convertIntToMoneyString:preflopPot] x:90 y:230 size:32 color:[UIColor yellowColor]];
@@ -539,7 +594,6 @@
 		[self drawLabel:visualView string:[ProjectFunctions convertIntToMoneyString:preflopPot+flopPot+turnPot+riverPot] x:90 y:230 size:32 color:[UIColor yellowColor]];
 	else 
 		[self drawLabel:visualView string:[ProjectFunctions convertIntToMoneyString:[pot intValue]] x:90 y:230 size:32 color:[UIColor yellowColor]];
-
 
 	int flopx = 65;
 	int flopy = 190;
@@ -575,7 +629,6 @@
 	[self drawCard:turnView card:c4 suit:s4 x:flopx+115 y:flopy];
 	[self drawCardBack:preflopView card:c4 suit:s4 x:flopx+115 y:flopy];
 	[self drawCardBack:flopView card:c4 suit:s4 x:flopx+115 y:flopy];
-
 	
 	//river
 	[self drawCard:visualView card:c5 suit:s5 x:flopx+160 y:flopy];
@@ -587,74 +640,6 @@
 	[self drawLabel:preflopView string:@"Pre-Flop" x:90 y:150 size:18 color:[UIColor whiteColor]];
 	[self drawLabel:flopView string:@"Flop" x:90 y:150 size:18 color:[UIColor whiteColor]];
 	[self drawLabel:turnView string:@"Turn" x:90 y:150 size:18 color:[UIColor whiteColor]];
-	
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Hand Tracker"];
-	[self changeNavToIncludeType:37];
-	
-    [self.mainTableView setBackgroundView:nil];
-	
-	[ProjectFunctions makeFAButton:self.playButton type:9 size:24];
-	[ProjectFunctions makeFAButton:self.editButton type:2 size:24];
-
-	deleteButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-	[deleteButton setTitle:[NSString fontAwesomeIconStringForEnum:FAtrash] forState:UIControlStateNormal];
-
-	self.selectedRow=0;
-	self.indexPathRow=0;
-	self.viewEditable=YES;
-	labelValues = [[NSMutableArray alloc] init];
-	formDataArray = [[NSMutableArray alloc] init];
-	oddsDataArray = [[NSMutableArray alloc] init];
-	
-	if(mo != nil)
-		self.numPlayers = [[mo valueForKey:@"numPlayers"] intValue];
-	
-	[self setupdata];
-	
-	winLossSegment.tintColor = [UIColor colorWithRed:.8 green:.6 blue:0 alpha:1];
-	nextButton.alpha=0;
-	visualView.alpha=0;
-	preflopView.alpha=0;
-	flopView.alpha=0;
-	turnView.alpha=0;
-	viewButton.alpha=0;
-	oddsButton.alpha=0;
-	deleteButton.alpha=0;
-	
-	if(mo != nil) {
-		NSString *winStatus = [mo valueForKey:@"winStatus"];
-		
-		if([winStatus isEqualToString:@"Loss"])
-			winLossSegment.selectedSegmentIndex=1;
-		if([winStatus isEqualToString:@"Chop"])
-			winLossSegment.selectedSegmentIndex=2;
-
-		self.viewEditable=NO;
-		viewButton.alpha=1;
-		
-		[self setupVisualView];
-		
-		
-	}
-	
-	NSString *preFlopOdds = [mo valueForKey:@"preFlopOdds"];
-	self.calcOddsButton.enabled = (preFlopOdds.length==0);
-	[ProjectFunctions makeFAButton:self.calcOddsButton type:28 size:14 text:@"Odds Calc"];
-
-	
-	
-	NSString *buttonName = (drilldown)?[NSString fontAwesomeIconStringForEnum:FAPencil]:[NSString fontAwesomeIconStringForEnum:FAFloppyO];
-	saveButton = [[UIBarButtonItem alloc] initWithTitle:buttonName style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonClicked:)];
-	
-	saveButton = [ProjectFunctions UIBarButtonItemWithIcon:buttonName target:self action:@selector(saveButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = saveButton;
-
-	saveButton.enabled=drilldown;
-	self.playButton.enabled=NO;
 }
 
 
@@ -677,7 +662,6 @@
 
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section==2) {
 		int height = [MultiLineDetailCellWordWrap cellHeightWithNoMainTitleForData:[NSArray arrayWithObjects:[formDataArray stringAtIndex:numPlayers+5],[formDataArray stringAtIndex:numPlayers+6],[formDataArray stringAtIndex:numPlayers+7],[formDataArray stringAtIndex:numPlayers+8],[formDataArray stringAtIndex:numPlayers+9], nil]
@@ -693,8 +677,6 @@
 	return 44;
 }
 
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
@@ -783,8 +765,6 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	}
-
-		
 }
 
 - (IBAction) oddsButtonPressed: (id) sender
@@ -799,8 +779,6 @@
 
 #pragma mark -
 #pragma mark Table view delegate
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section>0)
 		return;
@@ -930,20 +908,7 @@
 	
 		
 }
-
-
-
 #pragma mark -
-#pragma mark Memory management
-
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-
 
 -(void) setReturningValue:(NSString *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
@@ -956,9 +921,6 @@
 	
 	[mainTableView reloadData];
 }
-
-
-
 
 @end
 

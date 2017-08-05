@@ -118,7 +118,7 @@
 		double weekdayAmount = [[weekDayDict valueForKey:weekday] doubleValue];
 		weekdayAmount+=profit;
 		[weekDayDict setObject:[NSNumber numberWithDouble:weekdayAmount] forKey:weekday];
-		double daytimeAmount = [[weekDayDict valueForKey:daytime] doubleValue];
+		double daytimeAmount = [[dayTimesDict valueForKey:daytime] doubleValue];
 		daytimeAmount+=profit;
 		[dayTimesDict setObject:[NSNumber numberWithDouble:daytimeAmount] forKey:daytime];
 
@@ -229,6 +229,7 @@
 	obj.hudGamesStr=@"-";
 	if(obj.hudGames>0) {
 		obj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:hudPlayerObj.looseNum/obj.hudGames agressiveNum:hudPlayerObj.agressiveNum/obj.hudGames];
+		obj.hudPlayerTypeLong = [ProjectFunctions playerTypeLongFromLooseNum:hudPlayerObj.looseNum/obj.hudGames agressiveNum:hudPlayerObj.agressiveNum/obj.hudGames];
 		int vpip = [PlayerObj vpipForPlayer:hudPlayerObj];
 		int pfr = [PlayerObj pfrForPlayer:hudPlayerObj];
 		NSString *af = [PlayerObj afForPlayer:hudPlayerObj];
@@ -277,6 +278,7 @@
 		double roiAmount = obj.profit*100/obj.risked;
 		obj.roi = [NSString stringWithFormat:@"%d%%", (int)round(roiAmount)];
 	}
+	obj.roiLong = [ProjectFunctions pprStringFromProfit:obj.profit risked:obj.risked];
 	obj.grossIncome = obj.profit+obj.foodDrinks+obj.tokes;
 	obj.takehomeAmount = obj.profit+obj.foodDrinks;
 	obj.profitHigh = [NSString stringWithFormat:@"%@ %@", [ProjectFunctions convertNumberToMoneyString:profitHigh], profitHighDay];

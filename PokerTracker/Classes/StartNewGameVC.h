@@ -83,6 +83,12 @@
 @property (atomic, strong) UIButton *addCasinoButton;
 @property (atomic, strong) IBOutlet UILabel *locationTextLabel;
 
+@property (atomic, strong) IBOutlet PopupView *tournyPopupView;
+@property (atomic, strong) IBOutlet UILabel *buyinPopupLabel;
+@property (atomic, strong) IBOutlet UILabel *chipsPopupLabel;
+@property (atomic, strong) IBOutlet UIButton *buyinPopupButton;
+@property (atomic, strong) IBOutlet UIButton *chipsPopupButton;
+
 @property (atomic) int selectedObjectForEdit;
 @property (atomic) int addCasinoFlg;
 

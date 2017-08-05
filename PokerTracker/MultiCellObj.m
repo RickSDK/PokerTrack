@@ -18,7 +18,7 @@
 }
 
 -(void)addLineWithTitle:(NSString *)title value:(NSString *)value color:(UIColor *)color {
-	[self.titles addObject:NSLocalizedString(title, nil)];
+	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
 	[self.values addObject:value];
 	[self.colors addObject:color];
 }
@@ -26,7 +26,7 @@
 -(void)addIntLineWithTitle:(NSString *)title value:(int)value color:(UIColor *)color {
 	if(color==nil)
 		color = [UIColor blackColor];
-	[self.titles addObject:NSLocalizedString(title, nil)];
+	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
 	[self.values addObject:[NSString stringWithFormat:@"%d", value]];
 	[self.colors addObject:color];
 }
@@ -34,19 +34,19 @@
 -(void)addBlackLineWithTitle:(NSString *)title value:(NSString *)value {
 	if(!value)
 		value=@"-";
-	[self.titles addObject:NSLocalizedString(title, nil)];
+	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
 	[self.values addObject:value];
 	[self.colors addObject:[UIColor blackColor]];
 }
 
 -(void)addMoneyLineWithTitle:(NSString *)title amount:(double)amount {
-	[self.titles addObject:NSLocalizedString(title, nil)];
+	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
 	[self.values addObject:[ProjectFunctions convertNumberToMoneyString:amount]];
 	[self.colors addObject:[ProjectFunctions colorForProfit:amount]];
 }
 
 -(void)addColoredLineWithTitle:(NSString *)title value:(NSString *)value amount:(double)amount {
-	[self.titles addObject:NSLocalizedString(title, nil)];
+	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
 	[self.values addObject:value];
 	[self.colors addObject:[ProjectFunctions colorForProfit:amount]];
 }
@@ -111,16 +111,24 @@
 	}
 	
 	if(gameObj.isTourney) {
+		[self addMoneyLineWithTitle:@"Starting Chips" amount:gameObj.startingChips];
+		if(gameObj.rebuyChips>0)
+			[self addMoneyLineWithTitle:@"Rebuy Chips" amount:gameObj.rebuyChips];
+		if(![@"Completed" isEqualToString:gameObj.status])
+			[self addMoneyLineWithTitle:@"Current Chips" amount:gameObj.currentChips];
 		[self addIntLineWithTitle:@"tournamentSpots" value:gameObj.tournamentSpots color:nil];
 		[self addIntLineWithTitle:@"tournamentSpotsPaid" value:gameObj.tournamentSpotsPaid color:nil];
-		[self addIntLineWithTitle:@"tournamentFinish" value:gameObj.tournamentFinish color:[UIColor blueColor]];
+		[self addLineWithTitle:@"tournamentFinish" value:gameObj.tournamentFinishStr color:[UIColor magentaColor]];
 	}
 	if(gameObj.hudStatsFlg) {
-		[self addLineWithTitle:@"VPIP / PFR (AF)" value:gameObj.hudVpip color:[UIColor purpleColor]];
-		[self addLineWithTitle:@"HUD Play" value:gameObj.hudPlayerType color:[UIColor purpleColor]];
-		[self addLineWithTitle:@"HUD Skill Level" value:gameObj.hudSkillLevel color:[UIColor purpleColor]];
-		if(gameObj.hudVillianName.length>0)
-			[self addLineWithTitle:@"HUD Villian" value:gameObj.hudVillianName color:[UIColor purpleColor]];
+		[self addLineWithTitle:@"VPIP / PFR (AF)" value:gameObj.hudVpip color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+		[self addLineWithTitle:@"HUD Play" value:gameObj.hudPlayerType color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+		[self addLineWithTitle:@"HUD Detailed Play" value:gameObj.hudPlayerTypeLong color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+		[self addLineWithTitle:@"HUD Skill Level" value:gameObj.hudSkillLevel color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+		if(gameObj.hudVillianName.length>0) {
+			[self addLineWithTitle:@"HUD Villian" value:gameObj.hudVillianName color:[UIColor colorWithRed:.5 green:0 blue:0 alpha:1]];
+			[self addLineWithTitle:@"HUD Villian Play" value:gameObj.hudVillianTypeLong color:[UIColor colorWithRed:.5 green:0 blue:0 alpha:1]];
+		}
 		
 	}
 	[self addBlackLineWithTitle:@"notes" value:gameObj.notes];

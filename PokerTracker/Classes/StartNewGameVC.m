@@ -74,6 +74,8 @@
 	self.locationManager.delegate = self;
 	self.locationManager.distanceFilter = kCLDistanceFilterNone;
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	self.tournyPopupView.titleLabel.text = @"Tournament Buy-in";
+	self.tournyPopupView.hidden=YES;
 	
 	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
 		[self.locationManager requestWhenInUseAuthorization];
@@ -209,7 +211,8 @@
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
 	}
 	[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
-    
+	[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
+
 }
 
 - (IBAction) gameTypeSegmentPressed: (id) sender 
@@ -275,8 +278,32 @@
 	self.selectedObjectForEdit=1;
 	[self gotoListPicker:@"bankroll" initialDateValue:bankrollButton.titleLabel.text];
 }
-- (IBAction) buyinButtonPressed: (id) sender 
+- (IBAction) buyinPopupButtonPressed: (id) sender
 {
+	self.selectedObjectForEdit=0;
+	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	detailViewController.callBackViewController = self;
+	detailViewController.titleLabel = @"Buy-in";
+	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", buyinButton.titleLabel.text];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+- (IBAction) chipsPopupButtonPressed: (id) sender
+{
+	self.selectedObjectForEdit=13;
+	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	detailViewController.callBackViewController = self;
+	detailViewController.titleLabel = @"Starting Chips";
+	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", self.chipsPopupButton.titleLabel.text];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+- (IBAction) buyinButtonPressed: (id) sender
+{
+	if(self.gameTypeSegmentBar.selectedSegmentIndex==1) {
+		self.tournyPopupView.hidden=!self.tournyPopupView.hidden;
+		return;
+	}
 	self.selectedObjectForEdit=0;
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
@@ -317,6 +344,7 @@
 	NSString *month = [ProjectFunctions getMonthFromDate:startTime];
 	NSString *dayTime = [ProjectFunctions getDayTimeFromDate:startTime];
 	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinButton.titleLabel.text];
+	float startingChipsAmount = [ProjectFunctions convertMoneyStringToDouble:self.chipsPopupButton.titleLabel.text];
 	NSArray *valueArray = [NSArray arrayWithObjects:
 						   [startTime convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm:ss a"],
 						   [endTime convertDateToStringWithFormat:@"MM/dd/yyyy hh:mm:ss a"],
@@ -348,6 +376,8 @@
 						   nil];
 	
 	[ProjectFunctions updateGameInDatabase:managedObjectContext mo:mo valueList:valueArray];
+	[mo setValue:[NSString stringWithFormat:@"%d", (int)startingChipsAmount] forKey:@"attrib05"];
+	[mo setValue:[NSString stringWithFormat:@"%d", (int)startingChipsAmount] forKey:@"hudHeroLine"];
 	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];
 	return mo;
 }
@@ -441,6 +471,14 @@
 		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
 		return;
 	}
+	if(self.gameTypeSegmentBar.selectedSegmentIndex==1) {
+		float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:self.chipsPopupButton.titleLabel.text];
+		if(buyInAmount==0) {
+			self.tournyPopupView.hidden=NO;
+			[ProjectFunctions showAlertPopup:@"Starting chips must be greater than 0" message:@""];
+			return;
+		}
+	}
 
 	NSString *location = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", location];
@@ -528,6 +566,11 @@
 	if(selectedObjectForEdit==0) {
 		double amount = [ProjectFunctions convertMoneyStringToDouble:value];
 		[buyinButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
+		[self.buyinPopupButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
+	}
+	if(selectedObjectForEdit==13) {
+		double amount = [ProjectFunctions convertMoneyStringToDouble:value];
+		[self.chipsPopupButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
 	}
 	if(selectedObjectForEdit==1)
 		[bankrollButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];

@@ -18,7 +18,6 @@
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UISegmentedControl *topSegment;
-	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UISegmentedControl *gameSegment;
 	IBOutlet UIButton *refreshButton;
@@ -29,8 +28,6 @@
 	NSMutableArray *multiDimentionalValues0;
 	NSMutableArray *multiDimentionalValues1;
 	NSMutableArray *multiDimentionalValues2;
-	BOOL viewLocked;
-    BOOL viewUnLoaded;
 	IBOutlet UISegmentedControl *bankRollSegment;
     IBOutlet UIButton *bankrollButton;
 
@@ -48,12 +45,9 @@
 @property (atomic, strong) NSMutableArray *multiDimentionalValues1;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues2;
 @property (atomic, strong) UISegmentedControl *topSegment;
-@property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, copy) NSString *gameType;
 @property (atomic, strong) UIButton *refreshButton;
-@property (atomic) BOOL viewLocked;
-@property (atomic) BOOL viewUnLoaded;
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 

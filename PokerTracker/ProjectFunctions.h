@@ -43,7 +43,7 @@
 
 //----------Edit in Here---------------------------
 #define kLOG 0
-#define kPRODMode 0
+#define kPRODMode 1
 #define kIsLiteVersion 0  // 0 or 1
 //----------Edit in Here---------------------------
 
@@ -93,6 +93,7 @@
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
 +(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum ;
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key;
++(NSString *)localizedTitle:(NSString *)title;
 +(NSString *)getUserDefaultValue:(NSString *)key;
 +(UIImage *)plotStatsChart:(NSManagedObjectContext *)mOC predicate:(NSPredicate *)predicate displayBySession:(BOOL)displayBySession;
 +(void)drawLine:(CGContextRef)c startX:(int)startX startY:(int)startY endX:(int)endX endY:(int)endY;
@@ -108,6 +109,7 @@
 +(void)displayTimeFrameLabel:(UILabel *)label mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum timeFrame:(NSString *)timeFrame;
 +(NSArray *)getContentsOfFlatFile:(NSString *)filename;
 +(UIImage *)getPtpPlayerTypeImage:(double)amountRisked winnings:(double)winnings iconGroupNumber:(int)iconGroupNumber;
++(NSString *)playerTypeLongFromLooseNum:(int)looseNum agressiveNum:(int)agressiveNum;
 //+(void)executeThreadedJob:(NSString *)class:(SEL)aSelector:(UIActivityIndicatorView *)activityIndicator;
 +(void)updateNewvalueIfNeeded:(NSString *)value type:(NSString *)type mOC:(NSManagedObjectContext *)mOC;
 +(BOOL)limitTextViewLength:(UITextView *)textViewLocal currentText:(NSString *)currentText string:(NSString *)string limit:(int)limit saveButton:(UIBarButtonItem *)saveButton resignOnReturn:(BOOL)resignOnReturn;

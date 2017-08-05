@@ -18,6 +18,11 @@
 "Top5" = "Top 5";
 "Summary" = "Resumen";
 "More" = "Más";
+"Highest" = "Lo más alto";
+"Lowest" = "Menor";
+"Time" = "Hora";
+"Week" = "Semana";
+"Point" = "Punto";
 "Analysis" = "Análisis";
 "Last 10 Games" = "Últimos 10 Juegos";
 "Edit" = "Editar";

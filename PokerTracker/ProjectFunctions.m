@@ -934,6 +934,26 @@
 	return [NSString stringWithFormat:@"%@-%@", style1, style2];
 }
 
++(NSString *)playerTypeLongFromLooseNum:(int)looseNum agressiveNum:(int)agressiveNum {
+	int looseValue = looseNum/20;
+	if(looseValue>4)
+		looseValue=4;
+	NSString *style1 = @"?";
+	NSArray *styles1 = [NSArray arrayWithObjects:@"Very Loose", @"Loose", @"Moderate", @"Tight", @"Very Tight", nil];
+	if(looseValue<styles1.count)
+		style1 = [styles1 objectAtIndex:looseValue];
+	
+	int agressiveValue = agressiveNum/20;
+	if(agressiveValue>4)
+		agressiveValue=4;
+	NSString *style2 = @"?";
+	NSArray *styles2 = [NSArray arrayWithObjects:@"Very Passive", @"Passive", @"Moderate", @"Aggressive", @"Very Aggressive", nil];
+	if(agressiveValue<styles2.count)
+		style2 = [styles2 objectAtIndex:agressiveValue];
+	
+	return [NSString stringWithFormat:@"%@-%@", style1, style2];
+}
+
 +(int)getYearOfFirstGameAscendingFlg:(BOOL)ascendingFlg context:(NSManagedObjectContext *)context {
 	NSArray *items = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:nil sortColumn:@"startTime" mOC:context ascendingFlg:ascendingFlg limit:1];
 	if(items.count>0) {
@@ -1035,14 +1055,25 @@
 	[context save:nil];
 }
 
++(NSString *)localizedTitle:(NSString *)title {
+	NSArray *words = [title componentsSeparatedByString:@" "];
+	if(words.count<=1)
+		return NSLocalizedString(title, nil);
+	else {
+		NSMutableArray *newWords = [[NSMutableArray alloc] init];
+		for(NSString *word in words) {
+			[newWords addObject:NSLocalizedString(word, nil)];
+		}
+		return [newWords componentsJoinedByString:@" "];
+	}
+}
+
 +(UIBarButtonItem *)UIBarButtonItemWithIcon:(NSString *)icon target:(id)target action:(SEL)action {
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:icon style:UIBarButtonItemStylePlain target:target action:action];
 	
 	[button setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:kFontAwesomeFamilyName size:24.f], NSFontAttributeName, nil] forState:UIControlStateNormal];
 	return button;
 }
-
-
 
 +(NSString *)getMonthFromDate:(NSDate *)date {
 	return [[date convertDateToStringWithFormat:@"MMMM"] capitalizedString];
@@ -1663,7 +1694,6 @@
 		
 		BOOL winFlg=(money>=0)?YES:NO;
 			
-				NSLog(@"$%f [%d, %f]", money, plotX, plotY);
 		if(money>=0)
 			CGContextSetRGBStrokeColor(c, 0, .5, 0, 1); // green
 		else

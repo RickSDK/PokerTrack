@@ -39,17 +39,6 @@
 @synthesize bankrollButton;
 @synthesize mainTableView, gamesList, bankRollSegment;
 
-
--(void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	
-	[ProjectFunctions setBankSegment:self.bankRollSegment];
-	
-	[self computeStats];
-}
-
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
@@ -77,8 +66,14 @@
 
 	if([ProjectFunctions getUserDefaultValue:@"scrub2017"].length==0)
 		[self scrubAllGames];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
-	
+	[ProjectFunctions setBankSegment:self.bankRollSegment];
+	[self computeStats];
 }
 
 - (IBAction) top5Pressed: (id) sender {
@@ -151,7 +146,6 @@
 {
 	@autoreleasepool {
 		self.fetchIsReady=NO;
-		
 		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
 		[self updateTitleForBar:self.ptpGameSegment title:@"Games" type:34];
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];

@@ -19,17 +19,22 @@
                 <outlet property="grayPauseBG" destination="62" id="63"/>
                 <outlet property="infoText" destination="90" id="91"/>
                 <outlet property="mainTableView" destination="tPI-Vc-MtE" id="13i-ur-p0Y"/>
+                <outlet property="mainTextfield" destination="iQy-12-0FE" id="ZzF-uf-fRZ"/>
                 <outlet property="notesButton" destination="93" id="xWN-Yz-BbQ"/>
+                <outlet property="numberPlayersButton" destination="4Cx-9P-Ruf" id="sDn-wC-drf"/>
+                <outlet property="numberSpotPaidButton" destination="CU3-ON-leJ" id="N7k-RO-peE"/>
                 <outlet property="onBreakLabel" destination="17" id="46"/>
                 <outlet property="pauseButton" destination="5" id="45"/>
                 <outlet property="pauseTimerLabel" destination="18" id="47"/>
                 <outlet property="playerTypeButton" destination="xPM-cd-hxv" id="91q-Yg-rvI"/>
+                <outlet property="playersPopupView" destination="d3K-wG-qlD" id="7BD-ei-Rmw"/>
                 <outlet property="popupView" destination="XZN-KM-R3q" id="G0X-xr-axY"/>
                 <outlet property="rebuyAmountLabel" destination="0l9-pb-Zyh" id="iLE-9E-wU6"/>
                 <outlet property="rebuyButton" destination="20" id="50"/>
                 <outlet property="timerLabel" destination="7" id="53"/>
                 <outlet property="tokesButton" destination="12" id="54"/>
                 <outlet property="tokesLabel" destination="15" id="87"/>
+                <outlet property="tournamentEndPopupView" destination="qae-GA-akG" id="Bnf-IW-44j"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="webServiceView" destination="rIz-Nh-ZzC" id="n8K-Ha-8YD"/>
             </connections>
@@ -171,6 +176,13 @@
                         <action selector="doneButtonPressed:" destination="-1" eventType="touchDown" id="56"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4SM-MW-fZV">
+                    <rect key="frame" x="185" y="481" width="115" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="tPI-Vc-MtE">
                     <rect key="frame" x="0.0" y="103" width="320" height="291"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -311,7 +323,7 @@
                             <rect key="frame" x="8" y="142" width="296" height="332"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <mutableString key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
+                            <string key="text">The average poker player loses $20/hr so anything above that is at least a decent game. If you are consistently below that, you are playing sub-par poker.
 
 Why is food considered profit?
 
@@ -329,7 +341,7 @@ On the other hand, tips spent in the form of dealer tokes are NOT profit. You in
 
 Players have an emotional response to want to tip more for larger pots, but there's no logical reason for it. Did the dealer work harder for that pot? No. Keep that money in your chip stack.
 
-Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</mutableString>
+Players feel like they are being generous by giving large tips, but the reality is they are just cheating the rest of the players by taking money off the table. It's actually more curtious, and ethical, to tip small. ;)</string>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -392,6 +404,78 @@ Players feel like they are being generous by giving large tips, but the reality 
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="0.49803921580314636" green="0.49803921580314636" blue="0.49803921580314636" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="d3K-wG-qlD" customClass="PopupView">
+                    <rect key="frame" x="20" y="132" width="280" height="202"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4Cx-9P-Ruf">
+                            <rect key="frame" x="8" y="59" width="111" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="0" backgroundImage="yellowChromeBut.png">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="numberPlayersButtonPressed:" destination="-1" eventType="touchDown" id="nXs-BE-m56"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CU3-ON-leJ">
+                            <rect key="frame" x="161" y="59" width="111" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="0" backgroundImage="yellowChromeBut.png">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="numberSpotsPaidButtonPressed:" destination="-1" eventType="touchDown" id="9Jx-60-Bvl"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of tournament players" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" id="tSK-Ye-qZ6">
+                            <rect key="frame" x="8" y="104" width="111" height="71"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of spots paid" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" id="I3g-DD-EZ4">
+                            <rect key="frame" x="161" y="104" width="111" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="qae-GA-akG" customClass="PopupView">
+                    <rect key="frame" x="10" y="10" width="300" height="300"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" id="iQy-12-0FE">
+                            <rect key="frame" x="20" y="41" width="260" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Zug-zk-0eQ"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eVG-hy-08y">
+                            <rect key="frame" x="75" y="79" width="151" height="56"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="Done!" backgroundImage="greenChromeBut.png">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="tournamenDoneButtonPressed:" destination="-1" eventType="touchDown" id="LRM-ud-QFF"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

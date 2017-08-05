@@ -27,6 +27,9 @@
 #import "AnalysisDetailsVC.h"
 
 #define kEndGameAlert	1
+//attrib05	//startingChips
+//hudHeroLine	//currentChips
+//hudVillianLine // rebuyChips
 
 
 @implementation GameInProgressVC
@@ -50,10 +53,15 @@
 	
 	self.currentStackLabel.text = NSLocalizedString(@"Current Chips", nil);
 	self.tokesLabel.text = NSLocalizedString(@"Tips", nil);
-	self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
-	self.foodLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString fontAwesomeIconStringForEnum:FACutlery], [NSString fontAwesomeIconStringForEnum:FAGlass]];
-	self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18];
-	self.tokesLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
+	if(self.gameObj.tournamentGameFlg) {
+		self.foodLabel.text = @"# Players";
+		self.tokesLabel.text = @"Your Finish";
+	} else {
+		self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
+		self.foodLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString fontAwesomeIconStringForEnum:FACutlery], [NSString fontAwesomeIconStringForEnum:FAGlass]];
+		self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18];
+		self.tokesLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
+	}
 
 	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
 	self.clockLabel.text = [NSString fontAwesomeIconStringForEnum:FAClockO];
@@ -85,10 +93,14 @@
 	infoImage.alpha=0;
 	
 	self.popupView.titleLabel.text = @"Terms";
+	self.playersPopupView.titleLabel.text = @"Tournament Players";
+	self.tournamentEndPopupView.titleLabel.text = @"Winning Amount";
+	self.tournamentEndPopupView.hidden=YES;
 	
-	if([self.gameObj.type isEqualToString:@"Tournament"]) {
-		currentStackLabel.text = @"Amount Won";
-	}
+	self.playersPopupView.hidden=YES;
+	
+	[self.numberPlayersButton setTitle:self.gameObj.tournamentSpotsStr forState:UIControlStateNormal];
+	[self.numberSpotPaidButton setTitle:self.gameObj.tournamentSpotsPaidStr forState:UIControlStateNormal];
 	
 	[self endWebServiceCall];
 	[self displayBadgeNumber];
@@ -123,9 +135,6 @@
 	[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
 }
 
-
-
-
 -(BOOL)shouldAutorotate
 {
     return YES;
@@ -135,14 +144,10 @@
 {
     NSArray *elements = [self.userData componentsSeparatedByString:@"<xx>"];
     if([elements count]>4) {
-//        NSString *basics = [elements stringAtIndex:0];
-  //      NSString *yearStats = [elements stringAtIndex:2];
-    //    NSString *lastGame = [elements stringAtIndex:4];
         if([elements count]>1) {
             FriendInProgressVC *detailViewController = [[FriendInProgressVC alloc] initWithNibName:@"FriendInProgressVC" bundle:nil];
             detailViewController.managedObjectContext=self.managedObjectContext;
 			detailViewController.netUserObj=self.netUserObj;
- //           detailViewController.userValues=[NSString stringWithFormat:@"100<xx>%@<xx>%@<xx>%@<aa>%@", yearStats, basics, lastGame, self.userData];
             [self.navigationController pushViewController:detailViewController animated:YES];
         };
     } else {
@@ -188,23 +193,59 @@
 - (IBAction) foodButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=1;
-	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-	detailViewController.callBackViewController = self;
+	if(self.gameObj.tournamentGameFlg) {
+		self.playersPopupView.hidden=!self.playersPopupView.hidden;
+	} else {
+		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+		detailViewController.callBackViewController = self;
+		detailViewController.managedObjectContext=managedObjectContext;
+		detailViewController.titleLabel = @"foodDrink";
+		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+}
+
+- (IBAction) numberPlayersButtonPressed: (id) sender
+{
+	self.selectedObjectForEdit=11;
+	MinuteEnterVC *detailViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
-	detailViewController.titleLabel = @"foodDrink";
-	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
+	[detailViewController setCallBackViewController:self];
+	detailViewController.sendTitle = NSLocalizedString(@"# Players", nil);
+	detailViewController.initialDateValue = (self.gameObj.tournamentSpots==0)?@"":[NSString stringWithFormat:@"%@", self.numberPlayersButton.titleLabel.text];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
+- (IBAction) numberSpotsPaidButtonPressed: (id) sender
+{
+	self.selectedObjectForEdit=12;
+	MinuteEnterVC *detailViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
+	detailViewController.managedObjectContext=managedObjectContext;
+	[detailViewController setCallBackViewController:self];
+	detailViewController.sendTitle = NSLocalizedString(@"# Spots Paid", nil);
+	detailViewController.initialDateValue = (self.gameObj.tournamentSpotsPaid==0)?@"":[NSString stringWithFormat:@"%@", self.numberSpotPaidButton.titleLabel.text];
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 - (IBAction) tokesButtonPressed: (id) sender
 {
 	self.selectedObjectForEdit=2;
-	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-	detailViewController.managedObjectContext=managedObjectContext;
-	[detailViewController setCallBackViewController:self];
-	detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
-	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
-	[self.navigationController pushViewController:detailViewController animated:YES];
+	if(self.gameObj.tournamentGameFlg) {
+		MinuteEnterVC *detailViewController = [[MinuteEnterVC alloc] initWithNibName:@"MinuteEnterVC" bundle:nil];
+		detailViewController.managedObjectContext=managedObjectContext;
+		[detailViewController setCallBackViewController:self];
+		detailViewController.sendTitle = NSLocalizedString(@"Your Finish", nil);
+		detailViewController.initialDateValue = (self.gameObj.tournamentFinish==0)?@"":[NSString stringWithFormat:@"%d", self.gameObj.tournamentFinish];
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	} else {
+		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+		detailViewController.managedObjectContext=managedObjectContext;
+		[detailViewController setCallBackViewController:self];
+		detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
+		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
+
 - (IBAction) chipsButtonPressed: (id) sender
 {
 	self.cashUpdatedFlg=YES;
@@ -218,14 +259,11 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-
-
 - (IBAction) rebuyButtonPressed: (id) sender 
 {
 	self.selectedObjectForEdit=4;
     self.popupViewNumber=99;
     [ProjectFunctions showTwoButtonPopupWithTitle:NSLocalizedString(@"rebuyAmount", nil) message:@"Select Rebuy Type" button1:@"Add-on" button2:@"Re-buy" delegate:self];
-    
 }
 
 -(void)pauseScreen {
@@ -267,9 +305,7 @@
 		 [self saveDatabase];
 		 [self unPauseScreen];
 	 }
-	
  	[self setUpScreen];
-    
 }
 
 -(void)refreshWebRequest
@@ -286,7 +322,6 @@
             [ProjectFunctions showAlertPopupWithDelegate:@"Success" message:@"Stats sent to Net Tracker" delegate:self];
 		else
 			[ProjectFunctions showAlertPopupWithDelegate:@"Game Saved" message:@"Game saved but unable to reach NetTracker server." delegate:self];
-		
 	}
 }
 
@@ -308,8 +343,6 @@
 	self.doneButton.enabled=YES;
 }
 
-
-
 -(void)sendEndGameMessageWebRequest
 {
 		// send text message saying that game ended
@@ -320,7 +353,19 @@
         NSLog(@"+++%@", responseStr);
 }
 
+- (IBAction) tournamenDoneButtonPressed: (id) sender {
+	[self.mainTextfield resignFirstResponder];
+	[chipStackButton setTitle:self.mainTextfield.text forState:UIControlStateNormal];
+	chipStackButton.titleLabel.text=self.mainTextfield.text;
+	[mo setValue:[NSNumber numberWithDouble:[self.mainTextfield.text doubleValue]] forKey:@"cashoutAmount"];
+	double chips = 0;
+	if(self.gameObj.buyInAmount>0)
+		chips = self.gameObj.startingChips*[self.mainTextfield.text doubleValue]/self.gameObj.buyInAmount;
 
+	NSLog(@"chips %f %f", chips, self.gameObj.startingChips);
+	[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips-self.gameObj.rebuyChips-self.gameObj.startingChips rebuyFlg:NO];
+	[self completeGame];
+}
 
 -(void)completeGame {
     self.selectedObjectForEdit=0;
@@ -330,12 +375,15 @@
 	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
 	
-	float foodMoney = [ProjectFunctions convertMoneyStringToDouble:foodButton.titleLabel.text];
-	float tokes = [ProjectFunctions convertMoneyStringToDouble:tokesButton.titleLabel.text];
+	float foodMoney = self.gameObj.foodDrink;
+	float tokes = self.gameObj.tokes;
 	double chips = [ProjectFunctions convertMoneyStringToDouble:chipStackButton.titleLabel.text];
+	NSLog(@"chips: %f", chips);
+	NSLog(@"buyIn: %f", buyIn);
+	NSLog(@"rebuyAmount: %f", rebuyAmount);
 	
-	[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips+foodMoney-buyIn-rebuyAmount rebuyFlg:NO];
-
+	if(!self.gameObj.tournamentGameFlg)
+		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips+foodMoney-buyIn-rebuyAmount rebuyFlg:NO];
 
 	self.netProfit = chips+foodMoney-buyIn-rebuyAmount;
 	
@@ -346,7 +394,6 @@
 	float hours = (float)seconds/3600;
 	
 	[mo setValue:[NSNumber numberWithDouble:self.netProfit] forKey:@"winnings"];
-	NSLog(@"+++winnings set to: %f", self.netProfit);
 	[mo setValue:[NSNumber numberWithInt:breakMinutes] forKey:@"breakMinutes"];
 	[mo setValue:[NSNumber numberWithInt:minutes] forKey:@"minutes"];
 	[mo setValue:[NSNumber numberWithInt:tokes] forKey:@"tokes"];
@@ -392,11 +439,7 @@
 			[ProjectFunctions showAlertPopupWithDelegate:@"Data not backed up" message:[NSString stringWithFormat:@"Note: You have %d games on device that haven't been backed up. If you lose your phone you will lose this data. To back up your data go to the 'Options' menu and click 'Export Data'.", gamesSinceSync] delegate:self];
 		else
 			[ProjectFunctions showAlertPopupWithDelegate:@"Game Over!" message:@"Game data has been saved" delegate:self];
-
-
 	}
-
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -422,11 +465,8 @@
 	if(indexPath.section==0 && mo != nil) {
 		return [MultiLineDetailCellWordWrap heightForMultiCellObj:self.multiCellObj tableView:self.mainTableView];
 	}
-	
 	return 44;
 }
-
-
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -436,36 +476,36 @@
 
 		return;
 	}
-
-        if(popupViewNumber==99) {
-            NSString *intitialAmount=[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text];
-            if(buttonIndex==0)
-                self.addOnFlg=YES;
-            else {
-                self.addOnFlg=NO;
-                intitialAmount=@"0";
-            }
-            
-            MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
-            detailViewController.managedObjectContext=managedObjectContext;
-            [detailViewController setCallBackViewController:self];
-            detailViewController.titleLabel = NSLocalizedString(@"rebuyAmount", nil);
-            detailViewController.initialDateValue = intitialAmount;
-            [self.navigationController pushViewController:detailViewController animated:YES];
-        } else {
-            GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
-            detailViewController.managedObjectContext=managedObjectContext;
-            detailViewController.showMainMenuFlg = YES;
-            detailViewController.mo = mo;
-            [self.navigationController pushViewController:detailViewController animated:YES];
-        }
-
+	if(popupViewNumber==99) {
+		NSString *intitialAmount=[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text];
+		if(buttonIndex==0)
+			self.addOnFlg=YES;
+		else {
+			self.addOnFlg=NO;
+			intitialAmount=@"0";
+		}
+		
+		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
+		detailViewController.managedObjectContext=managedObjectContext;
+		[detailViewController setCallBackViewController:self];
+		detailViewController.titleLabel = NSLocalizedString(@"rebuyAmount", nil);
+		detailViewController.initialDateValue = intitialAmount;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	} else {
+		GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
+		detailViewController.managedObjectContext=managedObjectContext;
+		detailViewController.showMainMenuFlg = YES;
+		detailViewController.mo = mo;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
-
-
 
 - (IBAction) doneButtonPressed: (id) sender
 {
+	if(self.gameObj.tournamentGameFlg) {
+		self.tournamentEndPopupView.hidden=!self.tournamentEndPopupView.hidden;
+		return;
+	}
 	if(!self.cashUpdatedFlg) {
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Update your 'Current Chips' before ending the game."];
 		return;
@@ -492,8 +532,6 @@
 	// Hourly-------
 	if(totalSeconds<=0)
 		return;
-	
-    
 }
 
 -(void)setUpScreen
@@ -502,78 +540,85 @@
     NSString *foodButtonText = @"";
     NSString *tokesButtonText = @"";
     NSString *chipsButtonText = @"";
-
-
+	
 	int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
 	int tokesMoney = [[mo valueForKey:@"tokes"] intValue];
-	foodButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"foodDrinks"] intValue]]];
-	tokesButtonText = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:[[mo valueForKey:@"tokes"] intValue]]];
+	if(self.gameObj.tournamentGameFlg) {
+		foodButtonText = [NSString stringWithFormat:@"%@ / %@", self.gameObj.tournamentSpotsStr, self.gameObj.tournamentSpotsPaidStr];
+		tokesButtonText = self.gameObj.tournamentFinishStr;
+	} else {
+		foodButtonText = self.gameObj.foodDrinkStr;
+		tokesButtonText = self.gameObj.tokesStr;
+	}
 
-	chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
-        
-        self.startDate = [mo valueForKey:@"startTime"];
-        int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
-        
-        int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
-        int breakSeconds = breakMinutes*60;
-        if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
-            int additionalBreakSeconds = [[NSDate date] timeIntervalSinceDate:[mo valueForKey:@"endTime"]];
-            breakSeconds += additionalBreakSeconds;
-        }
+	if(self.gameObj.tournamentGameFlg)
+		chipsButtonText = [ProjectFunctions displayMoney:mo column:@"hudHeroLine"];
+	else
+		chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
 	
-        self.totalBreakSeconds = breakSeconds;
-    
-        // Stats-------
-        double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
-        double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
-
-        double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
+	self.startDate = [mo valueForKey:@"startTime"];
+	int totalSeconds = [[NSDate date] timeIntervalSinceDate:startDate];
 	
-        self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
-        int grossEarnings = netProfit+tokesMoney;
-        int takeHome = netProfit-foodDrinks;
-        
-        
-        [grossLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings] waitUntilDone:YES];
-        [takehomeLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:takeHome] waitUntilDone:YES];
-        [profitLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:netProfit] waitUntilDone:YES];
-
-        
-        // hourly-----
-        NSString *hourlytext = @"-";
+	int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
+	int breakSeconds = breakMinutes*60;
+	if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
+		int additionalBreakSeconds = [[NSDate date] timeIntervalSinceDate:[mo valueForKey:@"endTime"]];
+		breakSeconds += additionalBreakSeconds;
+	}
+	
+	self.totalBreakSeconds = breakSeconds;
+	
+	// Stats-------
+	double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
+	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
+	
+	double chips = [[mo valueForKey:@"cashoutAmount"] doubleValue];
+	
+	self.netProfit = chips+foodDrinks-buyIn-rebuyAmount;
+	int grossEarnings = netProfit+tokesMoney;
+	int takeHome = netProfit-foodDrinks;
+	
+	
+	[grossLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:grossEarnings] waitUntilDone:YES];
+	[takehomeLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:takeHome] waitUntilDone:YES];
+	[profitLabel performSelectorOnMainThread:@selector(setText: ) withObject:[ProjectFunctions convertNumberToMoneyString:netProfit] waitUntilDone:YES];
+	
+	
+	// hourly-----
+	NSString *hourlytext = @"-";
 	if(totalSeconds>0) {
 		int amountHr = ceil(netProfit*3600/totalSeconds);
 		hourlytext = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString: amountHr]];
 	}
 	
-        // colors
-        if(netProfit>=0) {
-            hourlyLabel.textColor = [UIColor yellowColor];
-            profitLabel.textColor = [UIColor greenColor];
-        } else {
-            hourlyLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:0 alpha:1];
-            profitLabel.textColor = [UIColor orangeColor];
-        }
-        if(grossEarnings>=0)
-            grossLabel.textColor = [UIColor greenColor];
-        else
-            grossLabel.textColor = [UIColor orangeColor];
-        if(takeHome>=0)
-            takehomeLabel.textColor = [UIColor greenColor];
-        else 
-            takehomeLabel.textColor = [UIColor orangeColor];
-        
-        int hours = breakSeconds/3600;
-        breakSeconds -= hours*3600;
-        int minutes = breakSeconds/60;
-        breakSeconds -= minutes*60;
-        NSString *pauseTimerText = [NSString stringWithFormat:@"%d:%02d:%02d", hours, minutes, breakSeconds];
-        if(hours==0 && breakSeconds==0)
-            pauseTimerText = [NSString stringWithFormat:@"%d min", minutes];
-        
-
-        [pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
-        [hourlyLabel performSelectorOnMainThread:@selector(setText: ) withObject:hourlytext waitUntilDone:YES];
+	// colors
+	if(netProfit>=0) {
+		hourlyLabel.textColor = [UIColor yellowColor];
+		profitLabel.textColor = [UIColor greenColor];
+	} else {
+		hourlyLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:0 alpha:1];
+		profitLabel.textColor = [UIColor orangeColor];
+	}
+	if(grossEarnings>=0)
+		grossLabel.textColor = [UIColor greenColor];
+	else
+		grossLabel.textColor = [UIColor orangeColor];
+	if(takeHome>=0)
+		takehomeLabel.textColor = [UIColor greenColor];
+	else
+		takehomeLabel.textColor = [UIColor orangeColor];
+	
+	int hours = breakSeconds/3600;
+	breakSeconds -= hours*3600;
+	int minutes = breakSeconds/60;
+	breakSeconds -= minutes*60;
+	NSString *pauseTimerText = [NSString stringWithFormat:@"%d:%02d:%02d", hours, minutes, breakSeconds];
+	if(hours==0 && breakSeconds==0)
+		pauseTimerText = [NSString stringWithFormat:@"%d min", minutes];
+	
+	
+	[pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
+	[hourlyLabel performSelectorOnMainThread:@selector(setText: ) withObject:hourlytext waitUntilDone:YES];
 	float fontSize = chipsButtonText.length>7?26.0:32.0;
 	if(chipsButtonText.length>10)
 		fontSize = 18;
@@ -594,9 +639,6 @@
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
-
-
-
 -(void)countTheCounter
 {
 	@autoreleasepool {
@@ -612,7 +654,6 @@
 	}
 }
 
-
 -(void)updatePicture {
     double buyIn = [[mo valueForKey:@"buyInAmount"] doubleValue];
 	double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
@@ -622,7 +663,6 @@
     int foodDrinks = [[mo valueForKey:@"foodDrinks"] intValue];
     double profit = foodDrinks+cashoutAmount-risked;
     
-//    self.playerTypeImage.image = [ProjectFunctions getPlayerTypeImage:risked winnings:profit];
 	[self.playerTypeButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:risked winnings:profit] forState:UIControlStateNormal];
 }
 
@@ -645,7 +685,6 @@
 -(void)liveUpdate
 {
  	if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
-//		[self startWebServiceCall:@"Updating Server"];
         [self performSelectorInBackground:@selector(doLiveUpdate) withObject:nil];
     }
 }
@@ -669,21 +708,34 @@
 	[UIApplication sharedApplication].applicationIconBadgeNumber=[items count];
 }
 
-
 -(void) setReturningValue:(NSString *) value {
 	BOOL doLiveUpdate=NO;
 	if(selectedObjectForEdit==1) {
 		[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"foodDrinks"];
 	}
 	if(selectedObjectForEdit==2) {
-		[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"tokes"];
+		if(self.gameObj.tournamentGameFlg)
+			[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"tournamentFinish"];
+		else
+			[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"tokes"];
 	}
 	if(selectedObjectForEdit==3) {
 		// set current chip stack
+		double chips = [value doubleValue];
 		double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
 		double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
-		[mo setValue:[NSNumber numberWithFloat:[value doubleValue]] forKey:@"cashoutAmount"];
-		double chips = [value doubleValue];
+		if(self.gameObj.tournamentGameFlg) {
+			[mo setValue:[NSString stringWithFormat:@"%d", [value intValue]] forKey:@"hudHeroLine"];
+			float tCashoutAmount = 0;
+			if(self.gameObj.startingChips>0)
+				tCashoutAmount = (buyInAmount+rebuyAmount)*chips/(self.gameObj.startingChips+self.gameObj.rebuyChips);
+			[mo setValue:[NSNumber numberWithFloat:tCashoutAmount] forKey:@"cashoutAmount"];
+			
+			buyInAmount = self.gameObj.startingChips;
+			rebuyAmount = self.gameObj.rebuyChips;
+		} else {
+			[mo setValue:[NSNumber numberWithFloat:[value doubleValue]] forKey:@"cashoutAmount"];
+		}
 		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips-rebuyAmount-buyInAmount rebuyFlg:NO];
 		doLiveUpdate=YES;
 	}
@@ -702,21 +754,53 @@
 		else
 			cashoutAmount = thisRebuy;
 		
+		[mo setValue:[NSNumber numberWithDouble:cashoutAmount] forKey:@"cashoutAmount"];
+		[mo setValue:[NSNumber numberWithDouble:rebuyAmount] forKey:@"rebuyAmount"];
+		[mo setValue:[NSNumber numberWithInt:numRebuys] forKey:@"numRebuys"];
+
+		if(self.gameObj.tournamentGameFlg) {
+			int startingChips = self.gameObj.startingChips;
+			int rebuyChips = self.gameObj.rebuyChips;
+			rebuyChips += startingChips;
+			[mo setValue:[NSString stringWithFormat:@"%d", rebuyChips] forKey:@"hudVillianLine"];
+			int newChipAmount = startingChips;
+			if(addOnFlg)
+				newChipAmount = startingChips+(int)self.gameObj.currentChips;
+			[mo setValue:[NSString stringWithFormat:@"%d", newChipAmount] forKey:@"hudHeroLine"];
+			cashoutAmount = buyInAmount;
+			float tCashoutAmount = 0;
+			if(self.gameObj.startingChips>0)
+				tCashoutAmount = buyInAmount*newChipAmount/(self.gameObj.startingChips+rebuyChips);
+			[mo setValue:[NSNumber numberWithFloat:tCashoutAmount] forKey:@"cashoutAmount"];
+			thisRebuy = startingChips;
+			buyInAmount = self.gameObj.startingChips;
+			rebuyAmount = self.gameObj.rebuyChips;
+		}
 		double amount1 = thisRebuy+thisRebuy-rebuyAmount-buyInAmount;
 		double amount2 = cashoutAmount-rebuyAmount-buyInAmount;
+		
 		if(!addOnFlg)
 			[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:amount1 rebuyFlg:NO];
 		[NSThread sleepForTimeInterval:0.1];
 		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:amount2 rebuyFlg:YES];
 		
-		[mo setValue:[NSNumber numberWithDouble:cashoutAmount] forKey:@"cashoutAmount"];
-		[mo setValue:[NSNumber numberWithDouble:rebuyAmount] forKey:@"rebuyAmount"];
-		[mo setValue:[NSNumber numberWithInt:numRebuys] forKey:@"numRebuys"];
 		doLiveUpdate=YES;
 		
 	}
 	if(selectedObjectForEdit==9) {
 		[mo setValue:value forKey:@"notes"];
+	}
+	if(self.selectedObjectForEdit==11) {
+		[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"tournamentSpots"];
+		[self.numberPlayersButton setTitle:value forState:UIControlStateNormal];
+		if(self.gameObj.tournamentSpotsPaid==0) {
+			self.selectedObjectForEdit=12;
+			value = [NSString stringWithFormat:@"%d", [value intValue]/10];
+		}
+	}
+	if(self.selectedObjectForEdit==12) {
+		[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:@"tournamentSpotsPaid"];
+		[self.numberSpotPaidButton setTitle:value forState:UIControlStateNormal];
 	}
 	[self saveDatabase];
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
@@ -725,11 +809,6 @@
 	[self setUpScreen];
 	if(doLiveUpdate)
 		[self liveUpdate];
-	
 }
-
-
-
-
 
 @end

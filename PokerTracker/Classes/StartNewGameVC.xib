@@ -14,6 +14,10 @@
                 <outlet property="blindTypeSegmentBar" destination="11" id="19"/>
                 <outlet property="buyinButton" destination="13" id="20"/>
                 <outlet property="buyinLabel" destination="dNV-ig-wRc" id="2yp-CA-So0"/>
+                <outlet property="buyinPopupButton" destination="Z74-WJ-zr7" id="yaC-Dw-sLS"/>
+                <outlet property="buyinPopupLabel" destination="HcF-hX-rh5" id="Pgh-BW-z1h"/>
+                <outlet property="chipsPopupButton" destination="SRM-ge-e8R" id="4xs-B0-Edl"/>
+                <outlet property="chipsPopupLabel" destination="e4H-CP-1yw" id="UMG-Cr-BQw"/>
                 <outlet property="completed2Button" destination="ORd-uw-Del" id="LSh-6B-Uo9"/>
                 <outlet property="completedButton" destination="6" id="21"/>
                 <outlet property="gameNameSegmentBar" destination="7" id="23"/>
@@ -26,6 +30,7 @@
                 <outlet property="popupView" destination="JJ6-IV-Mqs" id="IpV-wy-jSk"/>
                 <outlet property="retryButton" destination="65" id="cfE-yt-VgP"/>
                 <outlet property="startLiveButton" destination="5" id="26"/>
+                <outlet property="tournyPopupView" destination="KVN-Zs-Xga" id="m6j-bU-zQc"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -160,23 +165,6 @@
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5">
-                            <rect key="frame" x="90" y="343" width="150" height="65"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="30"/>
-                            <size key="titleShadowOffset" width="2" height="2"/>
-                            <state key="normal" title="Start!" backgroundImage="greenChromeBut.png">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="startButtonPressed:" destination="-1" eventType="touchDown" id="33"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="yLc-6F-FFD">
                             <rect key="frame" x="83" y="205" width="164" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -185,7 +173,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" id="JJ6-IV-Mqs" customClass="PopupView">
-                            <rect key="frame" x="8" y="10" width="304" height="283"/>
+                            <rect key="frame" x="8" y="10" width="304" height="226"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="14">
@@ -231,12 +219,72 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5">
+                            <rect key="frame" x="90" y="351" width="150" height="65"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="30"/>
+                            <size key="titleShadowOffset" width="2" height="2"/>
+                            <state key="normal" title="Start!" backgroundImage="greenChromeBut.png">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="startButtonPressed:" destination="-1" eventType="touchDown" id="33"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" id="KVN-Zs-Xga" customClass="PopupView">
+                            <rect key="frame" x="20" y="5" width="280" height="296"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Z74-WJ-zr7">
+                                    <rect key="frame" x="8" y="47" width="155" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="$0" backgroundImage="yellowChromeBut.png">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="buyinPopupButtonPressed:" destination="-1" eventType="touchDown" id="y9m-OT-LfS"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SRM-ge-e8R">
+                                    <rect key="frame" x="8" y="109" width="155" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="$0" backgroundImage="yellowChromeBut.png">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="chipsPopupButtonPressed:" destination="-1" eventType="touchDown" id="1ap-yZ-tvn"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy-in Amount" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" id="HcF-hX-rh5">
+                                    <rect key="frame" x="171" y="47" width="101" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starting Chips" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="7" id="e4H-CP-1yw">
+                                    <rect key="frame" x="171" y="109" width="101" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ORd-uw-Del">
-                    <rect key="frame" x="87" y="490" width="146" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <rect key="frame" x="90" y="473" width="150" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Already Completed?" backgroundImage="blackChromeBut.png">

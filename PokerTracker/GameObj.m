@@ -49,6 +49,12 @@
 	gameObj.daytime = [mo valueForKey:@"daytime"];
 	gameObj.numRebuys = [[mo valueForKey:@"numRebuys"] intValue];
 
+	gameObj.startingChips = [[mo valueForKey:@"attrib05"] intValue];
+	gameObj.currentChips = [[mo valueForKey:@"hudHeroLine"] intValue];
+	gameObj.rebuyChips = [[mo valueForKey:@"hudVillianLine"] intValue];
+
+	
+
 	//	gameObj.name = [mo valueForKey:@"name"];
 	//	gameObj.hours = [mo valueForKey:@"hours"];
 	//	gameObj.minutes = [[mo valueForKey:@"minutes"] intValue];
@@ -76,6 +82,7 @@
 			int looseNum = [[components objectAtIndex:5] intValue];
 			int agressiveNum = [[components objectAtIndex:6] intValue];
 			gameObj.hudPlayerType = [ProjectFunctions playerTypeFromLlooseNum:looseNum agressiveNum:agressiveNum];
+			gameObj.hudPlayerTypeLong = [ProjectFunctions playerTypeLongFromLooseNum:looseNum agressiveNum:agressiveNum];
 		}
 		if (gameObj.hudHeroStr.length>10 && gameObj.hudVillianStr.length>10 && [@"0:0:0:0" isEqualToString:[gameObj.hudHeroStr substringToIndex:7]] && [@"0:0:0:0" isEqualToString:[gameObj.hudVillianStr substringToIndex:7]])
 			gameObj.hudStatsFlg=NO;
@@ -83,7 +90,10 @@
 	if(gameObj.hudVillianStr.length>10) {
 		NSArray *components = [gameObj.hudVillianStr componentsSeparatedByString:@":"];
 		if(components.count>8) {
+			int looseNum = [[components objectAtIndex:5] intValue];
+			int agressiveNum = [[components objectAtIndex:6] intValue];
 			gameObj.hudVillianName = [components objectAtIndex:8];
+			gameObj.hudVillianTypeLong = [ProjectFunctions playerTypeLongFromLooseNum:looseNum agressiveNum:agressiveNum];
 		}
 	}
 	NSString *middleValue = ([@"Cash" isEqualToString:gameObj.type])?gameObj.stakes:gameObj.tournamentType;
@@ -94,12 +104,21 @@
 	
 	gameObj.takeHome = gameObj.cashoutAmount - gameObj.risked;
 	gameObj.profit = gameObj.cashoutAmount + gameObj.foodDrink - gameObj.risked;
+	double winnings = [[mo valueForKey:@"winnings"] doubleValue];
 	gameObj.grossIncome = gameObj.cashoutAmount + gameObj.tokes + gameObj.foodDrink - gameObj.risked;
 	gameObj.ppr = [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit];
 	
 	NSDate *endTime = gameObj.endTime;
-	if([gameObj.status isEqualToString:@"In Progress"])
+	if([gameObj.status isEqualToString:@"In Progress"]) {
 		endTime = [NSDate date];
+		gameObj.playFlag = YES;
+	} else if(winnings != gameObj.profit) {
+		NSLog(@"+++++++++++++++++++++++++");
+		NSLog(@"Whoa!!!!! winnings: %f %f", winnings, gameObj.profit);
+		NSLog(@"+++++++++++++++++++++++++");
+		[ProjectFunctions setUserDefaultValue:@"" forKey:@"scrub2017"];
+	}
+
 	gameObj.minutes = [ProjectFunctions getMinutesPlayedUsingStartTime:gameObj.startTime andEndTime:endTime andBreakMin:gameObj.breakMinutes];
 
 	
@@ -126,10 +145,32 @@
 	gameObj.breakMinutesStr = [NSString stringWithFormat:@"%d", gameObj.breakMinutes];
 	gameObj.tournamentSpotsStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpots];
 	gameObj.tournamentSpotsPaidStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid];
-	gameObj.tournamentFinishStr = [NSString stringWithFormat:@"%d", gameObj.tournamentFinish];
+	gameObj.tournamentFinishStr = [self placeStrFromPlace:gameObj.tournamentFinish];
 	gameObj = [self updateMoreFieldsForObj:gameObj];
 	
 	return gameObj;
+}
+
++(NSString *)placeStrFromPlace:(int)place {
+	if(place==0)
+		return @"?";
+	NSString *suffix;
+	int ones = place % 10;
+	int tens = (place/10) % 10;
+	
+	if (tens ==1) {
+		suffix = @"th";
+	} else if (ones == 1) {
+		suffix = @"st";
+	} else if (ones == 2) {
+		suffix = @"nd";
+	} else if (ones == 3) {
+		suffix = @"rd";
+	} else {
+		suffix = @"th";
+	}
+	
+	return [NSString stringWithFormat:@"%d%@", place, suffix];
 }
 
 +(NSString *)playerSkillLevelForType:(int)type {
@@ -177,9 +218,9 @@
 	gameObj.pprStr = [ProjectFunctions pprStringFromProfit:gameObj.profit risked:gameObj.risked];
 	gameObj.numRebuysStr = [NSString stringWithFormat:@"%d", gameObj.numRebuys];
 	gameObj.breakMinutesStr = [NSString stringWithFormat:@"%d", gameObj.breakMinutes];
-	gameObj.tournamentSpotsStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpots];
-	gameObj.tournamentSpotsPaidStr = [NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid];
-	gameObj.tournamentFinishStr = [NSString stringWithFormat:@"%d", gameObj.tournamentFinish];
+	gameObj.tournamentSpotsStr = (gameObj.tournamentSpots==0)?@"?":[NSString stringWithFormat:@"%d", gameObj.tournamentSpots];
+	gameObj.tournamentSpotsPaidStr = (gameObj.tournamentSpotsPaid==0)?@"?":[NSString stringWithFormat:@"%d", gameObj.tournamentSpotsPaid];
+	gameObj.tournamentFinishStr = [self placeStrFromPlace:gameObj.tournamentFinish];
 	return gameObj;
 }
 

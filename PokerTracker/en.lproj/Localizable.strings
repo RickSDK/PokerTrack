@@ -30,6 +30,11 @@
 "Delete Game" = "Delete Game";
 "GameMinutes" = "Game Minutes";
 "breakMinutes" = "Minutes on Break";
+"Highest" = "Highest";
+"Lowest" = "Lowest";
+"Time" = "Time";
+"Week" = "Week";
+"Point" = "Point";
 "Analysis" = "Analysis";
 "Edit Mode" = "Edit Mode";
 "roiNameLabel" = "Return on Investment (ROI)";

@@ -117,13 +117,9 @@
 
 - (void)computeStats
 {
-    
     self.mainTableView.alpha=.5;
 	[activityIndicator startAnimating];
 
-    self.bankrollButton.enabled=NO;
-    self.bankRollSegment.enabled=NO;
-	
     if([ProjectFunctions useThreads]) {
         [self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
     } else {
@@ -230,11 +226,6 @@
         [activityIndicator stopAnimating];
         self.mainTableView.alpha=1;
         [mainTableView reloadData];
-
-        self.bankrollButton.enabled=YES;
-        self.bankRollSegment.enabled=YES;
-
-
 	}
 }
 

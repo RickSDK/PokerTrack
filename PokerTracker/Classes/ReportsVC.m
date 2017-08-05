@@ -19,9 +19,9 @@
 @implementation ReportsVC
 @synthesize managedObjectContext, mainTableView;
 @synthesize sectionTitles, multiDimentionalValues;
-@synthesize topSegment, activityBGView, activityIndicator;
-@synthesize gameSegment, gameType, viewLocked, refreshButton;
-@synthesize multiDimentionalValues0, multiDimentionalValues1, multiDimentionalValues2, viewUnLoaded;
+@synthesize topSegment, activityIndicator;
+@synthesize gameSegment, gameType, refreshButton;
+@synthesize multiDimentionalValues0, multiDimentionalValues1, multiDimentionalValues2;
 @synthesize bankRollSegment, bankrollButton;
 
 
@@ -32,7 +32,6 @@
 	multiDimentionalValues0 = [[NSMutableArray alloc] init];
 	multiDimentionalValues1 = [[NSMutableArray alloc] init];
 	multiDimentionalValues2 = [[NSMutableArray alloc] init];
-	self.viewLocked=NO;
 	
 	[self.mainTableView setBackgroundView:nil];
 	
@@ -42,11 +41,8 @@
 	[self setTitle:NSLocalizedString(@"Reports", nil)];
 	[self changeNavToIncludeType:26];
 	
-	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
-	
-	activityBGView.alpha=0;
 	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
@@ -170,16 +166,9 @@
 {
 	[ProjectFunctions setFontColorForSegment:gameSegment values:nil];
 	[activityIndicator startAnimating];
-	activityBGView.alpha=1;
-    gameSegment.enabled=NO;
-    topSegment.enabled=NO;
-    self.bankRollSegment.enabled=NO;
-    self.bankrollButton.enabled=NO;
 	self.mainTableView.alpha=.5;
 	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
 }
-
-
 
 -(void)doTheHardWork {
 	@autoreleasepool {
@@ -200,11 +189,18 @@
 			[self populateArrayForField:sectionField context:contextLocal];
 		} // <-- for
 		
-		if([sectionTitles count]==0)
-			[ProjectFunctions showAlertPopup:@"No Records" message:@"No results for that search"];
+		NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:self.gameType];
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
+		[sectionTitles addObject:NSLocalizedString(@"Tips", nil)];
+		NSString *tokeString = [CoreDataLib getGameStat:contextLocal dataField:@"tokeString" predicate:predicate];
+		[multiDimentionalValues addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues0 addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues1 addObject:[NSArray arrayWithObjects:tokeString, nil]];
+		[multiDimentionalValues2 addObject:[NSArray arrayWithObjects:tokeString, nil]];
 		
-		activityBGView.alpha=0;
-		[self calcMoreStats];
+		[activityIndicator stopAnimating];
+		self.mainTableView.alpha=1;
+		[mainTableView reloadData];
 	}
 }
 
@@ -273,28 +269,6 @@
 		PokerTrackerAppDelegate *appDelegate = (PokerTrackerAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[contextLocal setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
 		
-		NSString *basicPred = [ProjectFunctions getBasicPredicateString:self.yearChangeView.statYear type:self.gameType];
-		
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
-		
-		[sectionTitles addObject:NSLocalizedString(@"Tips", nil)];
-		NSString *tokeString = [CoreDataLib getGameStat:contextLocal dataField:@"tokeString" predicate:predicate];
-		[multiDimentionalValues addObject:[NSArray arrayWithObjects:tokeString, nil]];
-		[multiDimentionalValues0 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-		[multiDimentionalValues1 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-		[multiDimentionalValues2 addObject:[NSArray arrayWithObjects:tokeString, nil]];
-		
-		[activityIndicator stopAnimating];
-		
-		self.viewLocked=NO;
-		refreshButton.enabled=YES;
-		gameSegment.enabled=YES;
-		topSegment.enabled=YES;
-		
-		self.bankRollSegment.enabled=YES;
-		self.bankrollButton.enabled=YES;
-		self.mainTableView.alpha=1;
-		[mainTableView reloadData];
 	}
 }
 

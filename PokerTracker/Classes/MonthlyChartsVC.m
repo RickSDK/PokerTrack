@@ -28,12 +28,57 @@
 @synthesize dayProfits, dayHourly, timeProfits, timeHourly, lockScreen, viewUnLoaded;
 @synthesize bankRollSegment, bankrollButton;
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:NSLocalizedString(@"Charts", nil)];
+	[self changeNavToIncludeType:16];
+	self.showBreakdownFlg=NO;
+	
+	yearlyProfits = [[NSMutableArray alloc] init];
+	yearHourlyProfits = [[NSMutableArray alloc] init];
+	monthlyProfits = [[NSMutableArray alloc] init];
+	hourlyProfits = [[NSMutableArray alloc] init];
+	dayProfits = [[NSMutableArray alloc] init];
+	dayHourly = [[NSMutableArray alloc] init];
+	timeProfits = [[NSMutableArray alloc] init];
+	timeHourly = [[NSMutableArray alloc] init];
+	
+	chartMonth1ImageView = [[UIImageView alloc] init];
+	chartMonth2ImageView = [[UIImageView alloc] init];
+	chart3ImageView = [[UIImageView alloc] init];
+	chart4ImageView = [[UIImageView alloc] init];
+	chart5ImageView = [[UIImageView alloc] init];
+	chart6ImageView = [[UIImageView alloc] init];
+	chartYear1ImageView = [[UIImageView alloc] init];
+	chartYear2ImageView = [[UIImageView alloc] init];
+	self.selectedObjectForEdit=0;
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
+	
+	[profitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	[profitButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
+	
+	[hourlyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	[hourlyButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
+	
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	
+	self.bankrollButton.alpha=1;
+	self.bankRollSegment.alpha=1;
+	
+	if(numBanks==0) {
+		self.bankrollButton.alpha=0;
+		self.bankRollSegment.alpha=0;
+	}
+	
+	[ProjectFunctions makeSegment:self.moneySegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
+	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
+	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
 	[self computeStats];
@@ -61,10 +106,10 @@
 - (IBAction) moneySegmentChanged: (id) sender
 {
 	if(self.moneySegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"Profit", nil)];
+		[self changeNavToIncludeType:16 title:@"Profit"];
 	}
 	if(self.moneySegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Hourly", nil)];
+		[self changeNavToIncludeType:16 title:@"Hourly"];
 	}
 	[mainTableView reloadData];
 }
@@ -178,57 +223,6 @@
 	
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:NSLocalizedString(@"Charts", nil)];
-	[self changeNavToIncludeType:16];
-	self.showBreakdownFlg=NO;
-    
-	yearlyProfits = [[NSMutableArray alloc] init];
-	yearHourlyProfits = [[NSMutableArray alloc] init];
-	monthlyProfits = [[NSMutableArray alloc] init];
-	hourlyProfits = [[NSMutableArray alloc] init];
-	dayProfits = [[NSMutableArray alloc] init];
-	dayHourly = [[NSMutableArray alloc] init];
-	timeProfits = [[NSMutableArray alloc] init];
-	timeHourly = [[NSMutableArray alloc] init];
-
-	chartMonth1ImageView = [[UIImageView alloc] init];
-	chartMonth2ImageView = [[UIImageView alloc] init];
-	chart3ImageView = [[UIImageView alloc] init];
-	chart4ImageView = [[UIImageView alloc] init];
-	chart5ImageView = [[UIImageView alloc] init];
-	chart6ImageView = [[UIImageView alloc] init];
-	chartYear1ImageView = [[UIImageView alloc] init];
-	chartYear2ImageView = [[UIImageView alloc] init];
-	self.selectedObjectForEdit=0;
-	
-	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
-	
-	[profitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[profitButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-	
-	[hourlyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[hourlyButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
-	
-    int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-    
-    self.bankrollButton.alpha=1;
-    self.bankRollSegment.alpha=1;
-    
-    if(numBanks==0) {
-        self.bankrollButton.alpha=0;
-        self.bankRollSegment.alpha=0;
-    }
-	
-	[ProjectFunctions makeSegment:self.moneySegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
-	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
-	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
-
-	
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
 }
@@ -262,10 +256,10 @@
 					   @"Hourly Breakdown",
 					   nil];
 	NSArray *titlesHourly = [NSArray arrayWithObjects:
-					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"year", nil), NSLocalizedString(@"Profit", nil)],
-					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
-					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"day", nil), NSLocalizedString(@"Profit", nil)],
-					   [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"daytime", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@ (hourly)", NSLocalizedString(@"year", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@ (hourly)", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@ (hourly)", NSLocalizedString(@"day", nil), NSLocalizedString(@"Profit", nil)],
+					   [NSString stringWithFormat:@"%@ %@ (hourly)", NSLocalizedString(@"daytime", nil), NSLocalizedString(@"Profit", nil)],
 							 @"Hourly Breakdown",
 							 nil];
 	if(moneySegment.selectedSegmentIndex==0)

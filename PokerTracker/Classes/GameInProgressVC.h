@@ -97,6 +97,10 @@
 @property (atomic, strong) UIButton *friendButton;
 @property (atomic, strong) UIButton *notesButton;
 @property (atomic, strong) IBOutlet UIButton *playerTypeButton;
+@property (atomic, strong) IBOutlet UIButton *numberPlayersButton;
+@property (atomic, strong) IBOutlet UIButton *numberSpotPaidButton;
+@property (atomic, strong) IBOutlet PopupView *playersPopupView;
+@property (atomic, strong) IBOutlet PopupView *tournamentEndPopupView;
 @property (atomic, strong) NetUserObj *netUserObj;
 
 @property (atomic, strong) UILabel *foodLabel;

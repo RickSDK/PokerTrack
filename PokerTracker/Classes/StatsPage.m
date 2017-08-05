@@ -94,6 +94,14 @@
 	[self computeStats];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	[ProjectFunctions setBankSegment:self.bankRollSegment];
+	[self.customSegment turnIntoFilterSegment:self.managedObjectContext];
+}
+
 -(void)backButtonClicked {
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -104,18 +112,10 @@
 	[ProjectFunctions makeFAButton:self.goalsButton type:15 size:18];
 	[ProjectFunctions makeFAButton:self.analysisButton type:35 size:18];
 	
-	self.chartsLabel.text = NSLocalizedString(@"Bar Charts", nil);
+	self.chartsLabel.text = [ProjectFunctions localizedTitle:@"Bar Charts"];
 	self.reportsLabel.text = NSLocalizedString(@"Reports", nil);
 	self.goalsLabel.text = NSLocalizedString(@"Goals", nil);
-	self.analysisLabel.text = NSLocalizedString(@"Pie Charts", nil);
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    [ProjectFunctions setBankSegment:self.bankRollSegment];
-	[self.customSegment turnIntoFilterSegment:self.managedObjectContext];
+	self.analysisLabel.text = [ProjectFunctions localizedTitle:@"Pie Charts"];
 }
 
 - (IBAction) analysisPressed: (id) sender
@@ -247,6 +247,7 @@
 	if(size.width>size.height) {
 		self.chartImageView2.frame = CGRectMake(0, 0, size.width, size.height+64);
 		self.rotateLock=YES;
+		self.chartImageView2.image = chartImageView.image;
 		self.chartImageView2.hidden=NO;
 	} else {
 		self.chartImageView2.hidden=YES;
@@ -305,28 +306,29 @@
 		self.gamesWonSection.altTitle = self.yearChangeView.yearLabel.text;
 		self.gamesLostSection.altTitle = self.yearChangeView.yearLabel.text;
 		
-		[self.gameStatsSection addMoneyLineWithTitle:NSLocalizedString(@"Profit", nil) amount:gameStatObj.profit];
-		[self.gameStatsSection addBlackLineWithTitle:@"Risked" value:gameStatObj.riskedString];
 		[self.gameStatsSection addBlackLineWithTitle:@"Games" value:gameStatObj.shortName];
+		[self.gameStatsSection addBlackLineWithTitle:@"Risked" value:gameStatObj.riskedString];
+		[self.gameStatsSection addMoneyLineWithTitle:@"Profit" amount:gameStatObj.profit];
+		[self.gameStatsSection addBlackLineWithTitle:@"Hours" value:gameStatObj.hours];
+		[self.gameStatsSection addColoredLineWithTitle:@"Hourly" value:gameStatObj.hourly amount:gameStatObj.profit];
+		[self.gameStatsSection addColoredLineWithTitle:@"ROI" value:gameStatObj.roiLong amount:gameStatObj.profit];
 		[self.gameStatsSection addBlackLineWithTitle:@"Streak" value:gameStatObj.streak];
 		[self.gameStatsSection addBlackLineWithTitle:@"WinStreak" value:gameStatObj.winStreak];
 		[self.gameStatsSection addBlackLineWithTitle:@"LoseStreak" value:gameStatObj.loseStreak];
-		[self.gameStatsSection addBlackLineWithTitle:@"Hours" value:gameStatObj.hours];
-		[self.gameStatsSection addColoredLineWithTitle:@"Hourly" value:gameStatObj.hourly amount:gameStatObj.profit];
-		[self.gameStatsSection addColoredLineWithTitle:@"ROI" value:gameStatObj.roi amount:gameStatObj.profit];
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@ Point", NSLocalizedString(@"Highest", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.profitHigh amount:1];
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@ Point", NSLocalizedString(@"Lowest", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.profitLow amount:-1];
+		[self.gameStatsSection addColoredLineWithTitle:@"Highest Profit Point" value:gameStatObj.profitHigh amount:1];
+		[self.gameStatsSection addColoredLineWithTitle:@"Lowest Profit Point" value:gameStatObj.profitLow amount:-1];
 		
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@ of Week", NSLocalizedString(@"Best", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.bestWeekday amount:gameStatObj.bestDayAmount];
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@ of Week", NSLocalizedString(@"Worst", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.worstWeekday amount:gameStatObj.worstDayAmount];
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ Time of %@", NSLocalizedString(@"Best", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.bestDaytime amount:gameStatObj.bestTimeAmount];
-		[self.gameStatsSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ Time of %@", NSLocalizedString(@"Worst", nil), NSLocalizedString(@"day", nil)] value:gameStatObj.worstDaytime amount:gameStatObj.worstTimeAmount];
+		[self.gameStatsSection addColoredLineWithTitle:@"Best day of Week" value:gameStatObj.bestWeekday amount:gameStatObj.bestDayAmount];
+		[self.gameStatsSection addColoredLineWithTitle:@"Worst day of Week" value:gameStatObj.worstWeekday amount:gameStatObj.worstDayAmount];
+		[self.gameStatsSection addColoredLineWithTitle:@"Best Time of day" value:gameStatObj.bestDaytime amount:gameStatObj.bestTimeAmount];
+		[self.gameStatsSection addColoredLineWithTitle:@"Worst Time of day" value:gameStatObj.worstDaytime amount:gameStatObj.worstTimeAmount];
 		
 		if(gameStatObj.hudGames>0) {
-			[self.gameStatsSection addLineWithTitle:@"Hud Games" value:gameStatObj.hudGamesStr color:[UIColor purpleColor]];
-			[self.gameStatsSection addLineWithTitle:@"VPIP / PFR (AF)" value:gameStatObj.hudVpvp_Pfr color:[UIColor purpleColor]];
-			[self.gameStatsSection addLineWithTitle:@"Hud Play Style" value:gameStatObj.hudPlayerType color:[UIColor purpleColor]];
-			[self.gameStatsSection addLineWithTitle:@"Hud Skill Level" value:gameStatObj.hudSkillLevel color:[UIColor purpleColor]];
+			[self.gameStatsSection addLineWithTitle:@"Hud Games" value:gameStatObj.hudGamesStr color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+			[self.gameStatsSection addLineWithTitle:@"VPIP / PFR (AF)" value:gameStatObj.hudVpvp_Pfr color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+			[self.gameStatsSection addLineWithTitle:@"Hud Play Style" value:gameStatObj.hudPlayerType color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+			[self.gameStatsSection addLineWithTitle:@"Hud Detailed Style" value:gameStatObj.hudPlayerTypeLong color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
+			[self.gameStatsSection addLineWithTitle:@"Hud Skill Level" value:gameStatObj.hudSkillLevel color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];
 		}
 		
 		if(gameStatObj.quarter1Profit!=0)
@@ -355,7 +357,6 @@
 		[self.gamesLostSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Largest", nil), NSLocalizedString(@"Loss", nil)] value:gameStatObj.gamesLostMinProfit amount:-1];
 
 		chartImageView.image = [ProjectFunctions plotStatsChart:contextLocal predicate:predicate displayBySession:displayBySession];
-		self.chartImageView2.image = chartImageView.image;
 
 		[activityIndicator stopAnimating];
 		self.mainTableView.alpha=1;
