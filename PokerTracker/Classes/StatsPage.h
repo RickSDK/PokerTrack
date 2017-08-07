@@ -19,7 +19,7 @@
 	//---XIB----------------------------
 	IBOutlet UIToolbar *analysisToolbar;
 	IBOutlet UIToolbar *top5Toolbar;
-	IBOutlet UISegmentedControl *gameSegment;
+	IBOutlet CustomSegment *gameSegment;
 	IBOutlet CustomSegment *customSegment;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -69,7 +69,7 @@
 @property (atomic) BOOL viewLocked;
 @property (atomic) BOOL rotateLock;
 @property (atomic) BOOL viewUnLoaded;
-@property (atomic, strong) UISegmentedControl *gameSegment;
+@property (atomic, strong) CustomSegment *gameSegment;
 @property (atomic, strong) CustomSegment *customSegment;
 @property (atomic, strong) UIToolbar *analysisToolbar;
 @property (atomic, strong) UIToolbar *top5Toolbar;

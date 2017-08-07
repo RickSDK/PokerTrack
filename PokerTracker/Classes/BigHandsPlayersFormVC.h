@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TemplateVC.h"
+#import "BigHandObj.h"
 
 
 @interface BigHandsPlayersFormVC : TemplateVC {
@@ -55,6 +56,12 @@
 @property (nonatomic, strong) UIButton *bet2Button;
 @property (nonatomic, strong) UIButton *bet3Button;
 @property (nonatomic, strong) UIButton *bet4Button;
+@property (nonatomic, strong) BigHandObj *bigHandObj;
+@property (nonatomic, strong) NSString *playerHand;
+@property (nonatomic, strong) IBOutlet UIImageView *cardSuit1;
+@property (nonatomic, strong) IBOutlet UILabel *cardLabel1;
+@property (nonatomic, strong) IBOutlet UIImageView *cardSuit2;
+@property (nonatomic, strong) IBOutlet UILabel *cardLabel2;
 
 
 

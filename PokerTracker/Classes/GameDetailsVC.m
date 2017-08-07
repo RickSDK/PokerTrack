@@ -27,6 +27,7 @@
 #import "GameDetailObj.h"
 #import "EditSegmentVC.h"
 #import "HudTrackerVC.h"
+#import "EditGameTypeVC.h"
 
 
 @implementation GameDetailsVC
@@ -75,7 +76,9 @@
 		stakesName = @"tournamentType";
 		stakesValue = self.gameObj.tournamentType;
 	}
+	// types 1=date, 2=money, 3=refdata, 4=int, 5=text, 6=Type
 	[self.detailItems removeAllObjects];
+	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"Type" value:self.gameObj.type type:6]];
 	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"startTime" value:self.gameObj.startTimePTP type:1]];
 	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"endTime" value:self.gameObj.endTimePTP type:1]];
 	[self.detailItems addObject:[GameDetailObj detailObjWithName:@"buyInAmount" value:self.gameObj.buyInAmountStr type:2]];
@@ -216,6 +219,8 @@
 									 [UIColor colorWithRed:.9 green:.9 blue:1 alpha:1], //list
 									 [UIColor ATTFaintBlue], //number
 									 [UIColor whiteColor], //text
+									 [UIColor colorWithRed:.9 green:1 blue:1 alpha:1], //text
+									 [UIColor yellowColor], //text
 									 nil];
 		cell.backgroundColor = [backgroundColors objectAtIndex:obj.type];
 		
@@ -297,7 +302,14 @@
 		localViewController.initialDateValue = obj.value;
 		localViewController.titleLabel = obj.name;
 		[self.navigationController pushViewController:localViewController animated:YES];
-	}	
+	}
+	if(obj.type==6) {
+		EditGameTypeVC *localViewController = [[EditGameTypeVC alloc] initWithNibName:@"EditGameTypeVC" bundle:nil];
+		[localViewController setCallBackViewController:self];
+		localViewController.managedObjectContext=managedObjectContext;
+		localViewController.initialDateValue = obj.value;
+		[self.navigationController pushViewController:localViewController animated:YES];
+	}
 }
 
 - (IBAction) hudButtonPressed: (id) sender {
@@ -342,6 +354,21 @@
 			[mo setValue:value forKey:@"hudVillianLine"];
 		else
 			[mo setValue:[NSNumber numberWithInt:[value intValue]] forKey:obj.name];
+	}
+	if(obj.type==6) {
+		NSArray *components = [value componentsSeparatedByString:@"|"];
+		if(components.count>1) {
+			NSString *type = [components objectAtIndex:0];
+			NSString *newValue = [components objectAtIndex:1];
+			[mo setValue:type forKey:@"Type"];
+			if([@"Cash" isEqualToString:type]) {
+				[mo setValue:newValue forKey:@"stakes"];
+				[mo setValue:@"" forKey:@"tournamentType"];
+			} else {
+				[mo setValue:@"" forKey:@"stakes"];
+				[mo setValue:newValue forKey:@"tournamentType"];
+			}
+		}
 	}
 	
 	[ProjectFunctions scrubDataForObj:mo context:self.managedObjectContext];

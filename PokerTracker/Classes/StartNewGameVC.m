@@ -87,7 +87,7 @@
 	[activityIndicator startAnimating];
 	[self performSelectorInBackground:@selector(checkCurrentLocation) withObject:nil];
 	
-	[ProjectFunctions makeGameSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
+	[self.gameTypeSegmentBar turnIntoGameSegment];
 	[ProjectFunctions makeSegment:self.gameNameSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
@@ -194,7 +194,7 @@
 	[ProjectFunctions setFontColorForSegment:gameTypeSegmentBar values:[NSArray arrayWithObjects:@"Cash Game", @"Tournament", nil]];
     
 	NSString *buyinAmount = @"";
-	[ProjectFunctions changeColorForGameBar:gameTypeSegmentBar];
+	[gameTypeSegmentBar gameSegmentChanged];
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
  //       [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
 		blindTypeSegmentBar.alpha=1;

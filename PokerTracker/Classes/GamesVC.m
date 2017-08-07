@@ -119,8 +119,7 @@
 
 -(IBAction) segmentChanged:(id)sender
 {
-	[ProjectFunctions changeColorForGameBar:self.ptpGameSegment];
-	[self updateTitleForBar:self.ptpGameSegment title:@"Games" type:34];
+	[self.ptpGameSegment gameSegmentChanged];
 	[self computeStats];
 }
 
@@ -147,7 +146,6 @@
 	@autoreleasepool {
 		self.fetchIsReady=NO;
 		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
-		[self updateTitleForBar:self.ptpGameSegment title:@"Games" type:34];
 		NSPredicate *predicate = [ProjectFunctions getPredicateForFilter:[NSArray arrayWithObjects:[ProjectFunctions getYearString:self.yearChangeView.statYear], gameType, nil] mOC:self.managedObjectContext buttonNum:0];
 		NSArray *games = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:self.managedObjectContext ascendingFlg:YES];
 		[self.gameSummaryView populateViewWithObj:[GameStatObj gameStatObjForGames:games]];

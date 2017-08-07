@@ -2185,13 +2185,13 @@
 			[options addObject:item];
 	}
 	int numSegs = (int)[segmentBar numberOfSegments];
-	for(int i=0; i<numSegs-1; i++) {
-		[segmentBar setTitle:[options objectAtIndex:i] forSegmentAtIndex:i];
+	for(int i=0; i<numSegs; i++) {
+		NSString *title = [segmentBar titleForSegmentAtIndex:i];
+		if([@"edit" isEqualToString:[title lowercaseString]])
+			[segmentBar setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forSegmentAtIndex:i];
+		else
+			[segmentBar setTitle:[options objectAtIndex:i] forSegmentAtIndex:i];
 	}
-	int index = (int)segmentBar.numberOfSegments-1;
-	NSString *rightTitle = [segmentBar titleForSegmentAtIndex:index];
-	if ([@"edit" isEqualToString:[rightTitle lowercaseString]])
-		[segmentBar setTitle:[NSString fontAwesomeIconStringForEnum:FAPencil] forSegmentAtIndex:index];
 }
 
 +(NSArray *)getDefaultOptionsForField:(NSString *)field {
@@ -4020,7 +4020,7 @@
 	NSLog(@"+++gamesOnServer: %d", (int)allGames.count);
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnServer"];
 }
-
+/*
 +(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color {
 	[ProjectFunctions makeSegment:segment color:color];
 	int i=0;
@@ -4040,7 +4040,7 @@
 	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:i++];
 	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:i++];
 }
-
+*/
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {
 	[self makeSegment:segment color:color size:12];
 }
@@ -4061,19 +4061,6 @@
 	[segment setTitleTextAttributes:attribsNormal forState:UIControlStateNormal];
 	[segment setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
 	
-}
-
-+(void)changeColorForGameBar:(UISegmentedControl *)bar {
-	int number = (int)bar.selectedSegmentIndex;
-	if(bar.numberOfSegments==2)
-		number++;
-	
-	if(number==0)
-		[bar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	else if(number==1)
-		[bar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
-	else
-		[bar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 }
 
 +(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size {
@@ -4216,6 +4203,9 @@
 			break;
   case 40:
 			title = [NSString fontAwesomeIconStringForEnum:FAPictureO];
+			break;
+  case 41:
+			title = [NSString fontAwesomeIconStringForEnum:FAPencilSquareO];
 			break;
 
   default:

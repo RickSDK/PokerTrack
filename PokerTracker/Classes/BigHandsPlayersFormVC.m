@@ -19,6 +19,39 @@
 @synthesize action1Button, action2Button, action3Button, action4Button, bet1Button, bet2Button, bet3Button, bet4Button;
 
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	NSLog(@"playersHand: %d", playersHand);
+	if(playersHand==1)
+		[self setTitle:@"Your Hand"];
+	else
+		[self setTitle:[NSString stringWithFormat:@"Player %d", playersHand]];
+	[self changeNavToIncludeType:37];
+	
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(selectButtonClicked:)];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerNum = %d AND bighand = %@", playersHand, mo];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"PLAYER" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
+	NSLog(@"Num Records: %d", (int)items.count);
+	if([items count]>0) {
+		NSManagedObject *playerVals = [items objectAtIndex:0];
+		
+		int chips = [[playerVals valueForKey:@"chips"] intValue];
+		[chipsButton setTitle:[ProjectFunctions convertNumberToMoneyString:chips] forState:UIControlStateNormal];
+		[action1Button setTitle:[playerVals valueForKey:@"preflopOdds"] forState:UIControlStateNormal];
+		[bet1Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"preflopBet"]] forState:UIControlStateNormal];
+		
+		[action2Button setTitle:[playerVals valueForKey:@"flopOdds"] forState:UIControlStateNormal];
+		[bet2Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"flopBet"]] forState:UIControlStateNormal];
+		
+		[action3Button setTitle:[playerVals valueForKey:@"turnOdds"] forState:UIControlStateNormal];
+		[bet3Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"turnBet"]] forState:UIControlStateNormal];
+		
+		[action4Button setTitle:[playerVals valueForKey:@"result"] forState:UIControlStateNormal];
+		[bet4Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"riverBet"]] forState:UIControlStateNormal];
+	}
+	[BigHandObj createHand:self.playerHand suit1:self.cardSuit1 label1:self.cardLabel1 suit2:self.cardSuit2 label2:self.cardLabel2];
+}
+
 -(void)doAction:(UIButton *)button title:(NSString *)title
 {
 	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
@@ -98,21 +131,10 @@
 	[self doMoneyBet:bet4Button title:@"River Amount"];
 }
 
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization.
-    }
-    return self;
-}
-*/
-
 -(void)selectButtonClicked:(id)sender {
 	NSArray *values = [NSArray arrayWithObjects:
 					   [NSString stringWithFormat:@"%d", playersHand],
-					   chipsButton.titleLabel.text,
+					   [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:chipsButton.titleLabel.text]],
 					   bet1Button.titleLabel.text,
 					   action1Button.titleLabel.text,
 					   bet2Button.titleLabel.text,
@@ -137,48 +159,6 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	if(playersHand==0)
-		[self setTitle:@"Your Hand"];
-	else 
-		[self setTitle:[NSString stringWithFormat:@"Player %d", playersHand+1]];
-
-	[self changeNavToIncludeType:37];
-
-//	UIBarButtonItem *selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectButtonClicked:)];
-//	self.navigationItem.rightBarButtonItem = selectButton;
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACheck] target:self action:@selector(selectButtonClicked:)];
-	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerNum = %d AND bighand = %@", playersHand, mo];
-	
-	NSArray *items = [CoreDataLib selectRowsFromEntity:@"PLAYER" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:NO];
-	if([items count]>0) {
-		NSManagedObject *playerVals = [items objectAtIndex:0];
-		[action1Button setTitle:[playerVals valueForKey:@"preflopOdds"] forState:UIControlStateNormal];
-		[bet1Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"preflopBet"]] forState:UIControlStateNormal];
-
-		[action2Button setTitle:[playerVals valueForKey:@"flopOdds"] forState:UIControlStateNormal];
-		[bet2Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"flopBet"]] forState:UIControlStateNormal];
-
-		[action3Button setTitle:[playerVals valueForKey:@"turnOdds"] forState:UIControlStateNormal];
-		[bet3Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"turnBet"]] forState:UIControlStateNormal];
-
-		[action4Button setTitle:[playerVals valueForKey:@"result"] forState:UIControlStateNormal];
-		[bet4Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"riverBet"]] forState:UIControlStateNormal];
-
-	}
-		
-	
-}
 
 -(void) setReturningValue:(NSString *) value {
 	if(selectedNumber==0) {

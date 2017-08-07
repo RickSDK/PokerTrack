@@ -284,7 +284,7 @@
 	buyinAmount.keyboardType = UIKeyboardTypeDecimalPad;
 	cashOutAmount.keyboardType = UIKeyboardTypeDecimalPad;
 	
-	[ProjectFunctions makeGameSegment:self.gameTypeSegmentBar color:[UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]];
+	[self.gameTypeSegmentBar turnIntoGameSegment];
 	[ProjectFunctions makeSegment:self.gameNameSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];

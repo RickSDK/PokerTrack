@@ -93,6 +93,11 @@
 		6B6638CD169E597E00C6B9E5 /* UnLockAppVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6638CB169E597E00C6B9E5 /* UnLockAppVC.m */; };
 		6B6638CE169E597E00C6B9E5 /* UnLockAppVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B6638CC169E597E00C6B9E5 /* UnLockAppVC.xib */; };
 		6B6638D0169E5A7800C6B9E5 /* vault.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B6638CF169E5A7800C6B9E5 /* vault.jpg */; };
+		6B677D3E1F36173F00E5A39D /* BigHandObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B677D3D1F36173F00E5A39D /* BigHandObj.m */; };
+		6B677D411F361CDE00E5A39D /* BigHandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B677D401F361CDE00E5A39D /* BigHandCell.m */; };
+		6B677D451F37655900E5A39D /* EditGameTypeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B677D431F37655900E5A39D /* EditGameTypeVC.m */; };
+		6B677D461F37655900E5A39D /* EditGameTypeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B677D441F37655900E5A39D /* EditGameTypeVC.xib */; };
+		6B677D491F37C3C300E5A39D /* BigPlayerObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B677D481F37C3C300E5A39D /* BigPlayerObj.m */; };
 		6B69561B1C51E193004CB475 /* TemplateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B69561A1C51E193004CB475 /* TemplateVC.m */; };
 		6B6956241C51E303004CB475 /* CustomSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6956231C51E303004CB475 /* CustomSegment.m */; };
 		6B69562B1C529F97004CB475 /* GameObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B69562A1C529F97004CB475 /* GameObj.m */; };
@@ -436,6 +441,7 @@
 		6BE0EA6F1765148000DC1F02 /* grayGrad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE0EA6E1765148000DC1F02 /* grayGrad.png */; };
 		6BE5C75618380F420028CA26 /* FriendAlertsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5C75418380F420028CA26 /* FriendAlertsVC.m */; };
 		6BE5C75718380F420028CA26 /* FriendAlertsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE5C75518380F420028CA26 /* FriendAlertsVC.xib */; };
+		6BEE32CD1F37D5DB0034E1B4 /* chips.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE32CC1F37D5DB0034E1B4 /* chips.png */; };
 		6BF0C4181667E6A400D8D6AE /* BankrollsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C4161667E6A400D8D6AE /* BankrollsVC.m */; };
 		6BF0C4191667E6A400D8D6AE /* BankrollsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BF0C4171667E6A400D8D6AE /* BankrollsVC.xib */; };
 		6BF0C41D1667E6C000D8D6AE /* FriendLast10GamesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C41B1667E6C000D8D6AE /* FriendLast10GamesVC.m */; };
@@ -567,6 +573,15 @@
 		6B6638CB169E597E00C6B9E5 /* UnLockAppVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnLockAppVC.m; sourceTree = "<group>"; };
 		6B6638CC169E597E00C6B9E5 /* UnLockAppVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnLockAppVC.xib; sourceTree = "<group>"; };
 		6B6638CF169E5A7800C6B9E5 /* vault.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = vault.jpg; sourceTree = "<group>"; };
+		6B677D3C1F36173E00E5A39D /* BigHandObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigHandObj.h; sourceTree = "<group>"; };
+		6B677D3D1F36173F00E5A39D /* BigHandObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigHandObj.m; sourceTree = "<group>"; };
+		6B677D3F1F361CDE00E5A39D /* BigHandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigHandCell.h; sourceTree = "<group>"; };
+		6B677D401F361CDE00E5A39D /* BigHandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigHandCell.m; sourceTree = "<group>"; };
+		6B677D421F37655900E5A39D /* EditGameTypeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditGameTypeVC.h; sourceTree = "<group>"; };
+		6B677D431F37655900E5A39D /* EditGameTypeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditGameTypeVC.m; sourceTree = "<group>"; };
+		6B677D441F37655900E5A39D /* EditGameTypeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditGameTypeVC.xib; sourceTree = "<group>"; };
+		6B677D471F37C3C300E5A39D /* BigPlayerObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPlayerObj.h; sourceTree = "<group>"; };
+		6B677D481F37C3C300E5A39D /* BigPlayerObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigPlayerObj.m; sourceTree = "<group>"; };
 		6B6956191C51E193004CB475 /* TemplateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateVC.h; sourceTree = "<group>"; };
 		6B69561A1C51E193004CB475 /* TemplateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateVC.m; sourceTree = "<group>"; };
 		6B6956221C51E2F8004CB475 /* CustomSegment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomSegment.h; sourceTree = "<group>"; };
@@ -1040,6 +1055,7 @@
 		6BE5C75318380F420028CA26 /* FriendAlertsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendAlertsVC.h; sourceTree = "<group>"; };
 		6BE5C75418380F420028CA26 /* FriendAlertsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendAlertsVC.m; sourceTree = "<group>"; };
 		6BE5C75518380F420028CA26 /* FriendAlertsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendAlertsVC.xib; sourceTree = "<group>"; };
+		6BEE32CC1F37D5DB0034E1B4 /* chips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chips.png; sourceTree = "<group>"; };
 		6BF0C4151667E6A400D8D6AE /* BankrollsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankrollsVC.h; sourceTree = "<group>"; };
 		6BF0C4161667E6A400D8D6AE /* BankrollsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankrollsVC.m; sourceTree = "<group>"; };
 		6BF0C4171667E6A400D8D6AE /* BankrollsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankrollsVC.xib; sourceTree = "<group>"; };
@@ -1172,12 +1188,6 @@
 				6B909AE314C63FBD00712EDC /* LocationsEdit.h */,
 				6B909AE414C63FBD00712EDC /* LocationsEdit.m */,
 				6B909AE514C63FBD00712EDC /* LocationsEdit.xib */,
-				6B75237E144918CD00E59D21 /* OddsCalculatorVC.h */,
-				6B75237F144918CD00E59D21 /* OddsCalculatorVC.m */,
-				6B752380144918CD00E59D21 /* OddsCalculatorVC.xib */,
-				6B752816144CE97700E59D21 /* OddsFormVC.h */,
-				6B752817144CE97700E59D21 /* OddsFormVC.m */,
-				6B752818144CE97700E59D21 /* OddsFormVC.xib */,
 				6B90998C14C6005400712EDC /* AddPhotoVC.h */,
 				6B90998D14C6005400712EDC /* AddPhotoVC.m */,
 				6B90998E14C6005400712EDC /* AddPhotoVC.xib */,
@@ -1314,6 +1324,9 @@
 				6BA5C0E6145F40CE00F1C0BD /* GameDetailsVC.h */,
 				6BA5C0E7145F40CE00F1C0BD /* GameDetailsVC.m */,
 				6BA5C0E8145F40CE00F1C0BD /* GameDetailsVC.xib */,
+				6B677D421F37655900E5A39D /* EditGameTypeVC.h */,
+				6B677D431F37655900E5A39D /* EditGameTypeVC.m */,
+				6B677D441F37655900E5A39D /* EditGameTypeVC.xib */,
 				6BD84D04150026EF0048473A /* GameGraphVC.h */,
 				6BD84D05150026EF0048473A /* GameGraphVC.m */,
 				6BD84D06150026EF0048473A /* GameGraphVC.xib */,
@@ -1370,6 +1383,12 @@
 				6BD855CE1517DA0A0048473A /* BigHandsPlayersFormVC.h */,
 				6BD855CF1517DA0A0048473A /* BigHandsPlayersFormVC.m */,
 				6BD855D01517DA0A0048473A /* BigHandsPlayersFormVC.xib */,
+				6B75237E144918CD00E59D21 /* OddsCalculatorVC.h */,
+				6B75237F144918CD00E59D21 /* OddsCalculatorVC.m */,
+				6B752380144918CD00E59D21 /* OddsCalculatorVC.xib */,
+				6B752816144CE97700E59D21 /* OddsFormVC.h */,
+				6B752817144CE97700E59D21 /* OddsFormVC.m */,
+				6B752818144CE97700E59D21 /* OddsFormVC.xib */,
 			);
 			name = HandTracker;
 			sourceTree = "<group>";
@@ -1501,6 +1520,10 @@
 				6BCA88811F13D93A00633484 /* HudActionObj.m */,
 				6B3378191F16FE3E00312F11 /* PlayerTrackerObj.h */,
 				6B33781A1F16FE3F00312F11 /* PlayerTrackerObj.m */,
+				6B677D3C1F36173E00E5A39D /* BigHandObj.h */,
+				6B677D3D1F36173F00E5A39D /* BigHandObj.m */,
+				6B677D471F37C3C300E5A39D /* BigPlayerObj.h */,
+				6B677D481F37C3C300E5A39D /* BigPlayerObj.m */,
 				6B5CA22E1F211740003392BD /* FilterObj.h */,
 				6B5CA22F1F211740003392BD /* FilterObj.m */,
 			);
@@ -1545,6 +1568,7 @@
 				6B50CDF51469A7E100DBD8D9 /* activityBG.png */,
 				6B909AAF14C622DB00712EDC /* globe.png */,
 				6B6638CF169E5A7800C6B9E5 /* vault.jpg */,
+				6BEE32CC1F37D5DB0034E1B4 /* chips.png */,
 				6B90A8A214CF31EB00712EDC /* compass.png */,
 				6B2B4B4B169FAA9D00137792 /* doorOpen.wav */,
 				6B2B4B4F169FAB7600137792 /* doorOpen2.wav */,
@@ -1661,6 +1685,8 @@
 				6BE0EA60176259FF00DC1F02 /* ForumCell.m */,
 				6BCB303E19E5959100BC1F4C /* ExportCell.h */,
 				6BCB303F19E5959100BC1F4C /* ExportCell.m */,
+				6B677D3F1F361CDE00E5A39D /* BigHandCell.h */,
+				6B677D401F361CDE00E5A39D /* BigHandCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1991,6 +2017,7 @@
 				6B7531041450946300E59D21 /* LoginVC.xib in Resources */,
 				6B75325B1450D33600E59D21 /* PokerJournalExport.csv in Resources */,
 				6BCBD9521F1B17980078C165 /* Germany.png in Resources */,
+				6BEE32CD1F37D5DB0034E1B4 /* chips.png in Resources */,
 				6BD4D9541D120DDD00236804 /* Icon-29.png in Resources */,
 				6B5CA1F51F1C3CA0003392BD /* Estonia.png in Resources */,
 				6B753615145267F000E59D21 /* FriendLocatorVC.xib in Resources */,
@@ -2210,6 +2237,7 @@
 				6BCBD94C1F1B148D0078C165 /* Canada.png in Resources */,
 				6B9BEB88175AB6AE00D0BA12 /* MoreTrackersVC.xib in Resources */,
 				6B9BEB8D175AB94A00D0BA12 /* ForumVC.xib in Resources */,
+				6B677D461F37655900E5A39D /* EditGameTypeVC.xib in Resources */,
 				6B9BF45D175D426700D0BA12 /* ForumCategoryVC.xib in Resources */,
 				6BBD4CA21F23ED72004A6BFD /* playerType4.png in Resources */,
 				6B9BF462175D442700D0BA12 /* ForumPostVC.xib in Resources */,
@@ -2251,6 +2279,7 @@
 				6B750DA7143E34F300E59D21 /* MultiLineDetailCellWordWrap.m in Sources */,
 				6B750DB2143E360200E59D21 /* UIColor+ATTColor.m in Sources */,
 				6B750E1C143E590900E59D21 /* DatePickerViewController.m in Sources */,
+				6B677D3E1F36173F00E5A39D /* BigHandObj.m in Sources */,
 				6B750E21143E591D00E59D21 /* NSDate+ATTDate.m in Sources */,
 				6B750E22143E591D00E59D21 /* NSString+ATTString.m in Sources */,
 				6B750E74143E651800E59D21 /* SelectionCell.m in Sources */,
@@ -2303,6 +2332,7 @@
 				6BB08D24146F8F4D00DF84AB /* StatsFunctions.m in Sources */,
 				6B5CA2271F1FAC38003392BD /* GameSummaryView.m in Sources */,
 				6BB090041471E9C000DF84AB /* FilterListVC.m in Sources */,
+				6B677D451F37655900E5A39D /* EditGameTypeVC.m in Sources */,
 				6BB09C43148571D100DF84AB /* NSArray+ATTArray.m in Sources */,
 				6B90908314B398B700712EDC /* Appirater.m in Sources */,
 				6B9097AE14C4E5AC00712EDC /* PlayerTrackerVC.m in Sources */,
@@ -2324,6 +2354,7 @@
 				6BB253A91B892BC8008AC8EE /* MultiLineObj.m in Sources */,
 				6B90A44D14CB876800712EDC /* CasinoGamesAddVC.m in Sources */,
 				6BAECB231C55C6C900DB14CC /* UpgradeVC.m in Sources */,
+				6B677D411F361CDE00E5A39D /* BigHandCell.m in Sources */,
 				6B90A55A14CDE3F200712EDC /* CasinoCommentVC.m in Sources */,
 				6B90A97E14CFBBB300712EDC /* CasinoStatsVC.m in Sources */,
 				6B33781B1F16FE3F00312F11 /* PlayerTrackerObj.m in Sources */,
@@ -2360,6 +2391,7 @@
 				6BF0C4251667E6DB00D8D6AE /* IGAVC.m in Sources */,
 				6BF0C4321667E6F700D8D6AE /* UniverseTrackerVC.m in Sources */,
 				6BF0C4341667E6F700D8D6AE /* UserSummaryVC.m in Sources */,
+				6B677D491F37C3C300E5A39D /* BigPlayerObj.m in Sources */,
 				6BF0C4361667E6F700D8D6AE /* ViewLocationsVC.m in Sources */,
 				6BF0C43B1667E70800D8D6AE /* ProfileVC.m in Sources */,
 				6BF0C4401667E71D00D8D6AE /* TauntVC.m in Sources */,
@@ -2425,8 +2457,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2450,8 +2482,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

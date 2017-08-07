@@ -83,7 +83,6 @@
 +(NSString *)getPredicateString:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSString *)convertIntToMoneyString:(double)money;
 +(NSArray *)getArrayForSegment:(int)segment;
-+(void)changeColorForGameBar:(UISegmentedControl *)bar;
 +(void)displayLoginMessage;
 +(NSString *)hourlyStringFromProfit:(double)profit hours:(float)hours;
 +(NSString *)pprStringFromProfit:(double)profit risked:(double)risked;
@@ -214,7 +213,6 @@
 +(int)getNewPlayerType:(double)amountRisked winnings:(double)winnings;
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context;
 +(void)updateGamesOnServer:(NSManagedObjectContext *)context;
-+(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color;
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color size:(float)size;
 +(void)populateSegmentBar:(UISegmentedControl *)segmentBar mOC:(NSManagedObjectContext *)mOC;

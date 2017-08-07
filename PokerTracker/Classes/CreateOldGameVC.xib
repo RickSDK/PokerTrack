@@ -38,7 +38,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="971803841">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="980931851">
@@ -46,7 +46,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="533024236"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -61,7 +60,6 @@
 						<array class="NSMutableArray" key="NSSubviews"/>
 						<string key="NSFrame">{{0, 217}, {321, 179}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1057748858"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -75,7 +73,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 286}, {321, 44}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -91,7 +88,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 200}, {320, 216}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="665420249"/>
 						<object class="NSColor" key="IBUITintColor">
 							<int key="NSColorSpace">1</int>
@@ -113,7 +109,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{9, 7}, {239, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="11742501"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="772466120">
 							<int key="NSColorSpace">1</int>
@@ -150,7 +145,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 43}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="436271554"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -194,7 +188,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{-1, 72}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1070173499"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -243,7 +236,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{5, 139}, {100, 21}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="233140768"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="144753932">
 							<int key="NSColorSpace">3</int>
@@ -284,7 +276,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{110, 139}, {100, 21}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="318455490"/>
 						<reference key="IBUIBackgroundColor" ref="144753932"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -307,7 +298,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{215, 139}, {100, 21}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="496904079"/>
 						<reference key="IBUIBackgroundColor" ref="144753932"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -330,7 +320,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{24, 161}, {63, 31}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1062147440"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -363,7 +352,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{123, 161}, {75, 31}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="837909973"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -388,7 +376,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{232, 161}, {72, 31}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="20725392"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -413,7 +400,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 102}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="703509743"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -457,7 +443,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{256, 11}, {60, 20}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="296443093"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -495,7 +480,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{-1, 72}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="889955903"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -534,7 +518,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{39, 102}, {240, 128}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="313018206"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -548,7 +531,6 @@
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{141, 163}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1065255407"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -559,7 +541,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{55, 121}, {208, 21}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="343459582"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -589,8 +570,6 @@
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="980931851"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -1008,444 +987,7 @@
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">CreateOldGameVC</string>
-					<string key="superclassName">TemplateVC</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="gameSegmentPressed:">id</string>
-						<string key="gameTypeSegmentPressed:">id</string>
-						<string key="keyboardPressed:">id</string>
-						<string key="limitSegmentPressed:">id</string>
-						<string key="stakesSegmentPressed:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="gameSegmentPressed:">
-							<string key="name">gameSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="gameTypeSegmentPressed:">
-							<string key="name">gameTypeSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="keyboardPressed:">
-							<string key="name">keyboardPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="limitSegmentPressed:">
-							<string key="name">limitSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="stakesSegmentPressed:">
-							<string key="name">stakesSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="TourneyTypeSegmentBar">UISegmentedControl</string>
-						<string key="activityIndicatorServer">UIActivityIndicatorView</string>
-						<string key="activityLabel">UILabel</string>
-						<string key="blindTypeSegmentBar">UISegmentedControl</string>
-						<string key="buyinAmount">UITextField</string>
-						<string key="buyinLabel">UILabel</string>
-						<string key="buyinMoneyLabel">UILabel</string>
-						<string key="cashOutAmount">UITextField</string>
-						<string key="cashoutLabel">UILabel</string>
-						<string key="cashoutMoneyLabel">UILabel</string>
-						<string key="datePicker">UIDatePicker</string>
-						<string key="gameNameSegmentBar">UISegmentedControl</string>
-						<string key="gameTypeSegmentBar">CustomSegment</string>
-						<string key="hoursLabel">UILabel</string>
-						<string key="hoursPlayed">UITextField</string>
-						<string key="keyboardButton">UIButton</string>
-						<string key="limitTypeSegmentBar">UISegmentedControl</string>
-						<string key="textViewBG">UIImageView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="TourneyTypeSegmentBar">
-							<string key="name">TourneyTypeSegmentBar</string>
-							<string key="candidateClassName">UISegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="activityIndicatorServer">
-							<string key="name">activityIndicatorServer</string>
-							<string key="candidateClassName">UIActivityIndicatorView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="activityLabel">
-							<string key="name">activityLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="blindTypeSegmentBar">
-							<string key="name">blindTypeSegmentBar</string>
-							<string key="candidateClassName">UISegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="buyinAmount">
-							<string key="name">buyinAmount</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="buyinLabel">
-							<string key="name">buyinLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="buyinMoneyLabel">
-							<string key="name">buyinMoneyLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cashOutAmount">
-							<string key="name">cashOutAmount</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cashoutLabel">
-							<string key="name">cashoutLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cashoutMoneyLabel">
-							<string key="name">cashoutMoneyLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="datePicker">
-							<string key="name">datePicker</string>
-							<string key="candidateClassName">UIDatePicker</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gameNameSegmentBar">
-							<string key="name">gameNameSegmentBar</string>
-							<string key="candidateClassName">UISegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gameTypeSegmentBar">
-							<string key="name">gameTypeSegmentBar</string>
-							<string key="candidateClassName">CustomSegment</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hoursLabel">
-							<string key="name">hoursLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hoursPlayed">
-							<string key="name">hoursPlayed</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="keyboardButton">
-							<string key="name">keyboardButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="limitTypeSegmentBar">
-							<string key="name">limitTypeSegmentBar</string>
-							<string key="candidateClassName">UISegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textViewBG">
-							<string key="name">textViewBG</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Classes/CreateOldGameVC.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">CreateOldGameVC</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="gameSegmentPressed:">id</string>
-						<string key="gameTypeSegmentPressed:">id</string>
-						<string key="keyboardPressed:">id</string>
-						<string key="limitSegmentPressed:">id</string>
-						<string key="stakesSegmentPressed:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="gameSegmentPressed:">
-							<string key="name">gameSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="gameTypeSegmentPressed:">
-							<string key="name">gameTypeSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="keyboardPressed:">
-							<string key="name">keyboardPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="limitSegmentPressed:">
-							<string key="name">limitSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="stakesSegmentPressed:">
-							<string key="name">stakesSegmentPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Classes/CreateOldGameVC.m</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">CustomSegment</string>
-					<string key="superclassName">UISegmentedControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../CustomSegment.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">GameSummaryView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../GameSummaryView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">PopupView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../PopupView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TemplateVC</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="ptpGameSegmentChanged:">id</string>
-						<string key="segmentChanged:">id</string>
-						<string key="xButtonClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="ptpGameSegmentChanged:">
-							<string key="name">ptpGameSegmentChanged:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="segmentChanged:">
-							<string key="name">segmentChanged:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="xButtonClicked:">
-							<string key="name">xButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="gameSummaryView">GameSummaryView</string>
-						<string key="mainSegment">CustomSegment</string>
-						<string key="mainTableView">UITableView</string>
-						<string key="mainTextfield">UITextField</string>
-						<string key="popupView">PopupView</string>
-						<string key="ptpGameSegment">CustomSegment</string>
-						<string key="webServiceView">WebServiceView</string>
-						<string key="yearChangeView">YearChangeView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="gameSummaryView">
-							<string key="name">gameSummaryView</string>
-							<string key="candidateClassName">GameSummaryView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainSegment">
-							<string key="name">mainSegment</string>
-							<string key="candidateClassName">CustomSegment</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainTableView">
-							<string key="name">mainTableView</string>
-							<string key="candidateClassName">UITableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainTextfield">
-							<string key="name">mainTextfield</string>
-							<string key="candidateClassName">UITextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="popupView">
-							<string key="name">popupView</string>
-							<string key="candidateClassName">PopupView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="ptpGameSegment">
-							<string key="name">ptpGameSegment</string>
-							<string key="candidateClassName">CustomSegment</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="webServiceView">
-							<string key="name">webServiceView</string>
-							<string key="candidateClassName">WebServiceView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="yearChangeView">
-							<string key="name">yearChangeView</string>
-							<string key="candidateClassName">YearChangeView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Classes/TemplateVC.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TemplateVC</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="ptpGameSegmentChanged:">id</string>
-						<string key="segmentChanged:">id</string>
-						<string key="xButtonClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="ptpGameSegmentChanged:">
-							<string key="name">ptpGameSegmentChanged:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="segmentChanged:">
-							<string key="name">segmentChanged:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="xButtonClicked:">
-							<string key="name">xButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Classes/TemplateVC.m</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WebServiceView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../WebServiceView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YearChangeView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../YearChangeView.h</string>
-					</object>
-				</object>
-			</array>
-			<array class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
-				<object class="IBPartialClassDescription">
-					<string key="className">UIActivityIndicatorView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIActivityIndicatorView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIButton</string>
-					<string key="superclassName">UIControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIControl</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIDatePicker</string>
-					<string key="superclassName">UIControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIDatePicker.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIGestureRecognizer</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIGestureRecognizer.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIImageView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIImageView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UILabel</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UILabel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIResponder</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIResponder.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIScrollView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIScrollView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UISearchBar</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UISearchBar.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UISearchDisplayController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UISearchDisplayController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UISegmentedControl</string>
-					<string key="superclassName">UIControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UISegmentedControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UITableView</string>
-					<string key="superclassName">UIScrollView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UITableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UITextField</string>
-					<string key="superclassName">UIControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UITextField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIView</string>
-					<string key="superclassName">UIResponder</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIViewController</string>
-					<string key="superclassName">UIResponder</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIViewController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>

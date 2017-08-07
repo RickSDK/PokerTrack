@@ -77,8 +77,7 @@
 
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:self.yearChangeView.statYear]];
 	
-	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
-	
+	[gameSegment turnIntoGameSegment];
 	bankrollButton.alpha=1;
 	bankRollSegment.alpha=1;
 	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
@@ -87,7 +86,7 @@
 		bankRollSegment.alpha=0;
 	}
 	
-	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[self.gameSegment turnIntoGameSegment];
 	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	[self setupButtons];
@@ -188,10 +187,9 @@
 - (IBAction) gameSegmentPressed: (id) sender {
 	if(rotateLock)
 		return;
-	[self updateTitleForBar:self.gameSegment title:@"Stats" type:11];
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
 	[formDataArray replaceObjectAtIndex:1 withObject:self.gameType];
-	[ProjectFunctions changeColorForGameBar:self.gameSegment];
+	[self.gameSegment gameSegmentChanged];
 	[self computeStats];
 }
 

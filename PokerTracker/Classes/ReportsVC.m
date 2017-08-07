@@ -59,7 +59,7 @@
 	
 	refreshButton.enabled=NO;
 	
-	[ProjectFunctions makeGameSegment:self.gameSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+	[self.gameSegment turnIntoGameSegment];
 	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
@@ -109,9 +109,8 @@
 
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	[ProjectFunctions changeColorForGameBar:self.gameSegment];
+	[self.gameSegment gameSegmentChanged];
 	self.gameType = [ProjectFunctions labelForGameSegment:(int)gameSegment.selectedSegmentIndex];
-	[self updateTitleForBar:self.gameSegment title:@"Reports" type:26];
 	[self computeStats];
 }
 

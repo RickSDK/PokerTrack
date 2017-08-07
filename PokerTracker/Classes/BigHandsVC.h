@@ -11,21 +11,10 @@
 
 
 @interface BigHandsVC : TemplateVC {
-	//---Passed In----------------------------
-    NSManagedObjectContext *managedObjectContext;
-	BOOL showMainMenuButton;
-	IBOutlet UITableView *mainTableView;
-	
-	//---XIB----------------------------
-	//---Gloabls----------------------------
-	NSMutableArray *bigHands;
-
 }
-@property (nonatomic) BOOL showMainMenuButton;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic, strong) NSMutableArray *bigHands;
-@property (nonatomic, strong) UITableView *mainTableView;
+@property (nonatomic) BOOL showMainMenuButton;
+
 
 - (IBAction) deleteButtonPressed: (id) sender;
 

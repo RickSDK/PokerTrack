@@ -19,7 +19,7 @@
 	IBOutlet UITableView *mainTableView;
 	IBOutlet UISegmentedControl *topSegment;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UISegmentedControl *gameSegment;
+	IBOutlet CustomSegment *gameSegment;
 	IBOutlet UIButton *refreshButton;
 	
 	//---Gloabls----------------------------
@@ -51,6 +51,6 @@
 @property (atomic, strong) UISegmentedControl *bankRollSegment;
 @property (atomic, strong) UIButton *bankrollButton;
 
-@property (atomic, strong) UISegmentedControl *gameSegment;
+@property (atomic, strong) CustomSegment *gameSegment;
 
 @end

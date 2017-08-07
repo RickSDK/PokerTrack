@@ -21,10 +21,10 @@
 	if(bigHandsFlag) {
 		BigHandsFormVC *detailViewController = [[BigHandsFormVC alloc] initWithNibName:@"BigHandsFormVC" bundle:nil];
 		detailViewController.managedObjectContext = managedObjectContext;
-		detailViewController.numPlayers = number;
 		detailViewController.viewEditable = NO;
 		detailViewController.drilldown=NO;
 		detailViewController.mo = nil;
+		detailViewController.numPlayers=number;
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else {
 		OddsFormVC *detailViewController = [[OddsFormVC alloc] initWithNibName:@"OddsFormVC" bundle:nil];

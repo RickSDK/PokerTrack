@@ -63,7 +63,6 @@
 }
 
 -(IBAction)segmentChanged:(id)sender {
-	[self updateTitleForBar:self.mainSegment title:@"Last10" type:18];
 	[self.mainSegment gameSegmentChanged];
 	[self calculateStats];
 }

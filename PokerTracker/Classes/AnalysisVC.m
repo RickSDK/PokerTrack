@@ -241,7 +241,6 @@
 }
 
 - (IBAction) gameSegmentChanged: (id) sender {
-	[self updateTitleForBar:self.ptpGameSegment title:@"Analysis" type:3];
 	[self.ptpGameSegment gameSegmentChanged];
 	[self computeStats];
 }

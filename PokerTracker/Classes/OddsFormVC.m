@@ -601,7 +601,6 @@
 	detailViewController.drilldown = YES;
 	detailViewController.viewEditable = NO;
 	detailViewController.mo = mo;
-	detailViewController.numPlayers=2;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
