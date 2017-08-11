@@ -49,6 +49,8 @@
 	
 	[ProjectFunctions makeFAButton:self.last10Button type:18 size:18 text:NSLocalizedString(@"Last10", nil)];
 	[ProjectFunctions makeFAButton:self.top5Button type:19 size:18 text:NSLocalizedString(@"Top5", nil)];
+	[ProjectFunctions newButtonLook:self.last10Button mode:0];
+	[ProjectFunctions newButtonLook:self.top5Button mode:0];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
 	

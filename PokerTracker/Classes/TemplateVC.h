@@ -16,6 +16,7 @@
 #import "PopupView.h"
 #import "GameSummaryView.h"
 #import "YearChangeView.h"
+#import "PtpButton.h"
 
 @interface TemplateVC : UIViewController
 

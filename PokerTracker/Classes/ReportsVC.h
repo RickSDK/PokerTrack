@@ -17,7 +17,7 @@
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UISegmentedControl *topSegment;
+	IBOutlet CustomSegment *topSegment;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet CustomSegment *gameSegment;
 	IBOutlet UIButton *refreshButton;
@@ -44,7 +44,7 @@
 @property (atomic, strong) NSMutableArray *multiDimentionalValues0;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues1;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues2;
-@property (atomic, strong) UISegmentedControl *topSegment;
+@property (atomic, strong) CustomSegment *topSegment;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, copy) NSString *gameType;
 @property (atomic, strong) UIButton *refreshButton;

@@ -48,7 +48,6 @@
 	
 	if(managedObject) {
 		self.playerTrackerObj = [PlayerTrackerObj createObjWithMO:managedObject managedObjectContext:self.managedObjectContext];
-		NSLog(@"+++%d %d %d", self.playerTrackerObj.looseNum, self.playerTrackerObj.agressiveNum, self.playerTrackerObj.playerSkill);
 		if(self.playerTrackerObj.user_id==0)
 			[self generateUserId];
 		readOnlyFlg=YES;
@@ -110,9 +109,13 @@
 
 -(IBAction) segmentPressed:(id)sender
 {
-	self.playerTrackerObj.playerSkill = (int)overallPlaySeg.selectedSegmentIndex;
-	self.playerTrackerObj.picId = (self.playerTrackerObj.playerSkill==0)?1:self.playerTrackerObj.playerSkill+2;
-	[self updatePlayerTypeImage];
+	if(readOnlyFlg) {
+		[self updateSegment];
+	} else {
+		self.playerTrackerObj.playerSkill = (int)overallPlaySeg.selectedSegmentIndex;
+		self.playerTrackerObj.picId = (self.playerTrackerObj.playerSkill==0)?1:self.playerTrackerObj.playerSkill+2;
+		[self updatePlayerTypeImage];
+	}
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -262,11 +265,16 @@
 	
 	playerPic.image = obj.pic;
 	self.typeLabel.text = obj.playerType;
+	self.typeLabel.textColor = [ProjectFunctions primaryButtonColor];
 	
-	overallPlaySeg.selectedSegmentIndex=obj.playerSkill;
-	[self updatePlayerTypeImage];
-	
+	[self updateSegment];
 	[self.mainTableView reloadData];
+}
+
+-(void)updateSegment {
+	overallPlaySeg.selectedSegmentIndex=self.playerTrackerObj.playerSkill;
+	[overallPlaySeg changeSegment];
+	[self updatePlayerTypeImage];
 }
 
 -(void)updatePlayerTypeImage {
@@ -287,7 +295,7 @@
 	nameField.enabled=enabledFlg;
 	passAgrSeg.enabled=enabledFlg;
 	looseTightSeg.enabled=enabledFlg;
-	overallPlaySeg.enabled=enabledFlg;
+//	overallPlaySeg.enabled=enabledFlg;
 	if(managedObject)
 		deleteButton.alpha=enabledFlg;
 	picLabel.hidden=!enabledFlg;

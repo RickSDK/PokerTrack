@@ -90,6 +90,7 @@
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(UIImage *)playerImageOfType:(int)type;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
++(void)newButtonLook:(UIButton *)button mode:(int)mode;
 +(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum ;
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key;
 +(NSString *)localizedTitle:(NSString *)title;
@@ -222,8 +223,25 @@
 +(UIColor *)colorForProfit:(double)profit;
 +(BOOL)isOkToProceed:(NSManagedObjectContext *)context delegate:(id)delegate;
 +(NSString *)getNetTrackerMonth;
++(void)tintNavigationBar:(UINavigationBar *)navigationBar;
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size;
++(void)makeFAButton2:(UIButton *)button type:(int)type size:(float)size;
 +(void)makeFALabel:(UILabel *)label type:(int)type size:(float)size;
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size text:(NSString *)text;
++(void)changeToModernThemeForButton:(UIButton *)button mode:(int)mode theme:(int)theme;
++(UIImage *)gradientImageNavbarOfWidth:(float)width;
++(NSString *)scrubFilterValue:(NSString *)value;
++(int)appThemeNumber;
++(int)themeBGNumber;
++(int)segmentColorNumber;
++(int)primaryColorNumber;
++(UIColor *)themeBGColor;
++(NSArray *)bgThemeColors;
++(UIColor *)primaryButtonColor;
++(NSArray *)primaryButtonColors;
++(UIColor *)segmentThemeColor;
++(BOOL)getThemeBGImageFlg;
++(int)getThemeBGImageColor;
++(UIImage *)bgThemeImage;
 
 @end

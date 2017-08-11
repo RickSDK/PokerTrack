@@ -24,10 +24,6 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="greenFelt3.png" id="4">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="QYl-YL-Aby" customClass="PopupView">
                     <rect key="frame" x="6" y="8" width="306" height="400"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -170,7 +166,6 @@
     </objects>
     <resources>
         <image name="activityPopup.png" width="300" height="160"/>
-        <image name="greenFelt3.png" width="320" height="480"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

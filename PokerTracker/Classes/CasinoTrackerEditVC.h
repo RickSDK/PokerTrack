@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "LocationGetter.h"
 #import <CoreLocation/CoreLocation.h>
+#import "TemplateVC.h"
 
 
-@interface CasinoTrackerEditVC : UIViewController {
+@interface CasinoTrackerEditVC : TemplateVC {
 	NSManagedObjectContext *managedObjectContext;
 	IBOutlet UITextField *casinoName;
 	IBOutlet UIButton *locationButton;

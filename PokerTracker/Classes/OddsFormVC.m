@@ -22,7 +22,7 @@
 
 @implementation OddsFormVC
 @synthesize labelValues, formDataArray, numPlayers, selectedRow, mainTableView, calculateButton, leftButton;
-@synthesize doneCalculating, startedCalculating, highHandValue, activityView, preLoaedValues;
+@synthesize isCalculating, preFlopStillWorking, turnStillWorking, highHandValue, activityView, preLoaedValues;
 @synthesize playerTurnResults, playerWinResults, playerFlopResults, playerPreFlopResults, boardFilledOut;
 @synthesize activityPopup, activityLabel, progressView, numberOfPreflopHandsProcessed, postFlopStillWorking;
 @synthesize managedObjectContext, mo;
@@ -30,6 +30,37 @@
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Odds Calc"];
+	[self changeNavToIncludeType:28];
+	
+	labelValues = [[NSMutableArray alloc] init];
+	formDataArray = [[NSMutableArray alloc] init];
+	playerTurnResults = [[NSMutableArray alloc] init];
+	playerWinResults = [[NSMutableArray alloc] init];
+	playerFlopResults = [[NSMutableArray alloc] init];
+	playerPreFlopResults = [[NSMutableArray alloc] init];
+	
+	self.selectedRow=0;
+	self.highHandValue=0;
+	self.numberOfPreflopHandsProcessed=0;
+	
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
+	
+	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = calculateButton;
+	self.calculateButton.enabled = NO;
+	if(preLoaedValues)
+		self.calculateButton.enabled = YES;
+	
+	activityPopup.alpha=0;
+	activityLabel.alpha=0;
+	progressView.alpha=0;
+	
+	[self setupdata];
+}
 
 -(void)calculatePreFlop
 {
@@ -92,14 +123,6 @@
 		for(NSString *value in preflopResults)
 			[playerPreFlopResults replaceObjectAtIndex:i++ withObject:value];
 		
-		self.doneCalculating = YES;
-		self.startedCalculating = NO;
-		
-
-		activityPopup.alpha=0;
-		activityLabel.alpha=0;
-		progressView.alpha=0;
-		[activityView stopAnimating];
 		if(mo != nil) {
 			NSString *oddsStr = [playerPreFlopResults componentsJoinedByString:@"|"];
 			oddsStr = [oddsStr stringByReplacingOccurrencesOfString:@"Win" withString:@"W"];
@@ -108,7 +131,8 @@
 			[mo setValue:oddsStr forKey:@"preFlopOdds"];
 			[managedObjectContext save:nil];
 		}
-		[mainTableView reloadData];
+		preFlopStillWorking=NO;
+		[self checkIfComplete];
 	}
 }
 
@@ -130,28 +154,41 @@
     );
 
 		[NSThread sleepForTimeInterval:0.4];
-		calculateButton.enabled = YES;
 		
-		if(startedCalculating)
+		if(isCalculating)
 			[self executeThreadedJob:@selector(updateProgressBar)];
 	}
 }
 
+-(void)checkIfComplete {
+	if(preFlopStillWorking || self.postFlopStillWorking || turnStillWorking) {
+		NSLog(@"Still working...");
+	} else {
+		isCalculating = NO;
+		self.doneCalculating=YES;
+		calculateButton.enabled = YES;
+	}
+	if(!preFlopStillWorking || !self.postFlopStillWorking || !turnStillWorking) {
+		activityPopup.alpha=0;
+		activityLabel.alpha=0;
+		progressView.alpha=0;
+		[activityView stopAnimating];
+	}
+	[mainTableView reloadData];
+}
 
 -(void)calculatePostFlop
 {
 	@autoreleasepool {
-	
+//		[NSThread sleepForTimeInterval:5];
 		NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 		for(int i=0; i<numPlayers; i++) {
 			[playerHands addObject:[formDataArray objectAtIndex:i]];
 		}
-		
 		NSArray *flopResults = [PokerOddsFunctions getPlayerResultsForFlop:playerHands flop:[formDataArray objectAtIndex:numPlayers]];
 		int i=0;
 		for(NSString *value in flopResults)
 			[playerFlopResults replaceObjectAtIndex:i++ withObject:value];
-
 
 		if(mo != nil) {
 			NSString *oddsStr = [playerFlopResults componentsJoinedByString:@"|"];
@@ -162,7 +199,7 @@
 			[managedObjectContext save:nil];
 		}
 		self.postFlopStillWorking=NO;
-		[mainTableView reloadData];
+		[self checkIfComplete];
 	}
 }
 
@@ -170,7 +207,6 @@
 -(void)calculateTurn
 {
 	@autoreleasepool {
-	
 		NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 		for(int i=0; i<numPlayers; i++) {
 			[playerHands addObject:[formDataArray objectAtIndex:i]];
@@ -189,8 +225,8 @@
 			[mo setValue:oddsStr forKey:@"turnOdds"];
 			[managedObjectContext save:nil];
 		}
-		[NSThread sleepForTimeInterval:.5];
-		[mainTableView reloadData];
+		self.turnStillWorking=NO;
+		[self checkIfComplete];
 	}
 }
 
@@ -198,7 +234,6 @@
 -(void)calculateFinalHand
 {
 	@autoreleasepool {
-	
 		NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 		for(int i=0; i<numPlayers; i++) {
 			[playerHands addObject:[formDataArray objectAtIndex:i]];
@@ -210,22 +245,25 @@
 			[playerWinResults replaceObjectAtIndex:i++ withObject:value];
 
 		if(mo != nil) {
-//		[mo setValue:[playerWinResults objectAtIndex:0] forKey:@"riverOdds"];
 			NSMutableArray *results = [[NSMutableArray alloc] init];
 			for(NSString *line in playerWinResults) {
 				if([line length]>3)
 					[results addObject:[line substringToIndex:4]];
 			}
+			if(results.count>0) {
+				NSString *yourResult = [results objectAtIndex:0];
+				yourResult = [yourResult stringByReplacingOccurrencesOfString:@" " withString:@""];
+				[mo setValue:yourResult forKey:@"winStatus"];
+				NSLog(@"+++your result: [%@]", yourResult);
+			}
 			NSString *oddsStr = [results componentsJoinedByString:@"|"];
 			oddsStr = [oddsStr stringByReplacingOccurrencesOfString:@"Win" withString:@"W"];
 			oddsStr = [oddsStr stringByReplacingOccurrencesOfString:@"Chop" withString:@"C"];
-//		oddsStr = [oddsStr stringByReplacingOccurrencesOfString:@" " withString:@""];
 			[mo setValue:oddsStr forKey:@"riverOdds"];
 			[mo setValue:[playerWinResults componentsJoinedByString:@", "] forKey:@"finalHands"];
 			[managedObjectContext save:nil];
 		}
-		[mainTableView reloadData];
-
+		[self checkIfComplete];
 	}
 }
 
@@ -246,8 +284,10 @@
 	progressView.progress=0;
 	progressView.alpha=1;
 	calculateButton.enabled = NO;
-	self.startedCalculating=YES;
+	self.isCalculating=YES;
+	self.preFlopStillWorking=YES;
 	self.postFlopStillWorking=YES;
+	self.turnStillWorking=YES;
 
 	[self performSelectorInBackground:@selector(calculatePreFlop) withObject:nil];
 	[self performSelectorInBackground:@selector(calculatePostFlop) withObject:nil];
@@ -260,12 +300,8 @@
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
-
-
-
 -(void)setupdata
 {
-	
 	for(int i=1; i<=numPlayers; i++) {
 		[playerTurnResults addObject:@"*"];
 		[playerWinResults addObject:@"*"];
@@ -288,47 +324,7 @@
 	[formDataArray addObject:(preLoaedValues)?[preLoaedValues objectAtIndex:numPlayers+1]:@"-select-"];
 	[formDataArray addObject:(preLoaedValues)?[preLoaedValues objectAtIndex:numPlayers+2]:@"-select-"];
 	[formDataArray addObject:(preLoaedValues)?[preLoaedValues objectAtIndex:numPlayers+3]:@"-select-"];
-	
 }
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Odds Calc"]; 
-	[self changeNavToIncludeType:28];
-	
-	labelValues = [[NSMutableArray alloc] init];
-	formDataArray = [[NSMutableArray alloc] init];
-	playerTurnResults = [[NSMutableArray alloc] init];
-	playerWinResults = [[NSMutableArray alloc] init];
-	playerFlopResults = [[NSMutableArray alloc] init];
-	playerPreFlopResults = [[NSMutableArray alloc] init];
-	
-	
-	self.selectedRow=0;
-	self.highHandValue=0;
-	self.numberOfPreflopHandsProcessed=0;
-	self.startedCalculating=NO;
-	self.postFlopStillWorking=NO;
-	self.boardFilledOut=NO;
-	
-	[self setupdata];
-	
-
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
-
-	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked:)];
-	self.navigationItem.rightBarButtonItem = calculateButton;
-	self.calculateButton.enabled = NO;
-	if(preLoaedValues)
-		self.calculateButton.enabled = YES;
-	self.doneCalculating = NO;
-	
-	activityPopup.alpha=0;
-	activityLabel.alpha=0;
-	progressView.alpha=0;
-
-}
-
 
 #pragma mark -
 #pragma mark Table view data source
@@ -337,7 +333,6 @@
     // Return the number of sections.
     return 5;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
@@ -352,16 +347,22 @@
 		return 44;
 		
 	return numPlayers*20+20;
-	
 }
 
+-(NSString *)altTitleForRow:(int)row {
+	if(!self.doneCalculating && !self.isCalculating)
+		return @"Not Calculated";
+	if(row==1)
+		return (self.preFlopStillWorking)?@"Working...":@"Calculated";
+	if(row==2)
+		return (self.postFlopStillWorking)?@"Working...":@"Calculated";
+	if(row==3)
+		return (self.turnStillWorking)?@"Working...":@"Calculated";
+	if(row==4)
+		return (self.turnStillWorking)?@"Working...":@"Calculated";
+	return @"Whoa!";
+}
 
-
- 
-
-
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
     
@@ -381,14 +382,16 @@
 		else
 			cell.textLabel.text = @"Complete With Random Cards";
 		
-		if(startedCalculating)
+		if(self.isCalculating)
 			cell.textLabel.text = @"Working...";
-		if(doneCalculating)
+		if(self.doneCalculating)
 			cell.textLabel.text = @"Done!";
 		return cell;
 	}
 	
 	int NumberOfRows = numPlayers;
+	NSLog(@"NumberOfRows: %d", NumberOfRows);
+	
 	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [mainTableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.4];
@@ -396,16 +399,7 @@
     
 	NSArray *headers = [NSArray arrayWithObjects:@"Form", @"Preflop Odds", @"Postflop Odds", @"Turn odds", @"Final Result", nil];
 	cell.mainTitle = [headers objectAtIndex:indexPath.section];
-	if(doneCalculating)
-		cell.alternateTitle = @"Calculated";
-	else
-		cell.alternateTitle = @"Not Calculated";
-
-	if(startedCalculating)
-		cell.alternateTitle = @"Working...";
-		
-	if(postFlopStillWorking && indexPath.section==2)
-		cell.alternateTitle = @"Working...";
+	cell.alternateTitle = [self altTitleForRow:(int)indexPath.section];
 	
 	NSMutableArray *titles = [[NSMutableArray alloc] init];
 	[titles addObject:@"You:"];
@@ -460,12 +454,12 @@
 -(void)completeWithRandomCards
 {
 	if(0) { //<-- for testing
-		[formDataArray replaceObjectAtIndex:0 withObject:@"Ks-Jh"];
-		[formDataArray replaceObjectAtIndex:1 withObject:@"2d-Ks"];
+		[formDataArray replaceObjectAtIndex:0 withObject:@"Ac-9d"];
+		[formDataArray replaceObjectAtIndex:1 withObject:@"Ah-As"];
 		[formDataArray replaceObjectAtIndex:2 withObject:@"9c-5h"];
-		[formDataArray replaceObjectAtIndex:numPlayers withObject:@"3s-8c-9d"];
-		[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:@"2h"];
-		[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:@"As"];
+		[formDataArray replaceObjectAtIndex:numPlayers withObject:@"5s-5c-5d"];
+		[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:@"Th"];
+		[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:@"7s"];
 	} else {
 		NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 		NSString *burnedCards = [NSString stringWithFormat:@"%@-%@-%@", [formDataArray objectAtIndex:numPlayers], [formDataArray objectAtIndex:numPlayers+1], [formDataArray objectAtIndex:numPlayers+2]];
@@ -505,7 +499,6 @@
 	
 	calculateButton.enabled=YES;
 	self.doneCalculating=NO;
-	self.startedCalculating=NO;
 	for(int i=0; i<numPlayers; i++) {
 		[playerTurnResults replaceObjectAtIndex:i withObject:@"*"];
 		[playerWinResults replaceObjectAtIndex:i withObject:@"*"];
@@ -514,18 +507,13 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Table view delegate
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section>0)
 		return;
-	if(startedCalculating)
+	if(self.isCalculating)
 		return;
 	
 	self.selectedRow = (int)indexPath.row;
-	
 	
 	NSMutableArray *playerHands = [[NSMutableArray alloc] init];
 	for(int i=0; i<numPlayers; i++)
@@ -580,7 +568,7 @@
 				[playerFlopResults replaceObjectAtIndex:i withObject:@"*"];
 				[playerPreFlopResults replaceObjectAtIndex:i withObject:@"*"];
 			}
-			
+			self.doneCalculating=NO;
 			[tableView reloadData];
 		} else {
 			self.boardFilledOut=YES;
@@ -604,12 +592,6 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-
-#pragma mark -
-#pragma mark Memory management
-
-
-
 -(void) setReturningValue:(NSString *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
 	calculateButton.enabled = YES;
@@ -625,13 +607,9 @@
 		}
 		i++;
 	}
-
 	self.doneCalculating=NO;
 	[mainTableView reloadData];
 }
-
-
-
 
 @end
 

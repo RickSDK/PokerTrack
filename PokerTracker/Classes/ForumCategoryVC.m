@@ -50,23 +50,21 @@
         cell.userLabel.text=[parts objectAtIndex:5];
         cell.dateLabel.text=[parts objectAtIndex:7];
         int minutes = [[parts objectAtIndex:6] intValue];
-        int replies = [[parts objectAtIndex:9] intValue];
-        if(replies>0) {
+  //      int replies = [[parts objectAtIndex:9] intValue];
+ //       if(replies>0) {
             cell.repliesNumber.text=[parts objectAtIndex:9];
             cell.mainImg.image = nil;
-        } else {
-            cell.repliesLabel.alpha=0;
-            cell.repliesNumber.alpha=0;
-            cell.mainImg.image = [UIImage imageNamed:@"IconImg.png"];
-        }
+   //     } else {
+     //       cell.repliesLabel.alpha=0;
+       //     cell.repliesNumber.alpha=0;
+         //   cell.mainImg.image = [UIImage imageNamed:@"IconImg.png"];
+       // }
         if(minutes<720)
             cell.dateLabel.text=@"Today";
         cell.bodyLabel.text=[parts objectAtIndex:8];
         if([@"Y" isEqualToString:[parts objectAtIndex:4]])
            cell.mainImg.image = [UIImage imageNamed:@"new.png"];
     }
-    cell.backgroundColor = [UIColor orangeColor];
-    cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"orngGrad.png"]];
 	cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

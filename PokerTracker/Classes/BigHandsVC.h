@@ -18,4 +18,7 @@
 
 - (IBAction) deleteButtonPressed: (id) sender;
 
+@property (nonatomic) int touchesCount;
+@property (nonatomic, strong) IBOutlet UIView *bottomView;
+
 @end

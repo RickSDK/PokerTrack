@@ -52,29 +52,29 @@
 @property (nonatomic, strong) IBOutlet UILabel *afAmountLabel2;
 
 
-@property (nonatomic, strong) IBOutlet UIButton *trashbutton1;
+@property (nonatomic, strong) IBOutlet PtpButton *trashbutton1;
 @property (nonatomic, strong) IBOutlet UILabel *foldCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *checkCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *callCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *raiseCountLabel1;
 @property (nonatomic, strong) IBOutlet UILabel *styleLabel1;
 @property (nonatomic, strong) IBOutlet UIImageView *skillImageView1;
-@property (nonatomic, strong) IBOutlet UIButton *foldButton1;
-@property (nonatomic, strong) IBOutlet UIButton *checkButton1;
-@property (nonatomic, strong) IBOutlet UIButton *callButton1;
-@property (nonatomic, strong) IBOutlet UIButton *raiseButton1;
+@property (nonatomic, strong) IBOutlet PtpButton *foldButton1;
+@property (nonatomic, strong) IBOutlet PtpButton *checkButton1;
+@property (nonatomic, strong) IBOutlet PtpButton *callButton1;
+@property (nonatomic, strong) IBOutlet PtpButton *raiseButton1;
 
-@property (nonatomic, strong) IBOutlet UIButton *trashbutton2;
+@property (nonatomic, strong) IBOutlet PtpButton *trashbutton2;
 @property (nonatomic, strong) IBOutlet UILabel *foldCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *checkCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *callCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *raiseCountLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *styleLabel2;
 @property (nonatomic, strong) IBOutlet UIImageView *skillImageView2;
-@property (nonatomic, strong) IBOutlet UIButton *foldButton2;
-@property (nonatomic, strong) IBOutlet UIButton *checkButton2;
-@property (nonatomic, strong) IBOutlet UIButton *callButton2;
-@property (nonatomic, strong) IBOutlet UIButton *raiseButton2;
+@property (nonatomic, strong) IBOutlet PtpButton *foldButton2;
+@property (nonatomic, strong) IBOutlet PtpButton *checkButton2;
+@property (nonatomic, strong) IBOutlet PtpButton *callButton2;
+@property (nonatomic, strong) IBOutlet PtpButton *raiseButton2;
 
 @property (nonatomic, strong) IBOutlet UILabel *editModeLabel2;
 @property (nonatomic, strong) IBOutlet UILabel *villianActionLabel;

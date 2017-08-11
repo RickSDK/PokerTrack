@@ -57,6 +57,7 @@
 - (IBAction) viewLocationsButtonPressed: (id) sender;
 - (IBAction) tournSegmentPressed: (id) sender;
 - (IBAction) addCasinoButtonPressed: (id) sender;
+- (IBAction) okButtonPressed: (id) sender;
 -(void)setLocationValue:(NSString *)value;
 
 
@@ -71,9 +72,6 @@
 
 @property (atomic, strong) UIButton *retryButton;
 @property (atomic, strong) UIButton *editButton;
-@property (atomic, strong) UILabel *buyinLabel;
-@property (atomic, strong) UILabel *locationLabel;
-@property (atomic, strong) UILabel *bankrollLabel;
 @property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) UIButton *buyinButton;
 @property (atomic, strong) UIButton *startLiveButton;
@@ -81,13 +79,17 @@
 @property (atomic, strong) IBOutlet UIButton *completed2Button;
 @property (atomic, strong) UIButton *locationButton;
 @property (atomic, strong) UIButton *addCasinoButton;
-@property (atomic, strong) IBOutlet UILabel *locationTextLabel;
-
-@property (atomic, strong) IBOutlet PopupView *tournyPopupView;
-@property (atomic, strong) IBOutlet UILabel *buyinPopupLabel;
-@property (atomic, strong) IBOutlet UILabel *chipsPopupLabel;
 @property (atomic, strong) IBOutlet UIButton *buyinPopupButton;
 @property (atomic, strong) IBOutlet UIButton *chipsPopupButton;
+
+@property (atomic, strong) IBOutlet UILabel *locationTextLabel;
+@property (atomic, strong) IBOutlet UILabel *buyinPopupLabel;
+@property (atomic, strong) IBOutlet UILabel *chipsPopupLabel;
+@property (atomic, strong) UILabel *buyinLabel;
+@property (atomic, strong) UILabel *locationLabel;
+@property (atomic, strong) UILabel *bankrollLabel;
+
+@property (atomic, strong) IBOutlet PopupView *tournyPopupView;
 
 @property (atomic) int selectedObjectForEdit;
 @property (atomic) int addCasinoFlg;

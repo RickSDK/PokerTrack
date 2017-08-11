@@ -58,6 +58,11 @@
 	[self showButtonTitle:self.button3];
 	[self showButtonTitle:self.button4];
 	[self showButtonTitle:self.button5];
+	[ProjectFunctions newButtonLook:self.button1 mode:0];
+	[ProjectFunctions newButtonLook:self.button2 mode:0];
+	[ProjectFunctions newButtonLook:self.button3 mode:0];
+	[ProjectFunctions newButtonLook:self.button4 mode:0];
+	[ProjectFunctions newButtonLook:self.button5 mode:0];
     [super viewDidLoad];
 }
 

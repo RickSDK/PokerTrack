@@ -38,6 +38,10 @@
 	self.skillButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	self.skillButton.frame = CGRectMake(0, 0, 44, 55);
 	[self.skillButton setTitle:@"" forState:UIControlStateNormal];
+	self.skillButton.layer.cornerRadius = 7;
+	self.skillButton.layer.masksToBounds = YES;				// clips background images to rounded corners
+	self.skillButton.layer.borderColor = [UIColor blackColor].CGColor;
+	self.skillButton.layer.borderWidth = 2.;
 	[self.skillButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:0 winnings:0] forState:UIControlStateNormal];	[self addSubview:self.skillButton];
 
 	self.gameSummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, 190, 25)];
@@ -73,10 +77,10 @@
 	self.roiLabel.text = @"-";
 	[self addSubview:self.roiLabel];
 	
-	self.layer.cornerRadius = 7;
-	self.layer.masksToBounds = YES;				// clips background images to rounded corners
-	self.layer.borderColor = [UIColor blackColor].CGColor;
-	self.layer.borderWidth = 2.;
+//	self.layer.cornerRadius = 7;
+//	self.layer.masksToBounds = YES;				// clips background images to rounded corners
+//	self.layer.borderColor = [UIColor blackColor].CGColor;
+//	self.layer.borderWidth = 2.;
 }
 
 - (void)layoutSubviews {

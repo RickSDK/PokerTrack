@@ -162,7 +162,6 @@
             }
         }
     }
-    cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"orngGrad.png"]];
  	cell.accessoryType= UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
 }

@@ -35,9 +35,18 @@
 	[self setTitle:@"Hand Tracker"];
 	[self changeNavToIncludeType:37];
 
+	self.bottomView.hidden=YES;
 	[self.mainArray addObjectsFromArray:[CoreDataLib selectRowsFromTable:@"BIGHAND" mOC:self.managedObjectContext]];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	NSLog(@"Here!!");
+	if(self.touchesCount++>=4)
+		self.bottomView.hidden=NO;
+	
 }
 
 - (IBAction) deleteButtonPressed: (id) sender {

@@ -87,8 +87,8 @@
 	
 	self.nameLabel.frame = CGRectMake(35, 0, 200, 24);
 	self.dateLabel.frame = CGRectMake(35, 22, 200, 20);
-	self.statusLabel.frame = CGRectMake(width-120, -1, 110, 20);
-	self.potSizeLabel.frame = CGRectMake(width-120, 23, 110, 20);
+	self.statusLabel.frame = CGRectMake(width-140, -1, 110, 20);
+	self.potSizeLabel.frame = CGRectMake(width-140, 23, 110, 20);
 	
 }
 

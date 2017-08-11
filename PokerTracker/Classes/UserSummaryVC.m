@@ -31,12 +31,11 @@
 	[self setTitle:@"PTP User"];
 	[self changeNavToIncludeType:3];
 	
-	addFriendButton.alpha=1;
-	removeFriendButton.alpha=0;
 	if(self.netUserObj.nowPlayingFlg)
 		[self.viewgameButton setTitle:@"Now Playing!" forState:UIControlStateNormal];
 	
 	topSegment.selectedSegmentIndex = selectedSegment;
+	[topSegment changeSegment];
 	[self setupScreen];
 	[self populateData];
 	
@@ -49,6 +48,10 @@
 	self.cityLabel.text = self.netUserObj.location;
 	self.flagImageView.image = self.netUserObj.flagImage;
 	NSString *friendStatus = self.netUserObj.friendStatus;
+	
+	removeFriendButton.hidden=YES;
+	addFriendButton.hidden=NO;
+
 	if([friendStatus length]==0)
 		addFriendButton.enabled=YES;
 	
@@ -57,7 +60,7 @@
 	
 	self.selfFlg=NO;
 	if([friendStatus isEqualToString:@"self"] || [friendStatus isEqualToString:@"Blocked"]) {
-		addFriendButton.enabled=NO;
+		addFriendButton.hidden=YES;
 		self.selfFlg=YES;
 	}
 	
@@ -65,9 +68,8 @@
 		addFriendButton.enabled=NO;
 	
 	if([friendStatus isEqualToString:@"Active"]) {
-		addFriendButton.alpha=0;
-		addFriendButton.enabled=NO;
-		removeFriendButton.alpha=1;
+		addFriendButton.hidden=YES;
+		removeFriendButton.hidden=NO;
 	}
 	
 	if([friendStatus isEqualToString:@"Active"] || self.netUserObj.userId==self.netUserObj.viewingUserId) {
@@ -94,6 +96,7 @@
         topSegment.selectedSegmentIndex=0;
         [ProjectFunctions showAlertPopup:@"Notice" message:@"Year statistics only available to friends"];
     }
+	[topSegment changeSegment];
 	[self populateData];
     [self.mainTableView reloadData];
 }

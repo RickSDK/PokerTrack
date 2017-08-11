@@ -33,6 +33,7 @@
 		self.gameObj=self.netUserObj.lastGame;
 	
 	self.userLabel.text = self.netUserObj.name;
+	self.userLabel.textColor = [ProjectFunctions primaryButtonColor];
 	if(self.gameObj.playFlag)
 		self.nowPlayingLabel.text = @"Now PLaying!";
 	else

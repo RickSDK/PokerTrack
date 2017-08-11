@@ -19,7 +19,7 @@
 	IBOutlet UITextField *nameField;
 	IBOutlet UISegmentedControl *looseTightSeg;
 	IBOutlet UISegmentedControl *passAgrSeg;
-	IBOutlet UISegmentedControl *overallPlaySeg;
+	IBOutlet CustomSegment *overallPlaySeg;
 	IBOutlet UIButton *casinoButton;
 	IBOutlet UIButton *deleteButton;
 	IBOutlet UIImageView *playerPic;
@@ -53,7 +53,7 @@
 @property (nonatomic, strong) UITextField *nameField;
 @property (nonatomic, strong) UISegmentedControl *looseTightSeg;
 @property (nonatomic, strong) UISegmentedControl *passAgrSeg;
-@property (nonatomic, strong) UISegmentedControl *overallPlaySeg;
+@property (nonatomic, strong) CustomSegment *overallPlaySeg;
 @property (nonatomic, strong) UIButton *casinoButton;
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) UIImageView *playerPic;

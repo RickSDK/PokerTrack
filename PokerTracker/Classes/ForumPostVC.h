@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface ForumPostVC : UIViewController {
-    IBOutlet UITableView *mainTableView;
+@interface ForumPostVC : TemplateVC {
 	IBOutlet UIActivityIndicatorView *activityIndicator;
     IBOutlet UILabel *titleLabel;
     IBOutlet UILabel *userLabel;
@@ -18,7 +18,6 @@
     IBOutlet UITextView *bodyTextView;
     IBOutlet UIButton *playerImageButton;
     
-    NSManagedObjectContext *managedObjectContext;
     int category;
     int postId;
     int masterPostId;
@@ -46,8 +45,6 @@
 - (IBAction) playerButtonPressed: (id) sender;
 
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (atomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UILabel *titleLabel;
 @property (atomic, strong) UILabel *userLabel;
 @property (atomic, strong) UILabel *locationLabel;

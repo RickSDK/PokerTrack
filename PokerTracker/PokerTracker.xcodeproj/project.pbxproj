@@ -350,6 +350,11 @@
 		6BC80484156C81D2001C24BD /* crowdapplause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BC80483156C81D2001C24BD /* crowdapplause.wav */; };
 		6BC8048D156C82C9001C24BD /* SoundsLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC8048C156C82C9001C24BD /* SoundsLib.m */; };
 		6BC80495156C8315001C24BD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC80494156C8315001C24BD /* AudioToolbox.framework */; };
+		6BC8424A1F3B8C990057CF6C /* redfelt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BC842491F3B8C990057CF6C /* redfelt.jpg */; };
+		6BC8424C1F3B8CA10057CF6C /* bluefelt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BC8424B1F3B8CA10057CF6C /* bluefelt.jpg */; };
+		6BC8424E1F3B8D150057CF6C /* greenFelt5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BC8424D1F3B8D150057CF6C /* greenFelt5.jpg */; };
+		6BC842501F3BAADE0057CF6C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC8424F1F3BAADE0057CF6C /* QuartzCore.framework */; };
+		6BC842591F3E6AC90057CF6C /* PtpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC842581F3E6AC90057CF6C /* PtpButton.m */; };
 		6BC871051CF76A0300A38454 /* OnlineReviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC871031CF76A0300A38454 /* OnlineReviewVC.m */; };
 		6BC871061CF76A0300A38454 /* OnlineReviewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC871041CF76A0300A38454 /* OnlineReviewVC.xib */; };
 		6BC9B4871464762600122784 /* ListPickerCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC9B4851464762600122784 /* ListPickerCustom.m */; };
@@ -442,6 +447,8 @@
 		6BE5C75618380F420028CA26 /* FriendAlertsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5C75418380F420028CA26 /* FriendAlertsVC.m */; };
 		6BE5C75718380F420028CA26 /* FriendAlertsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE5C75518380F420028CA26 /* FriendAlertsVC.xib */; };
 		6BEE32CD1F37D5DB0034E1B4 /* chips.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE32CC1F37D5DB0034E1B4 /* chips.png */; };
+		6BEE32D11F3A70EF0034E1B4 /* EditThemeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE32CF1F3A70EF0034E1B4 /* EditThemeVC.m */; };
+		6BEE32D21F3A70EF0034E1B4 /* EditThemeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE32D01F3A70EF0034E1B4 /* EditThemeVC.xib */; };
 		6BF0C4181667E6A400D8D6AE /* BankrollsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C4161667E6A400D8D6AE /* BankrollsVC.m */; };
 		6BF0C4191667E6A400D8D6AE /* BankrollsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BF0C4171667E6A400D8D6AE /* BankrollsVC.xib */; };
 		6BF0C41D1667E6C000D8D6AE /* FriendLast10GamesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C41B1667E6C000D8D6AE /* FriendLast10GamesVC.m */; };
@@ -933,6 +940,12 @@
 		6BC8048B156C82C9001C24BD /* SoundsLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundsLib.h; sourceTree = "<group>"; };
 		6BC8048C156C82C9001C24BD /* SoundsLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundsLib.m; sourceTree = "<group>"; };
 		6BC80494156C8315001C24BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		6BC842491F3B8C990057CF6C /* redfelt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redfelt.jpg; sourceTree = "<group>"; };
+		6BC8424B1F3B8CA10057CF6C /* bluefelt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bluefelt.jpg; sourceTree = "<group>"; };
+		6BC8424D1F3B8D150057CF6C /* greenFelt5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = greenFelt5.jpg; sourceTree = "<group>"; };
+		6BC8424F1F3BAADE0057CF6C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6BC842571F3E6AC90057CF6C /* PtpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PtpButton.h; sourceTree = "<group>"; };
+		6BC842581F3E6AC90057CF6C /* PtpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PtpButton.m; sourceTree = "<group>"; };
 		6BC871021CF76A0300A38454 /* OnlineReviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineReviewVC.h; sourceTree = "<group>"; };
 		6BC871031CF76A0300A38454 /* OnlineReviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineReviewVC.m; sourceTree = "<group>"; };
 		6BC871041CF76A0300A38454 /* OnlineReviewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineReviewVC.xib; sourceTree = "<group>"; };
@@ -1056,6 +1069,9 @@
 		6BE5C75418380F420028CA26 /* FriendAlertsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendAlertsVC.m; sourceTree = "<group>"; };
 		6BE5C75518380F420028CA26 /* FriendAlertsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendAlertsVC.xib; sourceTree = "<group>"; };
 		6BEE32CC1F37D5DB0034E1B4 /* chips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chips.png; sourceTree = "<group>"; };
+		6BEE32CE1F3A70EF0034E1B4 /* EditThemeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditThemeVC.h; sourceTree = "<group>"; };
+		6BEE32CF1F3A70EF0034E1B4 /* EditThemeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditThemeVC.m; sourceTree = "<group>"; };
+		6BEE32D01F3A70EF0034E1B4 /* EditThemeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditThemeVC.xib; sourceTree = "<group>"; };
 		6BF0C4151667E6A400D8D6AE /* BankrollsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankrollsVC.h; sourceTree = "<group>"; };
 		6BF0C4161667E6A400D8D6AE /* BankrollsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankrollsVC.m; sourceTree = "<group>"; };
 		6BF0C4171667E6A400D8D6AE /* BankrollsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankrollsVC.xib; sourceTree = "<group>"; };
@@ -1088,6 +1104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BC842501F3BAADE0057CF6C /* QuartzCore.framework in Frameworks */,
 				6BCF5B251C56B494000B3542 /* StoreKit.framework in Frameworks */,
 				6BAECB1F1C55C0FB00DB14CC /* LocalAuthentication.framework in Frameworks */,
 				6B9CD0A2179721DB002DF14B /* iAd.framework in Frameworks */,
@@ -1170,6 +1187,9 @@
 				6B90B95114E3067300712EDC /* DatabaseManage.h */,
 				6B90B95214E3067300712EDC /* DatabaseManage.m */,
 				6B90B95314E3067300712EDC /* DatabaseManage.xib */,
+				6BEE32CE1F3A70EF0034E1B4 /* EditThemeVC.h */,
+				6BEE32CF1F3A70EF0034E1B4 /* EditThemeVC.m */,
+				6BEE32D01F3A70EF0034E1B4 /* EditThemeVC.xib */,
 				6BE5C75318380F420028CA26 /* FriendAlertsVC.h */,
 				6BE5C75418380F420028CA26 /* FriendAlertsVC.m */,
 				6BE5C75518380F420028CA26 /* FriendAlertsVC.xib */,
@@ -1253,6 +1273,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BC8424F1F3BAADE0057CF6C /* QuartzCore.framework */,
 				6BCF5B241C56B494000B3542 /* StoreKit.framework */,
 				6BAECB1E1C55C0FB00DB14CC /* LocalAuthentication.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -1427,9 +1448,6 @@
 		6B12CA7A1667EC3900725098 /* NetTracker */ = {
 			isa = PBXGroup;
 			children = (
-				6BF0C41A1667E6C000D8D6AE /* FriendLast10GamesVC.h */,
-				6BF0C41B1667E6C000D8D6AE /* FriendLast10GamesVC.m */,
-				6BF0C41C1667E6C000D8D6AE /* FriendLast10GamesVC.xib */,
 				6BF0C4291667E6F700D8D6AE /* UniverseTrackerVC.h */,
 				6BF0C42A1667E6F700D8D6AE /* UniverseTrackerVC.m */,
 				6BF0C42B1667E6F700D8D6AE /* UniverseTrackerVC.xib */,
@@ -1439,6 +1457,9 @@
 				6BF0C42C1667E6F700D8D6AE /* UserSummaryVC.h */,
 				6BF0C42D1667E6F700D8D6AE /* UserSummaryVC.m */,
 				6BF0C42E1667E6F700D8D6AE /* UserSummaryVC.xib */,
+				6BF0C41A1667E6C000D8D6AE /* FriendLast10GamesVC.h */,
+				6BF0C41B1667E6C000D8D6AE /* FriendLast10GamesVC.m */,
+				6BF0C41C1667E6C000D8D6AE /* FriendLast10GamesVC.xib */,
 				6BD85A87151CF4B60048473A /* FriendInProgressVC.h */,
 				6BD85A88151CF4B60048473A /* FriendInProgressVC.m */,
 				6BD85A89151CF4B60048473A /* FriendInProgressVC.xib */,
@@ -1592,6 +1613,9 @@
 				6BD8534F150AE02C0048473A /* screenR8.png */,
 				6B909ED314C9EE6C00712EDC /* refresh.png */,
 				6B750F66143E847800E59D21 /* greenFelt.jpg */,
+				6BC842491F3B8C990057CF6C /* redfelt.jpg */,
+				6BC8424B1F3B8CA10057CF6C /* bluefelt.jpg */,
+				6BC8424D1F3B8D150057CF6C /* greenFelt5.jpg */,
 				6B751366144360D600E59D21 /* blueWave.png */,
 				6BD84E4B150144CB0048473A /* chart.png */,
 				6BA5C82C1463109400F1C0BD /* bigYellowButton.png */,
@@ -1768,6 +1792,8 @@
 				6BC8048C156C82C9001C24BD /* SoundsLib.m */,
 				6B57B67A1B3DC80D002A79BA /* CustomButton.h */,
 				6B57B67B1B3DC80D002A79BA /* CustomButton.m */,
+				6BC842571F3E6AC90057CF6C /* PtpButton.h */,
+				6BC842581F3E6AC90057CF6C /* PtpButton.m */,
 				6BB2539F1B8911C6008AC8EE /* CustomView.h */,
 				6BB253A01B8911C6008AC8EE /* CustomView.m */,
 				6B5CA2221F1C6CFB003392BD /* PopupView.h */,
@@ -2058,6 +2084,7 @@
 				6BAECB241C55C6C900DB14CC /* UpgradeVC.xib in Resources */,
 				6BD4D96B1D12100500236804 /* DefaultiPad.png in Resources */,
 				6B50CCD71468C9AD00DBD8D9 /* GoalsVC.xib in Resources */,
+				6BC8424A1F3B8C990057CF6C /* redfelt.jpg in Resources */,
 				6B50CDF61469A7E100DBD8D9 /* activityBG.png in Resources */,
 				6BD4D95F1D120DDD00236804 /* Icon-Small.png in Resources */,
 				6B5CA2101F1C3CE5003392BD /* Serbia.png in Resources */,
@@ -2119,6 +2146,7 @@
 				6BCA887C1F13556E00633484 /* red_green2.jpg in Resources */,
 				6BBD4C781F215E6D004A6BFD /* playerType2b.png in Resources */,
 				6BCBD95C1F1B17C20078C165 /* Italy.png in Resources */,
+				6BC8424E1F3B8D150057CF6C /* greenFelt5.jpg in Resources */,
 				6B5CA1EB1F1C3C51003392BD /* Bulgaria.png in Resources */,
 				6B909EE914C9EFE200712EDC /* yellowGlossButton.png in Resources */,
 				6B5CA21B1F1C3CEE003392BD /* South_Africa.png in Resources */,
@@ -2135,6 +2163,7 @@
 				6B909F0014C9F20A00712EDC /* blackChromeBut.png in Resources */,
 				6B909F3214C9FAEA00712EDC /* greenBG2.png in Resources */,
 				6B909F3914C9FB7A00712EDC /* yellowButton.png in Resources */,
+				6BEE32D21F3A70EF0034E1B4 /* EditThemeVC.xib in Resources */,
 				6B5CA2201F1C3CEE003392BD /* Ukraine.png in Resources */,
 				6B909FAD14CA113B00712EDC /* CasinoAddressUpdatorVC.xib in Resources */,
 				6BCBD95E1F1B17CF0078C165 /* Japan.png in Resources */,
@@ -2183,6 +2212,7 @@
 				6BBD4C801F215E75004A6BFD /* playerType3d.png in Resources */,
 				6BD84C6E14FFEC440048473A /* yellow.png in Resources */,
 				6BD84C7014FFEC490048473A /* red.png in Resources */,
+				6BC8424C1F3B8CA10057CF6C /* bluefelt.jpg in Resources */,
 				6BD84D08150026EF0048473A /* GameGraphVC.xib in Resources */,
 				6BBD4C7E1F215E75004A6BFD /* playerType3b.png in Resources */,
 				6B5CA1EA1F1C3C51003392BD /* Belgium.png in Resources */,
@@ -2276,6 +2306,7 @@
 				6B750D43143D305700E59D21 /* StatsPage.m in Sources */,
 				6B750D48143D306900E59D21 /* GamesVC.m in Sources */,
 				6B750D52143D308500E59D21 /* FriendsVC.m in Sources */,
+				6BC842591F3E6AC90057CF6C /* PtpButton.m in Sources */,
 				6B750DA7143E34F300E59D21 /* MultiLineDetailCellWordWrap.m in Sources */,
 				6B750DB2143E360200E59D21 /* UIColor+ATTColor.m in Sources */,
 				6B750E1C143E590900E59D21 /* DatePickerViewController.m in Sources */,
@@ -2314,6 +2345,7 @@
 				6BBD4C951F22C862004A6BFD /* PieChartVC.m in Sources */,
 				6BA5BE9D145C9DF300F1C0BD /* FriendDetailVC.m in Sources */,
 				6BA5BF52145CBE6D00F1C0BD /* StartNewGameVC.m in Sources */,
+				6BEE32D11F3A70EF0034E1B4 /* EditThemeVC.m in Sources */,
 				6BA5BF57145CBE8700F1C0BD /* GameInProgressVC.m in Sources */,
 				6BA5C0E9145F40CE00F1C0BD /* GameDetailsVC.m in Sources */,
 				6BA5CA001463692500F1C0BD /* FriendSendMessage.m in Sources */,
@@ -2457,8 +2489,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2482,8 +2514,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

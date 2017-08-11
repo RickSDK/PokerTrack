@@ -30,16 +30,18 @@
 #import "UpgradeVC.h"
 #import "ReviewsVC.h"
 #import "NSString+ATTString.h"
+#import "GameCell.h"
+#import "PokerOddsFunctions.h"
 
 
 @implementation MainMenuVC
-@synthesize managedObjectContext, friendsNumLabel, friendsNumCircle, largeGraph, rotateLock, editButton;
+@synthesize managedObjectContext, friendsNumLabel, largeGraph, rotateLock, editButton;
 @synthesize statsButton, gamesButton, netTrackerButton, oddsButton, forumButton, moreTrackersButton, displayBySession;
 @synthesize yearLabel;
-@synthesize openGamesCircle, openGamesLabel, versionLabel, reviewButton, bankrollLabel, startNewGameButton;
+@synthesize openGamesLabel, versionLabel, reviewButton, bankrollLabel, startNewGameButton;
 @synthesize alertViewNum, emailButton, analysisButton, graphChart, yearTotalLabel, smallYearLabel;
 @synthesize casinoButton, casinoLabel, bankrollNameLabel;
-@synthesize forumNumLabel, forumNumCircle, activityIndicatorNet, activityIndicatorData;
+@synthesize forumNumLabel, activityIndicatorNet, activityIndicatorData;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -50,6 +52,7 @@
 	[self positionGraph];
 	[self setupButtons];
 	[self checkLockAndInProgressGame];
+	[self setupThemePopup];
 	[self firstTimeUseCheck];
 }
 
@@ -64,10 +67,23 @@
 	self.loggedInFlg = ([ProjectFunctions getUserDefaultValue:@"userName"].length>0);
 	self.statusImageView.hidden=!self.loggedInFlg;
 
+	[self applyTheme];
+	[self calculateStats];
+
 	if(self.loggedInFlg)
 		[self countFriendsPlaying];
+}
 
-	[self calculateStats];
+-(void)setupThemePopup {
+	self.themeView.hidden=YES;
+	[ProjectFunctions makeFALabel:self.arrowLabel type:24 size:36];
+	self.themeView.backgroundColor = [UIColor clearColor];
+	self.themePopup.textView.text = @"Customize your theme!\n\nYou can now customize your theme and colors on the options menu.";
+}
+
+-(IBAction)themeOkButtonClicked:(id)sender {
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"themeViewFlg"];
+	self.themeView.hidden=YES;
 }
 
 -(void)setupAboutView {
@@ -78,27 +94,13 @@
 }
 
 -(void)setupNavBar {
-	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1];
-	[self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
-	if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-		[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"greenGradient.png"] forBarMetrics:UIBarMetricsDefault];
-	} else if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
-		[self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0 green:.3 blue:0 alpha:1]];
-	} else {
-		self.navigationController.navigationBar.opaque=YES;
-		self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0 green:.3 blue:0 alpha:1];
-	}
-	
+	[ProjectFunctions tintNavigationBar:self.navigationController.navigationBar];
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	
 	if([ProjectFunctions isLiteVersion]) {
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions navigationButtonWithTitle:@"Upgrade" selector:@selector(aboutButtonClicked:) target:self];
 	} else {
 		self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(aboutButtonClicked:)];
-	}
-	if(![ProjectFunctions getProductionMode]) {
-		[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"gradPink.png"] forBarMetrics:UIBarMetricsDefault];
-		self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 	}
 }
 
@@ -124,25 +126,22 @@
 	[[[[UIApplication sharedApplication] delegate] window] addSubview:self.largeGraph];
 	self.largeGraph.hidden=YES;
 	
-	int xPos=15;
-	int yPos=270;
-	int width=290;
-	int height=113;
-	if([[UIScreen mainScreen] bounds].size.height >= 568) { // iPhone 5
-		height+=75;
-		yPos=275;
+	float screenWidth = [[UIScreen mainScreen] bounds].size.width;
+	float screenHeight = [[UIScreen mainScreen] bounds].size.height;
+	if(screenWidth==0) {
+		screenWidth = self.view.frame.size.width;
+		screenHeight = self.view.frame.size.height;
 	}
-	if([[UIScreen mainScreen] bounds].size.width >= 700) { // iPad
-		xPos=90;
-		width=600;
-		height=350;
+	if(screenWidth==0) {
+		screenWidth = 320;
+		screenHeight = 480;
 	}
+	int xPos=-1;
+	int width=screenWidth+2;
+	int height=screenHeight-380; //113;
+	int yPos=screenHeight-height-100;
 	if(self.isPokerZilla)
 		yPos-=50;
-	
-	self.graphChart.layer.cornerRadius = 8.0;
-	self.graphChart.layer.masksToBounds = YES;
-	self.graphChart.layer.borderColor = [UIColor blackColor].CGColor;
 	
 	int currentMaxYear = [self getMaxYear];
 	self.graphChart.frame = CGRectMake(xPos, yPos, width, height);
@@ -183,16 +182,19 @@
 	}
 }
 
--(void)setupButtons {
-	friendsNumLabel.alpha=0;
-	friendsNumCircle.alpha=0;
-	self.forumNumLabel.alpha=0;
-	self.forumNumCircle.alpha=0;
-	openGamesLabel.alpha=0;
-	openGamesCircle.alpha=0;
-	analysisButton.alpha=1;
+-(void)createRedCircleForLabel:(UILabel *)label {
+	label.alpha=0;
+	label.backgroundColor=[UIColor redColor];
+	label.layer.cornerRadius = 15;
+	label.layer.masksToBounds = YES;
+}
 
-	[ProjectFunctions makeFAButton:self.startNewGameButton type:1 size:24];
+-(void)setupButtons {
+	[self createRedCircleForLabel:friendsNumLabel];
+	[self createRedCircleForLabel:forumNumLabel];
+	[self createRedCircleForLabel:openGamesLabel];
+
+	[ProjectFunctions makeFAButton:self.startNewGameButton type:1 size:22 text:NSLocalizedString(@"Game", nil)];
 	[self createMainMenuButton:self.gamesButton name:NSLocalizedString(@"Games", nil) type:34 size:24];
 	[self createMainMenuButton:self.statsButton name:NSLocalizedString(@"Stats", nil) type:11 size:24];
 	[self createMainMenuButton:self.oddsButton name:NSLocalizedString(@"Odds", nil) type:28 size:18];
@@ -224,12 +226,11 @@
 	
 	self.aboutView.titleLabel.text = @"Poker Track Pro";
 	
-	self.casinoLabel.text = NSLocalizedString(@"Casino Locator", nil);
 	self.last10Label.text = NSLocalizedString(@"Last10", nil);
 	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
-	self.iNewGameLabel.text = NSLocalizedString(@"New Game", nil);
-	self.last10Label.backgroundColor=[UIColor blackColor];
-	self.analysisLabel.backgroundColor=[UIColor blackColor];
+//	[ProjectFunctions newButtonLook:analysisButton mode:0];
+//	analysisButton.layer.cornerRadius = 7;
+//	analysisButton.layer.masksToBounds = YES;				// clips background images to rounded corners
 	
 	self.topView.hidden=self.isPokerZilla;
 	self.last10Label.hidden=self.isPokerZilla;
@@ -239,6 +240,27 @@
 	self.pokerZillaImageView.hidden=!self.isPokerZilla;
 	
 	[ProjectFunctions makeFAButton:self.editButton type:2 size:16];
+	[ProjectFunctions makeFAButton2:self.casinoButton type:13 size:32];
+	[ProjectFunctions makeFAButton2:self.analysisButton type:3 size:32];
+	
+	[ProjectFunctions makeFAButton:reviewButton type:2 size:12 text:@"Write Review"];
+	[ProjectFunctions makeFAButton:emailButton type:42 size:12 text:@"Email Developer"];
+}
+
+-(void)applyTheme {
+	[ProjectFunctions newButtonLook:self.gamesButton mode:0];
+	[ProjectFunctions newButtonLook:self.statsButton mode:0];
+	[ProjectFunctions newButtonLook:self.oddsButton mode:0];
+	[ProjectFunctions newButtonLook:self.moreTrackersButton mode:0];
+	[ProjectFunctions newButtonLook:self.forumButton mode:0];
+	[ProjectFunctions newButtonLook:self.netTrackerButton mode:0];
+	[ProjectFunctions newButtonLook:self.startNewGameButton mode:1];
+	[ProjectFunctions newButtonLook:self.editButton mode:2];
+	[ProjectFunctions changeToModernThemeForButton:self.casinoButton mode:0 theme:0];
+	[ProjectFunctions changeToModernThemeForButton:self.analysisButton mode:0 theme:0];
+	[ProjectFunctions newButtonLook:reviewButton mode:0];
+	[ProjectFunctions newButtonLook:emailButton mode:0];
+	self.view.backgroundColor = [ProjectFunctions themeBGColor];
 }
 
 -(void)createMainMenuButton:(UIButton *)button name:(NSString *)name type:(int)type size:(float)size {
@@ -275,6 +297,10 @@
 		if([ProjectFunctions isLiteVersion] && [ProjectFunctions getUserDefaultValue:@"UpgradeCheck"].length==0) {
 			self.alertViewNum=199;
 			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Poker Track Lite is not the full version of this app. Check out the details." delegate:self];
+		} else {
+			if([ProjectFunctions getUserDefaultValue:@"themeViewFlg"].length==0) {
+				self.themeView.hidden=NO;
+			}
 		}
 	}
 }
@@ -329,13 +355,12 @@
         int friendsPlayingCount = [[parts objectAtIndex:0] intValue];
         if(friendsPlayingCount>0) {
             friendsNumLabel.alpha=1;
-            friendsNumCircle.alpha=1;
             [friendsNumLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d", friendsPlayingCount] waitUntilDone:YES];
         }
         int forumCount = [[parts objectAtIndex:1] intValue];
         if(forumCount>0) {
             self.forumNumLabel.alpha=1;
-            self.forumNumCircle.alpha=1;
+//            self.forumNumCircle.alpha=1;
             [self.forumNumLabel performSelectorOnMainThread:@selector(setText: ) withObject:[NSString stringWithFormat:@"%d", forumCount] waitUntilDone:YES];
         }
 		gamesOnDevice = [[ProjectFunctions getUserDefaultValue:@"gamesOnDevice"] intValue];
@@ -600,7 +625,7 @@
 {
 	[localLabel performSelectorOnMainThread:@selector(setText:) withObject:[ProjectFunctions convertIntToMoneyString:money] waitUntilDone:NO];
 
-	UIColor *labelColor = (money<0)?[UIColor orangeColor]:[UIColor greenColor];
+	UIColor *labelColor = (money<0)?[UIColor redColor]:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
 	
 	[localLabel performSelectorOnMainThread:@selector(setTextColor:) withObject:labelColor waitUntilDone:NO];
 }
@@ -657,22 +682,23 @@
 		
 		if(badgeCount==0) {
 			openGamesLabel.alpha=0;
-			openGamesCircle.alpha=0;
 		} else {
 			openGamesLabel.alpha=1;
-			openGamesCircle.alpha=1;
 			openGamesLabel.text = [NSString stringWithFormat:@"%d", badgeCount];
 		}
 		
 		//----- last 10 games
 		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
 		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:NO limit:10];
+		
 		if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0)
 			[self checkForDataScrub:(int)games.count];
 
 		GameStatObj *gameStatObj = [GameStatObj gameStatObjForGames:games];
+		int value = [ProjectFunctions getNewPlayerType:gameStatObj.risked winnings:gameStatObj.profit];
+		analysisButton.backgroundColor = [GameCell colorForType:value];
 		
-		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:gameStatObj.risked winnings:gameStatObj.profit] forState:UIControlStateNormal];
+//		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:gameStatObj.risked winnings:gameStatObj.profit] forState:UIControlStateNormal];
 		
 		[self updateMainGraphWithCOntext:contextLocal year:thisYear];
 		
@@ -766,7 +792,6 @@
 		return;
 	}
     if([[ProjectFunctions getUserDefaultValue:@"userName"] length]>0) {
-        self.forumNumCircle.alpha=0;
         self.forumNumLabel.alpha=0;
         ForumVC *detailViewController = [[ForumVC alloc] initWithNibName:@"ForumVC" bundle:nil];
         detailViewController.managedObjectContext = managedObjectContext;

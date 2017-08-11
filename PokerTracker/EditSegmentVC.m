@@ -231,7 +231,7 @@
 	cell.textLabel.text=name;
 	cell.selection.text=[NSString stringWithFormat:@"(%d %@)", numGames, NSLocalizedString(@"Games", nil)];
 	cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [ProjectFunctions primaryButtonColor];
 	if ([name isEqualToString:self.initialDateValue]) {
 		self.optionSelectedFlg=YES;
 		self.rowNum = (int)indexPath.row;

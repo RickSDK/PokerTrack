@@ -279,6 +279,7 @@ static NSInteger FONT_SIZE			= 12;
 	cell.ccColor = [UIColor orangeColor];
 	cell.bb.text = obj.playerType;
 	cell.cc.text = obj.location;
+	cell.ccColor = [ProjectFunctions themeBGColor];
 	cell.dd.text = obj.skillLevel;
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

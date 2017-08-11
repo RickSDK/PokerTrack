@@ -52,6 +52,7 @@
 - (IBAction) laterPressed: (id) sender;
 - (IBAction) importPressed: (id) sender;
 - (IBAction) upgradePressed: (id) sender;
+- (IBAction) loginPressed: (id) sender;
 - (void)executeThreadedJob:(SEL)aSelector;
 - (void)completeThreadedjob;
 
@@ -59,6 +60,7 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (atomic, strong) UIViewController *callBackViewController;
 @property (atomic, strong) IBOutlet UIButton *upgradeButton;
+@property (atomic, strong) IBOutlet UIButton *loginButton;
 
 
 @property (atomic, strong) UIImageView *importPopup;

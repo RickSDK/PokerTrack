@@ -78,6 +78,8 @@
 	self.mainTitle = gameObj.name;
 	self.altTitle = gameObj.location;
 	NSString *currentChips = @"Current Chips";
+	if(gameObj.tournamentGameFlg)
+		currentChips = @"Current Value";
 	if([@"Completed" isEqualToString:gameObj.status])
 		currentChips = @"cashoutAmount";
 	[self addBlackLineWithTitle:@"Type" value:NSLocalizedString(gameObj.type, nil)];
@@ -89,11 +91,11 @@
 	[self addBlackLineWithTitle:@"limit" value:gameObj.limit];
 	[self addBlackLineWithTitle:@"Date" value:gameObj.startTimeStr];
 	[self addBlackLineWithTitle:@"weekday" value:gameObj.weekdayAltStr];
-	[self addMoneyLineWithTitle:@"Buyin" amount:gameObj.buyInAmount];
+	[self addBlackLineWithTitle:@"Buyin" value:gameObj.buyInAmountStr];
 	[self addBlackLineWithTitle:@"numRebuys" value:gameObj.numRebuysStr];
 	if(gameObj.numRebuys>0)
-		[self addMoneyLineWithTitle:@"rebuyAmount" amount:gameObj.reBuyAmount];
-	[self addMoneyLineWithTitle:currentChips amount:gameObj.cashoutAmount];
+		[self addBlackLineWithTitle:@"rebuyAmount" value:gameObj.reBuyAmountStr];
+	[self addBlackLineWithTitle:currentChips value:gameObj.cashoutAmountStr];
 	if(gameObj.foodDrink>0) {
 		[self addMoneyLineWithTitle:@"Take-Home" amount:gameObj.takeHome];
 		[self addBlackLineWithTitle:@"foodDrink" value:gameObj.foodDrinkStr];
@@ -118,7 +120,7 @@
 			[self addMoneyLineWithTitle:@"Current Chips" amount:gameObj.currentChips];
 		[self addIntLineWithTitle:@"tournamentSpots" value:gameObj.tournamentSpots color:nil];
 		[self addIntLineWithTitle:@"tournamentSpotsPaid" value:gameObj.tournamentSpotsPaid color:nil];
-		[self addLineWithTitle:@"tournamentFinish" value:gameObj.tournamentFinishStr color:[UIColor magentaColor]];
+		[self addLineWithTitle:@"tournamentFinish" value:gameObj.tournamentFinishStr color:[UIColor purpleColor]];
 	}
 	if(gameObj.hudStatsFlg) {
 		[self addLineWithTitle:@"VPIP / PFR (AF)" value:gameObj.hudVpip color:[UIColor colorWithRed:0 green:0 blue:.5 alpha:1]];

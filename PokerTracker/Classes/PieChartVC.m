@@ -113,6 +113,7 @@
 
 
 - (IBAction) filterSegmentChanged: (id) sender {
+	[self.filterSegment changeSegment];
 	[self computeStats];
 }
 
@@ -124,6 +125,7 @@
 }
 
 - (IBAction) typeSegmentChanged: (id) sender {
+	[self.typeSegment changeSegment];
 	[self computeStats];
 }
 

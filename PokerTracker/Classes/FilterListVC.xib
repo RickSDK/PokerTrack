@@ -6,9 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterListVC">
             <connections>
-                <outlet property="detailsButton" destination="Ldq-dy-Waa" id="dkO-UD-yM6"/>
-                <outlet property="editButton" destination="UwA-ZG-1WF" id="C8N-S7-k2G"/>
                 <outlet property="filterSegment" destination="SCv-yf-SiG" id="eUf-cN-Apt"/>
+                <outlet property="mainSegment" destination="SCv-yf-SiG" id="FJp-0g-Q7k"/>
                 <outlet property="mainTableView" destination="5" id="gEA-Dn-YYk"/>
                 <outlet property="popupView" destination="fBT-2E-c42" id="dYP-6f-PPG"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -19,12 +18,8 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greenFelt2.png" id="O8S-0T-M0y">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="5">
-                    <rect key="frame" x="0.0" y="31" width="320" height="344"/>
+                    <rect key="frame" x="0.0" y="31" width="320" height="385"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
@@ -32,34 +27,8 @@
                         <outlet property="delegate" destination="-1" id="7"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ldq-dy-Waa">
-                    <rect key="frame" x="0.0" y="373" width="156" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="View Details" backgroundImage="yellowChromeBut.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="detailsButtonPressed:" destination="-1" eventType="touchDown" id="54P-3S-ss8"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UwA-ZG-1WF">
-                    <rect key="frame" x="164" y="373" width="156" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="Edit" backgroundImage="greenChromeBut.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="editButtonPressed:" destination="-1" eventType="touchDown" id="Ega-e1-2vs"/>
-                    </connections>
-                </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="SCv-yf-SiG">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="SCv-yf-SiG" customClass="CustomSegment">
+                    <rect key="frame" x="1" y="0.0" width="318" height="30"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <segments>
@@ -68,7 +37,9 @@
                         <segment title="Third"/>
                         <segment title="Extra"/>
                     </segments>
-                    <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="oao-Qs-bWz"/>
+                    </connections>
                 </segmentedControl>
                 <view contentMode="scaleToFill" id="fBT-2E-c42" customClass="PopupView">
                     <rect key="frame" x="17" y="46" width="286" height="271"/>
@@ -76,16 +47,11 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="greenChromeBut.png" width="400" height="100"/>
-        <image name="greenFelt2.png" width="320" height="480"/>
-        <image name="yellowChromeBut.png" width="400" height="100"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

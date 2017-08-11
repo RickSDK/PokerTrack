@@ -31,7 +31,7 @@
 -(void)startBackgroundProcess;
 
 @property (atomic, strong) UILabel *datelabel;
-@property (atomic, strong) UISegmentedControl *sortSegment;
+@property (atomic, strong) CustomSegment *sortSegment;
 @property (atomic, strong) UIButton *profileButton;
 
 @property (atomic) int processYear;

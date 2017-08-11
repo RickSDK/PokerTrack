@@ -7,6 +7,7 @@
 //
 
 #import "ForumCell.h"
+#import "ProjectFunctions.h"
 
 @implementation ForumCell
 @synthesize titleLabel, bodyLabel, userLabel, repliesLabel, dateLabel, mainImg, repliesNumber;
@@ -24,7 +25,7 @@
 
         self.repliesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 40, 20)];
         self.repliesLabel.textAlignment = NSTextAlignmentCenter;
-        self.repliesLabel.textColor = [UIColor blueColor];
+        self.repliesLabel.textColor = [ProjectFunctions themeBGColor];
         self.repliesLabel.font = [UIFont systemFontOfSize:10];
         self.repliesLabel.text = @"replies";
         self.repliesLabel.backgroundColor = [UIColor clearColor];
@@ -32,7 +33,7 @@
 
         self.repliesNumber = [[UILabel alloc] initWithFrame:CGRectMake(10, 17, 40, 20)];
         self.repliesNumber.textAlignment = NSTextAlignmentCenter;
-        self.repliesNumber.textColor = [UIColor blueColor];
+        self.repliesNumber.textColor = [ProjectFunctions themeBGColor];
         self.repliesNumber.font = [UIFont boldSystemFontOfSize:22];
         self.repliesNumber.text = @"2";
         self.repliesNumber.backgroundColor = [UIColor clearColor];
@@ -48,7 +49,7 @@
         
         self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 20, 50, 20)];
         self.dateLabel.textAlignment = NSTextAlignmentLeft;
-        self.dateLabel.textColor = [UIColor whiteColor];
+        self.dateLabel.textColor = [ProjectFunctions themeBGColor];
         self.dateLabel.font = [UIFont systemFontOfSize:12];
         self.dateLabel.text = @"date";
         self.dateLabel.backgroundColor = [UIColor clearColor];
@@ -56,7 +57,7 @@
         
         self.bodyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.bodyLabel.textAlignment = NSTextAlignmentLeft;
-        self.bodyLabel.textColor = [UIColor yellowColor];
+        self.bodyLabel.textColor = [UIColor grayColor];
         self.bodyLabel.font = [UIFont systemFontOfSize:12];
         self.bodyLabel.text = @"body";
         self.bodyLabel.backgroundColor = [UIColor clearColor];
@@ -66,6 +67,8 @@
 		mainImg.image = nil;
 		mainImg.frame = CGRectMake(0, 0, 35, 44);
 		[self.contentView addSubview:mainImg];
+		
+		self.backgroundColor = [ProjectFunctions primaryButtonColor];
 
     }
     return self;

@@ -41,6 +41,7 @@
 	[self changeNavToIncludeType:4];
 
 	timeFrameSegment.selectedSegmentIndex=1;
+	[timeFrameSegment changeSegment];
 
 	self.playerDict = [[NSMutableDictionary alloc] init];
 	
@@ -166,6 +167,7 @@
 
 - (IBAction) sortSegmentChanged: (id) sender
 {
+	[self.sortSegment changeSegment];
 	[self checkSortingOrder];
 }
 
@@ -337,6 +339,7 @@
 
 - (IBAction) timeSegmentChanged: (id) sender
 {
+	[self.timeFrameSegment changeSegment];
 	for(NetUserObj *obj in self.mainArray) {
 		switch (self.timeFrameSegment.selectedSegmentIndex) {
 			case 0:

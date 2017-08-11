@@ -53,8 +53,8 @@
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)];
 	
 	
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+//	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
+//	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year = %d", [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]];
 	

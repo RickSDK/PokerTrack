@@ -1230,7 +1230,6 @@
 
 	CGContextRef c = [self contextRefForGraphofWidth:totalWidth totalHeight:totalHeight];
 	int zeroLoc = [self drawZeroLineForContext:c min:min max:max bottomEdgeOfChart:bottomEdgeOfChart leftEdgeOfChart:leftEdgeOfChart totalWidth:totalWidth];
-
 	// draw bottom labels ---------------------
 	CGContextSetRGBFillColor(c, 0.0, 0.0, 0.4, 1); // text
 	int percentOver=0;
@@ -1303,7 +1302,9 @@
 	[aPath addLineToPoint:CGPointMake(leftEdgeOfChart, bottomEdgeOfChart)];
 	[aPath closePath];
 
-	[self addGradientToPath:aPath context:c color1:[UIColor whiteColor] color2:(UIColor *)[UIColor greenColor] lineWidth:(int)0 imgWidth:totalWidth imgHeight:totalHeight];
+	NSLog(@"Adding Green Grad!");
+//	[self addGradientToPath:aPath context:c color1:[ProjectFunctions themeBGColor] color2:[ProjectFunctions themeBGColor] lineWidth:(int)0 imgWidth:totalWidth imgHeight:totalHeight];
+	[self addGradientToPath:aPath context:c color1:[ProjectFunctions primaryButtonColor] color2:[ProjectFunctions primaryButtonColor] lineWidth:(int)0 imgWidth:totalWidth imgHeight:totalHeight];
 
 	[self drawLeftLabelsAndLinesForContext:c totalMoneyRange:totalMoneyRange min:min leftEdgeOfChart:leftEdgeOfChart totalHeight:totalHeight totalWidth:totalWidth];
 
@@ -1323,27 +1324,27 @@
 	if(zeroLoc <= bottomEdgeOfChart && zeroLoc >= 0)
 		[self drawLine:c startX:leftEdgeOfChart startY:zeroLoc endX:totalWidth endY:zeroLoc];
 
-	
-	//----------Draw display type
-	CGContextSetLineWidth(c, 1);
-	CGContextSetRGBFillColor(c, 0, 0, 0, 1); // 
-	CGContextFillRect(c, CGRectMake(leftEdgeOfChart, 0, leftEdgeOfChart+140, 25));
-	CGContextSetRGBFillColor(c, 1, 1, 1, 1); 
-	if(displayBySession)
-		[@"Display by Session" drawAtPoint:CGPointMake(leftEdgeOfChart+10, 1) withFont:[UIFont boldSystemFontOfSize:20]];
-	else
-		[@"  Display by Date" drawAtPoint:CGPointMake(leftEdgeOfChart+10, 1) withFont:[UIFont boldSystemFontOfSize:20]];
+	[self displaySessionBoxAtLeft:totalWidth-200 top:bottomEdgeOfChart-25 c:c displayBySession:displayBySession];
 
-
-	
 	//---finish up----------
 	UIGraphicsPopContext();
 	dynamicChartImage = UIGraphicsGetImageFromCurrentImageContext();
-	
 	UIGraphicsEndImageContext();
 	
 	return dynamicChartImage;
 	
+}
+
++(void)displaySessionBoxAtLeft:(float)left top:(float)top c:(CGContextRef)c displayBySession:(BOOL)displayBySession {
+	//----------Draw display type
+	CGContextSetLineWidth(c, 1);
+	CGContextSetRGBFillColor(c, 0, 0, 0, 1); //
+	CGContextFillRect(c, CGRectMake(left, top, left+140, 25));
+	CGContextSetRGBFillColor(c, 1, 1, 1, 1);
+	if(displayBySession)
+		[@"Display by Session" drawAtPoint:CGPointMake(left+10, top-2) withFont:[UIFont boldSystemFontOfSize:20]];
+	else
+		[@"  Display by Date" drawAtPoint:CGPointMake(left+10, top-2) withFont:[UIFont boldSystemFontOfSize:20]];
 }
 
 
@@ -1459,6 +1460,9 @@
 		CGContextFillEllipseInRect(c, CGRectMake(x-circleSize/2+i,y-circleSize/2+i,circleSize,circleSize));
 	
 	CGContextSetRGBFillColor(c, 0, 0, 0, 1);
+	if(circleSize<=7)
+		CGContextSetRGBFillColor(c, 1, 1, 1, 1);
+	
 	CGContextFillEllipseInRect(c, CGRectMake(x-circleSize/2,y-circleSize/2,circleSize,circleSize));
 	
 	circleSize-=2;
@@ -2610,7 +2614,7 @@
 	CGContextSetLineCap(c, kCGLineCapRound);
 	
 	// draw Box---------------------
-	CGContextSetLineWidth(c, 1);
+	CGContextSetLineWidth(c, 0);
 	CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // blank
 	CGContextSetRGBFillColor(c, 1, 1, 1, 1); // white
 	CGContextFillRect(c, CGRectMake(0, 0, totalWidth, totalHeight));
@@ -2628,8 +2632,10 @@
 	[aPath3 addLineToPoint:CGPointMake(leftEdgeOfChart, bottomEdgeOfChart)];
 	[aPath3 addLineToPoint:CGPointMake(leftEdgeOfChart, 0)];
 	[aPath3 closePath];
-	[self addGradientToPath:aPath3 context:c color1:[UIColor whiteColor] color2:(UIColor *)[UIColor yellowColor] lineWidth:(int)1 imgWidth:totalWidth imgHeight:bottomEdgeOfChart];
-
+	NSLog(@"+++++Adding Green!!!");
+	[self addGradientToPath:aPath3 context:c color1:[ProjectFunctions themeBGColor] color2:[ProjectFunctions themeBGColor] lineWidth:0 imgWidth:totalWidth imgHeight:bottomEdgeOfChart];
+	//	[self addGradientToPath:aPath3 context:c color1:[ProjectFunctions primaryButtonColor] color2:[ProjectFunctions primaryButtonColor] lineWidth:(int)1 imgWidth:totalWidth imgHeight:bottomEdgeOfChart];
+	
 	// draw zero line---------------
 	CGContextSetRGBStrokeColor(c, 0.6, 0.2, 0.2, 1); // lightGray
 	CGContextSetLineWidth(c, 2);
@@ -2640,12 +2646,44 @@
 		zeroLoc = bottomEdgeOfChart*max/(max-min);
 	if(zeroLoc<bottomEdgeOfChart)
 		[self drawLine:c startX:leftEdgeOfChart startY:zeroLoc endX:totalWidth endY:zeroLoc];
-
+	
 	// Draw horizontal and vertical baselines
 	CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // black
 	[self drawLine:c startX:leftEdgeOfChart startY:bottomEdgeOfChart endX:totalWidth endY:bottomEdgeOfChart];
 	[self drawLine:c startX:leftEdgeOfChart startY:0 endX:leftEdgeOfChart endY:bottomEdgeOfChart];
+	
+	return zeroLoc;
+}
 
++(int)drawGoalsZeroLineForContext:(CGContextRef)c min:(float)min max:(float)max bottomEdgeOfChart:(int)bottomEdgeOfChart leftEdgeOfChart:(int)leftEdgeOfChart totalWidth:(int)totalWidth
+{
+	UIBezierPath *aPath3 = [UIBezierPath bezierPath];
+	[aPath3 moveToPoint:CGPointMake(leftEdgeOfChart, 0)];
+	[aPath3 addLineToPoint:CGPointMake(totalWidth, 0)];
+	[aPath3 addLineToPoint:CGPointMake(totalWidth, bottomEdgeOfChart)];
+	[aPath3 addLineToPoint:CGPointMake(leftEdgeOfChart, bottomEdgeOfChart)];
+	[aPath3 addLineToPoint:CGPointMake(leftEdgeOfChart, 0)];
+	[aPath3 closePath];
+	NSLog(@"+++++Adding Yellow!!!");
+	//[self addGradientToPath:aPath3 context:c color1:[ProjectFunctions themeBGColor] color2:[ProjectFunctions themeBGColor] lineWidth:0 imgWidth:totalWidth imgHeight:bottomEdgeOfChart];
+	[self addGradientToPath:aPath3 context:c color1:[ProjectFunctions primaryButtonColor] color2:[ProjectFunctions primaryButtonColor] lineWidth:(int)1 imgWidth:totalWidth imgHeight:bottomEdgeOfChart];
+	
+	// draw zero line---------------
+	CGContextSetRGBStrokeColor(c, 0.6, 0.2, 0.2, 1); // lightGray
+	CGContextSetLineWidth(c, 2);
+	//	int zeroLoc = max*yMultiplier-10;
+	//	float percentOfScreen = max/(max-min);
+	int zeroLoc = 0;
+	if((max-min)>0)
+		zeroLoc = bottomEdgeOfChart*max/(max-min);
+	if(zeroLoc<bottomEdgeOfChart)
+		[self drawLine:c startX:leftEdgeOfChart startY:zeroLoc endX:totalWidth endY:zeroLoc];
+	
+	// Draw horizontal and vertical baselines
+	CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // black
+	[self drawLine:c startX:leftEdgeOfChart startY:bottomEdgeOfChart endX:totalWidth endY:bottomEdgeOfChart];
+	[self drawLine:c startX:leftEdgeOfChart startY:0 endX:leftEdgeOfChart endY:bottomEdgeOfChart];
+	
 	return zeroLoc;
 }
 
@@ -2810,7 +2848,7 @@
 	
 	CGContextRef c = [self contextRefForGraphofWidth:totalWidth totalHeight:totalHeight];
 	
-	int zeroLoc = [self drawZeroLineForContext:c min:min max:max bottomEdgeOfChart:bottomEdgeOfChart leftEdgeOfChart:leftEdgeOfChart totalWidth:totalWidth];
+	int zeroLoc = [self drawGoalsZeroLineForContext:c min:min max:max bottomEdgeOfChart:bottomEdgeOfChart leftEdgeOfChart:leftEdgeOfChart totalWidth:totalWidth];
 	
 	[self drawLeftLabelsAndLinesForContext:c totalMoneyRange:totalMoneyRange min:min leftEdgeOfChart:leftEdgeOfChart totalHeight:totalHeight totalWidth:totalWidth];
 	
@@ -3600,7 +3638,7 @@
 
 +(UIImage *)getPtpPlayerTypeImage:(double)amountRisked winnings:(double)winnings iconGroupNumber:(int)iconGroupNumber {
 	if(winnings==0)
-		return [UIImage imageNamed:@"playerType99.png"];
+		return [UIImage imageNamed:@"Icon-152.png"];
 	int type = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
 	return [self ptpPlayerImageOfType:type iconGroupNumber:iconGroupNumber];
 }
@@ -3608,7 +3646,7 @@
 +(UIImage *)getPlayerTypeImage:(double)amountRisked winnings:(double)winnings
 {
     if(winnings==0)
-        return [UIImage imageNamed:@"playerType99.png"];
+        return [UIImage imageNamed:@"Icon-152.png"];
 	int value = [ProjectFunctions getNewPlayerType:amountRisked winnings:winnings];
 	return [self playerImageOfType:value];
 }
@@ -3648,7 +3686,7 @@
 	headerLabel.numberOfLines = 0;
 	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 22.0);
 	headerLabel.text = headerText;
-	customView.backgroundColor	= [UIColor colorWithRed:0 green:.4 blue:0 alpha:1];
+	customView.backgroundColor	= [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
 	[customView addSubview:headerLabel];
 	return customView;
 }
@@ -4007,6 +4045,60 @@
 
 }
 
++(BOOL)applyBGToNavBar:(UINavigationBar *)navigationBar image:(UIImage *)image {
+	if ([navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+		[navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
++(void)tintNavigationBar:(UINavigationBar *)navigationBar {
+	[navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil]];
+	if([ProjectFunctions getProductionMode]) {
+		navigationBar.tintColor = [ProjectFunctions primaryButtonColor]; // button colors
+		
+		UIImage *navBgImage=nil;
+		if([ProjectFunctions appThemeNumber] != 1) {
+			if([ProjectFunctions segmentColorNumber]==0)
+				navBgImage = [UIImage imageNamed:@"greenGradient.png"];
+			else
+				navBgImage = [self gradientImageNavbarOfWidth:navigationBar.frame.size.width];
+		}
+		
+		[self applyBGToNavBar:navigationBar image:navBgImage];
+		
+		if ([navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
+			[navigationBar setBarTintColor:[ProjectFunctions segmentThemeColor]];
+		} else {
+			navigationBar.opaque=YES;
+			navigationBar.backgroundColor = [ProjectFunctions segmentThemeColor];
+		}
+	} else { // test mode
+		[navigationBar setBackgroundImage:[UIImage imageNamed:@"gradPink.png"] forBarMetrics:UIBarMetricsDefault];
+		navigationBar.tintColor = [UIColor whiteColor]; // button colors
+	}
+}
+
++(UIImage *)gradientImageNavbarOfWidth:(float)width {
+	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+	CAGradientLayer *gradient = [CAGradientLayer layer];
+	gradient.frame = view.bounds;
+	gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], [ProjectFunctions segmentThemeColor].CGColor, [ProjectFunctions segmentThemeColor].CGColor, nil];
+	[view.layer insertSublayer:gradient atIndex:0];
+	return [self imageFromUIView:view];
+}
+
++ (UIImage *) imageFromUIView:(UIView*)view
+{
+	UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+	[view.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return image;
+}
+
 +(int)updateGamesOnDevice:(NSManagedObjectContext *)context {
 	NSArray *allGames = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:nil sortColumn:nil mOC:context ascendingFlg:YES];
 	NSLog(@"+++gamesOnDevice: %d", (int)allGames.count);
@@ -4020,27 +4112,7 @@
 	NSLog(@"+++gamesOnServer: %d", (int)allGames.count);
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)allGames.count] forKey:@"gamesOnServer"];
 }
-/*
-+(void)makeGameSegment:(UISegmentedControl *)segment color:(UIColor *)color {
-	[ProjectFunctions makeSegment:segment color:color];
-	int i=0;
-	if (segment.numberOfSegments==3 ) {
-		[segment setTitle:[NSString stringWithFormat:@"%@ + %@", [NSString fontAwesomeIconStringForEnum:FAMoney], [NSString fontAwesomeIconStringForEnum:FATrophy]] forSegmentAtIndex:i++];
-	}
-	UIFont *font = [UIFont fontWithName:kFontAwesomeFamilyName size:18.f];
-	NSMutableDictionary *attribsNormal;
-	attribsNormal = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor blackColor], UITextAttributeTextColor, nil];
-	
-	NSMutableDictionary *attribsSelected;
-	attribsSelected = [NSMutableDictionary dictionaryWithObjectsAndKeys:font, UITextAttributeFont, [UIColor whiteColor], UITextAttributeTextColor, nil];
-	
-	[segment setTitleTextAttributes:attribsNormal forState:UIControlStateNormal];
-	[segment setTitleTextAttributes:attribsSelected forState:UIControlStateSelected];
 
-	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FAMoney] forSegmentAtIndex:i++];
-	[segment setTitle:[NSString fontAwesomeIconStringForEnum:FATrophy] forSegmentAtIndex:i++];
-}
-*/
 +(void)makeSegment:(UISegmentedControl *)segment color:(UIColor *)color {
 	[self makeSegment:segment color:color size:12];
 }
@@ -4071,6 +4143,15 @@
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size {
 	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
 	[button setTitle:[self faStringOfType:type] forState:UIControlStateNormal];
+}
+
++(void)makeFAButton2:(UIButton *)button type:(int)type size:(float)size {
+	button.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:size];
+	[button setTitle:[self faStringOfType:type] forState:UIControlStateNormal];
+	if(type==0)
+		[ProjectFunctions newButtonLook:button mode:3];
+	else
+		[ProjectFunctions newButtonLook:button mode:0];
 }
 
 +(void)makeFAButton:(UIButton *)button type:(int)type size:(float)size text:(NSString *)text {
@@ -4207,6 +4288,15 @@
   case 41:
 			title = [NSString fontAwesomeIconStringForEnum:FAPencilSquareO];
 			break;
+  case 42:
+			title = [NSString fontAwesomeIconStringForEnum:FAEnvelope];
+			break;
+  case 43:
+			title = [NSString fontAwesomeIconStringForEnum:FAArrowLeft];
+			break;
+  case 44:
+			title = [NSString fontAwesomeIconStringForEnum:FAArrowRight];
+			break;
 
   default:
 			title = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
@@ -4262,6 +4352,117 @@
 	}
 }
 
++(void)newButtonLook:(UIButton *)button mode:(int)mode {
+	int themeNumber = [[ProjectFunctions getUserDefaultValue:@"themeNumber"] intValue];
+	
+	// all buttons------
+	[button setTitleShadowColor:nil forState:UIControlStateNormal];
+	// all buttons------
+
+	if(themeNumber == 2)
+		[self changeToClassicThemeForButton:button mode:mode];
+	else
+		[self changeToModernThemeForButton:button mode:mode theme:themeNumber];
+
+}
+
++(void)changeToClassicThemeForButton:(UIButton *)button mode:(int)mode {
+	button.layer.masksToBounds = YES;
+	button.backgroundColor=[UIColor clearColor];
+	button.layer.borderWidth = 0;
+	if(mode==0) {
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
+	}
+	if(mode==1) {
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
+	}
+	if(mode==2) {
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"whiteChromeBut.png"] forState:UIControlStateNormal];
+	}
+	if(mode==3) {
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"redChromeBut.png"] forState:UIControlStateNormal];
+	}
+	if(mode==4) {
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"whiteChromeBut.png"] forState:UIControlStateNormal];
+	}
+	if(mode==5) {
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundImage:[UIImage imageNamed:@"blueChromeBut.png"] forState:UIControlStateNormal];
+	}
+}
+
++(void)changeToModernThemeForButton:(UIButton *)button mode:(int)mode theme:(int)theme {
+	//	UIColor *color = [UIColor colorWithRed:1 green:.85 blue:0 alpha:1];
+	[button setBackgroundImage:nil forState:UIControlStateNormal];
+	[button setBackgroundImage:[UIImage imageNamed:@"greenBar.png"]
+					  forState:UIControlStateHighlighted];
+	
+	if(theme==0) { // modern
+		button.layer.cornerRadius = 7;
+		button.layer.masksToBounds = NO;
+		button.layer.shadowColor = [UIColor blackColor].CGColor;
+		button.layer.shadowOffset = CGSizeMake(4, 4);
+		button.layer.shadowRadius = 5;
+		button.layer.shadowOpacity = 0.85;
+		button.layer.borderWidth = 0;
+	} else if (theme==1) { //flat
+		button.layer.cornerRadius = 0;
+		button.layer.masksToBounds = YES;
+		button.layer.shadowOffset = CGSizeMake(0, 0);
+		button.layer.shadowRadius = 0;
+		button.layer.shadowOpacity = 0;
+		button.layer.borderWidth = 0;
+	} else { // outline
+		button.layer.cornerRadius = 4;
+		button.layer.masksToBounds = NO;
+		button.layer.shadowOffset = CGSizeMake(2, 2);
+		button.layer.shadowRadius = 5;
+		button.layer.shadowOpacity = 1;
+		button.layer.shadowColor = [UIColor whiteColor].CGColor;
+		button.layer.borderColor = [UIColor blackColor].CGColor;
+		button.layer.borderWidth = 1;
+	}
+
+	if(mode==0) { // yellow
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[ProjectFunctions primaryButtonColor]];
+		
+	}
+	if(mode==1) { // green
+		button.layer.borderColor = [UIColor whiteColor].CGColor;
+		button.layer.borderWidth = 1;
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[ProjectFunctions themeBGColor]];
+		//[UIColor colorWithRed:.2 green:.8 blue:.2 alpha:1]
+	}
+	if(mode==2) { // gray
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]];
+		
+	}
+	if(mode==3) { // red
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+		
+	}
+	if(mode==4) { // dark gray
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[UIColor colorWithRed:.6 green:.6 blue:.6 alpha:1]];
+		
+	}
+	if(mode==5) { // blue
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[button setBackgroundColor:[UIColor colorWithRed:0 green:.6 blue:1 alpha:1]];
+		
+	}
+	
+}
+
 +(float)chartHeightForSize:(float)height {
 	float width = [[UIScreen mainScreen] bounds].size.width;
 	if(width<320)
@@ -4277,46 +4478,138 @@
 	return YES;
 }
 
++(NSString *)scrubFilterValue:(NSString *)value {
+	if(value.length>3 && [@"All" isEqualToString:[value substringToIndex:3]])
+		return NSLocalizedString(@"All", nil);
+	if([@"LifeTime" isEqualToString:value])
+		return NSLocalizedString(@"All", nil);
+	return value;
+}
 
++(int)appThemeNumber {
+	return [[ProjectFunctions getUserDefaultValue:@"themeNumber"] intValue];
+}
 
++(int)themeBGNumber {
+	NSArray *colors = [self bgThemeColors];
+	int number = [[ProjectFunctions getUserDefaultValue:@"bgThemeColorNumber"] intValue];
+	if(number<0) {
+		number+=(colors.count*10);
+	}
+	return number%colors.count;
+}
 
++(UIColor *)themeBGColor {
+	NSArray *colors = [self bgThemeColors];
+	int number = [[ProjectFunctions getUserDefaultValue:@"bgThemeColorNumber"] intValue];
+	if(number<0) {
+		number+=(colors.count*10);
+	}
+	return [colors objectAtIndex:number%colors.count];
+}
 
++(NSArray *)bgThemeColors {
+	return [NSArray arrayWithObjects:
+			[UIColor colorWithRed:0 green:.6 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.4 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.3 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.2 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:1],
+			[UIColor colorWithRed:.5 green:.5 blue:.5 alpha:1],
+			[UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1],
+			[UIColor colorWithRed:.3 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:.3 alpha:1],
+			[UIColor colorWithRed:0 green:.3 blue:.3 alpha:1],
+			[UIColor colorWithRed:.3 green:0 blue:.3 alpha:1],
+			[UIColor colorWithRed:.3 green:.3 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.7 blue:0 alpha:1],
+			[UIColor colorWithRed:1 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:1 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:0 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.7 blue:0 alpha:1],
+			nil];
+}
 
++(int)primaryColorNumber {
+	NSArray *colors = [self primaryButtonColors];
+	int number = [[ProjectFunctions getUserDefaultValue:@"primaryColorNumber"] intValue];
+	if(number<0) {
+		number+=colors.count;
+	}
+	int primaryColorNumber = number%colors.count;
+	return primaryColorNumber;
+}
 
++(UIColor *)primaryButtonColor {
+	NSArray *colors = [self primaryButtonColors];
+	int number = [self primaryColorNumber];
+	return [colors objectAtIndex:number%colors.count];
+}
 
++(NSArray *)primaryButtonColors {
+	return [NSArray arrayWithObjects:
+			[UIColor colorWithRed:1 green:.94 blue:.25 alpha:1],
+			[UIColor colorWithRed:1 green:.9 blue:.1 alpha:1],
+			[UIColor colorWithRed:1 green:.8 blue:0 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:.2 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:.8 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:1 alpha:1],
+			[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1],
+			[UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1],
+			[UIColor colorWithRed:1 green:.8 blue:.8 alpha:1],
+			[UIColor colorWithRed:.8 green:1 blue:.8 alpha:1],
+			[UIColor colorWithRed:.8 green:.8 blue:1 alpha:1],
+			[UIColor colorWithRed:.8 green:1 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:.8 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:.8 alpha:1],
+			[UIColor colorWithRed:1 green:.5 blue:.5 alpha:1],
+			[UIColor colorWithRed:.2 green:.7 blue:1 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:0 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:0 alpha:1],
+			nil];
+}
 
++(int)segmentColorNumber {
+	NSArray *colors = [self bgThemeColors];
+	int number = [[ProjectFunctions getUserDefaultValue:@"segmentColorNumber"] intValue];
+	if(number<0) {
+		number+=(colors.count*10);
+	}
+	return number%colors.count;
+}
 
++(UIColor *)segmentThemeColor {
+	NSArray *colors = [self bgThemeColors];
+	int number = [[ProjectFunctions getUserDefaultValue:@"segmentColorNumber"] intValue];
+	if(number<0) {
+		number+=(colors.count*10);
+	}
+	return [colors objectAtIndex:number%colors.count];
+}
 
++(BOOL)getThemeBGImageFlg {
+	return [[ProjectFunctions getUserDefaultValue:@"themBGImageFlg"] isEqualToString:@"Y"];
+}
 
++(int)getThemeBGImageColor {
+	return [[ProjectFunctions getUserDefaultValue:@"themeBGImageColor"] intValue];
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++(UIImage *)bgThemeImage {
+	int number = [self getThemeBGImageColor];
+	NSArray *images = [NSArray arrayWithObjects:
+					   @"greenFelt5.jpg",
+					   @"bluefelt.jpg",
+					   @"redfelt.jpg",
+					   nil];
+	return [UIImage imageNamed:[images objectAtIndex:number]];
+}
 
 
 

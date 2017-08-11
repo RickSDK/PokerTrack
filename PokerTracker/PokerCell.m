@@ -9,6 +9,7 @@
 #import "PokerCell.h"
 #import "UIColor+ATTColor.h"
 #import "CardHandPicker.h"
+#import "ProjectFunctions.h"
 
 #define kCellLeftOffset			8.0
 #define kTextWidth				160.0
@@ -31,7 +32,7 @@
 		selection.adjustsFontSizeToFitWidth = YES;
 		selection.minimumScaleFactor = .7;
 		selection.textAlignment = NSTextAlignmentRight;
-		selection.textColor = [UIColor ATTBlue];
+		selection.textColor = [ProjectFunctions themeBGColor];
         selection.backgroundColor = [UIColor clearColor];
 		
 		[self.contentView addSubview:selection];
@@ -84,8 +85,6 @@
 		card3Label.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:card3Label];
 		
-		// calling this in 3.0 causes selection highlighting to have square corners even though table style is Grouped
-		//		[self layoutSubviews];
     }
     return self;
 }
@@ -120,7 +119,7 @@
 	cell.textLabel.text = cellLabel;
 	cell.selection.text = cellValue;
 	
-	cell.backgroundColor = [UIColor ATTFaintBlue];
+	cell.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
 	if(viewEditable)
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

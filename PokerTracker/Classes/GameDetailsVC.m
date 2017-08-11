@@ -54,9 +54,13 @@
 
 	self.textViewBG.alpha=0;
 	self.activityLabel.alpha=0;
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18 text:@"HUD"];
+	[self.hudButton assignMode:1];
+	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:18];
+	[self.deleteButton assignMode:3];
 	self.deleteButton.enabled=NO;
 	self.hudButton.enabled=NO;
-	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18 text:@"HUD"];
+	
 	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 	
 }

@@ -54,6 +54,9 @@
 	[ProjectFunctions makeFAButton:self.playerTrackerButton type:3 size:20 text:@"Player Tracker"];
 	[ProjectFunctions makeFAButton:self.handTrackerButton type:29 size:20 text:@"Hand Tracker"];
 	[ProjectFunctions makeFAButton:self.hudTrackerButton type:5 size:20 text:@"HUD Tracker"];
+	[ProjectFunctions newButtonLook:self.playerTrackerButton mode:0];
+	[ProjectFunctions newButtonLook:self.handTrackerButton mode:0];
+	[ProjectFunctions newButtonLook:self.hudTrackerButton mode:0];
 }
 
 

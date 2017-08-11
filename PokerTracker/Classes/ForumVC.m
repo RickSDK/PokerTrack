@@ -172,8 +172,7 @@
         cell.dateLabel.alpha=1;
         
 
-        cell.backgroundColor = [UIColor orangeColor];
-        cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"orngGrad.png"]];
+        cell.backgroundColor = [ProjectFunctions primaryButtonColor];
         cell.textLabel.textColor = [UIColor blackColor];
         NSString *post = [[self.forumPostings objectAtIndex:indexPath.section] objectAtIndex:indexPath.row-1];
         NSArray *parts = [post componentsSeparatedByString:@"|"];
@@ -182,16 +181,10 @@
             cell.userLabel.text=[parts objectAtIndex:5];
             cell.dateLabel.text=[parts objectAtIndex:7];
             int minutes = [[parts objectAtIndex:6] intValue];
-            int replies = [[parts objectAtIndex:9] intValue];
-            if(replies>0) {
-                cell.repliesNumber.text=[parts objectAtIndex:9];
-				cell.mainImg.image = nil;
-            } else {
-                cell.repliesLabel.alpha=0;
-                cell.repliesNumber.alpha=0;
-                cell.mainImg.image = [UIImage imageNamed:@"IconImg.png"];
-            }
-            if(minutes<720)
+            cell.repliesNumber.text=[parts objectAtIndex:9];
+			cell.mainImg.image = nil;
+
+			if(minutes<720)
                 cell.dateLabel.text=@"Today";
             cell.bodyLabel.text=[parts objectAtIndex:8];
             if([@"Y" isEqualToString:[parts objectAtIndex:4]])

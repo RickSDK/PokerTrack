@@ -5,6 +5,7 @@
 
 #import "MultiLineDetailCellWordWrap.h"
 #import "UIColor+ATTColor.h"
+#import "ProjectFunctions.h"
 
 static NSInteger FONT_SIZE			= 14;
 static NSInteger COLUMN_SEP			= 6;
@@ -209,7 +210,7 @@ static NSInteger X_INSET			= 5;
 		
 		alternateTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		alternateTitleLabel.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
-		alternateTitleLabel.textColor = [UIColor ATTBlue];
+		alternateTitleLabel.textColor = [ProjectFunctions themeBGColor];
 		alternateTitleLabel.textAlignment = NSTextAlignmentRight;
 		alternateTitleLabel.backgroundColor = [UIColor clearColor];
 		//alternateTitleLabel.backgroundColor = [UIColor yellowColor];
@@ -221,6 +222,7 @@ static NSInteger X_INSET			= 5;
 		gridViewArray = [[NSMutableArray alloc] init];
 		
 		UIColor *faintColor = [UIColor ATTCellRowShading];
+		faintColor = [UIColor colorWithWhite:.95 alpha:1];
 
 		UILabel *label;
 		UIView *grid;
@@ -228,7 +230,7 @@ static NSInteger X_INSET			= 5;
 		for (int i=0; i<rows; i++) {
 			// Add grid first so it is at the back;
 			grid = [[UIView alloc] initWithFrame:CGRectZero];
-			grid.backgroundColor = (i % 2 == 0 ? faintColor : [UIColor clearColor]);
+			grid.backgroundColor = (i % 2 == 0 ? faintColor : [UIColor whiteColor]);
 			[gridViewArray addObject:grid];
 			[self.contentView addSubview:grid];
 			
@@ -281,10 +283,10 @@ static NSInteger X_INSET			= 5;
 			[[fieldLabelArray objectAtIndex:i] setTextColor:[UIColor whiteColor]];
 		}
     } else {
-		[mainTitleLabel setTextColor:[UIColor colorWithRed:.3 green:0 blue:.3 alpha:1]];
+		[mainTitleLabel setTextColor:[ProjectFunctions themeBGColor]];
 		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
-			[[titleLabelArray objectAtIndex:i] setTextColor:(labelColor ? labelColor : [UIColor ATTBlue])];
+			[[titleLabelArray objectAtIndex:i] setTextColor:(labelColor ? labelColor : [UIColor colorWithWhite:.4 alpha:1])];
             if([fieldColorArray count]>i)
                 [[fieldLabelArray objectAtIndex:i] setTextColor:[fieldColorArray objectAtIndex:i]];
 		}
@@ -329,15 +331,18 @@ static NSInteger X_INSET			= 5;
 			fieldRect.origin.y += label.frame.size.height;	// add height of previous line
 			gridRect.origin.y = titleRect.origin.y = fieldRect.origin.y;
 		}
-
-		label = [titleLabelArray objectAtIndex:i];
-		label.frame = titleRect;		
-		
-		fieldRect.size.height = 20000.0f; //large #
-		label = [fieldLabelArray objectAtIndex:i];
-		size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:fieldRect.size lineBreakMode:NSLineBreakByWordWrapping];
-		fieldRect.size.height = MAX(size.height,rowHeight);
-		label.frame = fieldRect;
+		if(titleLabelArray.count>i) {
+			label = [titleLabelArray objectAtIndex:i];
+			if(label) {
+				label.frame = titleRect;
+				
+				fieldRect.size.height = 20000.0f; //large #
+				label = [fieldLabelArray objectAtIndex:i];
+				size = [label.text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:fieldRect.size lineBreakMode:NSLineBreakByWordWrapping];
+				fieldRect.size.height = MAX(size.height,rowHeight);
+				label.frame = fieldRect;
+			}
+		}
 		
 		gridRect.size.height = fieldRect.size.height;
 		((UIView *)[gridViewArray objectAtIndex:i]).frame = gridRect;

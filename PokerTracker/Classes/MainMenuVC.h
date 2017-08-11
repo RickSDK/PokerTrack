@@ -41,9 +41,6 @@
 	IBOutlet UILabel *casinoLabel;
 	IBOutlet UILabel *forumNumLabel;
 	
-	IBOutlet UIImageView *openGamesCircle;
-	IBOutlet UIImageView *friendsNumCircle;
-	IBOutlet UIImageView *forumNumCircle;
 	IBOutlet UIImageView *graphChart;
 	IBOutlet UIImageView *largeGraph;
 	
@@ -71,6 +68,7 @@
 -(IBAction)emailButtonClicked:(id)sender;
 -(IBAction)editButtonClicked:(id)sender;
 -(IBAction)analysisButtonClicked:(id)sender;
+-(IBAction)themeOkButtonClicked:(id)sender;
 -(void)calculateStats;
 -(BOOL)isPokerZilla;
 
@@ -89,7 +87,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *iNewGameLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *statusImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *pokerZillaImageView;
-@property (nonatomic, strong) UIImageView *friendsNumCircle;
 @property (nonatomic, strong) UILabel *friendsNumLabel;
 @property (nonatomic) BOOL displayBySession;
 @property (nonatomic) BOOL rotateLock;
@@ -120,14 +117,17 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorNet;
 
 
-@property (nonatomic, strong) UIImageView *openGamesCircle;
 @property (nonatomic, strong) UILabel *openGamesLabel;
 @property (nonatomic, strong) UILabel *bankrollLabel;
 @property (nonatomic, strong) UILabel *bankrollNameLabel;
 @property (nonatomic, strong) UILabel *forumNumLabel;
-@property (nonatomic, strong) UIImageView *forumNumCircle;
 
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@property (nonatomic, strong) IBOutlet UIView *themeView;
+@property (nonatomic, strong) IBOutlet PopupView *themePopup;
+@property (nonatomic, strong) IBOutlet UILabel *arrowLabel;
+
 
 @end

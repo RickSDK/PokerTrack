@@ -15,6 +15,43 @@
 
 @implementation TemplateVC
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	self.webServiceElements = [[NSMutableArray alloc] init];
+	self.textFieldElements = [[NSMutableArray alloc] init];
+	self.mainArray = [[NSMutableArray alloc] init];
+	
+	self.popupView.hidden=YES;
+	self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self screenWidth], [self screenHeight])];
+	self.bgImageView.image = [ProjectFunctions bgThemeImage];
+	[self.view addSubview:self.bgImageView];
+	[self.view sendSubviewToBack:self.bgImageView];
+	self.bgImageView.hidden=![ProjectFunctions getThemeBGImageFlg];
+
+	
+	self.webServiceView = [[WebServiceView alloc] initWithFrame:CGRectMake(36, 203, 257, 178)];
+	[self.view addSubview:self.webServiceView];
+	
+	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowLeft] target:self action:@selector(backButtonClicked)];
+	
+	self.startDegree=0;
+	[self.mainTableView setBackgroundView:nil];
+	[self.ptpGameSegment turnIntoGameSegment];
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
+	[self.yearChangeView setYear:-1 min:currentMinYear];
+	[self.yearChangeView addTargetSelector:@selector(yearChanged) target:self];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	
+	self.view.backgroundColor = [ProjectFunctions themeBGColor];
+}
+
 -(BOOL)isPokerZilla {
 	return [ProjectFunctions isPokerZilla];
 }
@@ -25,33 +62,6 @@
 
 -(float)screenHeight {
 	return [[UIScreen mainScreen] bounds].size.height;
-}
-
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	self.webServiceElements = [[NSMutableArray alloc] init];
-	self.textFieldElements = [[NSMutableArray alloc] init];
-	self.mainArray = [[NSMutableArray alloc] init];
-	
-	self.popupView.hidden=YES;
-	self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [self screenWidth], [self screenHeight])];
-	self.bgImageView.image = [UIImage imageNamed:@"greenFelt.png"];
-	[self.view addSubview:self.bgImageView];
-	[self.view sendSubviewToBack:self.bgImageView];
-	
-	self.webServiceView = [[WebServiceView alloc] initWithFrame:CGRectMake(36, 203, 257, 178)];
-	[self.view addSubview:self.webServiceView];
-	
-	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowLeft] target:self action:@selector(backButtonClicked)];
-
-	self.startDegree=0;
-	[self.mainTableView setBackgroundView:nil];
-	[self.ptpGameSegment turnIntoGameSegment];
-	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
-	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
-	[self.yearChangeView setYear:-1 min:currentMinYear];
-	[self.yearChangeView addTargetSelector:@selector(yearChanged) target:self];
 }
 
 -(void)yearChanged {
@@ -74,7 +84,7 @@
 	ptpLabel.numberOfLines = 1;
 	ptpLabel.font = [UIFont boldSystemFontOfSize: 8.0f];
 	ptpLabel.textAlignment = NSTextAlignmentCenter;
-	ptpLabel.textColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1]; // mustard
+	ptpLabel.textColor = [ProjectFunctions primaryButtonColor]; // mustard
 	ptpLabel.text = @"-Poker Track Pro-";
 	
 	UILabel *mainLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, width-70, 24)];
@@ -138,12 +148,6 @@
 
 -(void)backButtonClicked {
 	[self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size

@@ -64,6 +64,7 @@
 		}
 	}
 	self.mainSegment.selectedSegmentIndex = [[ProjectFunctions getUserDefaultValue:@"IconGroupNumber"] intValue];
+	[self.mainSegment changeSegment];
 	[self setupImages];
 }
 
@@ -82,11 +83,11 @@
 
 -(void)savePressed {
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", (int)self.mainSegment.selectedSegmentIndex] forKey:@"IconGroupNumber"];
-	[ProjectFunctions showAlertPopup:@"Icons Changed" message:@""];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 -(IBAction)segmentChanged:(id)sender {
+	[self.mainSegment changeSegment];
 	[self setupImages];
 }
 

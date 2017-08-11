@@ -19,8 +19,8 @@
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UISegmentedControl *gameSegment;
-	IBOutlet UISegmentedControl *customSegment;
+	IBOutlet CustomSegment *gameSegment;
+	IBOutlet CustomSegment *customSegment;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIImageView *chartImageView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -46,7 +46,7 @@
 	
 }
 
--(void)setFilterIndex:(int)row_id;
+//-(void)setFilterIndex:(int)row_id;
 -(void)chooseFilterObj:(NSManagedObject *)mo;
 
 -(void) computeStats;
@@ -64,8 +64,8 @@
 @property (atomic) int selectedFieldIndex;
 @property (atomic) BOOL displayBySession;
 @property (atomic) BOOL viewLocked;
-@property (atomic, strong) UISegmentedControl *gameSegment;
-@property (atomic, strong) UISegmentedControl *customSegment;
+@property (atomic, strong) CustomSegment *gameSegment;
+@property (atomic, strong) CustomSegment *customSegment;
 
 @property (atomic) int displayYear;
 @property (atomic) int buttonNum;

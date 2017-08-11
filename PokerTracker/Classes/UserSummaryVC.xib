@@ -34,14 +34,13 @@
                         <outlet property="delegate" destination="-1" id="46"/>
                     </connections>
                 </tableView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="Gne-ye-MNr">
-                    <rect key="frame" x="-1" y="372" width="320" height="44"/>
+                <view contentMode="scaleToFill" id="5kJ-IX-ZNg">
+                    <rect key="frame" x="0.0" y="369" width="320" height="47"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <items/>
-                </toolbar>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="36">
-                    <rect key="frame" x="-1" y="371" width="145" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="36" customClass="PtpButton">
+                    <rect key="frame" x="2" y="374" width="145" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Remove Friend" backgroundImage="redChromeBut.png">
@@ -52,8 +51,8 @@
                         <action selector="removeButtonPressed:" destination="-1" eventType="touchDown" id="38"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="20">
-                    <rect key="frame" x="173" y="371" width="145" height="45"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="20" customClass="PtpButton">
+                    <rect key="frame" x="172" y="374" width="145" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -65,8 +64,8 @@
                         <action selector="viewButtonPressed:" destination="-1" eventType="touchDown" id="22"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="10">
-                    <rect key="frame" x="-1" y="371" width="145" height="45"/>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="10" customClass="PtpButton">
+                    <rect key="frame" x="2" y="374" width="145" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
                     <size key="titleShadowOffset" width="1" height="1"/>

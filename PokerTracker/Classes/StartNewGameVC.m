@@ -52,9 +52,14 @@
 	[ProjectFunctions makeFALabel:self.locationLabel type:13 size:22];
 	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
 	[ProjectFunctions makeFAButton:self.addCasinoButton type:1 size:18];
+	[ProjectFunctions makeFAButton:self.startLiveButton type:9 size:30 text:NSLocalizedString(@"Start", nil)];
+	[ProjectFunctions newButtonLook: self.startLiveButton mode:1];
 	
-	self.startLiveButton.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
-	[self.startLiveButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPlay] forState:UIControlStateNormal];
+	[ProjectFunctions newButtonLook:self.completedButton mode:2];
+	[ProjectFunctions newButtonLook:self.completed2Button mode:2];
+	[ProjectFunctions newButtonLook:self.buyinButton mode:0];
+	[ProjectFunctions newButtonLook:self.buyinPopupButton mode:0];
+	[ProjectFunctions newButtonLook:self.chipsPopupButton mode:0];
 	
 	[ProjectFunctions populateSegmentBar:self.blindTypeSegmentBar mOC:self.managedObjectContext];
 	
@@ -69,6 +74,7 @@
 	
 	[bankrollButton setTitle:[ProjectFunctions getUserDefaultValue:@"bankrollDefault"] forState:UIControlStateNormal];
 	[locationButton setTitle:[ProjectFunctions getUserDefaultValue:@"locationDefault"] forState:UIControlStateNormal];
+	[ProjectFunctions newButtonLook:locationButton mode:0];
 	
 	self.locationManager = [[CLLocationManager alloc] init];
 	self.locationManager.delegate = self;
@@ -178,7 +184,6 @@
     NSLog(@"howRecent: %f", howRecent);
     if (abs(howRecent) < 5.0)
     {
-//        [manager stopUpdatingLocation];
 		
 		currentLocation = newLocation;
 		
@@ -186,33 +191,28 @@
 			  newLocation.coordinate.latitude,
 			  newLocation.coordinate.longitude);
     }
-    // else skip the event and process the next one.
-}
+ }
 
 -(void)setupSegments
 {
-	[ProjectFunctions setFontColorForSegment:gameTypeSegmentBar values:[NSArray arrayWithObjects:@"Cash Game", @"Tournament", nil]];
-    
 	NSString *buyinAmount = @"";
 	[gameTypeSegmentBar gameSegmentChanged];
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
- //       [gameTypeSegmentBar setTintColor:[UIColor colorWithRed:.9 green:.7 blue:0 alpha:1]];
-		blindTypeSegmentBar.alpha=1;
+ 		blindTypeSegmentBar.alpha=1;
 		TourneyTypeSegmentBar.alpha=0;
 		[ProjectFunctions setUserDefaultValue:@"Cash" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
+		[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
 	} else {
- //       [self.gameTypeSegmentBar setTintColor:[UIColor colorWithRed:0 green:.7 blue:.9 alpha:1]];
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
+		[buyinButton setTitle:@"-Click Here-" forState:UIControlStateNormal];
+		[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
 	}
-	[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
-	[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
-
 }
 
 - (IBAction) gameTypeSegmentPressed: (id) sender 
@@ -395,15 +395,6 @@
 -(void)setLocationButtonTitle:(NSString *)title mode:(int)mode
 {
 	[locationButton setTitle:[NSString stringWithFormat:@"%@", title] forState:UIControlStateNormal];
-	if(mode==1) {
-		[locationButton setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
-		[locationButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[locationButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	} else {
-		[locationButton setBackgroundImage:[UIImage imageNamed:@"blackChromeBut.png"] forState:UIControlStateNormal];
-		[locationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-		[locationButton setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
-	}
 }
 
 
@@ -462,23 +453,34 @@
 	}
 }
 
-
-- (IBAction) startButtonPressed: (id) sender 
-{
-	
-	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinButton.titleLabel.text];
+-(BOOL)chipCheckBuyin:(NSString *)buyinStr {
+	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinStr];
 	if(buyInAmount==0) {
 		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
-		return;
+		return NO;
 	}
 	if(self.gameTypeSegmentBar.selectedSegmentIndex==1) {
 		float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:self.chipsPopupButton.titleLabel.text];
 		if(buyInAmount==0) {
 			self.tournyPopupView.hidden=NO;
 			[ProjectFunctions showAlertPopup:@"Starting chips must be greater than 0" message:@""];
-			return;
+			return NO;
 		}
 	}
+	return YES;
+}
+
+- (IBAction) okButtonPressed: (id) sender {
+	[buyinButton setTitle:self.buyinPopupButton.titleLabel.text forState:UIControlStateNormal];
+	if(![self chipCheckBuyin:self.buyinPopupButton.titleLabel.text])
+		return;
+	self.tournyPopupView.hidden=YES;
+}
+
+- (IBAction) startButtonPressed: (id) sender 
+{
+	if(![self chipCheckBuyin:buyinButton.titleLabel.text])
+		return;
 
 	NSString *location = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", location];

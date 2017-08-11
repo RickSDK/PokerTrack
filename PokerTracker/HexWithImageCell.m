@@ -12,6 +12,7 @@
 
 
 #import "HexWithImageCell.h"
+#import "ProjectFunctions.h"
 
 
 static NSInteger FONT_SIZE = 12;
@@ -329,7 +330,13 @@ static NSInteger ROW_SEP = 2;
 	cell.b1Color = [UIColor orangeColor];
 	
 	if(netUserObj.nowPlayingFlg) {
+		[ProjectFunctions makeFALabel:cell.b1 type:1 size:10];
 		cell.b1.text = [NSString stringWithFormat:@"Now Playing: %@", netUserObj.lastGame.location];
+		if(netUserObj.lastGame.profit>0)
+			cell.b1.text = [NSString stringWithFormat:@"%@ Now Playing: %@", [NSString fontAwesomeIconStringForEnum:FAArrowUp], netUserObj.lastGame.location];
+		if(netUserObj.lastGame.profit<0)
+			cell.b1.text = [NSString stringWithFormat:@"%@ Now Playing: %@", [NSString fontAwesomeIconStringForEnum:FAArrowDown], netUserObj.lastGame.location];
+		
 		cell.b1Color = [UIColor purpleColor];
 	}
 	

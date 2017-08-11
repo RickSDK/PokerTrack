@@ -35,6 +35,8 @@
 	
 	[ProjectFunctions makeFAButton:self.trashbutton1 type:0 size:18];
 	[ProjectFunctions makeFAButton:self.trashbutton2 type:0 size:18];
+	[self.trashbutton1 assignMode:0];
+	[self.trashbutton2 assignMode:0];
 	self.trashbutton1.enabled=NO;
 	self.trashbutton2.enabled=NO;
 	self.editModeLabel2.hidden=YES;
@@ -47,11 +49,19 @@
 	[ProjectFunctions makeFAButton:self.checkButton1 type:22 size:18];
 	[ProjectFunctions makeFAButton:self.callButton1 type:23 size:18];
 	[ProjectFunctions makeFAButton:self.raiseButton1 type:24 size:18];
+	[self.foldButton1 assignMode:0];
+	[self.checkButton1 assignMode:0];
+	[self.callButton1 assignMode:0];
+	[self.raiseButton1 assignMode:0];
 	
 	[ProjectFunctions makeFAButton:self.foldButton2 type:21 size:18];
 	[ProjectFunctions makeFAButton:self.checkButton2 type:22 size:18];
 	[ProjectFunctions makeFAButton:self.callButton2 type:23 size:18];
 	[ProjectFunctions makeFAButton:self.raiseButton2 type:24 size:18];
+	[self.foldButton2 assignMode:0];
+	[self.checkButton2 assignMode:0];
+	[self.callButton2 assignMode:0];
+	[self.raiseButton2 assignMode:0];
 	
 	[ProjectFunctions makeFAButton:self.linkPlayerButton type:36 size:16];
 	[ProjectFunctions makeFAButton:self.linkGameButton type:36 size:16];

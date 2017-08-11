@@ -11,9 +11,9 @@
 
 @interface FriendTrackerVC : TemplateVC {
 	IBOutlet UILabel *datelabel;
-	IBOutlet UISegmentedControl *topSegment;
-	IBOutlet UISegmentedControl *sortSegment;
-	IBOutlet UISegmentedControl *timeFrameSegment;
+	IBOutlet CustomSegment *topSegment;
+	IBOutlet CustomSegment *sortSegment;
+	IBOutlet CustomSegment *timeFrameSegment;
 	IBOutlet UIButton *friendButton;
     IBOutlet UIImageView *chartImageView;
     IBOutlet UIImageView *chartLast10ImageView;
@@ -36,9 +36,9 @@
 @property (atomic, strong) UIImageView *chartLast10ImageView;
 @property (atomic, strong) UIImageView *chartThisMonthImageView;
 @property (atomic, strong) UILabel *datelabel;
-@property (atomic, strong) UISegmentedControl *topSegment;
-@property (atomic, strong) UISegmentedControl *sortSegment;
-@property (atomic, strong) UISegmentedControl *timeFrameSegment;
+@property (atomic, strong) CustomSegment *topSegment;
+@property (atomic, strong) CustomSegment *sortSegment;
+@property (atomic, strong) CustomSegment *timeFrameSegment;
 @property (atomic, strong) UIButton *friendButton;
 
 @property (atomic, strong) IBOutlet UIView *addFriendView;

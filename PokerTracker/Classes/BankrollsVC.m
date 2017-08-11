@@ -32,14 +32,6 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 - (IBAction) withdrawButtonClicked:(id)sender
 {
     self.menuOption=2;
@@ -85,9 +77,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(selectedFlg && indexpathRow==indexPath.row) {
-        deleteButton.alpha=0;
-        editAmountButton.alpha=0;
-        editDateButton.alpha=0;
+        deleteButton.enabled=NO;
+        editAmountButton.enabled=NO;
+        editDateButton.enabled=NO;
         [mainTableView reloadData];
         self.selectedFlg=NO;
         return;
@@ -105,15 +97,9 @@
     }
 
 	self.rowNum = (int)indexPath.row;
-    deleteButton.alpha=1;
-    editAmountButton.alpha=1;
-    editDateButton.alpha=1;
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
+    deleteButton.enabled=YES;
+    editAmountButton.enabled=YES;
+    editDateButton.enabled=YES;
 }
 
 - (IBAction) showAllButtonClicked:(id)sender {
@@ -121,7 +107,6 @@
 	[self.navigationController popViewControllerAnimated:YES];
     
 }
-
 
 -(void)updateBankrollDB
 {
@@ -201,9 +186,9 @@
 
 - (IBAction) deleteButtonClicked:(id)sender
 {
-    deleteButton.alpha=0;
-    editAmountButton.alpha=0;
-    editDateButton.alpha=0;
+    deleteButton.enabled=NO;
+    editAmountButton.enabled=NO;
+    editDateButton.enabled=NO;
 
     NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"type = 'bankrollLog' AND name = %@", [ProjectFunctions getUserDefaultValue:@"bankrollDefault"]];
     NSArray *items3 = [CoreDataLib selectRowsFromEntity:@"EXTRA2" predicate:predicate3 sortColumn:@"created" mOC:managedObjectContext ascendingFlg:YES];
@@ -242,9 +227,9 @@
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Set Amount" style:UIBarButtonItemStylePlain target:self action:@selector(setButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = moreButton;
     
-    deleteButton.alpha=0;
-    editAmountButton.alpha=0;
-    editDateButton.alpha=0;
+    deleteButton.enabled=NO;
+    editAmountButton.enabled=NO;
+    editDateButton.enabled=NO;
 
 
     int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
@@ -316,18 +301,18 @@
         
         [mo setValue:[NSNumber numberWithInt:valueAmount] forKey:@"attrib_01"];
         [managedObjectContext save:nil];
-        deleteButton.alpha=0;
-        editAmountButton.alpha=0;
-        editDateButton.alpha=0;
+        deleteButton.enabled=NO;
+        editAmountButton.enabled=NO;
+        editDateButton.enabled=NO;
         [self updateBankrollDB];
     }
     if(menuOption==5) { // edit date
         NSManagedObject *mo = [logObjects objectAtIndex:indexpathRow];
         [mo setValue:[value convertStringToDateWithFormat:nil] forKey:@"created"];
         [managedObjectContext save:nil];
-        deleteButton.alpha=0;
-        editAmountButton.alpha=0;
-        editDateButton.alpha=0;
+        deleteButton.enabled=NO;
+        editAmountButton.enabled=NO;
+        editDateButton.enabled=NO;
         [self updateBankrollDB];
     }
     if(menuOption==11) {

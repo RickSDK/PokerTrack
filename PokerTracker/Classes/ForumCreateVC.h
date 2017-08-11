@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface ForumCreateVC : UIViewController {
+@interface ForumCreateVC : TemplateVC {
 	IBOutlet UILabel *categoryLabel;
  	IBOutlet UIActivityIndicatorView *activityIndicator;
     IBOutlet UIImageView *actImageView;

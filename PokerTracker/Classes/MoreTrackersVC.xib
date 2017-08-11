@@ -17,10 +17,6 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="greenFelt2.png" id="4">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9">
                     <rect key="frame" x="58" y="56" width="205" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -64,7 +60,6 @@
         </view>
     </objects>
     <resources>
-        <image name="greenFelt2.png" width="320" height="480"/>
         <image name="yellowBigChromeBut.png" width="400" height="220"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

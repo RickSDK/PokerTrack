@@ -16,7 +16,7 @@
 	IBOutlet UIButton *addFriendButton;
 	IBOutlet UIButton *removeFriendButton;
 	IBOutlet UIButton *viewgameButton;
-    IBOutlet UISegmentedControl *topSegment;
+    IBOutlet CustomSegment *topSegment;
 	
 	IBOutlet UILabel *versionLabel;
 	IBOutlet UILabel *moneySymbolLabel;
@@ -43,7 +43,7 @@
 @property (atomic, strong) UIButton *addFriendButton;
 @property (atomic, strong) UIButton *removeFriendButton;
 @property (atomic, strong) UIButton *viewgameButton;
-@property (atomic, strong) UISegmentedControl *topSegment;
+@property (atomic, strong) CustomSegment *topSegment;
 
 @property (atomic, copy) NSString *friendName;
 @property (atomic, copy) NSString *latestMonth;

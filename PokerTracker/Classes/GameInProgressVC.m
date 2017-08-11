@@ -53,14 +53,14 @@
 	
 	self.currentStackLabel.text = NSLocalizedString(@"Current Chips", nil);
 	self.tokesLabel.text = NSLocalizedString(@"Tips", nil);
+	self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
+	self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
 	if(self.gameObj.tournamentGameFlg) {
 		self.foodLabel.text = @"# Players";
 		self.tokesLabel.text = @"Your Finish";
 	} else {
-		self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
-		self.foodLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString fontAwesomeIconStringForEnum:FACutlery], [NSString fontAwesomeIconStringForEnum:FAGlass]];
-		self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:18];
-		self.tokesLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
+		self.foodLabel.text = [NSString stringWithFormat:@"%@ Food/drinks", [NSString fontAwesomeIconStringForEnum:FACutlery]];
+		self.tokesLabel.text = [NSString stringWithFormat:@"%@ Tips", [NSString fontAwesomeIconStringForEnum:FAMoney]];
 	}
 
 	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
@@ -70,9 +70,12 @@
 	[ProjectFunctions makeFAButton:self.editButton type:5 size:16];
 
 	[ProjectFunctions makeFAButton:self.pauseButton type:7 size:16];
-	[ProjectFunctions makeFAButton:self.doneButton type:8 size:16];
+	[ProjectFunctions makeFAButton:self.doneButton type:8 size:24 text:@"End"];
 	[ProjectFunctions makeFAButton:self.rebuyButton type:25 size:24];
-	self.rebuyAmountLabel.text = NSLocalizedString(@"rebuy", nil);
+	self.pauseTimerLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
+	self.rebuyAmountLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
+	self.pauseTimerLabel.text = [NSString stringWithFormat:@"%@ Pause", [NSString fontAwesomeIconStringForEnum:FAPause]];
+	self.rebuyAmountLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FARepeat], NSLocalizedString(@"rebuy", nil)];
 
 	self.mainTableView.tableHeaderView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.01f)];
 	
@@ -81,8 +84,7 @@
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)];
 
-	pauseTimerLabel.alpha=0;
-	onBreakLabel.alpha=0;
+	onBreakLabel.hidden=YES;
 	[activityIndicator startAnimating];
 	
 	self.selectedObjectForEdit=0;
@@ -107,7 +109,6 @@
 	[self updatePicture];
 	[self setUpScreen];
 	[self liveUpdate];
-	pauseTimerLabel.alpha=(self.gameObj.breakMinutes>0)?1:0;
 	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 }
 
@@ -119,11 +120,6 @@
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
 	self.popupViewNumber=0;
-	if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
-		self.gamePaused=YES;
-		[self pauseScreen];
-	} else
-		self.gamePaused=NO;
 	
 	self.viewLoadedFlg=YES;
 	self.gameInProgress=YES;
@@ -131,6 +127,12 @@
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	[self.multiCellObj populateObjWithGame:self.gameObj];
 	[self.mainTableView reloadData];
+
+	if([[mo valueForKey:@"onBreakFlag"] isEqualToString:@"Y"]) {
+		self.gamePaused=YES;
+		[self pauseScreen];
+	} else
+		self.gamePaused=NO;
 
 	[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
 }
@@ -248,14 +250,18 @@
 
 - (IBAction) chipsButtonPressed: (id) sender
 {
+	[self gotoChipUpdate:[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text]];
+}
+
+-(void)gotoChipUpdate:(NSString *)chips {
 	self.cashUpdatedFlg=YES;
 	self.selectedObjectForEdit=3;
-    self.popupViewNumber=0;
+	self.popupViewNumber=0;
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.callBackViewController = self;
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.titleLabel = @"Current Chips";
-	detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text];
+	detailViewController.initialDateValue = chips;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -268,21 +274,33 @@
 
 -(void)pauseScreen {
 	NSLog(@"Screen is paused");
-	self.chipStackButton.enabled=NO;
-	self.doneButton.enabled=NO;
 	[activityIndicator stopAnimating];
-	onBreakLabel.alpha=1;
-	grayPauseBG.alpha=.5;
+	self.mainTableView.alpha=.5;
 	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPlay] forState:UIControlStateNormal];
+	[self enableButtons:!self.gamePaused];
 }
 
 -(void)unPauseScreen {
-	self.doneButton.enabled=YES;
-	self.chipStackButton.enabled=YES;
 	[activityIndicator startAnimating];
-	onBreakLabel.alpha=0;
-	grayPauseBG.alpha=0;
+	self.mainTableView.alpha=1;
 	[self.pauseButton setTitle:[NSString fontAwesomeIconStringForEnum:FAPause] forState:UIControlStateNormal];
+	[self enableButtons:!self.gamePaused];
+}
+
+-(void)enableButtons:(BOOL)enabled {
+	onBreakLabel.hidden=enabled;
+	
+	self.notesButton.enabled=enabled;
+	self.graphButton.enabled=enabled;
+	self.editButton.enabled=enabled;
+
+	self.doneButton.enabled=enabled;
+	self.chipStackButton.enabled=enabled;
+
+	self.foodButton.enabled=enabled;
+	self.tokesButton.enabled=enabled;
+	self.rebuyButton.enabled=enabled;
+
 }
 
 - (IBAction) pauseButtonPressed: (id) sender
@@ -290,13 +308,11 @@
 	self.gamePaused = ! self.gamePaused;
 	
 	 if(self.gamePaused) {
-		 pauseTimerLabel.alpha=0;
 		 [mo setValue:[NSDate date] forKey:@"endTime"];
 		 [mo setValue:@"Y" forKey:@"onBreakFlag"];
 		 [self saveDatabase];
 		 [self pauseScreen];
 	 } else {
-		 pauseTimerLabel.alpha=1;
 		 int totalSeconds = [[NSDate date] timeIntervalSinceDate:[mo valueForKey:@"endTime"]];
 		 int breakMinutes = [[mo valueForKey:@"breakMinutes"] intValue];
 		 breakMinutes += totalSeconds/60;
@@ -329,18 +345,13 @@
 	NSLog(@"+++startWebServiceCall");
 	[self.webServiceView startWithTitle:message];
 	[self.webServiceView showCancelButton];
-	self.chipStackButton.enabled=NO;
-	self.rebuyButton.enabled=NO;
-	self.pauseButton.enabled=NO;
+	[self enableButtons:NO];
 }
 
 -(void)endWebServiceCall {
 	NSLog(@"+++endWebServiceCall");
 	[self.webServiceView stop];
-	self.chipStackButton.enabled=YES;
-	self.rebuyButton.enabled=YES;
-	self.pauseButton.enabled=YES;
-	self.doneButton.enabled=YES;
+	[self enableButtons:!self.gamePaused];
 }
 
 -(void)sendEndGameMessageWebRequest
@@ -478,13 +489,14 @@
 	}
 	if(popupViewNumber==99) {
 		NSString *intitialAmount=[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text];
+		intitialAmount = self.gameObj.buyInAmountStr;
 		if(buttonIndex==0)
 			self.addOnFlg=YES;
 		else {
 			self.addOnFlg=NO;
 			intitialAmount=@"0";
 		}
-		
+		NSLog(@"rebuyAmount");
 		MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		[detailViewController setCallBackViewController:self];
@@ -616,8 +628,8 @@
 	if(hours==0 && breakSeconds==0)
 		pauseTimerText = [NSString stringWithFormat:@"%d min", minutes];
 	
-	
-	[pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
+	if(breakSeconds>0)
+		[pauseTimerLabel performSelectorOnMainThread:@selector(setText: ) withObject:pauseTimerText waitUntilDone:YES];
 	[hourlyLabel performSelectorOnMainThread:@selector(setText: ) withObject:hourlytext waitUntilDone:YES];
 	float fontSize = chipsButtonText.length>7?26.0:32.0;
 	if(chipsButtonText.length>10)
@@ -646,8 +658,11 @@
 		if(self.gameInProgress && self.viewLoadedFlg)
             [self refreshScreen];
         
-		[NSThread sleepForTimeInterval:.8];
-        
+		[NSThread sleepForTimeInterval:1];
+		
+		if(self.gamePaused)
+			[self setUpScreen];
+		
 		if(gameInProgress && self.viewLoadedFlg)
 			[self performSelectorInBackground:@selector(countTheCounter) withObject:nil];
 
@@ -724,6 +739,7 @@
 		double chips = [value doubleValue];
 		double buyInAmount = [[mo valueForKey:@"buyInAmount"] doubleValue];
 		double rebuyAmount = [[mo valueForKey:@"rebuyAmount"] doubleValue];
+		doLiveUpdate=YES;
 		if(self.gameObj.tournamentGameFlg) {
 			[mo setValue:[NSString stringWithFormat:@"%d", [value intValue]] forKey:@"hudHeroLine"];
 			float tCashoutAmount = 0;
@@ -737,7 +753,6 @@
 			[mo setValue:[NSNumber numberWithFloat:[value doubleValue]] forKey:@"cashoutAmount"];
 		}
 		[ProjectFunctions createChipTimeStamp:managedObjectContext mo:mo timeStamp:nil amount:chips-rebuyAmount-buyInAmount rebuyFlg:NO];
-		doLiveUpdate=YES;
 	}
 	if(selectedObjectForEdit==4) {
 		// rebuy
@@ -761,8 +776,8 @@
 		if(self.gameObj.tournamentGameFlg) {
 			int startingChips = self.gameObj.startingChips;
 			int rebuyChips = self.gameObj.rebuyChips;
-			rebuyChips += startingChips;
-			[mo setValue:[NSString stringWithFormat:@"%d", rebuyChips] forKey:@"hudVillianLine"];
+//			rebuyChips += startingChips;
+			[mo setValue:[NSString stringWithFormat:@"%d", rebuyChips+startingChips] forKey:@"hudVillianLine"];
 			int newChipAmount = startingChips;
 			if(addOnFlg)
 				newChipAmount = startingChips+(int)self.gameObj.currentChips;
@@ -775,6 +790,11 @@
 			thisRebuy = startingChips;
 			buyInAmount = self.gameObj.startingChips;
 			rebuyAmount = self.gameObj.rebuyChips;
+			if(addOnFlg) {
+				[self performSelector:@selector(gotoChipUpdate:) withObject:@"0" afterDelay:.5];
+				return;
+			}
+			
 		}
 		double amount1 = thisRebuy+thisRebuy-rebuyAmount-buyInAmount;
 		double amount2 = cashoutAmount-rebuyAmount-buyInAmount;

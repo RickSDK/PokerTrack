@@ -48,7 +48,6 @@
 	localViewController.databaseField = databaseField;
 	[self.navigationController pushViewController:localViewController animated:YES];
 }
-	  
 
 - (IBAction) gameSegmentPressed: (id) sender 
 {
@@ -75,7 +74,6 @@
 	}
 }
 
-
 -(void)setSegmentForType
 {
 	if(gameTypeSegmentBar.selectedSegmentIndex==0) {
@@ -85,14 +83,11 @@
 		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
 	} else {
 		self.TourneyTypeSegmentBar.alpha=1;
-		self.blindTypeSegmentBar.alpha=2;
+		self.blindTypeSegmentBar.alpha=0;
 		self.buyinAmount.text = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
 	}
-
-		
 }
-
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -132,13 +127,6 @@
 	[self performSelectorInBackground:aSelector withObject:nil];
 	
 }
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
 
 - (void) saveButtonClicked:(id)sender {
 	[hoursPlayed resignFirstResponder];
@@ -236,10 +224,6 @@
 
 
 }
-
-
-
-
 
 - (void)viewDidLoad {
 	

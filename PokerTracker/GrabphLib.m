@@ -725,8 +725,8 @@
 	CGContextSetLineCap(c, kCGLineCapRound);
 	
 	// draw Box---------------------
-	CGContextSetLineWidth(c, 1);
-	CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // blank
+	CGContextSetLineWidth(c, 0);
+	CGContextSetRGBStrokeColor(c, 0, 0, 0, 1); // black
 	CGContextSetRGBFillColor(c, 1, 1, 1, 1); // white
 	CGContextFillRect(c, CGRectMake(0, 0, totalWidth, totalHeight));
 	CGContextStrokeRect(c, CGRectMake(0, 0, totalWidth, totalHeight));
@@ -738,7 +738,6 @@
 {
 	
 	[self drawYellowBGForContext:c topLeft:CGPointMake(leftEdgeOfChart, 0) botRight:CGPointMake(totalWidth, bottomEdgeOfChart)];
-	
 	// draw zero line---------------
 	CGContextSetRGBStrokeColor(c, 0.6, 0, 0, 1); // red
 	CGContextSetLineWidth(c, 4);

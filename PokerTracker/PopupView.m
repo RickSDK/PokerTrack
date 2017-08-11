@@ -72,7 +72,13 @@
 	self.textView.editable=NO;
 	self.textView.hidden=YES;
 	[self addSubview:self.textView];
-
+	if(self.tag==1) { // just background
+		[self hideXButton];
+	}
+	if(self.tag==2) { // include text
+		self.textView.hidden=NO;
+		[self hideXButton];
+	}
 	
 	[self sendSubviewToBack:self.insideView];
 }

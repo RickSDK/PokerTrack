@@ -127,6 +127,6 @@
 "FilterMessage" = "To create a new filter, choose from the options below and then press 'Save Filter'.";
 "EditWarning" = "Not in edit mode. Press the pencil above to make changes.";
 "upgradeMessage" = "This feature is only available with the Pro version of this app. Please press 'Upgrade' from the main menu.";
-"loginMessage" = "You must be logged in to use this feature. Click the 'Login' button on the 'Options' menu.";
+"loginMessage" = "You must be logged in to use this feature. Click the 'Login' button on the top of the screen.";
 "upgradeText" = "Thank you for trying out Poker Track Lite. We believe it to be by far the best poker tracking app ever created.\n\nHowever you need to know that the Pro version of this app is not free. To unlock all of the features you will need to upgrade. The lite version only tracks stats on 5 games. (Other features like odds calculator are always available including with the lite version).\n\nIf you like the app, and want more than 5 games worth of stats, we ask that you upgrade to the full version, and we hope you do like it!\n\nPTP is the only app with all these features:\n* Real time game entry\n* Odds calculator\n* Most comprehensive charts and graphs\n* Net Tracker\n* Friend Tracker\n* Player Tracker\n* Hand Tracker\n* Casino Tracker\n* Chip Tracker\n* Import/Export\n* Forum\n* AI Analysis\n* Tips and advice\n\nPTP comes with a guarantee. If your game does not improve as a result of this app, you get your money back!";
 

@@ -7,20 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
-@interface ForumCategoryVC : UIViewController {
-    IBOutlet UITableView *mainTableView;
+@interface ForumCategoryVC : TemplateVC {
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UITextView *headertextView;
     
-    NSManagedObjectContext *managedObjectContext;
     NSMutableArray *forumPostings;
     int category;
     
 }
 
-@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (atomic, strong) UITableView *mainTableView;
 
 @property (atomic, strong) NSMutableArray *forumPostings;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;

@@ -43,8 +43,6 @@
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
-	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
 	
 	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
@@ -60,10 +58,10 @@
 	refreshButton.enabled=NO;
 	
 	[self.gameSegment turnIntoGameSegment];
-	[ProjectFunctions makeSegment:self.topSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAStar] forSegmentAtIndex:2];
+	[self.topSegment changeSegment];
 	
 }
 
@@ -94,16 +92,7 @@
 }
 
 - (IBAction) segmentChanged: (id) sender {
-	if(self.topSegment.selectedSegmentIndex==0) {
-		[self setTitle:NSLocalizedString(@"Profit", nil)];
-	}
-	if(self.topSegment.selectedSegmentIndex==1) {
-		[self setTitle:NSLocalizedString(@"Hourly", nil)];
-	}
-	if(self.topSegment.selectedSegmentIndex==2) {
-		[self setTitle:NSLocalizedString(@"Games", nil)];
-	}
-	[self changeNavToIncludeType:26];
+	[self.topSegment changeSegment];
     [mainTableView reloadData];
 }
 

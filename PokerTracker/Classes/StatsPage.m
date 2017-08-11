@@ -87,7 +87,6 @@
 	}
 	
 	[self.gameSegment turnIntoGameSegment];
-	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	[self setupButtons];
 	[self computeStats];
@@ -106,10 +105,10 @@
 }
 
 -(void)setupButtons {
-	[ProjectFunctions makeFAButton:self.chartsButton type:16 size:18];
-	[ProjectFunctions makeFAButton:self.reportsButton type:26 size:18];
-	[ProjectFunctions makeFAButton:self.goalsButton type:15 size:18];
-	[ProjectFunctions makeFAButton:self.analysisButton type:35 size:18];
+	[ProjectFunctions makeFAButton2:self.chartsButton type:16 size:18];
+	[ProjectFunctions makeFAButton2:self.reportsButton type:26 size:18];
+	[ProjectFunctions makeFAButton2:self.goalsButton type:15 size:18];
+	[ProjectFunctions makeFAButton2:self.analysisButton type:35 size:18];
 	
 	self.chartsLabel.text = [ProjectFunctions localizedTitle:@"Bar Charts"];
 	self.reportsLabel.text = NSLocalizedString(@"Reports", nil);
@@ -196,6 +195,7 @@
 - (IBAction) customSegmentPressed: (id) sender {
 	if(rotateLock)
 		return;
+	[self.customSegment changeSegment];
 	if(customSegment.selectedSegmentIndex>0) {
 		gameSegment.selectedSegmentIndex = 0;
 		[formDataArray replaceObjectAtIndex:0 withObject:NSLocalizedString(@"LifeTime", nil)];
@@ -206,14 +206,14 @@
 		if([filters count]>0 && [formDataArray count]>7) {
 			NSManagedObject *mo = [filters objectAtIndex:0];
 			self.filterObj = mo;
-			[formDataArray replaceObjectAtIndex:0 withObject:[self scrubFilterValue:[mo valueForKey:@"timeframe"]]];
-			[formDataArray replaceObjectAtIndex:1 withObject:[self scrubFilterValue:[mo valueForKey:@"Type"]]];
-			[formDataArray replaceObjectAtIndex:2 withObject:[self scrubFilterValue:[mo valueForKey:@"game"]]];
-			[formDataArray replaceObjectAtIndex:3 withObject:[self scrubFilterValue:[mo valueForKey:@"limit"]]];
-			[formDataArray replaceObjectAtIndex:4 withObject:[self scrubFilterValue:[mo valueForKey:@"stakes"]]];
-			[formDataArray replaceObjectAtIndex:5 withObject:[self scrubFilterValue:[mo valueForKey:@"location"]]];
-			[formDataArray replaceObjectAtIndex:6 withObject:[self scrubFilterValue:[mo valueForKey:@"bankroll"]]];
-			[formDataArray replaceObjectAtIndex:7 withObject:[self scrubFilterValue:[mo valueForKey:@"tournamentType"]]];
+			[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"timeframe"]]];
+			[formDataArray replaceObjectAtIndex:1 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"Type"]]];
+			[formDataArray replaceObjectAtIndex:2 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"game"]]];
+			[formDataArray replaceObjectAtIndex:3 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"limit"]]];
+			[formDataArray replaceObjectAtIndex:4 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"stakes"]]];
+			[formDataArray replaceObjectAtIndex:5 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"location"]]];
+			[formDataArray replaceObjectAtIndex:6 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"bankroll"]]];
+			[formDataArray replaceObjectAtIndex:7 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"tournamentType"]]];
 			FilterObj *obj = [FilterObj objectFromMO:mo];
 			self.yearChangeView.yearLabel.text = obj.name;
 			NSLog(@"+++formDataArray: %@", formDataArray);
@@ -230,13 +230,6 @@
 		self.yearChangeView.yearLabel.text =currentYearStr;
 	}
 	[self computeStats];
-}
-
--(NSString *)scrubFilterValue:(NSString *)value {
-	if(value.length>3 && [@"All" isEqualToString:[value substringToIndex:3]])
-		return NSLocalizedString(@"All", nil);
-	
-	return value;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size

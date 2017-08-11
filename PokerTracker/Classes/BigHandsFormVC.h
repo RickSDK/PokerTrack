@@ -24,7 +24,7 @@
 	IBOutlet UIView *preflopView;
 	IBOutlet UIView *flopView;
 	IBOutlet UIView *turnView;
-	IBOutlet UISegmentedControl *winLossSegment;
+	IBOutlet CustomSegment *winLossSegment;
 	IBOutlet UIButton *nextButton;
 	IBOutlet UIButton *viewButton;
 	IBOutlet UIButton *oddsButton;
@@ -79,7 +79,7 @@
 @property (nonatomic, strong) NSMutableArray *oddsDataArray;
 @property (nonatomic, strong) NSMutableArray *playersArray;
 @property (nonatomic, strong) UITableView *mainTableView;
-@property (nonatomic, strong) UISegmentedControl *winLossSegment;
+@property (nonatomic, strong) CustomSegment *winLossSegment;
 
 @property (nonatomic, strong) UIBarButtonItem *saveButton;
 @property (nonatomic, strong) UIView *visualView;

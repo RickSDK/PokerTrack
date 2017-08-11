@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1911" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1072" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CasinoTrackerEditVC">
@@ -18,6 +17,7 @@
                 <outlet property="gpsTextView" destination="44" id="45"/>
                 <outlet property="latLabel" destination="35" id="36"/>
                 <outlet property="locationButton" destination="12" id="15"/>
+                <outlet property="mainSegment" destination="16" id="DxK-w9-A3f"/>
                 <outlet property="view" destination="8" id="9"/>
             </connections>
         </placeholder>
@@ -30,25 +30,23 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" alpha="0.76760566234588623" contentMode="scaleToFill" image="metalPlate.png" id="33">
-                    <rect key="frame" x="9" y="10" width="302" height="248"/>
+                <view tag="1" contentMode="scaleToFill" id="huD-cT-dd6" customClass="PopupView">
+                    <rect key="frame" x="9" y="8" width="303" height="256"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
-                </imageView>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Casino name" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" id="11">
                     <rect key="frame" x="20" y="20" width="280" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="22"/>
                     </connections>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="12">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="12" customClass="PtpButton">
                     <rect key="frame" x="63" y="110" width="194" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Use Current Location" backgroundImage="yellowChromeBut.png">
@@ -59,10 +57,9 @@
                         <action selector="locationPressed:" destination="-1" eventType="touchDown" id="26"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="13">
+                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="13" customClass="PtpButton">
                     <rect key="frame" x="60" y="175" width="200" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="14"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
                     <state key="normal" title="Enter Address Manually" backgroundImage="blueChromeBut.png">
@@ -73,33 +70,31 @@
                         <action selector="addressPressed:" destination="-1" eventType="touchDown" id="25"/>
                     </connections>
                 </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="16">
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="16" customClass="CustomSegment">
                     <rect key="frame" x="20" y="66" width="207" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <segments>
                         <segment title="Casino"/>
                         <segment title="Card Room"/>
                     </segments>
                     <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="9Ey-mu-dOu"/>
+                    </connections>
                 </segmentedControl>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Indian Casino" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="18">
                     <rect key="frame" x="262" y="55" width="63" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                     <color key="textColor" red="1" green="0.879207038" blue="0.22903527949999999" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="20">
-                    <rect key="frame" x="235" y="70" width="19" height="22"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="20">
+                    <rect key="frame" x="238" y="70" width="14" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                    <state key="normal" backgroundImage="UnSelectedCheckBox.png">
+                    <state key="normal" image="UnSelectedCheckBox.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -109,12 +104,10 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="activityPopup.png" id="27">
                     <rect key="frame" x="40" y="95" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sending Info" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="28">
                     <rect key="frame" x="89" y="124" width="141" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -124,17 +117,11 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="29">
                     <rect key="frame" x="141" y="160" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                 </activityIndicatorView>
-                <imageView userInteractionEnabled="NO" alpha="0.72535210847854614" contentMode="scaleToFill" image="metalPlate.png" id="34">
-                    <rect key="frame" x="39" y="357" width="240" height="27"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
-                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Lat: -     Lng: -" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="35">
                     <rect key="frame" x="48" y="357" width="209" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
+                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
                     <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -144,7 +131,6 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Current City" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="37">
                     <rect key="frame" x="27" y="279" width="124" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -152,17 +138,14 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Seattle" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="38">
                     <rect key="frame" x="9" y="298" width="159" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                     <color key="textColor" red="1" green="0.879207038" blue="0.22903527949999999" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39">
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="39" customClass="PtpButton">
                     <rect key="frame" x="176" y="286" width="124" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" title="Refresh GPS" backgroundImage="wb.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -174,7 +157,6 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="6" minimumFontSize="10" id="44">
                     <rect key="frame" x="27" y="133" width="268" height="131"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="66" maxX="0.0" maxY="-66"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -183,7 +165,9 @@
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
@@ -191,8 +175,12 @@
         <image name="activityPopup.png" width="300" height="160"/>
         <image name="blueChromeBut.png" width="400" height="100"/>
         <image name="greenBG2.png" width="320" height="480"/>
-        <image name="metalPlate.png" width="200" height="300"/>
         <image name="wb.png" width="369" height="58"/>
         <image name="yellowChromeBut.png" width="400" height="100"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

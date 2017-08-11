@@ -63,8 +63,8 @@
 @property (atomic, strong) UILabel *activityLabel;
 
 @property (atomic, strong) UIButton *graphButton;
-@property (atomic, strong) IBOutlet UIButton *deleteButton;
-@property (atomic, strong) IBOutlet UIButton *hudButton;
+@property (atomic, strong) IBOutlet PtpButton *deleteButton;
+@property (atomic, strong) IBOutlet PtpButton *hudButton;
 @property (atomic, strong) UILabel *dateLabel;
 @property (atomic, strong) UILabel *timeLabel;
 @property (atomic, strong) UILabel *amountLabel;

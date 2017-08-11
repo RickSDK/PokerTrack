@@ -128,6 +128,7 @@
 
 - (IBAction) sortSegmentChanged: (id) sender
 {
+	[self.sortSegment changeSegment];
 	if([self verifyLogin])
 		[self loadDataFromScratch];
 }

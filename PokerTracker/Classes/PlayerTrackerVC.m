@@ -180,9 +180,6 @@
 	
 	playerList = [[NSMutableArray alloc] init];
 								
-	[locationButton setBackgroundImage:[UIImage imageNamed:@"yellowGlossButton.png"] forState:UIControlStateNormal];
-	
-	
 	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
 	locationButton.titleLabel.text = @"All Locations";
 }

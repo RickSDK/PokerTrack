@@ -18,7 +18,7 @@
     IBOutlet UITableView *mainTableView;
     IBOutlet UIButton *detailsButton;
     IBOutlet UIButton *editButton;
-    IBOutlet UISegmentedControl *filterSegment;
+    IBOutlet CustomSegment *filterSegment;
     
     BOOL editMode;
 	int selectedRowId;
@@ -37,7 +37,7 @@
 @property (nonatomic, strong) UIViewController *callBackViewController;
 @property (nonatomic, strong) NSMutableArray *filterList;
 @property (nonatomic, strong) UITableView *mainTableView;
-@property (nonatomic, strong) UISegmentedControl *filterSegment;
+@property (nonatomic, strong) CustomSegment *filterSegment;
 @property (nonatomic, strong) UIButton *detailsButton;
 @property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic) BOOL editMode;

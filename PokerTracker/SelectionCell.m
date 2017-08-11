@@ -6,6 +6,7 @@
 
 #import "SelectionCell.h"
 #import "UIColor+ATTColor.h"
+#import "ProjectFunctions.h"
 
 #define kCellLeftOffset			8.0
 #define kTextWidth				140.0
@@ -28,12 +29,10 @@
 		selection.adjustsFontSizeToFitWidth = YES;
 		selection.minimumScaleFactor = .7;
 		selection.textAlignment = NSTextAlignmentRight;
-		selection.textColor = [UIColor ATTBlue];
+		selection.textColor = [ProjectFunctions themeBGColor];
         selection.backgroundColor = [UIColor clearColor];
 		
 		[self.contentView addSubview:selection];
-// calling this in 3.0 causes selection highlighting to have square corners even though table style is Grouped
-//		[self layoutSubviews];
     }
     return self;
 }

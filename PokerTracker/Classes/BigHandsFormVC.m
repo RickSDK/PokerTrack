@@ -58,29 +58,25 @@
 	oddsDataArray = [[NSMutableArray alloc] init];
 	self.playersArray = [[NSMutableArray alloc] init];
 	
-	winLossSegment.tintColor = [UIColor colorWithRed:.8 green:.6 blue:0 alpha:1];
-	
 	if(mo != nil) {
 		self.bigHandObj = [BigHandObj objectFromMO:mo];
 		self.analysisTextView.text=self.bigHandObj.preflopAction;
 		if(self.bigHandObj.preflopAction.length==0)
 			self.analysisTextView.text=@"-Analysis here-";
 		[self setupdata];
+		self.editButton.enabled=YES;
 
-		if([self.bigHandObj.winStatus isEqualToString:@"Loss"])
-			winLossSegment.selectedSegmentIndex=1;
-		if([self.bigHandObj.winStatus isEqualToString:@"Chop"])
-			winLossSegment.selectedSegmentIndex=2;
-		
 		self.viewEditable=NO;
 		
 		[self setupVisualView];
 	} else {
+		self.editButton.enabled=NO;
 		self.bigHandObj = [[BigHandObj alloc] init];
 		self.bigHandObj.numPlayers = self.numPlayers;
 		self.bigHandObj.button = @"You";
 		[self setupdata];
 	}
+	[self setupWinLossSegment];
 	self.analysisView.hidden=YES;
 	
 	self.calcOddsButton.enabled = (self.bigHandObj.preFlopOdds.length==0);
@@ -97,6 +93,21 @@
 
 	saveButton.enabled=drilldown;
 	self.playButton.enabled=NO;
+}
+
+-(void)setupWinLossSegment {
+	winLossSegment.enabled=self.bigHandObj.winStatus.length>1;
+	if([self.bigHandObj.winStatus isEqualToString:@"Win"])
+		winLossSegment.selectedSegmentIndex=0;
+	if([self.bigHandObj.winStatus isEqualToString:@"Loss"])
+		winLossSegment.selectedSegmentIndex=1;
+	if([self.bigHandObj.winStatus isEqualToString:@"Chop"])
+		winLossSegment.selectedSegmentIndex=2;
+	[winLossSegment changeSegment];
+}
+
+-(IBAction)segmentChanged:(id)sender {
+	[self setupWinLossSegment];
 }
 
 -(void)populatePlayersArray {
@@ -192,7 +203,6 @@
 	}
 }
 
-
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if(buttonIndex<self.bigHandObj.numPlayers) {
@@ -232,10 +242,12 @@
 	int oppHand = [PokerOddsFunctions determinHandStrength:[formDataArray stringAtIndex:2] flop:[formDataArray stringAtIndex:self.bigHandObj.numPlayers+1] turn:[formDataArray stringAtIndex:self.bigHandObj.numPlayers+2] river:[formDataArray stringAtIndex:self.bigHandObj.numPlayers+3]];
 	NSString *name = [NSString stringWithFormat:@"%@ (%@ vs %@)", [formDataArray stringAtIndex:1], [PokerOddsFunctions getNameOfhandFromValue:yourHand], [PokerOddsFunctions getNameOfhandFromValue:oppHand]];
 	
-	NSArray *winList = [NSArray arrayWithObjects:@"Win", @"Loss", @"Chop", nil];
+	NSString *winStatus = self.bigHandObj.winStatus;
+	if(winStatus.length==0)
+		winStatus = @"?";
 	
 	NSMutableArray *valueList = [[NSMutableArray alloc] init];
-	[valueList addObject:[winList stringAtIndex:(int)winLossSegment.selectedSegmentIndex]];
+	[valueList addObject:winStatus];
 	[valueList addObject:[formDataArray stringAtIndex:0]];
 	for(int i=1; i<=self.bigHandObj.numPlayers; i++)
 		[valueList addObject:[formDataArray stringAtIndex:i]];
@@ -772,6 +784,10 @@
 
 - (IBAction) oddsButtonPressed: (id) sender
 {
+	if(!mo) {
+		[ProjectFunctions showAlertPopup:@"Notice" message:@"Save this hand first"];
+		return;
+	}
 	OddsFormVC *detailViewController = [[OddsFormVC alloc] initWithNibName:@"OddsFormVC" bundle:nil];
 	detailViewController.numPlayers = self.bigHandObj.numPlayers;
 	detailViewController.preLoaedValues = formDataArray;

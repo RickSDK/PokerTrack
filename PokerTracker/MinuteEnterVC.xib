@@ -15,10 +15,6 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="greenFelt3.png" id="4">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" id="5">
                     <rect key="frame" x="80" y="47" width="163" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -110,7 +106,6 @@
         </view>
     </objects>
     <resources>
-        <image name="greenFelt3.png" width="320" height="480"/>
         <image name="whiteChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -32,6 +32,7 @@
 #import "UpgradeVC.h"
 #import "ChangeIconVC.h"
 #import "Scrub2017VC.h"
+#import "EditThemeVC.h"
 
 #define kstartDate		0
 #define kendDate		1
@@ -95,6 +96,10 @@
 	
 }
 
+- (IBAction) loginPressed: (id) sender {
+	[self loginButtonClicked:nil];
+}
+
 -(void)loginButtonClicked:(id)sender {
 	if([ProjectFunctions getUserDefaultValue:@"userName"]) {
 		[ProjectFunctions showConfirmationPopup:@"Log out?" message:@"You are already logged in. Did you want to log out?" delegate:self tag:kLogout];
@@ -104,13 +109,6 @@
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }
-
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -135,6 +133,7 @@
 	[menuArray addObject:NSLocalizedString(@"Resync", nil)];
 
 	secondMenuArray = [[NSMutableArray alloc] init];
+	[secondMenuArray addObject:@"Edit Theme"];
 	[secondMenuArray addObject:@"Enter Old Game"];
 	[secondMenuArray addObject:@"Lock App"];
 	[secondMenuArray addObject:@"Locations"];
@@ -145,9 +144,7 @@
 	[secondMenuArray addObject:@"Write App Review"];
 	[secondMenuArray addObject:@"Sound"];
 	[secondMenuArray addObject:@"Tournament Director"];
-	[secondMenuArray addObject:@"BuyPokerChips.com"];
 	[secondMenuArray addObject:@"Taunt"];
-	[secondMenuArray addObject:@"Login"];
 	[secondMenuArray addObject:@"Edit Icons"];
 
 	self.gSelectedRow=0;
@@ -170,8 +167,12 @@
 	laterButton.alpha=0;
 	importButton.alpha=0;
 
+	self.emailLabel.textColor = [ProjectFunctions primaryButtonColor];
+	self.userLabel.textColor = [ProjectFunctions primaryButtonColor];
 	if([ProjectFunctions getUserDefaultValue:@"userName"])
 		self.emailLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"userName"]];
+	
+	self.loginButton.hidden=[ProjectFunctions getUserDefaultValue:@"userName"].length>0;
 	
 	if([ProjectFunctions getUserDefaultValue:@"firstName"])
 		self.userLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getUserDefaultValue:@"firstName"]];
@@ -184,8 +185,13 @@
 	self.popupView.titleLabel.text = @"Database Backup";
 	self.popupView.textView.text = @"Using this screen you can back up all your games. This is very important in case you lose your phone or upgrade to a new phone.\n\nKeep in mind you must manually back up your games on this screen to have them saved on the server. As you play new games they do NOT automatically get backed up.\n\nIts a good idea to back up your games often to prevent data loss.\n\nClick the login button at the top to get started.";
 	self.popupView.textView.hidden=NO;
+}
 
-
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
+	[self.mainTableView reloadData];
 }
 
 
@@ -232,13 +238,15 @@
 	int numGamesServer2 = [[ProjectFunctions getUserDefaultValue:@"numGamesServer2"] intValue];
 	if(numGamesServer2>gamesOnServer)
 		gamesOnServer=numGamesServer2;
+	
+	UIColor *bgColor = [ProjectFunctions primaryButtonColor];
 
 	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Export", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		}
-		cell.backgroundColor = [UIColor ATTFaintBlue];
+		cell.backgroundColor = bgColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
 			cell.titleLabel.textColor = [UIColor blackColor];
@@ -248,7 +256,7 @@
 		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Device Games: %d", gamesOnDevice];
 		
 		if(gamesOnDevice>gamesOnServer)
-			cell.backgroundColor = [UIColor yellowColor];
+			cell.titleLabel.textColor = [UIColor redColor];
 		
 		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		
@@ -259,7 +267,7 @@
 		if (cell == nil) {
 			cell = [[ExportCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		}
-		cell.backgroundColor = [UIColor ATTFaintBlue];
+		cell.backgroundColor = bgColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
@@ -268,7 +276,7 @@
 			cell.titleLabel.textColor = [UIColor blackColor];
 		
 		if(gamesOnServer>gamesOnDevice)
-			cell.backgroundColor = [UIColor yellowColor];
+			cell.titleLabel.textColor = [UIColor redColor];
 
 		cell.gamesStoredLabel.text = [NSString stringWithFormat:@"Server Games: %d", gamesOnServer];
 		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -281,7 +289,7 @@
 		if (cell == nil) {
 			cell = [[SelectionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		}
-		cell.backgroundColor = [UIColor ATTFaintBlue];
+		cell.backgroundColor = bgColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
@@ -335,6 +343,7 @@
 
 	if(indexPath.section==1) {
 		NSArray *icons = [NSArray arrayWithObjects:
+						  [NSString fontAwesomeIconStringForEnum:FAWrench],
 						  [NSString fontAwesomeIconStringForEnum:FAPlus],
 						  [NSString fontAwesomeIconStringForEnum:FALock],
 						  [NSString fontAwesomeIconStringForEnum:FAGlobe],
@@ -345,9 +354,7 @@
 						  [NSString fontAwesomeIconStringForEnum:FAPencil],
 						  [NSString fontAwesomeIconStringForEnum:FAVolumeUp],
 						  [NSString fontAwesomeIconStringForEnum:FAMobile],
-						  [NSString fontAwesomeIconStringForEnum:FADotCircleO],
 						  [NSString fontAwesomeIconStringForEnum:FAStar],
-						  [NSString fontAwesomeIconStringForEnum:FASignIn],
 						  [NSString fontAwesomeIconStringForEnum:FAPictureO],
 						  [NSString fontAwesomeIconStringForEnum:FACutlery],
 						  nil];
@@ -358,7 +365,7 @@
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", icon, [secondMenuArray objectAtIndex:indexPath.row]];
 	}
-	cell.backgroundColor = [UIColor ATTFaintBlue];
+	cell.backgroundColor = bgColor;
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     return cell;
@@ -1406,6 +1413,11 @@
 	} // <== 0
 	if(indexPath.section==1) {
 		NSString *menuItem = [secondMenuArray stringAtIndex:(int)indexPath.row];
+		if([menuItem isEqualToString:@"Edit Theme"]) {
+			EditThemeVC *detailViewController = [[EditThemeVC alloc] initWithNibName:@"EditThemeVC" bundle:nil];
+			detailViewController.managedObjectContext = managedObjectContext;
+			[self.navigationController pushViewController:detailViewController animated:YES];
+		}
 		if([menuItem isEqualToString:@"Enter Old Game"]) {
 			CreateOldGameVC *detailViewController = [[CreateOldGameVC alloc] initWithNibName:@"CreateOldGameVC" bundle:nil];
 			detailViewController.managedObjectContext = managedObjectContext;

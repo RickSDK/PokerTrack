@@ -71,9 +71,9 @@
 		self.bankRollSegment.alpha=0;
 	}
 	
-	[ProjectFunctions makeSegment:self.moneySegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1] size:16];
 	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
 	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
+	[self.moneySegment changeSegment];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -81,7 +81,7 @@
     [super viewWillAppear:animated];
 
     [ProjectFunctions setBankSegment:self.bankRollSegment];
-	[self computeStats];
+	[self computeStatsAfterDelay:2];
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
@@ -91,7 +91,7 @@
 - (IBAction) bankrollSegmentChanged: (id) sender
 {
     [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStats];
+    [self computeStatsAfterDelay:0];
 }
 
 - (IBAction) bankrollPressed: (id) sender
@@ -105,6 +105,7 @@
 
 - (IBAction) moneySegmentChanged: (id) sender
 {
+	[self.moneySegment changeSegment];
 	if(self.moneySegment.selectedSegmentIndex==0) {
 		[self changeNavToIncludeType:16 title:@"Profit"];
 	}
@@ -137,10 +138,10 @@
 }
 
 -(void)yearChanged {
-	[self computeStats];
+	[self computeStatsAfterDelay:0];
 }
 
-- (void)computeStats
+- (void)computeStatsAfterDelay:(int)delay
 {
 	self.bankRollSegment.enabled=NO;
 	self.moneySegment.enabled=NO;
@@ -148,7 +149,7 @@
 	activityBGView.alpha=1;
 	self.lockScreen=YES;
 	self.mainTableView.alpha=.5;
-	[self performSelectorInBackground:@selector(drawAllCharts) withObject:nil];
+	[self performSelector:@selector(drawAllCharts) withObject:nil afterDelay:delay];
 }
 
 -(void)graphYearData:(NSManagedObjectContext *)context year:(int)year {
@@ -528,7 +529,7 @@
 		[hourlyButton setTitle:value forState:UIControlStateNormal];
 		[ProjectFunctions setUserDefaultValue:value forKey:@"hourlyGoal"];
 	}
-	[self computeStats];
+	[self computeStatsAfterDelay:0];
 }
 
 

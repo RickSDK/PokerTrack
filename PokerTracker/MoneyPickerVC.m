@@ -60,9 +60,9 @@
 
 -(void)clearValue {
 	self.textField.text = @"0";
+	self.buttonClicked=NO;
 	self.numberOfWheels=3;
 	[self spinPicker];
-    
 }
 
 - (IBAction) clearPressed: (id) sender 

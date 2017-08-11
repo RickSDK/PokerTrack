@@ -20,7 +20,7 @@
 	IBOutlet UIButton *hourlyButton;
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	IBOutlet UISegmentedControl *moneySegment;
+	IBOutlet CustomSegment *moneySegment;
 	IBOutlet UISegmentedControl *bankRollSegment;
     IBOutlet UIButton *bankrollButton;
 	
@@ -53,7 +53,6 @@
 - (IBAction) moneySegmentChanged: (id) sender;
 - (IBAction) bankrollPressed: (id) sender;
 - (IBAction) bankrollSegmentChanged: (id) sender;
-- (void) computeStats;
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
@@ -85,7 +84,7 @@
 @property (atomic, strong) UIImageView *chart6ImageView;
 @property (atomic, strong) UIImageView *chartYear1ImageView;
 @property (atomic, strong) UIImageView *chartYear2ImageView;
-@property (atomic, strong) UISegmentedControl *moneySegment;
+@property (atomic, strong) CustomSegment *moneySegment;
 
 
 

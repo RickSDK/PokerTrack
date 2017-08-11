@@ -9,6 +9,10 @@
 #import "YearChangeView.h"
 #import "ProjectFunctions.h"
 
+#define buttonY			7
+#define buttonWidth		80
+#define buttonHeight	30
+
 @implementation YearChangeView
 
 - (id)initWithFrame:(CGRect)frame
@@ -31,21 +35,17 @@
 
 - (void)commonInit
 {
-	self.backgroundColor = [UIColor blackColor];
-	
-	self.yearDownButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	self.yearDownButton.frame = CGRectMake(5, 5, 80, 34);
+	self.yearDownButton = [PtpButton buttonWithType:UIButtonTypeRoundedRect];
+	self.yearDownButton.frame = CGRectMake(5, buttonY, buttonWidth, buttonHeight);
 	[self.yearDownButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[self.yearDownButton setTitle:@"Down" forState:UIControlStateNormal];
-	[self.yearDownButton setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
 	[self.yearDownButton addTarget:self action:@selector(yearGoesDown) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:self.yearDownButton];
 	
-	self.yearUpButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	self.yearUpButton = [PtpButton buttonWithType:UIButtonTypeRoundedRect];
 	[self.yearUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	self.yearUpButton.frame = CGRectMake(255, 5, 80, 34);
+	self.yearUpButton.frame = CGRectMake(255, buttonY, buttonWidth, buttonHeight);
 	[self.yearUpButton setTitle:@"Up" forState:UIControlStateNormal];
-	[self.yearUpButton setBackgroundImage:[UIImage imageNamed:@"yellowChromeBut.png"] forState:UIControlStateNormal];
 	[self.yearUpButton addTarget:self action:@selector(yearGoesUp) forControlEvents:UIControlEventTouchUpInside];
 	[self addSubview:self.yearUpButton];
 	
@@ -59,23 +59,30 @@
 	self.yearLabel.text = @"2015";
 	[self addSubview:self.yearLabel];
 	
-	self.layer.cornerRadius = 7;
-	self.layer.masksToBounds = YES;				// clips background images to rounded corners
-	self.layer.borderColor = [UIColor blackColor].CGColor;
-	self.layer.borderWidth = 2.;
-	self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradWide.png"]];
 	
 	self.nowYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
 	if(self.nowYear==0)
 		self.nowYear = [ProjectFunctions getNowYear];
 	self.invocation = [[NSInvocation alloc] init];
+	[self applyTheme];
+}
+
+-(void)applyTheme {
+	[ProjectFunctions newButtonLook:self.yearDownButton mode:0];
+	[ProjectFunctions newButtonLook:self.yearUpButton mode:0];
+	if([ProjectFunctions appThemeNumber] == 1)
+		self.backgroundColor = [ProjectFunctions segmentThemeColor];
+	else if([ProjectFunctions segmentColorNumber]==0)
+		self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradWide.png"]];
+	else
+		self.backgroundColor = [UIColor colorWithPatternImage:[ProjectFunctions gradientImageNavbarOfWidth:self.frame.size.width]];
 }
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
 	float width = [[UIScreen mainScreen] bounds].size.width;
-	self.yearUpButton.frame = CGRectMake(width-85, 5, 80, 34);
+	self.yearUpButton.frame = CGRectMake(width-85, buttonY, buttonWidth, buttonHeight);
 	self.yearLabel.frame = CGRectMake(85, 0, width-(85*2), 44);
 }
 

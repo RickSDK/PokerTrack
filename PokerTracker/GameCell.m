@@ -40,12 +40,12 @@
 		[self.contentView addSubview:self.nameLabel];
 		
 		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 170, 22)];
-		self.dateLabel.font = [UIFont systemFontOfSize:14];
+		self.dateLabel.font = [UIFont systemFontOfSize:10];
 		self.dateLabel.adjustsFontSizeToFitWidth = YES;
 		self.dateLabel.minimumScaleFactor = .8;
 		self.dateLabel.text = @"dateLabel";
 		self.dateLabel.textAlignment = NSTextAlignmentLeft;
-		self.dateLabel.textColor = [UIColor grayColor];
+		self.dateLabel.textColor = [ProjectFunctions themeBGColor];
 		self.dateLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.dateLabel];
 		
@@ -54,25 +54,25 @@
 		self.hoursLabel.adjustsFontSizeToFitWidth = YES;
 		self.hoursLabel.minimumScaleFactor = .7;
 		self.hoursLabel.text = @"hours";
-		self.hoursLabel.textAlignment = NSTextAlignmentLeft;
-		self.hoursLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.5 alpha:1];
+		self.hoursLabel.textAlignment = NSTextAlignmentCenter;
+		self.hoursLabel.textColor = [ProjectFunctions themeBGColor];
 		self.hoursLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.hoursLabel];
 		
 		
 		
 		self.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(210, 0, 100, 22)];
-		self.locationLabel.font = [UIFont systemFontOfSize:14];
+		self.locationLabel.font = [UIFont systemFontOfSize:12];
 		self.locationLabel.adjustsFontSizeToFitWidth = YES;
 		self.locationLabel.minimumScaleFactor = .8;
 		self.locationLabel.text = @"locationLabel";
 		self.locationLabel.textAlignment = NSTextAlignmentRight;
-		self.locationLabel.textColor = [UIColor colorWithRed:0 green:0 blue:.5 alpha:1];
+		self.locationLabel.textColor = [ProjectFunctions themeBGColor];
 		self.locationLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.locationLabel];
 		
 		self.profitLabel = [[UILabel alloc] initWithFrame:CGRectMake(210, 22, 100, 22)];
-		self.profitLabel.font = [UIFont boldSystemFontOfSize:17];
+		self.profitLabel.font = [UIFont boldSystemFontOfSize:16];
 		self.profitLabel.adjustsFontSizeToFitWidth = YES;
 		self.profitLabel.minimumScaleFactor = .5;
 		self.profitLabel.text = @"profitLabel";
@@ -91,7 +91,7 @@
 		self.pprLabel.backgroundColor = [UIColor clearColor];
 		self.pprLabel.layer.cornerRadius = 7;
 		self.pprLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
-		self.pprLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+		self.pprLabel.layer.borderColor = [ProjectFunctions primaryButtonColor].CGColor;
 		self.pprLabel.layer.borderWidth = 1.;
 		[self.contentView addSubview:self.pprLabel];
 		
@@ -130,14 +130,15 @@
 	
 	float width=cellRect.size.width;
 	
-	nameLabel.frame = CGRectMake(40, 0, width-150, 22);
+	nameLabel.frame = CGRectMake(40, 2, width-150, 22);
 	locationLabel.frame = CGRectMake(width-110, 0, 100, 22);
-	dateLabel.frame = CGRectMake(40, 22, width*0.4, 22);
-	hoursLabel.frame = CGRectMake(10+width/2, 22, 60, 22);
+	dateLabel.frame = CGRectMake(40, 20, width*0.4, 22);
+	hoursLabel.frame = CGRectMake(10+width/2, 25, 60, 12);
 	profitLabel.frame = CGRectMake(width-95, 20, 85, 22);
 }
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
+	//name---------
 	NSString *faSymbol = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
 	if(gameObj.hudStatsFlg)
 		faSymbol = [NSString stringWithFormat:@"%@ %@", faSymbol, [NSString fontAwesomeIconStringForEnum:FAuserSecret]];
@@ -146,7 +147,13 @@
 	if([@"Calendar-o" isEqualToString:gameObj.type])
 		faSymbol = [NSString fontAwesomeIconStringForEnum:FAcalendarCheckO];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
+//	cell.nameLabel.textColor = [ProjectFunctions themeBGColor];
+//	cell.nameLabel.textColor = (gameObj.tournamentGameFlg)?[UIColor colorWithRed:0 green:.2 blue:.7 alpha:1]:[UIColor blackColor];
+	
+	//name---------
 	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
+	
+	//hours---------
 	NSString *hoursLabel = NSLocalizedString(@"Hours", nil);
 	if([hoursLabel isEqualToString:@"Hours"])
 		hoursLabel = @"Hrs";
@@ -154,6 +161,16 @@
 	if(profitStr.length>8 && hoursLabel.length>3)
 		hoursLabel = [hoursLabel substringToIndex:1];
 	cell.hoursLabel.text = [NSString stringWithFormat:@"(%.1f %@)", [gameObj.hours floatValue], hoursLabel];
+
+	//profit---------
+	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
+	if(gameObj.profit>=0) {
+		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
+	} else {
+		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
+	}
+
+	//location---------
 	NSString *location = gameObj.location;
 	if(location.length>12) {
 		NSArray *components = [location componentsSeparatedByString:@" "];
@@ -163,34 +180,22 @@
 			location = [components objectAtIndex:1];
 	}
 	cell.locationLabel.text = location;
-	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
-	cell.hudTypeLabel.text = gameObj.hudPlayerType;
-	cell.hudTypeLabel.hidden=!gameObj.hudStatsFlg;
-	
-	if(gameObj.profit>=0) {
-		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
-	} else {
-		cell.profitLabel.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1]; //<-- red
-	}
-	
-	cell.nameLabel.textColor = [UIColor blackColor];
-	if(!gameObj.tournamentGameFlg) {
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
-	} else {
-		cell.backgroundColor=(evenFlg)?[UIColor colorWithRed:217/255.0 green:223/255.0 blue:1 alpha:1.0]:[UIColor colorWithRed:237/255.0 green:243/255.0 blue:1 alpha:1.0];
-	}
-	
-	cell.profitImageView.image = [ProjectFunctions getPlayerTypeImage:gameObj.buyInAmount+gameObj.reBuyAmount winnings:gameObj.profit];
-	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
-	
+
+	//hud & ppr text---------
 	cell.profitImageView.hidden=YES;
+	[ProjectFunctions makeFALabel:cell.hudTypeLabel type:0 size:9];
+	cell.hudTypeLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAuserSecret], gameObj.hudPlayerType];
+	cell.hudTypeLabel.hidden=!gameObj.hudStatsFlg;
 	int value = [ProjectFunctions getNewPlayerType:gameObj.risked winnings:gameObj.profit];
 	cell.pprLabel.backgroundColor = [self colorForType:value];
+	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
+	
+	cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
 	
 	if([gameObj.status isEqualToString:@"In Progress"]) {
-		cell.backgroundColor = [UIColor yellowColor];
-		cell.profitLabel.text = @"Playing";
-		cell.profitLabel.textColor = [UIColor redColor];
+		cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:.8 alpha:1];
+		cell.dateLabel.text = @"Now Playing!";
+		cell.dateLabel.textColor = [UIColor purpleColor];
 	}
 }
 

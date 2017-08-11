@@ -122,7 +122,6 @@
 	if(handStrength>=7000000)
 		handStrength=6999999;
     
-	
 	return handStrength;
 }
 
@@ -198,78 +197,77 @@
 		if (handStrength>9000000)
 			return handStrength;
 	}
-	
-	// group into combos----------------
-	int maxDupes=1;
-	NSString *maxCard=nil;
-	int secondDupes=1;
-	NSString *secondCard=nil;
-	int thridDupes=1;
-	NSString *thirdCard=nil;
-	NSMutableDictionary *cardDict = [[NSMutableDictionary alloc] init];
+	// new group into combos
+	NSMutableDictionary *cardDictionary = [[NSMutableDictionary alloc] init];
 	for(NSString *cardValue in cardValues) {
-		int number = [[cardDict objectForKey:cardValue] intValue];
+		int number = [[cardDictionary objectForKey:cardValue] intValue];
 		number++;
-		if(number>maxDupes) {
-			maxDupes=number;
-			maxCard = cardValue;
+		[cardDictionary setObject:[NSString stringWithFormat:@"%02d", number] forKey:cardValue];
+	}
+	int highestQuad = 0;
+	int highestTrip = 0;
+	int secondTrip = 0;
+	int highestPair = 0;
+	int secondPair = 0;
+	int highestJunk = 0;
+	int secondJunk = 0;
+	int thirdJunk = 0;
+	int fourthJunk = 0;
+	int fifthJunk = 0;
+	for(NSString *key in cardDictionary.allKeys) {
+		int cardNum = key.intValue;
+		int number = [[cardDictionary valueForKey:key] intValue];
+		if(number==4 && cardNum>highestQuad)
+			highestQuad=cardNum;
+		if(number==3 && cardNum>secondTrip) {
+			if(cardNum>highestTrip) {
+				secondTrip=highestTrip;
+				highestTrip=cardNum;
+			} else
+				secondTrip=cardNum;
 		}
-		else if(number>secondDupes) {
-			secondDupes=number;
-			secondCard = cardValue;
+		if(number==2 && cardNum>secondPair) {
+			if(cardNum>highestPair) {
+				secondPair=highestPair;
+				highestPair=cardNum;
+			} else
+				secondPair=cardNum;
 		}
-		else if(number>thridDupes) {
-			thridDupes=number;
-			thirdCard = cardValue;
-		}
-		[cardDict setObject:[NSString stringWithFormat:@"%02d", number] forKey:cardValue];
-	}
-	if(secondDupes==2 && thridDupes==2 && [thirdCard intValue] > [secondCard intValue]) {
-		NSString *temp = thirdCard;
-		thirdCard = secondCard;
-		secondCard = temp;
-	}
-	if(maxDupes==3 && secondDupes==3 && [secondCard intValue] > [maxCard intValue]) {
-		NSString *temp = secondCard;
-		secondCard = maxCard;
-		maxCard = temp;
-	}
-	if(maxDupes==3 && secondDupes==3)
-		secondDupes=2; // full house
-		
-	if(maxDupes==2 && secondDupes==2 && thridDupes==2) {
-		if([thirdCard intValue] > [maxCard intValue])
-			maxCard = thirdCard;
-		else if([thirdCard intValue] > [secondCard intValue])
-			secondCard = thirdCard;
-	}
-	if(maxDupes==2 && secondDupes==2 && thridDupes==1) {
-		if([secondCard intValue] > [maxCard intValue]) {
-			NSString *temp = secondCard;
-			secondCard = maxCard;
-			maxCard = temp;
+		if(number==1 && cardNum>fifthJunk) {
+			if(cardNum>highestJunk) {
+				secondJunk=highestJunk;
+				highestJunk=cardNum;
+			} else if(cardNum>secondJunk) {
+				thirdJunk=secondJunk;
+				secondJunk=cardNum;
+			} else if(cardNum>thirdJunk) {
+				fourthJunk=thirdJunk;
+				thirdJunk=cardNum;
+			} else if(cardNum>fourthJunk) {
+				fifthJunk=fourthJunk;
+				fourthJunk=cardNum;
+			} else if(cardNum>fifthJunk) {
+				fifthJunk=cardNum;
+			}
 		}
 	}
-	if(maxDupes==4)
-		secondCard = @"";
-	
-	NSMutableArray *remainingCards = [[NSMutableArray alloc] init];
-	for(NSString *cardValue in cardValues) {
-		if(![cardValue isEqualToString:maxCard] && ![cardValue isEqualToString:secondCard])
-			[remainingCards addObject:[NSString stringWithFormat:@"%02d", [cardValue intValue]]];
-	}
-	[remainingCards sortUsingSelector:@selector(compare:)];	//sort the key
-	NSString *highCard = @"1";
-	if([remainingCards count]>0)
-	   highCard = [remainingCards objectAtIndex:[remainingCards count]-1];
 	
 	//check 4 of a kind
-	if(maxDupes==4)
-		return 8000000+[maxCard intValue]*15+[highCard intValue];
+	if(highestQuad>0) {
+		if(highestTrip>highestJunk)
+			highestJunk=highestTrip;
+		if(highestPair>highestJunk)
+			highestJunk=highestPair;
+		return 8000000+highestQuad*15+highestJunk;
+	}
 	
 	// full house
-	if(maxDupes==3 && secondDupes==2)
-		return 7000000 + ([maxCard intValue]*15) + [secondCard intValue];
+	if( (highestTrip>0 && secondTrip>0) || (highestTrip>0 && highestPair>0)) {
+		if(secondTrip>highestPair)
+			highestPair=secondTrip;
+		
+		return 7000000 + (highestTrip*15) + highestPair;
+	}
 	
 	//Flush
 	if(maxSuits>4)
@@ -298,30 +296,26 @@
 	}
     if(max>0)
         return 5000000+(max*1000);
-	
+
 	// trips
-	if(maxDupes==3 && [remainingCards count]>1)
-		return 4000000 + ([maxCard intValue]*225) + 15*[[remainingCards objectAtIndex:[remainingCards count]-1] intValue] + [[remainingCards objectAtIndex:[remainingCards count]-2] intValue];
+	if(highestTrip>0)
+		return 4000000 + highestTrip*225 + highestJunk*15 + secondJunk;
 	
 	// 2 pair
-	if(maxDupes==2 && secondDupes==2 && [remainingCards count]>0)
-		return 3000000 + ([maxCard intValue]*225) + ([secondCard intValue]*15) + [[remainingCards objectAtIndex:[remainingCards count]-1] intValue];
+	if(secondPair>0)
+		return 3000000 + (highestPair*225) + (secondPair*15) + highestJunk;
 	
 	// pair
-	if(maxDupes==2 && [remainingCards count]>2)
-		return 2000000 + ([maxCard intValue]*3375) + 225*[[remainingCards objectAtIndex:[remainingCards count]-1] intValue] + 15*[[remainingCards objectAtIndex:[remainingCards count]-2] intValue] + [[remainingCards objectAtIndex:[remainingCards count]-3] intValue];
+	if(highestPair>0)
+		return 2000000 + highestPair*3375 + highestJunk*225 + secondJunk*15 + thirdJunk;
 	
-	// junk
-	if([remainingCards count]>4)
-		return 1000000 + 50625*[[remainingCards objectAtIndex:[remainingCards count]-1] intValue] + 3375*[[remainingCards objectAtIndex:[remainingCards count]-2] intValue] + 225*[[remainingCards objectAtIndex:[remainingCards count]-3] intValue] + 15*[[remainingCards objectAtIndex:[remainingCards count]-4] intValue] + 1*[[remainingCards objectAtIndex:[remainingCards count]-5] intValue];
-	
-	return handStrength;
+	return 1000000 + highestJunk*50625 + secondJunk*3375 + thirdJunk*225 + fourthJunk*15 + fifthJunk;
 }
 
 +(NSString *)getNameOfhandFromValue:(int)handValue
 {
-	NSArray *names = [NSArray arrayWithObjects:@"-", @"Junk", @"Pair", @"2 Pair", @"Trips", @"Straight", @"Flush", @"Full House", @"Quads", @"Straight-Flush", @"NO", nil];
-	int index = [[[NSString stringWithFormat:@"%d", handValue] substringToIndex:1] intValue];
+	NSArray *names = [NSArray arrayWithObjects:@"Junk", @"Junk", @"Pair", @"2 Pair", @"Trips", @"Straight", @"Flush", @"Full House", @"Quads", @"Straight-Flush", @"5 of a Kind", @"NO", @"NO", nil];
+	int index = handValue/1000000;
 	return [names objectAtIndex:index];
 }
 
@@ -504,6 +498,12 @@
 	NSString *burnedCards = [NSString stringWithFormat:@"%@|%@", [playerHands componentsJoinedByString:@"|"], flop];
 	
 	NSString *totals = @"0|0,0,0,0,0,0,0,0,0,0|0,0,0,0,0,0,0,0,0,0";
+	for(int x=1;x<=150;x++) {
+		NSString *turn = [PokerOddsFunctions getRandomCard:burnedCards];
+		totals = [PokerOddsFunctions getPlayerResultsTotals:totals playerHands:playerHands flop:flop turn:turn];
+	}
+	return [PokerOddsFunctions calculateTotalsandReturnTheStrings:totals numPlayers:(int)[playerHands count]];
+	
 	//	NSLog(@"--------Start");
 	for(int i=0; i<52; i++) {
 		totals = [PokerOddsFunctions getPlayerResultsTotals:totals playerHands:playerHands flop:flop turn:[PokerOddsFunctions getSeededHand:burnedCards seed:i]];

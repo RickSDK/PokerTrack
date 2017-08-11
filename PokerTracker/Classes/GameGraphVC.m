@@ -39,6 +39,9 @@
 	
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
 	self.popupView.titleLabel.text=@"Chipstack Comment";
+	[ProjectFunctions newButtonLook:self.notesButton mode:0];
+	[ProjectFunctions newButtonLook:self.hudButton mode:1];
+//	[ProjectFunctions newButtonLook:self.notesButton mode:0];
 	
 	[self addGameID];
 	[self setupGraphView];

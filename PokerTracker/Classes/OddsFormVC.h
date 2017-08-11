@@ -38,9 +38,10 @@
 	int selectedRow;
 	int highHandValue;
 	int numberOfPreflopHandsProcessed;
-	BOOL startedCalculating;
-	BOOL doneCalculating;
+	BOOL isCalculating;
+	BOOL preFlopStillWorking;
 	BOOL postFlopStillWorking;
+	BOOL turnStillWorking;
 	BOOL boardFilledOut;
 	
 
@@ -57,9 +58,11 @@
 @property (atomic) int highHandValue;
 @property (atomic) int numberOfPreflopHandsProcessed;
 @property (atomic) BOOL postFlopStillWorking;
-@property (atomic) BOOL startedCalculating;
-@property (atomic) BOOL doneCalculating;
+@property (atomic) BOOL isCalculating;
+@property (atomic) BOOL preFlopStillWorking;
+@property (atomic) BOOL turnStillWorking;
 @property (atomic) BOOL boardFilledOut;
+@property (atomic) BOOL doneCalculating;
 @property (nonatomic, strong) UITableView *mainTableView;
 @property (atomic, strong) UIBarButtonItem *calculateButton;
 @property (atomic, strong) UIBarButtonItem *leftButton;

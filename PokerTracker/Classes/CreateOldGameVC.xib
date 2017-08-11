@@ -143,7 +143,7 @@
 					<object class="IBUISegmentedControl" id="889955903">
 						<reference key="NSNextResponder" ref="971803841"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 43}, {320, 30}}</string>
+						<string key="NSFrame">{{0, 44}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
 						<reference key="NSNextKeyView" ref="436271554"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
@@ -183,10 +183,48 @@
 							<reference ref="4"/>
 						</array>
 					</object>
+					<object class="IBUISegmentedControl" id="1070173499">
+						<reference key="NSNextResponder" ref="971803841"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{0, 73}, {320, 30}}</string>
+						<reference key="NSSuperview" ref="971803841"/>
+						<reference key="NSNextKeyView" ref="889955903"/>
+						<reference key="IBUIBackgroundColor" ref="772466120"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBSegmentControlStyle">2</int>
+						<int key="IBNumberOfSegments">3</int>
+						<int key="IBSelectedSegmentIndex">0</int>
+						<array key="IBSegmentTitles">
+							<string>Single Table</string>
+							<string>Multi-Table</string>
+							<string>Heads up</string>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentWidths">
+							<real value="0.0"/>
+							<real value="0.0"/>
+							<real value="0.0"/>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentEnabledStates">
+							<boolean value="YES"/>
+							<boolean value="YES"/>
+							<boolean value="YES"/>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentContentOffsets">
+							<string>{0, 0}</string>
+							<string>{0, 0}</string>
+							<string>{0, 0}</string>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentImages">
+							<reference ref="4"/>
+							<reference ref="4"/>
+							<reference ref="4"/>
+						</array>
+					</object>
 					<object class="IBUISegmentedControl" id="296443093">
 						<reference key="NSNextResponder" ref="971803841"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{-1, 72}, {320, 30}}</string>
+						<string key="NSFrame">{{0, 73}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="971803841"/>
 						<reference key="NSNextKeyView" ref="1070173499"/>
 						<reference key="IBUIBackgroundColor" ref="772466120"/>
@@ -225,6 +263,49 @@
 						</array>
 						<array class="NSMutableArray" key="IBSegmentImages">
 							<reference ref="4"/>
+							<reference ref="4"/>
+							<reference ref="4"/>
+							<reference ref="4"/>
+							<reference ref="4"/>
+						</array>
+					</object>
+					<object class="IBUISegmentedControl" id="436271554">
+						<reference key="NSNextResponder" ref="971803841"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{0, 102}, {320, 30}}</string>
+						<reference key="NSSuperview" ref="971803841"/>
+						<reference key="NSNextKeyView" ref="703509743"/>
+						<reference key="IBUIBackgroundColor" ref="772466120"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBSegmentControlStyle">2</int>
+						<int key="IBNumberOfSegments">4</int>
+						<int key="IBSelectedSegmentIndex">0</int>
+						<array key="IBSegmentTitles">
+							<string>No-Limit</string>
+							<string>Limit</string>
+							<string>Spread</string>
+							<string>edit</string>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentWidths">
+							<real value="0.0"/>
+							<real value="0.0"/>
+							<real value="0.0"/>
+							<real value="0.0"/>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentEnabledStates">
+							<boolean value="YES"/>
+							<boolean value="YES"/>
+							<boolean value="YES"/>
+							<boolean value="YES"/>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentContentOffsets">
+							<string>{0, 0}</string>
+							<string>{0, 0}</string>
+							<string>{0, 0}</string>
+							<string>{0, 0}</string>
+						</array>
+						<array class="NSMutableArray" key="IBSegmentImages">
 							<reference ref="4"/>
 							<reference ref="4"/>
 							<reference ref="4"/>
@@ -395,49 +476,6 @@
 						<reference key="IBUIFontDescription" ref="564893317"/>
 						<reference key="IBUIFont" ref="499486584"/>
 					</object>
-					<object class="IBUISegmentedControl" id="436271554">
-						<reference key="NSNextResponder" ref="971803841"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 102}, {320, 30}}</string>
-						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSNextKeyView" ref="703509743"/>
-						<reference key="IBUIBackgroundColor" ref="772466120"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBSegmentControlStyle">2</int>
-						<int key="IBNumberOfSegments">4</int>
-						<int key="IBSelectedSegmentIndex">0</int>
-						<array key="IBSegmentTitles">
-							<string>No-Limit</string>
-							<string>Limit</string>
-							<string>Spread</string>
-							<string>edit</string>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentWidths">
-							<real value="0.0"/>
-							<real value="0.0"/>
-							<real value="0.0"/>
-							<real value="0.0"/>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentEnabledStates">
-							<boolean value="YES"/>
-							<boolean value="YES"/>
-							<boolean value="YES"/>
-							<boolean value="YES"/>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentContentOffsets">
-							<string>{0, 0}</string>
-							<string>{0, 0}</string>
-							<string>{0, 0}</string>
-							<string>{0, 0}</string>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentImages">
-							<reference ref="4"/>
-							<reference ref="4"/>
-							<reference ref="4"/>
-							<reference ref="4"/>
-						</array>
-					</object>
 					<object class="IBUIButton" id="11742501">
 						<reference key="NSNextResponder" ref="971803841"/>
 						<int key="NSvFlags">292</int>
@@ -474,44 +512,6 @@
 							<double key="NSSize">9</double>
 							<int key="NSfFlags">16</int>
 						</object>
-					</object>
-					<object class="IBUISegmentedControl" id="1070173499">
-						<reference key="NSNextResponder" ref="971803841"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{-1, 72}, {320, 30}}</string>
-						<reference key="NSSuperview" ref="971803841"/>
-						<reference key="NSNextKeyView" ref="889955903"/>
-						<reference key="IBUIBackgroundColor" ref="772466120"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBSegmentControlStyle">2</int>
-						<int key="IBNumberOfSegments">3</int>
-						<int key="IBSelectedSegmentIndex">0</int>
-						<array key="IBSegmentTitles">
-							<string>Single Table</string>
-							<string>Multi-Table</string>
-							<string>Heads up</string>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentWidths">
-							<real value="0.0"/>
-							<real value="0.0"/>
-							<real value="0.0"/>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentEnabledStates">
-							<boolean value="YES"/>
-							<boolean value="YES"/>
-							<boolean value="YES"/>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentContentOffsets">
-							<string>{0, 0}</string>
-							<string>{0, 0}</string>
-							<string>{0, 0}</string>
-						</array>
-						<array class="NSMutableArray" key="IBSegmentImages">
-							<reference ref="4"/>
-							<reference ref="4"/>
-							<reference ref="4"/>
-						</array>
 					</object>
 					<object class="IBUIImageView" id="233140768">
 						<reference key="NSNextResponder" ref="971803841"/>
@@ -799,22 +799,22 @@
 							<reference ref="980931851"/>
 							<reference ref="20725392"/>
 							<reference ref="533024236"/>
-							<reference ref="889955903"/>
 							<reference ref="296443093"/>
 							<reference ref="703509743"/>
 							<reference ref="318455490"/>
 							<reference ref="496904079"/>
 							<reference ref="1062147440"/>
 							<reference ref="1065255407"/>
-							<reference ref="436271554"/>
 							<reference ref="11742501"/>
-							<reference ref="1070173499"/>
 							<reference ref="233140768"/>
 							<reference ref="837909973"/>
 							<reference ref="313018206"/>
 							<reference ref="1057748858"/>
 							<reference ref="343459582"/>
 							<reference ref="665420249"/>
+							<reference ref="1070173499"/>
+							<reference ref="436271554"/>
+							<reference ref="889955903"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>

@@ -30,7 +30,7 @@
 	[ProjectFunctions makeFAButton:detailsButton type:33 size:24];
 	[ProjectFunctions makeFAButton:editButton type:2 size:24];
 	
-	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
+//	[ProjectFunctions makeSegment:self.filterSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)];
 	

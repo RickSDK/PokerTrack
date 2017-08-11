@@ -16,5 +16,6 @@
 -(void)turnIntoFilterSegment:(NSManagedObjectContext *)context;
 -(void)turnIntoTypeSegment;
 -(void)gameSegmentChanged;
+-(void)applyThemeColor;
 
 @end

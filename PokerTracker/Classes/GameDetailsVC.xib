@@ -93,7 +93,7 @@
                     <rect key="frame" x="0.0" y="374" width="320" height="42"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zfh-po-Q6V">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zfh-po-Q6V" customClass="PtpButton">
                             <rect key="frame" x="13" y="2" width="93" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -105,7 +105,7 @@
                                 <action selector="deleteButtonPressed:" destination="-1" eventType="touchDown" id="ZTX-zr-wVN"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bCN-0I-1HY">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bCN-0I-1HY" customClass="PtpButton">
                             <rect key="frame" x="209" y="2" width="90" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <size key="titleShadowOffset" width="1" height="1"/>

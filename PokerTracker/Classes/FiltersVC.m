@@ -51,8 +51,7 @@
 - (void)viewDidLoad {
 	
 	self.mainSegment.selectedSegmentIndex=2;
-	self.deleteButton.enabled=NO;
-	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:24];
+	[self.mainSegment changeSegment];
 	displayLabelValues = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithObjects:
 																@"Timeframe",
 																@"Game Type",
@@ -106,11 +105,6 @@
 	if([gameType isEqualToString:@""])
 		self.gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
 	
-	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	[gameSegment setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
-	
-	
 	[self setTitle:NSLocalizedString(@"Filters", nil)];
 	[self changeNavToIncludeType:39];
 	[super viewDidLoad];
@@ -119,9 +113,11 @@
 		displayYear = [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 	
 	yearLabel.text = [NSString stringWithFormat:@"%d", displayYear];
+	[ProjectFunctions makeFAButton:self.deleteButton type:0 size:24];
 	[ProjectFunctions makeFAButton:self.saveButton type:32 size:24];
 	[ProjectFunctions makeFAButton:self.popupSaveButton type:32 size:24];
 	[ProjectFunctions makeFAButton:self.viewButton type:33 size:24];
+	self.deleteButton.enabled=NO;
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(popupButtonClicked)];
 
 	self.popupView.titleLabel.text = self.title;
@@ -139,9 +135,6 @@
 	
 	[gameSegment setWidth:60 forSegmentAtIndex:0];
 	self.currentFilterLabel.text = @"None";
-	
-	[ProjectFunctions makeSegment:self.gameSegment color:[UIColor colorWithRed:.0 green:.5 blue:0 alpha:1]];
-	[ProjectFunctions makeSegment:self.customSegment color:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	NSArray *items = [CoreDataLib selectRowsFromTable:@"SEARCH" mOC:self.managedObjectContext];
 	for(NSManagedObject *mo in items) {
@@ -177,22 +170,21 @@
 	self.currentFilterLabel.text = [mo valueForKey:@"name"];
 	self.mainTextfield.text = [mo valueForKey:@"name"];
 	self.buttonNum=[[mo valueForKey:@"button"] intValue];
-	self.mainSegment.selectedSegmentIndex=3;
-	if(self.buttonNum>0 && self.buttonNum<4)
-		self.mainSegment.selectedSegmentIndex=self.buttonNum-1;
-	yearLabel.text=[mo valueForKey:@"name"];
-	[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
-	[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
-	[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
-	[formDataArray replaceObjectAtIndex:3 withObject:[mo valueForKey:@"limit"]];
-	[formDataArray replaceObjectAtIndex:4 withObject:[mo valueForKey:@"stakes"]];
-	[formDataArray replaceObjectAtIndex:5 withObject:[mo valueForKey:@"location"]];
-	[formDataArray replaceObjectAtIndex:6 withObject:[mo valueForKey:@"bankroll"]];
-	[formDataArray replaceObjectAtIndex:7 withObject:[mo valueForKey:@"tournamentType"]];
+	[self updateForm:formDataArray filterObj:mo];
 	[self computeStats];
 }
 
-
+-(void)updateForm:(NSMutableArray *)form filterObj:(NSManagedObject *)mo {
+	[form replaceObjectAtIndex:0 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"timeframe"]]];
+	[form replaceObjectAtIndex:1 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"Type"]]];
+	[form replaceObjectAtIndex:2 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"game"]]];
+	[form replaceObjectAtIndex:3 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"limit"]]];
+	[form replaceObjectAtIndex:4 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"stakes"]]];
+	[form replaceObjectAtIndex:5 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"location"]]];
+	[form replaceObjectAtIndex:6 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"bankroll"]]];
+	[form replaceObjectAtIndex:7 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"tournamentType"]]];
+}
+/*
 -(void)setFilterIndex:(int)row_id
 {
 	NSArray *filterList = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:nil sortColumn:@"button" mOC:self.managedObjectContext ascendingFlg:YES];
@@ -202,19 +194,20 @@
 		self.buttonNum=[[mo valueForKey:@"button"] intValue];
 		NSLog(@"+++self.buttonNum: %d", self.buttonNum);
 		yearLabel.text=[mo valueForKey:@"name"];
-		[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
-		[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
-		[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
-		[formDataArray replaceObjectAtIndex:3 withObject:[mo valueForKey:@"limit"]];
-		[formDataArray replaceObjectAtIndex:4 withObject:[mo valueForKey:@"stakes"]];
-		[formDataArray replaceObjectAtIndex:5 withObject:[mo valueForKey:@"location"]];
-		[formDataArray replaceObjectAtIndex:6 withObject:[mo valueForKey:@"bankroll"]];
-		[formDataArray replaceObjectAtIndex:7 withObject:[mo valueForKey:@"tournamentType"]];
+		[self updateForm:formDataArray filterObj:mo];
+//		[formDataArray replaceObjectAtIndex:0 withObject:[mo valueForKey:@"timeframe"]];
+//		[formDataArray replaceObjectAtIndex:1 withObject:[mo valueForKey:@"Type"]];
+//		[formDataArray replaceObjectAtIndex:2 withObject:[mo valueForKey:@"game"]];
+//		[formDataArray replaceObjectAtIndex:3 withObject:[mo valueForKey:@"limit"]];
+//		[formDataArray replaceObjectAtIndex:4 withObject:[mo valueForKey:@"stakes"]];
+//		[formDataArray replaceObjectAtIndex:5 withObject:[mo valueForKey:@"location"]];
+//		[formDataArray replaceObjectAtIndex:6 withObject:[mo valueForKey:@"bankroll"]];
+//		[formDataArray replaceObjectAtIndex:7 withObject:[mo valueForKey:@"tournamentType"]];
 		[self computeStats];
 	}
 
 }
-
+*/
 -(void)checkCustomSegment
 {
 	for(int i=1; i<=3; i++) {
@@ -443,12 +436,14 @@
 
 -(void) setReturningValue:(NSObject *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
+	NSLog(@"+++setReturningValue %@ %@", value, value2);
 	if(selectedFieldIndex==kSaveFilter) {
 		[self saveNewFilter:(NSString *)value];
 		[self computeStats];
 		return;
 	}
 	customSegment.selectedSegmentIndex=0;
+	[customSegment changeSegment];
 	[formDataArray replaceObjectAtIndex:selectedFieldIndex withObject:value];
 	if(selectedFieldIndex==0)
 		yearLabel.text = (NSString *)value;
