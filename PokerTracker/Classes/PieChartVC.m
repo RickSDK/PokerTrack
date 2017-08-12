@@ -129,6 +129,10 @@
 	[self computeStats];
 }
 
+-(void)bankrollSegmentChanged {
+	[self computeStats];
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [[event allTouches] anyObject];
 	self.startTouchPosition = [touch locationInView:self.view];

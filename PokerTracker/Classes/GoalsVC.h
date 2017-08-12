@@ -20,8 +20,6 @@
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIButton *profitButton;
 	IBOutlet UIButton *hourlyButton;
-	IBOutlet UISegmentedControl *bankRollSegment;
-    IBOutlet UIButton *bankrollButton;
 
 	//---Gloabls----------------------------
 	NSMutableArray *monthlyProfits;
@@ -36,8 +34,6 @@
 - (IBAction) monthlyProfitGoalChanged: (id) sender;
 - (IBAction) hourlyGoalChanged: (id) sender;
 - (void) computeStats;
-- (IBAction) bankrollPressed: (id) sender;
-- (IBAction) bankrollSegmentChanged: (id) sender;
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
@@ -45,8 +41,6 @@
 @property (atomic) BOOL coreDataLocked;
 @property (atomic, strong) IBOutlet UILabel *profitGoalLabel;
 @property (atomic, strong) IBOutlet UILabel *hourlyGoalLabel;
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
-@property (atomic, strong) UIButton *bankrollButton;
 
 @property (atomic) int selectedObjectForEdit;
 @property (atomic, strong) UIButton *profitButton;

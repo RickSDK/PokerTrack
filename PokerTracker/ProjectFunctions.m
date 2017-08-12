@@ -237,6 +237,7 @@
 	}
 	
 	NSString *predicateString = [ProjectFunctions getPredicateString:formDataArray mOC:mOC buttonNum:buttonNum];
+	
 	NSString *timeFrame = [formDataArray stringAtIndex:0];
 	
 	if([timeFrame isEqualToString:NSLocalizedString(@"LifeTime", nil)] || [timeFrame intValue]>0)
@@ -301,11 +302,25 @@
 	
 	if(year>0)
 		[predicateString appendFormat:@" AND year = '%@'", [NSString stringWithFormat:@"%d", year]];
-    
-    NSString *bankroll = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
-    NSString *limitBankRollGames = [ProjectFunctions getUserDefaultValue:@"limitBankRollGames"];
-    if([@"YES" isEqualToString:limitBankRollGames])
-        [predicateString appendFormat:@" AND bankroll = '%@'", bankroll];
+	
+	NSString *bankroll = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
+	NSString *limitBankRollGames = [ProjectFunctions getUserDefaultValue:@"limitBankRollGames"];
+	if([@"YES" isEqualToString:limitBankRollGames])
+		[predicateString appendFormat:@" AND bankroll = '%@'", bankroll];
+	
+	if([Type isEqualToString:@"Cash"] || [Type isEqualToString:@"Tournament"])
+		[predicateString appendFormat:@" AND Type = '%@'", [ProjectFunctions formatForDataBase:Type]];
+	
+	return predicateString;
+}
+
++(NSString *)getBasicPredicateStringNoBankroll:(int)year type:(NSString *)Type
+{
+	NSMutableString *predicateString = [NSMutableString stringWithCapacity:500];
+	[predicateString appendString:@"user_id = '0'"];
+	
+	if(year>0)
+		[predicateString appendFormat:@" AND year = '%@'", [NSString stringWithFormat:@"%d", year]];
 	
 	if([Type isEqualToString:@"Cash"] || [Type isEqualToString:@"Tournament"])
 		[predicateString appendFormat:@" AND Type = '%@'", [ProjectFunctions formatForDataBase:Type]];
@@ -329,7 +344,14 @@
 {
 	NSMutableString *predicateString = [NSMutableString stringWithCapacity:500];
 	int year = [[formDataArray stringAtIndex:0] intValue];
+	
 	NSString *pred = [ProjectFunctions getBasicPredicateString:year type:[formDataArray stringAtIndex:1]];
+	if(formDataArray.count>6) {
+		NSString *bankroll = [formDataArray objectAtIndex:6];
+		if([bankroll isEqualToString:NSLocalizedString(@"All", nil)])
+			pred = [ProjectFunctions getBasicPredicateStringNoBankroll:year type:[formDataArray stringAtIndex:1]];
+	}
+
 	[predicateString appendString:pred];
 	
 	if([formDataArray count]==2)
@@ -4296,6 +4318,9 @@
 			break;
   case 44:
 			title = [NSString fontAwesomeIconStringForEnum:FAArrowRight];
+			break;
+  case 45:
+			title = [NSString fontAwesomeIconStringForEnum:FAbank];
 			break;
 
   default:

@@ -355,6 +355,7 @@
 		6BC8424E1F3B8D150057CF6C /* greenFelt5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6BC8424D1F3B8D150057CF6C /* greenFelt5.jpg */; };
 		6BC842501F3BAADE0057CF6C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC8424F1F3BAADE0057CF6C /* QuartzCore.framework */; };
 		6BC842591F3E6AC90057CF6C /* PtpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC842581F3E6AC90057CF6C /* PtpButton.m */; };
+		6BC8425C1F3F5EB20057CF6C /* BankrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC8425B1F3F5EB20057CF6C /* BankrollView.m */; };
 		6BC871051CF76A0300A38454 /* OnlineReviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC871031CF76A0300A38454 /* OnlineReviewVC.m */; };
 		6BC871061CF76A0300A38454 /* OnlineReviewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BC871041CF76A0300A38454 /* OnlineReviewVC.xib */; };
 		6BC9B4871464762600122784 /* ListPickerCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC9B4851464762600122784 /* ListPickerCustom.m */; };
@@ -946,6 +947,8 @@
 		6BC8424F1F3BAADE0057CF6C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6BC842571F3E6AC90057CF6C /* PtpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PtpButton.h; sourceTree = "<group>"; };
 		6BC842581F3E6AC90057CF6C /* PtpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PtpButton.m; sourceTree = "<group>"; };
+		6BC8425A1F3F5EB20057CF6C /* BankrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankrollView.h; sourceTree = "<group>"; };
+		6BC8425B1F3F5EB20057CF6C /* BankrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankrollView.m; sourceTree = "<group>"; };
 		6BC871021CF76A0300A38454 /* OnlineReviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineReviewVC.h; sourceTree = "<group>"; };
 		6BC871031CF76A0300A38454 /* OnlineReviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineReviewVC.m; sourceTree = "<group>"; };
 		6BC871041CF76A0300A38454 /* OnlineReviewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnlineReviewVC.xib; sourceTree = "<group>"; };
@@ -1802,6 +1805,8 @@
 				6B5CA2261F1FAC38003392BD /* GameSummaryView.m */,
 				6BBD4C971F239C1D004A6BFD /* YearChangeView.h */,
 				6BBD4C981F239C1D004A6BFD /* YearChangeView.m */,
+				6BC8425A1F3F5EB20057CF6C /* BankrollView.h */,
+				6BC8425B1F3F5EB20057CF6C /* BankrollView.m */,
 				6BB253A71B892BC8008AC8EE /* MultiLineObj.h */,
 				6BB253A81B892BC8008AC8EE /* MultiLineObj.m */,
 				6B57B67D1B3DC863002A79BA /* WebServiceView.h */,
@@ -2357,6 +2362,7 @@
 				6B50CC151468A31C00DBD8D9 /* MessageBox.m in Sources */,
 				6B50CCD61468C9AD00DBD8D9 /* GoalsVC.m in Sources */,
 				6B50D5F8146C5CF200DBD8D9 /* HexaFieldCell.m in Sources */,
+				6BC8425C1F3F5EB20057CF6C /* BankrollView.m in Sources */,
 				6B50D6F5146CA25B00DBD8D9 /* LocationGetter.m in Sources */,
 				6B50D727146CAE3900DBD8D9 /* LocationsVC.m in Sources */,
 				6BB08CD7146F7DBD00DF84AB /* FiltersVC.m in Sources */,
@@ -2489,8 +2495,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2514,8 +2520,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

@@ -147,8 +147,6 @@
 	if([@"Calendar-o" isEqualToString:gameObj.type])
 		faSymbol = [NSString fontAwesomeIconStringForEnum:FAcalendarCheckO];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
-//	cell.nameLabel.textColor = [ProjectFunctions themeBGColor];
-//	cell.nameLabel.textColor = (gameObj.tournamentGameFlg)?[UIColor colorWithRed:0 green:.2 blue:.7 alpha:1]:[UIColor blackColor];
 	
 	//name---------
 	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
@@ -179,6 +177,8 @@
 		if([@"the" isEqualToString:[location lowercaseString]] && components.count>1)
 			location = [components objectAtIndex:1];
 	}
+	if(![@"Default" isEqualToString:gameObj.bankroll])
+		location = gameObj.bankroll;
 	cell.locationLabel.text = location;
 
 	//hud & ppr text---------

@@ -8,8 +8,7 @@
             <connections>
                 <outlet property="activityBGView" destination="18" id="21"/>
                 <outlet property="activityIndicator" destination="19" id="20"/>
-                <outlet property="bankRollSegment" destination="27" id="30"/>
-                <outlet property="bankrollButton" destination="28" id="29"/>
+                <outlet property="bankrollView" destination="Tvb-Ui-tRG" id="F9L-cZ-HaT"/>
                 <outlet property="mainTableView" destination="4" id="13"/>
                 <outlet property="moneySegment" destination="p6C-SP-6JE" id="Fk0-dO-hwn"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -30,19 +29,6 @@
                         <outlet property="delegate" destination="-1" id="11"/>
                     </connections>
                 </tableView>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="27">
-                    <rect key="frame" x="0.0" y="387" width="260" height="30"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <segments>
-                        <segment title="First"/>
-                        <segment title="All Bankrolls"/>
-                    </segments>
-                    <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <action selector="bankrollSegmentChanged:" destination="-1" eventType="valueChanged" id="33"/>
-                    </connections>
-                </segmentedControl>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="logo2.png" id="18">
                     <rect key="frame" x="43" y="143" width="234" height="112"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -51,18 +37,6 @@
                     <rect key="frame" x="66" y="187" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="28">
-                    <rect key="frame" x="259" y="387" width="61" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="edit" backgroundImage="whiteChromeBut.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="bankrollPressed:" destination="-1" eventType="touchDown" id="31"/>
-                    </connections>
-                </button>
                 <view contentMode="scaleToFill" id="Enj-gr-ySP" customClass="YearChangeView">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -79,6 +53,11 @@
                         <action selector="moneySegmentChanged:" destination="-1" eventType="valueChanged" id="CHf-Yd-jhh"/>
                     </connections>
                 </segmentedControl>
+                <view contentMode="scaleToFill" id="Tvb-Ui-tRG" customClass="BankrollView">
+                    <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -87,7 +66,6 @@
     </objects>
     <resources>
         <image name="logo2.png" width="317" height="149"/>
-        <image name="whiteChromeBut.png" width="400" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -44,7 +44,7 @@
 //----------Edit in Here---------------------------
 #define kLOG 0
 #define kPRODMode 1
-#define kIsLiteVersion 0  // 0 or 1
+#define kIsLiteVersion 1  // 0 or 1
 //----------Edit in Here---------------------------
 
 //Lite: 488925221
@@ -107,7 +107,9 @@
 +(void)showTwoButtonPopupWithTitle:(NSString *)title message:(NSString *)message button1:(NSString *)button1 button2:(NSString *)button2 delegate:(id)delegate;
 +(NSArray *)getValuesForField:(NSString *)field context:(NSManagedObjectContext *)context year:(int)year type:(NSString *)type;
 +(void)displayTimeFrameLabel:(UILabel *)label mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum timeFrame:(NSString *)timeFrame;
++(NSString *)getPredicateStringNoBankroll:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum;
 +(NSArray *)getContentsOfFlatFile:(NSString *)filename;
++(NSString *)getBasicPredicateStringNoBankroll:(int)year type:(NSString *)Type;
 +(UIImage *)getPtpPlayerTypeImage:(double)amountRisked winnings:(double)winnings iconGroupNumber:(int)iconGroupNumber;
 +(NSString *)playerTypeLongFromLooseNum:(int)looseNum agressiveNum:(int)agressiveNum;
 //+(void)executeThreadedJob:(NSString *)class:(SEL)aSelector:(UIActivityIndicatorView *)activityIndicator;

@@ -7,8 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReportsVC">
             <connections>
                 <outlet property="activityIndicator" destination="10" id="12"/>
-                <outlet property="bankRollSegment" destination="39" id="42"/>
-                <outlet property="bankrollButton" destination="40" id="41"/>
+                <outlet property="bankrollView" destination="vOi-dl-Lkl" id="ht2-od-Aa3"/>
                 <outlet property="gameSegment" destination="16" id="27"/>
                 <outlet property="mainTableView" destination="4" id="7"/>
                 <outlet property="topSegment" destination="22" id="23"/>
@@ -52,33 +51,6 @@
                         <outlet property="delegate" destination="-1" id="6"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="40">
-                    <rect key="frame" x="259" y="385" width="61" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
-                    <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="edit" backgroundImage="whiteChromeBut.png">
-                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="bankrollPressed:" destination="-1" eventType="touchDown" id="43"/>
-                    </connections>
-                </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="39">
-                    <rect key="frame" x="0.0" y="386" width="260" height="30"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <rect key="contentStretch" x="0.0" y="1" width="1" height="1"/>
-                    <segments>
-                        <segment title="First"/>
-                        <segment title="All Bankrolls"/>
-                    </segments>
-                    <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <action selector="bankrollSegmentChanged:" destination="-1" eventType="valueChanged" id="44"/>
-                    </connections>
-                </segmentedControl>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="10">
                     <rect key="frame" x="142" y="201" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -110,6 +82,11 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <view contentMode="scaleToFill" id="vOi-dl-Lkl" customClass="BankrollView">
+                    <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
@@ -117,9 +94,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="whiteChromeBut.png" width="400" height="100"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

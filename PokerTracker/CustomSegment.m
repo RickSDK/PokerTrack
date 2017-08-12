@@ -30,17 +30,33 @@
 	return self;
 }
 
+- (id)initWithItems:(NSArray *)items {
+	self = [super initWithItems:items];
+	if (self) {
+		[self commonInit];
+	}
+	return self;
+}
+
 - (void)commonInit
 {
-//	[self setTintColor:[UIColor colorWithRed:(6/255.0) green:(122/255.0) blue:(180/255.0) alpha:1.0]];
-	[self applyThemeColor];
-	
+	//	[self setTintColor:[UIColor colorWithRed:(6/255.0) green:(122/255.0) blue:(180/255.0) alpha:1.0]];
+
 	self.layer.cornerRadius = 4;
 	self.layer.masksToBounds = YES;
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 1;
 
+	[self applyThemeColor];
+
 	[self applyFontOfSize:13];
+	
+	[self changeSegment];
+	
+	[self addTarget:self action:@selector(valueChanged) forControlEvents:UIControlEventValueChanged];
+}
+
+-(void)valueChanged {
 	[self changeSegment];
 }
 
@@ -140,14 +156,16 @@
 }
 
 -(void)changeSegment {
-	NSString *checkMark = [NSString fontAwesomeIconStringForEnum:FACheck];
-	for(int i=0; i<self.numberOfSegments; i++) {
-		NSString *title = [self titleForSegmentAtIndex:i];
-		[self setTitle:[title stringByReplacingOccurrencesOfString:checkMark withString:@""] forSegmentAtIndex:i];
-	}
+	if(self.selectedSegmentIndex < self.numberOfSegments) {
+		NSString *checkMark = [NSString fontAwesomeIconStringForEnum:FACheck];
+		for(int i=0; i<self.numberOfSegments; i++) {
+			NSString *title = [self titleForSegmentAtIndex:i];
+			[self setTitle:[title stringByReplacingOccurrencesOfString:checkMark withString:@""] forSegmentAtIndex:i];
+		}
 		
-	NSString *checkMarkTitle = [NSString stringWithFormat:@"%@%@", checkMark, [self titleForSegmentAtIndex:self.selectedSegmentIndex]];
-	[self setTitle:checkMarkTitle forSegmentAtIndex:self.selectedSegmentIndex];
+		NSString *checkMarkTitle = [NSString stringWithFormat:@"%@%@", checkMark, [self titleForSegmentAtIndex:self.selectedSegmentIndex]];
+		[self setTitle:checkMarkTitle forSegmentAtIndex:self.selectedSegmentIndex];
+	}
 }
 
 @end

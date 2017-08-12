@@ -27,8 +27,6 @@
     NSMutableArray *colorArray2;
 
     UIBarButtonItem *top5Button;
-	IBOutlet UISegmentedControl *bankRollSegment;
-    IBOutlet UIButton *bankrollButton;
     IBOutlet UITableView *mainTableView;
 
 }
@@ -46,8 +44,6 @@
 @property (atomic, strong) NSMutableArray *colorArray1;
 @property (atomic, strong) NSMutableArray *colorArray2;
 
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
-@property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, copy) NSString *analysisText;
 
 

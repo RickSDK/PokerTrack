@@ -22,10 +22,7 @@
 @synthesize topSegment, activityIndicator;
 @synthesize gameSegment, gameType, refreshButton;
 @synthesize multiDimentionalValues0, multiDimentionalValues1, multiDimentionalValues2;
-@synthesize bankRollSegment, bankrollButton;
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	sectionTitles = [[NSMutableArray alloc] init];
 	multiDimentionalValues = [[NSMutableArray alloc] init];
@@ -44,17 +41,6 @@
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
 	
 	gameSegment.selectedSegmentIndex = [ProjectFunctions selectedSegmentForGameType:self.gameType];
-	
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	
-	self.bankrollButton.alpha=1;
-	self.bankRollSegment.alpha=1;
-	
-	if(numBanks==0) {
-		self.bankrollButton.alpha=0;
-		self.bankRollSegment.alpha=0;
-	}
-	
 	refreshButton.enabled=NO;
 	
 	[self.gameSegment turnIntoGameSegment];
@@ -62,33 +48,7 @@
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
 	[self.topSegment setTitle:[NSString fontAwesomeIconStringForEnum:FAStar] forSegmentAtIndex:2];
 	[self.topSegment changeSegment];
-	
-}
-
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-
-    [ProjectFunctions setBankSegment:self.bankRollSegment];
-    [self computeStats];
-}
-
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStats];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.callBackViewController = self;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-    
+	[self computeStats];
 }
 
 - (IBAction) segmentChanged: (id) sender {
@@ -96,6 +56,9 @@
     [mainTableView reloadData];
 }
 
+-(void)bankrollSegmentChanged {
+	[self computeStats];
+}
 
 - (IBAction) gameSegmentChanged: (id) sender {
 	[self.gameSegment gameSegmentChanged];

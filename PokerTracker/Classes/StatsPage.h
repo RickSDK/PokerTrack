@@ -24,7 +24,6 @@
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet UIImageView *largeGraph;
-    IBOutlet UIButton *bankrollButton;
 
     IBOutlet UIButton *chartsButton;
     IBOutlet UIButton *reportsButton;
@@ -43,7 +42,6 @@
 	BOOL viewLocked;
 	BOOL rotateLock;
     BOOL viewUnLoaded;
-	IBOutlet UISegmentedControl *bankRollSegment;
 
 	NSMutableArray *multiDimenArray;
 
@@ -55,8 +53,6 @@
 - (IBAction) reportsPressed: (id) sender;
 - (IBAction) chartsPressed: (id) sender;
 - (IBAction) goalsPressed: (id) sender;
-- (IBAction) bankrollPressed: (id) sender;
-- (IBAction) bankrollSegmentChanged: (id) sender;
 
 -(void) computeStats;
 -(void)initializeFormData;
@@ -73,7 +69,6 @@
 @property (atomic, strong) CustomSegment *customSegment;
 @property (atomic, strong) UIToolbar *analysisToolbar;
 @property (atomic, strong) UIToolbar *top5Toolbar;
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) IBOutlet UIImageView *chartImageView;
@@ -93,8 +88,6 @@
 @property (atomic, strong) UIButton *analysisButton;
 
 @property (atomic, strong) NSMutableArray *multiDimenArray;
-
-@property (atomic, strong) UIButton *bankrollButton;
 
 @property (atomic, strong) IBOutlet UILabel *chartsLabel;
 @property (atomic, strong) IBOutlet UILabel *reportsLabel;

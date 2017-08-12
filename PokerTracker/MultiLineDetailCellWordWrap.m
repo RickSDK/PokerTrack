@@ -283,7 +283,7 @@ static NSInteger X_INSET			= 5;
 			[[fieldLabelArray objectAtIndex:i] setTextColor:[UIColor whiteColor]];
 		}
     } else {
-		[mainTitleLabel setTextColor:[ProjectFunctions themeBGColor]];
+		[mainTitleLabel setTextColor:[UIColor blackColor]];
 		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
 			[[titleLabelArray objectAtIndex:i] setTextColor:(labelColor ? labelColor : [UIColor colorWithWhite:.4 alpha:1])];

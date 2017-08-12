@@ -36,8 +36,7 @@
 
 @implementation GamesVC
 @synthesize managedObjectContext;
-@synthesize bankrollButton;
-@synthesize mainTableView, gamesList, bankRollSegment;
+@synthesize mainTableView, gamesList;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -53,16 +52,8 @@
 	[ProjectFunctions newButtonLook:self.top5Button mode:0];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
-	
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	
-	self.bankrollButton.alpha=1;
-	self.bankRollSegment.alpha=1;
-	
-	if(numBanks==0) {
-		self.bankrollButton.alpha=0;
-		self.bankRollSegment.alpha=0;
-	}
+
+	[self checkBankrollSegment];
 
 	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
 
@@ -73,9 +64,18 @@
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	[ProjectFunctions setBankSegment:self.bankRollSegment];
 	[self computeStats];
+}
+
+-(void)checkBankrollSegment {
+	NSPredicate *predicateBank = [NSPredicate predicateWithFormat:@"bankroll <> %@ ", @"Default"];
+	NSArray *gamesBank = [CoreDataLib selectRowsFromEntity:@"GAME" predicate:predicateBank sortColumn:@"" mOC:self.managedObjectContext ascendingFlg:YES];
+	int numBanks = (int)[gamesBank count];
+	int oldNumBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	if(numBanks != oldNumBanks)
+		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", numBanks] forKey:@"numBanks"];
+	
+	[super checkBankrollSegment];
 }
 
 - (IBAction) top5Pressed: (id) sender {
@@ -160,31 +160,20 @@
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
-
+/*
 - (IBAction) playerTypeButtonPressed: (id) sender {
 	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
-
+*/
 - (void) computeStats
 {
 	[self calculateStats];
 }
 
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStats];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	detailViewController.callBackViewController = self;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-    
+-(void)bankrollSegmentChanged {
+	[self computeStats];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -668,7 +668,7 @@
 		if(thisYear==0 || thisYear>currentYear)
 			thisYear = currentYear;
 		
-		NSString *basicPred = [ProjectFunctions getBasicPredicateString:thisYear type:@"All"];
+		NSString *basicPred = [ProjectFunctions getBasicPredicateStringNoBankroll:thisYear type:@"All"];
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:basicPred];
 		
 		[self updateMoneyLabel:yearTotalLabel money:[[CoreDataLib getGameStat:contextLocal dataField:@"winnings" predicate:predicate] intValue]];
@@ -709,7 +709,7 @@
 
 -(void)updateMainGraphWithCOntext:(NSManagedObjectContext *)contextLocal year:(int)year {
 	NSLog(@"updateMainGraphWithCOntext");
-	NSString *predString = [ProjectFunctions getBasicPredicateString:year type:@"All"];
+	NSString *predString = [ProjectFunctions getBasicPredicateStringNoBankroll:year type:@"All"];
 	NSPredicate *pred = [NSPredicate predicateWithFormat:predString];
 	
 	self.largeGraph.image = [ProjectFunctions plotStatsChart:contextLocal predicate:pred displayBySession:displayBySession];

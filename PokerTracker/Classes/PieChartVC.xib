@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PieChartVC">
             <connections>
+                <outlet property="bankrollView" destination="4kZ-Xv-aAb" id="b6E-5T-erK"/>
                 <outlet property="filterSegment" destination="vIq-Vl-9qd" id="nvN-1Z-KM8"/>
                 <outlet property="gameSummaryView" destination="Vwz-5v-v18" id="5H3-FC-XKb"/>
                 <outlet property="graphImageView" destination="qYB-eB-p3t" id="AIc-zz-Hja"/>
@@ -23,6 +24,13 @@
                 <view contentMode="scaleToFill" id="1Sr-3I-XIO">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="4kZ-Xv-aAb" customClass="BankrollView">
+                            <rect key="frame" x="0.0" y="380" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="Vwz-5v-v18" customClass="GameSummaryView">

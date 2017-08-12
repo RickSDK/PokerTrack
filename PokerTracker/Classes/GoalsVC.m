@@ -21,7 +21,7 @@
 @synthesize managedObjectContext;
 @synthesize mainTableView, selectedObjectForEdit, profitButton, hourlyButton;
 @synthesize chart1ImageView, chart2ImageView;
-@synthesize monthlyProfits, hourlyProfits, bankrollButton, bankRollSegment;
+@synthesize monthlyProfits, hourlyProfits;
 @synthesize activityBGView, activityIndicator, coreDataLocked;
 
 - (void)viewDidLoad {
@@ -47,34 +47,11 @@
 	self.profitGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"month", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
 	self.hourlyGoalLabel.text=[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Hourly", nil), NSLocalizedString(@"Profit", nil), NSLocalizedString(@"Goals", nil)];
 	
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	
-	self.bankrollButton.alpha=1;
-	self.bankRollSegment.alpha=1;
-	
-	if(numBanks==0) {
-		self.bankrollButton.alpha=0;
-		self.bankRollSegment.alpha=0;
-	}
+	[self computeStats];
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-}
-
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStats];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.callBackViewController = self;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-    
 }
 
 - (IBAction) monthlyProfitGoalChanged: (id) sender
@@ -103,10 +80,12 @@
 	[self computeStats];
 }
 
+-(void)bankrollSegmentChanged {
+	[self computeStats];
+}
+
 - (void)computeStats
 {
-	self.bankRollSegment.enabled=NO;
-	self.bankrollButton.enabled=NO;
 	self.mainTableView.alpha=.5;
 	[self.webServiceView startWithTitle:@"Working..."];
 	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
@@ -150,23 +129,10 @@
 		self.chart1ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal displayYear:self.yearChangeView.statYear chartNum:1 goalFlg:YES];
 		self.chart2ImageView.image = [ProjectFunctions graphGoalsChart:contextLocal displayYear:self.yearChangeView.statYear chartNum:2 goalFlg:YES];
 		
-		self.bankRollSegment.enabled=YES;
-		self.bankrollButton.enabled=YES;
-		
 		self.mainTableView.alpha=1;
 		[self.webServiceView stop];
-		[mainTableView reloadData];
+		[self.mainTableView reloadData];
  	}
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-
-    [ProjectFunctions setBankSegment:self.bankRollSegment];
-    [self computeStats];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

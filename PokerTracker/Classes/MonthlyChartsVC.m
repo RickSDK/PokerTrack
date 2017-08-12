@@ -26,7 +26,6 @@
 @synthesize yearlyProfits, yearHourlyProfits, monthlyProfits, hourlyProfits, showBreakdownFlg;
 @synthesize activityBGView, activityIndicator, moneySegment;
 @synthesize dayProfits, dayHourly, timeProfits, timeHourly, lockScreen, viewUnLoaded;
-@synthesize bankRollSegment, bankrollButton;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -61,16 +60,6 @@
 	[hourlyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[hourlyButton setBackgroundImage:[UIImage imageNamed:@"yellowButton.png"] forState:UIControlStateNormal];
 	
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	
-	self.bankrollButton.alpha=1;
-	self.bankRollSegment.alpha=1;
-	
-	if(numBanks==0) {
-		self.bankrollButton.alpha=0;
-		self.bankRollSegment.alpha=0;
-	}
-	
 	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAUsd] forSegmentAtIndex:0];
 	[self.moneySegment setTitle:[NSString fontAwesomeIconStringForEnum:FAClockO] forSegmentAtIndex:1];
 	[self.moneySegment changeSegment];
@@ -79,8 +68,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    [ProjectFunctions setBankSegment:self.bankRollSegment];
 	[self computeStatsAfterDelay:2];
 }
 
@@ -88,19 +75,8 @@
 	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStatsAfterDelay:0];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.callBackViewController = self;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-    
+-(void)bankrollSegmentChanged {
+	[self computeStatsAfterDelay:0];
 }
 
 - (IBAction) moneySegmentChanged: (id) sender
@@ -143,7 +119,6 @@
 
 - (void)computeStatsAfterDelay:(int)delay
 {
-	self.bankRollSegment.enabled=NO;
 	self.moneySegment.enabled=NO;
 	[activityIndicator startAnimating];
 	activityBGView.alpha=1;
@@ -176,6 +151,9 @@
 		NSPredicate *predicate = nil;
 		if(year==0 || [@"year" isEqualToString:field]) {
 			NSString *predString = [NSString stringWithFormat:@"%@ = %%@", field];
+			basicPred = [ProjectFunctions getBasicPredicateString:itemName type:@"All"];
+			predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
+			NSLog(@"+++predString: %@", predString);
 			predicate = [NSPredicate predicateWithFormat:predString, itemName];
 
 		} else
@@ -216,7 +194,6 @@
 	activityBGView.alpha=0;
 	
 	self.lockScreen=NO;
-	self.bankRollSegment.enabled=YES;
 	self.moneySegment.enabled=YES;
 	[activityIndicator stopAnimating];
 	self.mainTableView.alpha=1;

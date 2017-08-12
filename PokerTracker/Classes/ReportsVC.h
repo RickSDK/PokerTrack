@@ -28,16 +28,12 @@
 	NSMutableArray *multiDimentionalValues0;
 	NSMutableArray *multiDimentionalValues1;
 	NSMutableArray *multiDimentionalValues2;
-	IBOutlet UISegmentedControl *bankRollSegment;
-    IBOutlet UIButton *bankrollButton;
 
 }
 
 - (IBAction) segmentChanged: (id) sender;
 - (IBAction) gameSegmentChanged: (id) sender;
 - (void) computeStats;
-- (IBAction) bankrollPressed: (id) sender;
-- (IBAction) bankrollSegmentChanged: (id) sender;
 
 @property (atomic, strong) NSMutableArray *sectionTitles;
 @property (atomic, strong) NSMutableArray *multiDimentionalValues;
@@ -48,8 +44,6 @@
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (atomic, copy) NSString *gameType;
 @property (atomic, strong) UIButton *refreshButton;
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
-@property (atomic, strong) UIButton *bankrollButton;
 
 @property (atomic, strong) CustomSegment *gameSegment;
 

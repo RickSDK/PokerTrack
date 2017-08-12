@@ -16,7 +16,6 @@
 #import "StatsFunctions.h"
 #import "GoalsVC.h"
 #import "AnalysisVC.h"
-#import "BankrollsVC.h"
 #import "PokerTrackerAppDelegate.h"
 #import "GameStatObj.h"
 #import "FilterObj.h"
@@ -27,8 +26,8 @@
 @synthesize formDataArray, selectedFieldIndex, mainTableView, hideMainMenuButton, gameSegment, customSegment;
 @synthesize dateSessionButton, displayBySession, activityBGView, activityIndicator, chartImageView;
 @synthesize viewLocked, profitArray, largeGraph;
-@synthesize reportsButton, chartsButton, goalsButton, analysisButton, analysisToolbar, multiDimenArray, bankRollSegment;
-@synthesize bankrollButton, viewUnLoaded, top5Toolbar;
+@synthesize reportsButton, chartsButton, goalsButton, analysisButton, analysisToolbar, multiDimenArray;
+@synthesize viewUnLoaded, top5Toolbar;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -78,14 +77,6 @@
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:self.yearChangeView.statYear]];
 	
 	[gameSegment turnIntoGameSegment];
-	bankrollButton.alpha=1;
-	bankRollSegment.alpha=1;
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	if(numBanks==0) {
-		bankrollButton.alpha=0;
-		bankRollSegment.alpha=0;
-	}
-	
 	[self.gameSegment turnIntoGameSegment];
 	
 	[self setupButtons];
@@ -95,8 +86,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	[ProjectFunctions setBankSegment:self.bankRollSegment];
 	[self.customSegment turnIntoFilterSegment:self.managedObjectContext];
 }
 
@@ -183,6 +172,10 @@
 	[self computeStats];
 }
 
+-(void)bankrollSegmentChanged {
+	[self computeStats];
+}
+
 - (IBAction) gameSegmentPressed: (id) sender {
 	if(rotateLock)
 		return;
@@ -214,8 +207,10 @@
 			[formDataArray replaceObjectAtIndex:5 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"location"]]];
 			[formDataArray replaceObjectAtIndex:6 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"bankroll"]]];
 			[formDataArray replaceObjectAtIndex:7 withObject:[ProjectFunctions scrubFilterValue:[mo valueForKey:@"tournamentType"]]];
+			
 			FilterObj *obj = [FilterObj objectFromMO:mo];
 			self.yearChangeView.yearLabel.text = obj.name;
+
 			NSLog(@"+++formDataArray: %@", formDataArray);
  		} else {
 			[ProjectFunctions showAlertPopup:@"Notice" message:@"No filter currently saved to that button"];
@@ -275,6 +270,7 @@
 
 -(void)doTheHardWork {
 	@autoreleasepool {
+		[self takeCareOfBankroll];
 	
 		NSManagedObjectContext *contextLocal = [[NSManagedObjectContext alloc] init];
 		[contextLocal setUndoManager:nil];
@@ -367,6 +363,18 @@
 	[formDataArray replaceObjectAtIndex:7 withObject:NSLocalizedString(@"All", nil)]; //@"All Types"
 }
 
+-(void)takeCareOfBankroll {
+	NSString *bankroll = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
+	NSString *limitBankRollGames = [ProjectFunctions getUserDefaultValue:@"limitBankRollGames"];
+	if([@"YES" isEqualToString:limitBankRollGames] && formDataArray.count>6) {
+		NSLog(@"Inserting bankroll: %@", bankroll);
+		[formDataArray replaceObjectAtIndex:6 withObject:bankroll];
+	} else {
+		NSLog(@"Inserting bankroll: All");
+		[formDataArray replaceObjectAtIndex:6 withObject:NSLocalizedString(@"All", nil)];
+	}
+}
+
 -(void)filtersButtonClicked:(id)sender {
 	if(rotateLock)
 		return;
@@ -374,14 +382,6 @@
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.gameType = self.gameType;
 	detailViewController.displayYear = self.yearChangeView.statYear;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.callBackViewController = self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -460,11 +460,5 @@
 	}
 }
 
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    
-    [self computeStats];
-}
 // 645 lines
 @end

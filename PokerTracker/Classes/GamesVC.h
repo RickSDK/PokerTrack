@@ -18,8 +18,6 @@
 
 	//---XIB----------------------------
 	IBOutlet UITableView *mainTableView;
-	IBOutlet UISegmentedControl *bankRollSegment;
-    IBOutlet UIButton *bankrollButton;
 
 	//---Gloabls----------------------------
 	NSMutableArray *gamesList;
@@ -28,8 +26,6 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (atomic, strong) NSMutableArray *gamesList;
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
-@property (atomic, strong) UIButton *bankrollButton;
 @property (atomic, strong) IBOutlet UIImageView *playerTypeImageView;
 @property (atomic, strong) IBOutlet UIButton *top5Button;
 @property (atomic, strong) IBOutlet UIButton *last10Button;
@@ -40,9 +36,6 @@
 - (IBAction) createPressed: (id) sender;
 - (IBAction) segmentChanged:(id)sender;
 - (void) computeStats;
-- (IBAction) bankrollPressed: (id) sender;
-- (IBAction) bankrollSegmentChanged: (id) sender;
-- (IBAction) playerTypeButtonPressed: (id) sender;
 - (IBAction) top5Pressed: (id) sender;
 - (IBAction) last10Pressed: (id) sender;
 

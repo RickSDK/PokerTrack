@@ -21,8 +21,6 @@
 	IBOutlet UIImageView *activityBGView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet CustomSegment *moneySegment;
-	IBOutlet UISegmentedControl *bankRollSegment;
-    IBOutlet UIButton *bankrollButton;
 	
 	//---Gloabls----------------------------
 	NSMutableArray *yearlyProfits;
@@ -51,13 +49,9 @@
 }
 
 - (IBAction) moneySegmentChanged: (id) sender;
-- (IBAction) bankrollPressed: (id) sender;
-- (IBAction) bankrollSegmentChanged: (id) sender;
 
 @property (atomic, strong) UIImageView *activityBGView;
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (atomic, strong) UISegmentedControl *bankRollSegment;
-@property (atomic, strong) UIButton *bankrollButton;
 
 @property (atomic) BOOL showBreakdownFlg;
 @property (atomic) BOOL lockScreen;

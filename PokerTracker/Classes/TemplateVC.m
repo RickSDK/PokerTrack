@@ -8,6 +8,7 @@
 
 #import "TemplateVC.h"
 #import "AnalysisDetailsVC.h"
+#import "BankrollsVC.h"
 
 @interface TemplateVC ()
 
@@ -42,6 +43,8 @@
 	int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 	[self.yearChangeView setYear:-1 min:currentMinYear];
 	[self.yearChangeView addTargetSelector:@selector(yearChanged) target:self];
+	[self.bankrollView addTargetSelector:@selector(bankrollEditPressed) target:self];
+	[self.bankrollView addSegmentTargetSelector:@selector(bankrollSegmentChanged) target:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -49,7 +52,37 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
+	[self checkBankrollSegment];
 	self.view.backgroundColor = [ProjectFunctions themeBGColor];
+}
+
+-(void)bankrollSegmentChanged {
+	[ProjectFunctions showAlertPopup:@"Developer!" message:@"need to override bankrollSegmentChanged"];
+}
+
+-(void)checkBankrollSegment {
+	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
+	if(numBanks>0) {
+		NSString *bankrollDefault = [ProjectFunctions getUserDefaultValue:@"bankrollDefault"];
+		NSString *currentBankroll = [self.bankrollView.bankRollSegment titleForSegmentAtIndex:0];
+		if(currentBankroll.length==0)
+			[self.bankrollView.bankRollSegment setTitle:bankrollDefault forSegmentAtIndex:0];
+		else {
+			if(![currentBankroll isEqualToString:bankrollDefault] && ![[currentBankroll substringFromIndex:1] isEqualToString:bankrollDefault]) {
+				NSLog(@"Changing!!!!");
+				[self.bankrollView.bankRollSegment setTitle:bankrollDefault forSegmentAtIndex:0];
+			}
+		}
+		
+		NSString *limitBankRollGames = [ProjectFunctions getUserDefaultValue:@"limitBankRollGames"];
+		NSLog(@"limitBankRollGames: %@", limitBankRollGames);
+		if([@"YES" isEqualToString:limitBankRollGames]) {
+			self.bankrollView.bankRollSegment.selectedSegmentIndex=0;
+		} else {
+			self.bankrollView.bankRollSegment.selectedSegmentIndex=1;
+		}
+		[self.bankrollView.bankRollSegment changeSegment];
+	}
 }
 
 -(BOOL)isPokerZilla {
@@ -66,6 +99,13 @@
 
 -(void)yearChanged {
 	[self calculateStats];
+}
+
+-(void)bankrollEditPressed {
+	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
+	detailViewController.managedObjectContext = self.managedObjectContext;
+	detailViewController.callBackViewController = self;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)calculateStats {

@@ -25,7 +25,7 @@
 @synthesize yearToolbar;
 @synthesize top5Button;
 @synthesize playerBasicsArray, playerStatsArray, colorArray1, colorArray2, gRisked, gIncome, mainTableView;
-@synthesize playerTypeLabel, bankRollSegment, bankrollButton, analysisText;
+@synthesize playerTypeLabel, analysisText;
 
 
 
@@ -66,16 +66,6 @@
 		[ProjectFunctions setUserDefaultValue:[stats stringAtIndex:5] forKey:@"longestLoseStreak"];
 	}
 	
-	int numBanks = [[ProjectFunctions getUserDefaultValue:@"numBanks"] intValue];
-	
-	
-	if(numBanks==0) {
-		self.bankrollButton.alpha=0;
-		self.bankRollSegment.alpha=0;
-	} else {
-		self.bankrollButton.alpha=1;
-		self.bankRollSegment.alpha=1;
-	}
 	self.multiCellObj = [MultiCellObj initWithTitle:@"Stats" altTitle:@"Last 10" labelPercent:.4];
 }
 
@@ -85,7 +75,6 @@
 	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
 		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
 	
-	[ProjectFunctions setBankSegment:self.bankRollSegment];
 	[self computeStats];
 }
 
@@ -96,22 +85,11 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-- (IBAction) bankrollSegmentChanged: (id) sender
-{
-    [ProjectFunctions bankSegmentChangedTo:(int)self.bankRollSegment.selectedSegmentIndex];
-    [self computeStats];
-}
-
-- (IBAction) bankrollPressed: (id) sender
-{
-	BankrollsVC *detailViewController = [[BankrollsVC alloc] initWithNibName:@"BankrollsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	detailViewController.callBackViewController = self;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-    
-}
-
 -(void)yearChanged {
+	[self computeStats];
+}
+
+-(void)bankrollSegmentChanged {
 	[self computeStats];
 }
 
@@ -127,8 +105,6 @@
         [self doTheHardWork];
     }
 }
-
-
 
 -(void)doTheHardWork {
 	@autoreleasepool {

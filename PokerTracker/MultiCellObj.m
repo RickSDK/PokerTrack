@@ -91,6 +91,9 @@
 	[self addBlackLineWithTitle:@"limit" value:gameObj.limit];
 	[self addBlackLineWithTitle:@"Date" value:gameObj.startTimeStr];
 	[self addBlackLineWithTitle:@"weekday" value:gameObj.weekdayAltStr];
+	if(![@"Default" isEqualToString:gameObj.bankroll])
+		[self addBlackLineWithTitle:@"bankroll" value:gameObj.bankroll];
+		
 	[self addBlackLineWithTitle:@"Buyin" value:gameObj.buyInAmountStr];
 	[self addBlackLineWithTitle:@"numRebuys" value:gameObj.numRebuysStr];
 	if(gameObj.numRebuys>0)
