@@ -22,12 +22,8 @@
 
 @implementation AnalysisVC
 @synthesize managedObjectContext, gameSegment, activityIndicator, last10Flg;
-@synthesize yearToolbar;
-@synthesize top5Button;
-@synthesize playerBasicsArray, playerStatsArray, colorArray1, colorArray2, gRisked, gIncome, mainTableView;
+@synthesize playerBasicsArray, colorArray1, gRisked, gIncome, mainTableView;
 @synthesize playerTypeLabel, analysisText;
-
-
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -38,9 +34,7 @@
 	
 	
 	self.playerBasicsArray = [[NSMutableArray alloc] initWithCapacity:10];
-	self.playerStatsArray = [[NSMutableArray alloc] initWithCapacity:10];
 	self.colorArray1 = [[NSMutableArray alloc] initWithCapacity:10];
-	self.colorArray2 = [[NSMutableArray alloc] initWithCapacity:10];
 	
 	self.yearChangeView.yearLabel.text = NSLocalizedString(@"Last10", nil);
 	self.last10Flg=YES;
@@ -51,10 +45,6 @@
 											   nil];
 
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAListOl] target:self action:@selector(top5ButtonClicked:)];
-	
-	
-//	[yearToolbar insertSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"greenGradWide.png"]] atIndex:0];
-//	[yearToolbar setTintColor:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year = %d", [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue]];
 	
@@ -67,14 +57,6 @@
 	}
 	
 	self.multiCellObj = [MultiCellObj initWithTitle:@"Stats" altTitle:@"Last 10" labelPercent:.4];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-		[self setEdgesForExtendedLayout:UIRectEdgeBottom];
-	
 	[self computeStats];
 }
 
@@ -163,8 +145,6 @@
 
         [self.playerBasicsArray removeAllObjects];
         [self.colorArray1 removeAllObjects];
-        [self.colorArray2 removeAllObjects];
-        [self.playerStatsArray removeAllObjects];
         
         int ppr = [ProjectFunctions calculatePprAmountRisked:amountRisked netIncome:netIncome];
         

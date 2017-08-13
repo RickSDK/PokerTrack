@@ -46,6 +46,7 @@
 		6B50D6F5146CA25B00DBD8D9 /* LocationGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B50D6F4146CA25B00DBD8D9 /* LocationGetter.m */; };
 		6B50D727146CAE3900DBD8D9 /* LocationsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B50D725146CAE3900DBD8D9 /* LocationsVC.m */; };
 		6B50D728146CAE3900DBD8D9 /* LocationsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B50D726146CAE3900DBD8D9 /* LocationsVC.xib */; };
+		6B55A51E1F40CE5C00E79F5F /* PtpLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B55A51D1F40CE5C00E79F5F /* PtpLabel.m */; };
 		6B57265C1F27FAF4009FCBAB /* Scrub2017VC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B57265A1F27FAF4009FCBAB /* Scrub2017VC.m */; };
 		6B57265D1F27FAF4009FCBAB /* Scrub2017VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B57265B1F27FAF4009FCBAB /* Scrub2017VC.xib */; };
 		6B57B67C1B3DC80D002A79BA /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B57B67B1B3DC80D002A79BA /* CustomButton.m */; };
@@ -524,6 +525,8 @@
 		6B50D724146CAE3900DBD8D9 /* LocationsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsVC.h; sourceTree = "<group>"; };
 		6B50D725146CAE3900DBD8D9 /* LocationsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsVC.m; sourceTree = "<group>"; };
 		6B50D726146CAE3900DBD8D9 /* LocationsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationsVC.xib; sourceTree = "<group>"; };
+		6B55A51C1F40CE5C00E79F5F /* PtpLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PtpLabel.h; sourceTree = "<group>"; };
+		6B55A51D1F40CE5C00E79F5F /* PtpLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PtpLabel.m; sourceTree = "<group>"; };
 		6B5726591F27FAF4009FCBAB /* Scrub2017VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scrub2017VC.h; sourceTree = "<group>"; };
 		6B57265A1F27FAF4009FCBAB /* Scrub2017VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scrub2017VC.m; sourceTree = "<group>"; };
 		6B57265B1F27FAF4009FCBAB /* Scrub2017VC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Scrub2017VC.xib; sourceTree = "<group>"; };
@@ -1797,6 +1800,8 @@
 				6B57B67B1B3DC80D002A79BA /* CustomButton.m */,
 				6BC842571F3E6AC90057CF6C /* PtpButton.h */,
 				6BC842581F3E6AC90057CF6C /* PtpButton.m */,
+				6B55A51C1F40CE5C00E79F5F /* PtpLabel.h */,
+				6B55A51D1F40CE5C00E79F5F /* PtpLabel.m */,
 				6BB2539F1B8911C6008AC8EE /* CustomView.h */,
 				6BB253A01B8911C6008AC8EE /* CustomView.m */,
 				6B5CA2221F1C6CFB003392BD /* PopupView.h */,
@@ -2328,6 +2333,7 @@
 				6B7522FB1449083D00E59D21 /* TextEnterVC.m in Sources */,
 				6B7523001449084B00E59D21 /* MinuteEnterVC.m in Sources */,
 				6B752381144918CD00E59D21 /* OddsCalculatorVC.m in Sources */,
+				6B55A51E1F40CE5C00E79F5F /* PtpLabel.m in Sources */,
 				6B75251F144A2C9100E59D21 /* ActionCell.m in Sources */,
 				6B752527144A2CF200E59D21 /* TextEditCell.m in Sources */,
 				6BD7AFC31F1962C000C9830B /* GraphObject.m in Sources */,
@@ -2495,8 +2501,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 				"VALID_ARCHS[sdk=*]" = "arm64 armv7 armv7s";
@@ -2520,8 +2526,8 @@
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=*]" = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = PokerTracker;
-				PROVISIONING_PROFILE = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "d7d3d898-7973-4090-a1c9-9cee88218fe3";
+				PROVISIONING_PROFILE = "be484e10-dec6-4ff9-8694-aef73019ec23";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "be484e10-dec6-4ff9-8694-aef73019ec23";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s";

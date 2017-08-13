@@ -12,11 +12,9 @@
 
 @interface Last10NewVC : TemplateVC
 {
-	NSMutableArray *bestGames;
 }
 
 
 @property (nonatomic, strong) IBOutlet GameSummaryView *gameSummaryView;
-@property (nonatomic, strong) NSMutableArray *bestGames;
 
 @end

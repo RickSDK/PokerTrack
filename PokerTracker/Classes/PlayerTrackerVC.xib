@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerTrackerVC">
             <connections>
                 <outlet property="activityIndicator" destination="18" id="19"/>
+                <outlet property="allButton" destination="22" id="h8j-9l-dKW"/>
                 <outlet property="locationButton" destination="8" id="10"/>
                 <outlet property="mainTableView" destination="4" id="9"/>
                 <outlet property="popupView" destination="CHV-Oj-EKj" id="SbQ-5R-ShR"/>
@@ -43,19 +44,6 @@
                                 <rect key="frame" x="78" y="13" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="22" customClass="PtpButton">
-                                <rect key="frame" x="258" y="8" width="54" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                                <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" title="All" backgroundImage="yellowBigChromeBut.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="allButtonPressed:" destination="-1" eventType="touchDown" id="23"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eah-AR-jFi" customClass="PtpButton">
                                 <rect key="frame" x="188" y="8" width="62" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -67,6 +55,19 @@
                                 </state>
                                 <connections>
                                     <action selector="localButtonPressed:" destination="-1" eventType="touchDown" id="sx1-qu-J2d"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="22" customClass="PtpButton">
+                                <rect key="frame" x="258" y="8" width="54" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                                <size key="titleShadowOffset" width="1" height="1"/>
+                                <state key="normal" title="All" backgroundImage="yellowBigChromeBut.png">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="allButtonPressed:" destination="-1" eventType="touchDown" id="23"/>
                                 </connections>
                             </button>
                         </subviews>

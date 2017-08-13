@@ -143,6 +143,11 @@
 	}
 }
 
+- (void) computeStats
+{
+	[self calculateStats];
+}
+
 -(void)calculateStats
 {
 	@autoreleasepool {
@@ -155,43 +160,11 @@
 	}
 }
 
--(void)gotoAnalysis {
-	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-/*
-- (IBAction) playerTypeButtonPressed: (id) sender {
-	AnalysisDetailsVC *detailViewController = [[AnalysisDetailsVC alloc] initWithNibName:@"AnalysisDetailsVC" bundle:nil];
-	detailViewController.managedObjectContext = managedObjectContext;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-*/
-- (void) computeStats
-{
-	[self calculateStats];
-}
-
 -(void)bankrollSegmentChanged {
 	[self computeStats];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 44;
-}
-
--(UIColor *)getFieldColor:(int)value
-{
-	if(value>0)
-		return [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-	if(value<0)
-		return [UIColor redColor];
-	return [UIColor blackColor];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-	
 	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%ldRow%ld", (long)indexPath.section, (long)indexPath.row];
 	GameCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
@@ -203,7 +176,6 @@
 	[self checkToScrubDataForObj:mo context:self.managedObjectContext];
 	
 	return cell;
-
 }
 
 -(void)checkToScrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
@@ -225,8 +197,6 @@
 	// Edit the entity name as appropriate.
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"GAME" inManagedObjectContext:self.managedObjectContext];
 	[fetchRequest setEntity:entity];
-	
-
 
 	// Set the batch size to a suitable number.
 	[fetchRequest setFetchBatchSize:20];
@@ -271,20 +241,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSManagedObject *mo = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
-        GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
-        detailViewController.managedObjectContext = self.managedObjectContext;
-        detailViewController.mo = mo;
-        detailViewController.newGameStated=NO;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    } else {
-        GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
-        detailViewController.managedObjectContext = self.managedObjectContext;
-        detailViewController.viewEditable = NO;
-        detailViewController.mo = mo;
-        [self.navigationController pushViewController:detailViewController animated:YES];
-    }
+	[self gotoGame:[self.fetchedResultsController objectAtIndexPath:indexPath]];
 }
 
 @end

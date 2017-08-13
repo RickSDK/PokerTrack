@@ -11,16 +11,10 @@
 
 
 @interface Top5VC : TemplateVC {
-	NSManagedObjectContext *managedObjectContext;
-
-	IBOutlet UITableView *mainTableView;
-	
 	NSMutableArray *bestGames;
 	NSMutableArray *worstGames;
 }
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) UITableView *mainTableView;
 @property (nonatomic, strong) NSMutableArray *bestGames;
 @property (nonatomic, strong) NSMutableArray *worstGames;
 

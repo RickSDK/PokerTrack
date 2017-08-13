@@ -188,7 +188,6 @@
 - (IBAction) customSegmentPressed: (id) sender {
 	if(rotateLock)
 		return;
-	[self.customSegment changeSegment];
 	if(customSegment.selectedSegmentIndex>0) {
 		gameSegment.selectedSegmentIndex = 0;
 		[formDataArray replaceObjectAtIndex:0 withObject:NSLocalizedString(@"LifeTime", nil)];
@@ -224,6 +223,7 @@
 		self.yearChangeView.statYear=[currentYearStr intValue];
 		self.yearChangeView.yearLabel.text =currentYearStr;
 	}
+	[self.customSegment changeSegment];
 	[self computeStats];
 }
 
@@ -243,6 +243,7 @@
 
 -(void)yearChanged {
 	self.customSegment.selectedSegmentIndex=0;
+	[self.customSegment changeSegment];
 	[formDataArray replaceObjectAtIndex:0 withObject:[ProjectFunctions labelForYearValue:self.yearChangeView.statYear]];
 	[self computeStats];
 }
@@ -425,6 +426,7 @@
 -(void) setReturningValue:(NSObject *) value2 {
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
 	customSegment.selectedSegmentIndex=0;
+	[customSegment changeSegment];
 	[formDataArray replaceObjectAtIndex:selectedFieldIndex withObject:value];
 	if(selectedFieldIndex==0)
 		self.yearChangeView.yearLabel.text = (NSString *)value;

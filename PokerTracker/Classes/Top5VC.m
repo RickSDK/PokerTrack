@@ -17,11 +17,7 @@
 
 
 @implementation Top5VC
-@synthesize managedObjectContext, mainTableView, bestGames, worstGames;
-
--(void)mainMenuButtonClicked:(id)sender {
-	[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-}
+@synthesize bestGames, worstGames;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,9 +26,7 @@
 	bestGames = [[NSMutableArray alloc] init];
 	worstGames = [[NSMutableArray alloc] init];
 	
-    [mainTableView setBackgroundView:nil];
-
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions navigationButtonWithTitle:NSLocalizedString(@"Main Menu", nil) selector:@selector(mainMenuButtonClicked:) target:self];
+	[self addHomeButton];
 	
 	[self.mainSegment turnIntoTop5Segment];
 	
@@ -45,9 +39,9 @@
 	NSLog(@"Calculating!!!");
 	if(self.mainSegment.selectedSegmentIndex==0) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"winnings > 0 AND user_id = 0"];
-		[bestGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:NO limit:5]];
+		[bestGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"winnings" mOC:self.managedObjectContext ascendingFlg:NO limit:5]];
 		NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"winnings < 0 AND user_id = 0"];
-		[worstGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate2 sortColumn:@"winnings" mOC:managedObjectContext ascendingFlg:YES limit:5]];
+		[worstGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate2 sortColumn:@"winnings" mOC:self.managedObjectContext ascendingFlg:YES limit:5]];
 	} else if(self.mainSegment.selectedSegmentIndex==1) {
 		int currentMinYear = [[ProjectFunctions getUserDefaultValue:@"minYear2"] intValue];
 		int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
@@ -123,10 +117,6 @@
     return 2;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 44;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if(section==0)
 		return [bestGames count];
@@ -145,7 +135,7 @@
 	headerLabel.textColor = [UIColor whiteColor];
 	headerLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
 	headerLabel.text = [titles stringAtIndex:(int)section];
-	headerLabel.backgroundColor	= [UIColor colorWithRed:0 green:.4 blue:0 alpha:1];
+	headerLabel.backgroundColor	= [ProjectFunctions themeBGColor];
 	return headerLabel;
 }
 
@@ -194,20 +184,7 @@
 		mo = [bestGames objectAtIndex:indexPath.row];
 	else 
 		mo = [worstGames objectAtIndex:indexPath.row];
-	
-	if([[mo valueForKey:@"status"] isEqualToString:@"In Progress"]) {
-		GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
-		detailViewController.managedObjectContext = managedObjectContext;
-		detailViewController.mo = mo;
-		detailViewController.newGameStated=NO;
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	} else {
-		GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
-		detailViewController.managedObjectContext = managedObjectContext;
-		detailViewController.viewEditable = NO;
-		detailViewController.mo = mo;
-		[self.navigationController pushViewController:detailViewController animated:YES];
-	}
+	[self gotoGame:mo];
 }
 
 

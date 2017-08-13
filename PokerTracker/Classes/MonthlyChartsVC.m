@@ -128,6 +128,7 @@
 }
 
 -(void)graphYearData:(NSManagedObjectContext *)context year:(int)year {
+	NSLog(@"+++year: %d", year);
 	NSMutableArray *years = [[NSMutableArray alloc] init];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"YEAR" predicate:nil sortColumn:@"name" mOC:context ascendingFlg:YES];
 	for(NSManagedObject *mo in items) {
@@ -142,7 +143,7 @@
 	[self graphEngineForItems:months field:@"month" context:context year:year graph1:self.chartMonth1ImageView graph2:self.chartMonth2ImageView];
 }
 
--(void)graphEngineForItems:(NSArray *)items field:(NSString*) field context:(NSManagedObjectContext *)context year:(int)year graph1:(UIImageView *)graph1  graph2:(UIImageView *)graph2 {
+-(void)graphEngineForItems:(NSArray *)items field:(NSString*)field context:(NSManagedObjectContext *)context year:(int)year graph1:(UIImageView *)graph1  graph2:(UIImageView *)graph2 {
 	NSMutableArray *graphItemsProfit = [[NSMutableArray alloc] init];
 	NSMutableArray *graphItemsHourly = [[NSMutableArray alloc] init];
 	NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:@"All"];
@@ -151,9 +152,8 @@
 		NSPredicate *predicate = nil;
 		if(year==0 || [@"year" isEqualToString:field]) {
 			NSString *predString = [NSString stringWithFormat:@"%@ = %%@", field];
-			basicPred = [ProjectFunctions getBasicPredicateString:itemName type:@"All"];
+			basicPred = [ProjectFunctions getBasicPredicateString:itemName.intValue type:@"All"];
 			predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
-			NSLog(@"+++predString: %@", predString);
 			predicate = [NSPredicate predicateWithFormat:predString, itemName];
 
 		} else

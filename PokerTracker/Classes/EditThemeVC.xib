@@ -159,7 +159,7 @@
                             </connections>
                         </segmentedControl>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="8sk-qH-8rU" customClass="YearChangeView">
                     <rect key="frame" x="0.0" y="98" width="320" height="44"/>

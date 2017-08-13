@@ -58,5 +58,8 @@
 -(BOOL)isPokerZilla;
 -(void)bankrollSegmentChanged;
 -(void)checkBankrollSegment;
+-(NSString *)cellId:(NSIndexPath *)indexPath;
+-(void)gotoGame:(NSManagedObject *)game;
+-(void)gotoAnalysis;
 
 @end

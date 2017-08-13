@@ -9,6 +9,8 @@
 #import "TemplateVC.h"
 #import "AnalysisDetailsVC.h"
 #import "BankrollsVC.h"
+#import "GameInProgressVC.h"
+#import "GameGraphVC.h"
 
 @interface TemplateVC ()
 
@@ -45,6 +47,7 @@
 	[self.yearChangeView addTargetSelector:@selector(yearChanged) target:self];
 	[self.bankrollView addTargetSelector:@selector(bankrollEditPressed) target:self];
 	[self.bankrollView addSegmentTargetSelector:@selector(bankrollSegmentChanged) target:self];
+	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -205,6 +208,9 @@
 	self.popupView.hidden=!self.popupView.hidden;
 }
 
+-(NSString *)cellId:(NSIndexPath *)indexPath {
+	return [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
@@ -254,6 +260,22 @@
 	self.mainTableView.alpha=0;
 	[self.webServiceView startWithTitle:message];
 	[self performSelectorInBackground:aSelector withObject:nil];
+}
+
+-(void)gotoGame:(NSManagedObject *)game {
+	if([[game valueForKey:@"status"] isEqualToString:@"In Progress"]) {
+		GameInProgressVC *detailViewController = [[GameInProgressVC alloc] initWithNibName:@"GameInProgressVC" bundle:nil];
+		detailViewController.managedObjectContext = self.managedObjectContext;
+		detailViewController.mo = game;
+		detailViewController.newGameStated=NO;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	} else {
+		GameGraphVC *detailViewController = [[GameGraphVC alloc] initWithNibName:@"GameGraphVC" bundle:nil];
+		detailViewController.managedObjectContext = self.managedObjectContext;
+		detailViewController.viewEditable = NO;
+		detailViewController.mo = game;
+		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
 }
 
 -(void)stopWebService {

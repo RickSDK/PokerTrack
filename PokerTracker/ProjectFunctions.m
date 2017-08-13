@@ -226,6 +226,15 @@
 	
 }
 
++(NSPredicate *)predicateForGameSegment:(UISegmentedControl *)segment {
+	NSPredicate *predicate = nil;
+	if(segment.selectedSegmentIndex>0) {
+		NSString *gameType = [ProjectFunctions labelForGameSegment:(int)segment.selectedSegmentIndex];
+		predicate=[NSPredicate predicateWithFormat:@"user_id = 0 AND Type = %@", gameType];
+	}
+	return predicate;
+}
+
 +(NSPredicate *)getPredicateForFilter:(NSArray *)formDataArray mOC:(NSManagedObjectContext *)mOC buttonNum:(int)buttonNum
 {
 	int row_id = 0;
@@ -3708,7 +3717,7 @@
 	headerLabel.numberOfLines = 0;
 	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 22.0);
 	headerLabel.text = headerText;
-	customView.backgroundColor	= [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+	customView.backgroundColor	= [ProjectFunctions themeBGColor];
 	[customView addSubview:headerLabel];
 	return customView;
 }

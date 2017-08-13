@@ -39,9 +39,6 @@
 	
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
 	self.popupView.titleLabel.text=@"Chipstack Comment";
-	[ProjectFunctions newButtonLook:self.notesButton mode:0];
-	[ProjectFunctions newButtonLook:self.hudButton mode:1];
-//	[ProjectFunctions newButtonLook:self.notesButton mode:0];
 	
 	[self addGameID];
 	[self setupGraphView];
@@ -129,8 +126,7 @@
 	
 	self.dateLabel.text = [ProjectFunctions displayLocalFormatDate:self.gameObj.startTime showDay:YES showTime:NO];
 	self.timeLabel.text = [ProjectFunctions displayLocalFormatDate:self.gameObj.startTime showDay:NO showTime:YES];
-	self.dateLabel.textColor = [self colorForType:self.gameObj.type];
-	self.timeLabel.textColor = [self colorForType:self.gameObj.type];
+	self.locationLabel.textColor = [self colorForType:self.gameObj.type];
 }
 
 -(UIColor *)colorForType:(NSString *)type {

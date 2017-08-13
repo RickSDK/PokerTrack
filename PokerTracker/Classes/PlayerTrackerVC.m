@@ -20,6 +20,32 @@
 @synthesize managedObjectContext, mainTableView, locationButton, selectedObjectForEdit, playerList;
 @synthesize activityIndicator, locationManager, currentLocation, latLngLabel;
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	[self setTitle:@"Player Tracker"];
+	[self changeNavToIncludeType:4];
+	
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)],
+											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
+											   nil];
+	
+	self.popupView.titleLabel.text = self.title;
+	self.popupView.textView.text = @"Track players you often play against to record useful information.";
+	self.popupView.textView.hidden=NO;
+	
+	self.allButton.enabled=NO;
+	playerList = [[NSMutableArray alloc] init];
+	
+	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
+	locationButton.titleLabel.text = @"All Locations";
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self reloadData];
+}
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
 		   fromLocation:(CLLocation *)oldLocation
@@ -114,6 +140,7 @@
 
 - (IBAction) allButtonPressed: (id) sender
 {
+	self.allButton.enabled=NO;
 	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
 	locationButton.titleLabel.text = @"All Locations";
 	[self reloadData];
@@ -158,34 +185,9 @@
 	[self performSelectorInBackground:aSelector withObject:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	[self reloadData];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self setTitle:@"Player Tracker"];
-	[self changeNavToIncludeType:4];
-	
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)],
-											   [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAInfoCircle] target:self action:@selector(popupButtonClicked)],
-											   nil];
-	
-	self.popupView.titleLabel.text = self.title;
-	self.popupView.textView.text = @"Track players you often play against to record useful information.";
-	self.popupView.textView.hidden=NO;
-
-	
-	playerList = [[NSMutableArray alloc] init];
-								
-	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
-	locationButton.titleLabel.text = @"All Locations";
-}
-
 - (IBAction) localButtonPressed: (id) sender {
 	locationButton.enabled=NO;
+	self.allButton.enabled=YES;
 	
 	self.locationManager = [[CLLocationManager alloc] init];
 	self.locationManager.delegate = self;
@@ -218,6 +220,7 @@
 	if(selectedObjectForEdit==2) {
 		[locationButton setTitle:value forState:UIControlStateNormal];
 		locationButton.titleLabel.text = value;
+		self.allButton.enabled=YES;
 	}
 
 	[self reloadData];

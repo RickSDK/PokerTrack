@@ -62,7 +62,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="C7J-kv-0BG" customClass="CustomView">
+                <view contentMode="scaleToFill" id="C7J-kv-0BG">
                     <rect key="frame" x="0.0" y="0.0" width="321" height="74"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>

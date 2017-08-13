@@ -7,6 +7,7 @@
 //
 
 #import "PopupView.h"
+#import "ProjectFunctions.h"
 
 #define CORNER_RADIUS          7.0
 
@@ -33,9 +34,9 @@
 - (void)commonInit
 {
 	self.layer.cornerRadius = CORNER_RADIUS;
-	self.layer.borderColor = [UIColor blackColor].CGColor;
+	self.layer.borderColor = [ProjectFunctions primaryButtonColor].CGColor;
 	self.layer.borderWidth = 1;
-	self.backgroundColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+	self.backgroundColor = [ProjectFunctions themeBGColor];
 	self.layer.masksToBounds = NO;
 	self.layer.shadowOffset = CGSizeMake(15, 15);
 	self.layer.shadowRadius = 5;

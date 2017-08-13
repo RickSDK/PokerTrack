@@ -90,6 +90,11 @@
                                 <action selector="addCasinoButtonPressed:" destination="-1" eventType="touchDown" id="F2y-NG-8fO"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" id="qQ2-nl-WaV">
+                            <rect key="frame" x="38" y="10" width="254" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
                             <rect key="frame" x="43" y="17" width="244" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

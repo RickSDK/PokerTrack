@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) UITableView *mainTableView;
 @property (nonatomic, strong) UIButton *locationButton;
+@property (nonatomic, strong) IBOutlet UIButton *allButton;
 @property (nonatomic, strong) NSMutableArray *playerList;
 @property (nonatomic) int selectedObjectForEdit;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
