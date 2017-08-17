@@ -23,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <view key="tableHeaderView" contentMode="scaleToFill" id="5">
+                    <view key="tableHeaderView" contentMode="scaleToFill" id="5" customClass="ThemeBGView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>

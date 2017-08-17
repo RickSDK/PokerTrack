@@ -746,7 +746,8 @@
 			if (cell == nil) {
 				cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 			}
-			cell.backgroundColor = [UIColor colorWithRed:1 green:.8 blue:0 alpha:1];
+			cell.backgroundColor = [ProjectFunctions themeBGColor];
+			cell.textLabel.textColor = [ProjectFunctions primaryButtonColor];
 			if(mo != nil && !viewEditable)
 				cell.textLabel.text = @"Load Odds Calculator";
 			else {
@@ -771,7 +772,7 @@
 			if(indexPath.row==self.bigHandObj.numPlayers+4)
 				cell.selection.text = [NSString stringWithFormat:@"%@%@", [ProjectFunctions getMoneySymbol], mainValue];
 			
-			cell.backgroundColor = [UIColor ATTFaintBlue];
+			cell.backgroundColor = [ProjectFunctions primaryButtonColor];
 			cell.selectionStyle = UITableViewCellSelectionStyleGray;
 			if(viewEditable)
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

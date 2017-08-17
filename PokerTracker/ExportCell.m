@@ -7,6 +7,7 @@
 //
 
 #import "ExportCell.h"
+#import "ProjectFunctions.h"
 
 @implementation ExportCell
 
@@ -23,7 +24,7 @@
 
 		self.gamesStoredLabel = [[UILabel alloc] initWithFrame:CGRectZero];;
         self.gamesStoredLabel.textAlignment = NSTextAlignmentRight;
-        self.gamesStoredLabel.textColor = [UIColor blueColor];
+        self.gamesStoredLabel.textColor = [ProjectFunctions segmentThemeColor];
         self.gamesStoredLabel.font = [UIFont boldSystemFontOfSize:12];
         self.gamesStoredLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.gamesStoredLabel];

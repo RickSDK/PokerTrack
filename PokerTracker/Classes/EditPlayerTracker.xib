@@ -155,7 +155,7 @@
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="1" height="1"/>
                 </label>
-                <view contentMode="scaleToFill" id="o1W-fs-Hr5">
+                <view contentMode="scaleToFill" id="o1W-fs-Hr5" customClass="GrayView">
                     <rect key="frame" x="0.0" y="462" width="320" height="42"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>

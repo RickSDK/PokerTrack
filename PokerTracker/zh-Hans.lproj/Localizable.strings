@@ -120,6 +120,15 @@
 "All Games" = "所有游戏";
 "Best" = "最好";
 "Worst" = "最差";
+"Start" = "开始";
+"-Click Here-" = "-点击这里-";
+"Starting Chips" = "芯片 开始";
+"End" = "结束";
+"Pause" = "暂停";
+"# Players" = "＃玩家";
+"Amount Won" = "金额赢了";
+"Update" = "更新";
+"your" = "你的";
 "deleteSafeguard" = "作为保护措施，您必须将最早游戏的“卡萨金”设置为999，以删除数据库。";
 "deleteMessage" = "这将永久删除此设备上的所有数据！你想继续吗？";
 "ExportText" = "导出将数据保存到服务器，以便将其导入到新设备。注意：当您进入新游戏时，数据不会自动备份。您必须在此处手动导出。";

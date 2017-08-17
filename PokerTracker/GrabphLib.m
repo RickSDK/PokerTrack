@@ -307,7 +307,7 @@
 	[aPath3 addLineToPoint:CGPointMake(topLeft.x, botRight.y)];
 	[aPath3 moveToPoint:CGPointMake(topLeft.x, topLeft.y)];
 	[aPath3 closePath];
-	[self addGradientToPath:aPath3 context:context color1:[UIColor yellowColor] color2:(UIColor *)[UIColor whiteColor] lineWidth:(int)1 imgWidth:botRight.x-topLeft.x imgHeight:botRight.y-topLeft.y];
+	[self addGradientToPath:aPath3 context:context color1:[ProjectFunctions primaryButtonColor] color2:(UIColor *)[UIColor whiteColor] lineWidth:(int)1 imgWidth:botRight.x-topLeft.x imgHeight:botRight.y-topLeft.y];
 }
 
 +(UIImage *)pieChartWithItems:(NSArray *)itemList startDegree:(float)startDegree {

@@ -56,11 +56,11 @@
 	self.foodLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
 	self.tokesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
 	if(self.gameObj.tournamentGameFlg) {
-		self.foodLabel.text = @"# Players";
-		self.tokesLabel.text = @"Your Finish";
+		self.foodLabel.text = NSLocalizedString(@"# Players", nil);
+		self.tokesLabel.text = NSLocalizedString(@"tournamentFinish", nil);
 	} else {
-		self.foodLabel.text = [NSString stringWithFormat:@"%@ Food/drinks", [NSString fontAwesomeIconStringForEnum:FACutlery]];
-		self.tokesLabel.text = [NSString stringWithFormat:@"%@ Tips", [NSString fontAwesomeIconStringForEnum:FAMoney]];
+		self.foodLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FACutlery], NSLocalizedString(@"foodDrinks", nil)];
+		self.tokesLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAMoney], NSLocalizedString(@"Tips", nil)];
 	}
 
 	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
@@ -70,11 +70,11 @@
 	[ProjectFunctions makeFAButton:self.editButton type:5 size:16];
 
 	[ProjectFunctions makeFAButton:self.pauseButton type:7 size:16];
-	[ProjectFunctions makeFAButton:self.doneButton type:8 size:24 text:@"End"];
+	[ProjectFunctions makeFAButton:self.doneButton type:8 size:24 text:NSLocalizedString(@"End", nil)];
 	[ProjectFunctions makeFAButton:self.rebuyButton type:25 size:24];
 	self.pauseTimerLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
 	self.rebuyAmountLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:11];
-	self.pauseTimerLabel.text = [NSString stringWithFormat:@"%@ Pause", [NSString fontAwesomeIconStringForEnum:FAPause]];
+	self.pauseTimerLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAPause], NSLocalizedString(@"Pause", nil)];
 	self.rebuyAmountLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FARepeat], NSLocalizedString(@"rebuy", nil)];
 
 	self.mainTableView.tableHeaderView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.01f)];
@@ -96,7 +96,7 @@
 	
 	self.popupView.titleLabel.text = @"Terms";
 	self.playersPopupView.titleLabel.text = @"Tournament Players";
-	self.tournamentEndPopupView.titleLabel.text = @"Winning Amount";
+	self.tournamentEndPopupView.titleLabel.text = NSLocalizedString(@"Amount Won", nil);
 	self.tournamentEndPopupView.hidden=YES;
 	
 	self.playersPopupView.hidden=YES;
@@ -519,7 +519,7 @@
 		return;
 	}
 	if(!self.cashUpdatedFlg) {
-		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Update your 'Current Chips' before ending the game."];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Update", nil), NSLocalizedString(@"your", nil), NSLocalizedString(@"Current Chips", nil)]];
 		return;
 	}
 	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];

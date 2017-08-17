@@ -108,7 +108,7 @@
 		[self. mainArray addObject:[GraphObject graphObjectWithName:key amount:count rowId:i++ reverseColorFlg:NO currentMonthFlg:NO]];
 	}
 
-	self.graphImageView.image = [GrabphLib pieChartWithItems:self. mainArray startDegree:self.startDegree];
+	self.graphImageView.image = [GrabphLib pieChartWithItems:self.mainArray startDegree:self.startDegree];
 }
 
 

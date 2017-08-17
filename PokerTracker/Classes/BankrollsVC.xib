@@ -33,7 +33,6 @@
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
-                            <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                     </subviews>

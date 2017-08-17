@@ -39,6 +39,7 @@
                 <outlet property="startNewGameButton" destination="67" id="68"/>
                 <outlet property="statsButton" destination="4" id="8"/>
                 <outlet property="statusImageView" destination="ida-KT-KZd" id="x6R-oo-ma1"/>
+                <outlet property="themeNameLabel" destination="xRu-op-y7R" id="mFN-UF-y0B"/>
                 <outlet property="themePopup" destination="PJD-7L-Jb9" id="PS3-uY-ZFk"/>
                 <outlet property="themeView" destination="kyb-hu-Hlk" id="9GO-bz-1Fc"/>
                 <outlet property="topView" destination="C7J-kv-0BG" id="Fea-jf-6qQ"/>
@@ -62,10 +63,17 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="C7J-kv-0BG">
+                <view contentMode="scaleToFill" id="C7J-kv-0BG" customClass="GrayView">
                     <rect key="frame" x="0.0" y="0.0" width="321" height="74"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seattle Sea" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" id="xRu-op-y7R">
+                            <rect key="frame" x="85" y="-5" width="150" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="71">
                             <rect key="frame" x="10" y="11" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -235,7 +243,7 @@
                     <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="2" height="2"/>
                 </label>
-                <view contentMode="scaleToFill" id="HcZ-gq-xfZ">
+                <view contentMode="scaleToFill" id="HcZ-gq-xfZ" customClass="NavBarView">
                     <rect key="frame" x="0.0" y="386" width="320" height="37"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -243,6 +251,7 @@
                             <rect key="frame" x="8" y="7" width="41" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
@@ -258,6 +267,7 @@
                             <rect key="frame" x="104" y="7" width="73" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
@@ -270,7 +280,7 @@
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qK4-nz-Rvz">
-                            <rect key="frame" x="255" y="7" width="60" height="26"/>
+                            <rect key="frame" x="255" y="5" width="60" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <state key="normal" title="Edit">

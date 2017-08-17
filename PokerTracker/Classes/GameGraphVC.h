@@ -13,6 +13,7 @@
 @interface GameGraphVC : TemplateVC
 
 @property (atomic, strong) NSManagedObject *mo;
+@property (atomic, strong) IBOutlet UILabel *faLabel;
 @property (atomic, strong) IBOutlet UILabel *dateLabel;
 @property (atomic, strong) IBOutlet UILabel *timeLabel;
 @property (atomic, strong) IBOutlet UILabel *locationLabel;
@@ -25,6 +26,7 @@
 @property (atomic, strong) IBOutlet UILabel *pprLabel;
 @property (atomic, strong) IBOutlet UIButton *notesButton;
 @property (atomic, strong) IBOutlet UIButton *hudButton;
+@property (atomic, strong) IBOutlet UIButton *deleteCommentButton;
 @property (atomic, strong) IBOutlet UILabel *commentTimeLabel;
 @property (atomic, strong) IBOutlet UILabel *commentProfitLabel;
 @property (atomic, strong) IBOutlet UIView *bottomView;
@@ -43,5 +45,6 @@
 - (IBAction) enterButtonPressed: (id) sender;
 - (IBAction) pprButtonPressed: (id) sender;
 - (IBAction) hudButtonPressed: (id) sender;
+- (IBAction) deleteCommentButtonPressed: (id) sender;
 
 @end

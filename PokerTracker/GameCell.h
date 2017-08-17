@@ -12,6 +12,7 @@
 @interface GameCell : UITableViewCell
 
 @property (nonatomic, retain) UIImageView *profitImageView;
+@property (nonatomic, retain) UIView *bgView;
 @property (nonatomic, retain) UILabel *faLabel;
 @property (nonatomic, retain) UILabel *nameLabel;
 @property (nonatomic, retain) UILabel *dateLabel;

@@ -47,6 +47,13 @@
 	self.layer.borderColor = [UIColor blackColor].CGColor;
 	self.layer.borderWidth = 1;
 
+	if([ProjectFunctions appThemeNumber] != 1) {
+		self.layer.masksToBounds = NO;
+		self.layer.shadowOffset = CGSizeMake(2, 2);
+		self.layer.shadowRadius = 4;
+		self.layer.shadowOpacity = 0.8;
+	}
+
 	[self applyThemeColor];
 
 	[self applyFontOfSize:13];

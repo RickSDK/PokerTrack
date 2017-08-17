@@ -79,8 +79,6 @@
         cell.nameLabel.text = self.gameObj.profitStr;
         cell.cityLabel.text = [NSString stringWithFormat:@"Chips: %@", self.gameObj.cashoutAmountStr];
         
-        [cell.nameLabel setShadowColor:[UIColor whiteColor]];
-
         if(self.gameObj.profit>=0) {
             cell.backgroundColor = [UIColor colorWithRed:.7 green:.9 blue:.7 alpha:1];
             cell.nameLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];

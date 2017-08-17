@@ -81,6 +81,8 @@
 	self.locationManager.distanceFilter = kCLDistanceFilterNone;
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 	self.tournyPopupView.titleLabel.text = @"Tournament Buy-in";
+	self.buyinPopupLabel.text = NSLocalizedString(@"buyInAmount", nil);
+	self.chipsPopupLabel.text = NSLocalizedString(@"Starting Chips", nil);
 	self.tournyPopupView.hidden=YES;
 	
 	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
@@ -210,7 +212,7 @@
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
-		[buyinButton setTitle:@"-Click Here-" forState:UIControlStateNormal];
+		[buyinButton setTitle:NSLocalizedString(@"-Click Here-", nil) forState:UIControlStateNormal];
 		[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
 	}
 }
@@ -571,8 +573,8 @@
 		[self.buyinPopupButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
 	}
 	if(selectedObjectForEdit==13) {
-		double amount = [ProjectFunctions convertMoneyStringToDouble:value];
-		[self.chipsPopupButton setTitle:[ProjectFunctions convertNumberToMoneyString:amount] forState:UIControlStateNormal];
+//		double amount = [ProjectFunctions convertMoneyStringToDouble:value];
+		[self.chipsPopupButton setTitle:value forState:UIControlStateNormal];
 	}
 	if(selectedObjectForEdit==1)
 		[bankrollButton setTitle:[NSString stringWithFormat:@"%@", value] forState:UIControlStateNormal];

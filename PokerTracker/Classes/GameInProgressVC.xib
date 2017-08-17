@@ -52,7 +52,7 @@
                         <outlet property="delegate" destination="-1" id="9sb-WV-DKs"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" id="Zoi-4l-eqg">
+                <view contentMode="scaleToFill" id="Zoi-4l-eqg" customClass="NavBarView">
                     <rect key="frame" x="0.0" y="384" width="320" height="120"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -400,7 +400,7 @@ Players feel like they are being generous by giving large tips, but the reality 
                     <color key="backgroundColor" red="0.49803921580314636" green="0.49803921580314636" blue="0.49803921580314636" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" id="d3K-wG-qlD" customClass="PopupView">
-                    <rect key="frame" x="20" y="132" width="280" height="202"/>
+                    <rect key="frame" x="20" y="132" width="280" height="195"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4Cx-9P-Ruf" customClass="PtpButton">

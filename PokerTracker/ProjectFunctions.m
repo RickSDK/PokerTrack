@@ -18,6 +18,7 @@
 #import "NSData+ATTData.h"
 #import "GameCell.h"
 #import "ChipStackObj.h"
+#import "ThemeColorObj.h"
 
 
 // attrib03 <--- tournament num players
@@ -84,7 +85,7 @@
 	if([ProjectFunctions isPokerZilla])
 		return @"928197798";
 
-	if([ProjectFunctions isLiteVersion])
+	if(kIsLiteVersion)
 		return @"488925221";
 	else
 		return @"475160109";
@@ -1087,6 +1088,9 @@
 }
 
 +(NSString *)localizedTitle:(NSString *)title {
+	NSString *localized = NSLocalizedString(title, nil);
+	if(![localized isEqualToString:title])
+		return localized;
 	NSArray *words = [title componentsSeparatedByString:@" "];
 	if(words.count<=1)
 		return NSLocalizedString(title, nil);
@@ -3717,7 +3721,7 @@
 	headerLabel.numberOfLines = 0;
 	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 22.0);
 	headerLabel.text = headerText;
-	customView.backgroundColor	= [ProjectFunctions themeBGColor];
+	customView.backgroundColor	= [ProjectFunctions segmentThemeColor];
 	[customView addSubview:headerLabel];
 	return customView;
 }
@@ -4092,7 +4096,7 @@
 		
 		UIImage *navBgImage=nil;
 		if([ProjectFunctions appThemeNumber] != 1) {
-			if([ProjectFunctions segmentColorNumber]==0)
+			if([ProjectFunctions segmentColorNumber]==0 && [ProjectFunctions themeTypeNumber]==0)
 				navBgImage = [UIImage imageNamed:@"greenGradient.png"];
 			else
 				navBgImage = [self gradientImageNavbarOfWidth:navigationBar.frame.size.width];
@@ -4110,6 +4114,36 @@
 		[navigationBar setBackgroundImage:[UIImage imageNamed:@"gradPink.png"] forBarMetrics:UIBarMetricsDefault];
 		navigationBar.tintColor = [UIColor whiteColor]; // button colors
 	}
+}
+
++(void)addGradientToView:(UIView *)view {
+	float width = view.frame.size.width;
+	float height = view.frame.size.height;
+	if(width==0) {
+		width = 320;
+		height = 44;
+	}
+	UIColor *colorTop = [ProjectFunctions primaryButtonColor];
+	UIColor *colorBottom = [UIColor whiteColor];
+	UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	CAGradientLayer *gradient = [CAGradientLayer layer];
+	gradient.frame = imageView.bounds;
+	gradient.colors = [NSArray arrayWithObjects:(id)colorTop.CGColor, colorBottom.CGColor, colorBottom.CGColor, nil];
+	[imageView.layer insertSublayer:gradient atIndex:0];
+	UIImage *image = [self imageFromUIView:imageView];
+	view.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
++(UIColor *)gradientBGColorForWidth:(float)width height:(float)height {
+	UIColor *colorTop = [ProjectFunctions primaryButtonColor];
+	UIColor *colorBottom = [UIColor whiteColor];
+	UIView *imageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+	CAGradientLayer *gradient = [CAGradientLayer layer];
+	gradient.frame = imageView.bounds;
+	gradient.colors = [NSArray arrayWithObjects:(id)colorTop.CGColor, colorBottom.CGColor, colorBottom.CGColor, nil];
+	[imageView.layer insertSublayer:gradient atIndex:0];
+	UIImage *image = [self imageFromUIView:imageView];
+	return [UIColor colorWithPatternImage:image];
 }
 
 +(UIImage *)gradientImageNavbarOfWidth:(float)width {
@@ -4331,6 +4365,9 @@
   case 45:
 			title = [NSString fontAwesomeIconStringForEnum:FAbank];
 			break;
+  case 46:
+			title = [NSString fontAwesomeIconStringForEnum:FAWrench];
+			break;
 
   default:
 			title = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
@@ -4534,6 +4571,10 @@
 }
 
 +(UIColor *)themeBGColor {
+	if([ProjectFunctions themeTypeNumber]==1) {
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		return colorObj.themeBGColor;
+	}
 	NSArray *colors = [self bgThemeColors];
 	int number = [[ProjectFunctions getUserDefaultValue:@"bgThemeColorNumber"] intValue];
 	if(number<0) {
@@ -4568,6 +4609,32 @@
 			nil];
 }
 
++(NSArray *)navBarThemeColors {
+	return [NSArray arrayWithObjects:
+			[UIColor colorWithRed:0 green:.4 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.3 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.2 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:.3 green:.3 blue:.3 alpha:1],
+			[UIColor colorWithRed:.5 green:.5 blue:.5 alpha:1],
+			[UIColor colorWithRed:.75 green:.75 blue:.75 alpha:1],
+			[UIColor colorWithRed:.3 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:.3 alpha:1],
+			[UIColor colorWithRed:0 green:.3 blue:.3 alpha:1],
+			[UIColor colorWithRed:.3 green:0 blue:.3 alpha:1],
+			[UIColor colorWithRed:.3 green:.3 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.7 blue:0 alpha:1],
+			[UIColor colorWithRed:1 green:0 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:0 blue:1 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:0 blue:1 alpha:1],
+			[UIColor colorWithRed:1 green:1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:1 blue:0 alpha:1],
+			[UIColor colorWithRed:0 green:.7 blue:0 alpha:1],
+			nil];
+}
+
 +(int)primaryColorNumber {
 	NSArray *colors = [self primaryButtonColors];
 	int number = [[ProjectFunctions getUserDefaultValue:@"primaryColorNumber"] intValue];
@@ -4579,6 +4646,10 @@
 }
 
 +(UIColor *)primaryButtonColor {
+	if([ProjectFunctions themeTypeNumber]==1) {
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		return colorObj.primaryColor;
+	}
 	NSArray *colors = [self primaryButtonColors];
 	int number = [self primaryColorNumber];
 	return [colors objectAtIndex:number%colors.count];
@@ -4610,7 +4681,7 @@
 }
 
 +(int)segmentColorNumber {
-	NSArray *colors = [self bgThemeColors];
+	NSArray *colors = [self navBarThemeColors];
 	int number = [[ProjectFunctions getUserDefaultValue:@"segmentColorNumber"] intValue];
 	if(number<0) {
 		number+=(colors.count*10);
@@ -4618,13 +4689,46 @@
 	return number%colors.count;
 }
 
-+(UIColor *)segmentThemeColor {
-	NSArray *colors = [self bgThemeColors];
++(UIColor *)segmentThemeColor { // navbar
+	if([ProjectFunctions themeTypeNumber]==1) {
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		return colorObj.navBarColor;
+	}
+	NSArray *colors = [self navBarThemeColors];
 	int number = [[ProjectFunctions getUserDefaultValue:@"segmentColorNumber"] intValue];
 	if(number<0) {
 		number+=(colors.count*10);
 	}
 	return [colors objectAtIndex:number%colors.count];
+}
+
++(int)themeTypeNumber {
+	return [[ProjectFunctions getUserDefaultValue:@"themTypeNumber"] intValue];
+}
+
++(int)themeGroupNumber {
+	return [[ProjectFunctions getUserDefaultValue:@"themeGroupNumber"] intValue];
+}
+
++(int)themeCategoryNumber {
+	return [[ProjectFunctions getUserDefaultValue:@"themeCategoryNumber"] intValue];
+}
+
++(int)themeListItemNumber {
+	return [[ProjectFunctions getUserDefaultValue:@"themeListItemNumber"] intValue];
+}
+
++(NSString *)nameOfTheme {
+	ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+	return colorObj.name;
+}
+
++(UIColor *)grayThemeColor {
+	if([ProjectFunctions themeTypeNumber]==1) {
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		return colorObj.grayColor;
+	}
+	return [UIColor colorWithRed:180.0/255 green:180.0/255 blue:180.0/255 alpha:1];
 }
 
 +(BOOL)getThemeBGImageFlg {

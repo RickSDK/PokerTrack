@@ -376,7 +376,8 @@
 		if (cell == nil) {
 			cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
-		cell.backgroundColor = [UIColor colorWithRed:1 green:0.8 blue:0 alpha:1];
+		cell.backgroundColor = [ProjectFunctions themeBGColor];
+		cell.textLabel.textColor = [ProjectFunctions primaryButtonColor];
 		if(boardFilledOut)
 			cell.textLabel.text = @"Clear The Board";
 		else

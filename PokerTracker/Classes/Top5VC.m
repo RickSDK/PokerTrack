@@ -135,7 +135,7 @@
 	headerLabel.textColor = [UIColor whiteColor];
 	headerLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:14];
 	headerLabel.text = [titles stringAtIndex:(int)section];
-	headerLabel.backgroundColor	= [ProjectFunctions themeBGColor];
+	headerLabel.backgroundColor	= [ProjectFunctions segmentThemeColor];
 	return headerLabel;
 }
 

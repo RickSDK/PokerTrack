@@ -228,9 +228,6 @@
 	
 	self.last10Label.text = NSLocalizedString(@"Last10", nil);
 	self.analysisLabel.text = NSLocalizedString(@"Analysis", nil);
-//	[ProjectFunctions newButtonLook:analysisButton mode:0];
-//	analysisButton.layer.cornerRadius = 7;
-//	analysisButton.layer.masksToBounds = YES;				// clips background images to rounded corners
 	
 	self.topView.hidden=self.isPokerZilla;
 	self.last10Label.hidden=self.isPokerZilla;
@@ -248,6 +245,8 @@
 }
 
 -(void)applyTheme {
+	self.themeNameLabel.text = [ProjectFunctions nameOfTheme];
+	self.themeNameLabel.hidden=([ProjectFunctions themeTypeNumber]==0);
 	[ProjectFunctions newButtonLook:self.gamesButton mode:0];
 	[ProjectFunctions newButtonLook:self.statsButton mode:0];
 	[ProjectFunctions newButtonLook:self.oddsButton mode:0];
@@ -261,6 +260,7 @@
 	[ProjectFunctions newButtonLook:reviewButton mode:0];
 	[ProjectFunctions newButtonLook:emailButton mode:0];
 	self.view.backgroundColor = [ProjectFunctions themeBGColor];
+	self.botView.backgroundColor = [ProjectFunctions segmentThemeColor];
 }
 
 -(void)createMainMenuButton:(UIButton *)button name:(NSString *)name type:(int)type size:(float)size {
@@ -625,7 +625,7 @@
 {
 	[localLabel performSelectorOnMainThread:@selector(setText:) withObject:[ProjectFunctions convertIntToMoneyString:money] waitUntilDone:NO];
 
-	UIColor *labelColor = (money<0)?[UIColor redColor]:[UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
+	UIColor *labelColor = (money<0)?[UIColor yellowColor]:[UIColor colorWithRed:0 green:1 blue:0 alpha:1];
 	
 	[localLabel performSelectorOnMainThread:@selector(setTextColor:) withObject:labelColor waitUntilDone:NO];
 }

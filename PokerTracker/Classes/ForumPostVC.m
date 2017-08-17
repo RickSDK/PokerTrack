@@ -56,9 +56,8 @@
         cell.dateLabel.alpha=0;
         NSArray *titles = [NSArray arrayWithObjects:@"Announcements", @"General", @"Strategy", @"Bad Beats", @"Whoa!", nil];
         cell.textLabel.text=[titles objectAtIndex:category];
-        cell.backgroundColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-        cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradient.png"]];
-        cell.textLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:.4 alpha:1];
+        cell.backgroundColor = [ProjectFunctions segmentThemeColor];
+        cell.textLabel.textColor = [ProjectFunctions primaryButtonColor];
         cell.accessoryType= UITableViewCellAccessoryNone;
 
         return cell;
@@ -370,7 +369,7 @@
     [super viewDidLoad];
     
     self.forumPostings = [[NSMutableArray alloc] initWithCapacity:4];
-    
+	selectAllFlg=YES;
 
     self.replyBody = [[NSString alloc] init];
     self.postTitle = [[NSString alloc] init];

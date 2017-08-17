@@ -70,7 +70,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="5kJ-IX-ZNg">
+                <view contentMode="scaleToFill" id="5kJ-IX-ZNg" customClass="NavBarView">
                     <rect key="frame" x="0.0" y="369" width="320" height="47"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>

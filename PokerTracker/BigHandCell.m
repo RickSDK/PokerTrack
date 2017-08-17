@@ -110,7 +110,8 @@
 	[BigHandObj createHand:obj.player1Hand suit1:cell.suit1Image label1:cell.card1Label suit2:cell.suit2Image label2:cell.card2Label];
 	
 	cell.potSizeLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-	cell.backgroundColor = [UIColor whiteColor];
+//	cell.backgroundColor = [ProjectFunctions primaryButtonColor];
+	cell.backgroundColor = [ProjectFunctions gradientBGColorForWidth:320 height:44];
 	cell.accessoryType= UITableViewCellAccessoryDisclosureIndicator;
 	return cell;
 }

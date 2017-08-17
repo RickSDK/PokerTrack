@@ -121,6 +121,8 @@
 +(NSString *)labelForYearValue:(int)yearValue;
 +(NSString *)faStringOfType:(int)type;
 +(void)findMinAndMaxYear:(NSManagedObjectContext *)context;
++(void)addGradientToView:(UIView *)view;
++(UIColor *)gradientBGColorForWidth:(float)width height:(float)height;
 +(NSString *)labelForGameSegment:(int)segmentIndex;
 +(NSString *)getMonthFromDate:(NSDate *)date;
 +(NSArray *)namesOfAllWeekdays;
@@ -233,10 +235,15 @@
 +(void)changeToModernThemeForButton:(UIButton *)button mode:(int)mode theme:(int)theme;
 +(UIImage *)gradientImageNavbarOfWidth:(float)width;
 +(NSString *)scrubFilterValue:(NSString *)value;
++(NSString *)nameOfTheme;
 +(int)appThemeNumber;
 +(int)themeBGNumber;
 +(int)segmentColorNumber;
 +(int)primaryColorNumber;
++(int)themeTypeNumber;
++(int)themeGroupNumber;
++(int)themeListItemNumber;
++(UIColor *)grayThemeColor;
 +(UIColor *)themeBGColor;
 +(NSArray *)bgThemeColors;
 +(UIColor *)primaryButtonColor;

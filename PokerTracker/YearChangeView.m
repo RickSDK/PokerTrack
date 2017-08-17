@@ -72,7 +72,7 @@
 	[ProjectFunctions newButtonLook:self.yearUpButton mode:0];
 	if([ProjectFunctions appThemeNumber] == 1)
 		self.backgroundColor = [ProjectFunctions segmentThemeColor];
-	else if([ProjectFunctions segmentColorNumber]==0)
+	else if([ProjectFunctions segmentColorNumber]==0 && [ProjectFunctions themeTypeNumber]==0)
 		self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradWide.png"]];
 	else
 		self.backgroundColor = [UIColor colorWithPatternImage:[ProjectFunctions gradientImageNavbarOfWidth:self.frame.size.width]];

@@ -8,6 +8,7 @@
 
 #import "EditThemeVC.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ChooseThemesVC.h"
 
 @interface EditThemeVC ()
 
@@ -18,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self setTitle:@"Edit Theme"];
+	self.themeSegment.selectedSegmentIndex = [ProjectFunctions themeTypeNumber];
+	[self.themeSegment changeSegment];
 	self.mainSegment.selectedSegmentIndex = [ProjectFunctions appThemeNumber];
 	[self.mainSegment changeSegment];
 	self.imageBGSegment.selectedSegmentIndex = [ProjectFunctions getThemeBGImageColor];
@@ -32,17 +35,76 @@
 	self.segmentColorNumber = [ProjectFunctions segmentColorNumber];
 	self.bgNumber = [ProjectFunctions themeBGNumber];
 	self.imageBGSwitch.on = [ProjectFunctions getThemeBGImageFlg];
+	[ProjectFunctions makeFAButton:self.editIconsButton type:40 size:16 text:@"Edit Icons"];
+	[ProjectFunctions makeFAButton:self.themesButton type:46 size:16 text:@"Themes!"];
 
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FARepeat] target:self action:@selector(resetPressed)];
 
+	self.infoPopupView.hidden=YES;
+	self.editThemePopupView.hidden=YES;
 	[self drawColors];
-	[self styleButtons];
+	[self setupPopup];
+	self.arrow.alpha=0;
+}
+
+-(void)setupPopup {
+	if([ProjectFunctions getUserDefaultValue:@"resetThemePopup"].length==0) {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"resetThemePopup"];
+		self.infoPopupView.hidden=NO;
+		self.popupView.textView.text = @"You can always restore defaults by pressing the 'Reset' button at the top.";
+		self.popupView.hidden=NO;
+		self.popupView.textView.hidden=NO;
+		[self.popupView hideXButton];
+	}
+}
+
+- (IBAction) okButtonPressed: (UIButton *) button {
+	self.infoPopupView.hidden=YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self styleButtons:YES];
+}
+
+-(void)fadeOut {
+	if(self.arrow.alpha==1) {
+		[UIView animateWithDuration:0.5 delay:0 options: UIViewAnimationOptionCurveEaseOut animations:^ {self.arrow.alpha = 0;}
+						 completion:^(BOOL finished){self.arrow.alpha = 0;}];
+	}
+}
+
+-(void)editThemePopup {
+	if([ProjectFunctions getUserDefaultValue:@"editThemePopup"].length==0) {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"editThemePopup"];
+		self.editThemePopupView.hidden=NO;
+		self.editThemePopupView.textView.text = @"Choose from the list of themes by pressing the 'Themes!' button at the bottom.";
+		self.editThemePopupView.titleLabel.text = @"Themes";
+		self.editThemePopupView.textView.hidden=NO;
+	}
+}
+
+-(void)fadeIn {
+	[self editThemePopup];
+	self.arrow.alpha=0;
+	[UIView animateWithDuration:0.5 delay:0 options: UIViewAnimationOptionCurveEaseIn animations:^ {self.arrow.alpha = 1;}
+					 completion:^(BOOL finished){self.arrow.alpha = 1;}];
+	
+	[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 self.arrow.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.5, 1.5);}
+					 completion:^(BOOL finished){if (finished){
+		
+		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut
+						 animations:^{
+							 self.arrow.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);}
+						 completion:NULL];}}];
 }
 
 -(void)drawColors {
-	self.yVal1=150;
-	self.yVal2=250;
-	self.yVal3=350;
+	self.yVal1=self.colorsUpButton.center.y-38;
+	self.yVal2=self.segmentUpButton.center.y-38;
+	self.yVal3=self.bgUpButton.center.y-38;
 	[self drawColors:[ProjectFunctions primaryButtonColors] index:0 yVal:self.yVal1 imageView:self.selectedButtonImageView];
 	[self drawColors:[ProjectFunctions bgThemeColors] index:0 yVal:self.yVal2 imageView:self.selectedSegmentImageView];
 	[self drawColors:[ProjectFunctions bgThemeColors] index:0 yVal:self.yVal3 imageView:self.selectedbgImageView];
@@ -95,14 +157,35 @@
 	self.segmentColorNumber=0;
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.bgNumber] forKey:@"bgThemeColorNumber"];
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.colorNumber] forKey:@"primaryColorNumber"];
-	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.segmentColorNumber] forKey:@"segmentColorNumber"];
+	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.segmentColorNumber] forKey:@"segmentColorNumber"]; // navbar
 	self.mainSegment.selectedSegmentIndex=0;
+	self.themeSegment.selectedSegmentIndex=0;
+	[self themeSegmentChanged];
 	[self setThemeBGImageFlg:NO];
 	[self segmentDidChange];
 }
 
 - (IBAction) segmentChanged:(id)sender {
 	[self segmentDidChange];
+}
+
+- (IBAction) themeSegmentPressed: (UISegmentedControl *) segment {
+	if(self.themeSegment.selectedSegmentIndex==0)
+		[self fadeOut];
+	else
+		[self fadeIn];
+
+	[self themeSegmentChanged];
+}
+
+-(void)themeSegmentChanged {
+	[self.themeSegment changeSegment];
+	[self setThemeTypeNumber:(int)self.themeSegment.selectedSegmentIndex];
+	[self styleButtons:NO];
+}
+
+-(void)setThemeTypeNumber:(int)number {
+	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", number] forKey:@"themTypeNumber"];
 }
 
 -(void)segmentDidChange {
@@ -112,10 +195,10 @@
 		[self setThemeBGImageFlg:NO];
 	}
 	
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
--(void)styleButtons {
+-(void)styleButtons:(BOOL)fadeOut {
 	self.colorNumber = [ProjectFunctions primaryColorNumber];
 	self.segmentColorNumber = [ProjectFunctions segmentColorNumber];
 	self.bgNumber = [ProjectFunctions themeBGNumber];
@@ -132,10 +215,13 @@
 	[ProjectFunctions newButtonLook:self.segmentDownButton mode:0];
 	[ProjectFunctions newButtonLook:self.segmentUpButton mode:0];
 
-	self.colorsUpButton.enabled=self.mainSegment.selectedSegmentIndex!=2;
-	self.colorsDownButton.enabled=self.mainSegment.selectedSegmentIndex!=2;
+	[ProjectFunctions newButtonLook:self.editIconsButton mode:0];
+	[ProjectFunctions newButtonLook:self.themesButton mode:0];
+	self.bottomView.backgroundColor=[ProjectFunctions segmentThemeColor];
+
 	self.view.backgroundColor = [ProjectFunctions themeBGColor];
 	[self.yearChangeView applyTheme];
+	[self.themeSegment applyThemeColor];
 	[self.mainSegment applyThemeColor];
 	[self.imageBGSegment applyThemeColor];
 	[ProjectFunctions tintNavigationBar:self.navigationController.navigationBar];
@@ -146,8 +232,20 @@
 
 	self.bgImageView.hidden = !self.imageBGSwitch.on;
 	self.bgImageView.image = [ProjectFunctions bgThemeImage];
-	self.imageBGSegment.enabled=self.imageBGSwitch.on;
 
+	self.colorsUpButton.enabled=(self.themeSegment.selectedSegmentIndex==0 && self.mainSegment.selectedSegmentIndex!=2);
+	self.colorsDownButton.enabled=(self.themeSegment.selectedSegmentIndex==0 && self.mainSegment.selectedSegmentIndex!=2);
+	self.imageBGSegment.enabled=(self.themeSegment.selectedSegmentIndex==0 && self.imageBGSwitch.on);
+	
+	self.bgUpButton.enabled=self.themeSegment.selectedSegmentIndex==0;
+	self.bgDownButton.enabled=self.themeSegment.selectedSegmentIndex==0;
+	self.segmentUpButton.enabled=self.themeSegment.selectedSegmentIndex==0;
+	self.segmentDownButton.enabled=self.themeSegment.selectedSegmentIndex==0;
+	self.imageBGSwitch.enabled=self.themeSegment.selectedSegmentIndex==0;
+	self.themeLabel.text = [ProjectFunctions nameOfTheme];
+	self.themeLabel.hidden=self.themeSegment.selectedSegmentIndex==0;
+	if(fadeOut)
+		[self fadeOut];
 }
 
 - (IBAction) bgButtonPressed: (UIButton *) button {
@@ -160,7 +258,7 @@
 		[self setThemeBGImageFlg:NO];
 	}
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.bgNumber] forKey:@"bgThemeColorNumber"];
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
 - (IBAction) colorsButtonPressed: (UIButton *) button {
@@ -169,7 +267,7 @@
 	else
 		self.colorNumber--;
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.colorNumber] forKey:@"primaryColorNumber"];
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
 - (IBAction) segmentColorButtonPressed: (UIButton *) button {
@@ -178,18 +276,18 @@
 	else
 		self.segmentColorNumber--;
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", self.segmentColorNumber] forKey:@"segmentColorNumber"];
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
 - (IBAction) imageBGSwitchPressed: (UISwitch *) uiSwitch {
 	[self setThemeBGImageFlg:uiSwitch.on];
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
 - (IBAction) imageBGSegmentPressed: (UISegmentedControl *) segment {
 	[self setThemeBGImageColor:(int)segment.selectedSegmentIndex];
 	[self.imageBGSegment changeSegment];
-	[self styleButtons];
+	[self styleButtons:YES];
 }
 
 -(void)setThemeBGImageFlg:(BOOL)flag {
@@ -200,6 +298,22 @@
 
 -(void)setThemeBGImageColor:(int)number {
 	[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", number] forKey:@"themeBGImageColor"];
+}
+
+- (IBAction) editIconsButtonPressed: (UIButton *) button {
+	[self gotoAnalysis];
+}
+
+- (IBAction) chooseThemesButtonPressed: (UIButton *) button {
+	ChooseThemesVC *detailViewController = [[ChooseThemesVC alloc] initWithNibName:@"ChooseThemesVC" bundle:nil];
+	detailViewController.managedObjectContext = self.managedObjectContext;
+	detailViewController.callBackViewController = self;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+-(void)setTypeToTheme {
+	self.themeSegment.selectedSegmentIndex=1;
+	[self themeSegmentChanged];
 }
 
 @end

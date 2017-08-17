@@ -25,7 +25,7 @@
                         <outlet property="delegate" destination="-1" id="8"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" id="BIb-ZF-XEg">
+                <view contentMode="scaleToFill" id="BIb-ZF-XEg" customClass="GrayView">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>

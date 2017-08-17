@@ -32,7 +32,7 @@
                         <outlet property="delegate" destination="-1" id="9"/>
                     </connections>
                 </tableView>
-                <view contentMode="scaleToFill" id="10">
+                <view contentMode="scaleToFill" id="10" customClass="NavBarView">
                     <rect key="frame" x="0.0" y="348" width="320" height="68"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -50,7 +50,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="12" customClass="PtpButton">
-                            <rect key="frame" x="198.00000003639985" y="23" width="102" height="37"/>
+                            <rect key="frame" x="198.0000000363998" y="23" width="102" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <size key="titleShadowOffset" width="1" height="1"/>

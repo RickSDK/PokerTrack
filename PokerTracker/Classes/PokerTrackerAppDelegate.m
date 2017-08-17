@@ -300,13 +300,6 @@
 
 @end
 
-//@implementation UINavigationBar (CustomImage)
-//- (void)drawRect:(CGRect)rect {
-//	UIImage *image = [UIImage imageNamed: @"greenGradient.png"];
-//	[image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-//	self.tintColor = [UIColor colorWithRed:.8 green:.7 blue:0 alpha:1];
-//	
-//}
 
 
 

@@ -240,6 +240,8 @@
 		gamesOnServer=numGamesServer2;
 	
 	UIColor *bgColor = [ProjectFunctions primaryButtonColor];
+	UIColor *textColor = [ProjectFunctions segmentThemeColor];
+	//UIColor *bgColor = [ProjectFunctions gradientBGColorForWidth:320 height:44];
 
 	if(indexPath.section==0 && [[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Export", nil)]) {
 		ExportCell *cell = (ExportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -249,7 +251,7 @@
 		cell.backgroundColor = bgColor;
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
-			cell.titleLabel.textColor = [UIColor blackColor];
+			cell.titleLabel.textColor = textColor;
 		
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.titleLabel.text=[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAUpload], NSLocalizedString(@"Export", nil)];
@@ -273,7 +275,7 @@
 		cell.titleLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.titleLabel.text=[NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FADownload], NSLocalizedString(@"Import", nil)];
 		if([ProjectFunctions getUserDefaultValue:@"userName"].length>0)
-			cell.titleLabel.textColor = [UIColor blackColor];
+			cell.titleLabel.textColor = textColor;
 		
 		if(gamesOnServer>gamesOnDevice)
 			cell.titleLabel.textColor = [UIColor redColor];
@@ -331,12 +333,12 @@
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", icon, [menuArray objectAtIndex:indexPath.row]];
 		
 		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Delete", nil)] || [ProjectFunctions getUserDefaultValue:@"userName"])
-			cell.textLabel.textColor = [UIColor blackColor];
+			cell.textLabel.textColor = textColor;
 		else
 			cell.textLabel.textColor = [UIColor grayColor];
 		
 		if([[menuArray stringAtIndex:(int)indexPath.row] isEqualToString:NSLocalizedString(@"Cleanup", nil)])
-			cell.textLabel.textColor = [UIColor blackColor];
+			cell.textLabel.textColor = textColor;
 		if(indexPath.row==0)
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	}
@@ -362,6 +364,7 @@
 		NSString *icon = [NSString fontAwesomeIconStringForEnum:FAQuestionCircle];
 		if(icons.count>indexPath.row)
 			icon = [icons objectAtIndex:indexPath.row];
+		cell.textLabel.textColor = textColor;
 		cell.textLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20.f];
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", icon, [secondMenuArray objectAtIndex:indexPath.row]];
 	}

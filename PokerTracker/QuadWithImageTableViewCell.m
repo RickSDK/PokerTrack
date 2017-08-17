@@ -282,6 +282,8 @@ static NSInteger FONT_SIZE			= 12;
 	cell.ccColor = [ProjectFunctions themeBGColor];
 	cell.dd.text = obj.skillLevel;
 	
+//	cell.backgroundColor = [ProjectFunctions primaryButtonColor];
+	cell.backgroundColor = [ProjectFunctions gradientBGColorForWidth:320 height:44];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	

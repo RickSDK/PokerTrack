@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="bMe-Oi-4g9">
+                <view contentMode="scaleToFill" id="bMe-Oi-4g9" customClass="NavBarView">
                     <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>

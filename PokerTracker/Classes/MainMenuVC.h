@@ -85,6 +85,7 @@
 @property (nonatomic, strong) IBOutlet UIView *topView;
 @property (nonatomic, strong) IBOutlet UILabel *last10Label;
 @property (nonatomic, strong) IBOutlet UILabel *iNewGameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *themeNameLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *statusImageView;
 @property (nonatomic, strong) IBOutlet UIImageView *pokerZillaImageView;
 @property (nonatomic, strong) UILabel *friendsNumLabel;

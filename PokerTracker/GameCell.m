@@ -18,24 +18,28 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+//		self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
+//		[ProjectFunctions addGradientToView:self.bgView];
+//		[self.contentView addSubview:self.bgView];
+//		self.backgroundColor = [ProjectFunctions primaryButtonColor];
+		
 		self.profitImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 34, 44)];
 		self.profitImageView.image = [UIImage imageNamed:@"playerType1.png"];
 		[self.contentView addSubview:self.profitImageView];
 		
-		self.faLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 34, 29)];
-		self.faLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:24];
-		self.faLabel.adjustsFontSizeToFitWidth = YES;
-		self.faLabel.minimumScaleFactor = .8;
-		self.faLabel.textAlignment = NSTextAlignmentCenter;
+		self.faLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, 34, 22)];
+		self.faLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13];
+		self.faLabel.textAlignment = NSTextAlignmentLeft;
 		self.faLabel.textColor = [UIColor blackColor];
+		self.faLabel.text = [NSString fontAwesomeIconStringForEnum:FATrophy];
 		self.faLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.faLabel];
 		
-		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 170, 22)];
+		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.nameLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13];
 		self.nameLabel.text = @"nameLabel";
 		self.nameLabel.textAlignment = NSTextAlignmentLeft;
-		self.nameLabel.textColor = [UIColor blackColor];
+		self.nameLabel.textColor = [ProjectFunctions segmentThemeColor];
 		self.nameLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.nameLabel];
 		
@@ -55,8 +59,10 @@
 		self.hoursLabel.minimumScaleFactor = .7;
 		self.hoursLabel.text = @"hours";
 		self.hoursLabel.textAlignment = NSTextAlignmentCenter;
-		self.hoursLabel.textColor = [ProjectFunctions themeBGColor];
-		self.hoursLabel.backgroundColor = [UIColor clearColor];
+		self.hoursLabel.textColor = [ProjectFunctions segmentThemeColor];
+		self.hoursLabel.backgroundColor = [ProjectFunctions primaryButtonColor];
+		self.hoursLabel.layer.cornerRadius = 4;
+		self.hoursLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
 		[self.contentView addSubview:self.hoursLabel];
 		
 		
@@ -91,7 +97,7 @@
 		self.pprLabel.backgroundColor = [UIColor clearColor];
 		self.pprLabel.layer.cornerRadius = 7;
 		self.pprLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
-		self.pprLabel.layer.borderColor = [ProjectFunctions primaryButtonColor].CGColor;
+		self.pprLabel.layer.borderColor = [ProjectFunctions themeBGColor].CGColor;
 		self.pprLabel.layer.borderWidth = 1.;
 		[self.contentView addSubview:self.pprLabel];
 		
@@ -116,6 +122,7 @@
 	
 	[super layoutSubviews];
 	
+	self.bgView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, 44);
 	[GameCell layoutSubviews:self.frame nameLabel:self.nameLabel dateLabel:self.dateLabel locationLabel:self.locationLabel hoursLabel:self.hoursLabel profitLabel:self.profitLabel];
 	
 }
@@ -130,18 +137,25 @@
 	
 	float width=cellRect.size.width;
 	
-	nameLabel.frame = CGRectMake(40, 2, width-150, 22);
+	nameLabel.frame = CGRectMake(56, 2, width-160, 22);
 	locationLabel.frame = CGRectMake(width-110, 0, 100, 22);
 	dateLabel.frame = CGRectMake(40, 20, width*0.4, 22);
 	hoursLabel.frame = CGRectMake(10+width/2, 25, 60, 12);
 	profitLabel.frame = CGRectMake(width-95, 20, 85, 22);
 }
 
++(UIColor *)faColorForType:(NSString *)type {
+	return ([@"Cash" isEqualToString:type])?[UIColor colorWithRed:.7 green:.4 blue:0 alpha:1]:[UIColor colorWithRed:0 green:.3 blue:1 alpha:1];
+}
+
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
 	//name---------
-	NSString *faSymbol = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
+	cell.faLabel.text = ([@"Cash" isEqualToString:gameObj.type])?[NSString fontAwesomeIconStringForEnum:FAMoney]:[NSString fontAwesomeIconStringForEnum:FATrophy];
+	cell.faLabel.textColor = [self faColorForType:gameObj.type];
+	
+	NSString *faSymbol = @"";
 	if(gameObj.hudStatsFlg)
-		faSymbol = [NSString stringWithFormat:@"%@ %@", faSymbol, [NSString fontAwesomeIconStringForEnum:FAuserSecret]];
+		faSymbol = [NSString fontAwesomeIconStringForEnum:FAuserSecret];
 	if([@"Calendar" isEqualToString:gameObj.type])
 		faSymbol = [NSString fontAwesomeIconStringForEnum:FACalendar];
 	if([@"Calendar-o" isEqualToString:gameObj.type])
@@ -177,7 +191,7 @@
 		if([@"the" isEqualToString:[location lowercaseString]] && components.count>1)
 			location = [components objectAtIndex:1];
 	}
-	if(![@"Default" isEqualToString:gameObj.bankroll])
+	if(![@"Default" isEqualToString:gameObj.bankroll] && gameObj.bankroll.length>0)
 		location = gameObj.bankroll;
 	cell.locationLabel.text = location;
 

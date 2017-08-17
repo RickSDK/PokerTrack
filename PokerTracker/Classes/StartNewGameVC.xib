@@ -90,22 +90,24 @@
                                 <action selector="addCasinoButtonPressed:" destination="-1" eventType="touchDown" id="F2y-NG-8fO"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" id="qQ2-nl-WaV">
-                            <rect key="frame" x="38" y="10" width="254" height="44"/>
+                        <view contentMode="scaleToFill" id="qQ2-nl-WaV" customClass="GrayView">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
+                                    <rect key="frame" x="38" y="7" width="244" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <segments>
+                                        <segment title="Cash Game"/>
+                                        <segment title="Tournament"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="gameTypeSegmentPressed:" destination="-1" eventType="valueChanged" id="34"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="10" customClass="CustomSegment">
-                            <rect key="frame" x="43" y="17" width="244" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Cash Game"/>
-                                <segment title="Tournament"/>
-                            </segments>
-                            <connections>
-                                <action selector="gameTypeSegmentPressed:" destination="-1" eventType="valueChanged" id="34"/>
-                            </connections>
-                        </segmentedControl>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="7" customClass="CustomSegment">
                             <rect key="frame" x="2" y="61" width="316" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -256,7 +258,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" id="KVN-Zs-Xga" customClass="PopupView">
-                            <rect key="frame" x="20" y="5" width="280" height="296"/>
+                            <rect key="frame" x="20" y="5" width="280" height="384"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SRM-ge-e8R">

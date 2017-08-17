@@ -69,7 +69,7 @@
 "Export" = "Export"; // short
 "Import" = "Import"; // short
 "Clear" = "Clear All Server Data";
-"ImportJournal" = "Import Poker Jounral Data";
+"ImportJournal" = "Import Poker Journal Data";
 "ImportIncome" = "Import Poker Income Data";
 "Email" = "Email My Data in Excel";
 "Cleanup" = "Cleanup Ref Data";
@@ -121,6 +121,13 @@
 "saveFilter" = "Save Filter";
 "Best" = "Best";
 "Worst" = "Worst";
+"Start" = "Start";
+"-Click Here-" = "-Click Here-";
+"Starting Chips" = "Starting Chips";
+"End" = "End";
+"Pause" = "Pause";
+"# Players" = "# Players";
+"Amount Won" = "Amount Won";
 "deleteSafeguard" = "As a safeguard, you must set the Cashout Amount of your earliest game to 999 in order to delete the database.";
 "deleteMessage" = "This will permanently delete all data on this device! Do you wish to continue?";
 "ExportText" = "Exporting saves your data to a server so you can import it to a new device. Note: The data is NOT automatically backed up as you enter new games. You must manually export it here.";

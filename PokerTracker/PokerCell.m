@@ -119,7 +119,7 @@
 	cell.textLabel.text = cellLabel;
 	cell.selection.text = cellValue;
 	
-	cell.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
+	cell.backgroundColor = [ProjectFunctions primaryButtonColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleGray;
 	if(viewEditable)
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

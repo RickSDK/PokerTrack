@@ -160,10 +160,9 @@
         cell.dateLabel.alpha=0;
         NSArray *titles = [NSArray arrayWithObjects:@"Announcements", @"General", @"Strategy", @"Bad Beats", @"Whoa!", nil];
         cell.textLabel.text=[titles objectAtIndex:indexPath.section];
-        cell.backgroundColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
-        cell.textLabel.textColor = [UIColor colorWithRed:1 green:.8 blue:.4 alpha:1];
+        cell.textLabel.textColor = [ProjectFunctions primaryButtonColor];
         cell.accessoryType= UITableViewCellAccessoryNone;
-        cell.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"greenGradient.png"]];
+        cell.backgroundColor=[ProjectFunctions segmentThemeColor];
     } else {
         cell.repliesLabel.alpha=1;
         cell.repliesNumber.alpha=1;

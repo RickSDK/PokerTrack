@@ -83,15 +83,15 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="nJL-Ob-Hb3">
+                <view contentMode="scaleToFill" id="nJL-Ob-Hb3" customClass="ThemeBGView">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="278"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="PES-8d-atA">
+                        <view contentMode="scaleToFill" id="PES-8d-atA" customClass="GrayView">
                             <rect key="frame" x="2" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="S8E-gg-wJV">
+                                <view contentMode="scaleToFill" id="S8E-gg-wJV" customClass="NavBarView">
                                     <rect key="frame" x="0.0" y="0.0" width="102" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -182,11 +182,11 @@
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="W9F-Dc-29X">
+                        <view contentMode="scaleToFill" id="W9F-Dc-29X" customClass="GrayView">
                             <rect key="frame" x="109" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="FDG-lB-C26">
+                                <view contentMode="scaleToFill" id="FDG-lB-C26" customClass="NavBarView">
                                     <rect key="frame" x="0.0" y="0.0" width="102" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -275,11 +275,11 @@
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="eF8-rs-VG4">
+                        <view contentMode="scaleToFill" id="eF8-rs-VG4" customClass="GrayView">
                             <rect key="frame" x="216" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" id="ySd-Ml-OIa">
+                                <view contentMode="scaleToFill" id="ySd-Ml-OIa" customClass="NavBarView">
                                     <rect key="frame" x="0.0" y="0.0" width="102" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

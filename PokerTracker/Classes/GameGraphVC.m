@@ -39,14 +39,15 @@
 	
 	[ProjectFunctions makeFAButton:self.hudButton type:5 size:18];
 	self.popupView.titleLabel.text=@"Chipstack Comment";
+	[ProjectFunctions makeFALabel:self.faLabel type:1 size:18];
 	
 	[self addGameID];
-	[self setupGraphView];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowCircleRight] target:self action:@selector(detailsButtonClicked:)];
 	
 	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 	[self deselectChart];
+	[ProjectFunctions makeFAButton:self.deleteCommentButton type:0 size:18];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -56,15 +57,17 @@
 	
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	[self.multiCellObj populateObjWithGame:self.gameObj];
-	
+	[self setupGraph];
+	[self.mainTableView reloadData];
+}
+
+-(void)setupGraph {
 	[self setupData];
-	
 	ChipStackObj *chipStackObj = [ProjectFunctions plotGameChipsChart:managedObjectContext mo:mo predicate:nil displayBySession:NO];
 	self.pointsArray = chipStackObj.pointArray;
 	[self drawNotes];
 	
 	self.gameGraphView.image = chipStackObj.image;
-	[self.mainTableView reloadData];
 }
 
 -(void)detailsButtonClicked:(id)sender {
@@ -126,18 +129,15 @@
 	
 	self.dateLabel.text = [ProjectFunctions displayLocalFormatDate:self.gameObj.startTime showDay:YES showTime:NO];
 	self.timeLabel.text = [ProjectFunctions displayLocalFormatDate:self.gameObj.startTime showDay:NO showTime:YES];
-	self.locationLabel.textColor = [self colorForType:self.gameObj.type];
+	self.faLabel.textColor = [self colorForType:self.gameObj.type];
+	if(self.gameObj.tournamentGameFlg)
+		self.faLabel.text = [NSString fontAwesomeIconStringForEnum:FATrophy];
+	else
+		self.faLabel.text = [NSString fontAwesomeIconStringForEnum:FAMoney];
 }
 
 -(UIColor *)colorForType:(NSString *)type {
-	return ([@"Cash" isEqualToString:self.gameObj.type])?[UIColor colorWithRed:1 green:.9 blue:.3 alpha:1]:[UIColor colorWithRed:.5 green:.8 blue:1 alpha:1];
-}
-
--(void)setupGraphView {
-	self.gameGraphView.layer.cornerRadius = 7;
-	self.gameGraphView.layer.masksToBounds = YES;				// clips background images to rounded corners
-	self.gameGraphView.layer.borderColor = [UIColor blackColor].CGColor;
-	self.gameGraphView.layer.borderWidth = 2.;
+	return ([@"Cash" isEqualToString:self.gameObj.type])?[UIColor colorWithRed:.2 green:1 blue:.2 alpha:1]:[UIColor colorWithRed:.5 green:.8 blue:1 alpha:1];
 }
 
 -(void)addGameID {
@@ -186,6 +186,34 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[self gotoDetails];
+}
+
+- (IBAction) deleteCommentButtonPressed: (id) sender {
+	[ProjectFunctions showConfirmationPopup:@"Delete Comment" message:@"Delete this chip stack Point?" delegate:self tag:99];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if(buttonIndex==alertView.cancelButtonIndex)
+		return;
+	float amount = 0;
+	if(self.closestPoint<self.pointsArray.count) {
+		NSArray *components = [[self.pointsArray objectAtIndex:self.closestPoint] componentsSeparatedByString:@"|"];
+		if(components.count>3)
+			amount = [[components objectAtIndex:2] floatValue];
+	}
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"game = %@", mo];
+	NSArray *items = [CoreDataLib selectRowsFromEntity:@"CHIPSTACK" predicate:predicate sortColumn:@"timeStamp" mOC:self.managedObjectContext ascendingFlg:YES];
+	if(items.count>self.closestPoint) {
+		NSManagedObject *chipstack = [items objectAtIndex:self.closestPoint];
+		double delAmount = [[chipstack valueForKey:@"amount"] doubleValue];
+		if(delAmount==amount) {
+			[self.managedObjectContext deleteObject:chipstack];
+			[self saveDatabase];
+			[self setupGraph];
+		} else {
+			[ProjectFunctions showAlertPopup:@"Error" message:@"Sorry unknown error."];
+		}
+	}
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

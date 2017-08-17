@@ -221,8 +221,10 @@ static NSInteger X_INSET			= 5;
 		NSMutableArray *fieldColors = [[NSMutableArray alloc] init];
 		gridViewArray = [[NSMutableArray alloc] init];
 		
-		UIColor *faintColor = [UIColor ATTCellRowShading];
-		faintColor = [UIColor colorWithWhite:.95 alpha:1];
+		UIColor *evenRowColor = [UIColor ATTCellRowShading];
+		evenRowColor = [UIColor colorWithWhite:1 alpha:1];
+		UIColor *oddRowColor = [UIColor colorWithWhite:.96 alpha:1];
+//		oddRowColor = [ProjectFunctions primaryButtonColor];
 
 		UILabel *label;
 		UIView *grid;
@@ -230,7 +232,7 @@ static NSInteger X_INSET			= 5;
 		for (int i=0; i<rows; i++) {
 			// Add grid first so it is at the back;
 			grid = [[UIView alloc] initWithFrame:CGRectZero];
-			grid.backgroundColor = (i % 2 == 0 ? faintColor : [UIColor whiteColor]);
+			grid.backgroundColor = (i % 2 == 0 ? evenRowColor : oddRowColor);
 			[gridViewArray addObject:grid];
 			[self.contentView addSubview:grid];
 			
@@ -262,6 +264,7 @@ static NSInteger X_INSET			= 5;
 		[self.contentView addSubview:self.leftImage];
 
 		self.fieldColorArray = fieldColors;
+		self.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
     }
     return self;
 }
@@ -283,7 +286,7 @@ static NSInteger X_INSET			= 5;
 			[[fieldLabelArray objectAtIndex:i] setTextColor:[UIColor whiteColor]];
 		}
     } else {
-		[mainTitleLabel setTextColor:[UIColor blackColor]];
+		[mainTitleLabel setTextColor:[ProjectFunctions segmentThemeColor]];
 		int rows = (int)numberOfRows;
 		for (int i=0; i<rows; i++) {
 			[[titleLabelArray objectAtIndex:i] setTextColor:(labelColor ? labelColor : [UIColor colorWithWhite:.4 alpha:1])];
