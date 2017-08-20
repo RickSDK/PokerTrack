@@ -269,7 +269,7 @@
                                                        labelProportion:.55];
         
         cell.alternateTitle = self.yearChangeView.yearLabel.text;
-        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), @"ROI", @"Type", NSLocalizedString(@"Profit", nil), nil];
+        cell.titleTextArray = [NSArray arrayWithObjects:NSLocalizedString(@"Name", nil), NSLocalizedString(@"ROI", nil), NSLocalizedString(@"Type", nil), NSLocalizedString(@"Profit", nil), nil];
         if([self.playerBasicsArray count]==4) {
             cell.fieldTextArray = self.playerBasicsArray;
             cell.fieldColorArray = self.colorArray1;

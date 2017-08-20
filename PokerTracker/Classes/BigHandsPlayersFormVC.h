@@ -62,6 +62,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *cardLabel1;
 @property (nonatomic, strong) IBOutlet UIImageView *cardSuit2;
 @property (nonatomic, strong) IBOutlet UILabel *cardLabel2;
+@property (nonatomic, strong) IBOutlet UILabel *cardSuit1Label;
+@property (nonatomic, strong) IBOutlet UILabel *cardSuit2Label;
 
 
 

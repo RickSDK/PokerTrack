@@ -120,18 +120,19 @@
 -(void)turnIntoFilterSegment:(NSManagedObjectContext *)context {
 	[self applyFontOfSize:11];
 	if(self.numberOfSegments==4) {
-		[self setTitle:@"-None-" forSegmentAtIndex:0];
+		[self setTitle:NSLocalizedString(@"-None-", nil)  forSegmentAtIndex:0];
 		for(int i=1; i<=3; i++) {
 			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"button = %d", i];
 			NSArray *filters = [CoreDataLib selectRowsFromEntity:@"FILTER" predicate:predicate sortColumn:@"button" mOC:context ascendingFlg:YES];
 			if([filters count]>0) {
 				NSManagedObject *mo = [filters objectAtIndex:0];
 				NSString *name = [mo valueForKey:@"name"];
+				name = NSLocalizedString(name, nil);
 				if(name.length>12)
 					name = [name substringToIndex:12];
 				[self setTitle:name forSegmentAtIndex:i];
 			} else
-				[self setTitle:@"Extra" forSegmentAtIndex:i];
+				[self setTitle:NSLocalizedString(@"Extra", nil) forSegmentAtIndex:i];
 		}
 	}
 	[self changeSegment];

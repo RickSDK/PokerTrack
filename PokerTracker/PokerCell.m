@@ -54,17 +54,17 @@
 		
 		suit1Image = [[UIImageView alloc] initWithFrame:CGRectZero];
 		suit1Image.image = [UIImage imageNamed:@"cards.png"];
-		suit1Image.frame = CGRectMake(168, 22, 20, 18);
+		suit1Image.frame = CGRectMake(170, 22, 16, 16);
 		[self.contentView addSubview:suit1Image];
 		
 		suit2Image = [[UIImageView alloc] initWithFrame:CGRectZero];
 		suit2Image.image = [UIImage imageNamed:@"cards.png"];
-		suit2Image.frame = CGRectMake(208, 22, 20, 18);
+		suit2Image.frame = CGRectMake(210, 22, 16, 16);
 		[self.contentView addSubview:suit2Image];
 		
 		suit3Image = [[UIImageView alloc] initWithFrame:CGRectZero];
 		suit3Image.image = [UIImage imageNamed:@"cards.png"];
-		suit3Image.frame = CGRectMake(248, 22, 20, 18);
+		suit3Image.frame = CGRectMake(250, 22, 16, 16);
 		[self.contentView addSubview:suit3Image];
 
 		card1Label = [[UILabel alloc] initWithFrame:CGRectZero];

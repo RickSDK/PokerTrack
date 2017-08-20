@@ -458,14 +458,14 @@
 -(BOOL)chipCheckBuyin:(NSString *)buyinStr {
 	float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:buyinStr];
 	if(buyInAmount==0) {
-		[ProjectFunctions showAlertPopup:@"Buyin must be greater than 0" message:@""];
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"Buy-in amount must be greater than 0", nil)];
 		return NO;
 	}
 	if(self.gameTypeSegmentBar.selectedSegmentIndex==1) {
 		float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:self.chipsPopupButton.titleLabel.text];
 		if(buyInAmount==0) {
 			self.tournyPopupView.hidden=NO;
-			[ProjectFunctions showAlertPopup:@"Starting chips must be greater than 0" message:@""];
+			[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"Starting chips must be greater than 0", nil)];
 			return NO;
 		}
 	}

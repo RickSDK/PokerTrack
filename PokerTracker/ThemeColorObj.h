@@ -11,6 +11,7 @@
 @interface ThemeColorObj : NSObject
 
 @property (nonatomic, strong)  NSString *name;
+@property (nonatomic, strong)  NSString *longName;
 @property (nonatomic, strong)  UIColor *primaryColor;
 @property (nonatomic, strong)  UIColor *themeBGColor;
 @property (nonatomic, strong)  UIColor *navBarColor;

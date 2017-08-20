@@ -243,6 +243,7 @@
 +(int)themeTypeNumber;
 +(int)themeGroupNumber;
 +(int)themeListItemNumber;
++(int)themeCategoryNumber;
 +(UIColor *)grayThemeColor;
 +(UIColor *)themeBGColor;
 +(NSArray *)bgThemeColors;

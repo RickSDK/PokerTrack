@@ -27,5 +27,6 @@
 +(NSArray *)ncaaThemes;
 +(NSArray *)nhlThemes;
 +(NSArray *)mlsThemes;
++(NSArray *)chineseThemes;
 
 @end

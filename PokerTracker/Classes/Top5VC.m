@@ -174,11 +174,14 @@
 			obj.type = (self.mainSegment.selectedSegmentIndex==1)?@"Calendar":@"Calendar-o";
 		}
 		[GameCell populateGameCell:cell gameObj:obj evenFlg:indexPath.row%2==0];
+		cell.faLabel.hidden=YES;
 		return cell;
 	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(self.mainSegment.selectedSegmentIndex>0)
+		return;
 	NSManagedObject *mo = nil;
 	if(indexPath.section==0)
 		mo = [bestGames objectAtIndex:indexPath.row];

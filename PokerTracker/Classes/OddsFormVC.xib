@@ -9,8 +9,11 @@
                 <outlet property="activityLabel" destination="17" id="19"/>
                 <outlet property="activityPopup" destination="24" id="26"/>
                 <outlet property="activityView" destination="14" id="15"/>
+                <outlet property="calculateBotButton" destination="S3W-gy-9vf" id="7cK-Zb-W3X"/>
+                <outlet property="clearButton" destination="7hB-sh-f26" id="YJ9-ov-Gqs"/>
                 <outlet property="mainTableView" destination="9" id="13"/>
                 <outlet property="progressView" destination="20" id="21"/>
+                <outlet property="randomButton" destination="7Bp-yH-qdJ" id="pRJ-jb-3Id"/>
                 <outlet property="view" destination="8" id="10"/>
             </connections>
         </placeholder>
@@ -20,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9">
-                    <rect key="frame" x="-2" y="0.0" width="320" height="436"/>
+                    <rect key="frame" x="-2" y="0.0" width="320" height="393"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
@@ -49,6 +52,43 @@
                     <rect key="frame" x="55" y="172" width="209" height="9"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
+                <view contentMode="scaleToFill" id="K1l-2q-tHj" customClass="NavBarView">
+                    <rect key="frame" x="0.0" y="392" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7Bp-yH-qdJ" customClass="PtpButton">
+                            <rect key="frame" x="111" y="3" width="95" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Random">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="randomButtonPressed:" destination="-1" eventType="touchDown" id="Iqt-eE-cTZ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="S3W-gy-9vf" customClass="PtpButton">
+                            <rect key="frame" x="217" y="3" width="95" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Calculate!">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="calculateButtonPressed:" destination="-1" eventType="touchDown" id="nPl-Rv-liA"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7hB-sh-f26" customClass="PtpButton">
+                            <rect key="frame" x="8" y="3" width="95" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Clear">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clearButtonPressed:" destination="-1" eventType="touchDown" id="1XX-Uj-sy2"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>

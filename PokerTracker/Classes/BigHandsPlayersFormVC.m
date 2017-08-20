@@ -49,7 +49,7 @@
 		[action4Button setTitle:[playerVals valueForKey:@"result"] forState:UIControlStateNormal];
 		[bet4Button setTitle:[NSString stringWithFormat:@"%@", [playerVals valueForKey:@"riverBet"]] forState:UIControlStateNormal];
 	}
-	[BigHandObj createHand:self.playerHand suit1:self.cardSuit1 label1:self.cardLabel1 suit2:self.cardSuit2 label2:self.cardLabel2];
+	[BigHandObj createHand:self.playerHand suit1:self.cardSuit1Label label1:self.cardLabel1 suit2:self.cardSuit2Label label2:self.cardLabel2];
 }
 
 -(void)doAction:(UIButton *)button title:(NSString *)title
@@ -161,65 +161,24 @@
 
 
 -(void) setReturningValue:(NSString *) value {
-	if(selectedNumber==0) {
-		[chipsButton setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[chipsButton setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==1) {
-		[action1Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[action1Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==2) {
-		[action2Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[action2Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==3) {
-		[action3Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[action3Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==4) {
-		[action4Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[action4Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==5) {
-		[bet1Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[bet1Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==6) {
-		[bet2Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[bet2Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==7) {
-		[bet3Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[bet3Button setTitle:value forState:UIControlStateNormal];
-	}
-	if(selectedNumber==8) {
-		[bet4Button setBackgroundImage:[UIImage imageNamed:@"greenChromeBut.png"] forState:UIControlStateNormal];
-		[bet4Button setTitle:value forState:UIControlStateNormal];
+	NSArray *buttons = [NSArray arrayWithObjects:
+						chipsButton,
+						action1Button,
+						action2Button,
+						action3Button,
+						action4Button,
+						bet1Button,
+						bet2Button,
+						bet3Button,
+						bet4Button,
+						nil];
+	if(buttons.count>selectedNumber) {
+		UIButton *button = [buttons objectAtIndex:selectedNumber];
+		[ProjectFunctions newButtonLook:button mode:1];
+		[button setTitle:value forState:UIControlStateNormal];
 	}
 }
 
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 
 

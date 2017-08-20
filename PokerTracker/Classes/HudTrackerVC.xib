@@ -392,7 +392,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wJu-NI-sfg" customClass="PtpButton">
-                            <rect key="frame" x="5" y="63" width="50" height="30"/>
+                            <rect key="frame" x="5" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="Fold" backgroundImage="yellowChromeBut.png">
@@ -404,7 +404,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FUL-38-rLn" customClass="PtpButton">
-                            <rect key="frame" x="65" y="63" width="50" height="30"/>
+                            <rect key="frame" x="65" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="ch" backgroundImage="yellowChromeBut.png">
@@ -416,7 +416,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ORe-ZS-VDi" customClass="PtpButton">
-                            <rect key="frame" x="125" y="63" width="50" height="30"/>
+                            <rect key="frame" x="125" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Call" backgroundImage="yellowChromeBut.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -427,7 +427,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Tr0-Os-kzD" customClass="PtpButton">
-                            <rect key="frame" x="185" y="63" width="50" height="30"/>
+                            <rect key="frame" x="185" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="R" backgroundImage="yellowChromeBut.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -532,7 +532,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QPK-wP-cIZ" customClass="PtpButton">
-                            <rect key="frame" x="249" y="78" width="60" height="30"/>
+                            <rect key="frame" x="249" y="75" width="60" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="Del" backgroundImage="redChromeBut.png">
@@ -551,7 +551,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HZG-NX-VTi" customClass="PtpButton">
-                            <rect key="frame" x="5" y="63" width="50" height="30"/>
+                            <rect key="frame" x="5" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="Fold" backgroundImage="yellowChromeBut.png">
@@ -563,7 +563,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Do-eH-dpC" customClass="PtpButton">
-                            <rect key="frame" x="65" y="63" width="50" height="30"/>
+                            <rect key="frame" x="65" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="Ch" backgroundImage="yellowChromeBut.png">
@@ -575,7 +575,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="d9u-FE-BK5" customClass="PtpButton">
-                            <rect key="frame" x="125" y="63" width="50" height="30"/>
+                            <rect key="frame" x="125" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Call" backgroundImage="yellowChromeBut.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -586,7 +586,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9E5-Tv-DaB" customClass="PtpButton">
-                            <rect key="frame" x="185" y="63" width="50" height="30"/>
+                            <rect key="frame" x="185" y="61" width="50" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="R" backgroundImage="yellowChromeBut.png">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -597,7 +597,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RGz-RT-1aV" customClass="PtpButton">
-                            <rect key="frame" x="250" y="78" width="60" height="30"/>
+                            <rect key="frame" x="250" y="75" width="60" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="Del" backgroundImage="redChromeBut.png">

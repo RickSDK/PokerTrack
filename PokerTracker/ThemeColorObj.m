@@ -23,11 +23,36 @@
 					  grayColor:(UIColor *)grayColor {
 	ThemeColorObj *obj = [[ThemeColorObj alloc] init];
 	obj.name = name;
+	BOOL greatDesign = YES;
+	if (CGColorEqualToColor(themeBGColor.CGColor, navBarColor.CGColor)) {
+		greatDesign = NO;
+		
+		CGFloat r1, g1, b1, a1;
+		[themeBGColor getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+		navBarColor = [UIColor colorWithRed:[self nonNeg:r1-.15] green:[self nonNeg:g1-.15] blue:[self nonNeg:b1-.15] alpha:a1];
+	}
+	if (CGColorEqualToColor(primaryColor.CGColor, [UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1].CGColor))
+		greatDesign = NO;
+	
+	if (CGColorEqualToColor(navBarColor.CGColor, [UIColor colorWithRed:0.0/255 green:0.0/255 blue:0.0/255 alpha:1].CGColor))
+		greatDesign = NO;
+	
+	if(greatDesign)
+		obj.longName = [NSString stringWithFormat:@"⭐️ %@", name];
+	else
+		obj.longName = name;
 	obj.primaryColor = primaryColor;
 	obj.themeBGColor = themeBGColor;
 	obj.navBarColor = navBarColor;
 	obj.grayColor = grayColor;
 	return obj;
+}
+					   
++(float)nonNeg:(float)number {
+	if(number>=0)
+		return number;
+	else
+		return 0;
 }
 
 
@@ -63,6 +88,8 @@
 		return [ColorSchemes mlsThemes];
 	if(group==6)
 		return [ColorSchemes disneyThemes];
+	if(group==7)
+		return [ColorSchemes chineseThemes];
 	
 	return nil;
 }
@@ -84,6 +111,7 @@
 			@"NHL",
 			@"MLS Soccer",
 			@"Disney",
+			@"Chinese",
 			nil];
 }
 

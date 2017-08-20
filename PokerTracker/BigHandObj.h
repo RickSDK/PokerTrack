@@ -48,6 +48,6 @@
 
 +(BigHandObj *)objectFromMO:(NSManagedObject *)mo;
 +(void)createCard:(UIImageView *)suitImageView label:(UILabel *)label card:(NSString *)card suit:(NSString *)suit;
-+(void)createHand:(NSString *)hand suit1:(UIImageView *)suit1 label1:(UILabel *)label1 suit2:(UIImageView *)suit2 label2:(UILabel *)label2;
++(void)createHand:(NSString *)hand suit1:(UILabel *)suit1 label1:(UILabel *)label1 suit2:(UILabel *)suit2 label2:(UILabel *)label2;
 
 @end

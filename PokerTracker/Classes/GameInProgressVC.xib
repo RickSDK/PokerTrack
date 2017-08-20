@@ -21,7 +21,9 @@
                 <outlet property="mainTextfield" destination="iQy-12-0FE" id="ZzF-uf-fRZ"/>
                 <outlet property="notesButton" destination="93" id="xWN-Yz-BbQ"/>
                 <outlet property="numberPlayersButton" destination="4Cx-9P-Ruf" id="sDn-wC-drf"/>
+                <outlet property="numberPlayersLabel" destination="tSK-Ye-qZ6" id="rsX-ma-lnC"/>
                 <outlet property="numberSpotPaidButton" destination="CU3-ON-leJ" id="N7k-RO-peE"/>
+                <outlet property="numberSpotPaidLabel" destination="I3g-DD-EZ4" id="KPU-sT-iVC"/>
                 <outlet property="onBreakLabel" destination="17" id="46"/>
                 <outlet property="pauseButton" destination="5" id="45"/>
                 <outlet property="pauseTimerLabel" destination="18" id="47"/>

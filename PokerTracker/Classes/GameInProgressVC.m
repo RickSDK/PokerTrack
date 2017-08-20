@@ -97,6 +97,8 @@
 	self.popupView.titleLabel.text = @"Terms";
 	self.playersPopupView.titleLabel.text = @"Tournament Players";
 	self.tournamentEndPopupView.titleLabel.text = NSLocalizedString(@"Amount Won", nil);
+	self.numberPlayersLabel.text = NSLocalizedString(@"# Players", nil);
+	self.numberSpotPaidLabel.text = NSLocalizedString(@"tournamentSpotsPaid", nil);
 	self.tournamentEndPopupView.hidden=YES;
 	
 	self.playersPopupView.hidden=YES;
@@ -516,6 +518,7 @@
 {
 	if(self.gameObj.tournamentGameFlg) {
 		self.tournamentEndPopupView.hidden=!self.tournamentEndPopupView.hidden;
+		[self.mainTextfield becomeFirstResponder];
 		return;
 	}
 	if(!self.cashUpdatedFlg) {

@@ -67,7 +67,6 @@
 	}
 }
 
-
 - (void) saveButtonClicked:(id)sender {
 	[self resignkeyboards];
 	if(!viewEditable) {

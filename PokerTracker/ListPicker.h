@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateVC.h"
 
 
-@interface ListPicker : UIViewController {
+@interface ListPicker : TemplateVC {
 	//---Passed In----------------------------
 	UIViewController *callBackViewController;
     NSManagedObjectContext *managedObjectContext;

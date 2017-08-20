@@ -49,15 +49,19 @@
 	
 	self.navigationItem.leftBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAHome] target:self action:@selector(mainMenuButtonClicked:)];
 	
-	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked:)];
+	self.calculateButton = [[UIBarButtonItem alloc] initWithTitle:@"Calculate!" style:UIBarButtonItemStylePlain target:self action:@selector(calculateButtonClicked)];
 	self.navigationItem.rightBarButtonItem = calculateButton;
-	self.calculateButton.enabled = NO;
-	if(preLoaedValues)
-		self.calculateButton.enabled = YES;
+	
+	self.clearButton.enabled=preLoaedValues;
+	self.randomButton.enabled=!preLoaedValues;
+	self.calculateBotButton.enabled=preLoaedValues;
+
+	self.calculateButton.enabled = preLoaedValues;
 	
 	activityPopup.alpha=0;
 	activityLabel.alpha=0;
 	progressView.alpha=0;
+
 	
 	[self setupdata];
 }
@@ -136,12 +140,6 @@
 	}
 }
 
--(void)executeThreadedJob:(SEL)aSelector
-{
-	progressView.alpha=1;
-	[self performSelectorInBackground:aSelector withObject:nil];
-}
-
 -(void)updateProgressBar {
 	@autoreleasepool {
 		float amountComplete = 0.0;
@@ -156,25 +154,30 @@
 		[NSThread sleepForTimeInterval:0.4];
 		
 		if(isCalculating)
-			[self executeThreadedJob:@selector(updateProgressBar)];
+			[self performSelectorInBackground:@selector(updateProgressBar) withObject:nil];
 	}
 }
 
 -(void)checkIfComplete {
+	NSLog(@"checkIfComplete!");
 	if(preFlopStillWorking || self.postFlopStillWorking || turnStillWorking) {
 		NSLog(@"Still working...");
 	} else {
+		NSLog(@"All Done!!");
 		isCalculating = NO;
 		self.doneCalculating=YES;
 		calculateButton.enabled = YES;
-	}
-	if(!preFlopStillWorking || !self.postFlopStillWorking || !turnStillWorking) {
 		activityPopup.alpha=0;
 		activityLabel.alpha=0;
 		progressView.alpha=0;
 		[activityView stopAnimating];
+		[self enableCalcButton:YES];
+		[mainTableView reloadData];
 	}
-	[mainTableView reloadData];
+	if(!preFlopStillWorking || !self.postFlopStillWorking || !turnStillWorking) {
+		activityPopup.alpha=0;
+		NSLog(@"PArtial Done");
+	}
 }
 
 -(void)calculatePostFlop
@@ -230,7 +233,6 @@
 	}
 }
 
-
 -(void)calculateFinalHand
 {
 	@autoreleasepool {
@@ -268,9 +270,14 @@
 }
 
 
--(void)calculateButtonClicked:(id)sender {
+- (IBAction) calculateButtonPressed: (UIButton *) button {
+	[self calculateButtonClicked];
+}
+
+-(void)calculateButtonClicked {
 	if(mo != nil) {
 		if(self.doneCalculating) {
+			NSLog(@"All done calculating!!!!");
 			[self gotoBigHands];
 			return;
 		} else {
@@ -284,6 +291,9 @@
 	progressView.progress=0;
 	progressView.alpha=1;
 	calculateButton.enabled = NO;
+	self.clearButton.enabled = NO;
+	self.randomButton.enabled = NO;
+	self.calculateBotButton.enabled = NO;
 	self.isCalculating=YES;
 	self.preFlopStillWorking=YES;
 	self.postFlopStillWorking=YES;
@@ -293,7 +303,7 @@
 	[self performSelectorInBackground:@selector(calculatePostFlop) withObject:nil];
 	[self performSelectorInBackground:@selector(calculateTurn) withObject:nil];
 	[self performSelectorInBackground:@selector(calculateFinalHand) withObject:nil];
-	[self executeThreadedJob:@selector(updateProgressBar)];
+	[self performSelectorInBackground:@selector(updateProgressBar) withObject:nil];
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
@@ -365,17 +375,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-    
-	NSString *cellIdentifier = [NSString stringWithFormat:@"cellIdentifierSection%dRow%d", (int)indexPath.section, (int)indexPath.row];
-    
+	NSString *cellIdentifier = [self cellId:indexPath];
 	if(indexPath.section==0) {
 		if(indexPath.row<[labelValues count]) {
 			return [PokerCell pokerCell:tableView cellIdentifier:cellIdentifier cellLabel:[labelValues objectAtIndex:indexPath.row] cellValue:[formDataArray objectAtIndex:indexPath.row] viewEditable:YES];
 		}
-		ActionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-		if (cell == nil) {
-			cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-		}
+		ActionCell *cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+
 		cell.backgroundColor = [ProjectFunctions themeBGColor];
 		cell.textLabel.textColor = [ProjectFunctions primaryButtonColor];
 		if(boardFilledOut)
@@ -391,13 +397,8 @@
 	}
 	
 	int NumberOfRows = numPlayers;
-	NSLog(@"NumberOfRows: %d", NumberOfRows);
 	
-	MultiLineDetailCellWordWrap *cell = (MultiLineDetailCellWordWrap *) [mainTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	if (cell == nil) {
-		cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.4];
-	}
-    
+	MultiLineDetailCellWordWrap *cell = [[MultiLineDetailCellWordWrap alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier withRows:NumberOfRows labelProportion:0.4];
 	NSArray *headers = [NSArray arrayWithObjects:@"Form", @"Preflop Odds", @"Postflop Odds", @"Turn odds", @"Final Result", nil];
 	cell.mainTitle = [headers objectAtIndex:indexPath.section];
 	cell.alternateTitle = [self altTitleForRow:(int)indexPath.section];
@@ -450,10 +451,9 @@
 	
 }
 
-
-
 -(void)completeWithRandomCards
 {
+	self.boardFilledOut=YES;
 	if(0) { //<-- for testing
 		[formDataArray replaceObjectAtIndex:0 withObject:@"Ac-9d"];
 		[formDataArray replaceObjectAtIndex:1 withObject:@"Ah-As"];
@@ -506,6 +506,10 @@
 		[playerFlopResults replaceObjectAtIndex:i withObject:@"*"];
 		[playerPreFlopResults replaceObjectAtIndex:i withObject:@"*"];
 	}
+	self.clearButton.enabled=YES;
+	self.randomButton.enabled=NO;
+	self.calculateBotButton.enabled=YES;
+	[self.mainTableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -527,7 +531,7 @@
 	if(indexPath.row<[formDataArray count])
 		dataValue = [NSString stringWithFormat:@"%@", [formDataArray objectAtIndex:indexPath.row]];
 
-	if(selectedRow<numPlayers) {
+	if(self.selectedRow<numPlayers) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.titleLabel = labelValue;
@@ -536,7 +540,7 @@
 		detailViewController.initialDateValue = dataValue;
 		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:detailViewController animated:YES];
-	} else 	if(selectedRow==numPlayers) {
+	} else 	if(self.selectedRow==numPlayers) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.titleLabel = labelValue;
@@ -545,7 +549,7 @@
 		detailViewController.numberCards=3;
 		detailViewController.burnedcards = [PokerOddsFunctions getBurnedCardsMinusThese:playerHands flop:[formDataArray objectAtIndex:numPlayers] turn:[formDataArray objectAtIndex:numPlayers+1] river:[formDataArray objectAtIndex:numPlayers+2] removeIndex:(int)indexPath.row];
 		[self.navigationController pushViewController:detailViewController animated:YES];
-	} else if(selectedRow<=numPlayers+2) {
+	} else if(self.selectedRow<=numPlayers+2) {
 		CardHandPicker *detailViewController = [[CardHandPicker alloc] initWithNibName:@"CardHandPicker" bundle:nil];
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.titleLabel = labelValue;
@@ -556,32 +560,44 @@
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	} else {
 		if(boardFilledOut) {
-			calculateButton.enabled=NO;
-			self.boardFilledOut=NO;
-			for(int i=0; i<numPlayers; i++)
-				[formDataArray replaceObjectAtIndex:i withObject:@"-select-"];
-			[formDataArray replaceObjectAtIndex:numPlayers withObject:@"-select-"];
-			[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:@"-select-"];
-			[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:@"-select-"];
-			for(int i=0; i<numPlayers; i++) {
-				[playerTurnResults replaceObjectAtIndex:i withObject:@"*"];
-				[playerWinResults replaceObjectAtIndex:i withObject:@"*"];
-				[playerFlopResults replaceObjectAtIndex:i withObject:@"*"];
-				[playerPreFlopResults replaceObjectAtIndex:i withObject:@"*"];
-			}
-			self.doneCalculating=NO;
-			[tableView reloadData];
+			[self clearBoard];
 		} else {
-			self.boardFilledOut=YES;
-			if(mo != nil) {
-				[self gotoBigHands];
-				return;
-			}
 			[self completeWithRandomCards];
-			[tableView reloadData];
 		}
 	}
-	
+}
+
+-(void)clearBoard {
+	NSLog(@"Clearing the board");
+	calculateButton.enabled=NO;
+	self.boardFilledOut=NO;
+	for(int i=0; i<numPlayers; i++)
+		[formDataArray replaceObjectAtIndex:i withObject:@"-select-"];
+	[formDataArray replaceObjectAtIndex:numPlayers withObject:@"-select-"];
+	[formDataArray replaceObjectAtIndex:numPlayers+1 withObject:@"-select-"];
+	[formDataArray replaceObjectAtIndex:numPlayers+2 withObject:@"-select-"];
+	for(int i=0; i<numPlayers; i++) {
+		[playerTurnResults replaceObjectAtIndex:i withObject:@"*"];
+		[playerWinResults replaceObjectAtIndex:i withObject:@"*"];
+		[playerFlopResults replaceObjectAtIndex:i withObject:@"*"];
+		[playerPreFlopResults replaceObjectAtIndex:i withObject:@"*"];
+	}
+	self.doneCalculating=NO;
+	[self enableCalcButton:NO];
+	[self.mainTableView reloadData];
+}
+
+-(void)enableCalcButton:(BOOL)enabled {
+	self.clearButton.enabled=enabled;
+	self.randomButton.enabled=!enabled;
+	self.calculateBotButton.enabled=enabled;
+}
+
+- (IBAction) clearButtonPressed: (UIButton *) button {
+	[self clearBoard];
+}
+- (IBAction) randomButtonPressed: (UIButton *) button {
+	[self completeWithRandomCards];
 }
 
 -(void)gotoBigHands {
@@ -597,8 +613,8 @@
 	NSString *value = [ProjectFunctions getUserDefaultValue:@"returnValue"];
 	calculateButton.enabled = YES;
 	self.boardFilledOut = YES;
-	if(selectedRow<[formDataArray count] && value != nil)
-		[formDataArray replaceObjectAtIndex:selectedRow withObject:value];
+	if(self.selectedRow<[formDataArray count] && value != nil)
+		[formDataArray replaceObjectAtIndex:self.selectedRow withObject:value];
 	int i=0;
 	for(NSString *value in formDataArray) {
 		if([value isEqualToString:@"-select-"]) {

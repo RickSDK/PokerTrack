@@ -50,6 +50,9 @@
 
 -(void)completeWithRandomCards;
 -(void) setReturningValue:(NSString *) value2;
+- (IBAction) clearButtonPressed: (UIButton *) button;
+- (IBAction) randomButtonPressed: (UIButton *) button;
+- (IBAction) calculateButtonPressed: (UIButton *) button;
 
 @property (atomic, strong) NSMutableArray *labelValues;
 @property (atomic, strong) NSMutableArray *formDataArray;
@@ -80,6 +83,10 @@
 @property (atomic, copy) NSArray *preLoaedValues;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) IBOutlet UIButton *clearButton;
+@property (nonatomic, strong) IBOutlet UIButton *randomButton;
+@property (nonatomic, strong) IBOutlet UIButton *calculateBotButton;
+
 @property (atomic, strong) NSManagedObject *mo;
 
 @end

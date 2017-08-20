@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIImageView *suit2Image;
 @property (nonatomic, strong) UILabel *card1Label;
 @property (nonatomic, strong) UILabel *card2Label;
+@property (nonatomic, strong) UILabel *card1SuitLabel;
+@property (nonatomic, strong) UILabel *card2SuitLabel;
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *dateLabel;

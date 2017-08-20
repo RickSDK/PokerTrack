@@ -21,14 +21,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (IBAction) createPressed: (id) sender 
-{
-	OddsCalculatorVC *detailViewController = [[OddsCalculatorVC alloc] initWithNibName:@"OddsCalculatorVC" bundle:nil];
-	detailViewController.managedObjectContext = self.managedObjectContext;
-	detailViewController.bigHandsFlag = YES;
-	[self.navigationController pushViewController:detailViewController animated:YES];
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
@@ -39,6 +31,17 @@
 	[self.mainArray addObjectsFromArray:[CoreDataLib selectRowsFromTable:@"BIGHAND" mOC:self.managedObjectContext]];
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPlus] target:self action:@selector(createPressed:)];
+	NSLog(@"♠♥♦♣");
+	NSLog(@"♠️♣️♥️♦️");
+	
+}
+
+- (IBAction) createPressed: (id) sender
+{
+	OddsCalculatorVC *detailViewController = [[OddsCalculatorVC alloc] initWithNibName:@"OddsCalculatorVC" bundle:nil];
+	detailViewController.managedObjectContext = self.managedObjectContext;
+	detailViewController.bigHandsFlag = YES;
+	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

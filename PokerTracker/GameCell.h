@@ -19,6 +19,7 @@
 @property (nonatomic, retain) UILabel *hoursLabel;
 @property (nonatomic, retain) UILabel *locationLabel;
 @property (nonatomic, retain) UILabel *profitLabel;
+@property (nonatomic, retain) UILabel *roiLabel;
 @property (nonatomic, retain) UILabel *pprLabel;
 @property (nonatomic, retain) UILabel *hudTypeLabel;
 

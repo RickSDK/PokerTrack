@@ -21,7 +21,7 @@
 		
 		self.suit1Image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 17, 14, 14)];
 		self.suit1Image.image = [UIImage imageNamed:@"cards.png"];
-		[self.contentView addSubview:self.suit1Image];
+//		[self.contentView addSubview:self.suit1Image];
 		
 		self.card1Label = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.card1Label.text = @"A";
@@ -31,13 +31,21 @@
 		self.card1Label.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.card1Label];
 		
+		self.card1SuitLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		self.card1SuitLabel.text = @"♠️";
+		self.card1SuitLabel.frame = CGRectMake(4, 16, 15, 15);
+		self.card1SuitLabel.textAlignment = NSTextAlignmentCenter;
+		self.card1SuitLabel.font = [UIFont boldSystemFontOfSize:10];
+		self.card1SuitLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:self.card1SuitLabel];
+		
 		self.card2BG = [[UIImageView alloc] initWithFrame:CGRectMake(10, 13, 20, 30)];
 		self.card2BG.image = [UIImage imageNamed:@"blankCard.png"];
 		[self.contentView addSubview:self.card2BG];
 		
 		self.suit2Image = [[UIImageView alloc] initWithFrame:CGRectMake(14, 27, 14, 14)];
 		self.suit2Image.image = [UIImage imageNamed:@"cards.png"];
-		[self.contentView addSubview:self.suit2Image];
+//		[self.contentView addSubview:self.suit2Image];
 
 		self.card2Label = [[UILabel alloc] initWithFrame:CGRectZero];
 		self.card2Label.text = @"A";
@@ -46,7 +54,15 @@
 		self.card2Label.font = [UIFont boldSystemFontOfSize:14];
 		self.card2Label.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.card2Label];
-		
+
+		self.card2SuitLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		self.card2SuitLabel.text = @"♠️";
+		self.card2SuitLabel.frame = CGRectMake(13, 26, 15, 15);
+		self.card2SuitLabel.textAlignment = NSTextAlignmentCenter;
+		self.card2SuitLabel.font = [UIFont boldSystemFontOfSize:10];
+		self.card2SuitLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:self.card2SuitLabel];
+
 		self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];;
 		self.nameLabel.textAlignment = NSTextAlignmentLeft;
 		self.nameLabel.textColor = [UIColor blackColor];
@@ -107,7 +123,7 @@
 		cell.statusLabel.textColor = [UIColor redColor];
 	if([obj.winStatus isEqualToString:@"Chop"])
 		cell.statusLabel.textColor = [UIColor orangeColor];
-	[BigHandObj createHand:obj.player1Hand suit1:cell.suit1Image label1:cell.card1Label suit2:cell.suit2Image label2:cell.card2Label];
+	[BigHandObj createHand:obj.player1Hand suit1:cell.card1SuitLabel label1:cell.card1Label suit2:cell.card2SuitLabel label2:cell.card2Label];
 	
 	cell.potSizeLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
 //	cell.backgroundColor = [ProjectFunctions primaryButtonColor];

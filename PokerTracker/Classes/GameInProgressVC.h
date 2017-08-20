@@ -99,6 +99,8 @@
 @property (atomic, strong) IBOutlet UIButton *playerTypeButton;
 @property (atomic, strong) IBOutlet UIButton *numberPlayersButton;
 @property (atomic, strong) IBOutlet UIButton *numberSpotPaidButton;
+@property (atomic, strong) IBOutlet UILabel *numberSpotPaidLabel;
+@property (atomic, strong) IBOutlet UILabel *numberPlayersLabel;
 
 @property (atomic, strong) IBOutlet PopupView *playersPopupView;
 @property (atomic, strong) IBOutlet PopupView *tournamentEndPopupView;

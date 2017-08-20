@@ -4470,7 +4470,7 @@
 +(void)changeToModernThemeForButton:(UIButton *)button mode:(int)mode theme:(int)theme {
 	//	UIColor *color = [UIColor colorWithRed:1 green:.85 blue:0 alpha:1];
 	[button setBackgroundImage:nil forState:UIControlStateNormal];
-	[button setBackgroundImage:[UIImage imageNamed:@"greenBar.png"]
+	[button setBackgroundImage:[ProjectFunctions imageFromColor:[ProjectFunctions themeBGColor]]
 					  forState:UIControlStateHighlighted];
 	
 	if(theme==0) { // modern

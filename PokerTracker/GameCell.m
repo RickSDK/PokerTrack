@@ -44,10 +44,10 @@
 		[self.contentView addSubview:self.nameLabel];
 		
 		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 22, 170, 22)];
-		self.dateLabel.font = [UIFont systemFontOfSize:10];
+		self.dateLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:10];
 		self.dateLabel.adjustsFontSizeToFitWidth = YES;
 		self.dateLabel.minimumScaleFactor = .8;
-		self.dateLabel.text = @"dateLabel";
+		self.dateLabel.text = @"";
 		self.dateLabel.textAlignment = NSTextAlignmentLeft;
 		self.dateLabel.textColor = [ProjectFunctions themeBGColor];
 		self.dateLabel.backgroundColor = [UIColor clearColor];
@@ -97,9 +97,19 @@
 		self.pprLabel.backgroundColor = [UIColor clearColor];
 		self.pprLabel.layer.cornerRadius = 7;
 		self.pprLabel.layer.masksToBounds = YES;				// clips background images to rounded corners
-		self.pprLabel.layer.borderColor = [ProjectFunctions themeBGColor].CGColor;
+		self.pprLabel.layer.borderColor = [ProjectFunctions segmentThemeColor].CGColor;
 		self.pprLabel.layer.borderWidth = 1.;
 		[self.contentView addSubview:self.pprLabel];
+		
+		self.roiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 32, 12)];
+		self.roiLabel.font = [UIFont boldSystemFontOfSize:9];
+		self.roiLabel.adjustsFontSizeToFitWidth = YES;
+		self.roiLabel.minimumScaleFactor = .7;
+		self.roiLabel.text = NSLocalizedString(@"ROI", nil);
+		self.roiLabel.textAlignment = NSTextAlignmentCenter;
+		self.roiLabel.textColor = [UIColor whiteColor];
+		self.roiLabel.backgroundColor = [ProjectFunctions segmentThemeColor];
+		[self.pprLabel addSubview:self.roiLabel];
 		
 		self.hudTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 24, 30, 20)];
 		self.hudTypeLabel.font = [UIFont systemFontOfSize:6];
@@ -162,8 +172,9 @@
 		faSymbol = [NSString fontAwesomeIconStringForEnum:FAcalendarCheckO];
 	cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@", faSymbol, gameObj.name];
 	
-	//name---------
-	cell.dateLabel.text = [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES];
+	//date---------
+	if(gameObj.startTime)
+		cell.dateLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FACalendar], [ProjectFunctions displayLocalFormatDate:gameObj.startTime showDay:YES showTime:YES]];
 	
 	//hours---------
 	NSString *hoursLabel = NSLocalizedString(@"Hours", nil);
@@ -204,6 +215,7 @@
 	cell.pprLabel.backgroundColor = [self colorForType:value];
 	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
 	
+	cell.faLabel.hidden=NO;
 	cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];
 	
 	if([gameObj.status isEqualToString:@"In Progress"]) {

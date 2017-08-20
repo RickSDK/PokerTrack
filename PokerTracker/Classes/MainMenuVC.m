@@ -54,6 +54,7 @@
 	[self checkLockAndInProgressGame];
 	[self setupThemePopup];
 	[self firstTimeUseCheck];
+	
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -78,7 +79,7 @@
 	self.themeView.hidden=YES;
 	[ProjectFunctions makeFALabel:self.arrowLabel type:24 size:36];
 	self.themeView.backgroundColor = [UIColor clearColor];
-	self.themePopup.textView.text = @"Customize your theme!\n\nYou can now customize your theme and colors on the options menu.";
+	self.themePopup.textView.text = [NSString stringWithFormat:@"%@\n\n%@", NSLocalizedString(@"Customize your theme!", nil), @"You can now customize your theme and colors on the options menu."];
 }
 
 -(IBAction)themeOkButtonClicked:(id)sender {
