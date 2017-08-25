@@ -11,13 +11,14 @@
 #import "ProjectFunctions.h"
 #import "WebServicesFunctions.h"
 #import "NSString+ATTString.h"
-#import "HexWithImageCell.h"
+//#import "HexWithImageCell.h"
 #import "ProfileVC.h"
 #import "UserSummaryVC.h"
 #import "CoreDataLib.h"
 #import "FriendsVC.h"
 #import "LoginVC.h"
 #import "FriendTrackerVC.h"
+#import "NetTrackerCell.h"
 
 #define kBatchLimit	20
 
@@ -156,9 +157,9 @@
 	netUserObj.rowId = (int)indexPath.row+1;
 	netUserObj.sortType = (int)sortSegment.selectedSegmentIndex;
 
-	HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	NetTrackerCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[HexWithImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[NetTrackerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
 	
 	if(indexPath.row==self.mainArray.count-1 && self.keepGoing) {
@@ -168,7 +169,7 @@
 			[self startBackgroundProcess];
 		}
 	}
-	return [HexWithImageCell cellForCell:cell netUserObj:netUserObj];
+	return [NetTrackerCell cellForCell:cell netUserObj:netUserObj];
 }	
 
 - (IBAction) profileButtonPressed: (id) sender

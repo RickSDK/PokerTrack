@@ -90,6 +90,7 @@
 +(BOOL)updateGameInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList;
 +(UIImage *)playerImageOfType:(int)type;
 +(BOOL)updateEntityInDatabase:(NSManagedObjectContext *)mOC mo:(NSManagedObject *)mo valueList:(NSArray *)valueList entityName:(NSString *)entityName;
++(BOOL)trackChipsSwitchValue;
 +(void)newButtonLook:(UIButton *)button mode:(int)mode;
 +(NSString *)playerTypeFromLlooseNum:(int)looseNum agressiveNum:(int)agressiveNum ;
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key;
@@ -236,17 +237,18 @@
 +(UIImage *)gradientImageNavbarOfWidth:(float)width;
 +(NSString *)scrubFilterValue:(NSString *)value;
 +(NSString *)nameOfTheme;
++(UIColor *)colorForPlayerType:(int)type;
 +(int)appThemeNumber;
 +(int)themeBGNumber;
 +(int)segmentColorNumber;
 +(int)primaryColorNumber;
 +(int)themeTypeNumber;
 +(int)themeGroupNumber;
-+(int)themeListItemNumber;
 +(int)themeCategoryNumber;
 +(UIColor *)grayThemeColor;
 +(UIColor *)themeBGColor;
 +(NSArray *)bgThemeColors;
++(NSArray *)navBarThemeColors;
 +(UIColor *)primaryButtonColor;
 +(NSArray *)primaryButtonColors;
 +(UIColor *)segmentThemeColor;

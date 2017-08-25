@@ -80,6 +80,7 @@
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) graphButtonPressed: (id) sender;
 - (IBAction) friendButtonPressed: (id) sender;
+- (IBAction) cancelButtonPressed: (id) sender;
 
 -(void)refreshScreen;
 -(void)setUpScreen;

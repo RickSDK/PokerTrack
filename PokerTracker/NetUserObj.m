@@ -45,6 +45,9 @@
 		
 		if(basicsElements.count>11)
 			netUserObj.iconGroupNumber = [[basicsElements objectAtIndex:11] intValue];
+		if(basicsElements.count>12) {
+			netUserObj.themeColorObj = [ThemeColorObj convertToThemeFromString:[basicsElements objectAtIndex:12]];
+		}
 
 		if(netUserObj.city.length==0)
 			netUserObj.location = @"Parts unknown";
@@ -143,11 +146,11 @@
 		netUserObj.hourly = @"-";
 		if(netUserObj.hours>0)
 			netUserObj.hourly = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions smallLabelForMoney:netUserObj.profit/netUserObj.hours totalMoneyRange:netUserObj.profit/netUserObj.hours]];
-		netUserObj.streak= @"stk: -";
+		netUserObj.streak= @"streak: -";
 		if(streak>0)
-			netUserObj.streak = [NSString stringWithFormat:@"stk: W%d", streak];
+			netUserObj.streak = [NSString stringWithFormat:@"streak: W%d", streak];
 		if(streak<0)
-			netUserObj.streak = [NSString stringWithFormat:@"stk: L%d", streak*-1];
+			netUserObj.streak = [NSString stringWithFormat:@"streak: L%d", streak*-1];
 	}
 	netUserObj.leftImage = [ProjectFunctions getPtpPlayerTypeImage:netUserObj.risked winnings:netUserObj.profit iconGroupNumber:netUserObj.iconGroupNumber];
 }

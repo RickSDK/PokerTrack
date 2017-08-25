@@ -59,6 +59,8 @@
 - (IBAction) addCasinoButtonPressed: (id) sender;
 - (IBAction) okButtonPressed: (id) sender;
 -(void)setLocationValue:(NSString *)value;
+- (IBAction) trackChipsSwitchPressed: (id) sender;
+- (IBAction) trackChipsInfoPressed: (id) sender;
 
 
 //@property (atomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -90,6 +92,9 @@
 @property (atomic, strong) UILabel *bankrollLabel;
 
 @property (atomic, strong) IBOutlet PopupView *tournyPopupView;
+@property (atomic, strong) IBOutlet UIView *trackChipsView;
+@property (atomic, strong) IBOutlet UISwitch *trackChipsSwitch;
+
 
 @property (atomic) int selectedObjectForEdit;
 @property (atomic) int addCasinoFlg;

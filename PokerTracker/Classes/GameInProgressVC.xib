@@ -445,7 +445,7 @@ Players feel like they are being generous by giving large tips, but the reality 
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="qae-GA-akG" customClass="PopupView">
-                    <rect key="frame" x="10" y="5" width="300" height="300"/>
+                    <rect key="frame" x="10" y="5" width="300" height="251"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" id="iQy-12-0FE">
@@ -468,6 +468,16 @@ Players feel like they are being generous by giving large tips, but the reality 
                             </state>
                             <connections>
                                 <action selector="tournamenDoneButtonPressed:" destination="-1" eventType="touchDown" id="LRM-ud-QFF"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="O66-OP-1Tq" customClass="PtpButton">
+                            <rect key="frame" x="94" y="179" width="113" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="-1" eventType="touchDown" id="HAV-Yz-EFp"/>
                             </connections>
                         </button>
                     </subviews>

@@ -68,7 +68,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-	[self computeStatsAfterDelay:2];
+	[self computeStatsAfterDelay:1];
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
@@ -124,11 +124,11 @@
 	activityBGView.alpha=1;
 	self.lockScreen=YES;
 	self.mainTableView.alpha=.5;
-	[self performSelector:@selector(drawAllCharts) withObject:nil afterDelay:delay];
+	[self drawAllCharts];
+//	[self performSelector:@selector(drawAllCharts) withObject:nil afterDelay:delay];
 }
 
 -(void)graphYearData:(NSManagedObjectContext *)context year:(int)year {
-	NSLog(@"+++year: %d", year);
 	NSMutableArray *years = [[NSMutableArray alloc] init];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"YEAR" predicate:nil sortColumn:@"name" mOC:context ascendingFlg:YES];
 	for(NSManagedObject *mo in items) {
@@ -143,16 +143,22 @@
 	[self graphEngineForItems:months field:@"month" context:context year:year graph1:self.chartMonth1ImageView graph2:self.chartMonth2ImageView];
 }
 
+-(IBAction)ptpGameSegmentChanged:(id)sender {
+	[super ptpGameSegmentChanged:sender];
+	[self computeStatsAfterDelay:0];
+}
+
 -(void)graphEngineForItems:(NSArray *)items field:(NSString*)field context:(NSManagedObjectContext *)context year:(int)year graph1:(UIImageView *)graph1  graph2:(UIImageView *)graph2 {
 	NSMutableArray *graphItemsProfit = [[NSMutableArray alloc] init];
 	NSMutableArray *graphItemsHourly = [[NSMutableArray alloc] init];
-	NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:@"All"];
+	NSString *gameType = [ProjectFunctions labelForGameSegment:(int)self.ptpGameSegment.selectedSegmentIndex];
+	NSString *basicPred = [ProjectFunctions getBasicPredicateString:year type:gameType];
 	for(NSString *itemName in items) {
 		NSString *predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
 		NSPredicate *predicate = nil;
 		if(year==0 || [@"year" isEqualToString:field]) {
 			NSString *predString = [NSString stringWithFormat:@"%@ = %%@", field];
-			basicPred = [ProjectFunctions getBasicPredicateString:itemName.intValue type:@"All"];
+			basicPred = [ProjectFunctions getBasicPredicateString:itemName.intValue type:gameType];
 			predString = [NSString stringWithFormat:@"%@ AND %@ = %%@", basicPred, field];
 			predicate = [NSPredicate predicateWithFormat:predString, itemName];
 

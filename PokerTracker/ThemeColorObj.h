@@ -22,9 +22,11 @@
 				   themeBGColor:(UIColor *)themeBGColor
 					navBarColor:(UIColor *)navBarColor
 					  grayColor:(UIColor *)grayColor;
-+(ThemeColorObj *)objectOfGroup:(int)group category:(int)category number:(int)number;
++(ThemeColorObj *)objectOfGroup:(int)group category:(int)category;
 +(NSArray *)mainMenuList;
-+(NSArray *)subMenuListForGroup:(int)group level:(int)level category:(int)category;
-+(BOOL)showThemesForGroup:(int)group level:(int)level;
++(NSArray *)themesOfGroup:(int)group;
+
++(NSString *)packageThemeAsString;
++(ThemeColorObj *)convertToThemeFromString:(NSString *)string;
 
 @end

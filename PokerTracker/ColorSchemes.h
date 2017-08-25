@@ -22,6 +22,7 @@
 +(NSArray *)nfcSouthThemes;
 +(NSArray *)nfcWestThemes;
 
++(NSArray *)nflThemes;
 +(NSArray *)mlbThemes;
 +(NSArray *)nbaThemes;
 +(NSArray *)ncaaThemes;

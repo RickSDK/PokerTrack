@@ -306,18 +306,51 @@
 	}
 }
 
+//---------------data scrubs-----------------------------------
+-(NSString *)srubbedValue:(NSString *)value {
+	NSString *valueNew = [value stringByReplacingOccurrencesOfString:@"✅" withString:@""];
+	return [valueNew stringByReplacingOccurrencesOfString:[NSString fontAwesomeIconStringForEnum:FACheck] withString:@""];
+}
+
+-(BOOL)checkValue:(NSString *)value {
+	return [[self srubbedValue:value] isEqualToString:value];
+}
+
+-(void)checkField:(NSString *)field game:(NSManagedObject *)game context:(NSManagedObjectContext *)context {
+	NSString *value = [game valueForKey:field];
+	if(![self checkValue:value]) {
+		NSLog(@"srubbing: %@", value);
+		[game setValue:[self srubbedValue:value] forKey:field];
+		[self.managedObjectContext save:nil];
+	}
+}
+
 -(void)checkForDataScrub:(int)numGames {
-	if(numGames>0) {
-		if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0) {
-			alertViewNum=2017;
-			[self tourneyDataScrub];
-			[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.8"];
-			[ProjectFunctions setUserDefaultValue:@"" forKey:@"scrub2017"];
-			[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.8 update notice. Game data needs to be scrubbed." delegate:self];
-		}
-	} else { // no scrubs needed
+	if(numGames==0) {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v12.3"];
 		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.8"];
 		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"scrub2017"];
+		return;
+	}
+	if([ProjectFunctions getUserDefaultValue:@"v12.3"].length==0) {
+		NSLog(@"----------> v12.3");
+		NSArray *games = [CoreDataLib selectRowsFromTable:@"GAME" mOC:self.managedObjectContext];
+		for(NSManagedObject *game in games) {
+			[self checkField:@"name" game:game context:self.managedObjectContext];
+			[self checkField:@"gametype" game:game context:self.managedObjectContext];
+			[self checkField:@"stakes" game:game context:self.managedObjectContext];
+			[self checkField:@"limit" game:game context:self.managedObjectContext];
+			[self checkField:@"tournamentType" game:game context:self.managedObjectContext];
+		}
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v12.3"];
+	}
+	if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0) {
+		NSLog(@"----------> v11.8");
+		alertViewNum=2017;
+		[self tourneyDataScrub];
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"v11.8"];
+		[ProjectFunctions setUserDefaultValue:@"" forKey:@"scrub2017"];
+		[ProjectFunctions showAlertPopupWithDelegate:@"Notice" message:@"Version 11.8 update notice. Game data needs to be scrubbed." delegate:self];
 	}
 }
 
@@ -692,14 +725,12 @@
 		predicate = [NSPredicate predicateWithFormat:@"user_id = '0' AND status = 'Completed'"];
 		NSArray *games = [CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"startTime" mOC:contextLocal ascendingFlg:NO limit:10];
 		
-		if([ProjectFunctions getUserDefaultValue:@"v11.8"].length==0)
+		if([ProjectFunctions getUserDefaultValue:@"v12.3"].length==0)
 			[self checkForDataScrub:(int)games.count];
 
 		GameStatObj *gameStatObj = [GameStatObj gameStatObjForGames:games];
 		int value = [ProjectFunctions getNewPlayerType:gameStatObj.risked winnings:gameStatObj.profit];
-		analysisButton.backgroundColor = [GameCell colorForType:value];
-		
-//		[analysisButton setBackgroundImage:[ProjectFunctions getPlayerTypeImage:gameStatObj.risked winnings:gameStatObj.profit] forState:UIControlStateNormal];
+		analysisButton.backgroundColor = [ProjectFunctions colorForPlayerType:value];
 		
 		[self updateMainGraphWithCOntext:contextLocal year:thisYear];
 		

@@ -64,7 +64,6 @@
 			[self.filterSegment setTitle:[mo valueForKey:@"name"] forSegmentAtIndex:i];
 		}
 	}
-	
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

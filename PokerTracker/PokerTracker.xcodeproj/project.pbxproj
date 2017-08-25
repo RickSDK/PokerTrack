@@ -402,6 +402,7 @@
 		6BCBD9691F1B181F0078C165 /* United_Kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9671F1B181F0078C165 /* United_Kingdom.png */; };
 		6BCBD96A1F1B181F0078C165 /* USA.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BCBD9681F1B181F0078C165 /* USA.png */; };
 		6BCF5B251C56B494000B3542 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCF5B241C56B494000B3542 /* StoreKit.framework */; };
+		6BD3102A1F49E72A002B024D /* NetTrackerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD310291F49E72A002B024D /* NetTrackerCell.m */; };
 		6BD4D0131F0AD1420059614C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D0151F0AD1420059614C /* Localizable.strings */; };
 		6BD4D01E1F0F12170059614C /* EditSegmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4D01C1F0F12170059614C /* EditSegmentVC.m */; };
 		6BD4D01F1F0F12170059614C /* EditSegmentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BD4D01D1F0F12170059614C /* EditSegmentVC.xib */; };
@@ -1022,6 +1023,8 @@
 		6BCBD96B1F1B1B360078C165 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BCBD96C1F1BC7480078C165 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BCF5B241C56B494000B3542 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6BD310281F49E72A002B024D /* NetTrackerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetTrackerCell.h; sourceTree = "<group>"; };
+		6BD310291F49E72A002B024D /* NetTrackerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetTrackerCell.m; sourceTree = "<group>"; };
 		6BD4D0141F0AD1420059614C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D0171F0AD2A20059614C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6BD4D0181F0C0E710059614C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1733,6 +1736,8 @@
 				6B909A4914C61A7D00712EDC /* QuadWithImageTableViewCell.m */,
 				6B90BADA14E484FA00712EDC /* HexWithImageCell.h */,
 				6B90BADB14E484FA00712EDC /* HexWithImageCell.m */,
+				6BD310281F49E72A002B024D /* NetTrackerCell.h */,
+				6BD310291F49E72A002B024D /* NetTrackerCell.m */,
 				6B750E72143E651800E59D21 /* SelectionCell.h */,
 				6B750E73143E651800E59D21 /* SelectionCell.m */,
 				6B75251D144A2C9100E59D21 /* ActionCell.h */,
@@ -2421,6 +2426,7 @@
 				6B90908314B398B700712EDC /* Appirater.m in Sources */,
 				6B9097AE14C4E5AC00712EDC /* PlayerTrackerVC.m in Sources */,
 				6B9097EB14C4EBE600712EDC /* EditPlayerTracker.m in Sources */,
+				6BD3102A1F49E72A002B024D /* NetTrackerCell.m in Sources */,
 				6BB7B5A01C94ACD60013DD8D /* NSString+FontAwesome.m in Sources */,
 				6B90995E14C52AAD00712EDC /* EmailFile.m in Sources */,
 				6B90998F14C6005400712EDC /* AddPhotoVC.m in Sources */,

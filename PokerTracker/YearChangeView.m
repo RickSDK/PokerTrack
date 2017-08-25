@@ -81,7 +81,8 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
-	float width = [[UIScreen mainScreen] bounds].size.width;
+//	float width = [[UIScreen mainScreen] bounds].size.width;
+	float width = self.frame.size.width;
 	self.yearUpButton.frame = CGRectMake(width-85, buttonY, buttonWidth, buttonHeight);
 	self.yearLabel.frame = CGRectMake(85, 0, width-(85*2), 44);
 }

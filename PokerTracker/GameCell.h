@@ -32,6 +32,5 @@
 
 +(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg;
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg;
-+(UIColor *)colorForType:(int)type;
 
 @end

@@ -155,7 +155,7 @@
 }
 
 +(UIColor *)faColorForType:(NSString *)type {
-	return ([@"Cash" isEqualToString:type])?[UIColor colorWithRed:.7 green:.4 blue:0 alpha:1]:[UIColor colorWithRed:0 green:.3 blue:1 alpha:1];
+	return ([@"Cash" isEqualToString:type])?[UIColor colorWithRed:0 green:.8 blue:0 alpha:1]:[UIColor colorWithRed:0 green:.3 blue:1 alpha:1];
 }
 
 +(void)populateGameCell:(GameCell *)cell gameObj:(GameObj *)gameObj evenFlg:(BOOL)evenFlg {
@@ -212,7 +212,7 @@
 	cell.hudTypeLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAuserSecret], gameObj.hudPlayerType];
 	cell.hudTypeLabel.hidden=!gameObj.hudStatsFlg;
 	int value = [ProjectFunctions getNewPlayerType:gameObj.risked winnings:gameObj.profit];
-	cell.pprLabel.backgroundColor = [self colorForType:value];
+	cell.pprLabel.backgroundColor = [ProjectFunctions colorForPlayerType:value];
 	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
 	
 	cell.faLabel.hidden=NO;
@@ -223,19 +223,6 @@
 		cell.dateLabel.text = @"Now Playing!";
 		cell.dateLabel.textColor = [UIColor purpleColor];
 	}
-}
-
-+(UIColor *)colorForType:(int)type {
-	NSArray *colors = [NSArray arrayWithObjects:
-					   [UIColor redColor], // fish
-					   [UIColor colorWithRed:1 green:.7 blue:0 alpha:1], //
-					   [UIColor yellowColor], //
-					   [UIColor colorWithRed:.75 green:1 blue:0 alpha:1], // rounder (orange)
-					   [UIColor colorWithRed:0 green:.7 blue:0 alpha:1], // rounder (orange)
-					   [UIColor greenColor], //
-					   [UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1],
-					   nil];
-	return [colors objectAtIndex:type];
 }
 
 +(void)populateCell:(GameCell *)cell obj:(NSManagedObject *)mo evenFlg:(BOOL)evenFlg {

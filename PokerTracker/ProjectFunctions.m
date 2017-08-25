@@ -1163,6 +1163,11 @@
 	return data;
 }
 
++(BOOL)trackChipsSwitchValue {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	return [[userDefaults valueForKey:@"trackChipsSwitch"] boolValue];
+}
+
 +(void)setUserDefaultValue:(NSString *)value forKey:(NSString *)key
 {
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -2510,8 +2515,9 @@
     NSString *last90Days = [ProjectFunctions getLast90Days:mOC];
     last10Reverse = [NSMutableArray arrayWithArray:[self reverseArray:last10Reverse]];
 	int iconGroupNumber = [[ProjectFunctions getUserDefaultValue:@"IconGroupNumber"] intValue];
+	NSString *themeobj = [ThemeColorObj packageThemeAsString];
 
-    NSString *dataUpload = [NSString stringWithFormat:@"Last10|%@[xx]%@|%@[xx]%@|%@[xx]%@[xx]%@[xx]%@|%@|%@[xx]%@[xx]%@[xx]%@[xx]%d",
+    NSString *dataUpload = [NSString stringWithFormat:@"Last10|%@[xx]%@|%@[xx]%@|%@[xx]%@[xx]%@[xx]%@|%@|%@[xx]%@[xx]%@[xx]%@[xx]%d[xx]%@",
                             last10Stats, 
                             dateText,
 							monthStats,
@@ -2525,7 +2531,8 @@
                             last90Days,
 							thisMonthStr,
 							[last10Reverse componentsJoinedByString:@":"],
-							iconGroupNumber];
+							iconGroupNumber,
+							themeobj];
 
     NSLog(@"Sending Universe tracker Stats...");
 	NSLog(@"+++dataUpload: %@", dataUpload);
@@ -4572,7 +4579,7 @@
 
 +(UIColor *)themeBGColor {
 	if([ProjectFunctions themeTypeNumber]==1) {
-		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber]];
 		return colorObj.themeBGColor;
 	}
 	NSArray *colors = [self bgThemeColors];
@@ -4647,7 +4654,7 @@
 
 +(UIColor *)primaryButtonColor {
 	if([ProjectFunctions themeTypeNumber]==1) {
-		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber]];
 		return colorObj.primaryColor;
 	}
 	NSArray *colors = [self primaryButtonColors];
@@ -4691,7 +4698,7 @@
 
 +(UIColor *)segmentThemeColor { // navbar
 	if([ProjectFunctions themeTypeNumber]==1) {
-		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber]];
 		return colorObj.navBarColor;
 	}
 	NSArray *colors = [self navBarThemeColors];
@@ -4714,21 +4721,33 @@
 	return [[ProjectFunctions getUserDefaultValue:@"themeCategoryNumber"] intValue];
 }
 
-+(int)themeListItemNumber {
-	return [[ProjectFunctions getUserDefaultValue:@"themeListItemNumber"] intValue];
-}
-
 +(NSString *)nameOfTheme {
-	ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+	ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber]];
 	return colorObj.name;
 }
 
 +(UIColor *)grayThemeColor {
 	if([ProjectFunctions themeTypeNumber]==1) {
-		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber] number:[self themeListItemNumber]];
+		ThemeColorObj *colorObj = [ThemeColorObj objectOfGroup:[self themeGroupNumber] category:[self themeCategoryNumber]];
 		return colorObj.grayColor;
 	}
 	return [UIColor colorWithRed:180.0/255 green:180.0/255 blue:180.0/255 alpha:1];
+}
+
++(UIColor *)colorForPlayerType:(int)type {
+	NSArray *colors = [NSArray arrayWithObjects:
+					   [UIColor redColor], // fish
+					   [UIColor colorWithRed:1 green:.7 blue:0 alpha:1], //
+					   [UIColor yellowColor], //
+					   [UIColor colorWithRed:.75 green:1 blue:0 alpha:1], // rounder (orange)
+					   [UIColor colorWithRed:0 green:.7 blue:0 alpha:1], // rounder (orange)
+					   [UIColor greenColor], //
+					   [UIColor colorWithRed:.7 green:.7 blue:.7 alpha:1],
+					   nil];
+	if(type<colors.count)
+		return [colors objectAtIndex:type];
+	else
+		return [UIColor blackColor];
 }
 
 +(BOOL)getThemeBGImageFlg {

@@ -8,6 +8,7 @@
 
 #import "ThemeColorObj.h"
 #import "ColorSchemes.h"
+#import "ProjectFunctions.h"
 
 @implementation ThemeColorObj
 
@@ -57,25 +58,9 @@
 
 
 
-+(NSArray *)themesOfGroup:(int)group category:(int)category {
-	if(group==0) { // nfl
-		if(category==0)
-			return [ColorSchemes afcEastThemes];
-		if(category==1)
-			return [ColorSchemes afcNorthThemes];
-		if(category==2)
-			return [ColorSchemes afcSouthThemes];
-		if(category==3)
-			return [ColorSchemes afcWestThemes];
-		if(category==4)
-			return [ColorSchemes nfcEastThemes];
-		if(category==5)
-			return [ColorSchemes nfcNorthThemes];
-		if(category==6)
-			return [ColorSchemes nfcSouthThemes];
-		if(category==7)
-			return [ColorSchemes nfcWestThemes];
-	}
++(NSArray *)themesOfGroup:(int)group {
+	if(group==0)
+		return [ColorSchemes nflThemes];
 	if(group==1)
 		return [ColorSchemes mlbThemes];
 	if(group==2)
@@ -94,10 +79,10 @@
 	return nil;
 }
 
-+(ThemeColorObj *)objectOfGroup:(int)group category:(int)category number:(int)number {
-	NSArray *themes = [self themesOfGroup:group category:category];
-	if(themes.count>number)
-		return [themes objectAtIndex:number];
++(ThemeColorObj *)objectOfGroup:(int)group category:(int)category {
+	NSArray *themes = [self themesOfGroup:group];
+	if(themes.count>category)
+		return [themes objectAtIndex:category];
 	else
 		return nil;
 }
@@ -115,19 +100,51 @@
 			nil];
 }
 
-+(NSArray *)subMenuListForGroup:(int)group level:(int)level category:(int)category {
-	if(group==0) { // nfl
-		if(level==1)
-			return [NSArray arrayWithObjects:@"AFC East", @"AFC North", @"AFC South", @"AFC West", @"NFC East", @"NFC North", @"NFC South", @"NFC West", nil];
-	}
-	return [self themesOfGroup:group category:category];
++(NSString *)packageThemeAsString {
+	NSArray *components = [NSArray arrayWithObjects:
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions themeTypeNumber]], // custom/theme
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions appThemeNumber]], // modern, classic etc
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions primaryColorNumber]],
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions themeBGNumber]],
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions segmentColorNumber]],
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions themeGroupNumber]],
+						   [NSString stringWithFormat:@"%d", [ProjectFunctions themeCategoryNumber]],
+						   nil];
+	return [components componentsJoinedByString:@":"];
 }
 
-+(BOOL)showThemesForGroup:(int)group level:(int)level {
-	if(group==0)
-		return level>2;
++(ThemeColorObj *)convertToThemeFromString:(NSString *)string {
+	ThemeColorObj *obj = [[ThemeColorObj alloc] init];
+	NSLog(@"+++%@", string);
+	if(string.length<5)
+		string = @"0:0:0:0:0:0:0";
+	NSArray *components = [string componentsSeparatedByString:@":"];
+	if(components.count>6) {
+		int themeTypeNumber = [[components objectAtIndex:0] intValue];
+//		int appThemeNumber = [[components objectAtIndex:1] intValue];
+		if(themeTypeNumber==0) { // custom
+			int primaryColorNumber = [[components objectAtIndex:2] intValue];
+			int themeBGNumber = [[components objectAtIndex:3] intValue];
+			int segmentColorNumber = [[components objectAtIndex:4] intValue];
+			NSArray *primaryButtonColors = [ProjectFunctions primaryButtonColors];
+			if(primaryButtonColors.count>primaryColorNumber)
+				obj.primaryColor = [primaryButtonColors objectAtIndex:primaryColorNumber];
+			
+			NSArray *bgThemeColors = [ProjectFunctions bgThemeColors];
+			if(bgThemeColors.count>themeBGNumber)
+				obj.themeBGColor = [bgThemeColors objectAtIndex:themeBGNumber];
 
-	return level>1;
+			NSArray *navBarThemeColors = [ProjectFunctions navBarThemeColors];
+			if(navBarThemeColors.count>segmentColorNumber)
+				obj.navBarColor = [navBarThemeColors objectAtIndex:segmentColorNumber];
+			obj.grayColor = [UIColor colorWithRed:180.0/255 green:180.0/255 blue:180.0/255 alpha:1];
+		} else { // theme
+			int themeGroupNumber = [[components objectAtIndex:5] intValue];
+			int themeCategoryNumber = [[components objectAtIndex:6] intValue];
+			obj = [ThemeColorObj objectOfGroup:themeGroupNumber category:themeCategoryNumber];
+		}
+	}
+	return obj;
 }
 
 @end

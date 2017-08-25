@@ -392,13 +392,15 @@
 		cell.selection.text = [formDataArray objectAtIndex:indexPath.row];
 		NSString *value = [formDataArray objectAtIndex:indexPath.row];
 		if([value length]>2) {
-			if(indexPath.row<kSaveFilter && ![value isEqualToString:NSLocalizedString(@"LifeTime", nil)] && ![[value substringToIndex:3] isEqualToString:@"All"])
-				cell.selection.textColor = [UIColor redColor];
-			else
-				cell.selection.textColor = [UIColor ATTBlue];
+			if(indexPath.row<kSaveFilter && ![value isEqualToString:NSLocalizedString(@"LifeTime", nil)] && ![[value substringToIndex:3] isEqualToString:@"All"]) {
+				cell.selection.textColor = [UIColor colorWithRed:.7 green:0 blue:0 alpha:1];
+				cell.backgroundColor = [ProjectFunctions primaryButtonColor];
+			} else {
+				cell.selection.textColor = [ProjectFunctions themeBGColor];
+				cell.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
+			}
 		}
 		
-		cell.backgroundColor = [UIColor ATTFaintBlue];
 		cell.selectionStyle = UITableViewCellSelectionStyleGray;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		return cell;

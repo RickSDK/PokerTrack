@@ -303,6 +303,10 @@
 	self.tokesButton.enabled=enabled;
 	self.rebuyButton.enabled=enabled;
 
+	if(self.gameObj.tournamentGameFlg && ![ProjectFunctions trackChipsSwitchValue]) {
+		[self.chipStackButton setTitle:@"-" forState:UIControlStateNormal];
+		self.chipStackButton.enabled=NO;
+	}
 }
 
 - (IBAction) pauseButtonPressed: (id) sender
@@ -566,9 +570,12 @@
 		tokesButtonText = self.gameObj.tokesStr;
 	}
 
-	if(self.gameObj.tournamentGameFlg)
-		chipsButtonText = [ProjectFunctions displayMoney:mo column:@"hudHeroLine"];
-	else
+	if(self.gameObj.tournamentGameFlg) {
+		if([ProjectFunctions trackChipsSwitchValue])
+			chipsButtonText = [ProjectFunctions displayMoney:mo column:@"hudHeroLine"];
+		else
+			chipsButtonText = @"-";
+	} else
 		chipsButtonText = [ProjectFunctions displayMoney:mo column:@"cashoutAmount"];
 	
 	self.startDate = [mo valueForKey:@"startTime"];
@@ -648,6 +655,11 @@
 
 	[self.mainTableView reloadData];
 
+}
+
+- (IBAction) cancelButtonPressed: (id) sender {
+	[self.mainTextfield resignFirstResponder];
+	self.tournamentEndPopupView.hidden=YES;
 }
 
 -(void)mainMenuButtonClicked:(id)sender {
@@ -793,7 +805,7 @@
 			thisRebuy = startingChips;
 			buyInAmount = self.gameObj.startingChips;
 			rebuyAmount = self.gameObj.rebuyChips;
-			if(addOnFlg) {
+			if(addOnFlg && [ProjectFunctions trackChipsSwitchValue]) {
 				[self performSelector:@selector(gotoChipUpdate:) withObject:@"0" afterDelay:.5];
 				return;
 			}

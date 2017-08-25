@@ -38,7 +38,6 @@
 	self.popupView.titleLabel.text=@"Options";
 	
 	self.selectedObjectForEdit=0;
-	startLiveButton.enabled=NO;
 	self.addCasinoButton.enabled=NO;
 	
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(popupButtonClicked)];
@@ -53,7 +52,7 @@
 	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
 	[ProjectFunctions makeFAButton:self.addCasinoButton type:1 size:18];
 	[ProjectFunctions makeFAButton:self.startLiveButton type:9 size:30 text:NSLocalizedString(@"Start", nil)];
-	[ProjectFunctions newButtonLook: self.startLiveButton mode:1];
+	self.startLiveButton.enabled=NO;
 	
 	[ProjectFunctions newButtonLook:self.completedButton mode:2];
 	[ProjectFunctions newButtonLook:self.completed2Button mode:2];
@@ -110,6 +109,8 @@
 		gameTypeSegmentBar.selectedSegmentIndex=0;
 	}
 	
+	
+	self.trackChipsSwitch.on = [ProjectFunctions trackChipsSwitchValue];
 	[self setupSegments];
 }
 
@@ -210,10 +211,19 @@
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
-		buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
+		[self setupTournamentBuyinButton];
+	}
+	self.trackChipsView.hidden=(gameTypeSegmentBar.selectedSegmentIndex==0);
+}
+
+-(void)setupTournamentBuyinButton {
+	NSString *buyinAmount = [ProjectFunctions getUserDefaultValue:@"tournbuyinDefault"];
+	[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
+	if ([ProjectFunctions trackChipsSwitchValue]) {
 		[buyinButton setTitle:NSLocalizedString(@"-Click Here-", nil) forState:UIControlStateNormal];
-		[self.buyinPopupButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
+	} else {
+		[buyinButton setTitle:[ProjectFunctions convertStringToMoneyString:buyinAmount] forState:UIControlStateNormal];
 	}
 }
 
@@ -326,10 +336,10 @@
 
 
 	NSString *Type = @"";
-	NSString *game = [gameNameSegmentBar titleForSegmentAtIndex:gameNameSegmentBar.selectedSegmentIndex];
-	NSString *stakes = [blindTypeSegmentBar titleForSegmentAtIndex:blindTypeSegmentBar.selectedSegmentIndex];
-	NSString *limit = [limitTypeSegmentBar titleForSegmentAtIndex:limitTypeSegmentBar.selectedSegmentIndex];
-	NSString *tourney = [TourneyTypeSegmentBar titleForSegmentAtIndex:TourneyTypeSegmentBar.selectedSegmentIndex];
+	NSString *game = [self scrubValue:[gameNameSegmentBar titleForSegmentAtIndex:gameNameSegmentBar.selectedSegmentIndex]];
+	NSString *stakes = [self scrubValue:[blindTypeSegmentBar titleForSegmentAtIndex:blindTypeSegmentBar.selectedSegmentIndex]];
+	NSString *limit = [self scrubValue:[limitTypeSegmentBar titleForSegmentAtIndex:limitTypeSegmentBar.selectedSegmentIndex]];
+	NSString *tourney = [self scrubValue:[TourneyTypeSegmentBar titleForSegmentAtIndex:TourneyTypeSegmentBar.selectedSegmentIndex]];
 	NSString *gName = @"";
 	NSString *foodDrinks = @"0";
 	NSString *tokes = @"0";
@@ -384,6 +394,10 @@
 	return mo;
 }
 
+-(NSString *)scrubValue:(NSString *)value {
+	return [value stringByReplacingOccurrencesOfString:[NSString fontAwesomeIconStringForEnum:FACheck] withString:@""];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if(buttonIndex==1) {
@@ -417,7 +431,7 @@
 		[activityIndicator stopAnimating];
 		[self.locationManager stopUpdatingLocation];
 		
-		startLiveButton.enabled=YES;
+		self.startLiveButton.enabled=YES;
 		
 		NSString *locationName = [ProjectFunctions checkLocation1:currentLocation moc:managedObjectContext];
 		NSString *latestPos = [NSString stringWithFormat:@"%f:%f:gps", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
@@ -461,7 +475,7 @@
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"Buy-in amount must be greater than 0", nil)];
 		return NO;
 	}
-	if(self.gameTypeSegmentBar.selectedSegmentIndex==1) {
+	if(self.gameTypeSegmentBar.selectedSegmentIndex==1 && [ProjectFunctions trackChipsSwitchValue]) {
 		float buyInAmount = [ProjectFunctions convertMoneyStringToDouble:self.chipsPopupButton.titleLabel.text];
 		if(buyInAmount==0) {
 			self.tournyPopupView.hidden=NO;
@@ -470,6 +484,16 @@
 		}
 	}
 	return YES;
+}
+
+- (IBAction) trackChipsSwitchPressed: (id) sender {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults setObject:[NSNumber numberWithBool:self.trackChipsSwitch.on] forKey:@"trackChipsSwitch"];
+	[self setupTournamentBuyinButton];
+}
+
+- (IBAction) trackChipsInfoPressed: (id) sender {
+	[ProjectFunctions showAlertPopup:@"Track Chips" message:@"With this feature activated you can track your tournament chips throughout the tournament which will be plotted on the game graph."];
 }
 
 - (IBAction) okButtonPressed: (id) sender {

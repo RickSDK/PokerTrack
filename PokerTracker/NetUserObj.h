@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObj.h"
+#import "ThemeColorObj.h"
 
 @interface NetUserObj : NSObject
 
@@ -25,7 +26,7 @@
 @property (nonatomic, strong) NSString *moneySymbol;
 @property (nonatomic, strong) NSString *version;
 
-//@property (nonatomic, strong) NSString *lastGame;
+@property (nonatomic, strong) ThemeColorObj *themeColorObj;
 
 @property (nonatomic, strong) NSString *games;
 @property (nonatomic, strong) NSString *streak;

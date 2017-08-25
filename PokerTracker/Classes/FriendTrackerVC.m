@@ -11,7 +11,7 @@
 #import "ProjectFunctions.h"
 #import "WebServicesFunctions.h"
 #import "NSString+ATTString.h"
-#import "HexWithImageCell.h"
+//#import "HexWithImageCell.h"
 #import "NSArray+ATTArray.h"
 #import "ProfileVC.h"
 #import "UserSummaryVC.h"
@@ -23,6 +23,7 @@
 #import "GrabphLib.h"
 #import "UniverseTrackerVC.h"
 #import "NetUserObj.h"
+#import "NetTrackerCell.h"
 
 @interface FriendTrackerVC ()
 
@@ -192,7 +193,7 @@
     if(indexPath.section==0)
         return 200;
     else
-        return 55;
+        return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -222,15 +223,15 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
 	} else {
-		HexWithImageCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		NetTrackerCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 		if (cell == nil) {
-			cell = [[HexWithImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+			cell = [[NetTrackerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 		}
 		
 		NetUserObj *netUserObj = [self.mainArray objectAtIndex:indexPath.row];
 		netUserObj.rowId = (int)indexPath.row+1;
 		netUserObj.sortType = (int)sortSegment.selectedSegmentIndex;
-		cell = [HexWithImageCell cellForCell:cell netUserObj:netUserObj];
+		cell = [NetTrackerCell cellForCell:cell netUserObj:netUserObj];
 		cell.backgroundColor = [self colorForCellOnNumber:[[self.playerDict valueForKey:netUserObj.name] intValue]];
 		return cell;
 	}

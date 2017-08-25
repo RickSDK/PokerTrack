@@ -41,6 +41,171 @@
 			nil];
 }
 
++(NSArray *)nflThemes {
+	return [NSArray arrayWithObjects:
+			[ThemeColorObj themeWithName:@"New England Patriots"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:12.0/255 green:35.0/255 blue:64.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Miami Dolphins"
+				   primaryColor:[UIColor colorWithRed:245.0/255 green:130.0/255 blue:32.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:142.0/255 blue:151.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:0.0/255 green:87.0/255 blue:120.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"New York Jets"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:12.0/255 green:55.0/255 blue:29.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:12.0/255 green:55.0/255 blue:29.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Buffalo Bills"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:12.0/255 green:46.0/255 blue:130.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Baltimore Ravins"
+				   primaryColor:[UIColor colorWithRed:208.0/255 green:178.0/255 blue:64.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:26.0/255 green:25.0/255 blue:95.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Cincinnati Bengals"
+				   primaryColor:[UIColor colorWithRed:252.0/255 green:76.0/255 blue:2.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Pittsburgh Steelers"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:184.0/255 blue:28.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:200.0/255 green:200.0/255 blue:200.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Cleveland Browns"
+				   primaryColor:[UIColor colorWithRed:235.0/255 green:51.0/255 blue:0.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:56.0/255 green:47.0/255 blue:45.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:56.0/255 green:47.0/255 blue:45.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Houston Texans"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:166.0/255 green:25.0/255 blue:46.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:9.0/255 green:31.0/255 blue:44.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Jacksonville Jaguars"
+				   primaryColor:[UIColor colorWithRed:212.0/255 green:159.0/255 blue:18.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:96.0/255 blue:115.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Indianapolis Colts"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:20.0/255 blue:137.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:0.0/255 green:20.0/255 blue:137.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:200.0/255 green:200.0/255 blue:200.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Tennessee Titans"
+				   primaryColor:[UIColor colorWithRed:65.0/255 green:143.0/255 blue:222.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:12.0/255 green:35.0/255 blue:64.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:191.0/255 green:192.0/255 blue:191.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Kansas City Chiefs"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:184.0/255 blue:28.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Denver Broncos"
+				   primaryColor:[UIColor colorWithRed:252.0/255 green:76.0/255 blue:2.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:12.0/255 green:35.0/255 blue:64.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:12.0/255 green:35.0/255 blue:64.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Oakland Raiders"
+				   primaryColor:[UIColor colorWithRed:191.0/255 green:192.0/255 blue:191.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:191.0/255 green:192.0/255 blue:191.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Los Angeles Chargers"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:184.0/255 blue:28.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:114.0/255 blue:206.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:12.0/255 green:35.0/255 blue:64.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"New York Giants"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:30.0/255 blue:98.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:166.0/255 green:25.0/255 blue:46.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:162.0/255 green:170.0/255 blue:173.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Philadelphia Eagles"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:72.0/255 blue:81.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:134.0/255 green:147.0/255 blue:151.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Washington Redskins"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:205.0/255 blue:0.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:134.0/255 green:38.0/255 blue:51.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:134.0/255 green:38.0/255 blue:51.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Dallas Cowboys"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:53.0/255 blue:148.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:4.0/255 green:30.0/255 blue:66.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:134.0/255 green:147.0/255 blue:151.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Minnesota Vikings"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:184.0/255 blue:28.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:84.0/255 green:41.0/255 blue:109.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:84.0/255 green:41.0/255 blue:109.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Green Bay Packers"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:184.0/255 blue:28.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:23.0/255 green:94.0/255 blue:34.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:23.0/255 green:94.0/255 blue:34.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Detroit Lions"
+				   primaryColor:[UIColor colorWithRed:162.0/255 green:170.0/255 blue:173.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:0.0/255 green:105.0/255 blue:177.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:0.0/255 green:0.0/255 blue:0.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Chicago Bears"
+				   primaryColor:[UIColor colorWithRed:220.0/255 green:68.0/255 blue:5.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:5.0/255 green:28.0/255 blue:44.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:5.0/255 green:28.0/255 blue:44.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Tampa Bay Buccaneers"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:130.0/255 blue:0.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:61.0/255 green:57.0/255 blue:53.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:200.0/255 green:16.0/255 blue:46.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:140.0/255 green:144.0/255 blue:147.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"New Orleans Saints"
+				   primaryColor:[UIColor colorWithRed:162.0/255 green:141.0/255 blue:91.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:31.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:31.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Carolina Panthers"
+				   primaryColor:[UIColor colorWithRed:0.0/255 green:133.0/255 blue:202.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:155.0/255 blue:155.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Atlanta Falcons"
+				   primaryColor:[UIColor colorWithRed:166.0/255 green:25.0/255 blue:46.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:16.0/255 green:24.0/255 blue:32.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:140.0/255 green:139.0/255 blue:137.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Seattle Seahawks"
+				   primaryColor:[UIColor colorWithRed:77.0/255 green:255.0/255 blue:0.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:36.0/255 green:89.0/255 blue:152.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:0.0/255 green:21.0/255 blue:51.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:161.0/255 blue:162.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"San Francisco 49ers"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:157.0/255 green:42.0/255 blue:70.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:137.0/255 green:108.0/255 blue:78.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:161.0/255 blue:162.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Arizona Cardinals"
+				   primaryColor:[UIColor colorWithRed:255.0/255 green:205.0/255 blue:0.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:155.0/255 green:39.0/255 blue:67.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:155.0/255 green:39.0/255 blue:67.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1]],
+			[ThemeColorObj themeWithName:@"Los Angeles Rams"
+				   primaryColor:[UIColor colorWithRed:199.0/255 green:169.0/255 blue:115.0/255 alpha:1]
+				   themeBGColor:[UIColor colorWithRed:4.0/255 green:30.0/255 blue:66.0/255 alpha:1]
+							 navBarColor:[UIColor colorWithRed:4.0/255 green:30.0/255 blue:66.0/255 alpha:1]
+							   grayColor:[UIColor colorWithRed:155.0/255 green:161.0/255 blue:162.0/255 alpha:1]],
+			nil];
+}
+
 +(NSArray *)afcEastThemes {
 	return [NSArray arrayWithObjects:
 			[ThemeColorObj themeWithName:@"New England Patriots"
