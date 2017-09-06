@@ -255,18 +255,13 @@
 		int gameMinutes = [gameObj.lastUpd timeIntervalSinceDate:gameObj.startTime]/60;
 		if(gameMinutes>gameObj.minutes)
 			gameObj.minutes = gameMinutes;
-//		NSLog(@"+++lastUpd: %d %@", gameMinutes, gameObj.location);
 		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateFinalSolution];
 		gameObj.status = @"unknown";
-	} else
-		NSLog(@"Not enough!!!! [%@]", line);
+	}
+	
 	gameObj = [self updateMoreFieldsForObj:gameObj];
 	
 	return gameObj;
 }
-
-
-
-
 
 @end

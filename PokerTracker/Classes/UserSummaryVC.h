@@ -36,6 +36,7 @@
 - (IBAction) removeButtonPressed: (id) sender;
 - (IBAction) viewButtonPressed: (id) sender;
 - (IBAction) segmentChanged: (id) sender;
+- (IBAction) applyStylePressed: (id) sender;
 
 
 @property (atomic, copy) NSString *user;
@@ -60,6 +61,11 @@
 @property (atomic, strong) IBOutlet UILabel *cityLabel;
 @property (atomic, strong) IBOutlet UIImageView *flagImageView;
 @property (nonatomic, strong) MultiCellObj *multiCellObj;
+@property (atomic, strong) IBOutlet UIView *primaryColorView;
+@property (atomic, strong) IBOutlet UIView *bgColorView;
+@property (atomic, strong) IBOutlet UIView *navbarColorView;
+@property (atomic, strong) IBOutlet UILabel *colorStyleLabel;
+@property (atomic, strong) IBOutlet UIButton *applyStyleButton;
 
 
 

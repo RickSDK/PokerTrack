@@ -91,11 +91,13 @@
 	self.aboutView.hidden=YES;
 	if(self.isPokerZilla)
 		self.aboutTextView.text = @"Congratulations!! you are using the 2nd best Poker Stats Tracking app ever! Features include: \n\nReal-time game entry\nWidest array of stats and graphs\nPlayer Tracker\nHand Tracker\nOdds Calculator.\n\nBy the way, the only tracker better is Poker Track Pro, which has all these features plus more. Please check out Poker Track Pro for even more features including tracking your friends!!";
-	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];;
+	
+	self.aboutTextView.textColor=[ProjectFunctions primaryButtonColor];
+	self.aboutTextView.backgroundColor=[ProjectFunctions segmentThemeColor];
+	self.versionLabel.text = [NSString stringWithFormat:@"%@", [ProjectFunctions getProjectDisplayVersion]];
 }
 
 -(void)setupNavBar {
-	[ProjectFunctions tintNavigationBar:self.navigationController.navigationBar];
 	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FACog] target:self action:@selector(moreButtonClicked:)];
 	
 	if([ProjectFunctions isLiteVersion]) {
@@ -246,6 +248,7 @@
 }
 
 -(void)applyTheme {
+	[ProjectFunctions tintNavigationBar:self.navigationController.navigationBar];
 	self.themeNameLabel.text = [ProjectFunctions nameOfTheme];
 	self.themeNameLabel.hidden=([ProjectFunctions themeTypeNumber]==0);
 	[ProjectFunctions newButtonLook:self.gamesButton mode:0];

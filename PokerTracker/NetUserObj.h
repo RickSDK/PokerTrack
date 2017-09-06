@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong) NSString *games;
 @property (nonatomic, strong) NSString *streak;
+@property (nonatomic) int streakCount;
 @property (nonatomic) double risked;
 @property (nonatomic) double profit;
 @property (nonatomic, strong) NSString *profitStr;
@@ -40,6 +41,10 @@
 @property (nonatomic) int minutes;
 @property (nonatomic) int sortType;
 @property (nonatomic) BOOL hasFlag;
+@property (nonatomic) BOOL currentVersionFlg;
+@property (nonatomic) BOOL themeFlg;
+@property (nonatomic) BOOL customFlg;
+@property (nonatomic) int themeGroupNumber;
 @property (nonatomic, strong) UIImage *flagImage;
 @property (nonatomic, strong) UIImage *leftImage;
 @property (nonatomic, strong) NSString *hourly;

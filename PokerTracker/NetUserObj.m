@@ -102,7 +102,28 @@
 			netUserObj.flagImage = [UIImage imageNamed:@"World2.jpg"];
 		}
 	}
+	netUserObj.customFlg=NO;
+	netUserObj.themeFlg=NO;
+	netUserObj.currentVersionFlg = [self isCurrentVersion:netUserObj.version];
+	if(![@"Default" isEqualToString:netUserObj.themeColorObj.name]) {
+		netUserObj.themeGroupNumber = netUserObj.themeColorObj.themeGroupNumber;
+		if([@"Custom" isEqualToString:netUserObj.themeColorObj.name])
+			netUserObj.customFlg=YES;
+		else
+			netUserObj.themeFlg=YES;
+	}
+
 	return netUserObj;
+}
+
++(BOOL)isCurrentVersion:(NSString *)version {
+	NSString *userVersion = version;
+	NSString *projectVersion = [ProjectFunctions getProjectDisplayVersion];
+	if(userVersion.length>12)
+		userVersion = [userVersion substringToIndex:12];
+	if(projectVersion.length>12)
+		projectVersion = [projectVersion substringToIndex:12];
+	return [userVersion isEqualToString:projectVersion];
 }
 
 +(void)populateGameStats:(NetUserObj *)netUserObj line:(NSString *)line type:(int)type {
@@ -114,7 +135,7 @@
 		netUserObj.minutes = [[statFields objectAtIndex:7] intValue];
 		netUserObj.risked = [[statFields objectAtIndex:3] doubleValue];
 		netUserObj.profit = [[statFields objectAtIndex:4] doubleValue];
-		int streak = [[statFields objectAtIndex:5] intValue];
+		netUserObj.streakCount = [[statFields objectAtIndex:5] intValue];
 		netUserObj.pprCount = [[statFields objectAtIndex:6] intValue];
 		netUserObj.ppr	= [NSString stringWithFormat:@"%d", netUserObj.pprCount-100];
 		netUserObj.gameCount = [[statFields objectAtIndex:1] intValue];
@@ -137,7 +158,7 @@
 			netUserObj.minutes = 0;
 			netUserObj.risked = 0;
 			netUserObj.profit = 0;
-			streak = 0;
+			netUserObj.streakCount = 0;
 			netUserObj.ppr	= @"ROI: -";;
 		}
 		
@@ -147,12 +168,13 @@
 		if(netUserObj.hours>0)
 			netUserObj.hourly = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions smallLabelForMoney:netUserObj.profit/netUserObj.hours totalMoneyRange:netUserObj.profit/netUserObj.hours]];
 		netUserObj.streak= @"streak: -";
-		if(streak>0)
-			netUserObj.streak = [NSString stringWithFormat:@"streak: W%d", streak];
-		if(streak<0)
-			netUserObj.streak = [NSString stringWithFormat:@"streak: L%d", streak*-1];
+		if(netUserObj.streakCount>0)
+			netUserObj.streak = [NSString stringWithFormat:@"streak: W%d", netUserObj.streakCount];
+		if(netUserObj.streakCount<0)
+			netUserObj.streak = [NSString stringWithFormat:@"streak: L%d", netUserObj.streakCount*-1];
 	}
 	netUserObj.leftImage = [ProjectFunctions getPtpPlayerTypeImage:netUserObj.risked winnings:netUserObj.profit iconGroupNumber:netUserObj.iconGroupNumber];
+	
 }
 
 +(NSArray *)statColorsFOrArray:(NSArray *)values {

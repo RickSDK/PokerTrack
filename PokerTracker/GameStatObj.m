@@ -52,6 +52,7 @@
 	double quarter4Profit=0;
 	int quarter4Games=0;
 	int totalGamesWon=0;
+	int totalGamesWonMinutes=0;
 	double totalGamesWonBuyin=0;
 	double totalGamesWonMinProfit=0;
 	if(games.count>0)
@@ -62,6 +63,7 @@
 	double totalGamesWonRebuys=0;
 	
 	int totalGamesLost=0;
+	int totalGamesLostMinutes=0;
 	double totalGamesLostBuyin=0;
 	double totalGamesLostMinProfit=0;
 	double totalGamesLostMaxProfit=0;
@@ -142,6 +144,7 @@
 		totalMinutes += minutes;
 		if(profit>=0) {
 			obj.wins++;
+			totalGamesWonMinutes += minutes;
 			totalGamesWon++;
 			if(streakAlive) {
 				if(streakReverse>=0)
@@ -164,6 +167,7 @@
 			}
 		} else {
 			obj.losses++;
+			totalGamesLostMinutes += minutes;
 			if(streakAlive) {
 				if(streakReverse<=0)
 					streakReverse--;
@@ -300,6 +304,8 @@
 	obj.gamesWonAverageProfit = @"-";
 	obj.gamesWonAverageRebuy = @"-";
 	obj.gamesWonAverageRisked = @"-";
+	if(totalGamesWonMinutes>0)
+		obj.gamesWonHourly = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString:totalGamesWonProfit*60/totalGamesWonMinutes]];
 	if(totalGamesWon>0) {
 		obj.gamesWonAverageBuyin = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonBuyin/totalGamesWon]];
 		obj.gamesWonAverageProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesWonProfit/totalGamesWon]];
@@ -317,6 +323,8 @@
 	obj.gamesLostAverageProfit = @"-";
 	obj.gamesLostAverageRebuy = @"-";
 	obj.gamesLostAverageRisked = @"-";
+	if(totalGamesLostMinutes>0)
+		obj.gamesLostHourly = [NSString stringWithFormat:@"%@/hr", [ProjectFunctions convertNumberToMoneyString:totalGamesLostProfit*60/totalGamesLostMinutes]];
 	if(totalGamesLost>0) {
 		obj.gamesLostAverageBuyin = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostBuyin/totalGamesLost]];
 		obj.gamesLostAverageProfit = [NSString stringWithFormat:@"%@", [ProjectFunctions convertNumberToMoneyString:totalGamesLostProfit/totalGamesLost]];

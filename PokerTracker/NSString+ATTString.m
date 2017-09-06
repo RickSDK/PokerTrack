@@ -240,7 +240,8 @@
 -(NSDate *)tryThisFormat:(NSString *)format {
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setDateFormat:format];
-	NSLog(@"\t\tTrying: %@", format);
+	if(![df dateFromString:self])
+		NSLog(@"!!!!!!!!!Date Failure: %@ [%@]", format, self);
 	return [df dateFromString:self];
 }
 
@@ -252,12 +253,10 @@
 	NSDate *dateVar = [df dateFromString:self];
 
 	if(dateVar==nil) {
-		NSLog(@"-------date failure!!--------%@", self);
 		NSDateFormatter *df = [[NSDateFormatter alloc] init];
 		df.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
 		[df setDateFormat:format];
 		dateVar = [df dateFromString:self];
-		NSLog(@"\t\tTry #2: %@", dateVar);
 	}
 	NSString *dateStr = self;
 	if(dateVar==nil) {

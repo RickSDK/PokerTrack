@@ -81,7 +81,7 @@
 		[self.contentView addSubview:self.locationLabel];
 		
 		self.gamesLabel = [[UILabel alloc] initWithFrame:CGRectMake(col1, row3, width1, 16)];
-		self.gamesLabel.font = [UIFont systemFontOfSize:12];
+		self.gamesLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:12];
 		self.gamesLabel.text = @"gamesLabel";
 		self.gamesLabel.textAlignment = NSTextAlignmentLeft;
 		self.gamesLabel.textColor = [UIColor grayColor];
@@ -129,35 +129,85 @@
 }
 
 +(NetTrackerCell *)cellForCell:(NetTrackerCell *)cell netUserObj:(NetUserObj *)netUserObj {
-	if(netUserObj.hasFlag)
-		cell.flagImageView.image=netUserObj.flagImage;
-	cell.flagImageView.hidden=!netUserObj.hasFlag;
-
+	//---- ROI info-----
 	int value = [ProjectFunctions getNewPlayerType:netUserObj.risked winnings:netUserObj.profit];
 	cell.pprLabel.backgroundColor = [ProjectFunctions colorForPlayerType:value];
 	cell.pprLabel.text = netUserObj.ppr;
 	cell.pprLabel.textColor = (value==4)?[UIColor whiteColor]:[UIColor blackColor];
-
-	cell.nameLabel.text = [NSString stringWithFormat:@"#%d - %@", netUserObj.rowId, netUserObj.name];
+	cell.playerTypeImageView.image = netUserObj.leftImage;
+	cell.roiLabel.backgroundColor = netUserObj.themeColorObj.navBarColor;
+	cell.roiLabel.textColor = netUserObj.themeColorObj.primaryColor;
+	cell.leftView.backgroundColor = netUserObj.themeColorObj.themeBGColor;
+	if(netUserObj.themeFlg) {
+		switch (netUserObj.themeGroupNumber) {
+			case 0:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🏈%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 1:
+				cell.roiLabel.text = [NSString stringWithFormat:@"⚾️%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 2:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🏀%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 3:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🎓%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 4:
+				cell.roiLabel.text = [NSString stringWithFormat:@"❄️%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 5:
+				cell.roiLabel.text = [NSString stringWithFormat:@"⚽️%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 6:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🏰%@", NSLocalizedString(@"ROI", nil)];
+				break;
+			case 7:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🈴%@", NSLocalizedString(@"ROI", nil)];
+				break;
+				
+			default:
+				cell.roiLabel.text = [NSString stringWithFormat:@"🌅%@", NSLocalizedString(@"ROI", nil)];
+				break;
+		}
+	}
+	if(netUserObj.customFlg)
+		cell.roiLabel.text = [NSString stringWithFormat:@"🎨%@", NSLocalizedString(@"ROI", nil)];
 	
+	//---- Name--------
+	if(netUserObj.hasFlag)
+		cell.flagImageView.image=netUserObj.flagImage;
+	cell.flagImageView.hidden=!netUserObj.hasFlag;
+	cell.nameLabel.text = [NSString stringWithFormat:@"#%d - %@", netUserObj.rowId, netUserObj.name];
+	cell.nameLabel.textColor = [UIColor blackColor];
+
+	//---- Location-----
 	if([@"Parts unknown" isEqualToString:netUserObj.location]) {
-		cell.locationLabel.text = netUserObj.location;
+		cell.locationLabel.text = @"Parts unknown";
 		cell.locationLabel.textColor = [ProjectFunctions primaryButtonColor];
 	} else {
 		cell.locationLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAGlobe], netUserObj.location];
 		cell.locationLabel.textColor = [ProjectFunctions segmentThemeColor];
 	}
+
+	//---- Games-----
+	NSString *checkMark = @"";
+	NSString *nowPlaying = @"";
+	NSString *chipstack = @"";
+	if([self isCurrentVersion:netUserObj.version])
+		checkMark = [NSString fontAwesomeIconStringForEnum:FACheck];
 	
 	if(netUserObj.nowPlayingFlg) {
-		cell.locationLabel.text = [NSString stringWithFormat:@"Now Playing: %@", netUserObj.lastGame.location];
+		nowPlaying = @"⛳️";
+		cell.gamesLabel.textColor = [UIColor purpleColor];
 		if(netUserObj.lastGame.profit>0)
-			cell.locationLabel.text = [NSString stringWithFormat:@"%@ Now Playing: %@", [NSString fontAwesomeIconStringForEnum:FAArrowUp], netUserObj.lastGame.location];
+			chipstack = [NSString fontAwesomeIconStringForEnum:FAArrowUp];
 		if(netUserObj.lastGame.profit<0)
-			cell.locationLabel.text = [NSString stringWithFormat:@"%@ Now Playing: %@", [NSString fontAwesomeIconStringForEnum:FAArrowDown], netUserObj.lastGame.location];
-		
-		cell.locationLabel.textColor = [UIColor purpleColor];
+			chipstack = [NSString fontAwesomeIconStringForEnum:FAArrowDown];
 	}
+	cell.gamesLabel.text = [NSString stringWithFormat:@"%@%@%@%@", checkMark, nowPlaying, chipstack, netUserObj.games];
 
+	//---- Profit/Hourly-----
+	cell.profitLabel.text = netUserObj.profitStr;
 	cell.hourlyLabel.text = netUserObj.hourly;
 	if(netUserObj.profit>=0) {
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1];
@@ -166,20 +216,13 @@
 		cell.profitLabel.textColor = [UIColor redColor];
 		cell.hourlyLabel.textColor = [UIColor redColor];
 	}
-	cell.profitLabel.text = netUserObj.profitStr;
-	
-	cell.gamesLabel.text = netUserObj.games;
-	
-	cell.streakLabel.text = netUserObj.streak;
-	cell.streakLabel.textColor = [ProjectFunctions themeBGColor];
-	
-	cell.playerTypeImageView.image = netUserObj.leftImage;
 
-	cell.nameLabel.textColor = [UIColor blackColor];
+	//---- Streak-----
+	cell.streakLabel.text = netUserObj.streak;
+	cell.streakLabel.textColor = (netUserObj.streakCount>=0)?[UIColor colorWithRed:0 green:.1 blue:0 alpha:1]:[UIColor colorWithRed:.75 green:0 blue:0 alpha:1];
+
+	//---------------------
 	cell.backgroundColor = [UIColor whiteColor];
-	cell.roiLabel.backgroundColor = netUserObj.themeColorObj.navBarColor;
-	cell.roiLabel.textColor = netUserObj.themeColorObj.primaryColor;
-	cell.leftView.backgroundColor = netUserObj.themeColorObj.themeBGColor;
 
 	if(netUserObj.userId==netUserObj.viewingUserId) {
 		cell.nameLabel.textColor = [UIColor redColor];
@@ -203,6 +246,16 @@
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	return cell;
+}
+
++(BOOL)isCurrentVersion:(NSString *)version {
+	NSString *userVersion = version;
+	NSString *projectVersion = [ProjectFunctions getProjectDisplayVersion];
+	if(userVersion.length>12)
+		userVersion = [userVersion substringToIndex:12];
+	if(projectVersion.length>12)
+		projectVersion = [projectVersion substringToIndex:12];
+	return [userVersion isEqualToString:projectVersion];
 }
 
 

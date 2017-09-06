@@ -36,7 +36,6 @@
 -(void)calculate {
 	[bestGames removeAllObjects];
 	[worstGames removeAllObjects];
-	NSLog(@"Calculating!!!");
 	if(self.mainSegment.selectedSegmentIndex==0) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"winnings > 0 AND user_id = 0"];
 		[bestGames addObjectsFromArray:[CoreDataLib selectRowsFromEntityWithLimit:@"GAME" predicate:predicate sortColumn:@"winnings" mOC:self.managedObjectContext ascendingFlg:NO limit:5]];

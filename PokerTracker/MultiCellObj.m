@@ -18,37 +18,34 @@
 }
 
 -(void)addLineWithTitle:(NSString *)title value:(NSString *)value color:(UIColor *)color {
-	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
-	[self.values addObject:value];
-	[self.colors addObject:color];
+	if(title)
+		[self.titles addObject:[ProjectFunctions localizedTitle:title]];
+	else
+		[self.titles addObject:@"-error-"];
+	if(value)
+		[self.values addObject:value];
+	else
+		[self.values addObject:@"-"];
+	if(color)
+		[self.colors addObject:color];
+	else
+		[self.colors addObject:[UIColor blackColor]];
 }
 
 -(void)addIntLineWithTitle:(NSString *)title value:(int)value color:(UIColor *)color {
-	if(color==nil)
-		color = [UIColor blackColor];
-	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
-	[self.values addObject:[NSString stringWithFormat:@"%d", value]];
-	[self.colors addObject:color];
+	[self addLineWithTitle:title value:[NSString stringWithFormat:@"%d", value] color:color];
 }
 
 -(void)addBlackLineWithTitle:(NSString *)title value:(NSString *)value {
-	if(!value)
-		value=@"-";
-	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
-	[self.values addObject:value];
-	[self.colors addObject:[UIColor blackColor]];
+	[self addLineWithTitle:title value:value color:nil];
 }
 
 -(void)addMoneyLineWithTitle:(NSString *)title amount:(double)amount {
-	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
-	[self.values addObject:[ProjectFunctions convertNumberToMoneyString:amount]];
-	[self.colors addObject:[ProjectFunctions colorForProfit:amount]];
+	[self addLineWithTitle:title value:[ProjectFunctions convertNumberToMoneyString:amount] color:[ProjectFunctions colorForProfit:amount]];
 }
 
 -(void)addColoredLineWithTitle:(NSString *)title value:(NSString *)value amount:(double)amount {
-	[self.titles addObject:[ProjectFunctions localizedTitle:title]];
-	[self.values addObject:value];
-	[self.colors addObject:[ProjectFunctions colorForProfit:amount]];
+	[self addLineWithTitle:title value:value color:[ProjectFunctions colorForProfit:amount]];
 }
 
 +(MultiCellObj *)initWithTitle:(NSString *)mainTitle altTitle:(NSString *)altTitle labelPercent:(float)labelPercent {

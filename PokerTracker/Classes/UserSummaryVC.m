@@ -56,7 +56,11 @@
 		addFriendButton.enabled=YES;
 	
 	self.versionLabel.text = self.netUserObj.version;
-	self.moneySymbolLabel.text = self.netUserObj.moneySymbol;
+	self.moneySymbolLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:12];
+	self.moneySymbolLabel.text = @"";
+	if([self isCurrentVersion:self.netUserObj.version])
+		self.moneySymbolLabel.text = [NSString stringWithFormat:@"%@ Current", [NSString fontAwesomeIconStringForEnum:FACheck]];
+
 	
 	self.selfFlg=NO;
 	if([friendStatus isEqualToString:@"self"] || [friendStatus isEqualToString:@"Blocked"]) {
@@ -76,10 +80,36 @@
 		UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Last10", nil) style:UIBarButtonItemStylePlain target:self action:@selector(last10ButtonClicked:)];
 		self.navigationItem.rightBarButtonItem = moreButton;
 	}
-	NSLog(@"+++self.friend_id %d", self.netUserObj.userId);
 	if([friendStatus isEqualToString:@"Request Pending"])
 		[ProjectFunctions showAcceptDeclinePopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to share each other's recent games. Would you like to accept?", self.netUserObj.name] delegate:self];
+	
+	self.primaryColorView.backgroundColor = self.netUserObj.themeColorObj.primaryColor;
+	self.bgColorView.backgroundColor = self.netUserObj.themeColorObj.themeBGColor;
+	self.navbarColorView.backgroundColor = self.netUserObj.themeColorObj.navBarColor;
+	[self styleView:self.primaryColorView];
+	[self styleView:self.bgColorView];
+	[self styleView:self.navbarColorView];
+	self.colorStyleLabel.text = self.netUserObj.themeColorObj.name;
+	self.applyStyleButton.enabled = ![@"Default" isEqualToString:self.netUserObj.themeColorObj.name];
 }
+
+-(void)styleView:(UIView *)view {
+	view.layer.masksToBounds = NO;
+	view.layer.shadowOffset = CGSizeMake(2, 2);
+	view.layer.shadowColor	= [UIColor blackColor].CGColor;
+	view.layer.shadowOpacity = 0.8;
+}
+
+-(BOOL)isCurrentVersion:(NSString *)version {
+	NSString *userVersion = version;
+	NSString *projectVersion = [ProjectFunctions getProjectDisplayVersion];
+	if(userVersion.length>12)
+		userVersion = [userVersion substringToIndex:12];
+	if(projectVersion.length>12)
+		projectVersion = [projectVersion substringToIndex:12];
+	return [userVersion isEqualToString:projectVersion];
+}
+
 
 -(void)populateData {
 	NSArray *titles = [NSArray arrayWithObjects:@"Last 10 Stats", @"Month Stats", @"Year Stats", nil];
@@ -107,6 +137,13 @@
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.netUserObj=self.netUserObj;
 	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) applyStylePressed: (id) sender {
+	NSString *currentTheme = [ThemeColorObj packageThemeAsString];
+	[ProjectFunctions setUserDefaultValue:currentTheme forKey:@"previousTheme"];
+	[ThemeColorObj applyThemeObj:self.netUserObj.themeColorObj];
+	[self mainMenuButtonClicked:sender];
 }
 
 -(void)last10ButtonClicked:(id)sender {

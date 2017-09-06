@@ -39,7 +39,7 @@
 		self.nameLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:13];
 		self.nameLabel.text = @"nameLabel";
 		self.nameLabel.textAlignment = NSTextAlignmentLeft;
-		self.nameLabel.textColor = [ProjectFunctions segmentThemeColor];
+		self.nameLabel.textColor = [UIColor blackColor];
 		self.nameLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:self.nameLabel];
 		
@@ -54,7 +54,7 @@
 		[self.contentView addSubview:self.dateLabel];
 		
 		self.hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 22, 50, 22)];
-		self.hoursLabel.font = [UIFont systemFontOfSize:10];
+		self.hoursLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:10];
 		self.hoursLabel.adjustsFontSizeToFitWidth = YES;
 		self.hoursLabel.minimumScaleFactor = .7;
 		self.hoursLabel.text = @"hours";
@@ -88,9 +88,9 @@
 		[self.contentView addSubview:self.profitLabel];
 		
 		self.pprLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, 32, 40)];
-		self.pprLabel.font = [UIFont boldSystemFontOfSize:14];
+		self.pprLabel.font = [UIFont boldSystemFontOfSize:12];
 		self.pprLabel.adjustsFontSizeToFitWidth = YES;
-		self.pprLabel.minimumScaleFactor = .8;
+		self.pprLabel.minimumScaleFactor = .5;
 		self.pprLabel.text = @"PPR";
 		self.pprLabel.textAlignment = NSTextAlignmentCenter;
 		self.pprLabel.textColor = [UIColor blackColor];
@@ -180,13 +180,12 @@
 	NSString *hoursLabel = NSLocalizedString(@"Hours", nil);
 	if([hoursLabel isEqualToString:@"Hours"])
 		hoursLabel = @"Hrs";
-	NSString *profitStr = [ProjectFunctions convertIntToMoneyString:gameObj.profit];
-	if(profitStr.length>8 && hoursLabel.length>3)
+	if(gameObj.profitStr.length>8 && hoursLabel.length>3)
 		hoursLabel = [hoursLabel substringToIndex:1];
-	cell.hoursLabel.text = [NSString stringWithFormat:@"(%.1f %@)", [gameObj.hours floatValue], hoursLabel];
+	cell.hoursLabel.text = [NSString stringWithFormat:@"%@ %.1f %@", [NSString fontAwesomeIconStringForEnum:FAClockO], [gameObj.hours floatValue], hoursLabel];
 
 	//profit---------
-	cell.profitLabel.text = [NSString stringWithFormat:@"%@", profitStr];
+	cell.profitLabel.text = gameObj.profitStr;
 	if(gameObj.profit>=0) {
 		cell.profitLabel.textColor = [UIColor colorWithRed:0 green:.5 blue:0 alpha:1]; //<-- green
 	} else {
@@ -213,7 +212,8 @@
 	cell.hudTypeLabel.hidden=!gameObj.hudStatsFlg;
 	int value = [ProjectFunctions getNewPlayerType:gameObj.risked winnings:gameObj.profit];
 	cell.pprLabel.backgroundColor = [ProjectFunctions colorForPlayerType:value];
-	cell.pprLabel.text = [NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
+	NSString *pprString = [NSString stringWithFormat:@"%d%%", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
+	cell.pprLabel.text = (pprString.length<4)?pprString:[NSString stringWithFormat:@"%d", [ProjectFunctions calculatePprAmountRisked:gameObj.risked netIncome:gameObj.profit]];
 	
 	cell.faLabel.hidden=NO;
 	cell.backgroundColor=(evenFlg)?[UIColor colorWithWhite:.9 alpha:1]:[UIColor whiteColor];

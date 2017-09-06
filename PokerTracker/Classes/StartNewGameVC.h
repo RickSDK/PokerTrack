@@ -19,10 +19,10 @@
 	//---XIB----------------------------
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	IBOutlet CustomSegment *gameTypeSegmentBar;
-	IBOutlet UISegmentedControl *gameNameSegmentBar;
-	IBOutlet UISegmentedControl *blindTypeSegmentBar;
-	IBOutlet UISegmentedControl *limitTypeSegmentBar;
-	IBOutlet UISegmentedControl *TourneyTypeSegmentBar;
+	IBOutlet CustomSegment *gameNameSegmentBar;
+	IBOutlet CustomSegment *blindTypeSegmentBar;
+	IBOutlet CustomSegment *limitTypeSegmentBar;
+	IBOutlet CustomSegment *TourneyTypeSegmentBar;
 	IBOutlet UIButton *editButton;
 	IBOutlet UIButton *bankrollButton;
 	IBOutlet UIButton *buyinButton;
@@ -67,10 +67,10 @@
 @property (atomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @property (atomic, strong) CustomSegment *gameTypeSegmentBar;
-@property (atomic, strong) UISegmentedControl *gameNameSegmentBar;
-@property (atomic, strong) UISegmentedControl *blindTypeSegmentBar;
-@property (atomic, strong) UISegmentedControl *limitTypeSegmentBar;
-@property (atomic, strong) UISegmentedControl *TourneyTypeSegmentBar;
+@property (atomic, strong) CustomSegment *gameNameSegmentBar;
+@property (atomic, strong) CustomSegment *blindTypeSegmentBar;
+@property (atomic, strong) CustomSegment *limitTypeSegmentBar;
+@property (atomic, strong) CustomSegment *TourneyTypeSegmentBar;
 
 @property (atomic, strong) UIButton *retryButton;
 @property (atomic, strong) UIButton *editButton;

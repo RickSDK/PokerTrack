@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="datelabel" destination="EPl-ZV-1SM" id="AHQ-wn-6nh"/>
                 <outlet property="mainTableView" destination="5" id="15"/>
+                <outlet property="netSwitch" destination="3ae-OW-ncw" id="RhY-Mt-I82"/>
                 <outlet property="popupView" destination="6Wz-ei-RUt" id="yjm-XS-jAZ"/>
                 <outlet property="profileButton" destination="19" id="27"/>
                 <outlet property="sortSegment" destination="31" id="33"/>
@@ -82,6 +83,27 @@
                                 <action selector="profileButtonPressed:" destination="-1" eventType="touchDown" id="26"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⛳️ Now Playing!" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tKu-BI-g87">
+                            <rect key="frame" x="182" y="7" width="130" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="3ae-OW-ncw">
+                            <rect key="frame" x="87" y="2" width="79" height="27"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <connections>
+                                <action selector="netSwitchChanged:" destination="-1" eventType="valueChanged" id="igh-js-39L"/>
+                            </connections>
+                        </switch>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Net Tracker On/Off" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qdF-tb-Dg0" customClass="PtpLabel">
+                            <rect key="frame" x="143" y="3" width="54" height="27"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

@@ -60,11 +60,19 @@
 		[ProjectFunctions uploadUniverseStats:self.managedObjectContext];
 	}
 
-	[self loadDataFromScratch];
+	NSString *killNetTracker = [ProjectFunctions getUserDefaultValue:@"killNetTracker"];
+	self.netSwitch.on = killNetTracker.length==0;
+	self.mainTableView.hidden=!self.netSwitch.on;
+	
+	if(self.netSwitch.on)
+		[self loadDataFromScratch];
 }
 
 -(void)loadDataFromScratch {
 	[self.mainArray removeAllObjects];
+	self.latestVersionCount=0;
+	self.themeCount=0;
+	self.iconCount=0;
 	self.skip=0;
 	self.keepGoing=YES;
 	[self startBackgroundProcess];
@@ -105,16 +113,37 @@
 					
 					NetUserObj *netUserObj = [NetUserObj userObjFromString:line type:99];
 					[self.mainArray addObject:netUserObj];
-                  
+					if(netUserObj.currentVersionFlg)
+						self.latestVersionCount++;
+					if(netUserObj.themeFlg || netUserObj.customFlg)
+						self.themeCount++;
+					if(netUserObj.iconGroupNumber>0)
+						self.iconCount++;
+					if(netUserObj.currentVersionFlg && (netUserObj.themeFlg || netUserObj.customFlg) && netUserObj.iconGroupNumber>0)
+						NSLog(@"!!!!!Super User: 👮%@", netUserObj.name);
+
                     if([netUserObj.friendStatus isEqualToString:@"Request Pending"])
                         [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", netUserObj.name]];
 
 				}
 			self.keepGoing=(count>=kBatchLimit);
 		}
+		[self logCountOfIcon:@"✅️" count:self.latestVersionCount total:(int)self.mainArray.count];
+		[self logCountOfIcon:@"🎨" count:self.themeCount total:(int)self.mainArray.count];
+		[self logCountOfIcon:@"🐠" count:self.iconCount total:(int)self.mainArray.count];
+		
 		[self.webServiceView stop];
 		[self.mainTableView reloadData];
 	}
+}
+
+-(void)logCountOfIcon:(NSString *)icon count:(int)count total:(int)total {
+	if(total==0)
+		return;
+	if([@"🎨" isEqualToString:icon] && self.latestVersionCount>0)
+		NSLog(@"%@%d/%d (%d%%) [%d%%]", icon, count, total, count*100/total, count*100/self.latestVersionCount);
+	else
+		NSLog(@"%@%d/%d (%d%%)", icon, count, total, count*100/total);
 }
 
 -(void)friendButtonClicked:(id)sender {
@@ -202,6 +231,16 @@
 		detailViewController.netUserObj = [self.mainArray objectAtIndex:indexPath.row];
         detailViewController.selectedSegment=1;
 		[self.navigationController pushViewController:detailViewController animated:YES];
+	}
+}
+
+- (IBAction) netSwitchChanged: (id) sender {
+	self.mainTableView.hidden=!self.netSwitch.on;
+	if(self.netSwitch.on) {
+		[self loadDataFromScratch];
+		[ProjectFunctions setUserDefaultValue:@"" forKey:@"killNetTracker"];
+	} else {
+		[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"killNetTracker"];
 	}
 }
 

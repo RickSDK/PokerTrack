@@ -11,6 +11,7 @@
 #import "BankrollsVC.h"
 #import "GameInProgressVC.h"
 #import "GameGraphVC.h"
+#import "ThemeColorObj.h"
 
 @interface TemplateVC ()
 
@@ -48,6 +49,8 @@
 	[self.bankrollView addTargetSelector:@selector(bankrollEditPressed) target:self];
 	[self.bankrollView addSegmentTargetSelector:@selector(bankrollSegmentChanged) target:self];
 	[self.gameSummaryView addTarget:@selector(gotoAnalysis) target:self];
+	if([ProjectFunctions getUserDefaultValue:@"previousTheme"].length>0)
+		[self displayThemeOptionView:self.view];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -57,6 +60,56 @@
 	
 	[self checkBankrollSegment];
 	self.view.backgroundColor = [ProjectFunctions themeBGColor];
+}
+
+-(void)displayThemeOptionView:(UIView *)view {
+	self.optionView = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 215, 64)];
+	self.optionView.backgroundColor = [ProjectFunctions grayThemeColor];
+	self.optionView.layer.cornerRadius = 7;
+	self.optionView.layer.masksToBounds = NO;
+	self.optionView.layer.shadowColor = [UIColor blackColor].CGColor;
+	self.optionView.layer.shadowOffset = CGSizeMake(4, 4);
+	self.optionView.layer.shadowRadius = 5;
+	self.optionView.layer.shadowOpacity = 0.85;
+	self.optionView.layer.borderWidth = 1;
+	[view addSubview:self.optionView];
+
+	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 215, 25)];
+	titleLabel.font = [UIFont boldSystemFontOfSize:14];	// label is 17, system is 14
+	titleLabel.textAlignment = NSTextAlignmentCenter;
+	titleLabel.minimumScaleFactor=.5;
+	titleLabel.textColor = [UIColor whiteColor];
+	titleLabel.backgroundColor = [UIColor clearColor];
+	titleLabel.text = @"Keep this style?";
+	[self.optionView addSubview:titleLabel];
+
+	float buttonY=25;
+	float buttonWidth=80;
+	float buttonHeight=30;
+	PtpButton *rejectButton = [PtpButton buttonWithType:UIButtonTypeRoundedRect];
+	rejectButton.frame = CGRectMake(5, buttonY, buttonWidth, buttonHeight);
+	[rejectButton setTitle:@"Revert" forState:UIControlStateNormal];
+	[rejectButton addTarget:self action:@selector(rejectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.optionView addSubview:rejectButton];
+
+	PtpButton *acceptButton = [PtpButton buttonWithType:UIButtonTypeRoundedRect];
+	acceptButton.frame = CGRectMake(95, buttonY, buttonWidth+30, buttonHeight);
+	[acceptButton setTitle:@"Accept Theme" forState:UIControlStateNormal];
+	[acceptButton addTarget:self action:@selector(acceptButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.optionView addSubview:acceptButton];
+
+}
+
+-(void)rejectButtonPressed {
+	NSString *previousTheme = [ProjectFunctions getUserDefaultValue:@"previousTheme"];
+	[ThemeColorObj applyTheme:previousTheme];
+	[ProjectFunctions setUserDefaultValue:@"" forKey:@"previousTheme"];
+	[self mainMenuButtonClicked:nil];
+}
+
+-(void)acceptButtonPressed {
+	[ProjectFunctions setUserDefaultValue:@"" forKey:@"previousTheme"];
+	self.optionView.hidden=YES;
 }
 
 -(void)bankrollSegmentChanged {

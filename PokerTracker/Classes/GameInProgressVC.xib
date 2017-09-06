@@ -11,11 +11,12 @@
                 <outlet property="clockLabel" destination="P3B-Oy-bDD" id="uuE-4T-hNi"/>
                 <outlet property="currentStackLabel" destination="11" id="86"/>
                 <outlet property="doneButton" destination="6" id="40"/>
-                <outlet property="editButton" destination="83" id="92"/>
+                <outlet property="editButton" destination="1ia-j7-Wm3" id="23N-ZR-umL"/>
                 <outlet property="foodButton" destination="13" id="41"/>
                 <outlet property="foodLabel" destination="14" id="85"/>
                 <outlet property="friendButton" destination="97" id="98"/>
                 <outlet property="graphButton" destination="95" id="4uT-LM-o2L"/>
+                <outlet property="hudButton" destination="83" id="SJT-md-fDU"/>
                 <outlet property="infoText" destination="90" id="91"/>
                 <outlet property="mainTableView" destination="tPI-Vc-MtE" id="13i-ur-p0Y"/>
                 <outlet property="mainTextfield" destination="iQy-12-0FE" id="ZzF-uf-fRZ"/>
@@ -238,28 +239,35 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="vN3-D8-nW2">
-                    <rect key="frame" x="20" y="90" width="70" height="21"/>
+                    <rect key="frame" x="5" y="90" width="70" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HUD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="ln3-Hw-TOk">
-                    <rect key="frame" x="230" y="90" width="70" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View Graph" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="hHQ-3m-x0V">
-                    <rect key="frame" x="105" y="90" width="110" height="21"/>
+                    <rect key="frame" x="85" y="90" width="70" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="bVE-KH-dnp">
+                    <rect key="frame" x="165" y="90" width="70" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HUD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="ln3-Hw-TOk">
+                    <rect key="frame" x="245" y="90" width="70" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="93" customClass="PtpButton">
-                    <rect key="frame" x="20" y="64" width="70" height="30"/>
+                    <rect key="frame" x="5" y="64" width="70" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -272,11 +280,11 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="95" customClass="PtpButton">
-                    <rect key="frame" x="105" y="64" width="110" height="30"/>
+                    <rect key="frame" x="85" y="64" width="70" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="view graph" backgroundImage="whiteChromeBut.png">
+                    <state key="normal" title="Graph" backgroundImage="whiteChromeBut.png">
                         <color key="titleColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -284,17 +292,30 @@
                         <action selector="graphButtonPressed:" destination="-1" eventType="touchDown" id="96"/>
                     </connections>
                 </button>
-                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="83" customClass="PtpButton">
-                    <rect key="frame" x="230" y="64" width="70" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1ia-j7-Wm3" customClass="PtpButton">
+                    <rect key="frame" x="165" y="64" width="70" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <size key="titleShadowOffset" width="1" height="1"/>
-                    <state key="normal" title="edit" backgroundImage="whiteChromeBut.png">
+                    <state key="normal" title="Edit" backgroundImage="whiteChromeBut.png">
                         <color key="titleColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="editButtonPressed:" destination="-1" eventType="touchDown" id="84"/>
+                        <action selector="editButtonPressed:" destination="-1" eventType="touchDown" id="HPl-Cj-3BW"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="83" customClass="PtpButton">
+                    <rect key="frame" x="245" y="64" width="70" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="13"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="Hud" backgroundImage="whiteChromeBut.png">
+                        <color key="titleColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="hudButtonPressed:" destination="-1" eventType="touchDown" id="hOl-wn-mLR"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="rIz-Nh-ZzC" customClass="WebServiceView">

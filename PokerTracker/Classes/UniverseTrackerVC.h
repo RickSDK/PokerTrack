@@ -28,11 +28,17 @@
 
 - (IBAction) profileButtonPressed: (id) sender;
 - (IBAction) sortSegmentChanged: (id) sender;
+- (IBAction) netSwitchChanged: (id) sender;
 -(void)startBackgroundProcess;
 
+@property (atomic, strong) IBOutlet UISwitch *netSwitch;
 @property (atomic, strong) UILabel *datelabel;
 @property (atomic, strong) CustomSegment *sortSegment;
 @property (atomic, strong) UIButton *profileButton;
+@property (nonatomic) int latestVersionCount;
+@property (nonatomic) int themeCount;
+@property (nonatomic) int iconCount;
+
 
 @property (atomic) int processYear;
 @property (atomic) int processMonth;

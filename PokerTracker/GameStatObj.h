@@ -67,6 +67,7 @@
 @property (nonatomic, strong)  NSString *gamesWonMinProfit;
 @property (nonatomic, strong)  NSString *gamesWonMaxProfit;
 @property (nonatomic, strong)  NSString *gamesWonAverageProfit;
+@property (nonatomic, strong)  NSString *gamesWonHourly;
 @property (nonatomic, strong)  NSString *gamesWonAverageRisked;
 @property (nonatomic, strong)  NSString *gamesWonAverageRebuy;
 
@@ -75,6 +76,7 @@
 @property (nonatomic, strong)  NSString *gamesLostMinProfit;
 @property (nonatomic, strong)  NSString *gamesLostMaxProfit;
 @property (nonatomic, strong)  NSString *gamesLostAverageProfit;
+@property (nonatomic, strong)  NSString *gamesLostHourly;
 @property (nonatomic, strong)  NSString *gamesLostAverageRisked;
 @property (nonatomic, strong)  NSString *gamesLostAverageRebuy;
 

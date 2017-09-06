@@ -137,6 +137,7 @@
 "-None-" = "-没有-";
 "This Month" = "这个月";
 "Last Month" = "上个月";
+"Select a location" = "选择一个位置";
 "Extra" = "额外";
 "Customize your theme!" = "自定义您的主题！";
 "Buy-in amount must be greater than 0" = "数量必须大于0";

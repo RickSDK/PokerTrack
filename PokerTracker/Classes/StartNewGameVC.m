@@ -52,7 +52,6 @@
 	[ProjectFunctions makeFAButton:self.retryButton type:12 size:18];
 	[ProjectFunctions makeFAButton:self.addCasinoButton type:1 size:18];
 	[ProjectFunctions makeFAButton:self.startLiveButton type:9 size:30 text:NSLocalizedString(@"Start", nil)];
-	self.startLiveButton.enabled=NO;
 	
 	[ProjectFunctions newButtonLook:self.completedButton mode:2];
 	[ProjectFunctions newButtonLook:self.completed2Button mode:2];
@@ -75,31 +74,16 @@
 	[locationButton setTitle:[ProjectFunctions getUserDefaultValue:@"locationDefault"] forState:UIControlStateNormal];
 	[ProjectFunctions newButtonLook:locationButton mode:0];
 	
-	self.locationManager = [[CLLocationManager alloc] init];
-	self.locationManager.delegate = self;
-	self.locationManager.distanceFilter = kCLDistanceFilterNone;
-	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 	self.tournyPopupView.titleLabel.text = @"Tournament Buy-in";
 	self.buyinPopupLabel.text = NSLocalizedString(@"buyInAmount", nil);
 	self.chipsPopupLabel.text = NSLocalizedString(@"Starting Chips", nil);
 	self.tournyPopupView.hidden=YES;
-	
-	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-		[self.locationManager requestWhenInUseAuthorization];
-		[self.locationManager startMonitoringSignificantLocationChanges];
-	}
-	[self.locationManager startUpdatingLocation];
-	
-	[self setLocationButtonTitle:@"Searching..." mode:0];
-	[activityIndicator startAnimating];
-	[self performSelectorInBackground:@selector(checkCurrentLocation) withObject:nil];
 	
 	[self.gameTypeSegmentBar turnIntoGameSegment];
 	[ProjectFunctions makeSegment:self.gameNameSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.blindTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.limitTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
 	[ProjectFunctions makeSegment:self.TourneyTypeSegmentBar color:[UIColor colorWithRed:0 green:.2 blue:0 alpha:1]];
-	
 	
 	NSString *gameType = [ProjectFunctions getUserDefaultValue:@"gameTypeDefault"];
 	if([gameType isEqualToString:@"Tournament"]) {
@@ -112,6 +96,9 @@
 	
 	self.trackChipsSwitch.on = [ProjectFunctions trackChipsSwitchValue];
 	[self setupSegments];
+	
+	[self startLocationManager];
+	[self checkLocation];
 }
 
 -(void)addShadowToView:(UIView *)view {
@@ -122,6 +109,39 @@
 	view.layer.shadowOffset = CGSizeMake(15, 15);
 	view.layer.shadowRadius = 5;
 	view.layer.shadowOpacity = 0.8;
+}
+
+-(void)startLocationManager {
+	if(self.locationManager==nil)
+		self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+//	self.locationManager.distanceFilter = kCLDistanceFilterNone;
+	self.locationManager.distanceFilter = 500;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	[self.locationManager startUpdatingLocation];
+	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+		[self.locationManager requestWhenInUseAuthorization];
+		[self.locationManager startMonitoringSignificantLocationChanges];
+	}
+}
+
+-(void)checkLocation {
+	self.startLiveButton.enabled=NO;
+	self.locationButton.enabled=NO;
+	[activityIndicator startAnimating];
+	[self setLocationButtonTitle:@"Searching..." mode:0];
+	[self performSelectorInBackground:@selector(checkCurrentLocation) withObject:nil];
+}
+
+- (void)startSignificantChangeUpdates
+{
+	// Create the location manager if this object does not
+	// already have one.
+	if (nil == locationManager)
+		locationManager = [[CLLocationManager alloc] init];
+ 
+	locationManager.delegate = self;
+	[locationManager startMonitoringSignificantLocationChanges];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -136,8 +156,6 @@
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
 	NSLog(@"%@", error.localizedDescription);
 }
-
-
 
 // Delegate method from the CLLocationManagerDelegate protocol.
 - (void)locationManager:(CLLocationManager *)manager
@@ -207,12 +225,14 @@
 		buyinAmount = [ProjectFunctions getUserDefaultValue:@"buyinDefault"];
 		[self setTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Cash", nil), NSLocalizedString(@"Game", nil)]];
 		[buyinButton setTitle:[NSString stringWithFormat:@"%@", [ProjectFunctions convertStringToMoneyString:buyinAmount]] forState:UIControlStateNormal];
+		self.locationButton.frame = CGRectMake(20, 154, 280, 50);
 	} else {
 		blindTypeSegmentBar.alpha=0;
 		TourneyTypeSegmentBar.alpha=1;
 		[ProjectFunctions setUserDefaultValue:@"Tournament" forKey:@"gameTypeDefault"];
 		[self setTitle:NSLocalizedString(@"Tournament", nil)];
 		[self setupTournamentBuyinButton];
+		self.locationButton.frame = CGRectMake(20, 154, 225, 50);
 	}
 	self.trackChipsView.hidden=(gameTypeSegmentBar.selectedSegmentIndex==0);
 }
@@ -249,6 +269,7 @@
 	self.selectedObjectForEdit=4;
 	if(gameNameSegmentBar.selectedSegmentIndex==3) {
 		gameNameSegmentBar.selectedSegmentIndex=0;
+		[gameNameSegmentBar changeSegment];
 		[self gotoListPicker:@"gametype" initialDateValue:@""];
 	}
 }
@@ -257,6 +278,7 @@
 	self.selectedObjectForEdit=5;
 	if(blindTypeSegmentBar.selectedSegmentIndex==4) {
 		blindTypeSegmentBar.selectedSegmentIndex=0;
+		[blindTypeSegmentBar changeSegment];
 		[self gotoListPicker:@"stakes" initialDateValue:@""];
 	}
 }
@@ -265,6 +287,7 @@
 	self.selectedObjectForEdit=6;
 	if(limitTypeSegmentBar.selectedSegmentIndex==3) {
 		limitTypeSegmentBar.selectedSegmentIndex=0;
+		[limitTypeSegmentBar changeSegment];
 		[self gotoListPicker:@"limit" initialDateValue:@""];
 	}
 }
@@ -274,6 +297,7 @@
 	self.selectedObjectForEdit=7;
 	if(TourneyTypeSegmentBar.selectedSegmentIndex==3) {
 		TourneyTypeSegmentBar.selectedSegmentIndex=0;
+		[TourneyTypeSegmentBar changeSegment];
 		[self gotoListPicker:@"tournamentType" initialDateValue:@""];
 	}
 }
@@ -410,35 +434,20 @@
 
 -(void)setLocationButtonTitle:(NSString *)title mode:(int)mode
 {
-	[locationButton setTitle:[NSString stringWithFormat:@"%@", title] forState:UIControlStateNormal];
+	[locationButton setTitle:title forState:UIControlStateNormal];
 }
-
-
--(void)executeThreadedJob:(SEL)aSelector
-{
-	[activityIndicator startAnimating];
-	[self performSelectorInBackground:aSelector withObject:nil];
-}
-
 
 -(void)checkCurrentLocation
 {
 	@autoreleasepool {
-		NSLog(@"+++currentLocation.coordinate.latitude: %f", currentLocation.coordinate.latitude);
+		NSLog(@"+++latitude: %f", currentLocation.coordinate.latitude);
 		[NSThread sleepForTimeInterval:4];
-		NSLog(@"+++currentLocation.coordinate.latitude: %f", currentLocation.coordinate.latitude);
-		
-		[activityIndicator stopAnimating];
-		[self.locationManager stopUpdatingLocation];
-		
-		self.startLiveButton.enabled=YES;
+		NSLog(@"+++latitude (after 4 seconds): %f", currentLocation.coordinate.latitude);
 		
 		NSString *locationName = [ProjectFunctions checkLocation1:currentLocation moc:managedObjectContext];
 		NSString *latestPos = [NSString stringWithFormat:@"%f:%f:gps", currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
 		
-		
 		[ProjectFunctions setUserDefaultValue:latestPos forKey:@"latestPos"];
-		
 		
 		if([locationName length]==0) {
 			locationName = [ProjectFunctions checkLocation2:currentLocation moc:managedObjectContext];
@@ -449,6 +458,11 @@
 		}
 		
 		[self setLocationButtonTitle:locationName mode:1];
+		
+		[activityIndicator stopAnimating];
+		[self.locationManager stopUpdatingLocation];
+		self.locationButton.enabled=YES;
+		self.startLiveButton.enabled=YES;
 	}
 }
 
@@ -509,6 +523,11 @@
 		return;
 
 	NSString *location = [NSString stringWithFormat:@"%@", locationButton.titleLabel.text];
+	
+	if([@"Searching..." isEqualToString:location]) {
+		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:NSLocalizedString(@"Select a location", nil)];
+		return;
+	}
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@", location];
 	NSArray *items = [CoreDataLib selectRowsFromEntity:@"LOCATION" predicate:predicate sortColumn:nil mOC:managedObjectContext ascendingFlg:YES];
  
@@ -565,18 +584,8 @@
 
 - (IBAction) retryButtonPressed: (id) sender
 {
-	[self.locationManager startUpdatingLocation];
-	if(self.currentLocation) {
-		[activityIndicator startAnimating];
-		[self setLocationButtonTitle:@"Searching..." mode:0];
-		NSLog(@"+++searching...");
-		[self performSelectorInBackground:@selector(checkCurrentLocation) withObject:nil];
-	} else
-		[ProjectFunctions showAlertPopup:@"Error" message:@"Unable to access GPS"];
+	[self checkLocation];
 }
-
-
-
 
 -(void)setSegmentBarToNewvalue:(UISegmentedControl *)segmentBar value:(NSString *)value
 {

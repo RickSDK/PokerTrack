@@ -32,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet BankrollView *bankrollView;
 @property (nonatomic, strong) IBOutlet GameSummaryView *gameSummaryView;
 
+@property (strong, nonatomic) UIView *optionView;
 @property (strong, nonatomic) UIImageView *bgImageView;
 @property (strong, nonatomic) NSMutableArray *webServiceElements;
 @property (strong, nonatomic) NSMutableArray *textFieldElements;
@@ -48,6 +49,7 @@
 -(void)resignResponders;
 -(void)addHomeButton;
 -(void)saveDatabase;
+-(void)mainMenuButtonClicked:(id)sender;
 -(void)populatePopupWithTitle:(NSString *)title text:(NSString *)text;
 -(void)changeNavToIncludeType:(int)type;
 -(void)changeNavToIncludeType:(int)type title:(NSString *)title;

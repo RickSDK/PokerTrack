@@ -3284,7 +3284,6 @@
 	if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 		NSArray *casinos = [responseStr componentsSeparatedByString:@"<li>"];
 		
-		float distance = 3;
 		float minDist = .3;
 		for(NSString *casino in casinos) {
 			NSArray *items = [casino componentsSeparatedByString:@"|"];
@@ -3292,13 +3291,14 @@
 				NSString *name = [items stringAtIndex:1];
 				NSString *lat = [items stringAtIndex:6];
 				NSString *lng = [items stringAtIndex:7];
-				if([lat length]>1) {
-					distance = [ProjectFunctions getDistanceFromTarget:currLat fromLong:currLng toLat:[lat floatValue] toLong:[lng floatValue]];
-					NSLog(@"+++%f: %@", distance, name);
+				if(lat.length>0) {
+					float distance = [ProjectFunctions getDistanceFromTarget:currLat fromLong:currLng toLat:[lat floatValue] toLong:[lng floatValue]];
 					if(distance <= minDist) {
+						NSLog(@"--------> Winner! %f: %@ (%f, %f)", distance, name, lat.floatValue, lng.floatValue);
 						minDist = distance;
 						thisLoc = name;
-					}
+					} else
+						NSLog(@"no good! dist: %f: %@ (%f, %f)", distance, name, lat.floatValue, lng.floatValue);
 				}
 			}
 		} // <-- for

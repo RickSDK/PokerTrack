@@ -76,7 +76,8 @@
 - (IBAction) rebuyButtonPressed: (id) sender; 
 - (IBAction) pauseButtonPressed: (id) sender;
 - (IBAction) doneButtonPressed: (id) sender; 
-- (IBAction) editButtonPressed: (id) sender; 
+- (IBAction) editButtonPressed: (id) sender;
+- (IBAction) hudButtonPressed: (id) sender;
 - (IBAction) notesButtonPressed: (id) sender;
 - (IBAction) graphButtonPressed: (id) sender;
 - (IBAction) friendButtonPressed: (id) sender;
@@ -97,6 +98,7 @@
 @property (atomic, strong) UIButton *editButton;
 @property (atomic, strong) UIButton *friendButton;
 @property (atomic, strong) UIButton *notesButton;
+@property (atomic, strong) IBOutlet UIButton *hudButton;
 @property (atomic, strong) IBOutlet UIButton *playerTypeButton;
 @property (atomic, strong) IBOutlet UIButton *numberPlayersButton;
 @property (atomic, strong) IBOutlet UIButton *numberSpotPaidButton;

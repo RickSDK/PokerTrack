@@ -128,6 +128,7 @@
 "Pause" = "Pause";
 "# Players" = "# Players";
 "Amount Won" = "Amount Won";
+"Select a location" = "Select a location";
 "deleteSafeguard" = "As a safeguard, you must set the Cashout Amount of your earliest game to 999 in order to delete the database.";
 "deleteMessage" = "This will permanently delete all data on this device! Do you wish to continue?";
 "ExportText" = "Exporting saves your data to a server so you can import it to a new device. Note: The data is NOT automatically backed up as you enter new games. You must manually export it here.";

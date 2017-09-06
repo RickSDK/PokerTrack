@@ -214,6 +214,7 @@
  		} else {
 			[ProjectFunctions showAlertPopup:@"Notice" message:@"No filter currently saved to that button"];
 			self.customSegment.selectedSegmentIndex=0;
+			[self.customSegment changeSegment];
 			return;
 		}
 	} else { // no custom button
@@ -250,9 +251,14 @@
 
 -(void) computeStats
 {
-	self.mainTableView.alpha=.5;
-	[activityIndicator startAnimating];
-	[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
+	int year = self.yearChangeView.yearLabel.text.intValue;
+	if(year>0) {
+		[self doTheHardWork];
+	} else { // only use BG thread when doing ALL
+		self.mainTableView.alpha=.5;
+		[activityIndicator startAnimating];
+		[self performSelectorInBackground:@selector(doTheHardWork) withObject:nil];
+	}
 }
 
 -(void)addDataToArray:(NSMutableArray *)titles values:(NSMutableArray *)values colors:(NSMutableArray *)colors title:(NSString *)title value:(NSString *)value color:(UIColor *)color {
@@ -334,6 +340,7 @@
 		[self.gamesWonSection addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Risked", nil)] value:gameStatObj.gamesWonAverageRisked];
 		[self.gamesWonSection addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"rebuy", nil)] value:gameStatObj.gamesWonAverageRebuy];
 		[self.gamesWonSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesWonAverageProfit amount:1];
+		[self.gamesWonSection addColoredLineWithTitle:@"Hourly" value:gameStatObj.gamesWonHourly amount:1];
 		[self.gamesWonSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Largest", nil), NSLocalizedString(@"Win", nil)] value:gameStatObj.gamesWonMaxProfit amount:1];
 		[self.gamesWonSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Smallest", nil), NSLocalizedString(@"Win", nil)] value:gameStatObj.gamesWonMinProfit amount:1];
 
@@ -341,6 +348,7 @@
 		[self.gamesLostSection addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Risked", nil)] value:gameStatObj.gamesLostAverageRisked];
 		[self.gamesLostSection addBlackLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"rebuy", nil)] value:gameStatObj.gamesLostAverageRebuy];
 		[self.gamesLostSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Average", nil), NSLocalizedString(@"Profit", nil)] value:gameStatObj.gamesLostAverageProfit amount:-1];
+		[self.gamesLostSection addColoredLineWithTitle:@"Hourly" value:gameStatObj.gamesLostHourly amount:-1];
 		[self.gamesLostSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Smallest", nil), NSLocalizedString(@"Loss", nil)] value:gameStatObj.gamesLostMaxProfit amount:-1];
 		[self.gamesLostSection addColoredLineWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Largest", nil), NSLocalizedString(@"Loss", nil)] value:gameStatObj.gamesLostMinProfit amount:-1];
 

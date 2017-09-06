@@ -67,7 +67,8 @@
 	self.clockLabel.text = [NSString fontAwesomeIconStringForEnum:FAClockO];
 	[ProjectFunctions makeFAButton:self.notesButton type:6 size:16];
 	[ProjectFunctions makeFAButton:self.graphButton type:11 size:16];
-	[ProjectFunctions makeFAButton:self.editButton type:5 size:16];
+	[ProjectFunctions makeFAButton:self.editButton type:2 size:16];
+	[ProjectFunctions makeFAButton:self.hudButton type:5 size:16];
 
 	[ProjectFunctions makeFAButton:self.pauseButton type:7 size:16];
 	[ProjectFunctions makeFAButton:self.doneButton type:8 size:24 text:NSLocalizedString(@"End", nil)];
@@ -159,11 +160,18 @@
     }
 }
 
-- (IBAction) editButtonPressed: (id) sender
-{
+- (IBAction) hudButtonPressed: (id) sender {
 	HudTrackerVC *detailViewController = [[HudTrackerVC alloc] initWithNibName:@"HudTrackerVC" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.gameMo = mo;
+	[self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (IBAction) editButtonPressed: (id) sender
+{
+	GameDetailsVC *detailViewController = [[GameDetailsVC alloc] initWithNibName:@"GameDetailsVC" bundle:nil];
+	detailViewController.managedObjectContext = managedObjectContext;
+	detailViewController.mo = mo;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 

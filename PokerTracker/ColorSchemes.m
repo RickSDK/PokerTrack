@@ -515,12 +515,12 @@
 							primaryColor:[UIColor colorWithRed:253.0/255 green:185.0/255 blue:19.0/255 alpha:1]
 							themeBGColor:[UIColor colorWithRed:227.0/255 green:27.0/255 blue:35.0/255 alpha:1]
 							 navBarColor:[UIColor colorWithRed:0.0/255 green:0.0/255 blue:0.0/255 alpha:1]
-							   grayColor:[UIColor colorWithRed:209.0/255 green:211.0/255 blue:212.0/255 alpha:1]],
+							   grayColor:[UIColor colorWithRed:190.0/255 green:190.0/255 blue:190.0/255 alpha:1]],
 			[ThemeColorObj themeWithName:@"Florida State"
 							primaryColor:[UIColor colorWithRed:206.0/255 green:184.0/255 blue:136.0/255 alpha:1]
 							themeBGColor:[UIColor colorWithRed:120.0/255 green:47.0/255 blue:64.0/255 alpha:1]
 							 navBarColor:[UIColor colorWithRed:0.0/255 green:0.0/255 blue:0.0/255 alpha:1]
-							   grayColor:[UIColor colorWithRed:209.0/255 green:211.0/255 blue:212.0/255 alpha:1]],
+							   grayColor:[UIColor colorWithRed:175.0/255 green:175.0/255 blue:175.0/255 alpha:1]],
 			nil];
 }
 +(NSArray *)nhlThemes {
