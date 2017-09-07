@@ -252,10 +252,10 @@
 		gameObj.lastUpdStr = [components objectAtIndex:11];
 		gameObj.endTimeStr = [components objectAtIndex:12];
 		gameObj.lastUpd = [[components objectAtIndex:11] convertStringToDateFinalSolution];
-		int gameMinutes = [gameObj.lastUpd timeIntervalSinceDate:gameObj.startTime]/60;
-		if(gameMinutes>gameObj.minutes)
-			gameObj.minutes = gameMinutes;
 		gameObj.endTime = [[components objectAtIndex:12] convertStringToDateFinalSolution];
+		gameObj.minutes = [gameObj.endTime timeIntervalSinceDate:gameObj.startTime]/60;
+		if(gameObj.minutes<=0)
+			gameObj.minutes = [gameObj.lastUpd timeIntervalSinceDate:gameObj.startTime]/60;
 		gameObj.status = @"unknown";
 	}
 	

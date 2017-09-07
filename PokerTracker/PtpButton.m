@@ -32,6 +32,7 @@
 - (void)commonInit
 {
 	[self assignMode:(int)self.tag];
+	[self setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
 }
 
 -(void)assignMode:(int)mode {

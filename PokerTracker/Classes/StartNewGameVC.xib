@@ -98,7 +98,7 @@
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="7" customClass="CustomSegment">
-                            <rect key="frame" x="2" y="61" width="316" height="30"/>
+                            <rect key="frame" x="2" y="59" width="316" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Hold'em"/>
@@ -111,7 +111,7 @@
                             </connections>
                         </segmentedControl>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8" customClass="CustomSegment">
-                            <rect key="frame" x="2" y="90" width="316" height="30"/>
+                            <rect key="frame" x="2" y="89" width="316" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Single Table"/>
@@ -124,7 +124,7 @@
                             </connections>
                         </segmentedControl>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="11" customClass="CustomSegment">
-                            <rect key="frame" x="2" y="90" width="316" height="30"/>
+                            <rect key="frame" x="2" y="89" width="316" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="$1/$2"/>

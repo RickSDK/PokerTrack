@@ -54,7 +54,6 @@
 	[self checkLockAndInProgressGame];
 	[self setupThemePopup];
 	[self firstTimeUseCheck];
-	
 }
 
 -(void)viewWillAppear:(BOOL)animated

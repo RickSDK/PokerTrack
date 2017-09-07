@@ -68,13 +68,17 @@
 +(float)projectVersionNumber {
 	NSDictionary *infoDictionary = [[NSBundle mainBundle]infoDictionary];
 	NSString *version = infoDictionary[@"CFBundleShortVersionString"];
-	NSLog(@"+++version: %@", version);
 	return [version floatValue];
+}
+
++(BOOL)isLiteBundle {
+	NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+	return [@"com.PockerTrack.lite" isEqualToString:bundleIdentifier];
 }
 
 +(BOOL)isLiteVersion
 {
-	if(kIsLiteVersion && [ProjectFunctions getUserDefaultValue:@"proVersion101"].length==0)
+	if([self isLiteBundle] && [ProjectFunctions getUserDefaultValue:@"proVersion101"].length==0)
 		return YES;
 	else
 		return NO;
@@ -85,7 +89,7 @@
 	if([ProjectFunctions isPokerZilla])
 		return @"928197798";
 
-	if(kIsLiteVersion)
+	if([self isLiteBundle])
 		return @"488925221";
 	else
 		return @"475160109";
@@ -4477,8 +4481,12 @@
 +(void)changeToModernThemeForButton:(UIButton *)button mode:(int)mode theme:(int)theme {
 	//	UIColor *color = [UIColor colorWithRed:1 green:.85 blue:0 alpha:1];
 	[button setBackgroundImage:nil forState:UIControlStateNormal];
-	[button setBackgroundImage:[ProjectFunctions imageFromColor:[ProjectFunctions themeBGColor]]
+	
+	UIColor *highBgColor = (mode==1)?[ProjectFunctions primaryButtonColor]:[ProjectFunctions themeBGColor];
+	UIColor *highTextColor = (mode!=1)?[ProjectFunctions primaryButtonColor]:[ProjectFunctions themeBGColor];
+	[button setBackgroundImage:[ProjectFunctions imageFromColor:highBgColor]
 					  forState:UIControlStateHighlighted];
+	[button setTitleColor:highTextColor forState:UIControlStateHighlighted];
 	
 	if(theme==0) { // modern
 		button.layer.cornerRadius = 7;
