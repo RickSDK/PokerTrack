@@ -1001,7 +1001,7 @@
 	return [[[NSDate date] convertDateToStringWithFormat:@"yyyy"] intValue];
 }
 
-+(void)findMinAndMaxYear:(NSManagedObjectContext *)context {
++(int)findMinAndMaxYear:(NSManagedObjectContext *)context {
 	int minYear = [self getYearOfFirstGameAscendingFlg:YES context:context];
 	int maxYear = [self getYearOfFirstGameAscendingFlg:NO context:context];
 	NSLog(@"findMinAndMaxYear: %d %d", minYear, maxYear);
@@ -1018,6 +1018,7 @@
 		NSLog(@"!!!Setting maxYear year to: %d", maxYear);
 		[ProjectFunctions setUserDefaultValue:[NSString stringWithFormat:@"%d", maxYear] forKey:@"maxYear"];
 	}
+	return currentMaxYear;
 }
 
 +(void)scrubDataForObj:(NSManagedObject *)mo context:(NSManagedObjectContext *)context {
@@ -4378,6 +4379,12 @@
 			break;
   case 46:
 			title = [NSString fontAwesomeIconStringForEnum:FAWrench];
+			break;
+  case 47:
+			title = [NSString fontAwesomeIconStringForEnum:FAMoney];
+			break;
+  case 48:
+			title = [NSString fontAwesomeIconStringForEnum:FATrophy];
 			break;
 
   default:

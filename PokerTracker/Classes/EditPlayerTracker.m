@@ -177,7 +177,7 @@
 	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = casinoButton.titleLabel.text;
+	localViewController.initialDateValue = [casinoButton titleForState:UIControlStateNormal];
 	localViewController.readyOnlyFlg = YES;
 	localViewController.databaseField = @"location";
 	[self.navigationController pushViewController:localViewController animated:YES];
@@ -192,7 +192,7 @@
 		[self.mainTableView reloadData];
 		return;
 	}
-	if([casinoButton.titleLabel.text isEqualToString:@"Select"]) {
+	if([[casinoButton titleForState:UIControlStateNormal] isEqualToString:@"Select"]) {
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:@"Select Primary Casino"];
 		return;
 	}
@@ -211,7 +211,7 @@
 	[valueList addObject:[NSString stringWithFormat:@"%d", (int)overallPlaySeg.selectedSegmentIndex]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", self.playerTrackerObj.strengths]];
 	[valueList addObject:[NSString stringWithFormat:@"%@", self.playerTrackerObj.weaknesses]];
-	[valueList addObject:[NSString stringWithFormat:@"%@", casinoButton.titleLabel.text]];
+	[valueList addObject:[NSString stringWithFormat:@"%@", [casinoButton titleForState:UIControlStateNormal]]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.user_id]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.player_id]];
 	[valueList addObject:[NSString stringWithFormat:@"%d", self.playerTrackerObj.looseNum]];

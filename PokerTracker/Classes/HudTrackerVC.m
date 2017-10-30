@@ -35,8 +35,8 @@
 	
 	[ProjectFunctions makeFAButton:self.trashbutton1 type:0 size:18];
 	[ProjectFunctions makeFAButton:self.trashbutton2 type:0 size:18];
-	[self.trashbutton1 assignMode:0];
-	[self.trashbutton2 assignMode:0];
+	[self.trashbutton1 assignMode:3];
+	[self.trashbutton2 assignMode:3];
 	self.trashbutton1.enabled=NO;
 	self.trashbutton2.enabled=NO;
 	self.editModeLabel2.hidden=YES;
@@ -72,7 +72,9 @@
 	[self loadDataIntoPlayer:self.villianObj heroFlag:NO];
 	[self updateDisplay];
 	[self initializeVillian];
-	
+	self.welcomePopupView.hidden=YES;
+	if([ProjectFunctions getUserDefaultValue:@"hudWelcomeFlg"].length==0)
+		[self welcomeScreen];
 }
 
 -(void)initializeVillian {
@@ -81,6 +83,18 @@
 		self.villianObj.name = [self.playerMo valueForKey:@"name"];
 		self.villianActionLabel.text = [NSString stringWithFormat:@"%@'s Pre-Flop Action", [self.playerMo valueForKey:@"name"]];
 	}
+}
+
+-(void)welcomeScreen {
+	[ProjectFunctions setUserDefaultValue:@"Y" forKey:@"hudWelcomeFlg"];
+	self.welcomePopupView.hidden=NO;
+	self.welcomePopupView.backgroundColor = [UIColor clearColor];
+	self.welcomePopup.titleLabel.text = @"Welcome to HUD";
+	self.welcomePopup.textView.text = @"Click through all the info buttons to see how HUD works.";
+	self.welcomePopup.textView.hidden = NO;
+	self.welcomePopup.xButton.hidden = YES;
+	self.welcomePopup.okButton.hidden=NO;
+	[self.welcomePopup.okButton addTarget:self action:@selector(okButtonClicked) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)setupScreen {
@@ -95,6 +109,14 @@
 	self.villianActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel1 checkLabel:self.checkCountLabel1 callLabel:self.callCountLabel1 raiseLabel:self.raiseCountLabel1 styleLabel:self.styleLabel1 skillImageView:self.skillImageView1];
 	self.heroActionObj = [[HudActionObj alloc] init];
 	self.heroActionObj = [HudActionObj createObjWithFoldLabel:self.foldCountLabel2 checkLabel:self.checkCountLabel2 callLabel:self.callCountLabel2 raiseLabel:self.raiseCountLabel2 styleLabel:self.styleLabel2 skillImageView:self.skillImageView2];
+}
+
+-(void)okButtonClicked {
+	self.welcomePopupView.hidden=YES;
+}
+
+- (IBAction) okButtonPressed: (UIButton *) button {
+	self.welcomePopupView.hidden=YES;
 }
 
 - (IBAction) linkButtonPressed: (UIButton *) button {

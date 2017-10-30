@@ -154,9 +154,11 @@
 }
 
 -(int)getMaxYear {
+	int nowYear = [ProjectFunctions getNowYear];
 	int currentMaxYear = [[ProjectFunctions getUserDefaultValue:@"maxYear"] intValue];
-	if(currentMaxYear==0)
-		currentMaxYear = [ProjectFunctions getNowYear];
+	NSLog(@"getMaxYear: %d %d", currentMaxYear, nowYear);
+	if(currentMaxYear<nowYear)
+		currentMaxYear = [ProjectFunctions findMinAndMaxYear:self.managedObjectContext];
 	return currentMaxYear;
 }
 

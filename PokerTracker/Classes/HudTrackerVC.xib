@@ -71,6 +71,8 @@
                 <outlet property="vpipPercentLabel2" destination="0Po-Te-zAb" id="u4Y-Tl-wZQ"/>
                 <outlet property="vpipPlayerType1ImageView" destination="dli-B3-66f" id="YjL-4R-XlE"/>
                 <outlet property="vpipPlayerType2ImageView" destination="oqE-VR-shL" id="xef-4B-97a"/>
+                <outlet property="welcomePopup" destination="Sy1-Jn-dCF" id="040-mL-XVg"/>
+                <outlet property="welcomePopupView" destination="RgX-VK-3F2" id="VC3-8X-ma2"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -83,11 +85,11 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" id="nJL-Ob-Hb3" customClass="ThemeBGView">
+                <view contentMode="scaleToFill" id="nJL-Ob-Hb3">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="278"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" id="PES-8d-atA" customClass="GrayView">
+                        <view contentMode="scaleToFill" id="PES-8d-atA">
                             <rect key="frame" x="2" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -182,7 +184,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="W9F-Dc-29X" customClass="GrayView">
+                        <view contentMode="scaleToFill" id="W9F-Dc-29X">
                             <rect key="frame" x="109" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -275,7 +277,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" id="eF8-rs-VG4" customClass="GrayView">
+                        <view contentMode="scaleToFill" id="eF8-rs-VG4">
                             <rect key="frame" x="216" y="2" width="102" height="274"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -385,11 +387,11 @@
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="D7J-Ry-8eC">
                     <rect key="frame" x="0.0" y="281" width="320" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wJu-NI-sfg" customClass="PtpButton">
                             <rect key="frame" x="5" y="61" width="50" height="30"/>
@@ -548,7 +550,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="1od-ow-tSn">
                     <rect key="frame" x="0.0" y="394" width="320" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HZG-NX-VTi" customClass="PtpButton">
                             <rect key="frame" x="5" y="61" width="50" height="30"/>
@@ -733,6 +735,46 @@
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="RgX-VK-3F2">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="Sy1-Jn-dCF" customClass="PopupView">
+                            <rect key="frame" x="14" y="68" width="280" height="320"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="d0o-bj-gpJ" customClass="PtpButton">
+                                    <rect key="frame" x="117" y="135" width="46" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="OK!">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="okButtonPressed:" destination="-1" eventType="touchDown" id="9eb-bm-cho"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueArrowUp.png" id="sAY-DQ-y1h">
+                            <rect key="frame" x="253" y="0.0" width="39" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueArrowUp.png" id="XpQ-Wc-SEY">
+                            <rect key="frame" x="109" y="26" width="39" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueArrowUp.png" id="gXy-LI-7MK">
+                            <rect key="frame" x="216" y="26" width="39" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueArrowUp.png" id="rnu-CZ-V7j">
+                            <rect key="frame" x="2" y="26" width="39" height="46"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -741,6 +783,7 @@
         </view>
     </objects>
     <resources>
+        <image name="blueArrowUp.png" width="189" height="267"/>
         <image name="greenChromeBut.png" width="400" height="100"/>
         <image name="playerType0.png" width="150" height="200"/>
         <image name="playerType4.png" width="150" height="200"/>

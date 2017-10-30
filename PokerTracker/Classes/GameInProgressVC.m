@@ -46,6 +46,7 @@
 	[super viewDidLoad];
 	self.gameObj = [GameObj gameObjFromDBObj:mo];
 	[self setTitle:(self.gameObj.isTourney)?NSLocalizedString(@"Tournament", nil):NSLocalizedString(@"Cash Game", nil)];
+	[self changeNavToIncludeType:(self.gameObj.isTourney)?48:47];
 	
 	self.userData = [[NSString alloc] init];
 	self.valuesArray = [[NSMutableArray alloc] init];
@@ -63,8 +64,10 @@
 		self.tokesLabel.text = [NSString stringWithFormat:@"%@ %@", [NSString fontAwesomeIconStringForEnum:FAMoney], NSLocalizedString(@"Tips", nil)];
 	}
 
-	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:30];
+	self.clockLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:40];
 	self.clockLabel.text = [NSString fontAwesomeIconStringForEnum:FAClockO];
+	self.clockLabel.text = @"⌚";
+//	self.clockLabel.text = @"🕙";
 	[ProjectFunctions makeFAButton:self.notesButton type:6 size:16];
 	[ProjectFunctions makeFAButton:self.graphButton type:11 size:16];
 	[ProjectFunctions makeFAButton:self.editButton type:2 size:16];
@@ -212,7 +215,7 @@
 		detailViewController.callBackViewController = self;
 		detailViewController.managedObjectContext=managedObjectContext;
 		detailViewController.titleLabel = @"foodDrink";
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", foodButton.titleLabel.text];
+		detailViewController.initialDateValue = [foodButton titleForState:UIControlStateNormal];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }
@@ -224,7 +227,7 @@
 	detailViewController.managedObjectContext=managedObjectContext;
 	[detailViewController setCallBackViewController:self];
 	detailViewController.sendTitle = NSLocalizedString(@"# Players", nil);
-	detailViewController.initialDateValue = (self.gameObj.tournamentSpots==0)?@"":[NSString stringWithFormat:@"%@", self.numberPlayersButton.titleLabel.text];
+	detailViewController.initialDateValue = (self.gameObj.tournamentSpots==0)?@"":[self.numberPlayersButton titleForState:UIControlStateNormal];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 - (IBAction) numberSpotsPaidButtonPressed: (id) sender
@@ -234,7 +237,7 @@
 	detailViewController.managedObjectContext=managedObjectContext;
 	[detailViewController setCallBackViewController:self];
 	detailViewController.sendTitle = NSLocalizedString(@"# Spots Paid", nil);
-	detailViewController.initialDateValue = (self.gameObj.tournamentSpotsPaid==0)?@"":[NSString stringWithFormat:@"%@", self.numberSpotPaidButton.titleLabel.text];
+	detailViewController.initialDateValue = (self.gameObj.tournamentSpotsPaid==0)?@"":[self.numberSpotPaidButton titleForState:UIControlStateNormal];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -253,14 +256,14 @@
 		detailViewController.managedObjectContext=managedObjectContext;
 		[detailViewController setCallBackViewController:self];
 		detailViewController.titleLabel = NSLocalizedString(@"Tips", nil);
-		detailViewController.initialDateValue = [NSString stringWithFormat:@"%@", tokesButton.titleLabel.text];
+		detailViewController.initialDateValue = [tokesButton titleForState:UIControlStateNormal];
 		[self.navigationController pushViewController:detailViewController animated:YES];
 	}
 }
 
 - (IBAction) chipsButtonPressed: (id) sender
 {
-	[self gotoChipUpdate:[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text]];
+	[self gotoChipUpdate:[self.chipStackButton titleForState:UIControlStateNormal]];
 }
 
 -(void)gotoChipUpdate:(NSString *)chips {
@@ -380,8 +383,8 @@
 
 - (IBAction) tournamenDoneButtonPressed: (id) sender {
 	[self.mainTextfield resignFirstResponder];
-	[chipStackButton setTitle:self.mainTextfield.text forState:UIControlStateNormal];
 	chipStackButton.titleLabel.text=self.mainTextfield.text;
+	[chipStackButton setTitle:self.mainTextfield.text forState:UIControlStateNormal];
 	[mo setValue:[NSNumber numberWithDouble:[self.mainTextfield.text doubleValue]] forKey:@"cashoutAmount"];
 	double chips = 0;
 	if(self.gameObj.buyInAmount>0)
@@ -402,7 +405,7 @@
 	
 	float foodMoney = self.gameObj.foodDrink;
 	float tokes = self.gameObj.tokes;
-	double chips = [ProjectFunctions convertMoneyStringToDouble:chipStackButton.titleLabel.text];
+	double chips = [ProjectFunctions convertMoneyStringToDouble:[self.chipStackButton titleForState:UIControlStateNormal]];
 	NSLog(@"chips: %f", chips);
 	NSLog(@"buyIn: %f", buyIn);
 	NSLog(@"rebuyAmount: %f", rebuyAmount);
@@ -502,7 +505,7 @@
 		return;
 	}
 	if(popupViewNumber==99) {
-		NSString *intitialAmount=[NSString stringWithFormat:@"%@", chipStackButton.titleLabel.text];
+		NSString *intitialAmount=[self.chipStackButton titleForState:UIControlStateNormal];
 		intitialAmount = self.gameObj.buyInAmountStr;
 		if(buttonIndex==0)
 			self.addOnFlg=YES;
@@ -537,7 +540,7 @@
 		[ProjectFunctions showAlertPopup:NSLocalizedString(@"notice", nil) message:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Update", nil), NSLocalizedString(@"your", nil), NSLocalizedString(@"Current Chips", nil)]];
 		return;
 	}
-	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), chipStackButton.titleLabel.text] delegate:self tag:kEndGameAlert];
+	[ProjectFunctions showConfirmationPopup:@"End Game?" message:[NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"LeavingGame", nil), [self.chipStackButton titleForState:UIControlStateNormal]] delegate:self tag:kEndGameAlert];
 }
 
 -(void)refreshScreen

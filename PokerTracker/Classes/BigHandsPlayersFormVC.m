@@ -57,10 +57,10 @@
 	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	if([button.titleLabel.text isEqualToString:@"-Select-"])
+	if([[button titleForState:UIControlStateNormal] isEqualToString:@"-Select-"])
 		localViewController.initialDateValue = @"Fold";
 	else
-		localViewController.initialDateValue = button.titleLabel.text;
+		localViewController.initialDateValue = [button titleForState:UIControlStateNormal];
 	localViewController.titleLabel = title;
 	localViewController.selectionList = [NSArray arrayWithObjects:@"Fold", @"Check", @"Call", @"Bet", @"Raise", @"All-In", @"Check-Fold", @"Check-Call", @"Check-Raise", @"Check-All-In", @"Call-Fold", @"Call-Call", @"Call-Raise", @"Call-All-In", @"Bet-Fold", @"Bet-Call", @"Bet-Raise", @"Bet-All-In", @"Raise-Fold", @"Raise-Call", @"Raise-Raise", @"Raise-All-In", nil];
 	localViewController.allowEditing=NO;
@@ -75,7 +75,7 @@
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.callBackViewController = self;
-	detailViewController.initialDateValue = chipsButton.titleLabel.text;
+	detailViewController.initialDateValue = [chipsButton titleForState:UIControlStateNormal];
 	detailViewController.titleLabel = @"Starting Chips";
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -85,7 +85,7 @@
 	MoneyPickerVC *detailViewController = [[MoneyPickerVC alloc] initWithNibName:@"MoneyPickerVC" bundle:nil];
 	detailViewController.managedObjectContext=managedObjectContext;
 	detailViewController.callBackViewController = self;
-	detailViewController.initialDateValue = button.titleLabel.text;
+	detailViewController.initialDateValue = [button titleForState:UIControlStateNormal];
 	detailViewController.titleLabel = title;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -134,15 +134,15 @@
 -(void)selectButtonClicked:(id)sender {
 	NSArray *values = [NSArray arrayWithObjects:
 					   [NSString stringWithFormat:@"%d", playersHand],
-					   [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:chipsButton.titleLabel.text]],
-					   bet1Button.titleLabel.text,
-					   action1Button.titleLabel.text,
-					   bet2Button.titleLabel.text,
-					   action2Button.titleLabel.text,
-					   bet3Button.titleLabel.text,
-					   action3Button.titleLabel.text,
-					   bet4Button.titleLabel.text,
-					   action4Button.titleLabel.text,
+					   [NSString stringWithFormat:@"%d", (int)[ProjectFunctions convertMoneyStringToDouble:[chipsButton titleForState:UIControlStateNormal]]],
+					   [bet1Button titleForState:UIControlStateNormal],
+					   [action1Button titleForState:UIControlStateNormal],
+					   [bet2Button titleForState:UIControlStateNormal],
+					   [action2Button titleForState:UIControlStateNormal],
+					   [bet3Button titleForState:UIControlStateNormal],
+					   [action3Button titleForState:UIControlStateNormal],
+					   [bet4Button titleForState:UIControlStateNormal],
+					   [action4Button titleForState:UIControlStateNormal],
 					   mo,
 					   nil];
 	

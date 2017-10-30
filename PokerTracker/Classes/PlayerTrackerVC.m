@@ -38,7 +38,6 @@
 	playerList = [[NSMutableArray alloc] init];
 	
 	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
-	locationButton.titleLabel.text = @"All Locations";
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -111,7 +110,7 @@
 	EditSegmentVC *localViewController = [[EditSegmentVC alloc] initWithNibName:@"EditSegmentVC" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = locationButton.titleLabel.text;
+	localViewController.initialDateValue = [locationButton titleForState:UIControlStateNormal];
 	localViewController.readyOnlyFlg = YES;
 	localViewController.databaseField = @"location";
 	[self.navigationController pushViewController:localViewController animated:YES];
@@ -122,15 +121,15 @@
 	EditPlayerTracker *detailViewController = [[EditPlayerTracker alloc] initWithNibName:@"EditPlayerTracker" bundle:nil];
 	detailViewController.managedObjectContext = managedObjectContext;
 	detailViewController.callBackViewController=self;
-	detailViewController.casino = locationButton.titleLabel.text;
+	detailViewController.casino = [locationButton titleForState:UIControlStateNormal];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 -(void)reloadData
 {
 	NSPredicate *predicate = nil;
-	if(![locationButton.titleLabel.text isEqualToString:@"All Locations"] )
-		predicate = [NSPredicate predicateWithFormat:@"status = %@", locationButton.titleLabel.text];
+	if(![[locationButton titleForState:UIControlStateNormal] isEqualToString:@"All Locations"] )
+		predicate = [NSPredicate predicateWithFormat:@"status = %@", [locationButton titleForState:UIControlStateNormal]];
 	
     NSArray *newPlayers = [CoreDataLib selectRowsFromEntity:@"EXTRA" predicate:predicate sortColumn:@"name" mOC:managedObjectContext ascendingFlg:YES];
 	[playerList removeAllObjects];
@@ -142,7 +141,6 @@
 {
 	self.allButton.enabled=NO;
 	[locationButton setTitle:@"All Locations" forState:UIControlStateNormal];
-	locationButton.titleLabel.text = @"All Locations";
 	[self reloadData];
 }
 
@@ -172,7 +170,6 @@
 		if(currentLocation!=nil) {
 			NSString *location = [ProjectFunctions getDefaultLocation:currentLocation.coordinate.latitude long:currentLocation.coordinate.longitude moc:managedObjectContext];
 			[locationButton setTitle:location forState:UIControlStateNormal];
-			locationButton.titleLabel.text = location;
 			[self reloadData];
 		}
 	}
@@ -219,7 +216,6 @@
 -(void) setReturningValue:(NSString *) value {
 	if(selectedObjectForEdit==2) {
 		[locationButton setTitle:value forState:UIControlStateNormal];
-		locationButton.titleLabel.text = value;
 		self.allButton.enabled=YES;
 	}
 

@@ -133,11 +133,11 @@
 }
 
 -(void)yearGoesUp {
-	[self setYear:[self.yearUpButton.titleLabel.text intValue] min:self.minYear];
+	[self setYear:[self.yearUpButton titleForState:UIControlStateNormal].intValue min:self.minYear];
 }
 
 -(void)yearGoesDown {
-	[self setYear:[self.yearDownButton.titleLabel.text intValue] min:self.minYear];
+	[self setYear:[self.yearDownButton titleForState:UIControlStateNormal].intValue min:self.minYear];
 }
 
 @end

@@ -177,7 +177,7 @@
 	if(netUserObj.hasFlag)
 		cell.flagImageView.image=netUserObj.flagImage;
 	cell.flagImageView.hidden=!netUserObj.hasFlag;
-	cell.nameLabel.text = [NSString stringWithFormat:@"#%d - %@", netUserObj.rowId, netUserObj.name];
+	cell.nameLabel.text = [NSString stringWithFormat:@"#%d - %@ %@", netUserObj.rowId, netUserObj.name, (netUserObj.nowPlayingFlg)?@"⛳️":@""];
 	cell.nameLabel.textColor = [UIColor blackColor];
 
 	//---- Location-----
@@ -191,20 +191,18 @@
 
 	//---- Games-----
 	NSString *checkMark = @"";
-	NSString *nowPlaying = @"";
 	NSString *chipstack = @"";
 	if([self isCurrentVersion:netUserObj.version])
 		checkMark = [NSString fontAwesomeIconStringForEnum:FACheck];
 	
 	if(netUserObj.nowPlayingFlg) {
-		nowPlaying = @"⛳️";
 		cell.gamesLabel.textColor = [UIColor purpleColor];
 		if(netUserObj.lastGame.profit>0)
 			chipstack = [NSString fontAwesomeIconStringForEnum:FAArrowUp];
 		if(netUserObj.lastGame.profit<0)
 			chipstack = [NSString fontAwesomeIconStringForEnum:FAArrowDown];
 	}
-	cell.gamesLabel.text = [NSString stringWithFormat:@"%@%@%@%@", checkMark, nowPlaying, chipstack, netUserObj.games];
+	cell.gamesLabel.text = [NSString stringWithFormat:@"%@%@%@", checkMark, chipstack, netUserObj.games];
 
 	//---- Profit/Hourly-----
 	cell.profitLabel.text = netUserObj.profitStr;

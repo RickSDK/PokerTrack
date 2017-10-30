@@ -52,6 +52,7 @@
 		self.alpha=1;
 	} else {
 		[ProjectFunctions newButtonLook:self mode:4];
+		[self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 		self.alpha=.8;
 	}
 }

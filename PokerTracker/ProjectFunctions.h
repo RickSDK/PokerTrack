@@ -120,7 +120,7 @@
 +(void)resetTheYearSegmentBar:(UITableView *)tableView displayYear:(int)displayYear MoC:(NSManagedObjectContext *)MoC leftButton:(UIButton *)leftButton rightButton:(UIButton *)rightButton displayYearLabel:(UILabel *)displayYearLabel;
 +(NSString *)labelForYearValue:(int)yearValue;
 +(NSString *)faStringOfType:(int)type;
-+(void)findMinAndMaxYear:(NSManagedObjectContext *)context;
++(int)findMinAndMaxYear:(NSManagedObjectContext *)context;
 +(void)addGradientToView:(UIView *)view;
 +(UIColor *)gradientBGColorForWidth:(float)width height:(float)height;
 +(NSString *)labelForGameSegment:(int)segmentIndex;

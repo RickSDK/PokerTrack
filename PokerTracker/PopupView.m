@@ -81,10 +81,20 @@
 		[self hideXButton];
 	}
 	
+	self.okButton = [[PtpButton alloc] initWithFrame:CGRectMake(self.frame.size.width/2-40, self.frame.size.height-60, 80, 40)];
+	[self.okButton setTitle:@"OK!" forState:UIControlStateNormal];
+	[self.okButton addTarget:self action:@selector(okButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:self.okButton];
+	self.okButton.hidden=YES;
+	
 	[self sendSubviewToBack:self.insideView];
 }
 
 -(void)xButtonClicked {
+	self.hidden=YES;
+}
+
+-(void)okButtonClicked {
 	self.hidden=YES;
 }
 

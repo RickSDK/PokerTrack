@@ -43,7 +43,7 @@
 	
 	[self addGameID];
 	
-	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAArrowCircleRight] target:self action:@selector(detailsButtonClicked:)];
+	self.navigationItem.rightBarButtonItem = [ProjectFunctions UIBarButtonItemWithIcon:[NSString fontAwesomeIconStringForEnum:FAPencilSquareO] target:self action:@selector(detailsButtonClicked:)];
 	
 	self.multiCellObj = [MultiCellObj initWithTitle:@"" altTitle:@"" labelPercent:.5];
 	[self deselectChart];

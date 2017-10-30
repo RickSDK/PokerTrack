@@ -59,7 +59,7 @@
 	ListPicker *localViewController = [[ListPicker alloc] initWithNibName:@"ListPicker" bundle:nil];
 	localViewController.callBackViewController=self;
 	localViewController.managedObjectContext = managedObjectContext;
-	localViewController.initialDateValue = [NSString stringWithFormat:@"%@", bankrollButton.titleLabel.text];
+	localViewController.initialDateValue = [bankrollButton titleForState:UIControlStateNormal];
 	localViewController.titleLabel = @"Bankroll";
 	localViewController.selectedList = 0;
     localViewController.maxFieldLength=10;

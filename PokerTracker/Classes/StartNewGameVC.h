@@ -23,14 +23,6 @@
 	IBOutlet CustomSegment *blindTypeSegmentBar;
 	IBOutlet CustomSegment *limitTypeSegmentBar;
 	IBOutlet CustomSegment *TourneyTypeSegmentBar;
-	IBOutlet UIButton *editButton;
-	IBOutlet UIButton *bankrollButton;
-	IBOutlet UIButton *buyinButton;
-	IBOutlet UIButton *startLiveButton;
-	IBOutlet UIButton *completedButton;
-	IBOutlet UIButton *locationButton;
-	IBOutlet UIButton *addCasinoButton;
-	IBOutlet UIButton *retryButton;
 	IBOutlet UILabel *buyinLabel;
 	IBOutlet UILabel *locationLabel;
 	IBOutlet UILabel *bankrollLabel;
@@ -72,15 +64,15 @@
 @property (atomic, strong) CustomSegment *limitTypeSegmentBar;
 @property (atomic, strong) CustomSegment *TourneyTypeSegmentBar;
 
-@property (atomic, strong) UIButton *retryButton;
-@property (atomic, strong) UIButton *editButton;
-@property (atomic, strong) UIButton *bankrollButton;
-@property (atomic, strong) UIButton *buyinButton;
-@property (atomic, strong) UIButton *startLiveButton;
-@property (atomic, strong) UIButton *completedButton;
+@property (atomic, strong) IBOutlet UIButton *retryButton;
+@property (atomic, strong) IBOutlet UIButton *editButton;
+@property (atomic, strong) IBOutlet UIButton *bankrollButton;
+@property (atomic, strong) IBOutlet UIButton *buyinButton;
+@property (atomic, strong) IBOutlet UIButton *startLiveButton;
+@property (atomic, strong) IBOutlet UIButton *completedButton;
 @property (atomic, strong) IBOutlet UIButton *completed2Button;
-@property (atomic, strong) UIButton *locationButton;
-@property (atomic, strong) UIButton *addCasinoButton;
+@property (atomic, strong) IBOutlet UIButton *locationButton;
+@property (atomic, strong) IBOutlet UIButton *addCasinoButton;
 @property (atomic, strong) IBOutlet UIButton *buyinPopupButton;
 @property (atomic, strong) IBOutlet UIButton *chipsPopupButton;
 

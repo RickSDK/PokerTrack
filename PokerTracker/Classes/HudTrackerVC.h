@@ -84,6 +84,9 @@
 @property (nonatomic, strong) IBOutlet UIImageView *linkGameImageView;
 @property (nonatomic, strong) IBOutlet PopupView *playersView;
 
+@property (nonatomic, strong) IBOutlet UIView *welcomePopupView;
+@property (nonatomic, strong) IBOutlet PopupView *welcomePopup;
+
 @property (nonatomic, strong) PlayerObj *heroObj;
 @property (nonatomic, strong) PlayerObj *villianObj;
 @property (nonatomic, strong) PlayerObj *selectedPlayerObj;
@@ -104,5 +107,6 @@
 - (IBAction) trashButtonPressed1: (UIButton *) button;
 - (IBAction) trashButtonPressed2: (UIButton *) button;
 - (IBAction) linkButtonPressed: (UIButton *) button;
+- (IBAction) okButtonPressed: (UIButton *) button;
 
 @end
