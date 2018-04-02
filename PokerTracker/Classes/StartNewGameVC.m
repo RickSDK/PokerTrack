@@ -66,9 +66,14 @@
 	[ProjectFunctions initializeSegmentBar:limitTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] field:@"limit"];
 	[ProjectFunctions initializeSegmentBar:TourneyTypeSegmentBar defaultValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] field:@"tournamentType"];
 	
+	gameNameSegmentBar.selectedSegmentIndex = 0;
+	limitTypeSegmentBar.selectedSegmentIndex = 0;
+	TourneyTypeSegmentBar.selectedSegmentIndex = 0;
+	/*
 	gameNameSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:0 currentValue:[ProjectFunctions getUserDefaultValue:@"gameNameDefault"] startGameScreen:YES];
 	limitTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:2 currentValue:[ProjectFunctions getUserDefaultValue:@"limitDefault"] startGameScreen:YES];
 	TourneyTypeSegmentBar.selectedSegmentIndex = [ProjectFunctions getSegmentValueForSegment:3 currentValue:[ProjectFunctions getUserDefaultValue:@"tourneyTypeDefault"] startGameScreen:YES];
+	 */
 	
 	[self.bankrollButton setTitle:[ProjectFunctions getUserDefaultValue:@"bankrollDefault"] forState:UIControlStateNormal];
 	[self.locationButton setTitle:[ProjectFunctions getUserDefaultValue:@"locationDefault"] forState:UIControlStateNormal];

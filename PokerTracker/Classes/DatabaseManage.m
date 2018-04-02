@@ -1094,6 +1094,8 @@
 	NSArray *valueList = [NSArray arrayWithObjects:[ProjectFunctions getUserDefaultValue:@"userName"], [ProjectFunctions getUserDefaultValue:@"password"], [NSString stringWithFormat:@"%d", blockNum], nil];
 	NSString *webAddr = @"http://www.appdigity.com/poker/ImportData2.php";
 	NSString *contents = [WebServicesFunctions getResponseFromServerUsingPost:webAddr fieldList:nameList valueList:valueList];
+	NSLog(@"---------------");
+	NSLog(@"%@", contents);
 	NSArray *lines = [contents componentsSeparatedByString:@"<br>"];
 	NSLog(@"blockNum: %d (%d lines)", blockNum, (int)lines.count);
 	self.totalImportedLines=(int)[lines count];
@@ -1324,7 +1326,11 @@
 				[ProjectFunctions showAlertPopup:@"Error!" message:@"No data found on this device!"];
 				return;
 			}
-			if (games.count>100) {
+			UIDevice *device = [UIDevice currentDevice];
+			//    NSString *systemName = [device systemName];
+			//    NSString *systemVersion = [device systemVersion];
+			NSString *model = [device model];
+			if (games.count>100 && ![@"iPhone Simulator" isEqualToString:model]) {
 				NSManagedObject *mo = [games objectAtIndex:0];
 				int cashoutAmount = [[mo valueForKey:@"cashoutAmount"] intValue];
 				NSString *startTime = [ProjectFunctions displayLocalFormatDate:[mo valueForKey:@"startTime"] showDay:YES showTime:NO];

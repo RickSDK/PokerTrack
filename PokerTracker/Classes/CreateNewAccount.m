@@ -27,8 +27,8 @@
 	@autoreleasepool {
 
 		NSString *email = [NSString stringWithFormat:@"%@", fieldNewEmail.text];
-		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Firstname", @"Password", nil];
-		NSArray *valueList = [NSArray arrayWithObjects:fieldNewEmail.text, firstname.text, fieldNewPassword.text, nil];
+		NSArray *nameList = [NSArray arrayWithObjects:@"Username", @"Firstname", @"Password", @"appName", nil];
+		NSArray *valueList = [NSArray arrayWithObjects:fieldNewEmail.text, firstname.text, fieldNewPassword.text, [ProjectFunctions getProjectDisplayVersion], nil];
 		NSString *responseStr = [WebServicesFunctions getResponseFromServerUsingPost:@"http://www.appdigity.com/poker/createPokerAccount.php" fieldList:nameList valueList:valueList];
 		if([WebServicesFunctions validateStandardResponse:responseStr delegate:nil]) {
 			[ProjectFunctions showAlertPopupWithDelegate:@"Success!" message:@"Account Created" delegate:self];

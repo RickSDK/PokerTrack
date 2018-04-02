@@ -35,6 +35,7 @@
 - (IBAction) testPressed: (id) sender;
 - (IBAction) loginPressed: (id) sender;
 - (IBAction) forgotPressed: (id) sender;
+- (IBAction) createNewPressed: (id) sender;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

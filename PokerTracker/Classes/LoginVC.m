@@ -34,6 +34,10 @@
 	}
 }
 
+- (IBAction) createNewPressed: (id) sender {
+	[self createNewAccountPressed:sender];
+}
+
 - (IBAction) rickPressed: (id) sender {
 	loginEmail.text = @"rickmedved@hotmail.com";
 	loginPassword.text = @"rick23";

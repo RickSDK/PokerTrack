@@ -11,65 +11,32 @@
 
 
 @interface CreateOldGameVC : TemplateVC {
-	//---Passed In----------------------------
-    NSManagedObjectContext *managedObjectContext;
-	NSManagedObject *mo;
-
-	//---XIB----------------------------
-	IBOutlet CustomSegment *gameTypeSegmentBar;
-	IBOutlet UISegmentedControl *gameNameSegmentBar;
-	IBOutlet UISegmentedControl *blindTypeSegmentBar;
-	IBOutlet UISegmentedControl *limitTypeSegmentBar;
-	IBOutlet UISegmentedControl *TourneyTypeSegmentBar;
-    IBOutlet UIDatePicker *datePicker;
-	IBOutlet UITextField *hoursPlayed;
-	IBOutlet UITextField *buyinAmount;
-	IBOutlet UITextField *cashOutAmount;
-	IBOutlet UIButton *keyboardButton;
-	IBOutlet UIActivityIndicatorView *activityIndicatorServer;
-	IBOutlet UIImageView *textViewBG;
-	IBOutlet UILabel *activityLabel;
-	IBOutlet UILabel *hoursLabel;
-	IBOutlet UILabel *buyinLabel;
-	IBOutlet UILabel *cashoutLabel;
-	IBOutlet UILabel *buyinMoneyLabel;
-	IBOutlet UILabel *cashoutMoneyLabel;
-
-	//---Gloabls----------------------------
-	int selectedObjectForEdit;
-	
 }
 
-- (IBAction) keyboardPressed: (id) sender;
 - (IBAction) gameTypeSegmentPressed: (id) sender;
 -(void)setSegmentForType;
 - (IBAction) gameSegmentPressed: (id) sender;
 - (IBAction) stakesSegmentPressed: (id) sender; 
 - (IBAction) limitSegmentPressed: (id) sender;
+- (IBAction) actioButtonPressed: (id) sender;
 
 
-@property (nonatomic, strong) CustomSegment *gameTypeSegmentBar;
-@property (nonatomic, strong) UISegmentedControl *gameNameSegmentBar;
-@property (nonatomic, strong) UISegmentedControl *blindTypeSegmentBar;
-@property (nonatomic, strong) UISegmentedControl *limitTypeSegmentBar;
-@property (nonatomic, strong) UISegmentedControl *TourneyTypeSegmentBar;
-@property (nonatomic, strong) UIDatePicker *datePicker;
-@property (nonatomic, strong) UITextField *hoursPlayed;
-@property (nonatomic, strong) UITextField *buyinAmount;
-@property (nonatomic, strong) UITextField *cashOutAmount;
-@property (nonatomic, strong) UIButton *keyboardButton;
-@property (nonatomic, strong) UILabel *hoursLabel;
-@property (nonatomic, strong) UILabel *buyinLabel;
-@property (nonatomic, strong) UILabel *cashoutLabel;
-@property (nonatomic, strong) UILabel *buyinMoneyLabel;
-@property (nonatomic, strong) UILabel *cashoutMoneyLabel;
+@property (nonatomic, strong) IBOutlet CustomSegment *gameTypeSegmentBar;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *gameNameSegmentBar;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *blindTypeSegmentBar;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *limitTypeSegmentBar;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *TourneyTypeSegmentBar;
+@property (nonatomic, strong) IBOutlet UIButton *button1;
+@property (nonatomic, strong) IBOutlet UIButton *button2;
+@property (nonatomic, strong) IBOutlet UIButton *button3;
+@property (nonatomic, strong) IBOutlet UIButton *button4;
+@property (nonatomic, strong) IBOutlet UIButton *button5;
+@property (nonatomic, strong) IBOutlet UIButton *button6;
+@property (nonatomic, strong) IBOutlet UIButton *button7;
+@property (nonatomic, strong) IBOutlet UIButton *button8;
+@property (nonatomic, strong) NSArray *buttons;
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSManagedObject *mo;
 
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorServer;
-@property (nonatomic, strong) UIImageView *textViewBG;
-@property (nonatomic, strong) UILabel *activityLabel;
 
 @property (nonatomic) int selectedObjectForEdit;
 

@@ -119,8 +119,6 @@
 						self.themeCount++;
 					if(netUserObj.iconGroupNumber>0)
 						self.iconCount++;
-					if(netUserObj.currentVersionFlg && (netUserObj.themeFlg || netUserObj.customFlg) && netUserObj.iconGroupNumber>0)
-						NSLog(@"!!!!!Super User: 👮%@", netUserObj.name);
 
                     if([netUserObj.friendStatus isEqualToString:@"Request Pending"])
                         [ProjectFunctions showAlertPopup:@"New Friend Request!" message:[NSString stringWithFormat:@"%@ has requested to be your friend. Find that person below and click on the link.", netUserObj.name]];
@@ -128,12 +126,13 @@
 				}
 			self.keepGoing=(count>=kBatchLimit);
 		}
-		[self logCountOfIcon:@"✅️" count:self.latestVersionCount total:(int)self.mainArray.count];
-		[self logCountOfIcon:@"🎨" count:self.themeCount total:(int)self.mainArray.count];
-		[self logCountOfIcon:@"🐠" count:self.iconCount total:(int)self.mainArray.count];
+//		[self logCountOfIcon:@"✅️" count:self.latestVersionCount total:(int)self.mainArray.count];
+//		[self logCountOfIcon:@"🎨" count:self.themeCount total:(int)self.mainArray.count];
+//		[self logCountOfIcon:@"🐠" count:self.iconCount total:(int)self.mainArray.count];
 		
 		[self.webServiceView stop];
-		[self.mainTableView reloadData];
+		[self.mainTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+//		[self.mainTableView reloadData];
 	}
 }
 

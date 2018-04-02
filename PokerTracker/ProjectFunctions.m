@@ -535,7 +535,7 @@
 				@"winnings",
 				@"name",
 				@"gametype",
-				@"stakes",
+				@"stakes",//10
 				@"limit",
 				@"location",
 				@"bankroll",
@@ -545,7 +545,7 @@
 				@"tokes",
 				@"minutes",
 				@"year",
-				@"Type",
+				@"Type",//20
 				@"status",
 				@"tournamentType",
 				@"user_id",
@@ -555,7 +555,7 @@
 				@"attrib01",
 				@"attrib02",
 				@"tournamentSpots",
-				@"tournamentFinish",
+				@"tournamentFinish",//30
 				@"game_id",
 				@"tournamentSpotsPaid",
 				nil];
@@ -2523,16 +2523,12 @@
 	NSString *themeobj = [ThemeColorObj packageThemeAsString];
 
     NSString *dataUpload = [NSString stringWithFormat:@"Last10|%@[xx]%@|%@[xx]%@|%@[xx]%@[xx]%@[xx]%@|%@|%@[xx]%@[xx]%@[xx]%@[xx]%d[xx]%@",
-                            last10Stats, 
-                            dateText,
-							monthStats,
-                            yearText,
-							yearStats,
+                            last10Stats,
+                            dateText,	monthStats,
+                            yearText,	yearStats,
                             lastGame, 
                             last10String,
-							playFlg,
-                            [ProjectFunctions getProjectDisplayVersion],
-							[ProjectFunctions getMoneySymbol],
+							playFlg, [ProjectFunctions getProjectDisplayVersion], [ProjectFunctions getMoneySymbol],
                             last90Days,
 							thisMonthStr,
 							[last10Reverse componentsJoinedByString:@":"],
@@ -4442,6 +4438,8 @@
 }
 
 +(void)newButtonLook:(UIButton *)button mode:(int)mode {
+	if(mode>=10)
+		mode=0;
 	int themeNumber = [[ProjectFunctions getUserDefaultValue:@"themeNumber"] intValue];
 	
 	// all buttons------

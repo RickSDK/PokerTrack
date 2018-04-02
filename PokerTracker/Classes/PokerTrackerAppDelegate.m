@@ -41,7 +41,7 @@
  
 	[self registerForRemoteNotification];
 
-	
+	/*
     UIImageView*imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Default.png"]];
     imageView.frame = [[UIScreen mainScreen] bounds];
     [[self.navigationController view] addSubview:imageView];
@@ -49,7 +49,7 @@
     
     //now fade out splash image
     [UIView transitionWithView:self.window duration:1.0f options:UIViewAnimationOptionTransitionNone animations:^(void){imageView.alpha=0.0f;} completion:^(BOOL finished){[imageView removeFromSuperview];}];
-
+*/
     
 
     return YES;
